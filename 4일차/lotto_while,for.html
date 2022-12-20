@@ -19,7 +19,7 @@
       i++;
       } */
     
-    let i = 0; 
+    /* let i = 0; 
     let lotto = [];
     while( i < 6 ){
       let num = Math.round(Math.random()*45)+1;
@@ -42,15 +42,18 @@
         }
       }
       console.log(lotto);
+ */
+    let arr = []   //빈배열에 로또 번호 생성을 원함
+    for(let i = 0; i < 6; i++){   //로또번호는 6자리
+      let num = Math.round((Math.random()*45)+1);   //랜덤한 1~45가 나옴
+      if(arr.indexOf(num)<0){   //랜덤한 수를 배열안에 있는지 확인해서 없으면 
+        arr.push(num);    // 배열에 랜덤한 수 추가
+      } else {    //있으면
+        i-- //횟수 추가
+      }
+    } 
+    console.log(arr) 
 
-      i =0;
-      lotto = [];
-      do{
-        if( lotto.indexOf(num) < 0 ){
-          lotto.push(num);
-          i++;
-        }
-      }while(i<6)
 
   </script>
 </body>
