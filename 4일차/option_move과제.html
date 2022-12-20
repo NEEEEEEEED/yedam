@@ -15,22 +15,24 @@
   </select>
   <select size="10" id="right"></select>
   <script>
-    /* left.ondblclick = function(ev) {
+      left.ondblclick = function(ev) {
       let option = ev.target;   //이벤트가 발생한 태그
-      console.log(option.innerText); //태그의 내용
+      //console.log(option.innerText); //태그의 내용
       //태그생성해서 select#right 태그에 append
       //코드입력
-      let option2 = document.createElement('option'); */
+
+
+      //let option2 = document.createElement('option');  // <option></option>
+      //option2.innerHTML = ev.target.innerHTML;
+      //right.append(option2);
+////////////////////////////////////////////////////////////////////
+
       right.append(option);
 
-      
-
-      
-
       // ev.target.remove();
-      left.removeChild(ev.target); 
+      //left.removeChild(ev.target); 
 
-
+      }
   </script>
 </body>
 </html>
