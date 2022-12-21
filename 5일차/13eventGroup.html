@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>eventGroup.html</title>
+  <style>
+    div {
+      padding: 10px;
+      border: 1px solid tomato;
+      margin: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- append, prepend, after, before 사용해보기 -->
+  <div id="apple" class="ele">사과</div>
+  <div id="banana" class="ele">바나나</div>
+  <div id="kiwi" class="ele">키위</div>
+
+  <div id="basket"></div>
+
+  <div id="template" style="display: none;">
+    <div class="fruit" title="사과"><span>사과</span></div>
+  </div>
+  <script>
+    //부모에게 이벤트를 걸어두면 자식 누구나에게 실행
+    document.body.addEventListener("click", function (ev) {
+      if (!ev.target.classList.contains("ele")) {  // 특정 클래스만 선택해서 이벤트가 일어남
+        return;
+      }
+      let content = ev.target.innerText;
+      let div = `<div class="fruit" title="${content}"><span>${content}</span></div>`
+      // basket.append(div)
+      basket.innerHTML += div
+
+    });
+    //이벤트위임(그룹이벤트) : 부모태그에 이벤트를 저장
+    basket.addEventListener("click", function (ev) {
+      console.dir(ev.target);
+      if (ev.target.classList.contains("fruit")) {  // 특정 클래스만 선택해서 이벤트가 일어남
+        return;
+      } else if (ev.target.nodeName == "SPAN") {
+        ev.target.parentNode.remove()
+      }
+    })
+
+
+  </script>
+
+</body>
+
+</html>

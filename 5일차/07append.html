@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>append.html</title>
+  <style>
+    div {
+      padding : 10px;
+      border: 1px solid coral;
+      margin: 10px;
+    }
+  </style>
+</head>
+<body>
+  <!-- append, prepend, after, before 사용해보기 -->
+
+  
+  <div id="apple">사과</div>
+  <div id="banana">바나나</div>
+  <div id="kiwi">키위</div>
+
+  <div id="basket"></div>
+    <script>
+      apple.onclick = function() {
+        // '<div>사과</div>'   //createElement, innerText, append
+      let div = document.createElement('div');
+      /////////////////////////////////////////////////////
+      // '<div><span>사과</span></div>'
+      //span태그 생성
+      /* let span = document.createElement('span')
+      //태그 내용
+      span.innerText = "사과"
+      //span 태그르 div에 추가
+      div.append(span) */ 
+
+      //위 3줄을 한줄로 표현
+      div.innerHTML = "<span>사과</span>"
+      
+      ////////////////////////////////////////////////////////////
+      // div.innerText = "사과";
+      //////////////////////////////////////////////////////////
+      basket.append(div);
+      //div에 class =" fruit" 넣는 방법 3가지  className, setAttribute, classList
+      div.className = "fruit";
+      div.setAttribute('class','fruit');
+      div.classList.add("fruit");
+      //title 추가
+      div.setAttribute('title','사과');
+      div.title="사과";
+      //id 추가
+      div.id="apple";
+      //클릭하면 본인 제거
+      div.onclick = function(){
+        event.target.remove();
+      }
+        
+
+
+      
+      }
+    </script>
+
+</body>
+</html>

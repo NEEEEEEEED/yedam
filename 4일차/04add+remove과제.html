@@ -17,7 +17,7 @@
   <div id="result"></div>
   <script>
     let btnadd = document.getElementsByClassName("btnadd")[0];
-    btnadd.onclick = function() {
+    btnadd.onclick = function () {
       /* result.innerHTML +=
       <div class="temp">
         <input id="school"><input id="date"><button class="btn">-</button>
@@ -25,22 +25,27 @@
       //setAttribut
       //appendchild = append
       //innerText
-      let div = document.createElement('div');;
-      div.setAttribute('id','temp');
+      let div = document.createElement("div");
+      let input = document.createElement("input");
+      let input2 = document.createElement("input");
+      let button = document.createElement("button");
 
-      let input = document.createElement('input');
-      input.setAttribute('#school');
-      div.appendChild(input)
-
-      let input2 = document.createElement('input');
-      input2.setAttribute('#date');
-      div.appendChild(input2)
-
-      let button = document.createElement('button');
-      btn.setAttribute('.btn');
-      btn.innerText = "-";
+      div.setAttribute("id", "temp");
+      input.setAttribute("id", "school");
+      input2.setAttribute("id", "date");
+      button.setAttribute("class", "btn");
       
-    
+      div.appendChild(input);
+      div.appendChild(input2);
+      div.appendChild(button);
+
+      btn.innerHTML = "-";
+
+      result.append(div);
+
+
+
+
     }
   </script>
 </body>

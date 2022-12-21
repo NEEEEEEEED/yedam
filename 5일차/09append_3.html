@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>append.html</title>
+  <style>
+    div {
+      padding : 10px;
+      border: 1px solid tomato;
+      margin: 10px;
+    }
+  </style>
+</head>
+<body>
+  <!-- append, prepend, after, before 사용해보기 -->
+  <div id="apple" class="ele">사과</div>
+  <div id="banana" class="ele">바나나</div>
+  <div id="kiwi" class="ele">키위</div>
+
+  <div id="basket"></div>
+
+  <div id="template" style="display: none;">
+    <div class="fruit" title="사과"><span>사과</span></div>
+  </div>
+    <script>
+      let ele =document.querySelectorAll(".ele");
+      for(let i =0; i<ele.length; i++) {
+        ele[i].onclick = function() {
+          let content = event.target.innerText; 
+          let div = `<div class="fruit" title="${content}"><span>${content}</span></div>`
+          
+          // basket.append(div)
+          basket.innerHTML += div
+          }
+        }
+
+
+
+    </script>
+
+</body>
+</html>
