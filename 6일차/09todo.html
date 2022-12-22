@@ -140,6 +140,7 @@
 
   </ul>
   <script>
+    //ajax, json, 백팁, 
     function loadtoDo() {
       //ajax호출
       let xhr = new XMLHttpRequest();
@@ -159,6 +160,7 @@
           </div>
           `
           myUL.innerHTML += list;
+          // myUL.append(list); - 클론노드 방식을 사용했을때
         }
       }
     };

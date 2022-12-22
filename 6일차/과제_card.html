@@ -30,7 +30,7 @@
   <div id="template">
 
     <div class="card">
-      <img src="" alt="Avatar" style="width:100%">
+      <img src="/img/고양이1.jpg" alt="Avatar" style="width:100%">
       <div class="container">
         <h4><b>John Doe</b></h4>
         <p>Architect & Engineer</p>
@@ -39,30 +39,22 @@
   </div>
 
   <script>
+    //클론노드,append
     let persons = [
-      { name: 'choi', akill: 'Architect # Engineer', img: '' },
-      { name: 'park', skill: 'deginner', img: '' },
-      { name: 'kim', skill: 'program', img: '' }
+      { name: 'choi', akill: 'Architect # Engineer', img:'/img/고양이1.jpg' },
+      { name: 'park', skill: 'deginner', img: '/img/고양이2.jpg' },
+      { name: 'kim', skill: 'program', img: '/img/고양이3.jpg' }
     ]
 
     
     for (let i = 0; i < persons.length; i++) {
-      /* let newNode = `
-        <div class="card">
-      <img src="${persons[i].img}" alt="Avatar" style="width:100%">
-      <div class="container">
-        <h4><b>${persons[i].name}</b></h4>
-        <p>${persons[i].skill}</p>
-      </div>
-    </div> */
       
       //클론 노드 사용
-
-
-
-
-
-
+    let newNode = document.querySelector('.card').cloneNode(true);
+    newNode.getElementsByTagName('img')[0].setAttribute('src','persons[i].img')
+    newNode.getElementsByTagName('h4')[0].innerHTML = persons[i].name;
+    newNode.getElementsByTagName('p')[0].innerHTML = persons[i].skill;
+    template.append(newNode);
 
       // console.log(newNode)
       // document.querySelector('#template').innerHTML += newNode;
