@@ -17,7 +17,7 @@ XHR 객체
 실시간채팅
 게시판
 ========================================
-시험
+시험openbook굿
 append (json 구조 이해)
 addEventListener
 
