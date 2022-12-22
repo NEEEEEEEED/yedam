@@ -45,21 +45,30 @@
       { name: 'kim', skill: 'program', img: '' }
     ]
 
-    //클론 노드 이용해서
+    
     for (let i = 0; i < persons.length; i++) {
-      let newNode = `
+      /* let newNode = `
         <div class="card">
       <img src="${persons[i].img}" alt="Avatar" style="width:100%">
       <div class="container">
         <h4><b>${persons[i].name}</b></h4>
         <p>${persons[i].skill}</p>
       </div>
-    </div>
-  `;
-      console.log(newNode)
-      document.querySelector('#template').innerHTML += newNode;
-    }
+    </div> */
+      
+      //클론 노드 사용
 
+
+
+
+
+
+
+      // console.log(newNode)
+      // document.querySelector('#template').innerHTML += newNode;
+
+    }
+  
   </script>
 </body>
 

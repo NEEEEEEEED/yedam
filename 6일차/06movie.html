@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>06movie.html</title>
+  <style>
+  
+  </style>
+</head>
+<body>
+  <h3>영화정보</h3>
+  <div id="result">
+    <span class="no"> </span>
+    <span class="title"> </span>
+    <span class="movieCd"> </span>
+  </div>
+  <script src="06movie.js"></script>
+  <script>
+    let mvlist = movies.boxOfficeResult.dailyBoxOfficeList
+    for(let i = 0; i < mvlist.length ; i++){
+
+      console.log(mvlist[i].movieNm);
+      
+      let info = 
+      `<div><span class="no">${mvlist[i].rnum}</span>
+      <span class="title">${mvlist[i].movieNm} : </span>
+      <span class="movieCd">${mvlist[i].movieCd} </span></div>`;
+      document.querySelector('#result').innerHTML += info ;
+      //문자 --> innerHTML += '문자열'
+      //노드 --> append(node)
+      //result.append()   --06movie_2.html
+      
+    }
+  </script>
+</body>
+</html>

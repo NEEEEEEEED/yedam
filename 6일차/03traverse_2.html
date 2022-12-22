@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>02traverse_2.html</title>
+</head>
+<body>
+  <table>
+    <tr>
+      <td>1</td>
+      <td>2</td>
+      <td><button id="btn1">조회</button></td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>4</td>
+      <td><button id="btn2">조회</button></td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>6</td>
+      <td><button id="btn3">조회</button></td>
+    </tr>
+  </table>
+
+  <script>
+    document.querySelector("table").addEventListener("click",function(ev){
+      //ev.target
+      //버튼을 클릭했으면 해당 버튼의 td(형) 값 읽기
+      let btn = ev.target
+      if (btn.nodeName == "BUTTON") {
+        console.log(btn.closest('tr').children[0].innerText);
+        console.log(btn.closest('tr').children[1].innerText);
+      }
+      
+    })
+    
+    
+  </script>
+</body>
+</html>
