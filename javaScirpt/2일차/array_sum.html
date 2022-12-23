@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>array_sum</title>
+</head>
+<body>
+  <script>
+    let score = [100,90,100,80,100,100];
+    let total = array_sum(score);
+    alert(total);
+    
+    total = array_sum([10,9,10,8,10,10]);
+    alert(total);
+
+    alert(array_sum([1,2,3,4,5]))
+
+    function array_sum(score) {  //매게변수도 지역변수
+      let sum = 0;
+      for(let i=0 ; i< score.length ; i++) {
+        sum += score[i];
+      }
+      return sum;
+    }
+  
+  </script>
+</body>
+</html>

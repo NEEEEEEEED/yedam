@@ -1,0 +1,105 @@
+* {
+  box-sizing: border-box;
+}
+#container {
+  width: 1000px;
+  margin: 0 auto;
+}
+header  {
+  text-align: center;
+}
+nav {
+  background-color: black;
+  overflow: hidden;
+}
+nav ul {
+  padding: 0px;
+  margin: 0px;
+}
+nav li {
+  list-style-type: none;
+  float: left;
+}
+.login {
+  float: right;
+}
+nav a {
+  color: white;
+  text-decoration: none;
+  padding: 10px;
+  display: block;
+  font-weight: bold;
+  font-size: large;
+}
+nav a:hover  {
+  color: red;
+  background-color: rgb(217, 255, 0);
+}
+aside {
+  float: left;
+  width: 200px;
+  text-align: center;
+  background-color: #eee;
+  height: 900px;
+}
+section {
+  width: 600px;
+  float: left;
+  text-align: center;
+  padding: 10px;
+}
+form {
+  background-color: #aaa;
+  padding: 20px;
+  width: 500px;
+  margin: 0 auto;
+}
+form fieldset {
+  border: none;
+  margin-bottom: 10px;
+}
+form legend {
+  font-weight: bold;
+  font-size: x-large;
+}
+form label {
+  width: 120px;
+  float: left;
+  font-size: large;
+  font-weight: bold;
+}
+form ul{
+  padding-left: 0px;
+}
+form li {
+  list-style-type: none;
+  background-color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 5px solid white;
+  border-radius: 5px;
+}
+.step input {
+  line-height: 24px;
+  width: 240px;
+  border-radius: 5px;
+}
+form button {
+  width: 160px; 
+  border-radius: 20px;
+  padding: 15px;
+  font-weight: bold;
+  font-size: large;
+  border: 0px;
+  cursor: pointer;
+  background-color: beige;
+  box-shadow: 1px 2px 2px black;
+}
+footer {
+  clear: both;
+  background-color: #aaa;
+  text-align: center;
+  padding: 15px;
+  font-size: xx-large;
+  font-weight: bold;
+}

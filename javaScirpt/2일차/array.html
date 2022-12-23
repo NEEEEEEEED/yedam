@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>array.html</title>
+</head>
+<body>
+  <script>
+    let score = [4,5];
+    //배열 요소 추가
+    score.push(100); //마지막에 추가
+    
+    //배열 복사
+    let score_copy = score; // 얕은 복사
+    score_copy[0]=10;
+    console.log(score[0], score_copy[0]);
+
+    let score_deep = [...score] //깊은 복사
+    score_deep[0] = 20;
+    console.log(score[0], score_deep[0]);
+    //배열 요소 삭제
+    
+    //중간 요소 추가
+
+    //중간 요소 삭제
+
+    //섞기
+
+    //정렬
+
+    
+
+  </script>
+</body>
+</html>

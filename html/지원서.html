@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>국제 개발자 지원서</title>
+  <style>
+    #container{
+      width: 800px;
+      margin: 0 auto;
+      padding:50px;
+      border: 1px solid rgb(114, 230, 238);
+    }
+    fieldset{
+      border-style: none;
+    }
+    li {
+      margin-bottom: 10px;
+    }
+    ul {
+      list-style-type: none;
+    }
+    .label0 label{
+      width: 80px;
+      float: left;
+    }
+    legend {
+      font-weight: bolder;
+      color: darkmagenta;
+    }
+    .label1 input:checked + label{
+      color: red;
+      font-weight: bold;
+    }
+    
+  </style>
+</head>
+<body>
+  <div id="container">
+    <h1>국제 개발자 지원서</h1>
+    <h3>HTML,CSS,javascript에 대한 기술적 이해와 경험이 있는 분을 찾습니다.</h3>
+    <hr>
+    <form>
+      <fieldset class="label0">
+        <legend>개인 정보</legend>
+        <ul>
+          <li><label for="u_id">이름</label>
+              <input id="u_id" type="text" name="name" placeholder="공백없이 입력하세요">
+          </li>
+          <li><label for="u_phone">연락처</label>
+              <input id="u_phone" type="text" name="tel">
+          </li>
+        </ul>
+      </fieldset>
+      <fieldset class="label1">
+        <legend>지원 분야</legend>
+        <ul>
+          <li>
+            <input id="web" type="radio" name="web" value="web" checked>
+            <label for="web">웹 퍼블리싱</label>
+          </li>
+          <li>
+            <input id="app" type="radio" name="web" value="app">
+            <label for="app">웹 애플리케이션 개발</label>
+          </li>
+          <li>
+            <input id="dev" type="radio" name="web" value="dev">
+            <label for="dev">개발 환경 개선</label>
+          </li>
+          <!-- <li>
+            <label for="dev"><input id="dev" type="radio" name="web" value="dev"><span>개발 환경 개선</span></label>
+          </li>  또 다른 방식 style에서 label 대신 span으로 기입 -->
+        </ul>
+      </fieldset>
+      <fieldset>
+        <legend for="memo">지원 동기</legend>
+        <ul>
+          <li>
+          <textarea id="memo" name="text" rows="5" cols="60" placeholder="지원 동기 간략히 써 주세요"></textarea>
+          </li>
+          <li>
+            <input type="submit" value="접수하기">
+            <input type="reset" value="다시쓰기">
+          </li>
+        </ul>
+      </fieldset>
+    </form>
+  </div>
+</body>
+</html>
