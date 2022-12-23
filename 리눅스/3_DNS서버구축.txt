@@ -1,0 +1,7 @@
+# dnf -y install bind bind-chroot
+# vi /etc/named.conf
+11행 / 12행 / 19행 / 34행  -> 교재처럼 수정
+# systemctl restart named
+# firewall-cmd --permanent --add-service=dns
+# firewall-cmd --reload
+p513페이지 작업 준비
