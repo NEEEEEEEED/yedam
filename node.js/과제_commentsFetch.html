@@ -25,41 +25,33 @@
       function deleteComments(ev) {
         let id = ev.target.getAttribute("data-id");
         let url = "http://localhost:3000/comments/" + id;
-        let xhr = new XMLHttpRequest();
-
-        xhr.onload = function () {
-          selectComments();
-        };
-        xhr.open("delete", url);
-        xhr.send();
+        fetch(url, { method: "delete" }).then((res) => selectComments());
       }
 
       //commets 등록
       function insertComments() {
         let url = "http://localhost:3000/comments";
-        let xhr = new XMLHttpRequest();
         let data = { id: id.value, body: body.value };
-        xhr.onload = function () {
-          selectComments();
-        };
-        xhr.open("post", url);
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.send(JSON.stringify(data));
+        fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        })
+          .then((res) => res.json())
+          .then((res) => selectComments());
       }
 
       //comments 조회
       function selectComments() {
         let url = "http://localhost:3000/comments";
-        let xhr = new XMLHttpRequest();
-        xhr.onload = function () {
-          commentsList.innerHTML = "";
-          const post = JSON.parse(xhr.responseText);
-          for (let i = 0; i < post.length; i++) {
-            commentsList.innerHTML += `<div>${post[i].id} ${post[i].body} <button data-id="${post[i].id}" class=btnDel>삭제</button></div>`;
-          }
-        };
-        xhr.open("get", url); //false : 동기, true: 비동기(default)
-        xhr.send();
+        fetch(url)
+          .then((res) => res.json())
+          .then((post) => {
+            commentsList.innerHTML = "";
+            for (let i = 0; i < comments.length; i++) {
+              commentsList.innerHTML += `<div>${comments[i].id} ${comments[i].title} <button data-id="${comments[i].id}" class=btnDel>삭제</button></div>`;
+            }
+          });
       }
     </script>
   </body>
