@@ -1,0 +1,22 @@
+npm
+
+pm2
+---------------------------------------
+npm init -> package.json
+
+npm install axios -> node_module
+
+(node_module을 삭제했을경우)
+npm install
+---------------------------------------
+과제
+http://127.0.0.1:3000/todo?no=1
+
+
+===========================
+수업내용
+// 모듈화
+
+// http.createServer((req, res) :서버생성
+// myURL.pathname : pathname 찾기
+// myURL.searchParams.get(""); : parameters 찾기

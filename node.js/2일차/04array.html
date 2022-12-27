@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>array 내장함수</title>
+  </head>
+  <body>
+    <script>
+      //얉은 복사 : 원본에 영향이 감
+      let arr1 = ["사과", "바나나"];
+      let arr2 = arr1;
+      arr2[0] = "포도"; //let a = array.from(arr2) 방식도 잇음
+      console.table(arr1);
+      console.table(arr2);
+      //깊은 복사 : 원본에 영향이 안감
+      let arr3 = ["사과", "바나나", { id: 1, name: "park" }];
+      let arr4 = [...arr3]; //... 방식은 객체는 복사를 못함
+      arr4[0] = "포도";
+      arr4[2] = "choi";
+      console.table(arr3);
+      console.table(arr4);
+
+      let arr5 = ["사과", "바나나", { id: 1, name: "park" }];
+      let arr6 = JSON.parse(JSON.stringify(arr5)); //객체 복사 가능
+      arr6[0] = "포도";
+      arr6[2] = "choi";
+      console.table(arr5);
+      console.table(arr6);
+
+      //length룰 이용해 배열 늘이고 줄이기
+      arr2.length = 5; //0이 들어가면 모든 배열 요소 삭제
+      console.table(arr2);
+    </script>
+  </body>
+</html>

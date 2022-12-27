@@ -23,7 +23,7 @@ const server = http.createServer((req, res) => {
     res.end(JSON.stringify(todoList[no]));
   }
 });
-// 지정된 포트 및 호스트 이름으로 수신대기
+// 지정된 포트 및 호스트 이름(도메인)으로 수신대기
 server.listen(3000, () => {
   // 서버 준비되면 콜백함수 호출
   console.log("server running http://127.0.0.1:3000");
