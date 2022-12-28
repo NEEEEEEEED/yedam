@@ -1,0 +1,5 @@
+let users = [
+  { userno: "100", email: "aa@b.com", username: "김기자", point: 250 },
+  { userno: "101", email: "bb.yedam.ac", username: "이순신", point: 150 },
+  { userno: "102", email: "cc.naver.com", username: "을지문덕", point: 100 },
+];
