@@ -3,10 +3,11 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-
-const session = require("express-session");
-const FileStore = require("session-file-store")(session);
-
+//session과 FileStore 선언
+// const session = require("express-session");
+// const FileStore = require("session-file-store")(session);
+//cookie-session
+const cookieSession = require("cookie-session");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 
@@ -16,9 +17,29 @@ var app = express();
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 
+app.use(
+  cookieSession({
+    name: "session",
+    keys: "key",
+    maxAge: 24 * 60 * 60 * 1000, //24시간
+  })
+);
+/* app.use(
+  session({
+    secret: "secret key",
+    resave: false,
+    saveuninitialized: true,
+    cookie: {
+      httpOnly: true,
+      secure: true,
+      maxAge: 60000,
+    },
+    store: new FileStore(),
+  })
+); */
 app.use(logger("dev"));
-app.use(express.json());
 app.use(express.urlencoded({ extended: false })); //post에 필요
+app.use(express.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -40,19 +61,5 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render("error");
 });
-
-app.use(
-  session({
-    secret: "secret key",
-    resave: false,
-    saveuninitialized: true,
-    cookie: {
-      httpOnly: true,
-      secure: true,
-      maxAge: 60000,
-    },
-    store: new FileStore(),
-  })
-);
 
 module.exports = app;

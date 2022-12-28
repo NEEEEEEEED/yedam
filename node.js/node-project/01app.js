@@ -8,7 +8,8 @@ app.get("/logIn", function (req, res) {
   console.log(req.query.email);
   res.send("로그인완료");
 });
-// app.use(express.urlencoded({ extended: false }));  이거뭐임??????
+//이거뭐임
+app.use(express.urlencoded({ extended: false }));
 
 //body를 parsing 해줌으로써 req.body를 받을 수 있게해줌,
 // 위에 올려서 다른 애들이 json을 읽을 수 있게 만들어줘야함

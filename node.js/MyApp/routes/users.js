@@ -10,8 +10,11 @@ router.post("/logIn", function (req, res) {
   req.session.is_logined = true;
   req.session.save((err) => {
     if (err) throw err;
-    res.redirect("/");
+    res.send("login ok");
   });
 });
-
+router.get("/logout", (req, res, next) => {
+  req.session.destroy();
+  res.redirect("/logIn.html");
+});
 module.exports = router;
