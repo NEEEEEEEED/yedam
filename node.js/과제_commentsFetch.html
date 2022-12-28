@@ -46,10 +46,10 @@
         let url = "http://localhost:3000/comments";
         fetch(url)
           .then((res) => res.json())
-          .then((post) => {
+          .then((comments) => {
             commentsList.innerHTML = "";
             for (let i = 0; i < comments.length; i++) {
-              commentsList.innerHTML += `<div>${comments[i].id} ${comments[i].title} <button data-id="${comments[i].id}" class=btnDel>삭제</button></div>`;
+              commentsList.innerHTML += `<div>${comments[i].id} ${comments[i].body} <button data-id="${comments[i].id}" class=btnDel>삭제</button></div>`;
             }
           });
       }

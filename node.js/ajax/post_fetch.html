@@ -48,7 +48,7 @@
         //ajax 동기식  - promise 때문
         fetch(url)
           .then((res) => res.json())
-          .then((post) => {
+          .then((res) => {
             postList.innerHTML = "";
             for (let i = 0; i < post.length; i++) {
               postList.innerHTML += `<div>${post[i].id} ${post[i].title} <button data-id="${post[i].id}" class=btnDel>삭제</button></div>`;
