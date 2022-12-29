@@ -1,29 +1,26 @@
 var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
-var cookieParser = require("cookie-parser");
+var cookieParser = require("cookie-parser"); //현재버전에서는 필요없음
 var logger = require("morgan");
-//session과 FileStore 선언
-// const session = require("express-session");
-// const FileStore = require("session-file-store")(session);
-//cookie-session
-const cookieSession = require("cookie-session");
+
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
+//라우터 js파일 만들면 추가해줘야함
+var customersRouter = require("./routes/customers");
 
+const session = require("express-session");
+const fileStore = require("session-file-store")(session); //서버단에서 session 저장위치
 var app = express();
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 
-app.use(
-  cookieSession({
-    name: "session",
-    keys: "key",
-    maxAge: 24 * 60 * 60 * 1000, //24시간
-  })
-);
+app.use(logger("dev"));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+// app.use(cookieParser());
 app.use(
   session({
     secret: "secret key",
@@ -31,20 +28,19 @@ app.use(
     saveUninitialized: true,
     cookie: {
       httpOnly: true,
-      //secure: true, 빼야됨 왜????
+      //secure: true,
       maxAge: 60000,
     },
     store: new fileStore(),
   })
 );
-app.use(logger("dev"));
-app.use(express.urlencoded({ extended: false })); //post에 필요
-app.use(express.json());
-app.use(cookieParser());
+
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
+//추가해야 실행가능
+app.use("/customers", customersRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

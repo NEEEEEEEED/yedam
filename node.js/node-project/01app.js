@@ -1,4 +1,4 @@
-import express from "express";
+import express from "express"; //서버를 만들었다는 뜻
 import boardRouter from "./routes/board.js";
 import customerRounter from "./routes/customer.js";
 const app = express();
