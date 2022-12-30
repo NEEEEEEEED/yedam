@@ -1,56 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>08movie_ajax.html</title>
-  <style>
-  
-  </style>
-</head>
-<body>
-  <h3>영화정보</h3>
-  <input id="dt"><button id="btnSelect">조회</button>
-  <div id="result">
-    <span class="no"> </span>
-    <span class="title"> </span>
-    <span class="movieCd"> </span>
-  </div>
-  <script></script>
-  <script>
-    btnSelect.addEventListener('click',function(){
-      //input태그 값이 없으면 알림
-      if(dt.value==""){
-        alert("입력")
-        return
-      }
-      //태그값 확인
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>08movie_ajax.html</title>
+    <style></style>
+  </head>
+  <body>
+    <h3>영화정보</h3>
+    <input id="dt" /><button id="btnSelect">조회</button>
+    <div id="result">
+      <span class="no"> </span>
+      <span class="title"> </span>
+      <span class="movieCd"> </span>
+    </div>
+    <script></script>
+    <script>
+      btnSelect.addEventListener("click", function () {
+        //input태그 값이 없으면 알림
+        if (dt.value == "") {
+          alert("입력");
+          return;
+        }
+        //태그값 확인
 
-      //ajax호출
-      //1. xhr객체 생성
-      let xhr = new XMLHttpRequest();
-      //2. 콜백함수 
-      xhr.onload = function() {callback(xhr);}
-      //3. 요청연결
-      let url = `http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=f5eef3421c602c6cb7ea224104795888&targetDt=${dt.value}`
-      xhr.open('get',url)
-      //4. 요청전달
-      xhr.send();
-    })
-    function callback(xhr){
-      let movies = JSON.parse(xhr.response)
-      let mvlist = movies.boxOfficeResult.dailyBoxOfficeList
-      //result div 내용 지우고 다시 생성
-      result.innerHTML=""
-      for(let i = 0; i < mvlist.length ; i++){
-        let info = 
-        `<div><span class="no">${mvlist[i].rnum}</span>
+        //ajax호출
+        //1. xhr객체 생성
+        let xhr = new XMLHttpRequest();
+        //2. 콜백함수
+        xhr.onload = function () {
+          callback(xhr);
+        };
+        //3. 요청연결
+        let url = `http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=f5eef3421c602c6cb7ea224104795888&targetDt=${dt.value}`;
+        xhr.open("get", url);
+        //4. 요청전달
+        xhr.send();
+      });
+      function callback(xhr) {
+        let movies = JSON.parse(xhr.response);
+        let mvlist = movies.boxOfficeResult.dailyBoxOfficeList;
+        //result div 내용 지우고 다시 생성
+        result.innerHTML = "";
+        for (let i = 0; i < mvlist.length; i++) {
+          let info = `<div><span class="no">${mvlist[i].rnum}</span>
         <span class="title">${mvlist[i].movieNm} : </span>
         <span class="movieCd">${mvlist[i].movieCd} </span></div>`;
-        document.querySelector('#result').innerHTML += info ;
+          document.querySelector("#result").innerHTML += info;
+        }
       }
-    }
-  </script>
-</body>
+    </script>
+  </body>
 </html>

@@ -26,10 +26,27 @@ function selectAll() {
         <td>${res[i].phone}</td>
         <td>${res[i].address}</td>
         <td><button id="btnDel">삭제</button><button id="btnSel">조회</button></td>
-      </tr>`;
+        </tr>`;
         list.innerHTML += tr;
       }
     });
+}
+//단건조회
+function customerSelect() {
+  list.addEventListener("click", function (ev) {
+    if (ev.target.id == "btnSel") {
+      let id = ev.target.closest("tr").getAttribute("data-id");
+      fetch(`${url}/${id}`, { method: "get" })
+        .then((res) => res.json())
+        .then((res) => {
+          userid.value = res.id;
+          u_name.value = res.name;
+          email.value = res.email;
+          phone.value = res.phone;
+          address.value = res.address;
+        });
+    }
+  });
 }
 //등록
 function insert() {
@@ -63,29 +80,33 @@ function customerDelete() {
   });
 }
 
-//단건조회
-function customerSelect() {
-  list.addEventListener("click", function (ev) {
-    if (ev.target.id == "btnSel") {
-      let id = ev.target.closest("tr").getAttribute("data-id");
-      fetch(`${url}/${id}`, { method: "get" })
-        .then((res) => res.json())
-        .then((res) => {
-          userid.value = res.id;
-          u_name.value = res.name;
-          email.value = res.email;
-          phone.value = res.phone;
-          address.value = res.address;
-        });
-    }
-  });
-}
 //수정
 function customerUpdate() {
   btnUpdate.addEventListener("click", function (ev) {
-    let id = ev.target.getAttribute("#userid");
-    fetch(`${url}/${id}`, { method: "put" }).then(() => {
-      selectAll();
-    });
+    let id = userid.value;
+    let data = {
+      name: u_name.value,
+      email: email.value,
+      phone: phone.value,
+      address: address.value,
+    };
+
+    fetch(`${url}/${id}`, {
+      method: "put",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.result == true) {
+          alert("수정완료");
+          selectAll();
+        } else {
+          alert("수정실패");
+        }
+      })
+      .catch(() => {
+        alert("수정실패");
+      });
   });
 }

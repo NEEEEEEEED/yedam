@@ -22,15 +22,6 @@ router.get("/:id", function (req, res) {
   });
 });
 
-//수정
-router.put("/:id", function (req, res) {
-  const id = req.params.id;
-  let sql = "update customers set name=? email=? phone=? address=? where id=?";
-  pool.query(sql, id, function (err, results, fields) {
-    res.json(results);
-    console.log(err);
-  });
-});
 //등록
 router.post("/", function (req, res) {
   let sql = "insert into customers set ?";
@@ -48,6 +39,26 @@ router.delete("/:id", function (req, res) {
   });
   res.statusCode = 200;
   res.end();
+});
+//수정
+router.put("/:id", function (req, res) {
+  let sql = "update customers set ? where id=?";
+  let data = [req.body, req.params.id];
+  pool.query(sql, data, function (err, results, fields) {
+    let resultData = {};
+    console.log(results);
+    if (err) {
+      console.log(err);
+      throw err;
+    }
+    if (results.changedRows > 0) {
+      resultData.result = true;
+      resultData.data = req.body;
+    } else {
+      resultData.result = false;
+    }
+    res.send(resultData);
+  });
 });
 
 module.exports = router;
