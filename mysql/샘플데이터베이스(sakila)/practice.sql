@@ -7,9 +7,3 @@ update customers set name = '김신' where id=1;
 select * from customers;
 /*삭제*/
 delete from customers where id =2;
-
-
-create user 'dev01'@'%' identified with mysql_native_password by '2214';
-grant all privileges on dev.* to 'dev01'@'%' with grant option;
-flush privileges;
-

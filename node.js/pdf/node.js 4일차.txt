@@ -26,7 +26,8 @@ session-file-store
 
 4.p.134 express-session (pdf : nodejs03 express)
     D:\예담\node.js\MySQL>npm install express-session 
-    D:\예담\node.js\MySQL>npm install session-file-store  
+    D:\예담\node.js\MySQL>
+      
 미들웨어로 session 실행
   app.use(
   session({
@@ -64,5 +65,19 @@ db업데이트할때 id값으로 찾는데 해당 id가 있어야함
 
 
 
+insert into dev.customers( name, email, phone, address)
+/*등록*/
+values ('john Doe1', 'john@mail.com','010-0000-0000','');
+/*수정*/
+update customers set name = '김신' where id=1;
+/*조회*/
+select * from customers;
+/*삭제*/
+delete from customers where id =2;
+
+
+create user 'dev01'@'%' identified with mysql_native_password by '2214';
+grant all privileges on dev.* to 'dev01'@'%' with grant option;
+flush privileges;
 
 
