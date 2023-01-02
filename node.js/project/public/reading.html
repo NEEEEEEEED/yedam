@@ -92,15 +92,32 @@
               ></textarea>
             </div>
             <div id="grbtn">
-              <button id="btnadd" type="button" class="btn btn-primary">
+              <button id="updcheck" type="button" class="btn btn-primary">
                 수정
+              </button>
+              <button
+                id="btnupd"
+                type="button"
+                class="btn btn-primary"
+                disabled
+                onclick=" window.location = document.referrer"
+              >
+                수정완료
+              </button>
+              <button
+                id="btndel"
+                type="button"
+                class="btn btn-primary"
+                onclick=" window.location = document.referrer"
+              >
+                삭제
               </button>
               <button
                 type="button"
                 class="btn btn-primary"
-                onclick="history.back()"
+                onclick=" window.location = document.referrer"
               >
-                뒤로
+                목록
               </button>
             </div>
           </div>

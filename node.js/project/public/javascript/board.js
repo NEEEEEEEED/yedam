@@ -10,10 +10,15 @@ function selectAll() {
     .then((res) => res.json())
     .then((res) => {
       for (let i = 0; i < res.length; i++) {
+        //날짜 비교
+        let array = res;
+        array.sort(function compare(a, b) {
+          return b.wdate < a.wdate;
+        });
         const tr = `
         <tr onclick="readlist(${res[i].no})">
-          <th scope="row">${res[i].no}</th>
-          <td class="listread" data-id="${res[i].no}">${res[i].title}</td>
+          <th scope="row">${parseInt([i]) + 1}</th>
+          <td data-id="${res[i].no}">${res[i].title}</td>
           <td>${res[i].userid}</td>
           <td>${getYmd10(res[i].wdate)}</td>
           <td>${res[i].count}</td>
@@ -21,6 +26,10 @@ function selectAll() {
         list.innerHTML += tr;
       }
     });
+}
+//reading 페이지 이동(해당 no)
+function readlist(no) {
+  location.href = "./reading.html?no=" + no;
 }
 
 //날짜 포맷 변경 yyyy-mm-dd
