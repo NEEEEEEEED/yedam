@@ -1,5 +1,5 @@
 var express = require("express");
-const pool = require("../pool");
+const pool = require("../project_DB/pool");
 var router = express.Router();
 
 /* GET home page. */

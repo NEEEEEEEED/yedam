@@ -1,0 +1,22 @@
+페이징 처리 -> mysql select 조건에서 limit 사용
+현재 페이지 번호 -1 * 10 => 페이징 offset 계산
+
+
+pool.query(sql, data1, data2...,function (err, results, fields) {
+if (err) {
+console.log(err);
+}
+:sql의 ? 개수 만큼 data 들어가야함
+
+해야 할것
+수정 페이지 제작, 연결
+
+삭제 연결
+
+페이징 처리
+
+게임 페이지 제작
+
+스코어 보드 제작
+
+css 꾸미기
