@@ -17,7 +17,14 @@ function insert() {
       body: JSON.stringify(data),
     })
       .then((res) => res.json())
-      .then((res) => {});
+      .then((res) => {
+        if (res.result == "no") {
+          alert("로그인");
+          location.href = "/login.html";
+        } else if (res.result == "yes") {
+          window.location = document.referrer;
+        }
+      });
   });
 }
 //입력값 확인

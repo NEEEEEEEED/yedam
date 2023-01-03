@@ -11,8 +11,8 @@
     <title>공략게시판</title>
     <style>
       .container {
-        width: 1440px;
-        height: 960px;
+        width: 100vw;
+        height: 100vh;
         margin: 0px;
       }
       .title {
@@ -27,11 +27,9 @@
         margin-top: 10%;
       }
       .btn {
+        float: right;
         background-color: black;
         border: none;
-      }
-      #grbtn {
-        float: right;
       }
       .nav {
         --bs-nav-link-hover-color: red;
@@ -40,8 +38,10 @@
         display: inline-block;
         text-align: center;
       }
+      .page-link {
+        color: black;
+      }
       .side {
-        /* width: 10%; */
         padding-top: 20px;
         height: 960px;
         background-color: black;
@@ -58,7 +58,7 @@
   <body>
     <div class="container text-center">
       <div class="row">
-        <div class="side col col-xxl-3">
+        <div class="side col col-xl-2">
           <ul class="nav flex-column">
             <li class="nav-item">
               <a class="nav-link" href="/game.html">게임시작</a>
@@ -71,58 +71,47 @@
             </li>
           </ul>
         </div>
-        <div id="center" class="col col-xxl-7">
+        <div id="center" class="col col-xxl-8">
           <div id="board">
-            <h1 class="title">공략게시판</h1>
-            <div class="mb-3">
-              <input type="text" id="writer" readonly />
-              <input
-                type="text"
-                class="form-control"
-                id="contenttitle"
-                readonly
-              />
-            </div>
-            <div class="mb-3">
-              <textarea
-                class="form-control"
-                id="content"
-                rows="20"
-                readonly
-              ></textarea>
-            </div>
-            <div id="grbtn">
-              <button id="updcheck" type="button" class="btn btn-primary">
-                수정
-              </button>
-              <button
-                id="btnupd"
-                type="button"
-                class="btn btn-primary"
-                disabled
-              >
-                수정완료
-              </button>
-              <button
-                id="btndel"
-                type="button"
-                class="btn btn-primary"
-                onclick=" window.location = document.referrer"
-              >
-                삭제
-              </button>
-              <button
-                type="button"
-                class="btn btn-primary"
-                onclick=" window.location = document.referrer"
-              >
-                목록
-              </button>
-            </div>
+            <h1 class="title">게시판</h1>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th class="col col-1" scope="col">no</th>
+                  <th class="col col-4" scope="col">제목</th>
+                  <th class="col col-2" scope="col">작성자</th>
+                  <th class="col col-2" scope="col">날짜</th>
+                  <th class="col col-1" scope="col">조회수</th>
+                </tr>
+              </thead>
+              <tbody id="list"></tbody>
+            </table>
+            <nav id="pagination" aria-label="Page navigation example">
+              <ul class="pagination">
+                <li class="page-item">
+                  <a class="page-link" href="#">Previous</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="paging.html">1</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                  <a class="page-link" href="#">Next</a>
+                </li>
+              </ul>
+            </nav>
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="location.href='/write.html'"
+            >
+              글쓰기
+            </button>
           </div>
         </div>
       </div>
     </div>
-    <script src="./javascript/reading.js"></script>
+    <script src="./javascript/paging.js"></script>
   </body>
 </html>

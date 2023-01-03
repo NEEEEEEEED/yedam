@@ -4,9 +4,9 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 //session과 FileStore 선언
-// const session = require("express-session");
-// const FileStore = require("session-file-store")(session);
-//cookie-session
+const session = require("express-session");
+const FileStore = require("session-file-store")(session);
+// cookie-session
 const cookieSession = require("cookie-session");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
@@ -31,10 +31,10 @@ app.use(
     saveUninitialized: true,
     cookie: {
       httpOnly: true,
-      //secure: true, 빼야됨 왜????
+      //secure: true, https에서 사용
       maxAge: 60000,
     },
-    store: new fileStore(),
+    store: new FileStore(),
   })
 );
 app.use(logger("dev"));

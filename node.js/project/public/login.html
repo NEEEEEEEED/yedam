@@ -35,13 +35,14 @@
   </head>
   <body>
     <div id="login">
-      <form>
+      <form action="/board/login" method="post">
         <h1>Yacht Dice</h1>
         <div class="mb-3">
           <input
             type="text"
             class="form-control"
             id="userid"
+            name="userid"
             placeholder="아이디"
           />
         </div>
@@ -50,6 +51,7 @@
             type="password"
             class="form-control"
             id="userpw"
+            name="userpw"
             placeholder="비밀번호"
           />
         </div>

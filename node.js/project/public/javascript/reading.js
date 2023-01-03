@@ -11,6 +11,7 @@ const no = URLSearch.get("no");
 fetch(`${url}/${no}`, { method: "get" })
   .then((res) => res.json())
   .then((res) => {
+    writer.value = res.userid;
     contenttitle.value = res.title;
     content.value = res.content;
   });

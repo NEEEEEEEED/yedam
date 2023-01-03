@@ -21,7 +21,8 @@ app.set("view engine", "jade");
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-// app.use(cookieParser());
+app.use(cookieParser());
+
 app.use(
   session({
     secret: "secret key",
@@ -30,7 +31,7 @@ app.use(
     cookie: {
       httpOnly: true,
       //secure: true,
-      maxAge: 60000,
+      maxAge: 24 * 60 * 1000,
     },
     store: new fileStore(),
   })
@@ -41,7 +42,6 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/board", boardRouter);
-
 app.use("/game", gameRouter);
 
 // catch 404 and forward to error handler
