@@ -25,6 +25,7 @@ function selectAll() {
       }
     });
 }
+
 //null 변환
 function change(value) {
   if (value == null) {
@@ -33,8 +34,8 @@ function change(value) {
     return value;
   }
 }
-//조회수
-//해당 no 찾기
+
+//해당 no 찾기, 조회수
 function readlist(no) {
   fetch("/board/count/" + no, {
     method: "put",

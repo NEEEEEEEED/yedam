@@ -7,6 +7,7 @@ var logger = require("morgan");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var boardRouter = require("./routes/board");
+var pageRouter = require("./routes/page");
 
 var gameRouter = require("./routes/game");
 
@@ -15,8 +16,11 @@ const fileStore = require("session-file-store")(session);
 var app = express();
 
 // view engine setup
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "jade");
+// app.set("views", path.join(__dirname, "views"));
+// app.set("view engine", "jade");
+//view ejs 사용
+/* app.set("view engine", "ejs");
+app.set("views", "./views"); */
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -42,6 +46,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/board", boardRouter);
+app.use("/page", pageRouter);
 app.use("/game", gameRouter);
 
 // catch 404 and forward to error handler

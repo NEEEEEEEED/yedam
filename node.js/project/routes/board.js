@@ -71,11 +71,15 @@ router.get("/", function (req, res) {
 
 //단건조회
 router.get("/:no", (req, res) => {
+  const sessionid = req.session.userid;
+  console.log(sessionid);
   const no = req.params.no;
   pool.query(sql.selectOne, no, function (err, results, fields) {
     if (err) {
       console.log(err);
     }
+    //resuts 배열에 session id 추가
+    results[0].test = sessionid;
     res.json(results[0]);
   });
 });
@@ -94,8 +98,10 @@ router.get("/", function (req, res) {
 //등록
 router.post("/", function (req, res) {
   if (req.session.userid) {
+    console.log(req.session.userid);
     //작성자 등록
     req.body.userid = req.session.userid;
+    console.log(req.body);
     pool.query(sql.insert, req.body, function (err, results, fields) {
       console.log(err);
       res.json({ result: "yes" });
@@ -127,48 +133,4 @@ router.delete("/:no", function (req, res) {
   });
 });
 
-/* router.get("/paging/:no", (req, res) => {
-  const { no } = req.params;
-  connection.query(sql.pagenum, [no], (err, results) => {
-    console.log(err);
-    res.render("paging", {
-      article: results[0],
-    });
-  });
-}); */
-
-/* //페이징
-router.get("/", function (req, res) {
-  const pageNum = Number(req.query.pageNum) || 1; // NOTE: 쿼리스트링으로 받을 페이지 번호 값, 기본값은 1
-  const contentSize = 5; // NOTE: 페이지에서 보여줄 컨텐츠 수.
-  const pnSize = 5; // NOTE: 페이지네이션 개수 설정.
-  const skipSize = (pageNum - 1) * contentSize; // NOTE: 다음 페이지 갈 때 건너뛸 리스트 개수.
-  pool.query(sql.select, function (err, results, fields) {
-    if (err) {
-      console.log(err);
-    }
-    const totalCount = Number(results[0].count); // NOTE: 전체 글 개수.
-    const pnTotal = Math.ceil(totalCount / contentSize); // NOTE: 페이지네이션의 전체 카운트
-    const pnStart = (Math.ceil(pageNum / pnSize) - 1) * pnSize + 1; // NOTE: 현재 페이지의 페이지네이션 시작 번호.
-    let pnEnd = pnStart + pnSize - 1; // NOTE: 현재 페이지의 페이지네이션 끝 번호.
-    connection.query(
-      sql.pageselect,
-      [skipSize, contentSize],
-      (err, results, fields) => {
-        console.log(err);
-        if (pnEnd > pnTotal) pnEnd = pnTotal; // NOTE: 페이지네이션의 끝 번호가 페이지네이션 전체 카운트보다 높을 경우.
-        const result = {
-          pageNum,
-          pnStart,
-          pnEnd,
-          pnTotal,
-          contents: results,
-        };
-        res.render("index", {
-          articles: result,
-        });
-      }
-    );
-  });
-}); */
 module.exports = router;

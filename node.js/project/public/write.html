@@ -50,7 +50,7 @@
       .nav-link {
         color: white;
         font-size: x-large;
-        padding: 15px;
+        padding: 20px;
         font-weight: bold;
       }
     </style>
@@ -69,6 +69,13 @@
             <li class="nav-item">
               <a class="nav-link" href="/scoreboard.html">점수판</a>
             </li>
+            <form action="/board/logout" method="post">
+              <li class="nav-item">
+                <button type="submit" style="background-color: black">
+                  <a class="nav-link">로그아웃</a>
+                </button>
+              </li>
+            </form>
           </ul>
         </div>
         <div id="center" class="col col-xxl-7">

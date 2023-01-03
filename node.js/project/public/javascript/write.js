@@ -19,7 +19,7 @@ function insert() {
       .then((res) => res.json())
       .then((res) => {
         if (res.result == "no") {
-          alert("로그인");
+          alert("세션이 만료되었습니다.");
           location.href = "/login.html";
         } else if (res.result == "yes") {
           window.location = document.referrer;

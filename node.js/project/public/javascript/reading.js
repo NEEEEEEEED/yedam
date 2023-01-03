@@ -11,6 +11,13 @@ const no = URLSearch.get("no");
 fetch(`${url}/${no}`, { method: "get" })
   .then((res) => res.json())
   .then((res) => {
+    let show1 = document.querySelector("#updcheck");
+    let show2 = document.querySelector("#btndel");
+    if (res.test == res.userid) {
+      //수정 삭제 버튼 show
+      show1.style.display = "";
+      show2.style.display = "";
+    }
     writer.value = res.userid;
     contenttitle.value = res.title;
     content.value = res.content;
@@ -48,6 +55,7 @@ function readonlytoggle() {
   updcheck.addEventListener("click", function () {
     document.getElementById("contenttitle").readOnly = false;
     document.getElementById("content").readOnly = false;
-    document.getElementById("btnupd").disabled = false;
+    document.getElementById("btnupd").style.display = "";
+    document.getElementById("updcheck").style.display = "none";
   });
 }
