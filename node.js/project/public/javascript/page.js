@@ -6,7 +6,6 @@ const boardurl = "/board";
 
 const URLSearch = new URLSearchParams(location.search);
 const pageNum = URLSearch.get("pageNum");
-console.log(pageNum);
 fetch(`${url}/${pageNum}`)
   .then((res) => res.json())
   .then((res) => {
@@ -17,11 +16,11 @@ fetch(`${url}/${pageNum}`)
     });
     for (let i = 0; i < res.contents.length; i++) {
       const tr = `
-        <tr id="trlist" onclick="readlist(${res.contents[i].no})">
+        <tr class="trlist" onclick="readlist(${res.contents[i].no})">
           <th scope="row">${parseInt([i]) + 1}</th>
           <td>${res.contents[i].title}</td>
           <td>${res.contents[i].userid}</td>
-          <td>${getYmd10(res.contents[i].wdate)}</td>
+          <td>${res.contents[i].wdate}</td>
           <td>${change(res.contents[i].count)}</td>
         </tr>
         `;
@@ -30,13 +29,14 @@ fetch(`${url}/${pageNum}`)
     }
     for (let i = res.pnStart; i <= res.pnEnd; i++) {
       const pagebtn = `
-        
-          <button><a href="?pageNum=${[i]}">${[i]}</a></button>
-          `;
+      <button type="button" class="btn btn-primary onclick="location.href='/page.html?pageNum=${[
+        i,
+      ]}">${[i]}'"><a class="tagA" href="?pageNum=${[i]}">${[i]}</a></button>
+      `;
       pagination.innerHTML += pagebtn;
     }
   });
-
+//
 //해당 pageNum 찾기
 /* function searchpage(pageNum) {
   location.href = "./page.html?pageNum=" + pageNum;
@@ -52,7 +52,7 @@ function readlist(no) {
     });
 }
 
-//날짜 포맷 변경 yyyy-mm-dd
+/* //날짜 포맷 변경 yyyy-mm-dd
 function getYmd10(wdata) {
   var d = new Date(wdata);
   return (
@@ -64,7 +64,7 @@ function getYmd10(wdata) {
     "-" +
     (d.getDate() > 9 ? d.getDate().toString() : "0" + d.getDate().toString())
   );
-}
+} */
 
 //null 변환
 function change(value) {

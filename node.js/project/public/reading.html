@@ -10,75 +10,100 @@
     />
     <title>공략게시판</title>
     <style>
-      .container {
-        width: 1440px;
-        height: 960px;
+      * {
+        margin: 0 auto;
+      }
+      body {
+        width: 100%;
+        height: 100%;
         margin: 0px;
       }
-      .title {
-        text-align: left;
+      #container {
+        width: 100%;
+        height: 100%;
       }
-
-      #center {
-        width: 70%;
+      img {
+        width: 100%;
+        height: 180px;
       }
-      #board {
-        margin-left: 30px;
-        margin-top: 10%;
-      }
-      .btn {
-        background-color: black;
-        border: none;
-      }
-      #grbtn {
-        float: right;
+      #header {
+        margin-top: 5%;
+        margin-bottom: 3%;
       }
       .nav {
+        background-color: black;
         --bs-nav-link-hover-color: red;
+      }
+      .nav-link {
+        color: white;
+        font-size: x-large;
+        padding: 10px;
+        font-weight: bold;
+      }
+      #board {
+        width: 70%;
+      }
+      h1 {
+        text-align: left;
+        margin-bottom: 15px;
+        margin-top: 20px;
+        margin-left: 20px;
       }
       #pagination {
         display: inline-block;
         text-align: center;
       }
-      .side {
-        /* width: 10%; */
-        padding-top: 20px;
-        height: 960px;
-        background-color: black;
-        color: white;
+      .page-link {
+        color: black;
       }
-      .nav-link {
-        color: white;
-        font-size: x-large;
-        padding: 20px;
-        font-weight: bold;
+      .btn {
+        background-color: black;
+        border: none;
+        --bs-btn-hover-bg: #dc3545;
+      }
+      #grbtn {
+        display: block;
+        text-align: right;
+      }
+      footer {
+        clear: both;
+        margin-top: 10px;
       }
     </style>
   </head>
   <body>
-    <div class="container text-center">
-      <div class="row">
-        <div class="side col col-xxl-3">
-          <ul class="nav flex-column">
-            <li class="nav-item">
-              <a class="nav-link" href="/game.html">게임시작</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/page.html?pageNum=1">공략게시판</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/scoreboard.html">점수판</a>
-            </li>
-            <form action="/board/logout" method="post">
-              <li class="nav-item">
-                <button type="submit" style="background-color: black">
-                  <a class="nav-link">로그아웃</a>
-                </button>
-              </li>
-            </form>
-          </ul>
-        </div>
-        <div id="center" class="col col-xxl-7">
+    <div class="text-center">
+      <div id="center" class="col">
+        <header>
+          <div>
+            <img src="./img/흰주사위.jpg" />
+            <nav>
+              <ul class="nav">
+                <li class="nav-item">
+                  <a class="nav-link" href="/game.html">게임시작</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/page.html?pageNum=1"
+                    >자유 게시판</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/scoreboard.html">점수판</a>
+                </li>
+                <form action="/board/logout" method="post">
+                  <button
+                    id="logout"
+                    type="submit"
+                    style="background-color: black"
+                  >
+                    <a class="nav-link">로그아웃</a>
+                  </button>
+                </form>
+              </ul>
+            </nav>
+          </div>
+        </header>
+        <section>
           <div id="board">
             <h1 class="title">공략게시판</h1>
             <div class="mb-3">
@@ -134,9 +159,11 @@
               </button>
             </div>
           </div>
-        </div>
+        </section>
+        <footer><img src="./img/검은 화면.jpg" /></footer>
       </div>
     </div>
+
     <script src="./javascript/reading.js"></script>
   </body>
 </html>

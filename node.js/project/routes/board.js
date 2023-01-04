@@ -8,7 +8,7 @@ const sql = {
   insert: "insert into project.board set ?",
   update: "update project.board set ? where no=?",
   delete: "delete from project.board where no=?",
-  scoreselect: "select * from project.board order by yscore desc limit 0,10",
+  scoreselect: "select * from project.score order by yscore desc limit 0,10",
   loginprocess: "select * from login where userid = ? and userpw = ?",
   cntclick: "update board set count=IFNULL(count,0)+1 where no =?",
 };
@@ -57,8 +57,9 @@ router.post("/logout", (req, res, next) => {
   req.session.destroy();
   res.redirect(`../login.html`);
 });
-
-//전체조회
+//이거 열면 안됨 점수판 board에서 가져오게됨
+//만약 board.html을 쓸려면 열긴해야함
+/* //전체조회
 router.get("/", function (req, res) {
   pool.query(sql.select, function (err, results, fields) {
     if (err) {
@@ -67,18 +68,17 @@ router.get("/", function (req, res) {
 
     res.json(results);
   });
-});
+}); */
 
 //단건조회
 router.get("/:no", (req, res) => {
   const sessionid = req.session.userid;
-  console.log(sessionid);
   const no = req.params.no;
   pool.query(sql.selectOne, no, function (err, results, fields) {
     if (err) {
       console.log(err);
     }
-    //resuts 배열에 session id 추가
+    //results 배열에 session id 추가
     results[0].test = sessionid;
     res.json(results[0]);
   });
@@ -90,7 +90,6 @@ router.get("/", function (req, res) {
     if (err) {
       console.log(err);
     }
-    pool.connectionrelease;
     res.json(results);
   });
 });
@@ -98,7 +97,6 @@ router.get("/", function (req, res) {
 //등록
 router.post("/", function (req, res) {
   if (req.session.userid) {
-    console.log(req.session.userid);
     //작성자 등록
     req.body.userid = req.session.userid;
     console.log(req.body);

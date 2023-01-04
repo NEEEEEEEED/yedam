@@ -7,6 +7,7 @@ const conn = {
   password: "2214",
   database: "project",
   connectionLimit: 10,
+  dateStrings: "date",
 };
 let pool = mysql.createPool(conn);
 

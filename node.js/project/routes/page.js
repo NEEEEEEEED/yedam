@@ -4,8 +4,6 @@ var router = express.Router();
 
 router.get("/:pageNum", (req, res) => {
   // NOTE: 쿼리스트링으로 받을 페이지 번호 값, 기본값은 1
-
-  console.log(parseInt(req.params.pageNum));
   const pageNum = parseInt(req.params.pageNum) || 1;
   // NOTE: 페이지에서 보여줄 컨텐츠 수.
   const contentSize = 10;
@@ -13,7 +11,6 @@ router.get("/:pageNum", (req, res) => {
   const pnSize = 10;
   // NOTE: 다음 페이지 갈 때 건너뛸 리스트 개수.
   const skipSize = (pageNum - 1) * contentSize;
-  console.log(skipSize);
 
   pool.query(
     "SELECT count(*) as `count` FROM `board`",
