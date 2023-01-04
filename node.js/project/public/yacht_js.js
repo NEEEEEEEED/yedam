@@ -70,29 +70,29 @@ let lstraight2 = 1;
 let yacht1 = 1;
 let yacht2 = 1;
 
-document.getElementById("chance").value = num + "회";
+document.getElementById("chance").value = num + "회 / 3회";
 document.getElementById("player" + play).style.color = "red";
 document.getElementById("player" + play).style.fontWeight = "bold";
 document.getElementById("player" + play + "total").style.backgroundColor =
   "rgba(255,253,96)";
 
 function movein(char) {
-  document.getElementById("player" + play + char).style.backgroundColor =
-    "rgba(255, 114, 2)";
+  /*   document.getElementById("player" + play + char).style.backgroundColor =
+    "rgba(255, 114, 2)"; */
   document.getElementById("player" + play + char).style.cursor = "pointer";
 }
 
-function moveout(char) {
+/* function moveout(char) {
   document.getElementById("player" + play + char).style.backgroundColor =
     "rgba(255,253,96)";
 }
-
+ */
 function number(number) {
   num = number;
   document.getElementById("chance").value = num + "left";
   // 기회를 다썻을경우 dice 배열을 정렬 (오름차순) 및 정렬된 값을 표기
   if (num == 0) {
-    document.getElementById("start").style.display = "none";
+    document.getElementById("start").disabled = "true";
     for (let i = 0; i < arrDice.length; i++) {
       for (let j = 0; j < arrDice.length - i - 1; j++) {
         if (arrDice[j] > arrDice[j + 1]) {
@@ -206,12 +206,11 @@ function end(char) {
   Dice3 = 1;
   Dice4 = 1;
   Dice5 = 1;
-  document.getElementById("start").style.display = "none";
 
-  for (let i = 0; i < document.getElementsByClassName("dice").length; i++) {
+  /* for (let i = 0; i < document.getElementsByClassName("dice").length; i++) {
     document.getElementsByClassName("setdice1")[i].style.padding = "30px";
     document.getElementsByClassName("setdice2")[i].style.padding = "30px";
-  }
+  } */
 
   // 상단 족보 end표시
   for (let i = 0; i < categories.length; i++) {
@@ -324,8 +323,8 @@ function end(char) {
   }
 
   // subtotal, total 점수 초기화
-  document.getElementById("player" + play + "result").value = "";
-  document.getElementById("player" + play + "total").value = "";
+  document.getElementById("player" + play + "result").value = "0";
+  document.getElementById("player" + play + "total").value = "0";
 
   // subtotal 상단 족보 점수체크
   for (let i = 0; i < 6; i++) {
@@ -360,7 +359,7 @@ function end(char) {
   }
 
   // 현재 player에게 색상과진하기를 주기
-  for (let i = 0; i < categories.length; i++) {
+  /*   for (let i = 0; i < categories.length; i++) {
     document.getElementById("player" + play + categories[i]).value = 0;
   }
   for (let i = 0; i < categories.length; i++) {
@@ -370,10 +369,10 @@ function end(char) {
     document.getElementById(
       "player" + play + categories[i] + "result"
     ).style.backgroundColor = "rgba(255, 253, 96)";
-  }
+  } */
 
-  document.getElementsByClassName("totalbc" + play)[0].style.backgroundColor =
-    "rgba(255, 253, 96)";
+  /*   document.getElementsByClassName("totalbc" + play)[0].style.backgroundColor =
+    "rgba(255, 253, 96)"; */
   document.getElementById("player" + play).style.color = "red";
   document.getElementById("player" + play).style.fontWeight = "bold";
 
@@ -477,8 +476,8 @@ function end(char) {
   // dice 값을 초기화
   function cleardice() {
     for (let i = 1; i < 6; i++) {
-      document.getElementById("dice" + i).style.display = "none";
-      document.getElementById("dice" + i).style.value = 0;
+      // document.getElementById("dice" + i).style.display = "none";
+      document.getElementById("dice" + i).value = 0;
     }
   }
   //턴 확인 후 종료
@@ -521,31 +520,27 @@ function end(char) {
 
   // 기회 3으로 바꾸기
   num = 3;
-  document.getElementById("chance").value = num + "left";
+  document.getElementById("chance").value = num + "회 / 3회";
 
-  document.getElementById("start").style.display = "block";
+  document.getElementById("start").disabled = false;
 
   // 다이스 버튼을 없애기
   for (let i = 1; i < 6; i++) {
-    document.getElementById("result" + i).style.display = "none";
-    document.getElementById("dice" + i).style.display = "none";
+    document.getElementById("result" + i).value = "0";
+    document.getElementById("dice" + i).value = "0";
+    document.getElementById("dice" + i).disabled = false;
   }
 }
 
 function start() {
-  for (let i = 0; i < document.getElementsByClassName("dice").length; i++) {
+  /* for (let i = 0; i < document.getElementsByClassName("dice").length; i++) {
     document.getElementsByClassName("setdice1")[i].style.padding = "0px";
     document.getElementsByClassName("setdice2")[i].style.padding = "0px";
-  }
+  } */
 
   // 모든 족보의 버튼을 0으로 초기화
   for (let i = 0; i < categories.length; i++) {
     document.getElementById("player" + play + categories[i]).value = "0";
-    document.getElementById(
-      "player" + play + categories[i]
-    ).style.backgroundColor = "rgba(255,253,96)";
-    document.getElementById("player" + play + categories[i]).style.border =
-      "none";
   }
 
   // 첫시작일때 dice의 버튼을 보이게 설정
@@ -671,11 +666,11 @@ function start() {
 
   // 굴릴때마다 기회 1빼기
   num -= 1;
-  document.getElementById("chance").value = num + "left";
+  document.getElementById("chance").value = num + "회 / 3회";
 
   // 기회를 다썻을경우 dice 배열을 정렬 (오름차순) 및 정렬된 값을 표기
   if (num == 0) {
-    document.getElementById("start").style.display = "none";
+    document.getElementById("start").disabled = true;
     for (let i = 0; i < arrDice.length; i++) {
       for (let j = 0; j < arrDice.length - i - 1; j++) {
         if (arrDice[j] > arrDice[j + 1]) {
@@ -789,7 +784,8 @@ function start() {
       document.getElementById("result" + i).value = arrDice[i];
       document.getElementById("dice" + i).value = arrDice[i];
       document.getElementById("result" + i).style.display = "block";
-      document.getElementById("dice" + i).style.display = "none";
+      document.getElementById("dice" + i).value = "0";
+      document.getElementById("dice" + i).disabled = true;
     }
   }
 }

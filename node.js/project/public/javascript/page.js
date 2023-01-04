@@ -51,6 +51,14 @@ function readlist(no) {
       location.href = "./reading.html?no=" + no;
     });
 }
+//null 변환
+function change(value) {
+  if (value == null) {
+    return 0;
+  } else {
+    return value;
+  }
+}
 
 /* //날짜 포맷 변경 yyyy-mm-dd
 function getYmd10(wdata) {
@@ -65,15 +73,6 @@ function getYmd10(wdata) {
     (d.getDate() > 9 ? d.getDate().toString() : "0" + d.getDate().toString())
   );
 } */
-
-//null 변환
-function change(value) {
-  if (value == null) {
-    return 0;
-  } else {
-    return value;
-  }
-}
 
 /* function pagebtn(pageNum) {
   fetch("/page/" + pageNum)

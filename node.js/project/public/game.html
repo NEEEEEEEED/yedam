@@ -28,15 +28,7 @@
             height: 100%;
             margin: 0px;
           }
-          #lefttable {
-            float: left;
-            margin: 10px;
-          }
-          table th,
-          tr,
-          td {
-            border: 1px solid black;
-          }
+
           img {
             width: 100%;
             height: 180px;
@@ -48,15 +40,14 @@
           .nav {
             background-color: black;
             --bs-nav-link-hover-color: red;
+            padding-left: 7%;
+            padding-right: 7%;
           }
           .nav-link {
             color: white;
             font-size: x-large;
             padding: 10px;
             font-weight: bold;
-          }
-          #board {
-            width: 70%;
           }
 
           h1 {
@@ -65,8 +56,43 @@
             margin-top: 20px;
             margin-left: 20px;
           }
+          section {
+            width: 90%;
+          }
           .page-link {
             color: black;
+          }
+          #lefttable {
+            float: left;
+            margin: 10px;
+          }
+          #centerup {
+            float: left;
+          }
+          #dicetable td {
+            border: none;
+          }
+          .setdice1,
+          .setdice2 {
+            padding: 30px;
+          }
+          .result,
+          .dice {
+            padding: 30px;
+            font-size: 20px;
+            font-weight: 1000;
+          }
+          #centerdown {
+            float: left;
+          }
+
+          #scoretable tr,
+          td,
+          th {
+            border: 1px solid black;
+          }
+          #rightside {
+            float: right;
           }
 
           footer {
@@ -109,7 +135,7 @@
             </header>
             <section>
               <div id="lefttable">
-                <table id="scoretable" border="1">
+                <table id="scoretable">
                   <tr>
                     <td><br /></td>
                     <td rowspan="2" id="player1" class="player">player</td>
@@ -126,8 +152,6 @@
                         class="bc1"
                         value="0"
                         onclick="end(`aces`);"
-                        onmouseover="movein(`aces`);"
-                        onmouseout="moveout(`aces`);"
                       />
                       <input
                         type="text"
@@ -148,8 +172,6 @@
                         class="bc1"
                         value="0"
                         onclick="end(`deuces`);"
-                        onmouseover="movein(`deuces`);"
-                        onmouseout="moveout(`deuces`);"
                       />
                       <input
                         type="text"
@@ -170,8 +192,6 @@
                         class="bc1"
                         value="0"
                         onclick="end(`threes`);"
-                        onmouseover="movein(`threes`);"
-                        onmouseout="moveout(`threes`);"
                       />
                       <input
                         type="text"
@@ -192,8 +212,6 @@
                         class="bc1"
                         value="0"
                         onclick="end(`fours`);"
-                        onmouseover="movein(`fours`);"
-                        onmouseout="moveout(`fours`);"
                       />
                       <input
                         type="text"
@@ -214,8 +232,6 @@
                         class="bc1"
                         value="0"
                         onclick="end(`fives`);"
-                        onmouseover="movein(`fives`);"
-                        onmouseout="moveout(`fives`);"
                       />
                       <input
                         type="text"
@@ -236,8 +252,6 @@
                         class="bc1"
                         value="0"
                         onclick="end(`sixes`);"
-                        onmouseover="movein(`sixes`);"
-                        onmouseout="moveout(`sixes`);"
                       />
                       <input
                         type="text"
@@ -290,8 +304,6 @@
                         class="bc1"
                         value="0"
                         onclick="end(`choice`);"
-                        onmouseover="movein(`choice`);"
-                        onmouseout="moveout(`choice`);"
                       />
                       <input
                         type="text"
@@ -312,8 +324,6 @@
                         class="bc1"
                         value="0"
                         onclick="end(`4ofakind`);"
-                        onmouseover="movein(`4ofakind`);"
-                        onmouseout="moveout(`4ofakind`);"
                       />
                       <input
                         type="text"
@@ -334,8 +344,6 @@
                         class="bc1"
                         value="0"
                         onclick="end(`fullhouse`);"
-                        onmouseover="movein(`fullhouse`);"
-                        onmouseout="moveout(`fullhouse`);"
                       />
                       <input
                         type="text"
@@ -356,8 +364,6 @@
                         class="bc1"
                         value="0"
                         onclick="end(`sstraight`);"
-                        onmouseover="movein(`sstraight`);"
-                        onmouseout="moveout(`sstraight`);"
                       />
                       <input
                         type="text"
@@ -378,8 +384,6 @@
                         class="bc1"
                         value="0"
                         onclick="end(`lstraight`);"
-                        onmouseover="movein(`lstraight`);"
-                        onmouseout="moveout(`lstraight`);"
                       />
                       <input
                         type="text"
@@ -400,8 +404,6 @@
                         class="bc1"
                         value="0"
                         onclick="end(`yacht`);"
-                        onmouseover="movein(`yacht`);"
-                        onmouseout="moveout(`yacht`);"
                       />
                       <input
                         type="text"
@@ -427,154 +429,136 @@
                   </tr>
                 </table>
               </div>
-              <table border="1" style="text-align: center">
-                <tr>
-                  <td style="padding: 30px">keep</td>
-                  <td class="setdice1">
-                    <input
-                      type="button"
-                      class="result"
-                      id="result1"
-                      style="display: none"
-                      onclick="backdice(1)"
-                    />
-                  </td>
-                  <td class="setdice1">
-                    <input
-                      type="button"
-                      class="result"
-                      id="result2"
-                      style="display: none"
-                      onclick="backdice(2)"
-                    />
-                  </td>
-                  <td class="setdice1">
-                    <input
-                      type="button"
-                      class="result"
-                      id="result3"
-                      style="display: none"
-                      onclick="backdice(3)"
-                    />
-                  </td>
-                  <td class="setdice1">
-                    <input
-                      type="button"
-                      class="result"
-                      id="result4"
-                      style="display: none"
-                      onclick="backdice(4)"
-                    />
-                  </td>
-                  <td class="setdice1">
-                    <input
-                      type="button"
-                      class="result"
-                      id="result5"
-                      style="display: none"
-                      onclick="backdice(5)"
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding: 30px">dice</td>
-                  <td class="setdice2">
-                    <input
-                      type="button"
-                      class="dice"
-                      id="dice1"
-                      style="display: none"
-                      onclick="dice(1)"
-                    />
-                  </td>
-                  <td class="setdice2">
-                    <input
-                      type="button"
-                      class="dice"
-                      id="dice2"
-                      style="display: none"
-                      onclick="dice(2)"
-                    />
-                  </td>
-                  <td class="setdice2">
-                    <input
-                      type="button"
-                      class="dice"
-                      id="dice3"
-                      style="display: none"
-                      onclick="dice(3)"
-                    />
-                  </td>
-                  <td class="setdice2">
-                    <input
-                      type="button"
-                      class="dice"
-                      id="dice4"
-                      style="display: none"
-                      onclick="dice(4)"
-                    />
-                  </td>
-                  <td class="setdice2">
-                    <input
-                      type="button"
-                      class="dice"
-                      id="dice5"
-                      style="display: none"
-                      onclick="dice(5)"
-                    />
-                  </td>
-                </tr>
-              </table>
-
-              <div>
-                <input
-                  type="button"
-                  id="start"
-                  value="주사위 굴리기"
-                  onclick="start()"
-                /><input id="chance" disabled />
+              <div id="centerup">
+                <table id="dicetable" style="text-align: center">
+                  <tr>
+                    <td style="padding: 30px">keep</td>
+                    <td class="setdice1">
+                      <input
+                        type="button"
+                        class="result"
+                        id="result1"
+                        onclick="backdice(1)"
+                      />
+                    </td>
+                    <td class="setdice1">
+                      <input
+                        type="button"
+                        class="result"
+                        id="result2"
+                        onclick="backdice(2)"
+                      />
+                    </td>
+                    <td class="setdice1">
+                      <input
+                        type="button"
+                        class="result"
+                        id="result3"
+                        onclick="backdice(3)"
+                      />
+                    </td>
+                    <td class="setdice1">
+                      <input
+                        type="button"
+                        class="result"
+                        id="result4"
+                        onclick="backdice(4)"
+                      />
+                    </td>
+                    <td class="setdice1">
+                      <input
+                        type="button"
+                        class="result"
+                        id="result5"
+                        onclick="backdice(5)"
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 30px">dice</td>
+                    <td class="setdice2">
+                      <input
+                        type="button"
+                        class="dice"
+                        id="dice1"
+                        onclick="dice(1)"
+                      />
+                    </td>
+                    <td class="setdice2">
+                      <input
+                        type="button"
+                        class="dice"
+                        id="dice2"
+                        onclick="dice(2)"
+                      />
+                    </td>
+                    <td class="setdice2">
+                      <input
+                        type="button"
+                        class="dice"
+                        id="dice3"
+                        onclick="dice(3)"
+                      />
+                    </td>
+                    <td class="setdice2">
+                      <input
+                        type="button"
+                        class="dice"
+                        id="dice4"
+                        onclick="dice(4)"
+                      />
+                    </td>
+                    <td class="setdice2">
+                      <input
+                        type="button"
+                        class="dice"
+                        id="dice5"
+                        onclick="dice(5)"
+                      />
+                    </td>
+                  </tr>
+                </table>
               </div>
-              <div style="color: gray">
-                족보가 맞는데도 안나올경우 확정버튼을 눌러주세요<br />※주의
-                확정버튼을 누를경우 기회가 0으로 됩니다.
+              <div id="rightside">
+                <div id="board">
+                  <h1 class="title">High Score</h1>
+                  <table class="table table-hover">
+                    <thead class="table-dark">
+                      <tr>
+                        <th scope="col">등수</th>
+                        <th scope="col">이름</th>
+                        <th scope="col">점수</th>
+                      </tr>
+                    </thead>
+                    <tbody id="scoreboard"></tbody>
+                  </table>
+                </div>
               </div>
-              <br />
-              <input
-                type="button"
-                id="confirmation"
-                value="확정"
-                onclick="number(0)"
-                style="display: none"
-              />
-              <div
-                id="imgclose"
-                style="
-                  width: 100%;
-                  height: 100%;
-                  background-color: rgba(0, 0, 0, 0.5);
-                  position: fixed;
-                  left: 0%;
-                  top: 0%;
-                  display: none;
-                "
-              ></div>
-              <div
-                id="img"
-                style="
-                  display: none;
-                  width: 70%;
-                  height: 90%;
-                  background-color: snow;
-                  position: fixed;
-                  top: 5%;
-                  left: 13%;
-                "
-              ></div>
-              <script src="./yacht_js.js"></script>
+              <div id="centerdown">
+                <div>
+                  <input
+                    type="button"
+                    id="start"
+                    value="주사위 굴리기"
+                    onclick="start()"
+                  /><input id="chance" disabled />
+                  <input
+                    type="button"
+                    id="confirmation"
+                    value="확정"
+                    onclick="number(0)"
+                  />
+                </div>
+                <div style="color: gray">
+                  족보가 맞는데도 안나올경우 확정버튼을 눌러주세요<br />※주의
+                  확정버튼을 누를경우 기회가 0으로 됩니다.
+                </div>
+              </div>
             </section>
             <footer><img src="./img/검은 화면.jpg" /></footer>
           </div>
         </div>
+        <script src="./yacht_js.js"></script>
       </body>
     </html>
   </body>

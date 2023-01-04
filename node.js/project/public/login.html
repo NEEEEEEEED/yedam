@@ -10,6 +10,11 @@
     />
     <title>login</title>
     <style>
+      body {
+        background-image: url("img/사각형\ 이미지.jpg");
+        background-color: rgba(0, 0, 0, 0.7);
+        background-blend-mode: overlay;
+      }
       #login {
         width: 30%;
         height: 40%;
@@ -22,14 +27,28 @@
         left: 50%;
         transform: translate(-50%, -50%);
         text-align: center;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 99;
+        color: #f3ecb0;
+        font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+        letter-spacing: 5px;
+      }
+      form {
+        padding-left: 10px;
+        padding-right: 10px;
       }
       h1 {
-        margin-bottom: 100px;
+        margin-bottom: 70px;
+        padding-top: 8%;
+        font-size: 3em;
       }
       .btn {
         float: right;
-        background-color: black;
+        background-color: #344d67;
         border: none;
+      }
+      .btn-primary {
+        --bs-btn-hover-bg: #ecb306;
       }
     </style>
   </head>
@@ -55,8 +74,9 @@
             placeholder="비밀번호"
           />
         </div>
-
-        <button type="submit" class="btn btn-primary">로그인</button>
+        <div class="d-grid gap-2">
+          <button type="submit" class="btn btn-primary">로그인</button>
+        </div>
       </form>
     </div>
   </body>
