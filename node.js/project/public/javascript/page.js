@@ -1,22 +1,22 @@
 const url = "/page";
 const boardurl = "/board";
 
-selectAll();
-
 // pagebtn();
 //페이징 function
-function selectAll(pageNum) {
-  console.log(pageNum);
-  fetch("/page/" + pageNum)
-    .then((res) => res.json())
-    .then((res) => {
-      let resarray = res.contents;
 
-      resarray.sort(function compare(a, b) {
-        return b.no - a.no;
-      });
-      for (let i = 0; i < res.contents.length; i++) {
-        const tr = `
+const URLSearch = new URLSearchParams(location.search);
+const pageNum = URLSearch.get("pageNum");
+console.log(pageNum);
+fetch(`${url}/${pageNum}`)
+  .then((res) => res.json())
+  .then((res) => {
+    let resarray = res.contents;
+
+    resarray.sort(function compare(a, b) {
+      return b.no - a.no;
+    });
+    for (let i = 0; i < res.contents.length; i++) {
+      const tr = `
         <tr id="trlist" onclick="readlist(${res.contents[i].no})">
           <th scope="row">${parseInt([i]) + 1}</th>
           <td>${res.contents[i].title}</td>
@@ -26,33 +26,21 @@ function selectAll(pageNum) {
         </tr>
         `;
 
-        list.innerHTML += tr;
-      }
-      for (let i = res.pnStart; i <= res.pnEnd; i++) {
-        const pagebtn = `
+      list.innerHTML += tr;
+    }
+    for (let i = res.pnStart; i <= res.pnEnd; i++) {
+      const pagebtn = `
         
           <button><a href="?pageNum=${[i]}">${[i]}</a></button>
           `;
-        pagination.innerHTML += pagebtn;
-      }
-    });
-}
-/* function pagebtn(pageNum) {
-  fetch("/page/" + pageNum)
-    .then((res) => res.json())
-    .then((res) => {
-      for (let i = res.pnStart; i <= res.pnEnd; i++) {
-        const pagebtn = `
-          <button><a href="?pageNum=${[i]}">${[i]}</a></button>
-          `;
-        pagination.innerHTML += pagebtn;
-      }
-    });
-} */
+      pagination.innerHTML += pagebtn;
+    }
+  });
+
 //해당 pageNum 찾기
-function searchpage(pageNum) {
+/* function searchpage(pageNum) {
   location.href = "./page.html?pageNum=" + pageNum;
-}
+} */
 //해당 no 찾기, 조회수
 function readlist(no) {
   fetch("/board/count/" + no, {
@@ -86,6 +74,19 @@ function change(value) {
     return value;
   }
 }
+
+/* function pagebtn(pageNum) {
+  fetch("/page/" + pageNum)
+    .then((res) => res.json())
+    .then((res) => {
+      for (let i = res.pnStart; i <= res.pnEnd; i++) {
+        const pagebtn = `
+          <button><a href="?pageNum=${[i]}">${[i]}</a></button>
+          `;
+        pagination.innerHTML += pagebtn;
+      }
+    });
+} */
 
 /* if (articles.contents.length != 0) { 
   <div class="" style="text-align:center;">

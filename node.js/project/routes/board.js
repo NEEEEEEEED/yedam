@@ -39,7 +39,7 @@ router.post("/login", function (req, res) {
           req.session.is_logined = true; // 세션 정보 갱신
           req.session.userid = username;
           req.session.save(function () {
-            res.redirect(`../board.html`);
+            res.redirect(`../page.html?pageNum=1`);
           });
         } else {
           res.send(`<script type="text/javascript">alert("로그인 정보가 일치하지 않습니다."); 
