@@ -1,9 +1,7 @@
 const url = "/page";
 const boardurl = "/board";
 
-// pagebtn();
 //페이징 function
-
 const URLSearch = new URLSearchParams(location.search);
 const pageNum = URLSearch.get("pageNum");
 fetch(`${url}/${pageNum}`)

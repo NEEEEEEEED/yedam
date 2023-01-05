@@ -47,7 +47,9 @@ function Update() {
       body: JSON.stringify(data),
     })
       .then((res) => res.json())
-      .then((res) => {});
+      .then((res) => {
+        contenttitle.focus();
+      });
   });
 }
 function readonlytoggle() {

@@ -1,66 +1,60 @@
 const url = "/game";
-highscore();
+highscoreupt();
 
 //점수판 갱신
 
 //행 추가
-function addRow() {
-  //현재 점수와 테이블 점수 비교
-  findsession();
-  function findsession() {
-    fetch("/game/find")
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
-        const resid = res;
-        for (let i = 0; i < 10; i++) {
-          const yscore = document.querySelectorAll(".yscore")[i];
-          const player1total = document.querySelector("#player1total").value;
-          console.log(yscore);
-          console.log(player1total);
-          if (parseInt(player1total) > parseInt(yscore.innerText)) {
-            const table = document.getElementById("highscore");
-            console.log(table);
-            // 행(Row) 삭제
 
-            table.deleteRow(10);
-
-            // 새 행(Row) 추가 (테이블 중간에)
-            const newRow = table.insertRow(parseInt([i]) + 1);
-            console.log(newRow);
-            // 새 행(Row)에 Cell 추가
-            const newCell1 = newRow.insertCell(0);
-            const newCell2 = newRow.insertCell(1);
-            const newCell3 = newRow.insertCell(2);
-
-            let bb = document
-              .querySelector("#scoreboard")
-              .querySelectorAll("tr")[i].children[0];
-            bb.setAttribute("class", "rank");
-            console.log([i]);
-            console.log(bb);
-            // Cell에 텍스트 추가 - 세션 아이디와 현재점수
-            newCell1.innerText = "";
-            console.log(newCell1.innerText);
-            newCell2.innerText = resid;
-            newCell3.innerText = player1total;
-            break;
-          }
-        }
-        for (let i = 0; i < 10; i++) {
-          document.querySelectorAll(".rank")[i].innerText = parseInt([i]) + 1;
-          console.log(document.querySelectorAll(".rank")[i].innerText);
-        }
-      });
-  }
-}
 // 세션id찾아오기
 
-function highscore() {
-  fetch(url)
+function addRow() {
+  fetch("/game/find")
     .then((res) => res.json())
     .then((res) => {
       console.log(res);
+      const resid = res;
+      for (let i = 0; i < 10; i++) {
+        const yscore = document.querySelectorAll(".yscore")[i];
+        const player1total = document.querySelector("#player1total").value;
+        if (parseInt(player1total) > parseInt(yscore.innerText)) {
+          const table = document.getElementById("highscore");
+          // 행(Row) 삭제
+
+          table.deleteRow(10);
+
+          // 새 행(Row) 추가 (테이블 중간에)
+          const newRow = table.insertRow(parseInt([i]) + 1);
+          // 새 행(Row)에 Cell 추가
+          const newCell1 = newRow.insertCell(0);
+          const newCell2 = newRow.insertCell(1);
+          const newCell3 = newRow.insertCell(2);
+          let aa = document.querySelector("#scoreboard").querySelectorAll("tr")[
+            i
+          ];
+          aa.style.backgroundColor = "#FFFF66";
+          let bb = document.querySelector("#scoreboard").querySelectorAll("tr")[
+            i
+          ].children[0];
+          bb.setAttribute("class", "rank");
+          // Cell에 텍스트 추가 - 세션 아이디와 현재점수
+          newCell1.innerText = "";
+
+          newCell2.innerText = resid;
+          newCell3.innerText = player1total;
+          break;
+        }
+      }
+      for (let i = 0; i < 10; i++) {
+        document.querySelectorAll(".rank")[i].innerText = parseInt([i]) + 1;
+        console.log(document.querySelectorAll(".rank")[i].innerText);
+      }
+    });
+}
+function highscoreupt() {
+  fetch(url)
+    .then((res) => res.json())
+    .then((res) => {
+      scoreboard.innerHTML = "";
       for (let i = 0; i < res.length; i++) {
         /* let array = res;
         array.sort(function compare(a, b) {
@@ -75,7 +69,25 @@ function highscore() {
       }
     });
 }
-
+function sendscore() {
+  let total = Number(document.getElementById("player1total").value);
+  let data = { yscore: total };
+  console.log(data);
+  fetch(url, {
+    method: "post",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  })
+    .then((res) => res.json())
+    .then((res) => {
+      if (res.result == "no") {
+        alert("세션이 만료되었습니다.");
+        location.href = "/login.html";
+      } else if (res.result == "yes") {
+        window.location = document.referrer;
+      }
+    });
+}
 // 다이스 랜덤 배열변수
 
 let arrDice = new Array();
@@ -149,6 +161,10 @@ let yacht2 = 1;
 document.getElementById("chance").value = num + "회 / 3회";
 document.getElementById("player" + play).style.color = "red";
 document.getElementById("player" + play).style.fontWeight = "bold";
+
+document.querySelector("#confirmation").addEventListener("click", () => {
+  document.getElementById("start").disabled = true;
+});
 
 function movein(char) {
   document.getElementById("player" + play + char).style.cursor = "pointer";
@@ -272,6 +288,11 @@ function end(char) {
   Dice3 = 1;
   Dice4 = 1;
   Dice5 = 1;
+  setTimeout(function () {
+    addRow();
+  }, 500);
+
+  highscoreupt();
 
   // 상단 족보 end표시
   for (let i = 0; i < categories.length; i++) {
@@ -522,8 +543,7 @@ function end(char) {
       document.getElementById("player" + "1" + categories[i]).value = "0";
     }
   }
-  //테이블 갱신
-  addRow();
+
   // 기회 3으로 바꾸기
   num = 3;
   document.getElementById("chance").value = num + "회 / 3회";
@@ -559,26 +579,7 @@ function end(char) {
     }
   }
   //점수 userid 보내기 함수
-
-  function sendscore() {
-    let total = Number(document.getElementById("player1total").value);
-    let data = { yscore: total };
-    console.log(data);
-    fetch(url, {
-      method: "post",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.result == "no") {
-          alert("세션이 만료되었습니다.");
-          location.href = "/login.html";
-        } else if (res.result == "yes") {
-          window.location = document.referrer;
-        }
-      });
-  }
+  //테이블 갱신
 }
 
 function start() {
@@ -596,7 +597,7 @@ function start() {
     for (let i = 1; i < 6; i++) {
       document.getElementById("dice" + i).style.display = "block";
     }
-    document.getElementById("confirmation").style.display = "block";
+    // document.getElementById("confirmation").style.display = "block";
   }
 
   // dice의 값을 1~6 랜덤으로 설정

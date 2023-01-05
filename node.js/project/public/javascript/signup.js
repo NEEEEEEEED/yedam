@@ -11,17 +11,16 @@ document.querySelector("#idcheck").addEventListener("click", () => {
       .then((res) => {
         console.log(res);
         for (let i = 0; i < res.length; i++) {
-          if (res[i].userid == userid.value) {
+          let arrid = res[i].userid;
+          if (arrid == userid.value) {
             alert("중복된 아이디 입니다.");
             document.querySelector("#userid").value = "";
             document.querySelector("#userid").focus();
-            break;
-          } else {
-            alert("사용가능한 아이디 입니다.");
-            document.querySelector("#userpw").focus();
-            break;
+            return false;
           }
         }
+        alert("사용가능한 아이디 입니다.");
+        document.querySelector("#userpw").focus();
       });
   }
 });
@@ -45,7 +44,7 @@ document.querySelector("#signup").addEventListener("click", function () {
       .then((res) => {
         console.log(res);
         if (res.result == "success") {
-          alert("가입을 축하드립니다.");
+          alert("가입을 축하합니다.");
           window.close();
         } else {
           alert("가입에 실패했습니다.");

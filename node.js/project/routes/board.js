@@ -68,7 +68,7 @@ router.post("/login", function (req, res) {
     );
   } else {
     response.send(`<script type="text/javascript">alert("아이디와 비밀번호를 입력하세요!"); 
-    document.location.href="/auth/login";</script>`);
+    document.location.href="/logIn.html";</script>`);
   }
 });
 //로그아웃
