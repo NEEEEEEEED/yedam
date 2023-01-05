@@ -8,11 +8,10 @@ function highscore() {
     .then((res) => {
       console.log(res);
       for (let i = 0; i < res.length; i++) {
-        let array = res;
+        /* let array = res;
         array.sort(function compare(a, b) {
           return b.yscore - a.yscore;
-        });
-        const tr = `
+        }) */ const tr = `
         <tr>
           <th scope="row">${parseInt([i]) + 1}</th>
           <td>${res[i].userid}</td>

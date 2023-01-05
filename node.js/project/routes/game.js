@@ -8,12 +8,22 @@ sql = {
   insert: "insert into score set ?",
   update: "update board set ? where no=?",
   delete: "delete from board where no=?",
+  scoreselect: "select * from project.score order by yscore desc limit 0,10",
 };
+//session id 찾기
+router.get("/find", function (req, res) {
+  const sessionid = req.session.userid;
+  pool.query(sql.scoreselect, function (err, results, fields) {
+    if (err) {
+      console.log(err);
+    }
+    res.json(sessionid);
+  });
+});
 
-//등록
+//userid, yscore 등록
 router.post("/", function (req, res) {
   if (req.session.userid) {
-    //작성자 등록
     req.body.userid = req.session.userid;
     console.log(req.body);
     pool.query(sql.insert, req.body, function (err, results, fields) {
@@ -24,5 +34,13 @@ router.post("/", function (req, res) {
     res.json({ result: "no" });
   }
 });
-
+//점수판 조회
+router.get("/", function (req, res) {
+  pool.query(sql.scoreselect, function (err, results, fields) {
+    if (err) {
+      console.log(err);
+    }
+    res.json(results);
+  });
+});
 module.exports = router;

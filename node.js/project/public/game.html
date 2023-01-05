@@ -23,16 +23,19 @@
           * {
             margin: 0 auto;
           }
+          header {
+            background-color: black;
+          }
+          img {
+            width: 800px;
+            height: 200px;
+          }
           body {
             width: 100%;
             height: 100%;
             margin: 0px;
           }
 
-          img {
-            width: 100%;
-            height: 180px;
-          }
           #header {
             margin-top: 1%;
             margin-bottom: 3%;
@@ -51,23 +54,46 @@
           }
 
           h1 {
-            text-align: left;
+            text-align: center;
             margin-bottom: 15px;
-            margin-top: 20px;
+            margin-top: 10px;
             margin-left: 20px;
           }
           section {
-            width: 90%;
+            width: 80%;
+            height: 620px;
           }
           .page-link {
             color: black;
           }
+          input {
+            background-color: rgba(255, 255, 255, 0);
+            border: none;
+          }
+          #leftscore {
+            margin-top: 10%;
+          }
           #lefttable {
             float: left;
-            margin: 10px;
+
+            margin: 0 auto;
+          }
+          #player1result,
+          #player1total,
+          #player1bonus {
+            color: red;
+            font-weight: bold;
+            text-align: center;
+          }
+          #centercontent {
+            width: 50%;
+            height: 100%;
+            float: left;
+            margin: 0 auto;
+            overflow: hidden;
           }
           #centerup {
-            float: left;
+            margin-top: 20%;
           }
           #dicetable td {
             border: none;
@@ -78,12 +104,30 @@
           }
           .result,
           .dice {
-            padding: 30px;
-            font-size: 20px;
             font-weight: 1000;
+            font-size: 20px;
+          }
+          .dbc1 {
+            text-align: center;
+          }
+          .bc1 {
+            display: inline-block;
           }
           #centerdown {
-            float: left;
+            clear: both;
+          }
+          #dicetable {
+            border-collapse: separate;
+            border-spacing: 10px;
+          }
+          #start {
+            border: 1px solid black;
+          }
+          #confirmation {
+            border: 1px solid black;
+          }
+          #dicetable td {
+            border: 1px solid black;
           }
 
           #scoretable tr,
@@ -92,12 +136,25 @@
             border: 1px solid black;
           }
           #rightside {
-            float: right;
+            width: 25%;
+            float: left;
+
+            position: relative;
+          }
+          #board {
+            margin-top: 10%;
+          }
+          .table {
+            width: 100%;
+            height: 100%;
+
+            margin-bottom: 0px;
           }
 
           footer {
             clear: both;
             margin-top: 10px;
+            background-color: black;
           }
         </style>
       </head>
@@ -135,394 +192,428 @@
             </header>
             <section>
               <div id="lefttable">
-                <table id="scoretable">
-                  <tr>
-                    <td><br /></td>
-                    <td rowspan="2" id="player1" class="player">player</td>
-                  </tr>
-                  <tr>
-                    <th>Categories</th>
-                  </tr>
-                  <tr>
-                    <td>1 Aces</td>
-                    <td>
-                      <input
-                        type="button"
-                        id="player1aces"
-                        class="bc1"
-                        value="0"
-                        onclick="end(`aces`);"
-                      />
-                      <input
-                        type="text"
-                        id="player1acesresult"
-                        class="dbc1"
-                        value="0"
-                        style="display: none"
-                        disabled
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>2 Deuces</td>
-                    <td>
-                      <input
-                        type="button"
-                        id="player1deuces"
-                        class="bc1"
-                        value="0"
-                        onclick="end(`deuces`);"
-                      />
-                      <input
-                        type="text"
-                        id="player1deucesresult"
-                        class="dbc1"
-                        value="0"
-                        style="display: none"
-                        disabled
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>3 Threes</td>
-                    <td>
-                      <input
-                        type="button"
-                        id="player1threes"
-                        class="bc1"
-                        value="0"
-                        onclick="end(`threes`);"
-                      />
-                      <input
-                        type="text"
-                        id="player1threesresult"
-                        class="dbc1"
-                        value="0"
-                        style="display: none"
-                        disabled
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>4 Fours</td>
-                    <td>
-                      <input
-                        type="button"
-                        id="player1fours"
-                        class="bc1"
-                        value="0"
-                        onclick="end(`fours`);"
-                      />
-                      <input
-                        type="text"
-                        id="player1foursresult"
-                        class="dbc1"
-                        value="0"
-                        style="display: none"
-                        disabled
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>5 Fives</td>
-                    <td>
-                      <input
-                        type="button"
-                        id="player1fives"
-                        class="bc1"
-                        value="0"
-                        onclick="end(`fives`);"
-                      />
-                      <input
-                        type="text"
-                        id="player1fivesresult"
-                        class="dbc1"
-                        value="0"
-                        style="display: none"
-                        disabled
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>6 Sixes</td>
-                    <td>
-                      <input
-                        type="button"
-                        id="player1sixes"
-                        class="bc1"
-                        value="0"
-                        onclick="end(`sixes`);"
-                      />
-                      <input
-                        type="text"
-                        id="player1sixesresult"
-                        class="dbc1"
-                        value="0"
-                        style="display: none"
-                        disabled
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <th
-                      style="background-color: rgba(62, 65, 62); color: white"
-                    >
-                      subtotal
-                    </th>
-                    <td class="subtotal">
-                      <input
-                        type="text"
-                        class="subtotalinput"
-                        id="player1result"
-                        value="0/63"
-                        disabled
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <th
-                      style="background-color: rgba(62, 65, 62); color: white"
-                    >
-                      +35 Bonus
-                    </th>
-                    <td class="subtotal">
-                      <input
-                        type="text"
-                        class="subtotalinput"
-                        id="player1bonus"
-                        disabled
-                      />
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>Choice</td>
-                    <td>
-                      <input
-                        type="button"
-                        id="player1choice"
-                        class="bc1"
-                        value="0"
-                        onclick="end(`choice`);"
-                      />
-                      <input
-                        type="text"
-                        id="player1choiceresult"
-                        class="dbc1"
-                        value="0"
-                        style="display: none"
-                        disabled
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>4 of a Kind</td>
-                    <td>
-                      <input
-                        type="button"
-                        id="player14ofakind"
-                        class="bc1"
-                        value="0"
-                        onclick="end(`4ofakind`);"
-                      />
-                      <input
-                        type="text"
-                        id="player14ofakindresult"
-                        class="dbc1"
-                        value="0"
-                        style="display: none"
-                        disabled
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Full House</td>
-                    <td>
-                      <input
-                        type="button"
-                        id="player1fullhouse"
-                        class="bc1"
-                        value="0"
-                        onclick="end(`fullhouse`);"
-                      />
-                      <input
-                        type="text"
-                        id="player1fullhouseresult"
-                        class="dbc1"
-                        value="0"
-                        style="display: none"
-                        disabled
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>S. Straight</td>
-                    <td>
-                      <input
-                        type="button"
-                        id="player1sstraight"
-                        class="bc1"
-                        value="0"
-                        onclick="end(`sstraight`);"
-                      />
-                      <input
-                        type="text"
-                        id="player1sstraightresult"
-                        class="dbc1"
-                        value="0"
-                        style="display: none"
-                        disabled
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>L. Straight</td>
-                    <td>
-                      <input
-                        type="button"
-                        id="player1lstraight"
-                        class="bc1"
-                        value="0"
-                        onclick="end(`lstraight`);"
-                      />
-                      <input
-                        type="text"
-                        id="player1lstraightresult"
-                        class="dbc1"
-                        value="0"
-                        style="display: none"
-                        disabled
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Yacht</td>
-                    <td>
-                      <input
-                        type="button"
-                        id="player1yacht"
-                        class="bc1"
-                        value="0"
-                        onclick="end(`yacht`);"
-                      />
-                      <input
-                        type="text"
-                        id="player1yachtresult"
-                        class="dbc1"
-                        value="0"
-                        style="display: none"
-                        disabled
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <th>Total</th>
-                    <td>
-                      <input
-                        type="text"
-                        class="totalbc1"
-                        id="player1total"
-                        value="0"
-                        disabled
-                      />
-                    </td>
-                  </tr>
-                </table>
+                <div id="leftscore">
+                  <h1>점수판</h1>
+                  <table id="scoretable">
+                    <tr>
+                      <td><br /></td>
+                      <td rowspan="2" id="player1" class="player">player</td>
+                    </tr>
+                    <tr>
+                      <th>Categories</th>
+                    </tr>
+                    <tr>
+                      <td>1 Aces</td>
+                      <td>
+                        <input
+                          type="button"
+                          id="player1aces"
+                          class="bc1"
+                          value="0"
+                          onclick="end(`aces`);"
+                        />
+                        <input
+                          type="text"
+                          id="player1acesresult"
+                          class="dbc1"
+                          value="0"
+                          style="display: none"
+                          disabled
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>2 Deuces</td>
+                      <td>
+                        <input
+                          type="button"
+                          id="player1deuces"
+                          class="bc1"
+                          value="0"
+                          onclick="end(`deuces`);"
+                        />
+                        <input
+                          type="text"
+                          id="player1deucesresult"
+                          class="dbc1"
+                          value="0"
+                          style="display: none"
+                          disabled
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>3 Threes</td>
+                      <td>
+                        <input
+                          type="button"
+                          id="player1threes"
+                          class="bc1"
+                          value="0"
+                          onclick="end(`threes`);"
+                        />
+                        <input
+                          type="text"
+                          id="player1threesresult"
+                          class="dbc1"
+                          value="0"
+                          style="display: none"
+                          disabled
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>4 Fours</td>
+                      <td>
+                        <input
+                          type="button"
+                          id="player1fours"
+                          class="bc1"
+                          value="0"
+                          onclick="end(`fours`);"
+                        />
+                        <input
+                          type="text"
+                          id="player1foursresult"
+                          class="dbc1"
+                          value="0"
+                          style="display: none"
+                          disabled
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>5 Fives</td>
+                      <td>
+                        <input
+                          type="button"
+                          id="player1fives"
+                          class="bc1"
+                          value="0"
+                          onclick="end(`fives`);"
+                        />
+                        <input
+                          type="text"
+                          id="player1fivesresult"
+                          class="dbc1"
+                          value="0"
+                          style="display: none"
+                          disabled
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>6 Sixes</td>
+                      <td>
+                        <input
+                          type="button"
+                          id="player1sixes"
+                          class="bc1"
+                          value="0"
+                          onclick="end(`sixes`);"
+                        />
+                        <input
+                          type="text"
+                          id="player1sixesresult"
+                          class="dbc1"
+                          value="0"
+                          style="display: none"
+                          disabled
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <th
+                        style="background-color: rgba(62, 65, 62); color: white"
+                      >
+                        subtotal
+                      </th>
+                      <td class="subtotal">
+                        <input
+                          type="text"
+                          class="subtotalinput"
+                          id="player1result"
+                          value="0/63"
+                          disabled
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <th
+                        style="background-color: rgba(62, 65, 62); color: white"
+                      >
+                        +35 Bonus
+                      </th>
+                      <td class="subtotal">
+                        <input
+                          type="text"
+                          class="subtotalinput"
+                          id="player1bonus"
+                          disabled
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Choice</td>
+                      <td>
+                        <input
+                          type="button"
+                          id="player1choice"
+                          class="bc1"
+                          value="0"
+                          onclick="end(`choice`);"
+                        />
+                        <input
+                          type="text"
+                          id="player1choiceresult"
+                          class="dbc1"
+                          value="0"
+                          style="display: none"
+                          disabled
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>4 of a Kind</td>
+                      <td>
+                        <input
+                          type="button"
+                          id="player14ofakind"
+                          class="bc1"
+                          value="0"
+                          onclick="end(`4ofakind`);"
+                        />
+                        <input
+                          type="text"
+                          id="player14ofakindresult"
+                          class="dbc1"
+                          value="0"
+                          style="display: none"
+                          disabled
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Full House</td>
+                      <td>
+                        <input
+                          type="button"
+                          id="player1fullhouse"
+                          class="bc1"
+                          value="0"
+                          onclick="end(`fullhouse`);"
+                        />
+                        <input
+                          type="text"
+                          id="player1fullhouseresult"
+                          class="dbc1"
+                          value="0"
+                          style="display: none"
+                          disabled
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>S. Straight</td>
+                      <td>
+                        <input
+                          type="button"
+                          id="player1sstraight"
+                          class="bc1"
+                          value="0"
+                          onclick="end(`sstraight`);"
+                        />
+                        <input
+                          type="text"
+                          id="player1sstraightresult"
+                          class="dbc1"
+                          value="0"
+                          style="display: none"
+                          disabled
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>L. Straight</td>
+                      <td>
+                        <input
+                          type="button"
+                          id="player1lstraight"
+                          class="bc1"
+                          value="0"
+                          onclick="end(`lstraight`);"
+                        />
+                        <input
+                          type="text"
+                          id="player1lstraightresult"
+                          class="dbc1"
+                          value="0"
+                          style="display: none"
+                          disabled
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Yacht</td>
+                      <td>
+                        <input
+                          type="button"
+                          id="player1yacht"
+                          class="bc1"
+                          value="0"
+                          onclick="end(`yacht`);"
+                        />
+                        <input
+                          type="text"
+                          id="player1yachtresult"
+                          class="dbc1"
+                          value="0"
+                          style="display: none"
+                          disabled
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>Total</th>
+                      <td>
+                        <input
+                          type="text"
+                          class="totalbc1"
+                          id="player1total"
+                          value="0"
+                          disabled
+                        />
+                      </td>
+                    </tr>
+                  </table>
+                </div>
               </div>
-              <div id="centerup">
-                <table id="dicetable" style="text-align: center">
-                  <tr>
-                    <td style="padding: 30px">keep</td>
-                    <td class="setdice1">
-                      <input
-                        type="button"
-                        class="result"
-                        id="result1"
-                        onclick="backdice(1)"
-                      />
-                    </td>
-                    <td class="setdice1">
-                      <input
-                        type="button"
-                        class="result"
-                        id="result2"
-                        onclick="backdice(2)"
-                      />
-                    </td>
-                    <td class="setdice1">
-                      <input
-                        type="button"
-                        class="result"
-                        id="result3"
-                        onclick="backdice(3)"
-                      />
-                    </td>
-                    <td class="setdice1">
-                      <input
-                        type="button"
-                        class="result"
-                        id="result4"
-                        onclick="backdice(4)"
-                      />
-                    </td>
-                    <td class="setdice1">
-                      <input
-                        type="button"
-                        class="result"
-                        id="result5"
-                        onclick="backdice(5)"
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="padding: 30px">dice</td>
-                    <td class="setdice2">
-                      <input
-                        type="button"
-                        class="dice"
-                        id="dice1"
-                        onclick="dice(1)"
-                      />
-                    </td>
-                    <td class="setdice2">
-                      <input
-                        type="button"
-                        class="dice"
-                        id="dice2"
-                        onclick="dice(2)"
-                      />
-                    </td>
-                    <td class="setdice2">
-                      <input
-                        type="button"
-                        class="dice"
-                        id="dice3"
-                        onclick="dice(3)"
-                      />
-                    </td>
-                    <td class="setdice2">
-                      <input
-                        type="button"
-                        class="dice"
-                        id="dice4"
-                        onclick="dice(4)"
-                      />
-                    </td>
-                    <td class="setdice2">
-                      <input
-                        type="button"
-                        class="dice"
-                        id="dice5"
-                        onclick="dice(5)"
-                      />
-                    </td>
-                  </tr>
-                </table>
+              <div id="centercontent">
+                <div id="centerup">
+                  <table id="dicetable" style="text-align: center">
+                    <tr>
+                      <td style="padding: 30px">keep</td>
+                      <td class="setdice1">
+                        <input
+                          type="button"
+                          class="result"
+                          id="result1"
+                          onclick="backdice(1)"
+                          value="0"
+                        />
+                      </td>
+                      <td class="setdice1">
+                        <input
+                          type="button"
+                          class="result"
+                          id="result2"
+                          onclick="backdice(2)"
+                          value="0"
+                        />
+                      </td>
+                      <td class="setdice1">
+                        <input
+                          type="button"
+                          class="result"
+                          id="result3"
+                          onclick="backdice(3)"
+                          value="0"
+                        />
+                      </td>
+                      <td class="setdice1">
+                        <input
+                          type="button"
+                          class="result"
+                          id="result4"
+                          onclick="backdice(4)"
+                          value="0"
+                        />
+                      </td>
+                      <td class="setdice1">
+                        <input
+                          type="button"
+                          class="result"
+                          id="result5"
+                          onclick="backdice(5)"
+                          value="0"
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 30px">dice</td>
+                      <td class="setdice2">
+                        <input
+                          type="button"
+                          class="dice"
+                          id="dice1"
+                          onclick="dice(1)"
+                          value="1"
+                        />
+                      </td>
+                      <td class="setdice2">
+                        <input
+                          type="button"
+                          class="dice"
+                          id="dice2"
+                          onclick="dice(2)"
+                          value="1"
+                        />
+                      </td>
+                      <td class="setdice2">
+                        <input
+                          type="button"
+                          class="dice"
+                          id="dice3"
+                          onclick="dice(3)"
+                          value="1"
+                        />
+                      </td>
+                      <td class="setdice2">
+                        <input
+                          type="button"
+                          class="dice"
+                          id="dice4"
+                          onclick="dice(4)"
+                          value="1"
+                        />
+                      </td>
+                      <td class="setdice2">
+                        <input
+                          type="button"
+                          class="dice"
+                          id="dice5"
+                          onclick="dice(5)"
+                          value="1"
+                        />
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+                <div id="centerdown">
+                  <div id="btnstart">
+                    <input
+                      type="button"
+                      id="start"
+                      value="주사위 굴리기"
+                      onclick="start()"
+                    /><input id="chance" disabled />
+                    <input
+                      type="button"
+                      id="confirmation"
+                      value="확정"
+                      onclick="number(0)"
+                    />
+                  </div>
+                  <div style="color: gray">
+                    족보가 맞는데도 안나올경우 확정버튼을 눌러주세요<br />※주의
+                    확정버튼을 누를경우 기회가 0으로 됩니다.
+                  </div>
+                </div>
               </div>
               <div id="rightside">
                 <div id="board">
                   <h1 class="title">High Score</h1>
-                  <table class="table table-hover">
+                  <table id="highscore" class="table table-hover">
                     <thead class="table-dark">
                       <tr>
                         <th scope="col">등수</th>
@@ -534,31 +625,11 @@
                   </table>
                 </div>
               </div>
-              <div id="centerdown">
-                <div>
-                  <input
-                    type="button"
-                    id="start"
-                    value="주사위 굴리기"
-                    onclick="start()"
-                  /><input id="chance" disabled />
-                  <input
-                    type="button"
-                    id="confirmation"
-                    value="확정"
-                    onclick="number(0)"
-                  />
-                </div>
-                <div style="color: gray">
-                  족보가 맞는데도 안나올경우 확정버튼을 눌러주세요<br />※주의
-                  확정버튼을 누를경우 기회가 0으로 됩니다.
-                </div>
-              </div>
             </section>
             <footer><img src="./img/검은 화면.jpg" /></footer>
           </div>
         </div>
-        <script src="./yacht_js.js"></script>
+        <script src="./javascript/game.js"></script>
       </body>
     </html>
   </body>

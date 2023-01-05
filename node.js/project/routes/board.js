@@ -11,6 +11,8 @@ const sql = {
   scoreselect: "select * from project.score order by yscore desc limit 0,10",
   loginprocess: "select * from login where userid = ? and userpw = ?",
   cntclick: "update board set count=IFNULL(count,0)+1 where no =?",
+  checkid: "select userid from login",
+  signup: "insert into login set ?",
 };
 //조회수 증가
 router.put("/count/:no", (req, res) => {
@@ -21,7 +23,24 @@ router.put("/count/:no", (req, res) => {
     res.json(results);
   });
 });
+//회원가입 아이디 중복확인
+router.get("/checkid", function (req, res) {
+  pool.query(sql.checkid, function (err, results, fields) {
+    if (err) {
+      console.log(err);
+    }
+    console.log(results);
+    res.json(results);
+  });
+});
+//아이디, 비밀번호 등록
+router.post("/signup", function (req, res) {
+  pool.query(sql.signup, req.body, function (err, results, fields) {
+    console.log(err);
 
+    res.json({ result: "success" });
+  });
+});
 //로그인 프로세스
 router.post("/login", function (req, res) {
   let username = req.body.userid;
@@ -99,7 +118,6 @@ router.post("/", function (req, res) {
   if (req.session.userid) {
     //작성자 등록
     req.body.userid = req.session.userid;
-    console.log(req.body);
     pool.query(sql.insert, req.body, function (err, results, fields) {
       console.log(err);
       res.json({ result: "yes" });
