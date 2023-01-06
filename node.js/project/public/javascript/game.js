@@ -1,17 +1,11 @@
 const url = "/game";
 highscoreupt();
 
-//점수판 갱신
-
-//행 추가
-
-// 세션id찾아오기
-
+//점수판 갱신 & 갱신된 점수 강조
 function addRow() {
   fetch("/game/find")
     .then((res) => res.json())
     .then((res) => {
-      console.log(res);
       const resid = res;
       for (let i = 0; i < 10; i++) {
         const yscore = document.querySelectorAll(".yscore")[i];
@@ -19,15 +13,14 @@ function addRow() {
         if (parseInt(player1total) > parseInt(yscore.innerText)) {
           const table = document.getElementById("highscore");
           // 행(Row) 삭제
-
           table.deleteRow(10);
-
           // 새 행(Row) 추가 (테이블 중간에)
           const newRow = table.insertRow(parseInt([i]) + 1);
           // 새 행(Row)에 Cell 추가
           const newCell1 = newRow.insertCell(0);
           const newCell2 = newRow.insertCell(1);
           const newCell3 = newRow.insertCell(2);
+          //새 행(Row)에 강조 추가(속성 추가)
           let aa = document.querySelector("#scoreboard").querySelectorAll("tr")[
             i
           ];
@@ -38,18 +31,18 @@ function addRow() {
           bb.setAttribute("class", "rank");
           // Cell에 텍스트 추가 - 세션 아이디와 현재점수
           newCell1.innerText = "";
-
           newCell2.innerText = resid;
           newCell3.innerText = player1total;
           break;
         }
       }
+      //등수 재생성
       for (let i = 0; i < 10; i++) {
         document.querySelectorAll(".rank")[i].innerText = parseInt([i]) + 1;
-        console.log(document.querySelectorAll(".rank")[i].innerText);
       }
     });
 }
+//점수판 리셋
 function highscoreupt() {
   fetch(url)
     .then((res) => res.json())
@@ -69,10 +62,10 @@ function highscoreupt() {
       }
     });
 }
+//점수 등록
 function sendscore() {
   let total = Number(document.getElementById("player1total").value);
   let data = { yscore: total };
-  console.log(data);
   fetch(url, {
     method: "post",
     headers: { "Content-Type": "application/json" },
@@ -89,7 +82,6 @@ function sendscore() {
     });
 }
 // 다이스 랜덤 배열변수
-
 let arrDice = new Array();
 
 // 족보 배열
@@ -161,11 +153,11 @@ let yacht2 = 1;
 document.getElementById("chance").value = num + "회 / 3회";
 document.getElementById("player" + play).style.color = "red";
 document.getElementById("player" + play).style.fontWeight = "bold";
-
+// 확정시 굴리기 비활성화
 document.querySelector("#confirmation").addEventListener("click", () => {
   document.getElementById("start").disabled = true;
 });
-
+// 커서 변경
 function movein(char) {
   document.getElementById("player" + play + char).style.cursor = "pointer";
 }
@@ -288,10 +280,11 @@ function end(char) {
   Dice3 = 1;
   Dice4 = 1;
   Dice5 = 1;
+  // 행 갱신
   setTimeout(function () {
     addRow();
   }, 500);
-
+  //점수판 업데이트
   highscoreupt();
 
   // 상단 족보 end표시
@@ -578,10 +571,8 @@ function end(char) {
       }
     }
   }
-  //점수 userid 보내기 함수
-  //테이블 갱신
 }
-
+//주사위 굴리기
 function start() {
   for (let i = 1; i < 6; i++) {
     document.getElementById("result" + i).disabled = false;

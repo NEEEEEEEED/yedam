@@ -5,7 +5,7 @@ Update();
 
 readonlytoggle();
 
-//단건조회
+//게시글조회
 const URLSearch = new URLSearchParams(location.search);
 const no = URLSearch.get("no");
 fetch(`${url}/${no}`, { method: "get" })
@@ -22,6 +22,17 @@ fetch(`${url}/${no}`, { method: "get" })
     contenttitle.value = res.title;
     content.value = res.content;
   });
+
+//수정, 버튼 토글
+function readonlytoggle() {
+  const updcheck = document.querySelector("#updcheck");
+  updcheck.addEventListener("click", function () {
+    document.getElementById("contenttitle").readOnly = false;
+    document.getElementById("content").readOnly = false;
+    document.getElementById("btnupd").style.display = "";
+    document.getElementById("updcheck").style.display = "none";
+  });
+}
 
 //삭제
 function listdelete() {
@@ -50,14 +61,5 @@ function Update() {
       .then((res) => {
         contenttitle.focus();
       });
-  });
-}
-function readonlytoggle() {
-  const updcheck = document.querySelector("#updcheck");
-  updcheck.addEventListener("click", function () {
-    document.getElementById("contenttitle").readOnly = false;
-    document.getElementById("content").readOnly = false;
-    document.getElementById("btnupd").style.display = "";
-    document.getElementById("updcheck").style.display = "none";
   });
 }

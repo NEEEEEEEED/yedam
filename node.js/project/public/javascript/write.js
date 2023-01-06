@@ -27,6 +27,7 @@ function insert() {
       });
   });
 }
+
 //입력값 확인
 function inputCheck() {
   if (contenttitle.value == "") {

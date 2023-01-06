@@ -19,8 +19,8 @@ var app = express();
 // app.set("views", path.join(__dirname, "views"));
 // app.set("view engine", "jade");
 //view ejs 사용
-/* app.set("view engine", "ejs");
-app.set("views", "./views"); */
+app.set("view engine", "ejs");
+app.set("views", "./views");
 
 app.use(logger("dev"));
 app.use(express.json());

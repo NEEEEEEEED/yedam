@@ -1,79 +1,139 @@
 * {
-    background-color: rgba(230, 228, 213);
-    font-size: 15px;
-  }
+  margin: 0 auto;
+}
+header {
+  background-color: rgb(16, 16, 16);
+}
+img {
+  width: 800px;
+  height: 200px;
+}
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+}
 
-  .setdice1,
-  .setdice2 {
-    padding: 30px;
-  }
+#header {
+  margin-top: 1%;
+  margin-bottom: 3%;
+}
+.nav {
+  background-color: black;
+  --bs-nav-link-hover-color: red;
+  padding-left: 7%;
+  padding-right: 7%;
+}
+.nav-link {
+  color: white;
+  font-size: x-large;
+  padding: 10px;
+  font-weight: bold;
+}
 
-  .result,
-  .dice {
-    padding: 30px;
-    font-size: 20px;
-    font-weight: 1000;
-  }
+h1 {
+  text-align: center;
+  margin-bottom: 15px;
+  margin-top: 10px;
+  margin-left: 20px;
+}
+section {
+  width: 80%;
+  height: 620px;
+}
+.page-link {
+  color: black;
+}
+input {
+  background-color: rgba(255, 255, 255, 0);
+  border: none;
+}
+#leftscore {
+  margin-top: 10%;
+}
+#lefttable {
+  float: left;
 
-  table {
-    border-collapse: collapse;
-  }
+  margin: 0 auto;
+}
+#player1result,
+#player1total,
+#player1bonus {
+  color: red;
+  font-weight: bold;
+  text-align: center;
+}
+#centercontent {
+  width: 50%;
+  height: 100%;
+  float: left;
+  margin: 0 auto;
+  overflow: hidden;
+}
+#centerup {
+  margin-top: 20%;
+}
+#dicetable td {
+  border: none;
+}
+.setdice1,
+.setdice2 {
+  padding: 30px;
+}
+.result,
+.dice {
+  font-weight: 1000;
+  font-size: 20px;
+}
+.dbc1 {
+  text-align: center;
+}
+.bc1 {
+  display: inline-block;
+}
+#centerdown {
+  clear: both;
+}
+#dicetable {
+  border-collapse: separate;
+  border-spacing: 10px;
+}
+#start {
+  border: 1px solid black;
+}
+#chance {
+  width: 70px;
+}
+#confirmation {
+  border: 1px solid black;
+}
+#dicetable td {
+  border: 1px solid black;
+}
 
-  .subtotal {
-    background-color: rgba(166, 168, 165);
-  }
+#scoretable tr,
+td,
+th {
+  border: 1px solid black;
+}
+#rightside {
+  width: 25%;
+  float: left;
 
-  .subtotalinput {
-    border: none;
-    background-color: rgba(166, 168, 165);
-    color: white;
-    text-align: right;
-  }
+  position: relative;
+}
+#board {
+  margin-top: 10%;
+}
+.table {
+  width: 100%;
+  height: 100%;
 
-  input {
-    border: none;
-    font-size: 20px;
-    text-align: center;
-    color: black;
-    outline: none;
-  }
+  margin-bottom: 0px;
+}
 
-  .dbc1,
-  .dbc2 {
-    font-weight: 1000;
-  }
-
-  .bc1,
-  .bc2 {
-    width: 100%;
-    background-color: rgba(255, 253, 96);
-    font-weight: 1000;
-  }
-
-  .turn {
-    text-align: center;
-  }
-
-  .player {
-    text-align: center;
-  }
-
-  .totalbc1,
-  .totalbc2 {
-    font-weight: 1000;
-  }
-
-  #confirmation,
-  #start {
-    border: 2px solid gray;
-    border-radius: 20px;
-    padding: 10px;
-  }
-
-  #confirmation:hover,
-  #start:hover {
-    border: 2px solid black;
-    border-radius: 20px;
-    background-color: ivory;
-    cursor: pointer;
-  }
+footer {
+  clear: both;
+  margin-top: 10px;
+  background-color: black;
+}

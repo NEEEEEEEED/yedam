@@ -14,6 +14,7 @@ const sql = {
   checkid: "select userid from login",
   signup: "insert into login set ?",
 };
+
 //조회수 증가
 router.put("/count/:no", (req, res) => {
   pool.query(sql.cntclick, req.params.no, function (err, results, fields) {
@@ -23,16 +24,17 @@ router.put("/count/:no", (req, res) => {
     res.json(results);
   });
 });
+
 //회원가입 아이디 중복확인
 router.get("/checkid", function (req, res) {
   pool.query(sql.checkid, function (err, results, fields) {
     if (err) {
       console.log(err);
     }
-    console.log(results);
     res.json(results);
   });
 });
+
 //아이디, 비밀번호 등록
 router.post("/signup", function (req, res) {
   pool.query(sql.signup, req.body, function (err, results, fields) {
@@ -41,11 +43,11 @@ router.post("/signup", function (req, res) {
     res.json({ result: "success" });
   });
 });
+
 //로그인 프로세스
 router.post("/login", function (req, res) {
   let username = req.body.userid;
   let password = req.body.userpw;
-
   if (username && password) {
     // id와 pw가 입력되었는지 확인
     pool.query(
@@ -71,23 +73,12 @@ router.post("/login", function (req, res) {
     document.location.href="/logIn.html";</script>`);
   }
 });
+
 //로그아웃
 router.post("/logout", (req, res, next) => {
   req.session.destroy();
   res.redirect(`../login.html`);
 });
-//이거 열면 안됨 점수판 board에서 가져오게됨
-//만약 board.html을 쓸려면 열긴해야함
-/* //전체조회
-router.get("/", function (req, res) {
-  pool.query(sql.select, function (err, results, fields) {
-    if (err) {
-      console.log(err);
-    }
-
-    res.json(results);
-  });
-}); */
 
 //단건조회
 router.get("/:no", (req, res) => {
@@ -103,7 +94,7 @@ router.get("/:no", (req, res) => {
   });
 });
 
-//점수조회
+//점수판 조회
 router.get("/", function (req, res) {
   pool.query(sql.scoreselect, function (err, results, fields) {
     if (err) {
@@ -113,7 +104,7 @@ router.get("/", function (req, res) {
   });
 });
 
-//등록
+//게시글 등록
 router.post("/", function (req, res) {
   if (req.session.userid) {
     //작성자 등록
@@ -127,7 +118,7 @@ router.post("/", function (req, res) {
   }
 });
 
-//수정
+//게시글 수정
 router.put("/:no", (req, res) => {
   let data = [req.body, req.params.no];
   pool.query(sql.update, data, function (err, results, fields) {
@@ -138,7 +129,7 @@ router.put("/:no", (req, res) => {
   });
 });
 
-//삭제
+//게시글 삭제
 router.delete("/:no", function (req, res) {
   const no = req.params.no;
   pool.query(sql.delete, no, function (err, results, fields) {
@@ -150,3 +141,16 @@ router.delete("/:no", function (req, res) {
 });
 
 module.exports = router;
+
+//이거 열면 안됨 점수판 board에서 가져오게됨
+//만약 board.html을 쓸려면 열긴해야함
+/* //전체조회
+router.get("/", function (req, res) {
+  pool.query(sql.select, function (err, results, fields) {
+    if (err) {
+      console.log(err);
+    }
+
+    res.json(results);
+  });
+}); */

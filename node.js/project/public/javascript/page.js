@@ -1,14 +1,13 @@
 const url = "/page";
 const boardurl = "/board";
 
-//페이징 function
+//페이징 처리
 const URLSearch = new URLSearchParams(location.search);
 const pageNum = URLSearch.get("pageNum");
 fetch(`${url}/${pageNum}`)
   .then((res) => res.json())
   .then((res) => {
     let resarray = res.contents;
-
     resarray.sort(function compare(a, b) {
       return b.no - a.no;
     });
@@ -22,7 +21,6 @@ fetch(`${url}/${pageNum}`)
           <td>${change(res.contents[i].count)}</td>
         </tr>
         `;
-
       list.innerHTML += tr;
     }
     for (let i = res.pnStart; i <= res.pnEnd; i++) {
@@ -34,11 +32,7 @@ fetch(`${url}/${pageNum}`)
       pagination.innerHTML += pagebtn;
     }
   });
-//
-//해당 pageNum 찾기
-/* function searchpage(pageNum) {
-  location.href = "./page.html?pageNum=" + pageNum;
-} */
+
 //해당 no 찾기, 조회수
 function readlist(no) {
   fetch("/board/count/" + no, {
@@ -49,7 +43,8 @@ function readlist(no) {
       location.href = "./reading.html?no=" + no;
     });
 }
-//null 변환
+
+//조회수 null 변환
 function change(value) {
   if (value == null) {
     return 0;

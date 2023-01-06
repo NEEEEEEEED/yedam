@@ -1,12 +1,11 @@
 const url = "/board";
 
 highscore();
-
+//점수판 조회
 function highscore() {
   fetch(url)
     .then((res) => res.json())
     .then((res) => {
-      console.log(res);
       for (let i = 0; i < res.length; i++) {
         /* let array = res;
         array.sort(function compare(a, b) {

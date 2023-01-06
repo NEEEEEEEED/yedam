@@ -9,11 +9,10 @@ document.querySelector("#idcheck").addEventListener("click", () => {
     fetch("/board/checkid")
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
         for (let i = 0; i < res.length; i++) {
           let arrid = res[i].userid;
           if (arrid == userid.value) {
-            alert("중복된 아이디 입니다.");
+            alert("이미 존재하는 아이디 입니다.");
             document.querySelector("#userid").value = "";
             document.querySelector("#userid").focus();
             return false;
@@ -24,8 +23,8 @@ document.querySelector("#idcheck").addEventListener("click", () => {
       });
   }
 });
-//유저 등록
 
+//유저 등록
 document.querySelector("#signup").addEventListener("click", function () {
   if (userpw.value == checkpw.value) {
     let data = {
@@ -42,7 +41,6 @@ document.querySelector("#signup").addEventListener("click", function () {
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
         if (res.result == "success") {
           alert("가입을 축하합니다.");
           window.close();

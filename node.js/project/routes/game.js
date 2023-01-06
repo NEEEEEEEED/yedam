@@ -21,19 +21,6 @@ router.get("/find", function (req, res) {
   });
 });
 
-//userid, yscore 등록
-router.post("/", function (req, res) {
-  if (req.session.userid) {
-    req.body.userid = req.session.userid;
-    console.log(req.body);
-    pool.query(sql.insert, req.body, function (err, results, fields) {
-      console.log(err);
-      res.json({ result: "yes" });
-    });
-  } else {
-    res.json({ result: "no" });
-  }
-});
 //점수판 조회
 router.get("/", function (req, res) {
   pool.query(sql.scoreselect, function (err, results, fields) {
@@ -44,3 +31,16 @@ router.get("/", function (req, res) {
   });
 });
 module.exports = router;
+
+//userid, yscore 등록
+router.post("/", function (req, res) {
+  if (req.session.userid) {
+    req.body.userid = req.session.userid;
+    pool.query(sql.insert, req.body, function (err, results, fields) {
+      console.log(err);
+      res.json({ result: "yes" });
+    });
+  } else {
+    res.json({ result: "no" });
+  }
+});
