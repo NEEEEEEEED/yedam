@@ -128,9 +128,9 @@ public class Day02 {
 					b = number;
 				}
 			}
-			for(int i=2; i<=b; i++) {
+			for(int i=1; i<=9; i++) {
 	            for (int j=a; j<=b; j++) {
-	                System.out.print(i +"*"+ j +"="+ i*j+"\t"); 
+	                System.out.print(j +"*"+ i +"="+ i*j+"\t"); 
 	            }
 	            System.out.println(); 
 	        }
