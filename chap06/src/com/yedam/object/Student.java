@@ -8,7 +8,7 @@ public class Student {
 	// 나이
 	int age;
 	// 학교이름 = default 설정
-	String schoolName ;
+	final String schoolName = "예담대";
 	int kor;
 	int eng;
 	int math;
@@ -26,6 +26,24 @@ public class Student {
 	// 생성자 -> 매개변수, 객체 생성시 실행문 정의.
 	Student() {
 		System.out.println("객체 생성 중");
+	}
+
+	Student(String name) {
+		this.name = name;
+	}
+
+	Student(int age) {
+		if (age > 0) {	
+			this.age = age;
+		}	else {			
+			this.age = 0;
+		}
+	}
+
+	Student(String name, int age) {
+//		this.age = age;
+		this(age);
+		this.name = name;
 	}
 
 	// 메소드, 객체를 생성 후 기능을 사용할 때 정의하는 부분

@@ -46,8 +46,8 @@ public class Application {
 					stdAry[i].name = sc.nextLine();
 					System.out.println("나이>");
 					stdAry[i].age = Integer.parseInt(sc.nextLine());
-					System.out.println("학교>");
-					stdAry[i].schoolName = sc.nextLine();
+//					System.out.println("학교>");
+//					stdAry[i].schoolName = sc.nextLine();
 
 					// 성적 입력
 					System.out.println("국어>");
@@ -108,7 +108,7 @@ public class Application {
 				break;
 			}
 		}
-
+		
 	}
 
 }
