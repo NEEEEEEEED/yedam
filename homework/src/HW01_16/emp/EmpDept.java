@@ -11,10 +11,11 @@ public class EmpDept extends Employee {
 	}
 
 	// 메서드
+	
 	public String getDepartmentName() {
 		return departmentName;
 	}
-
+	@Override
 	public void getInformation() {
 		// 이름과 연봉, 부서를 출력하는 기능
 		System.out.printf("이름:%s 연봉:%d 부서:%s \n", name, payRoll,departmentName);
