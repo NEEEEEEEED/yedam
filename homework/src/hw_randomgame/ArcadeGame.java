@@ -1,4 +1,4 @@
-package hw0117.q1;
+package hw_randomgame;
 
 public class ArcadeGame implements Keypad {
 	// 필드

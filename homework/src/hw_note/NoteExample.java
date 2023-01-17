@@ -1,4 +1,4 @@
-package hw0117.q2;
+package hw_note;
 
 public class NoteExample {
 

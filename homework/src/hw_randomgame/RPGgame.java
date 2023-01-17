@@ -1,4 +1,4 @@
-package hw0117.q1;
+package hw_randomgame;
 
 public class RPGgame implements Keypad {
 	// 필드

@@ -1,4 +1,4 @@
-package hw0117.q2;
+package hw_note;
 
 public interface Notebook {
 	// 상수
