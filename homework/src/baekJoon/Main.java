@@ -4,7 +4,132 @@ import java.util.*;
 
 public class Main {
 	public static void main(String args[]) {
-		//baekjoon10809
+		// 1.문자열 뒤집기 (split, charAt)
+//		Scanner sc = new Scanner(System.in);
+//		
+//		String str = sc.nextLine();
+//		//split
+//		String[] strAry = str.split("");
+//		
+//		for(int i = (strAry.length-1); i >= 0; i--) {
+//			System.out.print(strAry[i]);
+//		}
+		// 풀이 String.charAt()
+//		for(int i = str.length()-1; i>=0; i--) {
+//			System.out.print(str.charAt(i));
+//		}
+
+		// 2. 입력한 문자열 개수 세기
+		// 중복되는 문자가 몇개 존재하는가
+		// a~z 26개 필요
+		// 0~25 각 인덱스가 어떤 문자를 의미하는지 생각
+		// 풀이
+//		Scanner sc = new Scanner(System.in);
+//		int charAry[] = new int[26];
+//		System.out.println("문자열 입력>");
+//		// 입력문자 소문자로
+//		String str2 = sc.nextLine().toLowerCase();
+//
+//		for (int i = 0; i < str2.length(); i++) {
+//			char ch = str2.charAt(i);
+//			// 다른방식 subString
+////			str2.substring(i, i+1)
+//			// 예)aabbccdd
+//			// 첫번째 문자 a를 꺼내왔다.
+//			charAry[ch - 'a']++;
+//		}
+//		for (int i = 0; i < charAry.length; i++) {
+//			if(charAry[i] != 0) {
+//				System.out.println((char)(97+i)+ " " + charAry[i] +"개");
+//			}
+//		}
+		//
+//		Scanner sc = new Scanner(System.in);
+//		// a-z 담을 배열
+//		int[] arr = new int[26];
+//		// 모든 배열에 0 입력
+//		for (int i = 0; i < arr.length; i++) {
+//			arr[i] = 0;
+//		}
+//		// 비교할 문자열
+//		String S = sc.nextLine();
+//		// 문자열 char 변환 후 인덱스별 비교
+//		for (int i = 0; i < S.length(); i++) {
+//			// 확인할 문자열 char 변환
+//			char ch = S.charAt(i);
+//			// arr[ch - 97] 소문자 영어 위치(인덱스 0 부터 a를 의미하도록 만듬)
+//			arr[ch - 97]+=1;
+//		}
+//		char a = 'a';
+//		for (int i = 0; i < arr.length; i++) {
+//			String change ="";
+//			change = Character.toString(a+i);
+//			if(arr[i] != 0) {
+//				System.out.print(change+" "+ arr[i]+"개, ");
+//			} 
+//		}
+
+		// 3.입력한 생년월일 6자리 나이가 몇살인지 출력
+		// 계산식(하드코딩 올해만 사용가능)
+		// 1)1900년 이후 2023년 이전 출생 ->(23-태어난 년도)+1
+		// 2)1922년 이후 2000년 이전 출생 ->(123-태어난 년도)
+//		Scanner sc = new Scanner(System.in);
+//
+//		System.out.println("생년월일>");
+//		String birth = sc.nextLine();
+//
+//		int birthNo = Integer.parseInt(birth.substring(0, 2));
+//
+//		if (birthNo <= 23) {// 2000-2023 출생
+//			System.out.println("나이 : " + ((23 - birthNo) + 1));
+//		} else if (birthNo > 23) {// 1922-1999 출생
+//			System.out.println("나이 : " + (123 - birthNo));
+//		}
+		// String
+		// 메모리 5개 사용
+//		String a = "a";
+//		a += "a";
+//		a += "a";
+//		a += "a";
+//		a += "a";
+//		// 힙 영역에서는 문자열이 늘어날 수록 기존 문자열에 더해지는 것이 아닌 새로운 문자열이 생성(a, aa, aaa ,aaaa ,aaaaa
+//		// 5개의 문자열이 생성)
+//		// 문자열이 늘어날 수록 힙영역 메모리를 많이 차지함
+//
+//		// 문자열 자주 교체될 경우 String builder나 Stringbuffer를 사용하는 것이 좋음
+//		// Stringbuilder
+//		// String 단점 보완
+//		// 메모리 1개 사용
+//		StringBuilder sb = new StringBuilder();
+//		sb.append("aaa");
+//		sb.append(11);
+//		sb.append(false);
+//		System.out.println(sb);
+
+		// 계산식(일반화)
+		// Calendar, date(simpledateFormat)=>오늘 년도,날짜 사용
+		// 1)1900년 이후 2023년 이전 출생 ->
+		// 2)1923년 이후 2000년 이전 출생 ->
+
+//		Scanner sc = new Scanner(System.in);
+//		
+//		String age = sc.nextLine();
+//		String year;
+//		Calendar cal = Calendar.getInstance();
+//		int currentYear = cal.get(Calendar.YEAR);
+//		
+//		String[] strAry = age.split("");
+//		if(strAry[0].equals("0")) {
+//			year = 20 + strAry[0] + strAry[1];
+//		} else {
+//			year = 19 + strAry[0] + strAry[1];
+//		}
+//		
+//		int birth = Integer.parseInt(year);
+//		int result = currentYear-birth+1;
+//		System.out.println(result+"살");
+
+		// baekjoon10809
 //		Scanner sc = new Scanner(System.in);
 //		// a-z 담을 배열
 //		int[] arr = new int[26];
@@ -39,7 +164,7 @@ public class Main {
 //			 sum += Integer.parseInt(strAry[i]);
 //		}
 //		System.out.println(sum);
-		
+
 //		// baekjoon4344
 //		Scanner sc = new Scanner(System.in);
 //		// 테스트 케이스 개수 C 입력
