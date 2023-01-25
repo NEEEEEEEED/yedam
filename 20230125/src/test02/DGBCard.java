@@ -11,6 +11,8 @@ public class DGBCard extends Card {
 
 	@Override
 	public void showCardInfo() {
+		//코드 재사용성
+		//super.showCardInfo();
 		System.out.printf("카드정보 (Card NO : %s, 유효기간 : %s, CVC : %s\n담당직원 - %s, %s\n", cardNo, validDate, cvc, cardStaff,
 				company);
 	}
