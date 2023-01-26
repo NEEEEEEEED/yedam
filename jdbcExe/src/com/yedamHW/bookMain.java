@@ -56,9 +56,9 @@ public class bookMain {
 	}
 	public void deleteList() {
 		System.out.println("삭제할 날짜 입력> ");
-		int id = sc.nextInt();
+		String rentalDate = sc.nextLine();
 
-		if (dao.deleteEmp(id) > 0) {
+		if (dao.deleteBook(rentalDate) > 0) {
 			System.out.println("삭제 성공");
 		} else {
 			System.out.println("처리중 에러");
