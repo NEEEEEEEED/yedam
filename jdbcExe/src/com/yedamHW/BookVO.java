@@ -1,9 +1,9 @@
 package com.yedamHW;
 
 public class BookVO {
-	private int ISBN;
+	private int no;
 	private String bookName;
-	private String bookCount;
+	private String Deadline;
 	private String userName;
 	private String userPhone;
 	private String rentalDate;
@@ -11,11 +11,11 @@ public class BookVO {
 	
 	
 	
-	public int getISBN() {
-		return ISBN;
+	public int getNo() {
+		return no;
 	}
-	public void setISBN(int iSBN) {
-		ISBN = iSBN;
+	public void setNo(int no) {
+		this.no = no;
 	}
 	public String getBookName() {
 		return bookName;
@@ -23,11 +23,11 @@ public class BookVO {
 	public void setBookName(String bookName) {
 		this.bookName = bookName;
 	}
-	public String getBookCount() {
-		return bookCount;
+	public String getDeadline() {
+		return Deadline;
 	}
-	public void setBookCount(String bookCount) {
-		this.bookCount = bookCount;
+	public void setBDeadline(String Deadline) {
+		this.Deadline = Deadline;
 	}
 	public String getUserName() {
 		return userName;
@@ -55,9 +55,39 @@ public class BookVO {
 	}
 	@Override
 	public String toString() {
-		return "bookVO [ISBN=" + ISBN + ", bookName=" + bookName + ", bookCount=" + bookCount + ", userName=" + userName
-				+ ", userPhone=" + userPhone + ", rentalDate=" + rentalDate + ", returnDate=" + returnDate + "]";
+		if(rentalDate != null) {
+			rentalDate = rentalDate.substring(0, 10);
+		} else {
+			rentalDate = " - ";
+		}
+		if(returnDate != null) {
+			returnDate = returnDate.substring(0, 10);
+		} else {
+			returnDate = " - ";
+		}
+		if(Deadline != null) {
+			Deadline = Deadline.substring(0, 10);
+		} else {
+			Deadline = " - ";
+		}
+		if(userName != null) {
+		} else {
+			userName = " - ";
+		}
+		if(userPhone != null) {
+		} else {
+			userPhone = " - ";
+		}
+		return " 도서번호: " + no + "| 도서제목: " + bookName +  "| 대출자: " + userName
+				+ "| 연락처: " + userPhone + "| 대출일: " + rentalDate + "| 반납일: " + returnDate + " 반납예정일: " + Deadline ;
 	}
+	public String bookList() {
+		return " 도서번호 : " + no + "   | 책 제목 : " + bookName
+			 + "\n-------------------------------------------";
+	}
+	
+	
+	
 	
 	
 }
