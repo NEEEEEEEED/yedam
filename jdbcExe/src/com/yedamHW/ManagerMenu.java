@@ -241,10 +241,10 @@ public class ManagerMenu {
 
 	// 삭제
 	public void deleteList() {
-		System.out.println("삭제할 번호 입력> ");
-		int no = sc.nextInt();
+		System.out.println("삭제할 날짜 입력> ");
+		String deadline = sc.next();
 
-		if (dao.deleteBook(no) > 0) {
+		if (dao.deleteBook(deadline) > 0) {
 			System.out.println("삭제 성공");
 		} else {
 			System.out.println("삭제할 데이터가 없습니다.");

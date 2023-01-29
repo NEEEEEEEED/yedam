@@ -6,9 +6,9 @@ import java.util.Scanner;
 public class UserMenu {
 	Scanner sc = new Scanner(System.in);
 	BookDAO dao = new BookDAO();
-	
+
 	public void exe() {
-		
+
 		while (true) {
 			UserMenu();
 			int UserMenu = sc.nextInt();
@@ -22,43 +22,45 @@ public class UserMenu {
 				break;
 			}
 		}
-		
+
 	}
+
 	private void searchBook() {
-		
+
 		List<BookVO> list = dao.possibleRentBook();
-		for (BookVO book : list) {
-			System.out.println(book.bookList());
-		}		
+		if (list.isEmpty() == true) {
+			System.out.println("대여 가능한 책이 없습니다.");
+		} else {
+			for (BookVO book : list) {
+				System.out.println(book.bookList());
+			}
+		}
 	}
+
 	private void rentBook() {
 		// 책 대여
 		System.out.print("[책 대출] 도서번호 입력> ");
 		int no = sc.nextInt();
 		sc.nextLine();
-		
+
 		System.out.print("[책 대출] 대여자 이름 입력> ");
 		String userName = sc.next();
-		
+
 		System.out.print("[책 대출] 대여자 전화번호 입력 (EX)010-0000-0000)> ");
 		String userPhone = sc.next();
-		
 
 		if (dao.rentBook(no, userName, userPhone) > 0) {
 			System.out.println("[책 대출] 대출 처리 성공");
 		} else {
 			System.out.println("[책 대출] 처리중 에러");
 		}
-		
+
 	}
+
 	private void UserMenu() {
-		System.out.println
-		 ("========================================================================");
-		System.out.println
-		 ("                 1.책 대출     2.대여가능한 책 조회      0.이전 메뉴             ");
-		System.out.println
-		 ("========================================================================");
-		System.out.print
-		 ("메뉴 입력>> ");
+		System.out.println("========================================================================");
+		System.out.println("                 1.책 대출     2.대여가능한 책 조회      0.이전 메뉴             ");
+		System.out.println("========================================================================");
+		System.out.print("메뉴 입력>> ");
 	}
 }

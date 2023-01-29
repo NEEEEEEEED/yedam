@@ -163,7 +163,7 @@ public class BookDAO {
 
 	// 관리자 메뉴 - 4. 반납 (수정)
 	public int updateBook(int no) {
-		sql = "update book set return_date = sysdate where no = ?";
+		sql = "update book set return_date = to_char(sysdate,'yyyymmdd') where no = ?";
 		connect();
 		int r = 0;
 		try {
@@ -179,13 +179,13 @@ public class BookDAO {
 	}
 
 	// 관리자 메뉴 - 5. 삭제 (반납확인시)
-	public int deleteBook(int no) {
-		sql = "delete from book where return_date is not null and no = ? ";
+	public int deleteBook(String deadline) {
+		sql = "delete from book where return_date is not null and deadline = ? ";
 		connect();
 		int r = 0;
 		try {
 			psmt = conn.prepareStatement(sql);
-			psmt.setInt(1, no);
+			psmt.setString(1, deadline);
 
 			r = psmt.executeUpdate(); // 처리된 건수
 
@@ -197,8 +197,8 @@ public class BookDAO {
 
 	// 유저 메뉴 - 1. 책 대여
 	public int rentBook(int no, String userName, String userPhone) {
-		sql = "update book set u_name = ? , u_phone = ? , rental_date = sysdate"
-				+ ", deadline = sysdate + 7 where no = ?";
+		sql = "update book set u_name = ? , u_phone = ? , rental_date = to_char(sysdate,'yyyymmdd')"
+				+ ", deadline = to_char(sysdate + 7,'yyyymmdd') where no = ?";
 		connect();
 		int r = 0;
 		try {
