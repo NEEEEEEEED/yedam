@@ -42,8 +42,20 @@
             let btn = document.createElement("button");
             btn.innerHTML = "삭제";
             btn.addEventListener("click", function () {
-              console.log(this.parentElement.parentElement);
-              this.parentElement.parentElement.remove();
+              id = this.parentElement.parentElement.firstChild.innerText;
+              fetch("../empListJson?del_id=" + id, {
+                method: "DELETE",
+              })
+                .then((resolve) => resolve.json()) //가져온 값을 json으로 받음
+                .then((result) => {
+                  if (result.retCode == "Success") {
+                    alert("정상적으로 삭제");
+                    this.parentElement.parentElement.remove();
+                  } else if (result.retCode == "Fail") {
+                    alert("삭제중 오류 발생");
+                  }
+                })
+                .catch((reject) => console.log(reject));
             });
             td.append(btn);
             tr.append(td);

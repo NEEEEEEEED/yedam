@@ -12,6 +12,22 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/empListJson")
 public class EmpListJson extends HttpServlet {
 	
+	//제어의 역전(Inversion of Control; IoC)
+	@Override
+	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String id = req.getParameter("del_id"); // 요청페이지에서 del_id로 넘겨줘야함
+		EmpDAO  dao = new EmpDAO();
+		
+		if(dao.deleteEmp(Integer.parseInt(id))>0) {
+			//{"retCode" : "Success"}
+			resp.getWriter().print("{\"retCode\" : \"Success\"}");
+		} else {
+			//{retCode" : "fail"}
+			resp.getWriter().print("{\"retCode\" : \"Fail\"}");
+		};
+		
+	}
+	
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
