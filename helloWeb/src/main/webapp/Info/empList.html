@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>info/empList.html</title>
+  </head>
+  <body>
+    <h3>사원리스트</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>사원번호</th>
+          <th>이름</th>
+          <th>이메일</th>
+          <th>고용일</th>
+          <th>직무</th>
+          <th>삭제</th>
+        </tr>
+      </thead>
+      <tbody id="list"></tbody>
+    </table>
+
+    <script>
+      fetch("../empListJson")
+        .then((resolve) => resolve.json())
+        .then((result) => {
+          // console.log(result);
+          // 배열관련 메소드 : forEach, map, filter, reduce...
+          result.forEach(function (item, idx, arry) {
+            // DOM 요소 생성.
+            let titles = ["id", "firstName", "email", "hireDate", "job"];
+            //데이터 건수만큼 반복.
+            let tr = document.createElement("tr");
+            //columns 개수만큼 반복.
+            // console.log(item);
+            titles.forEach(function (title) {
+              let td = document.createElement("td");
+              td.innerText = item[title];
+              tr.append(td);
+            });
+            let td = document.createElement("td");
+            let btn = document.createElement("button");
+            btn.innerHTML = "삭제";
+            btn.addEventListener("click", function () {
+              console.log(this.parentElement.parentElement);
+              this.parentElement.parentElement.remove();
+            });
+            td.append(btn);
+            tr.append(td);
+            list.append(tr);
+          }); //result배열에 등록된 값의 갯수만큼 funcion()실행
+        })
+        .catch((reject) => {
+          console.log(reject);
+        });
+    </script>
+  </body>
+</html>
