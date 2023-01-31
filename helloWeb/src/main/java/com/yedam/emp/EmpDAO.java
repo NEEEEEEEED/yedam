@@ -23,7 +23,7 @@ public class EmpDAO {
 	// 쿼리문
 	String sql;
 	// db연결정보
-	String url = "jdbc:oracle:thin:@localhost:1521:xe";
+	String url = "jdbc:oracle:thin:@192.168.0.86:1521:xe";
 	String user = "hr";
 	String pass = "hr";
 
@@ -149,6 +149,28 @@ public class EmpDAO {
 		}
 		return r;
 	}
+	
+	// 전체 수정
+	public int modifyEmp(EmpVO vo) {
+		sql = "update emp_temp set last_name = ?, email =?, hire_date = ?, job_id =? where employee_id = ?";
+		connect();
+		int r = 0;
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, vo.getLastName());
+			psmt.setString(2, vo.getEmail());
+			psmt.setString(3, vo.getHireDate());
+			psmt.setString(4, vo.getJobId());
+			psmt.setInt(5, vo.getEmployeeId());
+
+			r = psmt.executeUpdate(); // 처리된 건수
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return r;
+	}
+	
 
 	// 삭제.
 	public int deleteEmp(int id) {
