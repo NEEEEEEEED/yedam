@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>util/findEl.html</title>
+    <style>
+      div.outer {
+        background-color: yellow;
+        width: 510px;
+        height: 300px;
+      }
+      div.inner {
+        background-color: aquamarine;
+        display: inline-block;
+        border: 1px solid black;
+        margin: 2px;
+        height: 30px;
+        width: 120px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="list" class="outer"></div>
+    <input type="text" id="search" onkeyup="enterkey()" />
+    <button id="btn">제거하기</button>
+    <button id="start">시작하기</button>
+    <div id="timer">30</div>
+
+    <script>
+      let words = `Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo perferendis, dolore quidem voluptatum, quam expedita eos incidunt repellendus sequi reiciendis dolor ad quo eligendi, molestiae similique. Libero voluptatum saepe praesentium?`;
+      let items = words.split(" ");
+      createWord();
+
+      document.getElementById("btn").addEventListener("click", deleteWord);
+      document.getElementById("start").addEventListener("click", timer);
+
+      function createWord() {
+        items.forEach((word) => {
+          let newDiv = document.createElement("div");
+          newDiv.setAttribute("class", "inner");
+          newDiv.innerText = word;
+          list.append(newDiv);
+        });
+      }
+
+      function deleteWord() {
+        let inputWord = document.getElementById("search").value;
+        let innerDiv = document.querySelectorAll("#list div");
+        innerDiv.forEach((div) => {
+          if (inputWord == div.innerText) {
+            div.remove();
+            document.getElementById("search").value = "";
+          }
+        });
+      }
+      function enterkey() {
+        if (window.event.keyCode == 13) {
+          // 엔터키가 눌렸을 때
+          deleteWord();
+          document.getElementById("search").value = "";
+          let innerDiv = document.querySelectorAll("#list div");
+          if (innerDiv.length == 0) {
+            createWord();
+          }
+        }
+      }
+      function timer() {
+        let timerDiv = document.getElementById("timer");
+        let sec = 30;
+
+        let itv = setInterval(() => {
+          if (sec == 0) {
+            alert("시간초과");
+            clearInterval(itv);
+            sec = 30;
+            timerDiv.style.color = "black";
+            timerDiv.innerText = sec;
+            return;
+          }
+          timerDiv.innerText = --sec;
+          if (timerDiv.innerText <= 10) {
+            timerDiv.style.color = "red";
+          }
+        }, 1000);
+      }
+    </script>
+  </body>
+</html>

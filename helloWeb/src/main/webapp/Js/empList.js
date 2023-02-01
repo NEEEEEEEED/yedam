@@ -2,16 +2,21 @@
  *
  */
 //목록 출력
+let totalAry = []; //전체목록을 담아둘 용도
 fetch("../empListJson")
   .then((resolve) => resolve.json())
   .then((result) => {
     // console.log(result);
-    // 배열관련 메소드 : forEach, map, filter, reduce...
-    result.forEach(function (item) {
-      //tr 생성
-      let tr = makeTr(item);
-      list.append(tr);
-    }); //result배열에 등록된 값의 갯수만큼 funcion()실행
+    // 배열관련 메소드 : forEach, map, filter, reduce..
+    localStorage.setItem("total", result.length);
+    totalAry = result;
+    // result.forEach(function (item) {
+    //   //tr 생성
+    //   let tr = makeTr(item);
+    //   list.append(tr);
+    // }); //result배열에 등록된 값의 갯수만큼 funcion()실행
+    showPages(12);
+    employeeList(12);
   })
   .catch((reject) => {
     console.log(reject);
@@ -30,44 +35,61 @@ document
   .querySelector("#delSelectedBtn")
   .addEventListener("click", deleteCheckedFnc);
 
-//체크된 tr 삭제
-function deleteCheckedFnc() {
-  let oks = [];
-  let ngs = [];
-  document
-    .querySelectorAll('tbody input[type = "checkbox"]:checked')
-    .forEach((chk) => {
-      let id = chk.parentElement.parentElement.firstChild.innerText;
-      fetch("../empListJson?del_id=" + id, {
-        method: "DELETE",
-      })
-        .then((resolve) => resolve.json()) //가져온 값을 json으로 받음
-        .then((result) => {
-          if (result.retCode == "Success") {
-            oks.push(id);
-            chk.parentElement.parentElement.remove();
-          } else if (result.retCode == "Fail") {
-            ngs.push(id);
-          }
-        })
-        .catch((reject) => console.log(reject));
-    });
-  setTimeout(() => {
-    if (oks.length) {
-      alert(oks.join(", ") + " 를 삭제했습니다");
-    } else {
-      alert("no");
-    }
-  }, 700);
-}
+//체크된 tr 삭제(다중 삭제) + 삭제 메세지 띄우기
+// fetch API -> 비동기방식처리 => async await 동기식
+async function deleteCheckedFnc() {
+  let ids = [];
+  let chks = document.querySelectorAll(
+    '#list input[type = "checkbox"]:checked'
+  );
 
-//전체선택 체크박스.
+  for (let i = 0; i < chks.length; i++) {
+    let id = chks[i].parentElement.parentElement.firstChild.innerText;
+    let resp = await fetch("../empListJson?del_id=" + id, {
+      method: "DELETE",
+    });
+    let json = await resp.json();
+    console.log(json);
+    ids.push(json);
+  }
+  processAfterFetch(ids);
+}
+// 화면처리
+function processAfterFetch(ary = []) {
+  let targetTr = document.querySelectorAll("#list tr");
+
+  targetTr.forEach((tr) => {
+    for (let i = 0; i < ary.length; i++) {
+      if (tr.children[0].innerText == ary[i].id) {
+        if (ary[i].retCode == "Success") {
+          tr.remove(); // Success
+        } else {
+          tr.setAttribute("class", "delError");
+        }
+      }
+    }
+  });
+}
+// 전체선택 체크박스.
 function allCheckChange() {
-  console.log(this.checked);
   //tbody에 있는 체크박스 선택.
   document.querySelectorAll('tbody input[type = "checkbox"]').forEach((chk) => {
     chk.checked = this.checked;
   });
+}
+
+//전체 선택 체크박스와 개별 체크박스 동기화
+function checkAllFnc() {
+  //전체 건수, 선택 건수 비교
+  let allTr = document.querySelectorAll("tbody#list tr");
+  let chkTr = document.querySelectorAll('tbody input[type="checkbox"]:checked');
+  //전체,선택 건수가 같으면 전체 선택 박스 체크 아니면 체크x
+  if (allTr.length == chkTr.length) {
+    document.querySelector('thead input[type="checkbox"]').checked = true;
+  } else {
+    document.querySelector('thead input[type="checkbox"]').checked = false;
+  }
+  console.log(allTr.length, chkTr.length);
 }
 
 //데이터 한건 활용해서 tr 요소를 생성
@@ -103,7 +125,7 @@ function makeTr(item) {
   //체크박스
   td = document.createElement("td");
   let checkbox = document.createElement("input");
-  checkbox.addEventListener("change", changeAllbox);
+  checkbox.addEventListener("click", checkAllFnc);
   checkbox.setAttribute("type", "checkbox");
   td.append(checkbox);
   tr.append(td);
@@ -219,7 +241,6 @@ function updateFunc() {
   })
     .then((resolve) => resolve.text())
     .then((result) => {
-      console.log(result);
       if (result.indexOf("Success") != -1) {
         let newTr = makeTr({
           id: id,
@@ -290,4 +311,36 @@ function addMemberFnc(ev) {
         alert("처리중 에러!");
       }
     });
+}
+
+//페이징
+
+function showPages(curPage = 5) {
+  let endPage = Math.ceil(curPage / 10) * 10;
+  let startPage = endPage - 9;
+  let paging = document.getElementById("paging");
+  let realEnd = Math.ceil(255 / 10);
+  endPage = endPage > realEnd ? realEnd : endPage;
+
+  for (let i = startPage; i <= endPage; i++) {
+    let aTag = document.createElement("a");
+    aTag.href = "index.html";
+    aTag.innerText = i;
+    aTag.style.margin = "10px";
+    paging.append(aTag);
+  }
+}
+
+//사원목록
+function employeeList(curPage = 5) {
+  let end = curPage * 10;
+  let start = end - 9;
+  let newList = totalAry.filter((emp, idx) => {
+    return idx + 1 >= start && idx < end;
+  });
+  let lst = document.getElementById("list");
+  newList.forEach((emp) => {
+    let tr = makeTr(emp);
+    lst.append(tr);
+  });
 }
