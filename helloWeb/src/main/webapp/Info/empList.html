@@ -4,8 +4,42 @@
     <meta charset="UTF-8" />
     <title>info/empList.html</title>
     <style>
+      * {
+        margin: 0 auto;
+      }
+      h3 {
+        text-align: center;
+      }
       tr.delError {
         background-color: gray;
+      }
+      .center {
+        text-align: center;
+        margin-top: 5px;
+      }
+
+      .pagination {
+        display: inline-block;
+      }
+
+      .pagination a {
+        color: black;
+        float: left;
+        padding: 6px 12px;
+        text-decoration: none;
+        transition: background-color 0.3s;
+        border: 1px solid #ddd;
+        margin: 0 4px;
+      }
+
+      .pagination a.active {
+        background-color: #4caf50;
+        color: white;
+        border: 1px solid #4caf50;
+      }
+
+      .pagination a:hover:not(.active) {
+        background-color: #ddd;
       }
     </style>
   </head>
@@ -50,6 +84,11 @@
       </table>
     </form>
     <h3>사원리스트</h3>
+    <select class="right" name="pageCnt" id="pageCnt">
+      <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="25">25</option>
+    </select>
     <table border="1">
       <thead>
         <tr>
@@ -65,7 +104,9 @@
       </thead>
       <tbody id="list"></tbody>
     </table>
-	<div id="paging"></div>
+    <div class="center">
+      <div id="paging" class="pagination"></div>
+    </div>
     <script src="../Js/empList.js"></script>
   </body>
 </html>

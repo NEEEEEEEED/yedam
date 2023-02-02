@@ -15,8 +15,7 @@ fetch("../empListJson")
     //   let tr = makeTr(item);
     //   list.append(tr);
     // }); //result배열에 등록된 값의 갯수만큼 funcion()실행
-    showPages(12);
-    employeeList(12);
+    changeListCnt();
   })
   .catch((reject) => {
     console.log(reject);
@@ -34,6 +33,10 @@ document
 document
   .querySelector("#delSelectedBtn")
   .addEventListener("click", deleteCheckedFnc);
+
+document.querySelector("#pageCnt").addEventListener("change", changeListCnt);
+
+// document.querySelector("select").addEventListener("change", changeListCnt());
 
 //체크된 tr 삭제(다중 삭제) + 삭제 메세지 띄우기
 // fetch API -> 비동기방식처리 => async await 동기식
@@ -89,7 +92,6 @@ function checkAllFnc() {
   } else {
     document.querySelector('thead input[type="checkbox"]').checked = false;
   }
-  console.log(allTr.length, chkTr.length);
 }
 
 //데이터 한건 활용해서 tr 요소를 생성
@@ -314,27 +316,73 @@ function addMemberFnc(ev) {
 }
 
 //페이징
-
-function showPages(curPage = 5) {
+function showPages(curPage = 1) {
+  //초기화
+  document.querySelectorAll("#paging a").forEach((item) => {
+    item.remove();
+  });
+  //전체건수
+  let curList = document.querySelector("select").value;
+  let totalCnt = parseInt(localStorage.getItem("total"));
   let endPage = Math.ceil(curPage / 10) * 10;
   let startPage = endPage - 9;
+  let realEnd = Math.ceil(totalCnt / curList);
+
+  //이전페이지, 다음 페이지 확인
+  let prev, next;
+  prev = startPage > 1 ? true : false;
+  next = endPage < realEnd ? true : false;
   let paging = document.getElementById("paging");
-  let realEnd = Math.ceil(255 / 10);
   endPage = endPage > realEnd ? realEnd : endPage;
+
+  //prev & next page
+  if (prev) {
+    let aTag = document.createElement("a");
+    aTag.addEventListener("click", showListPages);
+    aTag.href = "#";
+    aTag.innerHTML = `&laquo;`;
+    aTag.page = startPage - 1;
+    paging.append(aTag);
+  }
 
   for (let i = startPage; i <= endPage; i++) {
     let aTag = document.createElement("a");
-    aTag.href = "index.html";
+    aTag.addEventListener("click", showListPages);
+    aTag.href = "#";
     aTag.innerText = i;
-    aTag.style.margin = "10px";
+    aTag.page = i; //innerText 속성이 페이지 값으로 사용하면
+    if (i == curPage) {
+      aTag.className = "active"; //aTag.setAttribute("class", "active");
+    }
+    paging.append(aTag);
+  }
+
+  if (next) {
+    let aTag = document.createElement("a");
+    aTag.addEventListener("click", showListPages);
+    aTag.href = "#";
+    aTag.innerHTML = `&raquo;`;
+    aTag.page = endPage + 1;
     paging.append(aTag);
   }
 }
+//페이지 클릭 이동 이벤트
+function showListPages(ev) {
+  //페이지 번호
+  let page = ev.target.page;
+  showPages(page);
+  employeeList(page);
+}
 
 //사원목록
-function employeeList(curPage = 5) {
-  let end = curPage * 10;
-  let start = end - 9;
+function employeeList(curPage = 1) {
+  //초기화
+  let curemp = document.querySelector("select").value;
+  document.querySelectorAll("#list tr").forEach((item) => {
+    item.remove();
+  });
+  let end = curPage * curemp;
+  let start = end - curemp - 1;
   let newList = totalAry.filter((emp, idx) => {
     return idx + 1 >= start && idx < end;
   });
@@ -343,4 +391,9 @@ function employeeList(curPage = 5) {
     let tr = makeTr(emp);
     lst.append(tr);
   });
+}
+
+function changeListCnt() {
+  showPages(1);
+  employeeList(1);
 }
