@@ -1,5 +1,7 @@
 package co.yedam.emp.command;
 
+import java.util.Map;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +22,11 @@ public class EmpModFormControl implements Command {
 		EmpVO emp = service.getEmp(Integer.parseInt(id));
 		
 		req.setAttribute("searchVO", emp);
+		
+		service = new EmpServiceImpl();
+		Map<String,String> jobList = service.jobList();
+		
+		req.setAttribute("jobList", jobList);
 		
 		RequestDispatcher rd = req.getRequestDispatcher("WEB-INF/views/modify.jsp");
 		try {

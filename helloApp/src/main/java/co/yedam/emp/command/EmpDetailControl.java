@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import co.yedam.common.Command;
 import co.yedam.emp.service.EmpService;
 import co.yedam.emp.service.EmpServiceImpl;
+import co.yedam.emp.service.EmpServiceMybatis;
 import co.yedam.emp.vo.EmpVO;
 
 public class EmpDetailControl implements Command {
@@ -16,9 +17,9 @@ public class EmpDetailControl implements Command {
 	@Override
 	public void exec(HttpServletRequest req, HttpServletResponse resp) {
 		// 상세조회:service ->serviceImpl
-		String id = req.getParameter("eid");
+		String id = req.getParameter("id");
 		
-		EmpService service = new EmpServiceImpl();
+		EmpService service = new EmpServiceMybatis();
 		EmpVO emp = service.getEmp(Integer.parseInt(id));
 		
 		req.setAttribute("searchVO", emp);

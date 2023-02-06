@@ -35,12 +35,13 @@ String id = (String) request.getAttribute("loginId");
 	</tr>
 	<tr>
 		<th>HireDate</th>
-		<td><%=emp.getHireDate()%></td>
+		<td><%=emp.getHireDate().substring(0,10)%></td>
 	</tr>
 	<tr>
 		<td colspan="2" align="center">
 			<button class="btn btn-primary" onclick="location.href='empModForm.do?id=<%=emp.getEmployeeId()%>'">수정</button>
-			<button class="btn btn-warning">삭제</button>
+			<button class="btn btn-warning" onclick="location.href='empRemove.do?id=<%=emp.getEmployeeId()%>'">삭제</button>
+			<!-- empRemove.do>id=? removeEmp(int id)-->
 		</td>
 	</tr>
 

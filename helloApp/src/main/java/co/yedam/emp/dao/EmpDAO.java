@@ -2,7 +2,9 @@ package co.yedam.emp.dao;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import co.yedam.common.DAO;
 import co.yedam.emp.vo.EmpVO;
@@ -21,7 +23,8 @@ public class EmpDAO extends DAO {
 		sql="update emp_temp set first_name=?, "
 				+ "last_name=?,"
 				+ "email=?,"
-				+ "job_id=? "
+				+ "job_id=?, "
+				+ "hire_date=? "
 				+ "where employee_id = ?";
 		try {
 			psmt = conn.prepareStatement(sql);
@@ -29,7 +32,8 @@ public class EmpDAO extends DAO {
 			psmt.setString(2, emp.getLastName());
 			psmt.setString(3, emp.getEmail());
 			psmt.setString(4, emp.getJobId());
-			psmt.setInt(5, emp.getEmployeeId());
+			psmt.setString(5, emp.getHireDate());
+			psmt.setInt(6, emp.getEmployeeId());
 			
 			int r = psmt.executeUpdate();
 			return r;
@@ -120,5 +124,44 @@ public class EmpDAO extends DAO {
 			disconn();
 		}
 		return emps;
+	}
+	//직무 조회
+	public Map<String, String> jobList() {
+		Map<String, String> jobs = new HashMap<String, String>();
+		connect();
+		sql = "select job_id, job_title from jobs order by job_id";
+		
+		try {
+			psmt = conn.prepareStatement(sql);
+			rs = psmt.executeQuery();
+			
+			while(rs.next()) {
+				jobs.put(rs.getString("job_id"),rs.getString("job_title"));
+
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return jobs;
+	}
+	public int removeEmp(EmpVO empid) {
+		connect();
+		sql="delete from emp_temp where employee_id = ?";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, empid.getEmployeeId());
+			
+			int r = psmt.executeUpdate();
+			return r;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconn();
+		}
+		return 0;
 	}
 }

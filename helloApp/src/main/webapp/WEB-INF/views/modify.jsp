@@ -1,3 +1,5 @@
+<%@page import="java.util.Map.Entry"%>
+<%@page import="java.util.Map"%>
 <%@page import="co.yedam.emp.vo.EmpVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -6,6 +8,16 @@
 <%
 EmpVO emp = (EmpVO) request.getAttribute("searchVO");
 %>
+<%
+Map<String, String> list = (Map<String, String>) request.getAttribute("jobList");
+%>
+<script>
+function chageJob(){
+	document.getElementById("jobInput").value = document.querySelectorAll('#selectJob option')[document.getElementById("selectJob").selectedIndex].value
+}
+</script>
+
+
 <form action="empModify.do" method="post">
 	<table class="table">
 		<tr>
@@ -29,23 +41,29 @@ EmpVO emp = (EmpVO) request.getAttribute("searchVO");
 		</tr>
 		<tr>
 			<th>JobId</th>
-			<td><input type="text" name="jobId" value="<%=emp.getJobId()%>"></td>
-			<td><select name="job" class="form-select" aria-label="Default select example">
-        <option value="IT_PROG">개발자</option>
-        <option value="SA_REP" selected>영업사원</option>
-        <option value="SA_MAN">영업팀장</option>
-      </select></td>
+			<td>
+				<select id="selectJob" name="job" onchange=chageJob()>
+	       		<%
+				for (Entry<String, String> ent : list.entrySet()) {
+					if(ent.getKey().equals(emp.getJobId())){%>
+						<option value="<%=ent.getKey()%>" selected><%=ent.getKey()%></option>
+					<%}
+				%>
+				<option value="<%=ent.getKey()%>"><%=ent.getKey()%></option>
+				<%
+				}
+				%>
+      			</select></td>
 		</tr>
 
 		<tr>
 			<th>HireDate</th>
 			<td><input type="text" name="hireDate" readonly
-				value="<%=emp.getHireDate()%>"></td>
+				value="<%=emp.getHireDate().substring(0,10)%>"></td>
 		</tr>
 		<tr>
 			<td colspan="2" align="center">
 				<button type="submit" class="btn btn-primary">수정완료</button>
-				<button class="btn btn-warning">취소</button>
 			</td>
 		</tr>
 	</table>

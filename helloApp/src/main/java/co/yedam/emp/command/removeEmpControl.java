@@ -1,6 +1,8 @@
 package co.yedam.emp.command;
 
-import javax.servlet.RequestDispatcher;
+import java.io.IOException;
+
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -9,31 +11,18 @@ import co.yedam.emp.service.EmpService;
 import co.yedam.emp.service.EmpServiceImpl;
 import co.yedam.emp.vo.EmpVO;
 
-public class EmpModControl implements Command {
+public class removeEmpControl implements Command {
 
 	@Override
 	public void exec(HttpServletRequest req, HttpServletResponse resp) {
-		// service:int modEmp(EmpVO) -> serviceImpl: modEmp(EmpVO) -> dao:updateEmp(EmpVO)
-		RequestDispatcher rd = null;
-		
-		String id = req.getParameter("employeeId");
-		String firstName = req.getParameter("firstName");
-		String lastName = req.getParameter("lastName");
-		String job = req.getParameter("jobId");	
-		String mail = req.getParameter("email");
-		String hireDate = req.getParameter("hireDate");
+		String id = req.getParameter("id");
 
 		EmpVO emp = new EmpVO();
 		emp.setEmployeeId(Integer.parseInt(id));
-		emp.setLastName(lastName);
-		emp.setJobId(job);
-		emp.setFirstName(firstName);
-		emp.setEmail(mail);
-		emp.setHireDate(hireDate);
 		
 		EmpService service = new EmpServiceImpl();
-		int r = service.modEmp(emp);
-		
+		int r = service.removeEmp(emp);
+
 		try {
 			if(r>0) {
 				resp.sendRedirect("empList.do");
