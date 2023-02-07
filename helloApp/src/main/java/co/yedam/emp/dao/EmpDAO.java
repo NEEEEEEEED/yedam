@@ -148,12 +148,12 @@ public class EmpDAO extends DAO {
 		
 		return jobs;
 	}
-	public int removeEmp(EmpVO empid) {
+	public int removeEmp(int empid) {
 		connect();
 		sql="delete from emp_temp where employee_id = ?";
 		try {
 			psmt = conn.prepareStatement(sql);
-			psmt.setInt(1, empid.getEmployeeId());
+			psmt.setInt(1, empid);
 			
 			int r = psmt.executeUpdate();
 			return r;

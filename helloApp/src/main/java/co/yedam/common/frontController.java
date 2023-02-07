@@ -17,9 +17,14 @@ import co.yedam.emp.command.EmpForm;
 import co.yedam.emp.command.EmpList;
 import co.yedam.emp.command.EmpModControl;
 import co.yedam.emp.command.EmpModFormControl;
-import co.yedam.emp.command.LoginControl;
 import co.yedam.emp.command.ServiceControl;
 import co.yedam.emp.command.removeEmpControl;
+import co.yedam.member.command.LoginControl;
+import co.yedam.member.command.LoginFormControl;
+import co.yedam.member.command.LogoutControl;
+import co.yedam.member.command.SignUpControl;
+import co.yedam.member.command.SignUpFormControl;
+import co.yedam.member.command.memberListControl;
 
 @WebServlet("*.do")
 public class frontController extends HttpServlet {
@@ -32,9 +37,7 @@ public class frontController extends HttpServlet {
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		map.put("/main.do", new MainControl());
-		
 		map.put("/service.do", new ServiceControl());
-		map.put("/login.do", new LoginControl());
 		map.put("/errorPage.do", new ErrorPage());
 		// get : 목록출력(json)요청, post : 입력처리. 
 		map.put("/employee.do", new EmpControl());
@@ -47,13 +50,21 @@ public class frontController extends HttpServlet {
 		map.put("/empModify.do", new EmpModControl());	//수정처리페이지
 		map.put("/empRemove.do", new removeEmpControl());	//삭제
 		
+		//member 회원관리
+		map.put("/loginForm.do", new LoginFormControl());
+		map.put("/login.do", new LoginControl());
+		map.put("/logOut.do", new LogoutControl());
+		map.put("/signUpForm.do", new SignUpFormControl());
+		map.put("/signUp.do", new SignUpControl());
+		
+		map.put("/memberList.do", new memberListControl());
 		
 		
 	}
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.setCharacterEncoding("utf-8");
-		resp.setCharacterEncoding("utf-8");
+		req.setCharacterEncoding("utf-8");//요청 한글
+		resp.setCharacterEncoding("utf-8");//응답 한글
 		resp.setContentType("text/html;charset=utf-8");
 		
 		// url 패턴을 확인 => 요청페이지 찾기

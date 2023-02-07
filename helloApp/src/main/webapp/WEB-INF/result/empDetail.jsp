@@ -5,11 +5,11 @@
 
 <%
 EmpVO emp = (EmpVO) request.getAttribute("searchVO");
-Integer age = (Integer) request.getAttribute("myAge");
-String id = (String) request.getAttribute("loginId");
 %>
-<%=age%>,
-<%=id%>
+
+<%
+String id = (String) session.getAttribute("id");
+%>
 <h3>현재 페이지는 empDetail.do의 결과 empDetail.jsp입니다.</h3>
 <table class="table">
 
@@ -35,15 +35,30 @@ String id = (String) request.getAttribute("loginId");
 	</tr>
 	<tr>
 		<th>HireDate</th>
-		<td><%=emp.getHireDate().substring(0,10)%></td>
+		<td><%=emp.getHireDate().substring(0, 10)%></td>
 	</tr>
+	<%
+	if (id != null) {
+	%>
 	<tr>
 		<td colspan="2" align="center">
-			<button class="btn btn-primary" onclick="location.href='empModForm.do?id=<%=emp.getEmployeeId()%>'">수정</button>
-			<button class="btn btn-warning" onclick="location.href='empRemove.do?id=<%=emp.getEmployeeId()%>'">삭제</button>
-			<!-- empRemove.do>id=? removeEmp(int id)-->
+			<button class="btn btn-primary"
+				onclick="location.href='empModForm.do?id=<%=emp.getEmployeeId()%>'">수정</button>
+			<button class="btn btn-warning"
+				onclick="location.href='empRemove.do?id=<%=emp.getEmployeeId()%>'">삭제</button>
 		</td>
 	</tr>
+	<%
+	} else {
+	%>
+	<tr>
+		<td colspan="2" align="center">
+			<button class="btn btn-primary" onclick="">뒤로</button>
+		</td>
+	</tr>
+	<%
+	}
+	%>
 
 
 </table>

@@ -42,7 +42,7 @@ function chageJob(){
 		<tr>
 			<th>JobId</th>
 			<td>
-				<select id="selectJob" name="job" onchange=chageJob()>
+				<select id="selectJob" name="jobId" onchange=chageJob()>
 	       		<%
 				for (Entry<String, String> ent : list.entrySet()) {
 					if(ent.getKey().equals(emp.getJobId())){%>

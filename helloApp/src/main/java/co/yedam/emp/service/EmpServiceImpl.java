@@ -37,7 +37,9 @@ public class EmpServiceImpl implements EmpService {
 	}
 
 	@Override
-	public int removeEmp(EmpVO empid) {
-		return dao.removeEmp(empid);
+	public int removeEmp(int id) {
+		return dao.removeEmp(id);
 	}
+
+
 }

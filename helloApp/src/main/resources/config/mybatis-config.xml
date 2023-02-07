@@ -3,9 +3,15 @@
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+<!-- 자바와 db 형식 통일 ("_" 와 카멜방식) -->
 <settings>
 	<setting name="mapUnderscoreToCamelCase" value="true"/>
+	<setting name="jdbcTypeForNull" value="NULL" />
 </settings>
+<typeAliases>
+	<typeAlias type="co.yedam.member.vo.MemberVO" alias="MemberVO"/>
+</typeAliases>
+
 	<environments default="development">
 		<environment id="development">
 			<transactionManager type="JDBC" />
@@ -18,6 +24,8 @@
 		</environment>
 	</environments>
 	<mappers>
+		<!-- 방식 2가지 -->
 		<mapper resource="co/yedam/emp/mapper/EmpMapper.xml" />
+		<mapper class="co.yedam.member.mapper.MemberMapper" />
 	</mappers>
 </configuration>

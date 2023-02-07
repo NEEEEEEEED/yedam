@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import co.yedam.common.Command;
 import co.yedam.emp.service.EmpService;
 import co.yedam.emp.service.EmpServiceImpl;
+import co.yedam.emp.service.EmpServiceMybatis;
 import co.yedam.emp.vo.EmpVO;
 
 public class EmpModControl implements Command {
@@ -30,10 +31,11 @@ public class EmpModControl implements Command {
 		emp.setFirstName(firstName);
 		emp.setEmail(mail);
 		emp.setHireDate(hireDate);
+		System.out.println(emp);
 		
-		EmpService service = new EmpServiceImpl();
+		EmpService service = new EmpServiceMybatis();
 		int r = service.modEmp(emp);
-		
+		System.out.println(r);
 		try {
 			if(r>0) {
 				resp.sendRedirect("empList.do");

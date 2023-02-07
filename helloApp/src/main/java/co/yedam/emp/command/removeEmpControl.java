@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import co.yedam.common.Command;
 import co.yedam.emp.service.EmpService;
 import co.yedam.emp.service.EmpServiceImpl;
+import co.yedam.emp.service.EmpServiceMybatis;
 import co.yedam.emp.vo.EmpVO;
 
 public class removeEmpControl implements Command {
@@ -17,11 +18,9 @@ public class removeEmpControl implements Command {
 	public void exec(HttpServletRequest req, HttpServletResponse resp) {
 		String id = req.getParameter("id");
 
-		EmpVO emp = new EmpVO();
-		emp.setEmployeeId(Integer.parseInt(id));
 		
-		EmpService service = new EmpServiceImpl();
-		int r = service.removeEmp(emp);
+		EmpService service = new EmpServiceMybatis();
+		int r = service.removeEmp(Integer.parseInt(id));
 
 		try {
 			if(r>0) {

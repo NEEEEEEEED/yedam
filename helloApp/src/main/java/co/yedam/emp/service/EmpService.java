@@ -12,5 +12,5 @@ public interface EmpService {
 	public EmpVO getEmp(int empId); //조회
 	public int modEmp(EmpVO emp); //수정처리
 	public Map<String,String> jobList(); //직무조회
-	public int removeEmp(EmpVO empid); //삭제
+	public int removeEmp(int id); //삭제
 }
