@@ -3,11 +3,12 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.yedam.member.mapper.MemberMapper">
+	<!-- parameterType 생략가능, resultType select에서 생략불가 -->
 	<select id="login" resultType="MemberVO">
 		select * from members where member_id=#{memberId} and member_pw=#{memberPw}
 	</select>
 
-	<insert id="addMember" parameterType="MemberVO">
+	<insert id="addMember" >
 		insert 
 		into Members (member_id,member_pw,member_name,member_phone,member_addr, responsibility, image) 
 		values (#{memberId},#{memberPw},#{memberName},#{memberPhone},#{memberAddr},'user',#{image})
@@ -15,6 +16,10 @@
 
 	<select id="memberList" resultType="MemberVO">
 		select * from members order by member_id
+	</select>
+	
+	<select id="getMember" resultType="MemberVO">
+		select * from members where member_id = #{memberId}
 	</select>
 
 </mapper>

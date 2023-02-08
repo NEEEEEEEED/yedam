@@ -44,7 +44,11 @@
 				%>
 				<a
 					class="list-group-item list-group-item-action list-group-item-light p-3"
-					href="empForm.do">사원등록페이지</a> <a
+					href="empForm.do">사원등록페이지</a> 
+				<a
+					class="list-group-item list-group-item-action list-group-item-light p-3"
+					href="myPageForm.do">마이페이지</a> 
+				<a
 					class="list-group-item list-group-item-action list-group-item-light p-3"
 					href="logOut.do">로그아웃</a>
 
@@ -54,8 +58,7 @@
 
 				<a
 					class="list-group-item list-group-item-action list-group-item-light p-3"
-					href="loginForm.do">로그인</a> 
-				<a
+					href="loginForm.do">로그인</a> <a
 					class="list-group-item list-group-item-action list-group-item-light p-3"
 					href="signUpForm.do">회원가입</a>
 				<%
@@ -64,10 +67,8 @@
 
 				<a
 					class="list-group-item list-group-item-action list-group-item-light p-3"
-					href="memberList.do">회원목록</a> 
-				<a
-					class="list-group-item list-group-item-action list-group-item-light p-3"
-					href="#!">Status</a>
+					href="memberList.do">회원목록</a>
+
 			</div>
 		</div>
 		<!-- Page content wrapper-->

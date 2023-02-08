@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.yedam.emp.mapper.EmpMapper">
-	<!-- id 메소드 이름/ resultType 반환 타입/ parameterType -->
+	<!-- id 메소드 이름/ resultType DB에서 받을때 타입/ parameterType DB로 보낼때 타입-->
 	<!-- 전체조회 -->
 	<select id="empList" resultType="co.yedam.emp.vo.EmpVO">
 		select * from emp_temp order by

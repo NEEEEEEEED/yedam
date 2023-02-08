@@ -25,6 +25,7 @@ import co.yedam.member.command.LogoutControl;
 import co.yedam.member.command.SignUpControl;
 import co.yedam.member.command.SignUpFormControl;
 import co.yedam.member.command.memberListControl;
+import co.yedam.member.command.myPageFormControl;
 
 @WebServlet("*.do")
 public class frontController extends HttpServlet {
@@ -58,7 +59,7 @@ public class frontController extends HttpServlet {
 		map.put("/signUp.do", new SignUpControl());
 		
 		map.put("/memberList.do", new memberListControl());
-		
+		map.put("/myPageForm.do", new myPageFormControl());
 		
 	}
 	@Override
