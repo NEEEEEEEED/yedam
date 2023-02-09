@@ -33,7 +33,7 @@ public class LoginControl implements Command {
 				session.setAttribute("id", rvo.getMemberId());
 				session.setAttribute("name", rvo.getMemberName());
 				
-				resp.sendRedirect("empList.do");
+				resp.sendRedirect("noticeList.do");
 				
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -46,6 +46,9 @@ public class LoginControl implements Command {
 				e.printStackTrace();
 			}
 		}
+
+		
+		return;
 	}
 
 }

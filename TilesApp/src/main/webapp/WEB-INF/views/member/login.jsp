@@ -1,11 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <h3>현재 페이지는 loginForm.do의 결과 login.jsp 입니다.</h3>
-<%String msg = (String) request.getAttribute("result"); %>
-<%if(msg != null) { %>
-	<div><%=msg %></div>
-<%} %>
+<c:if test="${result != null }">
+	<c:out value="${result }"></c:out>
+</c:if>
 <form action="login.do" method="post">
 	<table class="table">
 		<tr>

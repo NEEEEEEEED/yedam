@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.yedam.member.command.*;
 import com.yedam.notice.command.*;
-
 
 
 public class FrontController extends HttpServlet {
@@ -33,6 +33,19 @@ public class FrontController extends HttpServlet {
 		map.put("/noticeDetail.do", new NoticeDetail()); // 글 상세
 		map.put("/noticeForm.do", new NoticeForm()); // 글 등록폼
 		map.put("/noticeAdd.do", new NoticeAdd()); // 글 등록
+		
+		//댓글
+		map.put("/replyList.do", new ReplyList()); //댓글 조회
+		map.put("/removeReply.do", new removeReply()); //댓글 삭제
+		map.put("/addReply.do", new addReply());//댓글등록
+		
+		//회원관련
+		map.put("/loginForm.do",new LoginForm());//로그인화면
+		map.put("/login.do",new Login());//로그인처리
+//		map.put("/myPage.do",new MyPage());//mypage
+		map.put("/myPageForm.do",new myPageFormControl());//mypage
+		map.put("/logOut.do", new LogoutControl());
+		map.put("/modifyMember.do", new modifyMember());
 	}
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -53,6 +66,9 @@ public class FrontController extends HttpServlet {
 				rd.forward(req, resp);
 			} else if(viewPage.endsWith(".do")) {
 				resp.sendRedirect(viewPage);
+			} else if(viewPage.endsWith(".json")) {
+				resp.setContentType("text/json;charset=utf-8");
+				resp.getWriter().print(viewPage.substring(0,viewPage.length()-5));
 			}
 			
 	}
