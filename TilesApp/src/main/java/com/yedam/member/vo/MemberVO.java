@@ -11,4 +11,5 @@ public class MemberVO {
 	private String memberAddr;
 	private String responsibility;
 	private String image;
+	private String attachFile;
 }

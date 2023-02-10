@@ -8,12 +8,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.yedam.common.Command;
 
-public class MyPage implements Command {
+public class memberManage implements Command {
 
 	@Override
 	public String exec(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		return "member/mypage.tiles";
+		
+		
+		return "admin/memberManage.tiles";
 	}
 
 }

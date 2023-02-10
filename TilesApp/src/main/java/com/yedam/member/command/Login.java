@@ -25,17 +25,18 @@ public class Login implements Command {
 		member.setMemberPw(mpw);
 		
 		MemberService service = new MemberServiceMybatis();
-		MemberVO rvo = service.login(member);
+		MemberVO mvo = service.login(member);
 		
 		String link ="";
-		if(rvo != null) {
+		if(mvo != null) {
 			
 				//세션에 로그인 아이디 담기
 				HttpSession session = req.getSession();
-				session.setAttribute("id", rvo.getMemberId());
-				session.setAttribute("name", rvo.getMemberName());
-				link = "myPageForm.do";
+				session.setAttribute("id", mvo.getMemberId());
+				session.setAttribute("name", mvo.getMemberName());
+				session.setAttribute("Auth", mvo.getResponsibility());
 				
+				link = "myPageForm.do";
 			
 		} else {
 				req.setAttribute("result", "회원정보를 확인하세요.");

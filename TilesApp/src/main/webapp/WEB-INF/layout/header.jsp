@@ -20,16 +20,20 @@
                                 	<c:otherwise>
 		                                <li class="nav-item"><a class="nav-link" href="loginForm.do">로그인</a></li>
                                 	</c:otherwise>
-
                                 </c:choose>
-                                
-                                
                                 
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
                                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="#!">Action</a>
-                                        <a class="dropdown-item" href="#!">Another action</a>
+                                    
+                                    <c:if test="${!empty Auth }">
+                                        <a class="dropdown-item" href="myPageForm.do">마이페이지</a>
+                                    </c:if>
+                                    <c:if test="${Auth == 'admin' }">
+                                        <a class="dropdown-item" href="memberManageForm.do">MemeberManage</a>
+                                    </c:if>
+                                        
+                                        
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" href="#!">Something else here</a>
                                     </div>

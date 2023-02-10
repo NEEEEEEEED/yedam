@@ -10,4 +10,5 @@ public interface MemberService {
 	public List<MemberVO> memberList();
 	public MemberVO getMember(String id); //회원정보 단건조회
 	public int modifyMember(MemberVO member);
+	public int removeMember(String mid);
 }

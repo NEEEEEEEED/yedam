@@ -40,12 +40,18 @@ public class FrontController extends HttpServlet {
 		map.put("/addReply.do", new addReply());//댓글등록
 		
 		//회원관련
-		map.put("/loginForm.do",new LoginForm());//로그인화면
-		map.put("/login.do",new Login());//로그인처리
-//		map.put("/myPage.do",new MyPage());//mypage
+		map.put("/loginForm.do",new LoginForm());//로그인화면 이동
+		map.put("/login.do",new Login());//로그인
+		map.put("/logOut.do", new LogoutControl());//로그아웃
 		map.put("/myPageForm.do",new myPageFormControl());//mypage
-		map.put("/logOut.do", new LogoutControl());
-		map.put("/modifyMember.do", new modifyMember());
+		map.put("/modifyMember.do", new modifyMember());//마이페이지 수정
+		map.put("/imageUpload.do", new ImageUpload());//이미지 업로드
+		
+		//관리자 회원관리
+		map.put("/memberManageForm.do", new memberManage());//멤버페이지이동
+		map.put("/memberList.do", new MemberList());//멤버조회
+		map.put("/addMember.do", new AddMember());
+		map.put("/removeMember.do", new removeMember());
 	}
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

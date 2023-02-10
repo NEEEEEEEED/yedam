@@ -1,31 +1,32 @@
 package com.yedam.member.command;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.yedam.common.Command;
 import com.yedam.member.service.MemberService;
 import com.yedam.member.service.MemberServiceMybatis;
 import com.yedam.member.vo.MemberVO;
 
-public class myPageFormControl implements Command {
+public class MemberList implements Command {
 
 	@Override
-	public String exec(HttpServletRequest req, HttpServletResponse resp) {
-		HttpSession session = req.getSession();
-		String id = (String) session.getAttribute("id");
+	public String exec(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		MemberService service = new MemberServiceMybatis();
-		MemberVO member = service.getMember(id);
+		List<MemberVO> list = service.memberList();
+		String json ="";
 		
-		req.setAttribute("vo", member);
+		Gson gson = new GsonBuilder().create();
+		json = gson.toJson(list);
 		
-		return "member/mypage.tiles";
-
+		return json + ".json";
 	}
 
 }
