@@ -30,9 +30,14 @@ public class FrontController extends HttpServlet {
 		map.put("/second.do", new SecondControl());
 		//공지사항
 		map.put("/noticeList.do", new NoticeList());
+		map.put("/noticeListWithTables.do", new noticeListTable());
 		map.put("/noticeDetail.do", new NoticeDetail()); // 글 상세
 		map.put("/noticeForm.do", new NoticeForm()); // 글 등록폼
 		map.put("/noticeAdd.do", new NoticeAdd()); // 글 등록
+		map.put("/noticeAddJson.do", new NoticeAddJson());//datatable연습
+		map.put("/noticeListJson.do", new NoticeListJson());
+		map.put("/noticeListAjax.do", new noticeListAjax());
+		map.put("/deleteNotice.do", new deleteNotice());
 		
 		//댓글
 		map.put("/replyList.do", new ReplyList()); //댓글 조회
