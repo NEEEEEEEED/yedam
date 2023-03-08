@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="daegu">
+      <input v-on:keyup.enter="showAlert" v-model="myText" />
+      <p>{{myText}}</p>
+
+      <h1>간단한 계산기</h1>
+      <input type="number" v-model.number="first" />
+      <input type="number" v-model.number="second" /><br />
+      <button v-on:click="plus">덧셈계산</button>
+      <button v-on:click="minus">뺄셈계산</button>
+      <button v-on:click="multiply">곱셈계산</button>
+      <button v-on:click="divide">나눗셈계산</button>
+      <p>결과는 {{result}} 입니다.</p>
+
+      <button @click="count2Up(10)">10씩 증가</button>
+      <button @click="count2Up(100)">100씩 증가</button>
+      <button @click="count2Up(1000)">1000씩 증가</button>
+      <p>{{count2}}</p>
+    </div>
+    <script>
+      new Vue({
+        el: "#daegu",
+        data: {
+          myText: "Hello!!",
+          first: 0,
+          second: 0,
+          result: 0,
+          count2: 0,
+        },
+        methods: {
+          showAlert: function () {
+            alert("enter");
+          },
+          plus: function () {
+            this.result = this.first + this.second;
+          },
+          minus: function () {
+            this.result = this.first - this.second;
+          },
+          multiply: function () {
+            this.result = this.first * this.second;
+          },
+          divide: function () {
+            this.result = this.first / this.second;
+          },
+          count2Up: function (value) {
+            this.count2 += value;
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
