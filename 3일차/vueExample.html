@@ -23,21 +23,23 @@
 
       <p>남은시간 : {{restSec}}초</p>
       <textarea v-model="inputText" v-bind:disabled="isWritable"></textarea>
-      <p>{{count}}개의 문자를 입력하였습니다.</p>
-      <p>벌점 : {{penalty}}(금지문자 1개당 12점)</p>
+      <p>{{count}} 개의 문자를 입력하였습니다.</p>
+      <p>벌점 : {{penalty}} (금지문자 1개당 12점)</p>
     </div>
     <script>
       new Vue({
         el: "#app",
         data: {
           forbiddenText: [],
+          forbiddenCnt: 0,
           inputLimit: "",
           inputText: "",
           count: 0,
           restSec: 0,
-          penalty: 0,
+          // penalty: 0, computed에 정의 되어 있기 때문에 없어야함
           limitedTime: 0,
-          timerObj: null,
+          timerObj: null, //setInterval에 대한 반환값이 교유한 ID이기 때문에
+          //-> clearinterval에서 어떤 setinterval을 할지 알 수 있음
           isWritable: true,
         },
         methods: {
@@ -45,8 +47,9 @@
             this.isWritable = false;
             clearInterval(this.timerObj);
             this.restSec = this.limitedTime;
-
-            const vueObj = this; // vue그자체
+            const vueObj = this;
+            // this => 객체(new Vue)
+            // setInterval()에서의 This와 밖에서의 This가 다르기 때문
             this.timerObj = setInterval(() => {
               vueObj.restSec--;
             }, 1000);
@@ -68,16 +71,16 @@
               let pos = this.inputText.indexOf(keyword);
               if (pos > -1) {
                 alert(this.inputLimit + "는 입력할 수 없습니다.");
-                this.count++;
+                this.forbiddenCnt++;
                 this.inputText = this.inputText.substr(0, pos);
-                this.limitedTime += 10;
+                this.restSec += 10;
               }
             }
           },
         },
         computed: {
-          resultScore: function () {
-            return this.count * 12;
+          penalty: function () {
+            return this.forbiddenCnt * 12;
           },
         },
       });
