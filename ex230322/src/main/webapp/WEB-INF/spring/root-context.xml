@@ -26,7 +26,9 @@
 	  <property name="dataSource" ref="dataSource"/>
 	</bean>
 	
-	<!-- mapper scan @없이 자동으로 구현 클래스를 Bean에 등록 --> 
+	<!-- mapper scan : @없이 자동으로 구현 클래스를 Bean에 등록 
+		 별도의 설정이 없을 경우 대소문자 구분하여 경로아래 
+		 .java와 .xml의 이름이 동일 해야함--> 
 	<mybatis-spring:scan base-package="com.yedam.app.**.mapper" />
 		
 </beans>
