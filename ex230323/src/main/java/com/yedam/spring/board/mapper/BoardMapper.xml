@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.spring.board.mapper.BoardMapper">
+	<!-- 전체조회 -->
+	<select id="selectBoardList" resultType="BoardVO">
+		SELECT bno,
+			   title,
+			   contents,
+			   writer,
+			   regdate,
+			   updatedate,
+			   image
+		FROM   board
+		ORDER BY bno
+	</select>
+	<!-- 단건조회 -->
+	<select id="selectBoardInfo" resultType="BoardVO">
+		SELECT bno,
+			   title,
+			   contents,
+			   writer,
+			   regdate,
+			   updatedate,
+			   image
+		FROM board
+		<where>
+		  <if test="writer != null and !writer.equals('')">
+		    writer = #{writer} AND
+		  </if>
+		  <if test="bno > 0">
+		    bno = #{bno}
+		  </if>
+		</where> 
+	</select>
+	<!-- 번호조회 (별칭 필수 입니다.) -->
+	<select id="getBoardNo" resultType="BoardVO">
+		SELECT NVL(MAX(bno),0) + 1 as bno
+		FROM board
+	</select>
+	<!-- 등록 -->
+	<insert id="insertBoard" parameterType="BoardVO">
+		INSERT INTO employees (
+				bno,
+				title,
+				contents,
+				writer
+				<if test="regdate != null">
+				, regdate
+				</if>
+				<if test="image != null and !image.equals('')">				
+				, image
+				</if>
+				)
+		VALUES (
+				#{bno},
+				#{title},
+				#{contents},
+				#{writer}
+				<if test="regdate != null">
+				,#{regdate}
+				</if>
+				<if test="image != null and !image.equals('')">
+				,#{image}
+				</if>
+				)
+	</insert>
+	<!-- 수정 -->
+	<update id="updateBoard" parameterType="">
+		UPDATE 	board
+		<set>		
+			<if test="title != null and !title.equals('')">
+				title = #{title},
+			</if>
+			<if test="contents != null and !contents.equals('')">
+			    contents = #{contents},
+			</if>
+			<if test="image != null and !image.equals('')">
+			    image = #{image},
+			</if>
+			<if test="updatedate != null">
+			    updatedate = #{updatedate}
+			</if>
+			<if test="updatedate == null">
+			    updatedate = sysdate
+			</if>		
+		</set>		
+		WHERE 	bno = #{bno}	
+	</update>
+	<!-- 삭제 -->
+	<delete id="deleteBoard" parameterType="">
+		DELETE FROM board
+		WHERE bno = #{bno}
+	</delete>
+</mapper>

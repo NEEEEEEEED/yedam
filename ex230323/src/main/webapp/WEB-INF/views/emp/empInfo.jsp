@@ -2,15 +2,15 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <!DOCTYPE html>
 <html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <head>
 <meta charset="UTF-8">
 <title>상세조회</title>
 </head>
 <body>
-	<form action="empUpdate" method="post" onSubmit="return false">
+	<form onsubmit="return false">
 		<div>
 			<label>id : <input type="text" name="employeeId" value="${empInfo.employeeId }" readonly></label>
 		</div>
@@ -48,18 +48,40 @@
 		<button type="button">취소</button>
 	</form>
 	<script>
-	fetch('empUpdate',{
-		method : 'post',
-		headers : {
-			'content-Type' : 'application/json'
-		},
-		body : convertData{};
-	})
-	.then(response => response.json())
-	.then(data => console.log(data))
-	.catch(reject => console.log(reject));
-	
-
+		function updateEmpInfo() {		
+			fetch('empUpdate',{
+					method : 'post',
+					headers : {
+						'content-Type' : 'application/json'
+					},
+					//data를 json형식으로 encoding
+					//form tag안의 data를 serializeObject()를 이용해서 변형
+					body : JSON.stringify(serializeObject())
+				})
+				.then(response => response.json())
+				.then(data => {
+					if(data != null && data['결과'] =='Success') {
+						alert('사원번호 : ' + data['사원번호'] + '의 정보가 수정되었습니다.');
+					} else {
+						alert('해당 사원의 정보가 정상적으로 수정되지 않았습니다.');
+					}
+				})
+				.catch(reject => console.log(reject));
+		}
+		
+		function serializeObject() {
+			//[{name : '',value:''},{name : '', value : ''}, ....]
+			let formData = $('form').serializeArray();
+			
+			let objectData = {}
+			formData.forEach(function(obj,idx) {
+				objectData[obj.name] = obj.value
+			});
+			return objectData;
+			
+		}
+		document.querySelector('button[type="submit"]')
+			.addEventListener('click', updateEmpInfo);
 	</script>
 </body>
 </html>

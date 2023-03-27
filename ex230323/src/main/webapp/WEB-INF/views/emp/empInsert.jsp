@@ -8,7 +8,6 @@
 <title>등록</title>
 </head>
 <body>
-	
 	<form action="empInsert" method="POST">
 		<div>
 			<label>first_name : <input type="text" name="firstName"/></label>

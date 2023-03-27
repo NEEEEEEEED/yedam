@@ -69,10 +69,10 @@ public class EmpServiceImpl implements EmpService {
 	}
 
 	@Override
-	public Map<String, String> deleteEmp(int empId) {
+	public Map<String, String> deleteEmp(int employeeId) {
 		Map<String, String> map = new HashMap<>();
-		map.put("사원번호", String.valueOf(empId));
-		int result = empMapper.deleteEmpInfo(empId);
+		map.put("사원번호", String.valueOf(employeeId));
+		int result = empMapper.deleteEmpInfo(employeeId);
 		if(result == 1) {
 			map.put("결과", "Success");
 		} else {
