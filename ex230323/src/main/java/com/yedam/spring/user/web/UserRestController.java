@@ -83,10 +83,13 @@ public class UserRestController {
 			return userVO;
 		}
 		@PostMapping("/upload")
-		public String uploadFile(UserVO userVO) {
-			
-			System.out.println("name : " + userVO.getName());
-			System.out.println("file : " + userVO.getPic().getOriginalFilename());
-			return "업로드를 완료했습니다.";
+		public String uploadFile(@RequestPart MultipartFile[] pic) {
+//			System.out.println(userVO);
+			/*
+			 * System.out.println("name : " + userVO.getName());
+			 * System.out.println("file : " + userVO.getPic().getOriginalFilename());
+			 */
+			System.out.println(pic[0].getOriginalFilename());
+			return "upload complete.";
 		}
 }

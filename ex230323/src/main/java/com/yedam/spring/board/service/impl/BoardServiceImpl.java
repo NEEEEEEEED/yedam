@@ -1,14 +1,15 @@
 package com.yedam.spring.board.service.impl;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.yedam.spring.board.mapper.BoardMapper;
 import com.yedam.spring.board.service.BoardService;
 import com.yedam.spring.board.service.BoardVO;
 
+@Service
 public class BoardServiceImpl implements BoardService {
 
 	@Autowired
@@ -31,10 +32,8 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public int insertBoardInfo(BoardVO boardVO) {
-		BoardVO vo = new BoardVO();
-		vo.setBno(boardVO.getBno());
 		if(boardMapper.insertBoard(boardVO) ==1) {
-			return vo.getBno();
+			return boardVO.getBno();
 		} else {
 			return -1;
 		}
@@ -43,10 +42,8 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public int updateBoardInfo(BoardVO boardVO) {
-		BoardVO vo = new BoardVO();
-		vo.setBno(boardVO.getBno());
 		if(boardMapper.updateBoard(boardVO) == 1) {
-			return vo.getBno();
+			return boardVO.getBno();
 		} else {
 			return -1;
 		}

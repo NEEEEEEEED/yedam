@@ -41,11 +41,11 @@
 	</select>
 	<!-- 등록 -->
 	<insert id="insertBoard" parameterType="BoardVO">
-		INSERT INTO employees (
-				bno,
-				title,
-				contents,
-				writer
+		INSERT INTO board (
+				bno
+				, title
+				, contents
+				, writer
 				<if test="regdate != null">
 				, regdate
 				</if>
@@ -54,10 +54,10 @@
 				</if>
 				)
 		VALUES (
-				#{bno},
-				#{title},
-				#{contents},
-				#{writer}
+				#{bno}
+				, #{title}
+				, #{contents}
+				, #{writer}
 				<if test="regdate != null">
 				,#{regdate}
 				</if>
@@ -67,7 +67,7 @@
 				)
 	</insert>
 	<!-- 수정 -->
-	<update id="updateBoard" parameterType="">
+	<update id="updateBoard" parameterType="BoardVO">
 		UPDATE 	board
 		<set>		
 			<if test="title != null and !title.equals('')">
@@ -89,7 +89,7 @@
 		WHERE 	bno = #{bno}	
 	</update>
 	<!-- 삭제 -->
-	<delete id="deleteBoard" parameterType="">
+	<delete id="deleteBoard" parameterType="BoardVO">
 		DELETE FROM board
 		WHERE bno = #{bno}
 	</delete>

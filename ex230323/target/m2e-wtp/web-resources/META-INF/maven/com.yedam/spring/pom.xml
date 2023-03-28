@@ -195,6 +195,23 @@
 		    <version>3.0.8</version>
 		</dependency>
 		
+		<!-- 파일 업로드를 위한 라이브러리 fileupload -->
+		<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
+		<dependency>
+		    <groupId>commons-fileupload</groupId>
+		    <artifactId>commons-fileupload</artifactId>
+		    <version>1.5</version>
+		</dependency>
+		<!-- weaving 슉 슈슉 슈슈슉 어노테이션 기반 AOP-->
+		<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
+		<dependency>
+		    <groupId>org.aspectj</groupId>
+		    <artifactId>aspectjweaver</artifactId>
+		    <version>1.9.1</version>
+		    <scope>runtime</scope>
+		</dependency>
+		
+		
 	</dependencies>
 	<build>
 		<plugins>
