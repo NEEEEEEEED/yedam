@@ -11,16 +11,15 @@
 		<!-- permitAll() : 접속하는 모든 사람 허용 해주겠다 -->
 		<!-- hasAuthority('ROLE_ADMIN') 특정 사람(ROLE_) 허용 해주겠다 -->
 		<!-- isAuthenticated() 인증된 사람 다 접근 해주겠다 -->
-		<security:intercept-url pattern="/top.jsp"
-			access="permitAll()" />
-		<security:intercept-url pattern="/admin/**"
+		<security:intercept-url pattern="/WEB-INF/views/admin/**"
 			access="hasAuthority('ROLE_ADMIN')" />
-		<security:intercept-url pattern="/**"
+		<security:intercept-url pattern="/WEB-INF/views/**"
 			access="isAuthenticated()" />
-
-		<security:form-login default-target-url="/top.jsp" />
+			
+		<!-- <security:form-login login-page="/customLogin" /> -->
+		<security:form-login default-target-url="/empList" />
 		<security:logout logout-url="/logout"
-			logout-success-url="/top.jsp" />
+			logout-success-url="/" />
 		<security:csrf disabled="true" />
 	</security:http>
 
