@@ -1,9 +1,13 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{template/layout}">
     <head>
         <title>Hello World!</title>
     </head>
-    <body>
+    <body >
+    <div layout:fragment="content">
         <h1>Hello world!</h1>
+    </div>
     </body>
 </html>
