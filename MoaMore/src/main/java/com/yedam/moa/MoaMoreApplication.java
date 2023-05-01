@@ -27,10 +27,6 @@ public class MoaMoreApplication {
 		return "login";
 	}
 	
-	/*
-	 * @GetMapping("/") public String home() { return "MoaMore"; }
-	 */
-	
 	@GetMapping("/")
 	public String home() {
 		return "login";

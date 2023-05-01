@@ -1,4 +1,3 @@
-
 package com.yedam.moa;
 
 import org.springframework.context.annotation.Configuration;
@@ -14,3 +13,4 @@ public class MvcConfig implements WebMvcConfigurer {
 		registry.addViewController("/login").setViewName("login");
 	}
 }
+
