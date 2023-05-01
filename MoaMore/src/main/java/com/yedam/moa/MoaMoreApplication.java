@@ -14,16 +14,5 @@ public class MoaMoreApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MoaMoreApplication.class, args);
 	}
-	
-	@GetMapping("/hello")
-	public String hello() {
-		return "hello";
-	}
-	
-	@GetMapping("/")
-	public String home() {
-		return "MoaMore";
-	}
-	
 
 }
