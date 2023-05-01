@@ -25,5 +25,5 @@ public class MoaMoreApplication {
 		return "MoaMore";
 	}
 	
-
+	
 }
