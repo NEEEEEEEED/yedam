@@ -12,11 +12,13 @@ public class SelfController {
 	@Autowired 
 	SelfServiceImpl selfServiceImpl; 
 	
+	// 셀프구직 목록 페이지
 	@GetMapping("/selfJobList")
 	public String selfJobList() {
 		return "self/selfJobList";
 	}
 	
+	// 셀프구직 내프로필 관리 페이지
 	@GetMapping("/selfJobProfile")
 	public String selfJobProfile() {
 		return "self/selfJobProfile";
