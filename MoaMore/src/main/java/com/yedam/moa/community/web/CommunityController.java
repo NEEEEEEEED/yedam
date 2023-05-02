@@ -12,9 +12,10 @@ public class CommunityController {
 	@Autowired 
 	CommunityServiceImpl communityServiceImpl; 
 	
-	  @GetMapping("/jobQnA") 
-	  public String job() { 
-		  return "community/jobQnA"; 
-	  }
+	// 취업 Q&A 페이지
+	@GetMapping("/jobQnA") 
+	public String job() { 
+		return "community/jobQnA"; 
+	}
 	 
 }

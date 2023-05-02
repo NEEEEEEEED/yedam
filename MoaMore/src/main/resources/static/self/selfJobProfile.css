@@ -1,0 +1,15 @@
+.number{
+	width:30x; 
+	height:30px;
+	margin-right : 10px;
+}
+
+.cursor{
+	cursor:pointer;
+}
+
+.circleImg {
+  border-radius: 50%;
+  width : 120px;
+  height : 120px;
+}
