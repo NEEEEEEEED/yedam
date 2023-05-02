@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{template/layout}">
+<head>
+<meta charset="UTF-8">
+<title>모아모아/셀프구직</title>
+<!-- selfJobList.CSS -->
+<link href="self/selfJobList.css" rel="stylesheet">
+</head>
+<body>
+	<div layout:fragment="content">
+		<!-- nav -->
+		<div class="row">
+			<div class="col-md-1"></div>
+			<div class="col-md-10">
+				<div style="background-color: white; border-bottom : 1px solid #ddd;">
+					<div style="display:flex; justify-content: center;">
+						<select class="selectStyle">
+						    <option>활동분야</option>
+						    <option>두번째 선택항목</option>
+						    <option>세번째 선택항목</option>
+						</select>
+						<select class="selectStyle">
+						    <option>경력조건</option>
+						    <option>두번째 선택항목</option>
+						    <option>세번째 선택항목</option>
+						</select>
+						<select class="selectStyle">
+						    <option>지역</option>
+						    <option>두번째 선택항목</option>
+						    <option>세번째 선택항목</option>
+						</select>
+						<div style="display:flex; margin-left:20px;">
+							<input type="text" class="search" placeholder="이름을 입력하세요">
+							<button type="button" class="btn btn-outline-dark btn-sm searchBtn">
+								<i class="fas fa-search fa-2x"></i>
+							</button>
+						</div>
+						<div style="margin-left : 150px;">
+							<button type="button" class="btn btn-outline-dark btn-lg search">
+								내 프로필 관리
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-1"></div>
+		</div>
+		
+		<div class="row" style="margin-top : 30px;">
+			<div class="col-md-1"></div>
+			<div class="col-md-2" style="margin : 10px;">
+				<div style="padding:18px; text-align : center;">
+					<h4>Menu</h4>
+					<hr>
+					<ul class="listStyle">
+						<li class="fs-1"><a href="#">받은제안</a></li>
+						<li class="fs-1"><a href="#">수락한제안</a></li>
+					</ul>
+				</div>	
+			</div>
+			<div class="col-md-7">
+				<div class="row align-items-center border-bottom p-4 mb-3 hoverRow">
+	              <div class="col-md-3 text-center">
+	              	<a href="#">
+	              		<img class="img-fluid" src="assets/img/blog/blog-hero.png" alt="">
+	              	</a>
+	              </div>
+	              <div class="col-md-6 text-center text-lg-start">
+	                <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
+	                  <p class="fw-bold mb-0 text-black">Category</p>
+	                  <p class="mb-0">November 22, 2021</p>
+	                </div>
+	                	<h6 class="fs-md-4 my-3">한줄자기소개</h6>
+	                <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-2">
+	                	<img class="img-fluid" src="assets/img/blog/profile1.png" alt="">
+	                    <p class="mb-0">아이디</p>
+	                </div>
+	              </div>
+	              <div class="col-md-3" style="display: flex; align-items: center; flex-direction : column;" >
+				      <button type="button" class="btn btn-outline-danger btn-sm listBtn">관심</button>
+				      <button type="button" class="btn btn-outline-info btn-sm listBtn">제안</button>
+				  </div>
+	            </div>		
+	            
+	            <div class="row align-items-center border-bottom p-4 mb-3 hoverRow">
+	              <div class="col-md-3 text-center">
+	              	<a href="#">
+	              		<img class="img-fluid" src="assets/img/blog/blog-hero.png" alt="">
+	              	</a>
+	              </div>
+	              <div class="col-md-6 text-center text-lg-start">
+	                <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
+	                  <p class="fw-bold mb-0 text-black">Category</p>
+	                  <p class="mb-0">November 22, 2021</p>
+	                </div>
+	                	<h6 class="fs-md-4 my-3">한줄자기소개</h6>
+	                <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-2">
+	                	<img class="img-fluid" src="assets/img/blog/profile1.png" alt="">
+	                    <p class="mb-0">아이디</p>
+	                </div>
+	              </div>
+	              <div class="col-md-3" style="display: flex; align-items: center; flex-direction : column;" >
+				      <button type="button" class="btn btn-outline-danger btn-sm listBtn">관심</button>
+				      <button type="button" class="btn btn-outline-info btn-sm listBtn">제안</button>
+				  </div>
+	            </div>
+	            
+	            <div class="row align-items-center border-bottom p-4 mb-3 hoverRow">
+	              <div class="col-md-3 text-center">
+	              	<a href="#">
+	              		<img class="img-fluid" src="assets/img/blog/blog-hero.png" alt="">
+	              	</a>
+	              </div>
+	              <div class="col-md-6 text-center text-lg-start">
+	                <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
+	                  <p class="fw-bold mb-0 text-black">Category</p>
+	                  <p class="mb-0">November 22, 2021</p>
+	                </div>
+	                	<h6 class="fs-md-4 my-3">한줄자기소개</h6>
+	                <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-2">
+	                	<img class="img-fluid" src="assets/img/blog/profile1.png" alt="">
+	                    <p class="mb-0">아이디</p>
+	                </div>
+	              </div>
+	              <div class="col-md-3" style="display: flex; align-items: center; flex-direction : column;" >
+				      <button type="button" class="btn btn-outline-danger btn-sm listBtn">관심</button>
+				      <button type="button" class="btn btn-outline-info btn-sm listBtn">제안</button>
+				  </div>
+	            </div>
+			</div>
+			<div class="col-md-1"></div>
+		</div>
+	</div>
+</body>
+</html>
