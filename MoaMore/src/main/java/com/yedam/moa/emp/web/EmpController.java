@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.yedam.moa.emp.mapper.EmpMapper;
 import com.yedam.moa.emp.service.EmpService;
 
 @Controller

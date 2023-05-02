@@ -4,7 +4,23 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+	<!-- JQuery -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<!-- DatePicker -->
+	<link rel="stylesheet"
+		href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
+	<script
+		src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.js"></script>
+	<!-- grid -->
+	<link rel="stylesheet"
+		href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
+	<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
+	<!-- SweetAlert -->
+	<link rel="stylesheet"
+		href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+	<script
+		src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
 
     <!-- ===============================================-->
     <!--    Document Title-->
@@ -15,12 +31,12 @@
     <!-- ===============================================-->
     <!--    Favicons-->
     <!-- ===============================================-->
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicons/favicon-16x16.png">
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicons/favicon.ico">
-    <link rel="manifest" href="assets/img/favicons/manifest.json">
-    <meta name="msapplication-TileImage" content="assets/img/favicons/mstile-150x150.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicons/favicon.ico">
+    <link rel="manifest" href="/assets/img/favicons/manifest.json">
+    <meta name="msapplication-TileImage" content="/assets/img/favicons/mstile-150x150.png">
     <meta name="theme-color" content="#ffffff">
 
 
@@ -29,10 +45,26 @@
     <!-- ===============================================-->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700&amp;display=swap" rel="stylesheet">
-    <link href="vendors/prism/prism.css" rel="stylesheet">
-    <link href="vendors/swiper/swiper-bundle.min.css" rel="stylesheet">
-    <link href="assets/css/theme.css" rel="stylesheet" />
-    <link href="assets/css/user.css" rel="stylesheet" />
+
+    <link href="/vendors/prism/prism.css" rel="stylesheet">
+    <link href="/vendors/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <link href="/assets/css/theme.css" rel="stylesheet" />
+    <link href="/assets/css/user.css" rel="stylesheet" />
+    
+    <!-- ===============================================-->
+    <!--    JavaScripts-->
+    <!-- ===============================================-->
+    <script src="/vendors/popper/popper.min.js"></script>
+    <script src="/vendors/bootstrap/bootstrap.min.js"></script>
+    <script src="/vendors/anchorjs/anchor.min.js"></script>
+    <script src="/vendors/is/is.min.js"></script>
+    <script src="/vendors/fontawesome/all.min.js"></script>
+    <script src="/vendors/lodash/lodash.min.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
+    <script src="/vendors/prism/prism.js"></script>
+    <script src="/vendors/swiper/swiper-bundle.min.js"></script>
+    <script src="/assets/js/theme.js"></script>
+    
 	<style>
 	#blank{
 		margin-bottom:1.5em;
@@ -50,14 +82,18 @@
     <!-- ===============================================-->
     <main class="main" id="top">
       <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark" data-navbar-on-scroll="data-navbar-on-scroll">
-        <div class="container"><a class="navbar-brand" href="index.html"><img src="assets/img/Logo.png" alt="" /></a>
+        <div class="container"><a class="navbar-brand" href="index.html"><img src="/assets/img/Logo.png" alt="" /></a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><i class="fa-solid fa-bars text-white fs-3"></i></button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
               <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html">채용</a></li>
               <li class="nav-item"><a class="nav-link" aria-current="page" href="about.html">셀프구직</a></li>
               <li class="nav-item"><a class="nav-link active" aria-current="page" href="blogs.html">커뮤니티</a></li>
+              <!-- security 기업전용 -->
+              <li class="nav-item"><a class="nav-link" aria-current="page" href="coMypage">기업마이페이지</a></li>
               <li class="nav-item"><a class="nav-link" aria-current="page" href="about.html">마이페이지</a></li>
+              <!-- security 기업전용 -->
+              <li class="nav-item"><a class="nav-link" aria-current="page" href="products">프리미엄 광고</a></li>
               <li class="nav-item"><a class="nav-link active" aria-current="page" href="about.html">고객센터</a></li>
               <li class="nav-item mt-2 mt-lg-0"><a class="nav-link btn btn-light text-black w-md-25 w-50 w-lg-100" aria-current="page" href="#">로그인 / 회원가입</a></li>
             </ul>
@@ -84,7 +120,7 @@
 
       
         <div class="row justify-content-between">
-          <div class="col-lg-6 col-sm-12"><a href="index.html"><img class="img-fluid mt-5 mb-4" src="assets/img/black-logo.png" alt="" /></a>
+          <div class="col-lg-6 col-sm-12"><a href="index.html"><img class="img-fluid mt-5 mb-4" src="/assets/img/black-logo.png" alt="" /></a>
             <p class="w-lg-75 text-gray">Social media validation business model canvas graphical user interface launch party creative facebook iPad twitter.</p>
           </div>
           <div class="col-lg-2 col-sm-4">
@@ -99,7 +135,7 @@
             <h3 class="fw-bold fs-1 mt-5 mb-4">Company</h3>
             <ul class="list-unstyled">
               <li class="my-3"><a href="#">Home</a></li>
-              <li class="my-3"><a href="#">Careers</a><span class="py-1 px-2 rounded-2 bg-success fw-bold text-dark ms-2">Hiring!</span></li>
+              <li class="my-3"><a href="#">Careers</a></li>
               <li class="my-3"><a href="#">Services</a></li>
             </ul>
           </div>
@@ -123,19 +159,7 @@
 
 
 
-    <!-- ===============================================-->
-    <!--    JavaScripts-->
-    <!-- ===============================================-->
-    <script src="vendors/popper/popper.min.js"></script>
-    <script src="vendors/bootstrap/bootstrap.min.js"></script>
-    <script src="vendors/anchorjs/anchor.min.js"></script>
-    <script src="vendors/is/is.min.js"></script>
-    <script src="vendors/fontawesome/all.min.js"></script>
-    <script src="vendors/lodash/lodash.min.js"></script>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
-    <script src="vendors/prism/prism.js"></script>
-    <script src="vendors/swiper/swiper-bundle.min.js"></script>
-    <script src="assets/js/theme.js"></script>
+
 
   </body>
 </html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{template/layout}">
+<head>
+<meta charset="UTF-8" />
+<title>기업마이페이지</title>
+<style>
+#insertInfo {
+	width: 100%;
+}
+
+a {
+	font-weight: bold;
+	color: black;
+}
+
+.selected {
+	text-decoration: underline;
+	font-weight: bold;
+}
+</style>
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+</head>
+<body>
+	<div class="container" layout:fragment="content">
+		<div class="row">
+			<div class="col-lg-3 text-center">
+				<div class="card">
+					<div class="card-body">
+						<h4>000기업</h4>
+						<a id="insertInfo" type="button" class="btn btn-light" href="coInfoPage">기업정보등록</a>
+						<hr />
+						<a href="">받은 좋아요</a><br /> <a href="">나의 공고목록</a><br /> <a
+							href="">나의 아이템</a>
+						<hr />
+						<a href="">개인정보 수정</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-9 text-center">
+				<div class="card">
+					<div class="card-body">
+						<div class="row" id="topMenu">
+							<a onclick="changeTable('first',this)" class="col text-center ">o건<br />
+								<span class="selected">새로운 지원</span>
+							</a><a onclick="changeTable('second',this)"
+								class="col text-center border-start">o건<br /><span>처리된 지원</span>
+							</a> <a onclick="changeTable('third',this)"
+								class="col text-center border-start">o명<br /><span>관심 구직자</span>
+							</a>
+						</div>
+					</div>
+				</div>
+				<br />
+				<div id="tableMenu" class="card">
+					<div id="firstTop" class="card-body">
+						<h5>새로운 지원</h5>
+						<table class="table hover">
+							<thead>
+								<tr>
+									<th>1</th>
+									<th>2</th>
+									<th>3</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>1</td>
+									<td>2</td>
+									<td>3</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<!-- 밑은 tableMenu 갈아끼우기  -->
+					<div id="secondTop" class="card-body" style="display: none">
+						<h5>처리된 지원</h5>
+						<table class="table hover">
+							<thead>
+								<tr>
+									<th>1</th>
+									<th>2</th>
+									<th>3</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>1</td>
+									<td>2</td>
+									<td>3</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<div id="thirdTop" class="card-body" style="display: none">
+						<h5>
+							<span class="selected" onclick="changeSlash(this,1)">관심
+								구직자</span> / <span onclick="changeSlash(this,2)">제안 구직자</span>
+						</h5>
+						<table class="table hover">
+							<thead>
+								<tr>
+									<th>1</th>
+									<th>2</th>
+									<th>3</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>1</td>
+									<td>2</td>
+									<td>3</td>
+								</tr>
+							</tbody>
+						</table>
+						<!-- 제안구직자목록 뿌리기 -->
+						<!-- 제안구직자목록 뿌리기 끝 -->
+					</div>
+					<!-- tableMenu갈아끼우기 끝 -->
+				</div>
+			</div>
+		</div>
+
+
+
+
+		<script>
+			const tableMenu = document.querySelector('#tableMenu');
+			function changeTable(no,t) {
+				let topMenu = document.querySelector('#topMenu');
+				let firstTop = document.querySelector('#firstTop');
+				let secondTop = document.querySelector('#secondTop');
+				let thirdTop = document.querySelector('#thirdTop');
+				let selected = topMenu.querySelector('.selected');
+				if (no == 'first') {
+					firstTop.style.display = 'block';
+					secondTop.style.display = 'none';
+					thirdTop.style.display = 'none';
+					selected.classList.remove('selected');
+					t.querySelector('span').setAttribute('class','selected');
+					
+				} else if (no == 'second') {
+					secondTop.style.display = 'block';
+					firstTop.style.display = 'none';
+					thirdTop.style.display = 'none';
+					selected.classList.remove('selected');
+					t.querySelector('span').setAttribute('class','selected');
+				} else if (no == 'third') {
+					thirdTop.style.display = 'block';
+					secondTop.style.display = 'none';
+					firstTop.style.display = 'none';
+					selected.classList.remove('selected');
+					t.querySelector('span').setAttribute('class','selected');
+				}
+			}
+
+			function changeSlash(t, no) {
+				let selected = tableMenu.querySelector('.selected')
+				if (no == 1) {
+					selected.setAttribute('class', '');
+					t.setAttribute('class', 'selected');
+				} else {
+					selected.setAttribute('class', '');
+					t.setAttribute('class', 'selected');
+				}
+			}
+
+			function test() {
+				console.log('test');
+			}
+		</script>
+	</div>
+	<!-- container끝 -->
+</body>
+</html>
