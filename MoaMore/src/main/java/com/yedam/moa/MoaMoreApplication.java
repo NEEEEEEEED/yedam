@@ -32,5 +32,5 @@ public class MoaMoreApplication {
 		return "login";
 	}
 	
-
+	
 }
