@@ -3,26 +3,98 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{template/layout}">
 <head>
+<style>
+.countVal{
+	height:100px;
+	font-size:80px;
+}
+</style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
 	<div class="container" layout:fragment="content">
 		<div class="row">
-			<div class="col-lg-3 text-center">
+			<div class="col-xl-3 col-md-2 text-center">
 				<div class="card">
 					<div class="card-body">
 						<h4>000기업</h4>
 						<a id="insertInfo" type="button" class="btn btn-light" href="">기업정보등록</a>
-						<hr />
-						<a href="">받은 좋아요</a><br /> <a href="">나의 공고목록</a><br /> <a
-							href="">나의 아이템</a>
-						<hr />
-						<a href="">개인정보 수정</a>
+						<div class="accordion" id="sideMenu">
+							<div class="accordion-item">
+								<h2 class="accordion-header" id="panelsStayOpen-headingOne">
+									<button class="accordion-button collapsed p-1" type="button"
+										data-bs-toggle="collapse"
+										data-bs-target="#panelsStayOpen-collapseOne"
+										aria-expanded="false"
+										aria-controls="panelsStayOpen-collapseOne">이력서</button>
+								</h2>
+								<div id="panelsStayOpen-collapseOne"
+									class="accordion-collapse collapse"
+									aria-labelledby="panelsStayOpen-headingOne">
+									<div
+										class="accordion-body d-flex flex-column align-items-center  p-0">
+										<div class="mb-1">
+											<a href="">이력서 등록</a>
+										</div>
+										<div class="mb-1">
+											<a href="">이력서 관리</a>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="accordion-item ">
+								<h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+									<button class="accordion-button collapsed p-1" type="button"
+										data-bs-toggle="collapse"
+										data-bs-target="#panelsStayOpen-collapseTwo"
+										aria-expanded="false"
+										aria-controls="panelsStayOpen-collapseTwo">현황</button>
+								</h2>
+								<div id="panelsStayOpen-collapseTwo"
+									class="accordion-collapse collapse"
+									aria-labelledby="panelsStayOpen-headingTwo" style="">
+									<div
+										class="accordion-body d-flex flex-column align-items-center p-0">
+										<div class="mb-1">
+											<a href="">구직 현황</a>
+										</div>
+										<div class="mb-1">
+											<a href="">관심기업</a>
+										</div>
+									</div>
+								</div>
+							</div>
+							<hr />
+							<div class="accordion-item">
+								<h2 class="accordion-header" id="panelsStayOpen-headingThree">
+									<button class="accordion-button collapsed p-1" type="button"
+										data-bs-toggle="collapse"
+										data-bs-target="#panelsStayOpen-collapseThree"
+										aria-expanded="false"
+										aria-controls="panelsStayOpen-collapseThree">개인정보</button>
+								</h2>
+								<div id="panelsStayOpen-collapseThree"
+									class="accordion-collapse collapse"
+									aria-labelledby="panelsStayOpen-headingThree" style="">
+									<div
+										class="accordion-body d-flex flex-column align-items-center  p-0">
+										<div class="mb-1">
+											<a href="">개인정보 수정</a>
+										</div>
+										<div class="mb-1">
+											<a href="">작성글 목록</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-9 text-center">
+
+			<div class="col-xl-9 col-md-8 text-center">
 				<div class="card">
 					<section class="bg-dark pt-6">
 						<div class="container">
@@ -90,13 +162,40 @@
 					</section>
 				</div>
 			</div>
-			<div class="row">
-			<div></div>
-			<div class="card">
-				<div class="card-body"></div>
-			</div>
+		</div>
+		<div class="row mt-5">
+			<div class="col-xl-3 col-md-2 text-center"></div>
+			<div class="card col-xl-9 col-md-8 border-white">
+				<h3>입사지원 현황</h3>
+				<div class="card-body">
+					<div class="row">
+						<div class="col-xl-4 col-md-4 text-center">
+						<span class="countVal">0</span>
+						<p>지원완료</p>
+						</div>
+						<div class="col-xl-4 col-md-4 text-center border-start">
+						<span class="countVal">0</span>
+						<p>열람</p>
+						</div>
+						<div class="col-xl-4 col-md-4 text-center border-start">
+						<span class="countVal">0</span>
+						<p>지원취소</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lx-5 flex-column">
+							<div>
+								<label for=""
+							</div>
+						</div>
+						<div class="col-lx-5 flex-column"></div>
+						<div class="col-lx-2"></div>
+					
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
+	<!-- 	</div> -->
 </body>
 </html>
