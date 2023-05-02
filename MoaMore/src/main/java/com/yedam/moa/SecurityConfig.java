@@ -4,20 +4,23 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig{
+public class SecurityConfig {
 
 	// MemberServiceImpl에 있는것을 시큐리티가 가져다가 씀
-	/*
-	 * @Bean // <bean id="" class=""> public PasswordEncoder bcryptPassword() {
-	 * return new BCryptPasswordEncoder(); }
-	 */
+
+	@Bean
+	public PasswordEncoder bcryptPassword() {
+		return new BCryptPasswordEncoder(); 
+	}
+	 
 	
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -34,9 +37,11 @@ public class SecurityConfig{
 		.logout()
 			.logoutUrl("/logout")
 			.logoutSuccessUrl("/") // 로그아웃 성공시
-			.permitAll();
-		//	.and()
-		//.csrf().disable();
+			.permitAll()
+			.and()
+		    .csrf().disable()
+		    .oauth2Login().loginPage("/loginForm")
+		    ;
 	return http.build();
 	
 	}
