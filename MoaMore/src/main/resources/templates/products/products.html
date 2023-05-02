@@ -6,38 +6,65 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<style>
+.hover-effect:hover {
+  outline: 3px solid rgb(16, 138, 75);
+  cursor: pointer;
+}	
+
+</style>
 </head>
 <body>
 	<div class="container" layout:fragment="content">
-	<h2 style="color:#345472;">프리미엄 광고</h2>
-		<div class="row ">
-			<div class="col-lg-9 text-center ">
-				<div class="card shadow p-3 mb-5 bg-body rounded bg-success p-2 text-dark bg-opacity-5">
-					<div class="card-body" >
-						
+		<h1 style="color: #0a2640; font-weight: bold;">프리미엄 광고</h1>
+
+		<div class="row">
+			<div class="col-lg-9">
+				<div onclick="payPage(1)" class="card shadow p-3 mb-5 bg-body hover-effect"
+					style="background-color: rgba(101, 228, 163, 0.5)">
+					<div class="card-body">
+						<span class="fw-bold fs-3 text-dark me-6">1회 이용권 </span><span
+							class="fw-bold fs-3 text-dark">50000원</span>
+						<button>Button</button>
 					</div>
 				</div>
 			</div>
 		</div>
-		
-		<div class="row ">
-			<div class="col-lg-9 text-center ">
-				<div class="card shadow p-3 mb-5 bg-body rounded bg-success p-2 text-dark bg-opacity-10">
-					<div class="card-body " >
-						
+
+		<div class="row">
+			<div class="col-lg-9">
+				<div onclick="payPage(3)" class="card shadow p-3 mb-5 bg-body hover-effect"
+					style="background-color: rgba(101, 228, 163, 0.75)">
+					<div class="card-body">
+						<span class="fw-bold fs-3 text-dark me-6">3회 이용권</span>
+						<span class="fw-bold fs-3 text-decoration-line-through me-6">150000원</span>
+						<span class="fw-bold fs-3 text-dark">135000원</span>
+						<button class="">결제</button>
 					</div>
 				</div>
 			</div>
 		</div>
-		
-		<div class="row ">
-			<div class="col-lg-9 text-center text-dark bg-opacity-5 ">
-				<div class="card">
-				<div class="card-body"></div></div>
+
+		<div class="row">
+			<div class="col-lg-9">
+				<div onclick="payPage(5)" class="card shadow p-3 mb-5 bg-body hover-effect"
+					style="background-color: rgba(101, 228, 163, 1)">
+					<div class="card-body">
+						<span class="fw-bold fs-3 text-dark me-6">5회 이용권</span>
+						<span class="fw-bold fs-3  text-decoration-line-through me-6">250000원</span>
+						<span class="fw-bold fs-3 text-danger">200000원</span>
+						<button class="payBtn">결제</button>
+					</div>
+				</div>
 			</div>
 		</div>
-		
-		
 	</div>
+	<!-- container div안에 넣어야 인식 됨 -->
+<script>
+			function payPage(no){
+			console.log(no);
+			}
+	
+</script>		
 </body>
 </html>
