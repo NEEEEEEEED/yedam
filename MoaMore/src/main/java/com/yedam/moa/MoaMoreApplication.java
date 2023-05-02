@@ -24,9 +24,9 @@ public class MoaMoreApplication {
 		return "loginForm";
 	}
 	
-	@GetMapping("/")
+	@GetMapping("/main")
 	public String home() {
-		return "loginForm";
+		return "main";
 	}
 	
 	
