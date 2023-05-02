@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{template/layout}">
+<head>
+<meta charset="UTF-8">
+<title>커뮤니티/취업Q&A</title>
+
+<!-- jobQnA.CSS -->
+<link href="community/jobQnA.css" rel="stylesheet">
+</head>
+<body>
+	<div layout:fragment="content">
+		<nav style="background-color: white; border-bottom : 1px solid #ddd; margin-top : 50px;">
+			<ul class="listStyle" style="display : flex; justify-content:space-evenly;">
+				<li><a href="#">취업Q&A</a></li>
+				<li><a href="#">면접후기</a></li>
+				<li><a href="#">프로젝트모집</a></li>
+				<li><a href="#">스터디모집</a></li>
+				<li><button type="button" class="btn btn-outline-dark btn-sm">작성하기</button></li>
+			</ul>
+		</nav>
+		<div class="row" style="margin-top : 30px;">
+			<div class="col-md-1"></div>
+			<div class="col-md-2" style="margin : 10px;">
+				<div>
+					<p style="text-align : center;">Top Writer</p>
+					<hr>
+					<ul>
+						<li>1등</li>
+						<li>2등</li>
+						<li>3등</li>
+					</ul>
+				</div>	
+			</div>
+			<div class="col-md-7">
+				<div class="hoverRow listRow row">
+					<div class="col-md-10">
+						<img src="community/noImg.svg" class="circleImg" alt="이미지안보임" >
+					 	<span>아이디</span>
+					 	<h5 class="mt-2">게시글제목</h5>
+					 	<p class="fs--1">Some text..Some text..Some text..Some text..Some text..</p>
+				 	</div>
+				 	<div class="col-md-2" style="display: flex; align-items: center; flex-direction : column;" >
+				      <div style="border: 1px solid black; text-align: center; width: 60px; margin: auto; border-radius: 5px;  line-height: 15px; padding: 8px;">
+				        <small>
+				          <span>답변수</span>
+				          <br>
+				          <span>1</span>
+				        </small>
+				      </div>
+				      <div class="fs--1">
+					  	<span>조회수</span>1
+					  </div>
+				    </div>
+				</div>
+				<div class="hoverRow listRow row">
+					<div class="col-md-10">
+						<img src="community/noImg.svg" class="circleImg" alt="이미지안보임" >
+					 	<span>아이디</span>
+					 	<h5 class="mt-2">게시글제목</h5>
+					 	<p class="fs--1">Some text..Some text..Some text..Some text..Some text..</p>
+				 	</div>
+				 	<div class="col-md-2" style="display: flex; align-items: center; flex-direction : column;" >
+				      <div style="border: 1px solid black; text-align: center; width: 60px; margin: auto; border-radius: 5px;  line-height: 15px; padding: 8px;">
+				        <small>
+				          <span>답변수</span>
+				          <br>
+				          <span>1</span>
+				        </small>
+				      </div>
+				      <div class="fs--1">
+					  	<span>조회수</span>1
+					  </div>
+				    </div>
+				</div>
+				<div class="hoverRow listRow row">
+					<div class="col-md-10">
+						<img src="community/noImg.svg" class="circleImg" alt="이미지안보임" >
+					 	<span>아이디</span>
+					 	<h5 class="mt-2">게시글제목</h5>
+					 	<p class="fs--1">Some text..Some text..Some text..Some text..Some text..</p>
+				 	</div>
+				 	<div class="col-md-2" style="display: flex; align-items: center; flex-direction : column;" >
+				      <div style="border: 1px solid black; text-align: center; width: 60px; margin: auto; border-radius: 5px;  line-height: 15px; padding: 8px;">
+				        <small>
+				          <span>답변수</span>
+				          <br>
+				          <span>1</span>
+				        </small>
+				      </div>
+				      <div class="fs--1">
+					  	<span>조회수</span>1
+					  </div>
+				    </div>
+				</div>			
+			</div>
+			<div class="col-md-1"></div>
+		</div>
+	</div>
+</body>
+</html>
