@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{template/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="container" layout:fragment="content">
+		<div class="row">
+			<div class="col-lg-3 text-center">
+				<div class="card">
+					<div class="card-body">
+						<h4>000기업</h4>
+						<a id="insertInfo" type="button" class="btn btn-light" href="">기업정보등록</a>
+						<hr />
+						<a href="">받은 좋아요</a><br /> <a href="">나의 공고목록</a><br /> <a
+							href="">나의 아이템</a>
+						<hr />
+						<a href="">개인정보 수정</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-9 text-center">
+				<div class="card">
+					<section class="bg-dark pt-6">
+						<div class="container">
+							<div class="col-md-6">
+								<h1 class="text-white fs-lg-5 fs-md-3 fs-2">
+									이달의 공고 <span
+										class="py-1 px-2 rounded-2 bg-success fw-bold text-dark ms-2">Hiring!</span>
+								</h1>
+								<br>
+							</div>
+							<div class="swiper mt-7">
+								<!--  -->
+								<div class="swiper-container swiper-theme"
+									data-swiper='{"slidesPerView":1,"breakpoints":{"640":{"slidesPerView":1,"spaceBetween":10},"768":{"slidesPerView":2,"spaceBetween":20},"1025":{"slidesPerView":3,"spaceBetween":40}},"spaceBetween":10,"grabCursor":true,"pagination":{"el":".swiper-pagination","clickable":true},"navigation":{"nextEl":".swiper-button-next","prevEl":".swiper-button-prev"},"loop":true,"freeMode":true,"loopedSlides":3}'>
+									<div class="swiper-wrapper">
+										<div class="swiper-slide bg-white p-5 rounded-3 h-auto">
+											<div class="d-flex flex-column justify-content-between h-100">
+												<h4 class="text-black">구인 분야, 고용형태</h4>
+												<div class="d-flex align-items-center gap-3 mt-5">
+													<img src="" alt="" />
+													<div class="text-black">
+														<p class="mb-0 fw-bold text-dark">기업이름</p>
+														<small>기업메일 @ mail.com</small>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!--  -->
+										<div class="swiper-slide bg-white p-5 rounded-3 h-auto">
+											<div class="d-flex flex-column justify-content-between h-100">
+												<h4 class="text-black">구인 분야, 고용형태</h4>
+												<div class="d-flex align-items-center gap-3 mt-5">
+													<img src="" alt="" />
+													<div class="text-black">
+														<p class="mb-0 fw-bold text-dark">기업이름</p>
+														<small>기업메일 @ mail.com</small>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!--  -->
+										<div class="swiper-slide bg-white p-5 rounded-3 h-auto">
+											<div class="d-flex flex-column justify-content-between h-100">
+												<h4 class="text-black">구인 분야, 고용형태</h4>
+												<div class="d-flex align-items-center gap-3 mt-5">
+													<img src="" alt="" />
+													<div class="text-black">
+														<p class="mb-0 fw-bold text-dark">기업이름</p>
+														<small>기업메일 @ mail.com</small>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!--  -->
+									</div>
+								</div>
+								<div class="swiper-button-next">
+									<span class="fas fa-arrow-right fs-lg-3 fs-2"></span>
+								</div>
+								<div class="swiper-button-prev">
+									<span class="fas fa-arrow-left fs-lg-3 fs-2"></span>
+								</div>
+							</div>
+						</div>
+					</section>
+				</div>
+			</div>
+			<div class="row">
+			<div></div>
+			<div class="card">
+				<div class="card-body"></div>
+			</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

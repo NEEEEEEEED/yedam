@@ -28,8 +28,7 @@
 			</div>
 </div>
 <script>
-function hireList(){
-	   
+function hireScrapList(){	   
     $.ajax({
         url: "",
         method: "post",
@@ -42,7 +41,7 @@ function hireList(){
         }
     });
 }
-function planMaterial(str1){
+function hireAllList(){
     $.ajax({
         url: "",
         method: "post",
@@ -59,10 +58,23 @@ function planMaterial(str1){
 		//스크랩 목록 그리드 선언
         var gridScrap = new tui.Grid({
              el: document.getElementById('gridScrap'),
+             rowHeaders: ['rowNum'],
              columns: [
              	{
-             		header: '진행공정관리코드',
-             		name: 'prcsProgCd'
+             		header: '구인제목',
+             		name: 'ttl'
+             	},
+             	{
+             		header: '기업',
+             		name: 'coNm'
+             	},
+             	{
+             		header: '기술스펙',
+             		name: 'skill'
+             	},
+             	{
+             		header: '지역',
+             		name: 'addr'
              	}
              ]
 
@@ -70,10 +82,23 @@ function planMaterial(str1){
 		//구인광고 전체 조회 그리드 선언
         var gridAllHire = new tui.Grid({
              el: document.getElementById('gridAllHire'),
+             rowHeaders: ['rowNum'],
              columns: [
              	{
-             		header: '진행공정관리코드',
-             		name: 'prcsProgCd'
+             		header: '구인제목',
+             		name: 'ttl'
+             	},
+             	{
+             		header: '기업',
+             		name: 'coNm'
+             	},
+             	{
+             		header: '기술스펙',
+             		name: 'skill'
+             	},
+             	{
+             		header: '지역',
+             		name: 'addr'
              	}
              ]
 
