@@ -6,6 +6,9 @@
 >
   <head>
     <style>
+    #fullScreen{
+    height:100vh;
+    }
       .countVal {
         height: 100px;
         font-size: 80px;
@@ -27,6 +30,9 @@
       .talbe {
         text-align: center;
       }
+/*       .btn{ */
+/*       border-radius: 0.5rem; */
+/*       } */
     </style>
     <meta charset="UTF-8" />
     <title>Insert title here</title>
@@ -196,11 +202,11 @@
       </div>
       <!--센터 레이아웃 플렉스 끝-->
       <!--입사 지원 현황 시작-->
-      <div class="row mt-5">
+      <div class="row mt-5" id="fullScreen">
         <div class="col-xl-3 col-md-2 text-center"></div>
         <div class="card col-xl-9 col-md-8 border-white">
           <h3>입사지원 현황</h3>
-          <div class="card-body px-0">
+          <div class="card-body px-0 ">
             <!-- 현황 카운트-->
             <div class="row">
               <div class="col-xl-4 col-md-4 text-center">
@@ -218,10 +224,10 @@
             </div>
             <!--현황카운트 끝-->
             <!--기간 선택 버튼 시작-->
-            <div class="row my-3">
+            <div class="row my-5">
               <div class="col-xl-10 flex-column px-3">
-             	<div class="d-flex justify-content-between">
-                <div>
+             	<div class="d-flex justify-content-between my-3">
+                <div >
                   <span class="label py-1">기간</span>
                   <input
                     type="radio"
@@ -283,11 +289,11 @@
                   />
                 </div>
                 </div>
-                <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between my-3">
                 <div>
                   <label class="yn" for="progress">마감여부</label>
                   <select name="progress" id="progress" class="form-control-sm">
-                    <option value="all">전체</option>
+                    <option value="null">전체</option>
                     <option value="J1">마감 전</option>
                     <option value="J2">마감 후</option>
                   </select>
@@ -295,7 +301,7 @@
 					<div>
                   <label class="yn ms-5" for="yn">열람여부</label>
                   <select name="yn" id="yn" class="form-control-sm">
-                    <option value="all">전체</option>
+                    <option value="null">전체</option>
                     <option value="C1">열람</option>
                     <option value="C3">미열람</option>
                   </select>
@@ -303,15 +309,15 @@
 					<div>
                   <label class="yn ms-5" for="status">지원상태</label>
                   <select name="status" id="status" class="form-control-sm">
-                    <option value="all">전체</option>
-                    <option value="">지원완료</option>
-                    <option value="">지원취소</option>
+                    <option value="null">전체</option>
+                    <option value="T2">지원완료</option>
+                    <option value="T3">지원취소</option>
                   </select>
                 </div>
                 </div>
               </div>
-              <div class="col-xl-2">
-                <button class="btn btn-success btn-lg px-2">조회</button>
+              <div class="col-xl-2 my-4 ps-4">
+                <button class="btn btn-outline-primary px-2" style="border-radius: 0.5rem;" id="search">조회</button>
               </div>
             </div>
 
@@ -332,6 +338,7 @@
       </div>
     </div>
     <!-- 	</div> -->
-    <script></script>
+    <script>
+    </script>
   </body>
 </html>

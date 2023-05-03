@@ -27,30 +27,32 @@ public class MemVO {
 
 	
 //	관심기업
-	private String idMem;
-	private String idCo;
+	private String idMem; 	//회원 아이디
+	private String idCo;	//기업 아이디
 	
 //	구인공고
-	private String recruitNo;
-	private String ttl;
-	private String skill;
-	private String carr;
-	private String shcr;
-	private String maBuss;
-	private String qualCoud;
-	private String prefCound;
-	private String welf;
-	private String exprDt;
-	private String wksite;
-	private String coIntro;
-	private String coImg;
-	private String accpDt;
-	private String imgNo;
-	private String resumeNo;
-	private String aplySt;
+	private String recruitNo;   //공고 번호
+	private String ttl;		    //공고 제목
+	private String skill;		//공고에서 요구하는 기술
+	private String carr;		//커리어
+	private String shcr;		//학력
+	private String maBuss;		//주요 업무
+	private String qualCoud;	//자격요건
+	private String prefCound;	//우대사항
+	private String welf;		//복지 및 혜택
+	private String exprDt;		//마감기한
+	private String wksite;		//근무지역
+	private String coIntro;		//기업 서비스 소개
+	private String coImg;		//회사 이미지
+	private String accpDt;		//승인 날짜
+	private String imgNo;		//이미지 번호
+	private String resumeNo;	//이력서 번호
+	private String regDt;		//승인 날짜
+//	구인공고 지원상태 
+	private String aplySt;		//지원상태
 	
 //	기업 정보
-	private String coNm;
+	private String coNm;		//기업 이름
 	
 	
 
