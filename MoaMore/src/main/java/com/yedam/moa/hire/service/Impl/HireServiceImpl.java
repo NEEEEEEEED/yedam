@@ -16,8 +16,13 @@ public class HireServiceImpl implements HireService{
 	HireMapper hireMapper;
 
 	@Override
-	public List<HireVO> hireList() {
-		return hireMapper.serchHire();
+	public List<HireVO> hireList(HireVO hireVO) {
+		return hireMapper.serchHire(hireVO);
+	}
+
+	@Override
+	public List<HireVO> hireScrapList(HireVO hireVO) {
+		return hireMapper.scrapHire(hireVO);
 	}
 
 }
