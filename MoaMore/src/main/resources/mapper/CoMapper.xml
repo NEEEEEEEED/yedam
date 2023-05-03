@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.yedam.moa.co.mapper.CoMapper">
+	<select id="selectCo" resultType="CoVO">
+		SELECT id,
+			   rpstr,
+			   sale,
+			   co_fg,
+			   emp_ttl,
+			   fondt_dt,
+			   idst,
+			   addr,
+			   cptl,
+			   home_page,
+			   bizno,
+			   co_nm
+		FROM co
+		WHERE id = #{id}
+	</select>
+	
+	<insert id="insertCo" parameterType="CoVO">
+		INSERT INTO co (
+						id,
+			   			rpstr,
+			   			sale,
+			   			co_fg,
+			   			emp_ttl,
+			   			fondt_dt,
+			   			idst,
+			   			addr,
+			   			cptl,
+			   			home_page,
+			   			bizno,
+			   			co_nm
+			   			)
+			   	VALUES (
+						#{id},
+			   			#{rpstr},
+			   			#{sale},
+			   			#{coFg},
+			   			#{empTtl},
+			   			#{fondtDt},
+			   			#{idst},
+			   			#{addr},
+			   			#{cptl},
+			   			#{homePage},
+			   			#{bizno},
+			   			#{coNm}			   	
+			   	)		
+	</insert>
+	
+	<update id="updateCo" parameterType="CoVO">
+		UPDATE co 
+		SET id = #{id},
+			rpstr = #{rpstr},
+			sale = #{sale},
+			co_fg = #{coFg},
+			emp_ttl = #{empTtl},
+			fondt_dt = #{fondtDt},
+			idst = #{idst},
+			addr = #{addr},
+			cptl = #{cptl},
+			home_page = #{homePage},
+			bizno = #{bizno},
+			co_nm = #{coNm}
+	</update>
+	<!-- 구인공고목록 -->
+	<select id="selectRec" parameterType="HireVO" resultType="HireVO">
+		SELECT recruit_no,
+			   ttl,
+			   accp_dt,
+			   expr_dt,
+			   co_intro
+		FROM recruit_anun
+		WHERE id = #{id}	   
+	</select>
+	
+	<!-- 미완성 관심/제안 셀프구직공고 목록 -->
+	<!-- <select id="selectInterNoti" parameterType="셀프구직vo" resultType="셀프구직vo">
+		SELECT job_search_no,
+				resume_no,
+				intro,
+				hope_wksite,
+				duty_fld,
+				posit,
+				hope_sal,
+				residency,
+				interest,
+				prop,
+				drwup_dt,
+				pubc_range,
+				id2,
+				img_no,
+				reg_dt
+		FROM job_search_notiwr
+		WHERE job_search_no IN (
+  								SELECT job_search_no
+  								FROM inter_job_search
+ 								WHERE id = #{id}
+												  )
+	
+	</select> -->
+	
+</mapper>
