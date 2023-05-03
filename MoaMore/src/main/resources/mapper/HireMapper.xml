@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.moa.hire.mapper.HireMapper">
+	<select id="serchHire" resultType="HireVO">
+		SELECT R.TTL,
+		       R.SKILL,
+		       C.CO_NM,
+		       C.ADDR,
+               R.EXPR_DT,
+               R.CO_IMG
+		FROM RECRUIT_ANUN R
+		JOIN CO C
+		ON R.ID = C.ID
+	</select>
+	<select id="scrapHire" resultType="HireVO">
+		SELECT R.TTL,
+		       R.SKILL,
+		       C.CO_NM,
+		       C.ADDR,
+		       R.EXPR_DT,
+		       R.CO_IMG
+		FROM RECRUIT_ANUN R
+		JOIN CO C
+		ON R.ID = C.ID
+		JOIN RECRUIT_SCRAP S
+		ON R.RECRUIT_NO = S.RECRUIT_NO
+		WHERE S.SCRAP_NO IS NOT NULL
+	</select>
+</mapper>
