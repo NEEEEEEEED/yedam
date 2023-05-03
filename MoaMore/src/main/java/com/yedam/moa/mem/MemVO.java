@@ -4,6 +4,8 @@ import lombok.Data;
 
 @Data
 public class MemVO {
+
+// 회원정보
 	private String id;		//아이디
 	private String name;	//이름
 	private String pw;		//비밀번호
@@ -22,4 +24,34 @@ public class MemVO {
 	private String birth;	//생년월일
 	private String addr;	//주소
 	private String joinDt;	//가입일자
+
+	
+//	관심기업
+	private String idMem;
+	private String idCo;
+	
+//	구인공고
+	private String recruitNo;
+	private String ttl;
+	private String skill;
+	private String carr;
+	private String shcr;
+	private String maBuss;
+	private String qualCoud;
+	private String prefCound;
+	private String welf;
+	private String exprDt;
+	private String wksite;
+	private String coIntro;
+	private String coImg;
+	private String accpDt;
+	private String imgNo;
+	private String resumeNo;
+	private String aplySt;
+	
+//	기업 정보
+	private String coNm;
+	
+	
+
 }
