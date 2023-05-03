@@ -230,7 +230,7 @@
 		</div>
 		<script>
 			const Grid = tui.Grid;
-			//유저 목록
+			//유저 작성 목록
 			const secondContent = new Grid({
 				el : document.querySelector('#secondContent'),
 				columns : [ {
@@ -238,16 +238,38 @@
 					name : 'regDt'
 				}, {
 					header : '게시글분류',
-					name : 'name'
+					name : 'postType'
 				}, {
 					header : '제목',
-					name : 'clsf',
+					name : 'ttl',
 				}, {
 					header : '조회수',
-					name : 'phCl'
+					name : 'inqCnt'
 				}, ],
 				data : [],
 				minBodyHeight : 520,
+			});
+			
+			$.ajax({
+				url : '/getUserPost',
+				method : 'GET',
+				success : function(response) {
+					console.log(response);
+					const data = response.map(function(item) {
+						return {
+							id : item.id,
+							name : item.name,
+							clsf : item.clsf,
+							phCl : item.phCl,
+							joinDt : item.joinDt
+						};
+					});
+
+					userList.resetData(data);
+				},
+				error : function(error) {
+					console.error(error);
+				}
 			});
 
 			//유저 목록
@@ -273,12 +295,10 @@
 				minBodyHeight : 520,
 			});
 
-			//Ajax를 통해 데이터를 가져옵니다.
 			$.ajax({
 				url : '/getUserInfo',
 				method : 'GET',
 				success : function(response) {
-					// 가져온 데이터를 TUI Grid에서 사용하는 형태로 가공합니다.
 					console.log(response);
 					const data = response.map(function(item) {
 						return {
@@ -290,7 +310,6 @@
 						};
 					});
 
-					// TUI Grid의 resetData 메서드를 호출하여, 가공한 데이터를 TUI Grid에 적용합니다.
 					userList.resetData(data);
 				},
 				error : function(error) {
