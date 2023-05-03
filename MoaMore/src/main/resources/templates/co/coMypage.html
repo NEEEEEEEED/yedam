@@ -13,6 +13,15 @@
 a {
 	font-weight: bold;
 	color: black;
+	hover
+}
+
+a:hover {
+	cursor: pointer;
+}
+
+.interInfer:hover {
+	cursor: pointer;
 }
 
 .selected {
@@ -30,10 +39,11 @@ a {
 				<div class="card">
 					<div class="card-body">
 						<h4 th:text="${id}"></h4>
-						<a id="insertInfo" type="button" class="btn btn-light" href="coInfoPage">기업정보등록</a>
+						<a id="insertInfo" type="button" class="btn btn-light"
+							href="coInfoPage">기업정보등록</a>
 						<hr />
-						<a href="">받은 관심</a><br /> <a href="coRecruit">나의 공고목록</a><br /> <a
-							href="">나의 아이템</a>
+						<a href="">받은 관심</a><br /> <a href="coRecruit">나의 공고목록</a><br />
+						<a href="">나의 아이템</a>
 						<hr />
 						<a href="">개인정보 수정</a>
 					</div>
@@ -43,13 +53,16 @@ a {
 				<div class="card">
 					<div class="card-body">
 						<div class="row" id="topMenu">
-							<a onclick="changeTable('first',this)" class="col text-center ">o건<br />
-								<span class="selected fw-bold fs-2">새로운 지원</span>
-							</a><a onclick="changeTable('second',this)"
-								class="col text-center border-start">o건<br /><span class="fw-bold fs-2">처리된 지원</span>
-							</a> <a onclick="changeTable('third',this)"
-								class="col text-center border-start">o명<br /><span class="fw-bold fs-2">관심 구직글</span>
-							</a>
+							<a onclick="changeTable('first',this)" class="col text-center "><span
+								class="fw-bold fs-7">0</span> <br /> <span
+								class="selected fw-bold fs-1">새로운 지원</span> </a><a
+								onclick="changeTable('second',this)"
+								class="col text-center border-start"><span
+								class="fw-bold fs-7">0</span> <br /> <span class="fw-bold fs-1">처리된
+									지원</span> </a> <a onclick="changeTable('third',this)"
+								class="col text-center border-start"><span
+								class="fw-bold fs-7">0</span> <br /> <span class="fw-bold fs-1">관심
+									구직글</span> </a>
 						</div>
 					</div>
 				</div>
@@ -98,8 +111,9 @@ a {
 
 					<div id="thirdTop" class="card-body" style="display: none">
 						<h5>
-							<span id="smallInter" class="selected" onclick="changeSlash(this,1)">관심
-								구직글</span> / <span onclick="changeSlash(this,2)">제안 구직글</span>
+							<span id="smallInter" class="selected interInfer"
+								onclick="changeSlash(this,1)">관심 구직글</span> / <span
+								class="interInfer" onclick="changeSlash(this,2)">제안 구직글</span>
 						</h5>
 						<table class="table hover">
 							<thead>
@@ -131,7 +145,7 @@ a {
 		<script>
 			const tableMenu = document.querySelector('#tableMenu');
 			//상단메뉴클릭
-			function changeTable(no,t) {
+			function changeTable(no, t) {
 				let topMenu = document.querySelector('#topMenu');
 				let firstTop = document.querySelector('#firstTop');
 				let secondTop = document.querySelector('#secondTop');
@@ -142,44 +156,77 @@ a {
 					secondTop.style.display = 'none';
 					thirdTop.style.display = 'none';
 					selected.classList.remove('selected');
-					t.querySelector('span').classList.add('selected');
-					
+					t.querySelectorAll('span')[1].classList.add('selected');
+
 				} else if (no == 'second') {
 					secondTop.style.display = 'block';
 					firstTop.style.display = 'none';
 					thirdTop.style.display = 'none';
 					selected.classList.remove('selected');
-					t.querySelector('span').classList.add('selected');
+					t.querySelectorAll('span')[1].classList.add('selected');
 				} else if (no == 'third') {
 					thirdTop.style.display = 'block';
 					secondTop.style.display = 'none';
 					firstTop.style.display = 'none';
 					selected.classList.remove('selected');
-					t.querySelector('span').classList.add('selected');
+					t.querySelectorAll('span')[1].classList.add('selected');
 					document.querySelector('#smallInter').click();
-					
+
 				}
 			}
 			//관심구직글클릭 / 제안구직글클릭
 			function changeSlash(t, no) {
 				let selected = tableMenu.querySelector('.selected')
 				if (no == 1) {
-					selected.setAttribute('class', '');
-					t.setAttribute('class', 'selected');
+					selected.classList.remove('selected');
+					t.classList.add('selected');
 					//ajax로 관심구직글 불러오는 함수
 				} else {
-					selected.setAttribute('class', '');
-					t.setAttribute('class', 'selected');
+					selected.classList.remove('selected');
+					t.classList.add('selected');
 					//ajax로 제안구직글 불러오는 함수
 				}
 			}
 			//관심구직글호출
-			/* function selectInterNoti(no){
-				
-			} */
+			function selectInterNoti(no) {
+				$.ajax({
+					url : "selectInterNoti",
+					method : "GET",
+					/* data: {
+					  name: "John",
+					  age: 30
+					}, */
+					dataType : "json",
+					//contentType: "application/json",
+					success : function(res) {
+						console.log(res);
+					},
+					error : function(jqXHR, textStatus, errorThrown) {
+						console.error(textStatus, errorThrown);
+					}
+				});
+			}
 			function test() {
 				console.log('test');
 			}
+
+			//ajax예시
+			/* $.ajax({
+				url : "server.php",
+				method : "POST",
+				data : {
+					name : "John",
+					age : 30
+				},
+				dataType : "json",//받는타입
+				contentType : "application/json",//보내는타입
+				success : function(res) {
+					console.log(res);
+				},
+				error : function(jqXHR, textStatus, errorThrown) {
+					console.error(textStatus, errorThrown);
+				},
+			}); */
 		</script>
 	</div>
 	<!-- container끝 -->

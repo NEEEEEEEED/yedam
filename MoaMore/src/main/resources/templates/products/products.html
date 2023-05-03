@@ -8,10 +8,9 @@
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <style>
 .hover-effect:hover {
-  outline: 3px solid rgb(16, 138, 75);
-  cursor: pointer;
-}	
-
+	outline: 3px solid rgb(16, 138, 75);
+	cursor: pointer;
+}
 </style>
 </head>
 <body>
@@ -20,7 +19,8 @@
 
 		<div class="row">
 			<div class="col-lg-9">
-				<div onclick="payPage(1)" class="card shadow p-3 mb-5 bg-body hover-effect"
+				<div onclick="payPage(1)"
+					class="card shadow p-3 mb-5 bg-body hover-effect"
 					style="background-color: rgba(101, 228, 163, 0.25)">
 					<div class="card-body">
 						<span class="fw-bold fs-3 text-dark me-6">1회 이용권 </span><span
@@ -33,11 +33,12 @@
 
 		<div class="row">
 			<div class="col-lg-9">
-				<div onclick="payPage(3)" class="card shadow p-3 mb-5 bg-body hover-effect"
+				<div onclick="payPage(3)"
+					class="card shadow p-3 mb-5 bg-body hover-effect"
 					style="background-color: rgba(101, 228, 163, 0.5)">
 					<div class="card-body">
-						<span class="fw-bold fs-3 text-dark me-6">3회 이용권</span>
-						<span class="fw-bold fs-3 text-decoration-line-through me-6">150000원</span>
+						<span class="fw-bold fs-3 text-dark me-6">3회 이용권</span> <span
+							class="fw-bold fs-3 text-decoration-line-through me-6">150000원</span>
 						<span class="fw-bold fs-3 text-dark">135000원</span>
 						<button class="">결제</button>
 					</div>
@@ -47,24 +48,24 @@
 
 		<div class="row">
 			<div class="col-lg-9">
-				<div onclick="payPage(5)" class="card shadow p-3 mb-5 bg-body hover-effect"
+				<div onclick="payPage(5)"
+					class="card shadow p-3 mb-5 bg-body hover-effect"
 					style="background-color: rgba(101, 228, 163, 0.75)">
 					<div class="card-body">
-						<span class="fw-bold fs-3 text-dark me-6">5회 이용권</span>
-						<span class="fw-bold fs-3  text-decoration-line-through me-6">250000원</span>
+						<span class="fw-bold fs-3 text-dark me-6">5회 이용권</span> <span
+							class="fw-bold fs-3  text-decoration-line-through me-6">250000원</span>
 						<span class="fw-bold fs-3 text-dark">200000원</span>
 						<button class="payBtn">결제</button>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	<!-- container div안에 넣어야 인식 됨 -->
-<script>
-			function payPage(no){
-			console.log(no);
+		<script>
+			function payPage(no) {
+				location.href = "/coMypage";
 			}
-	
-</script>		
+		</script>
+	</div>
+
 </body>
 </html>

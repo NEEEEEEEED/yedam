@@ -17,4 +17,7 @@ public interface CoMapper {
 	
 	//구인공고목록
 	public List<HireVO> selectRec(HireVO vo);
+	
+	//미완성 관심셀프구직게시글 
+	//public List<셀프구직vo> selectInterNoti(셀프구직vo);
 }
