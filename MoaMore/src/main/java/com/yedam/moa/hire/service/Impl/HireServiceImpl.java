@@ -1,14 +1,23 @@
 package com.yedam.moa.hire.service.Impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.yedam.moa.hire.HireVO;
 import com.yedam.moa.hire.mapper.HireMapper;
+import com.yedam.moa.hire.service.HireService;
 
 @Service
-public class HireServiceImpl {
+public class HireServiceImpl implements HireService{
 	
 	@Autowired
-	HireMapper hrieMapper;
+	HireMapper hireMapper;
+
+	@Override
+	public List<HireVO> hireList() {
+		return hireMapper.serchHire();
+	}
 
 }

@@ -1,5 +1,9 @@
 package com.yedam.moa.hire.service;
 
-public interface HireService {
+import java.util.List;
 
+import com.yedam.moa.hire.HireVO;
+
+public interface HireService {
+	public List<HireVO> hireList();
 }
