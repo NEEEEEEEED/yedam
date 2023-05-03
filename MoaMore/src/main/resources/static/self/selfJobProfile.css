@@ -63,3 +63,16 @@
     background-color: rgb(10,38,64);
     border-color: rgb(10,38,64);
 }
+
+.radius{
+	border-radius : 0px;
+}
+
+.fullWidth{
+	width:100%;
+}
+
+.trColor th{
+	background-color : #EBECF0;
+	text-align:center;
+}

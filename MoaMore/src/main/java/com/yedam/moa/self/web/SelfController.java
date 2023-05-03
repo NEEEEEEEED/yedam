@@ -18,7 +18,7 @@ public class SelfController {
 		return "self/selfJobList";
 	}
 	
-	// 셀프구직 내프로필 관리 페이지
+	// 셀프구직 내프로필 등록 페이지
 	@GetMapping("/selfJobProfile")
 	public String selfJobProfile() {
 		return "self/selfJobProfile";
