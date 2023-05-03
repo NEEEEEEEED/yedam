@@ -13,5 +13,10 @@ public class ProductsController {
 	public String products() {
 		return "products/products";
 	}
+	
+	@GetMapping("/payCheck")
+	public String payCheckPage() {
+		return "products/payCheck";
+	}
 
 }
