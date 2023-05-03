@@ -30,4 +30,10 @@ public class CoServiceImpl implements CoService{
 	public List<HireVO> selectRec(HireVO vo) {
 		return mapper.selectRec(vo);
 	}
+	
+	//미완성 관심셀프구직게시글
+	/*
+	 * @Override public List<셀프구직vo> selectRec(셀프구직vo) { return
+	 * mapper.selectInterNoti(vo); }
+	 */
 }
