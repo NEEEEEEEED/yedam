@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{template/layout}">
+<head>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<link href="community/jobQnA.css" rel="stylesheet">
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="container" layout:fragment="content">
+		<span class="fw-bold fs-3">나의 구인공고 목록</span>
+		<hr>
+		<div class="col-md-12">
+			<div class="hoverRow listRow row" th:each="rec : ${rec}">
+				<div class="col-md-8">
+					<img src="community/noImg.svg" class="circleImg" alt="이미지안보임">
+					<span th:text="${rec.id}">아이디</span>
+					<h5 class="mt-2" th:text="${rec.ttl}">게시글제목</h5>
+					<p class="fs--1" th:text="${rec.coIntro}">Some text..Some text..Some text..Some
+						text..Some text..</p>
+				</div>
+				<div class="col-md-2">
+				<br>
+					<span>마감일</span>
+					<h5 class="mt-2" th:text="${rec.exprDt}"></h5>
+				</div>
+				<div class="col-md-2"
+					style="display: flex; align-items: center; flex-direction: column;">
+					<div
+						style="border: 1px solid black; text-align: center; width: 60px; margin: auto; border-radius: 5px; line-height: 15px; padding: 8px;">
+						<small> <span>답변수</span> <br> <span>1</span>
+						</small>
+					</div>
+					<div class="fs--1">
+						<span>조회수</span>1
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

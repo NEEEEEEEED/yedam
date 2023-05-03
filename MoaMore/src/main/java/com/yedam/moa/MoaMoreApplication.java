@@ -29,10 +29,5 @@ public class MoaMoreApplication {
 		return "main";
 	}
 	
-	@GetMapping("/")
-	public String main() {
-		return "main";
-	}
-	
 	
 }

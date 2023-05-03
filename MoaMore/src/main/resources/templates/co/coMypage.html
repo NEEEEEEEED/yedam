@@ -29,10 +29,10 @@ a {
 			<div class="col-lg-3 text-center">
 				<div class="card">
 					<div class="card-body">
-						<h4>000기업</h4>
+						<h4 th:text="${id}"></h4>
 						<a id="insertInfo" type="button" class="btn btn-light" href="coInfoPage">기업정보등록</a>
 						<hr />
-						<a href="">받은 좋아요</a><br /> <a href="">나의 공고목록</a><br /> <a
+						<a href="">받은 관심</a><br /> <a href="coRecruit">나의 공고목록</a><br /> <a
 							href="">나의 아이템</a>
 						<hr />
 						<a href="">개인정보 수정</a>
@@ -44,11 +44,11 @@ a {
 					<div class="card-body">
 						<div class="row" id="topMenu">
 							<a onclick="changeTable('first',this)" class="col text-center ">o건<br />
-								<span class="selected">새로운 지원</span>
+								<span class="selected fw-bold fs-2">새로운 지원</span>
 							</a><a onclick="changeTable('second',this)"
-								class="col text-center border-start">o건<br /><span>처리된 지원</span>
+								class="col text-center border-start">o건<br /><span class="fw-bold fs-2">처리된 지원</span>
 							</a> <a onclick="changeTable('third',this)"
-								class="col text-center border-start">o명<br /><span>관심 구직자</span>
+								class="col text-center border-start">o명<br /><span class="fw-bold fs-2">관심 구직글</span>
 							</a>
 						</div>
 					</div>
@@ -98,8 +98,8 @@ a {
 
 					<div id="thirdTop" class="card-body" style="display: none">
 						<h5>
-							<span class="selected" onclick="changeSlash(this,1)">관심
-								구직자</span> / <span onclick="changeSlash(this,2)">제안 구직자</span>
+							<span id="smallInter" class="selected" onclick="changeSlash(this,1)">관심
+								구직글</span> / <span onclick="changeSlash(this,2)">제안 구직글</span>
 						</h5>
 						<table class="table hover">
 							<thead>
@@ -117,8 +117,8 @@ a {
 								</tr>
 							</tbody>
 						</table>
-						<!-- 제안구직자목록 뿌리기 -->
-						<!-- 제안구직자목록 뿌리기 끝 -->
+						<!-- 제안구직글목록 뿌리기 -->
+						<!-- 제안구직글목록 뿌리기 끝 -->
 					</div>
 					<!-- tableMenu갈아끼우기 끝 -->
 				</div>
@@ -130,6 +130,7 @@ a {
 
 		<script>
 			const tableMenu = document.querySelector('#tableMenu');
+			//상단메뉴클릭
 			function changeTable(no,t) {
 				let topMenu = document.querySelector('#topMenu');
 				let firstTop = document.querySelector('#firstTop');
@@ -141,34 +142,41 @@ a {
 					secondTop.style.display = 'none';
 					thirdTop.style.display = 'none';
 					selected.classList.remove('selected');
-					t.querySelector('span').setAttribute('class','selected');
+					t.querySelector('span').classList.add('selected');
 					
 				} else if (no == 'second') {
 					secondTop.style.display = 'block';
 					firstTop.style.display = 'none';
 					thirdTop.style.display = 'none';
 					selected.classList.remove('selected');
-					t.querySelector('span').setAttribute('class','selected');
+					t.querySelector('span').classList.add('selected');
 				} else if (no == 'third') {
 					thirdTop.style.display = 'block';
 					secondTop.style.display = 'none';
 					firstTop.style.display = 'none';
 					selected.classList.remove('selected');
-					t.querySelector('span').setAttribute('class','selected');
+					t.querySelector('span').classList.add('selected');
+					document.querySelector('#smallInter').click();
+					
 				}
 			}
-
+			//관심구직글클릭 / 제안구직글클릭
 			function changeSlash(t, no) {
 				let selected = tableMenu.querySelector('.selected')
 				if (no == 1) {
 					selected.setAttribute('class', '');
 					t.setAttribute('class', 'selected');
+					//ajax로 관심구직글 불러오는 함수
 				} else {
 					selected.setAttribute('class', '');
 					t.setAttribute('class', 'selected');
+					//ajax로 제안구직글 불러오는 함수
 				}
 			}
-
+			//관심구직글호출
+			/* function selectInterNoti(no){
+				
+			} */
 			function test() {
 				console.log('test');
 			}
