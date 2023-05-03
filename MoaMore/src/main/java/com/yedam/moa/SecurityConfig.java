@@ -29,7 +29,7 @@ public class SecurityConfig {
 			.antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
 			.anyRequest().authenticated()) // 나머지 모든 요청은 로그인해야지만 가능
 		.formLogin(login -> login
-			.defaultSuccessUrl("/empList")
+			//.defaultSuccessUrl("/empList")
 			.loginPage("/login")
 			.usernameParameter("userid")
 			.permitAll())

@@ -4,137 +4,155 @@
 	layout:decorate="~{template/layout}">
 <head>
 <style>
-	#top{
-		background: #fff;
-	}
-	section{
-		background: #fff;
-	}
-	#body{
-		background: #fff;
-	}
+#top {
+	background: #fff;
+}
+
+section {
+	background: #fff;
+}
+
+#body {
+	background: #fff;
+}
 </style>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
- 
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.gstatic.com" rel="preconnect">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
-  <!-- Vendor CSS Files -->
-  <link href="adminAssets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="adminAssets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="adminAssets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="adminAssets/vendor/quill/quill.snow.css" rel="stylesheet">
-  <link href="adminAssets/vendor/quill/quill.bubble.css" rel="stylesheet">
-  <link href="adminAssets/vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="adminAssets/vendor/simple-datatables/style.css" rel="stylesheet">
+<!-- Google Fonts -->
+<link href="https://fonts.gstatic.com" rel="preconnect">
+<link
+	href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+	rel="stylesheet">
 
-  <!-- Template Main CSS File -->
-  <link href="adminAssets/css/style.css" rel="stylesheet">
+<!-- Vendor CSS Files -->
+<link href="adminAssets/vendor/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="adminAssets/vendor/bootstrap-icons/bootstrap-icons.css"
+	rel="stylesheet">
+<link href="adminAssets/vendor/boxicons/css/boxicons.min.css"
+	rel="stylesheet">
+<link href="adminAssets/vendor/quill/quill.snow.css" rel="stylesheet">
+<link href="adminAssets/vendor/quill/quill.bubble.css" rel="stylesheet">
+<link href="adminAssets/vendor/remixicon/remixicon.css" rel="stylesheet">
+<link href="adminAssets/vendor/simple-datatables/style.css"
+	rel="stylesheet">
+
+<!-- Template Main CSS File -->
+<link href="adminAssets/css/style.css" rel="stylesheet">
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
 </head>
 <body id="body">
 	<div class="container" layout:fragment="content">
-		
+
 		<div class="card">
-            <div class="card-body">
-              <!-- General Form Elements -->
-              <form>
-              <br>
-              <h2>기업정보등록</h2>
-              <hr>
-              <br>
-              <div class="row mb-3">
-                  <label for="inputText" class="col-sm-2 col-form-label">기업명</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control">
-                  </div>
-                </div>
-              
-                <div class="row mb-3">
-                  <label for="inputText" class="col-sm-2 col-form-label">대표자</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control">
-                  </div>
-                </div>
-              
-                 <div class="row mb-3">
-                  <label class="col-sm-2 col-form-label">기업구분</label>
-                  <div class="col-sm-10">
-                    <select class="form-select" aria-label="Default select example">
-                      <option selected="">선택</option>
-                      <option value="1">강소기업</option>
-                      <option value="2">중소기업</option>
-                      <option value="3">중견기업</option>
-                      <option value="3">대기업</option>
-                    </select>
-                  </div>
-                </div>
-                
-                 <div class="row mb-3">
-                  <label class="col-sm-2 col-form-label">산업</label>
-                  <div class="col-sm-10">
-                    <select class="form-select" aria-label="Default select example">
-                      <option selected="">선택</option>
-                      <option value="1">One</option>
-                      <option value="2">Two</option>
-                      <option value="3">Three</option>
-                    </select>
-                  </div>
-                </div>
-                
-                <div class="row mb-3">
-                  <label class="col-sm-2 col-form-label">매출액</label>
-                  <div class="col-sm-10">
-                    <select class="form-select" aria-label="Default select example">
-                      <option selected="">선택</option>
-                      <option value="1">400억 이하</option>
-                      <option value="2">600억 이하</option>
-                      <option value="3">800억 이하</option>
-                      <option value="3">1000억 이하</option>
-                      <option value="3">1500억 이하</option>
-                      <option value="3">1500억 초과</option>
-                    </select>
-                  </div>
-                </div>
-                
-                <div class="row mb-3">
-                  <label for="inputText" class="col-sm-2 col-form-label">사원수</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control">
-                  </div>
-                </div>
-                
-                 <div class="row mb-3">
-                  <label for="inputDate" class="col-sm-2 col-form-label">설립일</label>
-                  <div class="col-sm-10">
-                    <input type="date" class="form-control">
-                  </div>
-                </div>
-                
-                <div class="row mb-3">
-                  <label for="inputText" class="col-sm-2 col-form-label">주소</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control">
-                  </div>
-                </div>
-           
-                <div class="row mb-3">
-                  <div class="col-6">
-                    <a href="coMypage" class="btn btn-primary" style="float:right;">취소</a>
-                  </div>
-                  <div class="col-6">
-                    <button type="submit" class="btn btn-primary">등록</button>
-                  </div>
-                </div>
+			<div class="card-body">
+				<!-- General Form Elements -->
+				<form>
+					<br>
+					<h2>기업정보등록</h2>
+					<hr>
+					<br>
+					<div class="row mb-3">
+						<label for="inputText" class="col-sm-2 col-form-label">기업명</label>
+						<div class="col-sm-10">
+							<input type="text" name="coNm" th:value="${co.coNm}"
+								class="form-control">
+						</div>
+					</div>
 
-              </form><!-- End General Form Elements -->
+					<div class="row mb-3">
+						<label for="inputText" class="col-sm-2 col-form-label">대표자</label>
+						<div class="col-sm-10">
+							<input type="text" name="rpstr" th:value="${co.rpstr}"
+								class="form-control">
+						</div>
+					</div>
 
-            </div>
-          </div>
+					<div class="row mb-3">
+						<label class="col-sm-2 col-form-label">기업구분</label>
+						<div class="col-sm-10">
+							<select class="form-select" name="coFg"
+								aria-label="Default select example">
+								<option value="">선택</option>
+								<option value="1" th:selected="${co.coFg == '1'}">강소기업</option>
+								<option value="2" th:selected="${co.coFg == '2'}">중소기업</option>
+								<option value="3" th:selected="${co.coFg == '3'}">중견기업</option>
+								<option value="4" th:selected="${co.coFg == '4'}">대기업</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="row mb-3">
+						<label class="col-sm-2 col-form-label">산업</label>
+						<div class="col-sm-10">
+							<select class="form-select" name="idst" 
+								aria-label="Default select example">
+								<option selected="">선택</option>
+								<option value="1" th:selected="${co.idst == '1'}">소프트웨어 개발 및 공급업</option>
+								<option value="2" th:selected="${co.idst == '2'}">컴퓨터 프로그래밍, 시스템 통합 및 관리업</option>
+								<option value="3" th:selected="${co.idst == '3'}">자료처리, 호스팅, 포털 및 기타 인터넷 정보매개서비스업</option>
+								<option value="4" th:selected="${co.idst == '4'}">기타 정보 서비스업</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="row mb-3">
+						<label class="col-sm-2 col-form-label">매출액</label>
+						<div class="col-sm-10">
+							<select class="form-select" name="sale" th:value="${co.sale}"
+								aria-label="Default select example">
+								<option selected="">선택</option>
+								<option value="1" th:selected="${co.sale == '1'}">400억 이하</option>
+								<option value="2" th:selected="${co.sale == '2'}">600억 이하</option>
+								<option value="3" th:selected="${co.sale == '3'}">800억 이하</option>
+								<option value="4" th:selected="${co.sale == '4'}">1000억 이하</option>
+								<option value="5" th:selected="${co.sale == '5'}">1500억 이하</option>
+								<option value="6" th:selected="${co.sale == '6'}">1500억 초과</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="row mb-3">
+						<label for="inputText" class="col-sm-2 col-form-label">사원수</label>
+						<div class="col-sm-10">
+							<input type="text" name="empTtl" th:value="${co.empTtl}"
+								class="form-control">
+						</div>
+					</div>
+
+					<div class="row mb-3">
+						<label for="inputDate" class="col-sm-2 col-form-label">설립일</label>
+						<div class="col-sm-10">
+							<input type="date" name="fondtDt" th:value="${co.fondtDt}"
+								class="form-control">
+						</div>
+					</div>
+
+					<div class="row mb-3">
+						<label for="inputText" class="col-sm-2 col-form-label">주소</label>
+						<div class="col-sm-10">
+							<input type="text" name="addr" th:value="${co.addr}"
+								class="form-control">
+						</div>
+					</div>
+
+					<div class="row mb-3">
+						<div class="col-6">
+							<a href="coMypage" class="btn btn-primary" style="float: right;">취소</a>
+						</div>
+						<div class="col-6">
+							<button type="submit" class="btn btn-primary">등록</button>
+						</div>
+					</div>
+
+				</form>
+				<!-- End General Form Elements -->
+
+			</div>
+		</div>
 	</div>
 </body>
 </html>
