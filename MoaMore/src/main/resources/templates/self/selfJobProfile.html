@@ -28,7 +28,7 @@
 								<img src="self/number2.svg" class="number"><span>경력사항</span>
 							</div>
 							<div class="mb-2 cursor">
-								<img src="self/number3.svg" class="number"><span>학력ㆍ자격증</span>
+								<img src="self/number3.svg" class="number"><span>학력</span>
 							</div>
 							<div class="mb-2 cursor">
 								<img src="self/number4.svg" class="number"><span>희망급여</span>
@@ -48,54 +48,92 @@
 					<p class="fs-1"><b>셀프소개</b></p>
 					<div class="row">
 						<div class="col-md-3" style="text-align:center;">
-							<img src="self/suna.jpg" class="circleImg">
-							<input type="file" id="inputImg" style="display:none;">
+							<img src="self/suna.jpg" id="preview" class="circleImg">
+							<input type="file" id="inputImg" onchange="readURL(this);" style="display:none;"><br>
 							<button type="button" class="btn btn-outline-success btn-sm mt-2" id="changeImg">프로필변경</button>
 						</div>
 						<div class="col-md-9">
-							<div class="border-bottom mb-3" style="display:flex; width:100%; text-align:center;">
+							<div class="border-bottom divStyle mb-3">
 								<span style="width:20%;">제목</span>
-								<input type="text" style="border:0px; width:80%; outline: none;">
+								<input type="text" class="inputStyle">
 							</div>
-							<div class="border-bottom mb-3" style="display:flex; width:100%; text-align:center;">
+							<div class="border-bottom divStyle mb-3">
 							  <span style="width:20%;">지역</span>
-							  <select style="border:0px; width:80%; outline: none; text-align:center;">
+							  <select class= "inputStyle" style="text-align:center;">
 							    <option selected>선택해주세요</option>
 							    <option value="1">One</option>
 							    <option value="2">Two</option>
 							    <option value="3">Three</option>
 							  </select>
 							</div>
-							<div class="border-bottom mb-3" style="display:flex; width:100%; text-align:center;">
+							<div class="border-bottom divStyle mb-3">
 							  <span style="width:20%;">직무분야</span>
-							  <select style="border:0px; width:80%; outline: none; text-align:center;">
+							  <select class="inputStyle" style="text-align:center;">
 							    <option selected>선택해주세요</option>
 							    <option value="1">One</option>
 							    <option value="2">Two</option>
 							    <option value="3">Three</option>
 							  </select>
 							</div>
-							<div class="border-bottom mb-3" style="display:flex; width:100%; text-align:center;">
+							<div class="border-bottom divStyle mb-3" >
 							  <span style="width:20%;">기술스택</span>
-							  <select style="border:0px; width:80%; outline: none; text-align:center;">
+							  <select class="inputStyle" style="text-align:center;">
 							    <option selected>선택해주세요</option>
 							    <option value="1">One</option>
 							    <option value="2">Two</option>
 							    <option value="3">Three</option>
 							  </select>
+							</div>
+							<div class="divStyle mb-3">
+							  <div class="form-floating border" style="width:100%;">
+							  	<div class="row">
+							  		<div class="col-md-3">
+							  			<div style="padding : 16px;">
+							  				<label for="floatingTextarea">자기소개</label>
+							  			</div>
+							  		</div>
+							  		<div class="col-md-9">
+							  			<textarea class="form-control" placeholder="자기소개" id="floatingTextarea2" style="height: 200px; resize: none; border-radius : 0px; border:none; width:100%"></textarea>
+							  		</div>
+							  	</div>
+							  </div>
 							</div>
 						</div>
 					</div>
 				</div>
 				<hr style="color : #ddd;">
 				<br>
-				<div>
-					<p class="fs-1"><b>경력사항</b></p>
-					<div class="row">
+				<div class="mb-5">
+					<p class="fs-1"><b>경력사항 </b><button type="button" class="btn btn btn-outline-dark btn-sm" style="height:40px;">추가</button></p>
+					<div class="row mb-3">
 						<div class="col-md-2" style="text-align:center;">
 						</div>
 						<div class="col-md-10">
-							<div class="border-bottom mb-3" style="display:flex; width:100%; text-align:center;">
+							<div class="hoverRow listRow row">
+							 	<div class="col-md-10 text-center text-lg-start">
+					                <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
+					                  <p class="fw-bold mb-0 text-black">Category</p>
+					                  <p class="mb-0">November 22, 2021</p>
+					                </div>
+					                	<h6 class="fs-md-3 my-3">회사명</h6>
+					                <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-2">
+					                    <p class="mb-0">업무설명</p>
+					                </div>
+				              </div>
+							</div>
+							<div class="hoverRow listRow row">
+							 	<div class="col-md-10 text-center text-lg-start">
+					                <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
+					                  <p class="fw-bold mb-0 text-black">Category</p>
+					                  <p class="mb-0">November 22, 2021</p>
+					                </div>
+					                	<h6 class="fs-md-3 my-3">회사명</h6>
+					                <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-2">
+					                    <p class="mb-0">업무설명</p>
+					                </div>
+				              	</div>
+							</div>
+							<!-- <div class="border-bottom mb-3" style="display:flex; width:100%; text-align:center;">
 							  <span style="width:20%;">총 경력기간</span>
 							  <select style="border:0px; width:80%; outline: none; text-align:center;">
 							    <option selected>선택해주세요</option>
@@ -107,19 +145,141 @@
 							<div class="border-bottom mb-3" style="display:flex; width:100%; text-align:center;">
 								<span style="width:20%;">경력사항</span>
 								<input type="text" style="border:0px; width:80%; outline: none; text-align:center;" placeholder="추가해주세요">
+							</div> -->
+						</div>
+					</div>
+				</div>
+				<hr style="color : #ddd;">
+				<br>
+				<div class="mb-5">
+					<p class="fs-1"><b>학력 </b><button type="button" class="btn btn btn-outline-dark btn-sm" style="height:40px;">추가</button></p>
+					<div class="row mb-3">
+						<div class="col-md-2" style="text-align:center;">
+						</div>
+						<div class="col-md-10">
+							<div class="hoverRow listRow row">
+							 	<div class="col-md-10 text-center text-lg-start">
+							 		<p class="mb-0">November 22, 2021</p>
+					                <h6 class="fs-md-3 my-3">학교이름</h6>
+					                <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
+					                  <p class="fw-bold mb-0 text-black">전공</p>
+					                  <p class="mb-0">졸업상태</p>
+					                </div>
+				              	</div>
+							</div>
+							<div class="hoverRow listRow row">
+							 	<div class="col-md-10 text-center text-lg-start">
+							 		<p class="mb-0">November 22, 2021</p>
+					                <h6 class="fs-md-3 my-3">학교이름</h6>
+					                <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
+					                  <p class="fw-bold mb-0 text-black">전공</p>
+					                  <p class="mb-0">졸업상태</p>
+					                </div>
+				              	</div>
 							</div>
 						</div>
 					</div>
+				</div>
+				<hr style="color : #ddd;">
+				<br>
+				<div class="mb-5">
+					<p class="fs-1"><b>희망급여</b></p>
+					<div class="row">
+						<div class="col-md-2" style="text-align:center;">
+						</div>
+						<div class="col-md-8">
+							<div class="border-bottom divStyle mb-3">
+								<span style="width:20%; color:black;"><b>희망 급여</b></span>
+								<input type="text" class="inputStyle" style="text-align:right; width:50%;" placeholder="천원 단위로 입력하세요(최소10,000원)">
+								<span style="color:black;"><b>원</b></span>
+								<span style="color:blue; margin-left: 20px; margin-right:5px;"><b>협의가능</b></span>
+								<input type="checkbox" style="width:20px; height:20px;">
+							</div>
+						</div>
+						<div class="col-md-2">
+						</div>
+					</div>
+				</div>
+				<hr style="color : #ddd;">
+				<br>
+				<div class="mb-5">
+					<p class="fs-1"><b>상주가능정보</b></p>
+					<div class="row">
+						<div class="col-md-2" style="text-align:center;">
+						</div>
+						<div class="col-md-8">
+							<div class="border-bottom divStyle mb-3">
+								<span class="me-7" style="width:22%; color:black;"><b>상주가능여부</b></span>
+								<div class="form-check form-check-inline">
+								  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+								  <label class="form-check-label" for="inlineRadio1">가능</label>
+								</div>
+								<div class="form-check form-check-inline ms-6">
+								  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+								  <label class="form-check-label" for="inlineRadio2">불가능</label>
+								</div>	
+							</div>
+						</div>
+						<div class="col-md-2">
+						</div>
+					</div>
+				</div>
+				<hr style="color : #ddd;">
+				<br>
+				<div class="mb-5">
+					<p class="fs-1"><b>포트폴리오 </b><button type="button" class="btn btn btn-outline-dark btn-sm" style="height:40px;">추가</button></p>
+					<div class="row">
+						<div class="col-md-2" style="text-align:center;">
+						</div>
+						<div class="col-md-8">
+							<div class="row border-bottom hoverRow">
+				              <div class="col-md-2">
+				              	<img class="img-fluid" src="assets/img/blog/blog-hero.png" alt="">
+				              </div>
+				              <div class="col-md-8">
+				                	<p class="mb-0" style="line-height: 55px;">포트폴리오경로</p>
+				              </div>
+				              <div class="col-md-2" >
+							      <button type="button" style="line-height: 55px; padding:20px;" class="btn-close" aria-label="Close"></button>
+							  </div>             
+							</div>
+							<div class="col-md-2">
+							</div>
+						</div>
+					</div>
+				</div>
+				<hr style="color : #ddd;">
+				<br>
+				<div class="mb-5" style="text-align:right;">
+					<button type="button" class="btn btn-dark" style="border-radius : 0px;">프로필 등록</button>
 				</div>
 			</div>
 			<hr>
 			<div class="col-md-1"></div>
 		</div>
+		
 		<script>
 		changeImg.addEventListener('click',function(){
 			inputImg.click();
 		});
+		
+		function readURL(input) {
+		  if (input.files && input.files[0]) {
+		    var reader = new FileReader();
+		    reader.onload = function(e) {
+		      document.getElementById('preview').src = e.target.result;
+		    };
+		    reader.readAsDataURL(input.files[0]);
+		  } else {
+		    document.getElementById('preview').src = "";
+		  }
+		}
+		
+		function move(path){
+			onclick ="location.href='index.html'"
+		}
 		</script>
+		
 	</div>
 </body>
 </html>
