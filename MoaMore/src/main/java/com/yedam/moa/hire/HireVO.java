@@ -23,4 +23,5 @@ public class HireVO {
 	
 	private String coNm; // 기업이름
 	private String addr; // 기업주소
+	private String scrapYn; // 스크랩 여부
 }
