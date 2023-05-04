@@ -11,4 +11,46 @@
         		join_dt
        	FROM member
 	</select>
+	
+	<select id="selectStudyPost" resultType="PostListVO">
+		select  reg_dt,
+		        ttl,
+		        inq_cnt,
+		        '스터디모집' as "postType"
+		FROM member m, study s
+		WHERE m.id = s.id
+		  AND m.id = #{id}
+		ORDER BY reg_dt DESC
+	</select>
+	<select id="selectPRJTPost" resultType="PostListVO">
+		select  reg_dt,
+		        ttl,
+		        inq_cnt,
+		        '프로젝트모집게시판' as "postType"
+		FROM member m, prjt p
+		WHERE m.id = p.id
+		  AND m.id = #{id}
+		ORDER BY reg_dt DESC
+	</select>
+ 	<select id="selectINTRVPost" resultType="PostListVO">
+		select  reg_dt,
+				CO_NM,
+				'면접후기게시판' as "postType"
+		FROM member m, intrv_scrn i
+		WHERE m.id = i.id
+		  AND m.id = #{id}
+		ORDER BY reg_dt DESC
+	</select> 
+	
+	<select id="selectQSTPost" resultType="PostListVO">
+		select  reg_dt,
+		        ttl,
+		        inq_cnt,
+		        <![CDATA['취업Q&A게시판']]> as "postType"
+		FROM member m, empl_qst e
+		WHERE m.id = e.id
+		  AND m.id = #{id}
+		ORDER BY reg_dt DESC
+	</select>
+
 </mapper>
