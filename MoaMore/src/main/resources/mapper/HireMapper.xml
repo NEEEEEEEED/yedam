@@ -5,27 +5,42 @@
 <mapper namespace="com.yedam.moa.hire.mapper.HireMapper">
 	<select id="serchHire" resultType="HireVO">
 		SELECT R.TTL,
-		       R.SKILL,
+		       K.SKILL,
 		       C.CO_NM,
-		       C.ADDR,
+		       R.WKSITE,
                R.EXPR_DT,
-               R.CO_IMG
+               R.CO_IMG,
+               R.RECRUIT_NO,
+              	<if test="id != null and id != ''">
+              	 (SELECT S.RECRUIT_NO FROM RECRUIT_SCRAP S WHERE R.RECRUIT_NO = S.RECRUIT_NO AND ID = #{id}) AS scrapYn
+              	</if>
 		FROM RECRUIT_ANUN R
 		JOIN CO C
 		ON R.ID = C.ID
+		JOIN RECRUIT_SKILL K
+		ON R.RECRUIT_NO = K.RECRUIT_NO
 	</select>
 	<select id="scrapHire" resultType="HireVO">
 		SELECT R.TTL,
-		       R.SKILL,
+		       K.SKILL,
 		       C.CO_NM,
-		       C.ADDR,
+		       R.WKSITE,
 		       R.EXPR_DT,
-		       R.CO_IMG
+		       R.CO_IMG,
+		       S.RECRUIT_NO,
+		       <if test="id != null and id != ''">
+              	 (SELECT S.RECRUIT_NO FROM RECRUIT_SCRAP S WHERE R.RECRUIT_NO = S.RECRUIT_NO AND ID = #{id}) AS scrapYn
+              	</if>
 		FROM RECRUIT_ANUN R
 		JOIN CO C
 		ON R.ID = C.ID
 		JOIN RECRUIT_SCRAP S
 		ON R.RECRUIT_NO = S.RECRUIT_NO
+        JOIN MEMBER M
+        ON S.ID = M.ID
+        JOIN RECRUIT_SKILL K
+		ON R.RECRUIT_NO = K.RECRUIT_NO
 		WHERE S.SCRAP_NO IS NOT NULL
+        AND M.ID = #{id}
 	</select>
 </mapper>

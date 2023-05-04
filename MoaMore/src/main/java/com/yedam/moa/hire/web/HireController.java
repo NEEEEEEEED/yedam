@@ -1,5 +1,6 @@
 package com.yedam.moa.hire.web;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,10 +18,15 @@ public class HireController {
 	@Autowired
 	HireService hireService;
 	
+	Principal pr;
+	
 	// 구인공고목록 페이지
 	@GetMapping("/hirePage")
-	public String hireList(Model model) {
+	public String hireList(Model model,Principal principal) {
 		HireVO hireVO = new HireVO();
+		
+		pr = principal;
+		hireVO.setId(pr.getName());
 		
 		List<HireVO> hireList = new ArrayList<HireVO>();
 		hireList = hireService.hireList(hireVO );
