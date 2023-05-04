@@ -56,7 +56,59 @@
 							<button type="button" class="btn btn-outline-success btn-sm mt-2" id="changeImg">프로필변경</button>
 						</div>
 						<div class="col-md-9">
-							<div class="border-bottom divStyle mb-3">
+							<table class="table widthSize20">
+								<tbody>
+									<tr>
+										<th>제목</th>
+										<td><input type="text" class="inputStyle" placeholder="제목을 입력해주세요." style="text-align : center;"></td>
+									</tr>
+									<tr>
+										<th>지역</th>
+										<td>
+										  <select class= "inputStyle" style="text-align:center;">
+										    <option selected>선택해주세요</option>
+										    <option value="1">One</option>
+										    <option value="2">Two</option>
+										    <option value="3">Three</option>
+										  </select>
+										</td>
+									</tr>
+									<tr>
+										<th>직무분야</th>
+										<td>
+											<select class="inputStyle" style="text-align:center;">
+											    <option selected>선택해주세요</option>
+											    <option value="1">One</option>
+											    <option value="2">Two</option>
+											    <option value="3">Three</option>
+										  	</select>
+										</td>
+									</tr>
+									<tr>
+										<th>기술스택</th>
+										<td>
+											<select class="inputStyle" style="text-align:center;">
+											    <option selected>선택해주세요</option>
+											    <option value="1">One</option>
+											    <option value="2">Two</option>
+											    <option value="3">Three</option>
+											  </select>
+										</td>
+									</tr>
+									<tr>
+										<th>보기권한설정</th>
+										<td>
+											<select class="inputStyle" style="text-align:center;">
+											    <option selected>선택해주세요</option>
+											    <option value="1">One</option>
+											    <option value="2">Two</option>
+											    <option value="3">Three</option>
+											  </select>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<!-- <div class="border-bottom divStyle mb-3">
 								<span style="width:20%;">제목</span>
 								<input type="text" class="inputStyle" placeholder="제목을 입력해주세요." style="text-align : center;">
 							</div>
@@ -86,7 +138,7 @@
 							    <option value="2">Two</option>
 							    <option value="3">Three</option>
 							  </select>
-							</div>
+							</div> -->
 							<div class="divStyle mb-3">
 							  <div class="form-floating border fullWidth">
 							  	<div class="row">
@@ -96,7 +148,7 @@
 							  			</div>
 							  		</div>
 							  		<div class="col-md-9">
-							  			<textarea class="form-control radius fullWidth" placeholder="자기소개" id="floatingTextarea2" style="height: 200px; resize: none; border:none;"></textarea>
+							  			<textarea class="form-control radius fullWidth" placeholder="자기소개를 작성해주세요" id="floatingTextarea2" style="height: 200px; resize: none; border:none;"></textarea>
 							  		</div>
 							  	</div>
 							  </div>
@@ -246,6 +298,7 @@
 				<!-- 본문 : 포트폴리오 -->
 				<div class="mb-5">
 					<p class="fs-1"><b>포트폴리오 </b><button type="button" class="btn btn btn-outline-dark btn-sm radius" data-bs-toggle="modal" data-bs-target="#pofolModal" style="height:40px;">추가</button></p>
+					<br>
 					<div class="row">
 						<div class="col-md-2" style="text-align:center;">
 						</div>
