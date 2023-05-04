@@ -45,106 +45,125 @@ section {
 
 </head>
 <body id="body">
-	<div class="container" layout:fragment="content">
+	<div class="container d-flex justify-content-center" layout:fragment="content">
 
-		<div class="card">
+		<div class="card col-lg-9 ">
 			<div class="card-body">
 				<!-- General Form Elements -->
-				<form>
+				<form name="submitForm" action="/saveCoInfo" method="post" class="">
 					<br>
 					<h2>기업정보등록</h2>
 					<hr>
 					<br>
-					<div class="row mb-3">
-						<label for="inputText" class="col-sm-2 col-form-label">기업명</label>
-						<div class="col-sm-10">
+					<div class="row mb-4 d-flex justify-content-center">
+						<label for="inputText" class="col-sm-1 col-form-label">기업명</label>
+						<div class="col-sm-4">
 							<input type="text" name="coNm" th:value="${co.coNm}"
 								class="form-control">
 						</div>
-					</div>
-
-					<div class="row mb-3">
-						<label for="inputText" class="col-sm-2 col-form-label">대표자</label>
-						<div class="col-sm-10">
+						
+						<label for="inputText" class="col-sm-1 col-form-label">대표자</label>
+						<div class="col-sm-4">
 							<input type="text" name="rpstr" th:value="${co.rpstr}"
 								class="form-control">
 						</div>
 					</div>
 
-					<div class="row mb-3">
-						<label class="col-sm-2 col-form-label">기업구분</label>
-						<div class="col-sm-10">
+
+					<div class="row mb-4 d-flex justify-content-center">
+						<label class="col-sm-1 col-form-label">구분</label>
+						<div class="col-sm-4">
 							<select class="form-select" name="coFg"
 								aria-label="Default select example">
 								<option value="">선택</option>
-								<option value="1" th:selected="${co.coFg == '1'}">강소기업</option>
-								<option value="2" th:selected="${co.coFg == '2'}">중소기업</option>
-								<option value="3" th:selected="${co.coFg == '3'}">중견기업</option>
-								<option value="4" th:selected="${co.coFg == '4'}">대기업</option>
+								<option value="M4" th:selected="${co.coFg == 'M4'}">강소기업</option>
+								<option value="M3" th:selected="${co.coFg == 'M3'}">중소기업</option>
+								<option value="M2" th:selected="${co.coFg == 'M2'}">중견기업</option>
+								<option value="M1" th:selected="${co.coFg == 'M1'}">대기업</option>
 							</select>
 						</div>
-					</div>
-
-					<div class="row mb-3">
-						<label class="col-sm-2 col-form-label">산업</label>
-						<div class="col-sm-10">
+						
+						<label class="col-sm-1 col-form-label">산업</label>
+						<div class="col-sm-4">
 							<select class="form-select" name="idst" 
 								aria-label="Default select example">
 								<option selected="">선택</option>
-								<option value="1" th:selected="${co.idst == '1'}">소프트웨어 개발 및 공급업</option>
-								<option value="2" th:selected="${co.idst == '2'}">컴퓨터 프로그래밍, 시스템 통합 및 관리업</option>
-								<option value="3" th:selected="${co.idst == '3'}">자료처리, 호스팅, 포털 및 기타 인터넷 정보매개서비스업</option>
-								<option value="4" th:selected="${co.idst == '4'}">기타 정보 서비스업</option>
+								<option value="W1" th:selected="${co.idst == 'W1'}">소프트웨어 개발 및 공급업</option>
+								<option value="W2" th:selected="${co.idst == 'W2'}">컴퓨터 프로그래밍, 시스템 통합 및 관리업</option>
+								<option value="W3" th:selected="${co.idst == 'W3'}">자료처리, 호스팅, 포털 및 기타 인터넷 정보매개서비스업</option>
+								<option value="W4" th:selected="${co.idst == 'W4'}">기타 정보 서비스업</option>
 							</select>
 						</div>
 					</div>
 
-					<div class="row mb-3">
-						<label class="col-sm-2 col-form-label">매출액</label>
-						<div class="col-sm-10">
-							<select class="form-select" name="sale" th:value="${co.sale}"
+					
+
+					<div class="row mb-4 d-flex justify-content-center">
+						<label class="col-sm-1 col-form-label">매출액</label>
+						<div class="col-sm-4">
+							<select class="form-select" name="sale" 
 								aria-label="Default select example">
 								<option selected="">선택</option>
-								<option value="1" th:selected="${co.sale == '1'}">400억 이하</option>
-								<option value="2" th:selected="${co.sale == '2'}">600억 이하</option>
-								<option value="3" th:selected="${co.sale == '3'}">800억 이하</option>
-								<option value="4" th:selected="${co.sale == '4'}">1000억 이하</option>
-								<option value="5" th:selected="${co.sale == '5'}">1500억 이하</option>
-								<option value="6" th:selected="${co.sale == '6'}">1500억 초과</option>
+								<option value="V1" th:selected="${co.sale == 'V1'}">400억 이하</option>
+								<option value="V2" th:selected="${co.sale == 'V2'}">600억 이하</option>
+								<option value="V3" th:selected="${co.sale == 'V3'}">800억 이하</option>
+								<option value="V4" th:selected="${co.sale == 'V4'}">1000억 이하</option>
+								<option value="V5" th:selected="${co.sale == 'V5'}">1500억 이하</option>
+								<option value="V6" th:selected="${co.sale == 'V6'}">1500억 초과</option>
+							</select>
+						</div>
+						
+						<label class="col-sm-1 col-form-label">자본금</label>
+						<div class="col-sm-4">
+							<select class="form-select" name="cptl"
+								aria-label="Default select example">
+								<option selected="">선택</option>
+								<option value="a1" th:selected="${co.cptl == 'a1'}">5000만원 이하</option>
+								<option value="a2" th:selected="${co.cptl == 'a2'}">1억 이하</option>
+								<option value="a3" th:selected="${co.cptl == 'a3'}">5억 이하</option>
+								<option value="a4" th:selected="${co.cptl == 'a4'}">10억 이하</option>
+								<option value="a5" th:selected="${co.cptl == 'a5'}">50억 이하</option>
+								<option value="a6" th:selected="${co.cptl == 'a6'}">50억 초과</option>
 							</select>
 						</div>
 					</div>
+					
+						
 
-					<div class="row mb-3">
-						<label for="inputText" class="col-sm-2 col-form-label">사원수</label>
-						<div class="col-sm-10">
+					<div class="row mb-4 d-flex justify-content-center">
+						<label for="inputText" class="col-sm-1 col-form-label">사원수</label>
+						<div class="col-sm-4">
 							<input type="text" name="empTtl" th:value="${co.empTtl}"
 								class="form-control">
 						</div>
-					</div>
-
-					<div class="row mb-3">
-						<label for="inputDate" class="col-sm-2 col-form-label">설립일</label>
-						<div class="col-sm-10">
+						
+						<label for="inputDate" class="col-sm-1 col-form-label">설립일</label>
+						<div class="col-sm-4">
 							<input type="date" name="fondtDt" th:value="${co.fondtDt}"
 								class="form-control">
 						</div>
 					</div>
 
-					<div class="row mb-3">
-						<label for="inputText" class="col-sm-2 col-form-label">주소</label>
-						<div class="col-sm-10">
+						
+
+					<div class="row mb-4 d-flex justify-content-center">
+						<label for="inputText" class="col-sm-1 col-form-label">주소</label>
+						<div class="col-sm-4">
 							<input type="text" name="addr" th:value="${co.addr}"
+								class="form-control">
+						</div>
+						
+						<label for="inputText" class="col-sm-1 col-form-label">사이트</label>
+						<div class="col-sm-4">
+							<input type="text" name="homePage" th:value="${co.homePage}"
 								class="form-control">
 						</div>
 					</div>
 
-					<div class="row mb-3">
-						<div class="col-6">
-							<a href="coMypage" class="btn btn-primary" style="float: right;">취소</a>
-						</div>
-						<div class="col-6">
-							<button type="submit" class="btn btn-primary">등록</button>
+					<div class="row mb-4">
+						<div class="col-12 d-flex justify-content-center" >
+							<a href="coMypage" class="btn btn-primary">취소</a>
+							<button type="submit" class="btn btn-primary">저장</button>
 						</div>
 					</div>
 
@@ -153,6 +172,7 @@ section {
 
 			</div>
 		</div>
+		
 	</div>
 </body>
 </html>

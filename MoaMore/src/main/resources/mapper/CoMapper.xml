@@ -3,6 +3,13 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.yedam.moa.co.mapper.CoMapper">
+  	<!-- 받은 관심 수 -->
+  	<select id="selectFollowers" parameterType="CoVO" resultType="String">
+  		SELECT count(id_mem)
+		FROM following
+		WHERE id_co = #{id}
+  	</select>
+  	<!-- 기업정보 조회 -->
 	<select id="selectCo" resultType="CoVO">
 		SELECT id,
 			   rpstr,
@@ -19,53 +26,59 @@
 		FROM co
 		WHERE id = #{id}
 	</select>
-	
-	<insert id="insertCo" parameterType="CoVO">
-		INSERT INTO co (
-						id,
-			   			rpstr,
-			   			sale,
-			   			co_fg,
-			   			emp_ttl,
-			   			fondt_dt,
-			   			idst,
-			   			addr,
-			   			cptl,
-			   			home_page,
-			   			bizno,
-			   			co_nm
-			   			)
-			   	VALUES (
-						#{id},
-			   			#{rpstr},
-			   			#{sale},
-			   			#{coFg},
-			   			#{empTtl},
-			   			#{fondtDt},
-			   			#{idst},
-			   			#{addr},
-			   			#{cptl},
-			   			#{homePage},
-			   			#{bizno},
-			   			#{coNm}			   	
-			   	)		
-	</insert>
-	
-	<update id="updateCo" parameterType="CoVO">
-		UPDATE co 
-		SET id = #{id},
-			rpstr = #{rpstr},
-			sale = #{sale},
-			co_fg = #{coFg},
-			emp_ttl = #{empTtl},
-			fondt_dt = #{fondtDt},
-			idst = #{idst},
-			addr = #{addr},
-			cptl = #{cptl},
-			home_page = #{homePage},
-			bizno = #{bizno},
-			co_nm = #{coNm}
+	<!-- 기업정보 등록/수정 -->
+	<update id="saveCoInfo">
+		BEGIN
+  			UPDATE co 
+  			SET id = #{id},
+				rpstr = #{rpstr},
+				sale = #{sale},
+				co_fg = #{coFg},
+				emp_ttl = #{empTtl},
+				fondt_dt = #{fondtDt},
+				idst = #{idst},
+				addr = #{addr},
+				cptl = #{cptl},
+				home_page = #{homePage},
+				bizno = #{bizno},
+				co_nm = #{coNm}  
+			WHERE id = #{id};
+			
+  			IF SQL%NOTFOUND 
+  			THEN
+    			INSERT INTO co (
+    						id,
+			   				rpstr,
+			   				sale,
+			   				co_fg,
+			   				emp_ttl,
+			   				fondt_dt,
+			   				idst,
+			   				addr,
+			   				cptl,
+			   				home_page,
+			   				bizno,
+			   				co_nm 
+			   				) 
+			   		VALUES (
+							#{id},
+							#{rpstr},
+							#{sale},
+							#{coFg},
+							#{empTtl},
+							#{fondtDt},
+							#{idst},
+							#{addr},
+							#{cptl},
+							#{homePage},
+							#{bizno},
+							#{coNm}
+							);
+  			END IF;
+		END;
 	</update>
+	
+		
 	<!-- 구인공고목록 -->
 	<select id="selectRec" parameterType="HireVO" resultType="HireVO">
 		SELECT recruit_no,
@@ -77,8 +90,8 @@
 		WHERE id = #{id}	   
 	</select>
 	
-	<!-- 미완성 관심/제안 셀프구직공고 목록 -->
-	<!-- <select id="selectInterNoti" parameterType="셀프구직vo" resultType="셀프구직vo">
+	<!-- 관심 셀프구직공고 목록 -->
+	<select id="selectInterNoti" parameterType="SelfVO" resultType="SelfVO">
 		SELECT job_search_no,
 				resume_no,
 				intro,
@@ -91,7 +104,7 @@
 				prop,
 				drwup_dt,
 				pubc_range,
-				id2,
+				id,
 				img_no,
 				reg_dt
 		FROM job_search_notiwr
@@ -101,6 +114,33 @@
  								WHERE id = #{id}
 												  )
 	
-	</select> -->
+	</select> 
+	
+	<!-- 제안완료 셀프구직공고 목록 -->
+	<select id="selectOfferNoti" parameterType="SelfVO" resultType="SelfVO">
+		SELECT  n.job_search_no,
+				n.resume_no,
+				n.intro,
+				n.hope_wksite,
+				n.duty_fld,
+				n.posit,
+				n.hope_sal,
+				n.residency,
+				n.interest,
+				n.prop,
+				n.drwup_dt,
+				n.pubc_range,
+				n.id,
+				n.img_no,
+				n.reg_dt,
+                s.accept_status
+		FROM job_search_notiwr n join job_search_st s
+        on n.job_search_no = s.job_search_no
+		WHERE n.job_search_no IN (
+  								SELECT job_search_no
+  								FROM job_search_st
+ 								WHERE id = #{id}
+												  )
+	</select> 
 	
 </mapper>
