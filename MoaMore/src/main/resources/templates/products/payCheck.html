@@ -37,6 +37,16 @@ section {
 <link href="adminAssets/vendor/remixicon/remixicon.css" rel="stylesheet">
 <link href="adminAssets/vendor/simple-datatables/style.css"
 	rel="stylesheet">
+<!-- datePicker -->
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/gh/dubrox/Multiple-Dates-Picker-for-jQuery-UI@master/jquery-ui.multidatespicker.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="http://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+
+</head>
 </head>
 <!-- Template Main CSS File -->
 <link href="adminAssets/css/style.css" rel="stylesheet">
@@ -47,44 +57,53 @@ section {
 <body id="body">
 	<div class="container d-flex justify-content-center"
 		layout:fragment="content">
-		<div class="card col-lg-7 ">
+		<div class="card col-lg-5 ">
 			<div class="card-body ">
 				<h3 class="card-title fw-bold">프리미엄-광고 결제</h3>
-
+				<br>
 				<!-- Horizontal Form -->
 				<form>
 					<div class="row mb-3">
-						<label for="inputEmail3" class="col-sm-2 col-form-label">상품명</label>
-						<div class="col-sm-10">
-							<input type="email" class="form-control" id="">
+						<p class="col-sm-3 text-end fs-5 fw-normal">상품명</p>
+						<div class="col-sm-8 text-end">
+							<p class="fs-5 fw-normal"
+								th:text="'광고 '+${param.count} + '회 이용권'"></p>
 						</div>
 					</div>
 					<div class="row mb-3">
-						<label for="inputPassword3" class="col-sm-2 col-form-label">상품가격</label>
-						<div class="col-sm-10">
-							<input type="password" class="form-control" id="">
+						<p class="col-sm-3 text-end fs-5 fw-normal">상품가격</p>
+						<div class="col-sm-8 text-end">
+							<p th:if="${#strings.equals(param.count, '1')}"
+								class="fs-5 fw-normal">50000원</p>
+							<p th:if="${#strings.equals(param.count, '3')}"
+								class="fs-5 fw-normal">150000원</p>
+							<p th:if="${#strings.equals(param.count, '5')}"
+								class="fs-5 fw-normal">250000원</p>
 						</div>
 					</div>
+					<div th:if="${param.count == 3}">test</div>
 					<hr>
 					<div class="row mb-3">
-						<label for="inputEmail3" class="col-sm-2 col-form-label">적용공고</label>
-						<div class="col-sm-10">
+						<p class="col-sm-3 text-end fs-5 fw-normal">적용공고</p>
+						<div class="col-sm-8 text-end">
 							<select class="form-select">
 								<option selected="">선택</option>
 							</select>
 						</div>
 					</div>
 					<div class="row mb-3">
-						<label for="inputPassword3" class="col-sm-2 col-form-label">날짜선택</label>
-						<div class="col-sm-10">
-							<input type="date" class="form-control" id="">
+						<p class="col-sm-3 text-end fs-5 fw-normal">날짜선택</p>
+						<div class="col-sm-8 text-end">
+							<input readonly style="background-color: white;"
+								class="form-control" id="datePick" /></input>
 						</div>
 					</div>
 					<hr>
 
 					<div class="row mb-3 d-flex justify-content-center">
-						<div class="col-sm-8" style="height: 200px; padding: 20px; background-color: #f7f7f7; ">
-						<div style="overflow-y: scroll; height: 160px;">
+						<div class="col-sm-10"
+							style="height: 200px; padding: 20px; background-color: #f7f7f7;">
+							<div style="overflow-y: scroll; height: 160px;">
 								<p>[이용안내]</p>
 								<p>- 멤버십 상품은 구매일로부터 이용 기간 내에 이용 가능한 상품입니다.</p>
 								<p>- 멤버십 상품은 결제가 완료되는 즉시 이용 가능합니다.</p>
@@ -97,15 +116,16 @@ section {
 								<p>- 아이디 공유가 적발 될 경우, 이용 자격이 박탈되며 환불이 불가능합니다.</p>
 								<p>- 기타 불법 공유 행위가 적발될 경우, 형사 고발 조치가 진행될 수 있습니다.</p>
 								<p>- 결제에 따른 개인 정보는 '개인정보처리방침'에 근거하여 관리됩니다.</p>
-						</div></div>
+							</div>
+						</div>
 					</div>
 
 					<div class="row mb-12">
 						<div class="col-sm-12 offset-sm-12 d-flex justify-content-center">
 							<div class="form-check">
 								<input class="form-check-input" type="checkbox" id="gridCheck1">
-								<label class="form-check-label" for="gridCheck1"> 위의
-									결제정보를 확인하였고 이에 동의합니다. </label>
+								<p class="form-check-p" for="gridCheck1">위의 결제정보를 확인하였고 이에
+									동의합니다.</p>
 							</div>
 						</div>
 					</div>
@@ -118,7 +138,11 @@ section {
 
 			</div>
 		</div>
-
+		<script>
+			$(document).ready(function() {
+				$('#datePick').multiDatesPicker();
+			});
+		</script>
 	</div>
 
 
