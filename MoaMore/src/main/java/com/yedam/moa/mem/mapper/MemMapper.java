@@ -7,4 +7,6 @@ import com.yedam.moa.mem.MemVO;
 public interface MemMapper {
 
 	public List<MemVO> openSesame(MemVO vo);
+
+	public List<MemVO> getSearch(MemVO vo);
 }

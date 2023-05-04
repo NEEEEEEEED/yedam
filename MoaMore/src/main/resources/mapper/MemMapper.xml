@@ -7,20 +7,57 @@
 	<select id="openSesame" resultType="MemVO">
 		SELECT 	r.id as id_co,
 				r.ttl,
-				r.expr_dt, 
-				r.recruit_no, 
-				r.co_img, 
-				c.co_nm, 
+				r.expr_dt,
+				r.recruit_no,
+				r.co_img,
+				c.co_nm,
 				m.email
 		FROM 	co c join recruit_anun r
 		ON 		r.id = c.id
 					join member m
 					on c.id = m.id
 		WHERE 	r.id IN (SELECT id_co
-						FROM following
-						WHERE id_mem = #{id})
+						 FROM following
+						 WHERE id_mem = #{id})
 	</select>
-
+	<select id="getSearch" resultType="MemVO">
+		select  s.aply_st, 
+				s.aply_st, 
+				r.ttl, 
+				r.expr_dt, 
+				s.st
+		from 	recruit_anum_st s join recruit_anun r
+		on		s.recruit_no = r.recruit_no
+		<where>
+		<if test='#{period} != null and #{period} == 7'>
+			and s.aplyDt BETWEEN sysdate and sysdate-7
+		</if>
+		<if test='#{period} != null and #{period} == 1'>
+			and s.aplyDt BETWEEN sysdate and ADDMONTHS(sysdate,-1) 
+		</if>
+		<if test='#{period} != null and #{period} == 2'>
+			and s.aplyDt BETWEEN sysdate and ADDMONTHS(sysdate,-2) 
+		</if> 
+		<if test='#{period} != null and #{period} == 3'>
+			and s.aplyDt BETWEEN sysdate and ADDMONTHS(sysdate,-3) 
+		</if>
+		<if test='#{closeYn} != J2'>
+			<![CDATA[and sysdate - to_date(r.expr_dt,'yyyy-MM-dd') > 0]]>
+		</if>		
+		<if test='#{closeYn} != J1'>
+			<![CDATA[and sysdate - to_date(r.expr_dt,'yyyy-MM-dd') < 0]]>
+		</if>
+		<if test='#{startDt} != null and #{endDt}'>
+			and s.aplyDt BETWEEN #{startDt} and #{endDt}
+		</if>
+		<if test='#{yn} != null '>
+			and s.st = #{yn}
+		</if>
+		<if test='#{} != null '>
+			and s.st = #{yn}
+		</if>
+		</where>
+	</select>
 
 
 </mapper>

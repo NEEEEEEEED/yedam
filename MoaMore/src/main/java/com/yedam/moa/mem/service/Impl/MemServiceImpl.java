@@ -21,4 +21,10 @@ public class MemServiceImpl implements MemService {
 		return mem.openSesame(vo);
 	}
 
+
+	@Override
+	public List<MemVO> getSearch(MemVO vo) {
+		return null;
+	}
+
 }
