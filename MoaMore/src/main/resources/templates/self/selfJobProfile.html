@@ -4,7 +4,7 @@
 	  layout:decorate="~{template/layout}">
 <head>
 <meta charset="UTF-8">
-<title>모아모아/내프로필관리</title>
+<title>모아모아/내프로필등록</title>
 
 <!-- self/selfJobProfile.css.CSS -->
 <link href="self/selfJobProfile.css" rel="stylesheet">
@@ -12,15 +12,16 @@
 </head>
 <body>
 	<div layout:fragment="content">
+		<!-- 사이드바 -->
 		<div class="row" style="margin-top : 30px; height: auto;">
 			<div class="col-md-1"></div>
 			<div class="col-md-2 border-end" style="margin:10px;">
 				<div style="position: sticky; top:150px;">
-					<p class="fs-1" style="text-align : center;">내 프로필 관리</p>
+					<p class="fs-1" style="text-align : center;">My프로필 등록</p>
 					<hr>
 					<div style="display:flex; justify-content: center;">
 						<div style="display:flex; flex-direction: column;">
-							<button type="button" class="btn btn-outline-danger btn-sm mb-3">이력서불러오기</button>
+							<button type="button" class="btn btn-outline-danger btn-sm mb-3 radius" data-bs-toggle="modal" data-bs-target="#resumModal">이력서불러오기</button>
 							<div class="mb-2 cursor">
 								<img src="self/number1_fill.svg" class="number"><span>셀프소개</span>
 							</div>
@@ -43,6 +44,8 @@
 					</div>
 				</div>
 			</div>
+			
+			<!-- 본문 : 셀프소개 -->
 			<div class="col-md-7">
 				<div class="mb-5">
 					<p class="fs-1"><b>셀프소개</b></p>
@@ -55,7 +58,7 @@
 						<div class="col-md-9">
 							<div class="border-bottom divStyle mb-3">
 								<span style="width:20%;">제목</span>
-								<input type="text" class="inputStyle">
+								<input type="text" class="inputStyle" placeholder="제목을 입력해주세요." style="text-align : center;">
 							</div>
 							<div class="border-bottom divStyle mb-3">
 							  <span style="width:20%;">지역</span>
@@ -85,7 +88,7 @@
 							  </select>
 							</div>
 							<div class="divStyle mb-3">
-							  <div class="form-floating border" style="width:100%;">
+							  <div class="form-floating border fullWidth">
 							  	<div class="row">
 							  		<div class="col-md-3">
 							  			<div style="padding : 16px;">
@@ -93,7 +96,7 @@
 							  			</div>
 							  		</div>
 							  		<div class="col-md-9">
-							  			<textarea class="form-control" placeholder="자기소개" id="floatingTextarea2" style="height: 200px; resize: none; border-radius : 0px; border:none; width:100%"></textarea>
+							  			<textarea class="form-control radius fullWidth" placeholder="자기소개" id="floatingTextarea2" style="height: 200px; resize: none; border:none;"></textarea>
 							  		</div>
 							  	</div>
 							  </div>
@@ -101,10 +104,13 @@
 						</div>
 					</div>
 				</div>
+				
 				<hr style="color : #ddd;">
 				<br>
+				
+				<!-- 본문 : 경력사항 -->
 				<div class="mb-5">
-					<p class="fs-1"><b>경력사항 </b><button type="button" class="btn btn btn-outline-dark btn-sm" style="height:40px;">추가</button></p>
+					<p class="fs-1"><b>경력사항 </b><button type="button" class="btn btn btn-outline-dark btn-sm radius" style="height:40px;">추가</button></p>
 					<div class="row mb-3">
 						<div class="col-md-2" style="text-align:center;">
 						</div>
@@ -149,10 +155,13 @@
 						</div>
 					</div>
 				</div>
+				
 				<hr style="color : #ddd;">
 				<br>
+				
+				<!-- 본문: 학력 -->
 				<div class="mb-5">
-					<p class="fs-1"><b>학력 </b><button type="button" class="btn btn btn-outline-dark btn-sm" style="height:40px;">추가</button></p>
+					<p class="fs-1"><b>학력 </b><button type="button" class="btn btn btn-outline-dark btn-sm radius" style="height:40px;">추가</button></p>
 					<div class="row mb-3">
 						<div class="col-md-2" style="text-align:center;">
 						</div>
@@ -180,8 +189,11 @@
 						</div>
 					</div>
 				</div>
+				
 				<hr style="color : #ddd;">
 				<br>
+				
+				<!-- 본문 : 희망급여 -->
 				<div class="mb-5">
 					<p class="fs-1"><b>희망급여</b></p>
 					<div class="row">
@@ -200,8 +212,11 @@
 						</div>
 					</div>
 				</div>
+				
 				<hr style="color : #ddd;">
 				<br>
+				
+				<!-- 본문 : 상주가능 정보 -->
 				<div class="mb-5">
 					<p class="fs-1"><b>상주가능정보</b></p>
 					<div class="row">
@@ -224,23 +239,27 @@
 						</div>
 					</div>
 				</div>
+				
 				<hr style="color : #ddd;">
 				<br>
+				
+				<!-- 본문 : 포트폴리오 -->
 				<div class="mb-5">
-					<p class="fs-1"><b>포트폴리오 </b><button type="button" class="btn btn btn-outline-dark btn-sm" style="height:40px;">추가</button></p>
+					<p class="fs-1"><b>포트폴리오 </b><button type="button" class="btn btn btn-outline-dark btn-sm radius" data-bs-toggle="modal" data-bs-target="#pofolModal" style="height:40px;">추가</button></p>
 					<div class="row">
 						<div class="col-md-2" style="text-align:center;">
 						</div>
 						<div class="col-md-8">
-							<div class="row border-bottom hoverRow">
+							<div class="row align-items-center border-bottom hoverRow">
 				              <div class="col-md-2">
 				              	<img class="img-fluid" src="assets/img/blog/blog-hero.png" alt="">
 				              </div>
 				              <div class="col-md-8">
-				                	<p class="mb-0" style="line-height: 55px;">포트폴리오경로</p>
+				              		<p class="mb-0">제목</p>
+				                	<p class="mb-0">포트폴리오 파일명</p>
 				              </div>
 				              <div class="col-md-2" >
-							      <button type="button" style="line-height: 55px; padding:20px;" class="btn-close" aria-label="Close"></button>
+							      <button type="button" style="padding:15px;" class="btn-close" aria-label="Close"></button>
 							  </div>             
 							</div>
 							<div class="col-md-2">
@@ -248,15 +267,107 @@
 						</div>
 					</div>
 				</div>
+				
 				<hr style="color : #ddd;">
 				<br>
+				<!-- 프로필 등록 버튼 -->
 				<div class="mb-5" style="text-align:right;">
-					<button type="button" class="btn btn-dark" style="border-radius : 0px;">프로필 등록</button>
+					<button type="button" class="btn btn-dark radius">프로필 등록</button>
 				</div>
 			</div>
 			<hr>
 			<div class="col-md-1"></div>
 		</div>
+		
+		<!-- 이력서 불러오기 버튼 모달창 -->
+		<!-- Modal -->
+		<div class="modal fade" id="resumModal" tabindex="-1" aria-labelledby="resumModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content radius">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="resumModalLabel">이력서 불러오기</h5>
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		      </div>
+		      <div class="modal-body" style="text-align: center;">
+				<!-- 조회 시 나타나는 테이블 -->
+				<div id="resumTable" class="fullWidth">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>선택</th>
+								<th>이력서</th>
+								<th>제목</th>
+								<th>이력서</th>
+								<th>등록일자</th>
+							</tr>
+						</thead>
+						<!-- ↓↓↓여기에 조회된 결과 출력 (테스트용 더미 넣었음) -->
+						<tbody id="resumlist">
+							<tr class='hoverRow' ondblclick="">
+								<td><input type="radio" name="resumRadio"></td>
+								<td>test</td>
+								<td>test</td>
+								<td>test</td>
+								<td>test</td>
+							</tr>
+							<tr class='hoverRow' ondblclick="">
+								<td><input type="radio" name="resumRadio"></td>
+								<td>test</td>
+								<td>test</td>
+								<td>test</td>
+								<td>test</td>
+							</tr>
+						</tbody>
+					</table>
+				</div> <!-- 태이블 끝 -->
+			</div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary radius" style="background-color:gray; border : none;" data-bs-dismiss="modal">닫기</button>
+		        <button type="button" class="btn btn-dark radius">선택</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		
+		<!-- 포트폴리오 불러오기 버튼 모달창 -->
+		<!-- Modal -->
+		<div class="modal fade" id="pofolModal" tabindex="-1" aria-labelledby="pofolModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content radius">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="pofolModalLabel">포트폴리오 등록</h5>
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		      </div>
+		      <div class="modal-body">
+				<form>
+					<table class="table">
+						<tbody class="trColor">
+							<tr>
+								<th>제목</th>
+								<td><input type="text" class="fullWidth" style="border : 1px solid #ddd;"></td>
+							</tr>
+							<tr>
+								<th>이미지파일</th>
+								<td><input type="file"></td>
+							</tr>
+							<tr>
+								<th>포트폴리오 파일</th>
+								<td><input type="file"></td>
+							</tr>
+						</tbody>
+						
+					</table>
+				</form>
+				
+			  </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary radius" style="background-color:gray; border : none;" data-bs-dismiss="modal">닫기</button>
+		        <button type="button" class="btn btn-dark radius">등록</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		
 		
 		<script>
 		changeImg.addEventListener('click',function(){
