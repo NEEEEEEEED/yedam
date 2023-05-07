@@ -8,9 +8,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.moa.mem.MemVO;
+import com.yedam.moa.mem.SearchVO;
 import com.yedam.moa.mem.service.MemService;
 
 @Controller
@@ -33,9 +35,9 @@ public class MemController {
 	
 	@PostMapping("/getSearch")
 	@ResponseBody
-	public void getSearch(MemVO vo){
-		vo.setId(pr.getName());
+	public List<MemVO> getSearch(@RequestBody SearchVO vo, Principal principal){
 		System.out.println(vo);
-		 
+		vo.setId(principal.getName());
+		return mem.getSearch(vo);
 	}
 }

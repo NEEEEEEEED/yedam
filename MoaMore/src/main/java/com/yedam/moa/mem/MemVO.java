@@ -53,13 +53,15 @@ public class MemVO {
 //	구인공고 지원상태 
 	private String aplySt;		//지원상태
 	private String aplyDt;		//지원일자
-	private int period;			//검색기간 
+	private String period;			//검색기간 
 	private String startDt;		//검색 시작
 	private String endDt;		//검색 끝
 	private String st;		//열람여부
 	private HireVO hireVO;
 //	기업 정보
 	private String coNm;		//기업 이름
+	
+	private String closeYn;
 	
 	
 

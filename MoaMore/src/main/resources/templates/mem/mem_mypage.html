@@ -9,24 +9,30 @@
       #fullScreen {
         height: 100vh;
       }
+
       .countVal {
         height: 100px;
         font-size: 80px;
       }
+
       .month {
         width: 60px;
         height: 40px;
         font-size: auto;
       }
+
       .label {
         width: 100px;
       }
+
       .dt {
         width: 120px;
       }
+
       .yn {
         width: 100px;
       }
+
       .talbe {
         text-align: center;
       }
@@ -277,50 +283,121 @@
                   </div>
                   <!--날짜 선택-->
                   <div>
-                    <span class="label">날짜 선택</span>
-                    <input
-                      type="month"
-                      name="startDt"
-                      id="startDt"
-                      class="dt form-control-sm"
-                    />
-                    ~
-                    <input
-                      type="month"
-                      name="endDt"
-                      id="endDt"
-                      class="dt form-control-sm"
-                    />
+                    <span class="label">날짜 선택</span> <input type="month"
+                    name="startDt" id="startDt" class="dt form-control-sm"
+                    value= /> ~ <input type="month" name="endDt" id="endDt"
+                    class="dt form-control-sm" value= />
                   </div>
                 </div>
                 <div class="d-flex justify-content-between my-3">
                   <div>
-                    <label class="yn" for="progress">마감여부</label>
-                    <select
-                      name="progress"
-                      id="progress"
-                      class="form-control-sm"
-                    >
-                      <option value="null">전체</option>
-                      <option value="J1">마감 전</option>
-                      <option value="J2">마감 후</option>
-                    </select>
+                    <div class="dropdown">
+                      <button
+                        class="btn btn-chek dropdown-toggle"
+                        type="button"
+                        style="border-radius: 0.5rem"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        name="dropHead"
+                      >
+                        <span>마감여부</span>
+                      </button>
+                      <ul class="dropdown-menu" style="border-radius: 0.5rem">
+                        <li>
+                          <button
+                            type="button"
+                            class="dropdown-item"
+                            style="border-radius: 0.5rem"
+                            data-value="J1"
+                          >
+                            <span>마감 전</span>
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            type="button"
+                            class="dropdown-item"
+                            style="border-radius: 0.5rem"
+                            data-value="J2"
+                          >
+                            <span>마감 후</span>
+                          </button>
+                        </li>
+                      </ul>
+                    </div>
+                    <input type="hidden" name="expir" id="expir" value />
                   </div>
                   <div>
-                    <label class="yn ms-5" for="yn">열람여부</label>
-                    <select name="yn" id="yn" class="form-control-sm">
-                      <option value="null">전체</option>
-                      <option value="1">열람</option>
-                      <option value="0">미열람</option>
-                    </select>
+                    <div class="dropdown">
+                      <button
+                        class="btn btn-chek dropdown-toggle"
+                        type="button"
+                        style="border-radius: 0.5rem"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        <span>열람여부</span>
+                      </button>
+                      <ul class="dropdown-menu" style="border-radius: 0.5rem">
+                        <li>
+                          <button
+                            type="button"
+                            class="dropdown-item"
+                            style="border-radius: 0.5rem"
+                            data-value="1"
+                          >
+                            <span>열람</span>
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            type="button"
+                            class="dropdown-item"
+                            style="border-radius: 0.5rem"
+                            data-value="0"
+                          >
+                            <span>미열람</span>
+                          </button>
+                        </li>
+                      </ul>
+                    </div>
+                    <input type="hidden" name="st" id="st" value />
                   </div>
                   <div>
-                    <label class="yn ms-5" for="status">지원상태</label>
-                    <select name="status" id="status" class="form-control-sm">
-                      <option value="null">전체</option>
-                      <option value="b1">지원완료</option>
-                      <option value="b2">지원취소</option>
-                    </select>
+                    <div class="dropdown">
+                      <button
+                        class="btn btn-chek dropdown-toggle"
+                        type="button"
+                        style="border-radius: 0.5rem"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        <span>지원상태</span>
+                      </button>
+                      <ul class="dropdown-menu" style="border-radius: 0.5rem">
+                        <li>
+                          <button
+                            type="button"
+                            class="dropdown-item"
+                            style="border-radius: 0.5rem"
+                            data-value="b1"
+                          >
+                            <span>지원완료</span>
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            type="button"
+                            class="dropdown-item"
+                            style="border-radius: 0.5rem"
+                            data-value="b2"
+                          >
+                            <span>지원 취소</span>
+                          </button>
+                        </li>
+                      </ul>
+                    </div>
+                    <input type="hidden" name="aplySt" id="aplySt" value />
                   </div>
                 </div>
               </div>
@@ -351,40 +428,60 @@
         </div>
       </div>
       <script>
-        let period;
-        let startDt = $("input[type=month][name=startDt]");
-        let endDt = $("input[type=month][name=endDt]");
-        let progress = $("select[name=progress]");
-        let yn = $("select[name=yn]");
-        let status = $("select[name=status]");
-        let container = function (peri, start, end, prog, yn, st) {
-          this.period = peri;
-          this.startDt = start;
-          this.endDt = end;
-          this.closeYn = prog;
-          this.st = yn;
-          this.aplySt = st
+        let container = function (period, startDt, endDt, expir, st, aplySt) {
+          this.period = period;
+          this.startDt = startDt;
+          this.endDt = endDt;
+          this.expir = expir;
+          this.st = st;
+          // this.aplySt = aplySt;
         };
         $(document).ready(function () {
-          $("#search").on("click", function () {
-            if(document.querySelector("input[type=radio]:checked")!=null){
-        	 period = document.querySelector("input[type=radio]:checked").value;	
-            }
-            let ball = new container(
-              period,
-              startDt.val(),
-              endDt.val(),
-              progress.val(),
-              yn.val(),
-              status.val()
+          $(".dropdown-item").on("click", function () {
+            let selected = $(this).data("value");
+            console.log(selected);
+            let selectedText = $(this)[0].innerText;
+            $(this).closest(".dropdown")[0].firstElementChild.innerText =
+              selectedText;
+            $(this).closest(".dropdown")[0].nextElementSibling.value = selected;
+            console.log(
+              $(this).closest(".dropdown")[0].nextElementSibling.value
             );
+          });
+          $("#search").on("click", function () {
+            let period = $(":input:radio[name=options]:checked").val();
+            let startDt = $("#startDt").val();
+            let endDt = $("#endDt").val();
+            let expir = $("#expir").val();
+            let st = $("#st").val();
+            let aplyst = $("#aplySt").val();
+            console.log(period, startDt, endDt, expir, st, aplyst);
+            if (startDt == "") {
+              startDt = null;
+            }
+            if (endDt == "") {
+              endDt = null;
+            }
+            if (expir == "") {
+              expir = null;
+            }
+            if (st == "") {
+              st = null;
+            }
+            if (aplyst == "") {
+              aplyst = null;
+            }
+            console.log(aplyst);
+            let ball = new container(period, startDt, endDt, expir, st, aplySt);
+            console.log(aplyst);
+            console.log(ball);
             $.ajax({
               type: "POST",
               url: "/getSearch",
               contentType: "application/json",
-              data: ball,
+              data: JSON.stringify(ball),
               success: function (res) {
-                alert("success");
+                console.log(res);
               },
               error: function (err) {
                 alert(err.responseText);
