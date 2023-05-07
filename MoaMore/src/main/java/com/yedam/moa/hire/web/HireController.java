@@ -25,7 +25,6 @@ public class HireController {
 	// 구인공고목록 페이지
 	@GetMapping("/hirePage")
 	public String hireList(Model model) {
-	
 		return "hire/hirePage";
 	}
 	
