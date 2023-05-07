@@ -28,7 +28,8 @@ public class MoaMoreApplication {
 	}
 	@GetMapping("/vueTest")
 	public String vueTest() {
-		return "admin/index";
+		return "../static/index.html";
 	}
+	
 	
 }
