@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yedam.moa.mem.MemVO;
+import com.yedam.moa.mem.SearchVO;
 import com.yedam.moa.mem.mapper.MemMapper;
 import com.yedam.moa.mem.service.MemService;
 
@@ -23,8 +24,8 @@ public class MemServiceImpl implements MemService {
 
 
 	@Override
-	public List<MemVO> getSearch(MemVO vo) {
-		return null;
+	public List<MemVO> getSearch(SearchVO vo) {
+		return mem.getSearch(vo);
 	}
 
 }

@@ -21,42 +21,50 @@
 						 WHERE id_mem = #{id})
 	</select>
 	<select id="getSearch" resultType="MemVO">
-		select  s.aply_st, 
+		select  s.aply_dt, 
 				s.aply_st, 
 				r.ttl, 
 				r.expr_dt, 
 				s.st
 		from 	recruit_anum_st s join recruit_anun r
 		on		s.recruit_no = r.recruit_no
-		<where>
-		<if test='#{period} != null and #{period} == 7'>
-			and s.aplyDt BETWEEN sysdate and sysdate-7
+		where	s.id = #{id}
+		<if test="#{period} == 7">
+			and s.aply_dt BETWEEN sysdate-7 and sysdate
 		</if>
-		<if test='#{period} != null and #{period} == 1'>
-			and s.aplyDt BETWEEN sysdate and ADDMONTHS(sysdate,-1) 
+		<if test="#{period} == 1">
+			and s.aply_dt BETWEEN ADD_MONTHS(sysdate,-1) and sysdate 
 		</if>
-		<if test='#{period} != null and #{period} == 2'>
-			and s.aplyDt BETWEEN sysdate and ADDMONTHS(sysdate,-2) 
+		<if test="#{period} == 2">
+			and s.aply_dt BETWEEN ADD_MONTHS(sysdate,-2) and sysdate  
 		</if> 
-		<if test='#{period} != null and #{period} == 3'>
-			and s.aplyDt BETWEEN sysdate and ADDMONTHS(sysdate,-3) 
+		<if test="#{period} == 3">
+			and s.aply_dt BETWEEN ADD_MONTHS(sysdate,-3) and sysdate  
 		</if>
-		<if test='#{closeYn} != J2'>
-			<![CDATA[and sysdate - to_date(r.expr_dt,'yyyy-MM-dd') > 0]]>
-		</if>		
-		<if test='#{closeYn} != J1'>
-			<![CDATA[and sysdate - to_date(r.expr_dt,'yyyy-MM-dd') < 0]]>
-		</if>
-		<if test='#{startDt} != null and #{endDt}'>
-			and s.aplyDt BETWEEN #{startDt} and #{endDt}
-		</if>
-		<if test='#{yn} != null '>
-			and s.st = #{yn}
-		</if>
-		<if test='#{} != null '>
-			and s.st = #{yn}
-		</if>
-		</where>
+<!-- 		<if test='#{expir} == "J2"'> -->
+<!-- 			<![CDATA[and sysdate - to_date(r.expr_dt,'yyyy-MM-dd') > 0]]> -->
+<!-- 		</if>		 -->
+<!-- 		<if test='#{expir} == "J1"'> -->
+<!-- 			<![CDATA[and sysdate - to_date(r.expr_dt,'yyyy-MM-dd') <= 0]]> -->
+<!-- 		</if> -->
+<!-- 		<if test='#{startDt} != null and #{endDt} != null '> -->
+<!-- 			and s.aply_dt BETWEEN #{startDt} and #{endDt} -->
+<!-- 		</if> -->
+<!-- 		<if test='#{st} != null '> -->
+<!-- 			and s.st = #{st} -->
+<!-- 		</if> -->
+<!-- 		<if test='#{aplySt} != null '> -->
+<!-- 			and s.aply_st = #{aplySt} -->
+<!-- 		</if> -->
+
+<!-- 	select  s.aply_dt, -->
+<!-- 			s.aply_st, -->
+<!-- 			r.ttl, -->
+<!-- 			r.expr_dt, -->
+<!-- 			s.st -->
+<!-- 	from recruit_anum_st s join recruit_anun r -->
+<!-- 	on s.recruit_no = r.recruit_no -->
+<!-- 	where s.id = #{id} -->
 	</select>
 
 
