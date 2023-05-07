@@ -5,4 +5,127 @@
   
 <mapper namespace="com.yedam.moa.self.mapper.SelfMapper">
 
+	<!-- 셀프구직 페이지 영역 -->
+	<select id="selfJobList" resultType="SelfVO">
+		select  job_search_no, resume_no, id, posit, ttl, get_common(hope_wksite) as hopeWksite, get_common(duty_fld) as dutyFld, pubc_range, hope_sal, myimg, interest, prop, reg_dt
+		from job_search_notiwr
+		<where>
+		    <if test="auth != null and !auth.equals('') and auth.equals('user')">
+		        (pubc_range = 'c3' OR pubc_range = 'c1') AND id = #{id}
+		    </if>
+		    <if test="auth != null and !auth.equals('') and auth.equals('co')">
+		        pubc_range = 'c3' OR pubc_range = 'c2'
+		    </if>
+		    <if test="auth != null and !auth.equals('') and auth.equals('admin')">
+		    
+		    </if>
+		</where>
+		ORDER BY job_search_no desc
+	</select>
+	
+	<!-- 불러올 이력서가 존재하는지 체크 -->
+	<select id="checkResume" resultType="int">
+		SELECT count(resume_no) 
+		FROM resume
+		WHERE id = #{id}
+	</select>
+
+	<!-- My프로필 등록 페이지 영역 -->
+	
+	<!-- 지역 리스트 -->
+	<select id="cityList" resultType="SelfVO">
+		SELECT prov, desct
+		FROM cmmn_dt
+		WHERE comm_cd = 'X'
+		ORDER BY prov
+	</select>
+	
+	<!-- 직무 분야 리스트 -->
+	<select id="jobList" resultType="SelfVO">
+		SELECT prov, desct
+		FROM cmmn_dt
+		WHERE comm_cd = 'N'
+		ORDER BY prov
+	</select>
+	
+	<!-- 기술 스택 리스트 -->
+	<select id="techList" resultType="SelfVO">
+		SELECT prov, desct
+		FROM cmmn_dt
+		WHERE comm_cd = 'Z'
+		ORDER BY prov
+	</select>
+	
+	<!-- 보기권한 -->
+	<select id="authList" resultType="SelfVO">
+		SELECT prov, desct
+		FROM cmmn_dt
+		WHERE comm_cd = 'c'
+		ORDER BY prov
+	</select>
+	
+	<!-- 이력서 헤더 리스트 -->
+	<select id="resumeHeader" resultType="SelfVO">
+		SELECT RESUME_NO, TTL, CARR_NO, SHCR_NO, REG_DT
+		FROM RESUME
+		WHERE id=#{id}
+		ORDER BY REG_DT DESC
+	</select>
+	
+	<!-- 경럭 사항 리스트 -->
+	<select id="careerList" resultType="SelfVO">
+		SELECT carr_no, co, wkdty, depart, get_common(duty) as duty, join_yy, reti_yy, buss, get_common(carr_st) as carrSt, no
+		FROM resume_carr
+		WHERE carr_no = #{carrNo}
+		ORDER BY join_yy desc
+	</select>
+	
+	<!-- 학력 사항 리스트 -->
+	<select id="schoolList" resultType="SelfVO">
+		SELECT shcr_no, get_common(fg) as fg, breu, mj, join_yy, reti_yy, pnt, get_common(shcr_st) as shcrSt, get_common(tt_score) as ttScore , no 
+		FROM resume_shcr
+		WHERE shcr_no = #{shcrNo}
+		ORDER BY join_yy desc
+	</select>
+	
+	<!-- 셀프구직 게시글 기본키부여 -->
+	<select id="selfJobKey" resultType="String">
+		SELECT 'JSN'|| self_job_seq.NEXTVAL as jobSearchNo
+		FROM DUAL
+	</select>
+	
+	<!-- 이력서 등록 -->
+	<insert id="myProfileAdd" parameterType="SelfVO">
+		INSERT INTO job_search_notiwr(JOB_SEARCH_NO, RESUME_NO, ID, TTL, HOPE_WKSITE, DUTY_FLD, POSIT, PUBC_RANGE, INTRO, HOPE_SAL, RESIDENCY, MYIMG)
+		VALUES (#{jobSearchNo}, #{resumeNo}, #{id}, #{ttl}, #{hopeWksite}, #{dutyFld}, #{posit}, #{pubcRange}, #{intro}, #{hopeSal}, #{residency}, #{myimg})
+	</insert>
+	
+	<!-- 포트폴리오 기본키 부여 -->
+	<select id="selfJobPofolKey" resultType="String">
+		select 'JSF' || self_job_pofol_seq.NEXTVAL as fileNo
+		FROM DUAL
+	</select>
+	
+	<!-- 포트폴리오 등록 -->
+	<insert id="selfJobPofolAdd" parameterType="SelfVO">
+		INSERT INTO job_search_pof(file_no, job_search_no, id, title, pofol_img, pofol_file, pofol_uuid_file)
+		VALUES (#{fileNo}, #{jobSearchNo}, #{id}, #{title}, #{pofolImg}, #{pofolFile}, #{pofolUuidFile}) 
+	</insert>
+	
+	<!-- 포트폴리오 목록 리스트 -->
+	<select id="selfJobpofolList" resultType="SelfVO">
+		SELECT file_no, job_search_no, id, title, pofol_img, pofol_file, pofol_uuid_file, reg_dt
+		FROM job_search_pof
+		WHERE job_search_no = #{jobSearchNo}
+		ORDER BY file_no
+	</select>
+	
+	<!-- 포트폴리오 삭제 -->
+	<delete id="pofolDelete" parameterType="String">
+		DELETE
+		FROM job_search_pof
+		WHERE file_no = #{fileNo}
+	</delete>
+	
+
 </mapper>
