@@ -26,6 +26,7 @@ public class MemberVO implements UserDetails {
 		return list;
 	}
 	
+	
 	// 로그인 체크
 	@Override
 	public String getPassword() {
