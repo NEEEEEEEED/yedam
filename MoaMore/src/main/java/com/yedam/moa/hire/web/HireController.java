@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.moa.hire.HireVO;
 import com.yedam.moa.hire.service.HireService;
@@ -22,22 +24,22 @@ public class HireController {
 	
 	// 구인공고목록 페이지
 	@GetMapping("/hirePage")
-	public String hireList(Model model,Principal principal) {
-		HireVO hireVO = new HireVO();
-		
+	public String hireList(Model model) {
+	
+		return "hire/hirePage";
+	}
+	
+	// 구인공고 전체조회 조건검색 스크랩정렬
+	@GetMapping("/data")
+	@ResponseBody
+    public List<HireVO> getData(HireVO hireVO, Principal principal) {
+		List<HireVO> hireList = new ArrayList<HireVO>();
 		pr = principal;
 		hireVO.setId(pr.getName());
 		
-		List<HireVO> hireList = new ArrayList<HireVO>();
-		hireList = hireService.hireList(hireVO );
-		
-		List<HireVO> hireScrapList = new ArrayList<HireVO>();
-		hireScrapList = hireService.hireScrapList(hireVO);
-		
-		model.addAttribute("hireScrapList",hireScrapList);
-		model.addAttribute("hireList",hireList);
-		return "hire/hirePage";
-	}
+		 hireList = hireService.hireList(hireVO);
+         return hireList;
+    }
 	
 	// 구인공고 등록 페이지
 	@GetMapping("/hireInsert")

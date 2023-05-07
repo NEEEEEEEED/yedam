@@ -20,6 +20,7 @@ public class HireVO {
 	private String coImg; // 기업 이미지
 	private String accpDt; // 승인날짜
 	private String imgNo; // 이미지 그룹번호
+	private String job; // 직군
 	
 	private String coNm; // 기업이름
 	private String addr; // 기업주소

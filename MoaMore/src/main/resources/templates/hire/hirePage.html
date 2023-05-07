@@ -28,7 +28,7 @@
 			<label for = "name">직군</label> 
 			
 			<select id = "job" class = "selectStyle">
-				<option selected value = 'N0'>개발 전체</option>
+				<option selected value = ''>개발 전체</option>
 				<option value = 'N1'>웹 개발자</option>
 				<option value = 'N2'>서버 개발자</option>
 				<option value = 'N3'>안드로이드 개발자</option>
@@ -45,7 +45,7 @@
 			<label for="name">지역</label> 
 			
 			<select id="loc" class = "selectStyle">
-				<option selected value='X1'>전국</option>
+				<option selected value=''>전국</option>
 				<option value = 'X2'>서울</option>
 				<option value = 'X3'>부산</option>
 				<option value = 'X4'>대구</option>
@@ -68,7 +68,8 @@
 			<label for = "name">경력</label> 
 			
 			<select id="cre" class = "selectStyle">
-				<option selected value = 'Y1'>신입</option>
+				<option selected value = ''>경력전체</option>
+				<option value = 'Y1'>신입</option>
 				<option value = 'Y2'>3년차 이상</option>
 				<option value = 'Y3'>5년차 이상</option>
 				<option value = 'Y4'>7년차 이상</option>
@@ -79,7 +80,7 @@
 			<label for = "name">기술스택</label> 
 			
 			<select id = "skl" class = "selectStyle">
-				<option selected value='Z0'>기술 전체</option>
+				<option selected value=''>기술 전체</option>
 				<option value = 'Z1'>Python</option>
 				<option value = 'Z2'>Spring Framework</option>
 				<option value = 'Z3'>AWS</option>
@@ -100,7 +101,7 @@
 				<option value = 'Z18'>JPA</option>
 			</select>
 			
-			<button type="submit" class="btn btn-outline-dark btn-sm searchBtn">
+			<button type="submit" class="btn btn-outline-dark btn-sm searchBtn" id="search">
 				<i class="fas fa-search fa-2x"></i>
 			</button>
 								
@@ -112,69 +113,100 @@
 		
 		<section class="pt-0" id="hireAllList">
 			<div class="container">
-				<div class="row mt-7 gx-xl-7" >
-					<div class="col-md-3 text-center text-md-start h-auto mb-5" th:each = "hireVO:${hireList}">
-						<div class="d-flex justify-content-between flex-column h-100">
-							<div class="image">
-								<!--/* <img th:src="|/images/${hireVO.coImg}|" alt="기업이미지" /> */-->
-								<!--/* th:src="@{}" */-->
-								<img class="w-75 w-md-100 rounded-2 " src="assets/img/blog/1.png" alt="" />
-							<i class="bi bi-bookmark-heart-fill fs-5 btn1" th:classappend="${hireVO.scrapYn != null} ? 'text-danger' : ''"></i>
-							</div>
-							
-							<div class="d-flex align-items-center justify-content-center justify-content-md-start gap-2 mt-3">
-								<p class="fw-bold mb-0 text-black" th:text = "${hireVO.skill}">기술스펙</p>
-								<p class="mb-0"  th:text = "${hireVO.exprDt}">마감일</p>
-							</div>
-							
-							<h5 class="mt-1 mb-3 fs-0 fs-md-1" th:text = "${hireVO.ttl}">공고제목</h5>
-							<p class="mb-0" th:text = "${hireVO.wksite}">근무지역</p>
-							
-							<div class="d-flex align-items-center justify-content-center justify-content-md-start gap-3">
-								<img class="img-fluid" src="assets/img/blog/profile1.png" alt="" />
-								<p class="mb-0 text-gray" th:text = "${hireVO.coNm}">회사이름</p>
-							</div>
-							
+				<div  class="row mt-7 gx-xl-7" >
+					<div class="col-md-3 text-center text-md-start h-auto mb-5" >
+						<div class="d-flex justify-content-between flex-column h-100" id = "hireList">
+							<!--  AJAX 조회가 들어가는부분  -->
 						</div>
 					</div>
 				</div>
 			</div>
 		</section>
-		<!-- 스크랩 목록 -->
-		<section class="pt-0" id="scrapHireList" >
-			<div class="container">
-				<div class="row mt-7 gx-xl-7" >
-					<div class="col-md-3 text-center text-md-start h-auto mb-5" th:each = "hireVO:${hireScrapList}">
-						<div class="d-flex justify-content-between flex-column h-100">
-							<div class="image">
-								<img class="w-75 w-md-100 rounded-2 " src="assets/img/blog/1.png" alt="" />
-								<i class="bi bi-bookmark-heart-fill fs-5 btn1" th:classappend="${hireVO.scrapYn != null} ? 'text-danger' : ''"></i>
-							</div>
-							
-							<div class="d-flex align-items-center justify-content-center justify-content-md-start gap-2 mt-3">
-								<p class="fw-bold mb-0 text-black" th:text = "${hireVO.skill}">기술스펙</p>
-								<p class="mb-0"  th:text = "${hireVO.exprDt}">마감일</p>
-							</div>
-							
-							<h5 class="mt-1 mb-3 fs-0 fs-md-1" th:text = "${hireVO.ttl}">공고제목</h5>
-							<p class="mb-0" th:text = "${hireVO.wksite}">지역</p>
-							
-							<div class="d-flex align-items-center justify-content-center justify-content-md-start gap-3"><img class="img-fluid" src="assets/img/blog/profile1.png" alt="" />
-								<p class="mb-0 text-gray" th:text = "${hireVO.coNm}">회사이름</p>
-							</div>
-							
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
+		
 		<script>
-			$("#scrapHireList").hide();
-			$('#scrapList').click(function() {
-				$("#scrapHireList").show();
-				$("#hireAllList").hide();
-			});
+		$(document).ready(function () {
+			search();
+		});
+		
+			
+		$('#scrapList').click(function() {
+			
+			let data = {
+					"job" : $("#job").val(), // 직군
+					"wksite" : $("#loc").val(), // 지역
+					"carr" : $("#cre").val(), // 경력
+					"skill" : $("#skl").val(), // 기술스펙
+					"scrapYn" : "Y"
+	    	    } 
+			
+			search(data);
+		});
+			
+		$('#search').click(function(){
+			
+			let data = {
+					"job" : $("#job").val(), // 직군
+					"wksite" : $("#loc").val(), // 지역
+					"carr" : $("#cre").val(), // 경력
+					"skill" : $("#skl").val() // 기술스펙
+	    	    } 	
+			
+			search(data);
+		});
+		
+		function search(data){
+		
+		     $.ajax({
+	            url: "/data",
+	            type: "GET",
+	            data: data,
+	            dataType: "json",
+	            success: function(data) {
+	                console.log(data);
+	                
+	                var div = $("<div>");
+	                $.each(data, function(index, item) {
+	                	var str1 = ``;
+	                	var str2 = ``;
+	                	
+	                	if(item.scrapYn != null){
+	                		str1 = `<div class="image">
+										<img class="w-75 w-md-100 rounded-2 " src="assets/img/blog/1.png" alt="" />
+										<i class="bi bi-bookmark-heart-fill fs-5 btn1 text-danger" ></i>
+									</div>`;
+	                	} else{
+	                		str1 = `<div class="image">
+										<img class="w-75 w-md-100 rounded-2 " src="assets/img/blog/1.png" alt="" />
+										<i class="bi bi-bookmark-heart-fill fs-5 btn1" ></i>
+									</div>`;
+	                	}
+	                	
+	                	
+	                	str2 = `<div class="d-flex align-items-center justify-content-center justify-content-md-start gap-2 mt-3">
+									<p class="fw-bold mb-0 text-black" >`+item.skill+`</p>
+									<p class="mb-0"  >`+item.exprDt+`</p>
+								</div>
+								
+								<h5 class="mt-1 mb-3 fs-0 fs-md-1" >`+item.ttl+`</h5>
+								<p class="mb-0" >`+item.wksite+`</p>
+								
+								<div class="d-flex align-items-center justify-content-center justify-content-md-start gap-3">
+									<img class="img-fluid" src="assets/img/blog/profile1.png" alt="" />
+									<p class="mb-0 text-gray" >`+item.coNm+`</p>
+								</div>`;
+								
+	                	div.append(str1+str2);
+	                });
+	                $("#hireList").html(div);
+	            },
+	            error: function(xhr, status, error) {
+	            }
+	        }); 
+
+		}
         
+			        
+
 		</script>
 	</div>
 </body>
