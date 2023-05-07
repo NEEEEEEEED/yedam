@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org">
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
     <head>
         <title>Spring Security Example </title>
     </head>
@@ -15,8 +15,17 @@
             <div><label> Password: <input type="password" name="password"/> </label></div>
             <div><input type="submit" value="Sign In"/></div>
         </form>
-            <a href="/oauth2/authorization/kakao" class="btn btn-third active" role="button">Kakao Login</a>
-            <div><input type="button" value="naver"/></div>
+            <div sec:authorize="isAuthenticated()">
+			    Logged in as: <span id="user" th:text="${userName}">None</span>
+			    <span id="user" th:text="${NickName}">None</span>
+			    <span id="user" th:text="${Email}">None</span>
+			    <span id="user" th:text="${Gender}">None</span>
+			    <span id="user" th:text="${Age}">None</span>
+			    <a href="/logout" class="btn btn-info active" role="button">Logout</a>
+			</div>
+			<a sec:authorize="isAnonymous()" href="/oauth2/authorization/naver" class="btn btn-secondary active" role="button">Naver Login</a>
+			<a href="https://nid.naver.com/oauth2.0/authorize" class="btn btn-secondary active" role="button">네이버 재인증</a>
+			<a sec:authorize="isAnonymous()" href="/oauth2/authorization/kakao" class="btn btn-secondary active" role="button">Kakao Login</a>
     </body>
     <script>
             
