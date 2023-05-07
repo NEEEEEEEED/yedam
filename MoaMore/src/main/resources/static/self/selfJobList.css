@@ -73,3 +73,7 @@ select::-ms-expand {
 .radius{
 	border-radius : 0px;
 }
+
+.filled {
+	fill: red;
+}
