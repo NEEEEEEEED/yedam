@@ -4,21 +4,54 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.moa.hire.mapper.HireMapper">
 	<select id="serchHire" resultType="HireVO">
-		SELECT R.TTL,
+	    SELECT R.TTL,
 		       K.SKILL,
 		       C.CO_NM,
 		       R.WKSITE,
                R.EXPR_DT,
                R.CO_IMG,
                R.RECRUIT_NO,
-              	<if test="id != null and id != ''">
               	 (SELECT S.RECRUIT_NO FROM RECRUIT_SCRAP S WHERE R.RECRUIT_NO = S.RECRUIT_NO AND ID = #{id}) AS scrapYn
-              	</if>
 		FROM RECRUIT_ANUN R
 		JOIN CO C
 		ON R.ID = C.ID
-		JOIN RECRUIT_SKILL K
+		JOIN (SELECT recruit_no , LISTAGG(get_common(SKILL), ',') WITHIN GROUP (ORDER BY SKILL_NO) as SKILL
+              FROM RECRUIT_SKILL
+              GROUP BY recruit_no) K
 		ON R.RECRUIT_NO = K.RECRUIT_NO
+		
+		WHERE 1=1
+			<if test="scrapYn != null and scrapYn != ''">
+				AND EXISTS (SELECT S.RECRUIT_NO FROM RECRUIT_SCRAP S WHERE R.RECRUIT_NO = S.RECRUIT_NO AND ID = #{id})
+       		</if>
+			
+			<if test="job != null and job != ''">
+				AND R.JOB = #{job}
+       		</if>
+			
+			<if test="job != null and job != ''">
+				AND R.JOB = #{job}
+       		</if>
+       		
+       		<if test="wksite != null and wksite != ''">
+       			AND R.WKSITE = #{wksite}
+       		</if>
+       		
+       		<if test="carr != null and carr != ''">
+				AND R.CARR = #{carr}       		
+       		</if>
+       		
+       		<if test="skill != null and skill != ''">
+       			AND K.SKILL LIKE '%' || get_common(#{skill}) || '%'
+       		</if>
+		
+        GROUP BY R.TTL,
+		       K.SKILL,
+		       C.CO_NM,
+		       R.WKSITE,
+               R.EXPR_DT,
+               R.CO_IMG,
+               R.RECRUIT_NO
 	</select>
 	<select id="scrapHire" resultType="HireVO">
 		SELECT R.TTL,
@@ -38,7 +71,9 @@
 		ON R.RECRUIT_NO = S.RECRUIT_NO
         JOIN MEMBER M
         ON S.ID = M.ID
-        JOIN RECRUIT_SKILL K
+        JOIN (SELECT recruit_no , LISTAGG(get_common(SKILL), ',') WITHIN GROUP (ORDER BY SKILL_NO) as SKILL
+              FROM RECRUIT_SKILL
+              GROUP BY recruit_no) K
 		ON R.RECRUIT_NO = K.RECRUIT_NO
 		WHERE S.SCRAP_NO IS NOT NULL
         AND M.ID = #{id}
