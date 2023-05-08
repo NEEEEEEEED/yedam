@@ -32,6 +32,10 @@ public class HireController {
 	// 구인공고목록 페이지
 	@GetMapping("/hirePage")
 	public String hireList(Model model) {
+		model.addAttribute("wksiteList",hireService.wksiteList() ); // 근무지역 리스트
+		model.addAttribute("jobList", hireService.jobList() ); // 직무 리스트
+		model.addAttribute("skillList",hireService.skillList() ); // 기술스택 리스트
+		model.addAttribute("carrList",hireService.carrList() ); // 경력 리스트
 		return "hire/hirePage";
 	}
 	
@@ -49,16 +53,16 @@ public class HireController {
 	
 	
 	// 구인공고 상세 페이지
-//	@GetMapping("/hireInfo")
-//	public String hireInfo(@RequestParam HireVO hireVO, Principal principal) {
-//		List<HireVO> hireInfo = new ArrayList<HireVO>();
-//		
-//		pr = principal;
-//		hireVO.setId(pr.getName());
-//		
-//		
-//		return hireService.hireInfo(hireVO.getRecruitNo());
-//	}
+	@GetMapping("/hireInfo")
+	public String hireInfo(@RequestParam HireVO hireVO, Principal principal) {
+		List<HireVO> hireInfo = new ArrayList<HireVO>();
+		
+		pr = principal;
+		hireVO.setId(pr.getName());
+		hireInfo = hireService.hireInfo(hireVO);
+		
+		return "hire/hireInfo";
+	}
 	
 	// 구인공고 등록 페이지
 	@GetMapping("/hireInsert")
@@ -71,7 +75,7 @@ public class HireController {
 		public String hireMod() {
 			return "hire/hireMod";
 	}
-	
+
 	//파일변환(에디터)
     @PostMapping("/test")
     @ResponseBody

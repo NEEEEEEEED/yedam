@@ -26,79 +26,30 @@
 	<div layout:fragment = "content">
 		<div class = "container">
 			<label for = "name">직군</label> 
-			
 			<select id = "job" class = "selectStyle">
 				<option selected value = ''>개발 전체</option>
-				<option value = 'N1'>웹 개발자</option>
-				<option value = 'N2'>서버 개발자</option>
-				<option value = 'N3'>안드로이드 개발자</option>
-				<option value = 'N4'>프론트엔드 개발자</option>
-				<option value = 'N5'>백엔드 개발자</option>
-				<option value = 'N6'>자바 개발자</option>
-				<option value = 'N7'>C,C++ 개발자</option>
-				<option value = 'N8'>파이썬 개발자</option>
-				<option value = 'N9'>Node.js 개발자</option>
-				<option value = 'N10'>시스템 관리자</option>
-				<option value = 'N11'>머신러닝 엔지니어</option>
+				<option th:each="jobList : ${jobList}" th:text="${jobList.desct}" th:attr="value=${jobList.prov}">직무</option>
 			</select>
 			
 			<label for="name">지역</label> 
 			
 			<select id="loc" class = "selectStyle">
 				<option selected value=''>전국</option>
-				<option value = 'X2'>서울</option>
-				<option value = 'X3'>부산</option>
-				<option value = 'X4'>대구</option>
-				<option value = 'X5'>인천</option>
-				<option value = 'X6'>광주</option>
-				<option value = 'X7'>대전</option>
-				<option value = 'X8'>울산</option>
-				<option value = 'X9'>세종</option>
-				<option value = 'X10'>경기</option>
-				<option value = 'X11'>강원</option>
-				<option value = 'X12'>충북</option>
-				<option value = 'X13'>충남</option>
-				<option value = 'X14'>전북</option>
-				<option value = 'X15'>전남</option>
-				<option value = 'X16'>경북</option>
-				<option value = 'X17'>경남</option>
-				<option value = 'X18'>제주</option>
+				<option th:each="wksiteList : ${wksiteList}" th:text="${wksiteList.desct}" th:attr="value=${wksiteList.prov}">지역</option>
 			</select>
 			
 			<label for = "name">경력</label> 
 			
 			<select id="cre" class = "selectStyle">
 				<option selected value = ''>경력전체</option>
-				<option value = 'Y1'>신입</option>
-				<option value = 'Y2'>3년차 이상</option>
-				<option value = 'Y3'>5년차 이상</option>
-				<option value = 'Y4'>7년차 이상</option>
-				<option value = 'Y5'>9년차 이상</option>
-				<option value = 'Y6'>10년차 이상</option>
+				<option th:each="carrList : ${carrList}" th:text="${carrList.desct}" th:attr="value=${carrList.prov}">경력</option>
 			</select>
 			
 			<label for = "name">기술스택</label> 
 			
 			<select id = "skl" class = "selectStyle">
 				<option selected value=''>기술 전체</option>
-				<option value = 'Z1'>Python</option>
-				<option value = 'Z2'>Spring Framework</option>
-				<option value = 'Z3'>AWS</option>
-				<option value = 'Z4'>Git</option>
-				<option value = 'Z5'>IOS</option>
-				<option value = 'Z6'>HTML</option>
-				<option value = 'Z7'>JavaScript</option>
-				<option value = 'Z8'>MySQL</option>
-				<option value = 'Z9'>SQL</option>
-				<option value = 'Z10'>Linux</option>
-				<option value = 'Z11'>Android</option>
-				<option value = 'Z12'>Swift</option>
-				<option value = 'Z13'>C/C++</option>
-				<option value = 'Z14'>PHP</option>
-				<option value = 'Z15'>Doker</option>
-				<option value = 'Z16'>Reack</option>
-				<option value = 'Z17'>Github</option>
-				<option value = 'Z18'>JPA</option>
+				<option th:each="skillList : ${skillList}" th:text="${skillList.desct}" th:attr="value=${skillList.prov}">경력</option>
 			</select>
 			
 			<button type="submit" class="btn btn-outline-dark btn-sm searchBtn" id="search">
@@ -113,9 +64,8 @@
 		
 		<section class="pt-0" id="hireAllList">
 			<div class="container">
-				<div  class="row mt-7 gx-xl-7"  id = "hireList">
+				<div  class="row mt-7 gx-xl-7"  id = "hireList" >
 				<!--  AJAX 조회가 들어가는부분  -->
-				
 				</div>
 			</div>
 		</section>
