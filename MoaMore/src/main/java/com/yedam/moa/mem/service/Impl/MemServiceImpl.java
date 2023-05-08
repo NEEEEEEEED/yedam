@@ -52,6 +52,12 @@ public class MemServiceImpl implements MemService {
 		return mem.delAnun(vo);
 	}
 
+	
+	@Override
+	public List<MemVO> getSkill(MemVO vo) {
+		return mem.getCode(vo);
+	}
+
 
 
 }

@@ -62,6 +62,8 @@ public class MemVO {
 	private HireVO hireVO;
 //	기업 정보
 	private String coNm;		//기업 이름
+	private String commNm;		//코드 내용
+	
 	
 	
 	
