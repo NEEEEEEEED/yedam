@@ -30,14 +30,25 @@ public class MemController {
 		vo.setId(principal.getName());
 		pr = principal;
 		model.addAttribute("list", mem.openSesame(vo));
+		model.addAttribute("count",mem.getCount(vo));
 		return "mem/mem_mypage";
 	}
 	
 	@PostMapping("/getSearch")
 	@ResponseBody
 	public List<MemVO> getSearch(@RequestBody SearchVO vo, Principal principal){
-		System.out.println(vo);
 		vo.setId(principal.getName());
 		return mem.getSearch(vo);
+	}
+	@PostMapping("/delAnunSt")
+	@ResponseBody
+	public int delAnun(SearchVO sv, Principal principal) {
+		sv.setId(principal.getName());
+		System.out.println(sv);
+		return mem.delAnun(sv);
+	}
+	@GetMapping("mem/mkResume")
+	public String createResume(Principal principal, Model model) {
+		return "mem/mem_resume";
 	}
 }
