@@ -29,4 +29,9 @@ public class ProductServiceImpl implements ProductService {
 		return mapper.getProduct(prdtCd);
 	}
 
+	@Override
+	public int afterPay(ProductVO vo) {
+		return mapper.afterPay(vo);
+	}
+
 }

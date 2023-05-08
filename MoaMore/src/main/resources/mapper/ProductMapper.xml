@@ -24,12 +24,41 @@
   		SELECT  prdt_cd,
 				prdt_nm,
 				svc_cnt,
+				disc_rate,
 				SUBSTR(prdt_prc, 1, LENGTH(prdt_prc) - 3)||','||SUBSTR(prdt_prc,-3) prdt_prc,
 				SUBSTR(discount, 1, LENGTH(discount) - 3)||','||SUBSTR(discount,-3) discount,
 				SUBSTR(total_price, 1, LENGTH(total_price) - 3)||','||SUBSTR(total_price,-3) total_price
 		FROM prdt
 		WHERE prdt_cd =  #{prdtCd}
-				
   	</select>
+  	
+  	<insert id="afterPay" parameterType="ProductVO">
+  		BEGIN
+  			INSERT INTO sttl (
+  							  order_no,
+							  recruit_no,
+							  id,
+							  sttl_cd,
+							  sttl_dt,
+							  prdt_cd,
+							  reser_dts
+							  )
+					 VALUES (
+					 		#{orderNo},
+					 		#{recruitNo},
+					 		#{id},
+					 		'no',
+					 		sysdate,
+					 		#{prdtCd},
+					 		#{reserDts});
+			FOR LOOP
+			UPDATE reser_precon
+			SET reser_cnt = reser_precon.reser_cnt + 1  
+			WHERE reser_dt = #{reserDt} 		
+			
+					 		
+  		END;
+  			
+  	</insert>
   
   </mapper>
