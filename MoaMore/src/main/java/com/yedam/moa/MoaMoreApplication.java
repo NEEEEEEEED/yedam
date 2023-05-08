@@ -20,8 +20,7 @@ public class MoaMoreApplication {
 	@GetMapping("/login")
 	public String hello() {
 		return "loginForm";
-	}
-	
+	}		
 	@GetMapping("/main")
 	public String home() {
 		return "main";
