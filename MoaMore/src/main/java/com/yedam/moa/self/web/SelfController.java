@@ -2,7 +2,9 @@ package com.yedam.moa.self.web;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,17 +39,36 @@ public class SelfController {
 		return "self/selfJobList";
 	}
 	
+	// 셀프구직 목록 리스트 호출
 	@PostMapping("/selfJobList")
 	@ResponseBody
-	public List<SelfVO> selfJobListPrint(@RequestParam String auth) {
-		System.out.println(auth);
-		return selfServiceImpl.selfJobList(auth);
+	public Map<String,Object> selfJobListPrint(SelfVO selfVO) {
+	
+		Map<String,Object> map = new HashMap<>();
+		map.put("selfJobList", selfServiceImpl.selfJobList(selfVO));
+		map.put("selfJobInterest", selfServiceImpl.selfJobInterestList(selfVO.getId()));
+		return map;
 	}
 	
+	// 이력서 있는지 체크
 	@PostMapping("/selfJobCheck")
 	@ResponseBody
 	public int checkResume(@RequestParam String id) {
 		return selfServiceImpl.checkResume(id);
+	} 
+	
+	// 관심 등록
+	@PostMapping("/selfJobInterestAdd")
+	@ResponseBody
+	public int selfJobInterestAdd(SelfVO interestVO) {
+		return selfServiceImpl.selfJobInterestAdd(interestVO);
+	}
+	
+	// 관심등록 해제
+	@PostMapping("/selfJobInterestDelete")
+	@ResponseBody
+	public int selfJobInterestDelete(SelfVO interestVO) {
+		return selfServiceImpl.selfJobInterestDelete(interestVO);
 	}
 	
 	// 셀프구직 my프로필 등록 페이지 영역-------------------------------------------------

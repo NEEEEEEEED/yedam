@@ -52,7 +52,7 @@
 					<div class="row">
 						<div class="col-md-3" style="text-align:center;">
 							<form id="profileImgForm" action="/myProfileAdd" method="post" encType="multipart/form-data" onsubmit="return false">
-								<img src="self/suna.jpg" id="preview" class="circleImg">
+								<img src="self/profile.JPG" id="preview" class="circleImg">
 								<input id="inputImg" type="file"  onchange="readURL(this);" style="display:none;"><br>
 								<button id="changeImg" type="button" class="btn btn-outline-success btn-sm mt-2">프로필변경</button>
 							</form>
@@ -606,11 +606,12 @@ function pofolReg(){
 	});
 }
 
+// 포트폴리오 목록 그리는 함수
 function pofolListPrint(result={}){
 	
 	let pofolHtml = `<div class="row align-items-center border-bottom hoverRow mb-3">
 				        <div class="col-md-3">
-				      	<img class="img-fluid" src="/moamorePofol/`+result.pofolImg+`" alt="이미지없음">
+				      	<img class="img-fluid imgSize" src="/moamorePofol/`+result.pofolImg+`" alt="이미지없음">
 				      </div>
 				      <div class="col-md-7" style="color:black;">
 				      		<p class="mb-0">[제목] `+result.title+`</p>
@@ -732,10 +733,19 @@ function myProfileAdd(imgName){
 			success: function (result) {
 				let res = JSON.parse(result); // 파싱
 				if(res.result == 'Success'){
-					alert('등록성공');
+					
+					Swal.fire({
+						  icon: 'success',
+						  title: 'My프로필 등록성공!'
+					});
+					
+					
 					location.href="/selfJobList";
 				}else{
-					alert('오류발생!');
+					Swal.fire({
+						  icon: 'error',
+						  title: 'My프로필 등록실패!'
+					});
 				}
 			},
 	 		error: function (reject) {	   

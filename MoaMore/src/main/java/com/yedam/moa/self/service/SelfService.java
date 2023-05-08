@@ -7,10 +7,19 @@ import com.yedam.moa.self.SelfVO;
 public interface SelfService {
 	
 	// 셀프구직 목록 리스트
-	public List<SelfVO> selfJobList(String auth);
+	public List<SelfVO> selfJobList(SelfVO selfVO);
 	
 	// my프로필 등록버튼 클릭시 이력서가 있는지 체크
 	public int checkResume(String id);
+	
+	// 관심 등록
+	public int selfJobInterestAdd(SelfVO interestVO);
+	
+	// 관심 목록 리스트
+	public List<SelfVO> selfJobInterestList(String id);
+	
+	// 관심 등록 해제
+	public int selfJobInterestDelete(SelfVO interestVO);
 	
 	//-------------------------------------------------
 	

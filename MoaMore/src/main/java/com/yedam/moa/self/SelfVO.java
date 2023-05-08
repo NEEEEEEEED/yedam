@@ -67,10 +67,8 @@ public class SelfVO {
 	private String pofolFile;			// 포트폴리오 원본파일명
 	private String pofolUuidFile;		// 포트폴리오 UUID 파일명
 	
-	
 	// 권한
 	private String auth;				// 현재 로그인한 사람의 권한
 		
-	
 	
 }

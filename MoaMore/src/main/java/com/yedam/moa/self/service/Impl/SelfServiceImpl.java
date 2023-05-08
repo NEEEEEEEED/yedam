@@ -104,8 +104,26 @@ public class SelfServiceImpl implements SelfService{
 
 	// 셀프구직 목록 리스트
 	@Override
-	public List<SelfVO> selfJobList(String auth) {
-		return selfMapper.selfJobList(auth);
+	public List<SelfVO> selfJobList(SelfVO selfVO) {
+		return selfMapper.selfJobList(selfVO);
+	}
+
+	// 관심 등록
+	@Override
+	public int selfJobInterestAdd(SelfVO interestVO) {
+		return selfMapper.selfJobInterestAdd(interestVO);
+	}
+
+	// 관심등록 리스트
+	@Override
+	public List<SelfVO> selfJobInterestList(String id) {
+		return selfMapper.selfJobInterestList(id);
+	}
+
+	// 관심 등록 해제
+	@Override
+	public int selfJobInterestDelete(SelfVO interestVO) {
+		return selfMapper.selfJobInterestDelete(interestVO);
 	}
 	
 	

@@ -17,10 +17,10 @@
 		<input id="logId" name="id" type="hidden" th:value="${#authentication.principal.username}">
 		
 		<!-- 현재로그인된 유저가 가진 권한 -->
-		<div sec:authorize="hasRole('ROLE_USER')">
+		<div sec:authorize="hasRole('ROLE_USER')" style="display:none;">
 			<input id="ROLE_USER" value="ROLE_USER"> 
 		</div>
-		<div sec:authorize="hasRole('ROLE_CO')">
+		<div sec:authorize="hasRole('ROLE_CO')" style="display:none;">
 			<input id="ROLE_CO" value="ROLE_CO"> 
 		</div>
 		
@@ -99,7 +99,7 @@
 	            </div>	 -->	
 	            
 
-	             <div class="row align-items-center border-bottom p-4 mb-3 hoverRow">
+	             <!-- <div class="row align-items-center border-bottom p-4 mb-3 hoverRow">
 	              <div class="col-md-3 text-center">
 	              	<a href="#">
 	              		<img class="img-fluid" src="assets/img/blog/blog-hero.png" alt="">
@@ -120,7 +120,7 @@
 				      <button type="button" class="btn btn-outline-danger btn-sm listBtn">관심</button>
 				      <button type="button" class="btn btn-outline-info btn-sm listBtn">제안</button>
 				  </div>
-	            </div>
+	            </div> -->
 	            
 			</div>
 			<div class="col-md-1"></div>
@@ -128,52 +128,166 @@
 		
 <script>
 
-/* $('#heartIcon').on('click',function() {
-	if($("#heartIcon").hasClass("bi-suit-heart")){
-		$(this).removeClass("bi-suit-heart");
-    	$(this).addClass("bi-suit-heart-fill");
-	}else{
-		$(this).removeClass("bi-suit-heart-fill");
-    	$(this).addClass("bi-suit-heart");
-	}
-}); */
 
+// 권한에 따른 셀프 구직 목록 리스트
 $(document).ready(function() {
 	
-	let auth = '';
-	if($('#ROLE_USER').val()){
-		console.log('유저입니다');
+	let auth = ''; // 권한
+	let id = $('#logId').val();
+	console.log('id : ' + id);
+	if($('#ROLE_USER').val()){ // 유저일때
+		console.log('유저입니다 - ROLE_MEM 일때 수정해야할 부분 -');
 		auth = 'user';
 		
-	}else if($('#ROLE_CO').val()){
+	}else if($('#ROLE_CO').val()){ // 기업일때
 		console.log('기업입니다.');
 		auth = 'co';
 		
-	}else{
+	}else{ // 관리자일때
 		console.log('관리자입니다.');
 		auth = 'admin';
 	}
-	
-	selfJobList(auth); // 셀프 구직 목록 리스트
-
+	selfJobList(auth, id); // 셀프 구직 목록 리스트
 });
+
+
+// 관심버튼을 눌렀을때
+function interest(interestBtn){
 	
-function selfJobList(auth){
+	let jobSearchNo = interestBtn.dataset.id; // data - 속성 이용해서 값가져옴
+	
+	if($('#ROLE_USER').val()){ // 유저일때
+		console.log('유저입니다 - ROLE_MEM 일때 수정해야할 부분 -');
+		Swal.fire({
+			  icon: 'error',
+			  title: '기업만 관심등록이 가능합니다.'
+		});
+		
+		return;
+		
+	}else if($('#ROLE_ADMIN').val()){ // 관리자일때
+		console.log('관리자입니다.');
+
+		Swal.fire({
+			  icon: 'error',
+			  title: '기업만 관심등록이 가능합니다.'
+		});
+		
+		return;
+		
+	}else{ // 기업일때
+	
+		let id = $('#logId').val(); // 로그인한 아이디
+		let i = $(interestBtn).parent().parent(); // 버튼 누른곳의 부모의 부모 태그
+		
+		let heartIcon = $(i).find('.heartIcon'); // 부모태그에서 클래스찾기
+		
+		// 관심 등록 여부
+		if(heartIcon.hasClass("bi-suit-heart")){ // 관심이 등록이 안된 상태라면 관심등록
+			
+			heartIcon.removeClass("bi-suit-heart");
+			heartIcon.addClass("bi-suit-heart-fill");
+			
+			$(interestBtn).removeClass('btn-outline-danger');
+			$(interestBtn).addClass('btn-danger');
+			$(interestBtn).text('관심해제');
+			interestAdd(jobSearchNo); // 관심등록 ajax호출
+			//selfJobList('co', id); // 리스트 화면 출력함수
+			
+		}else{ // 관심등록이 된상태라면 관심해제
+			heartIcon.removeClass("bi-suit-heart-fill");
+			heartIcon.addClass("bi-suit-heart");
+			
+			$(interestBtn).removeClass('btn-danger');
+			$(interestBtn).addClass('btn-outline-danger');
+			$(interestBtn).text('관심');
+			
+			interestDelete(jobSearchNo); // 관심등록 해제 ajax호출
+			
+		}
+	}
+	
+}
+
+// 관심등록 ajax호출
+function interestAdd(jobSearchNo){
+	
+	let id = $('#logId').val();
+	
+	$.ajax({
+		  url: 'selfJobInterestAdd',
+		  type: 'post',
+		  data: {jobSearchNo : jobSearchNo, id : id},
+		  success: function (result) {
+			//console.log(result);
+
+			Swal.fire({
+				icon: 'success',
+				title: '관심목록에 추가되었습니다.'
+			})
+
+		  },
+		  error: function (reject) {	   
+	   	  	console.log(reject);
+		  }
+		});	
+}
+ 
+ 
+function interestDelete(jobSearchNo){
+	let id = $('#logId').val();
+	
+	$.ajax({
+		  url: 'selfJobInterestDelete',
+		  type: 'post',
+		  data: {jobSearchNo : jobSearchNo, id : id},
+		  success: function (result) {
+			//console.log(result);
+
+			Swal.fire({
+			 	icon: 'success',
+				title: '관심목록에 삭제되었습니다.'
+			})
+
+		  },
+		  error: function (reject) {	   
+	   	  	console.log(reject);
+		  }
+		});	
+	
+}
+
+ 
+// 셀프구직 리스트 호출하는 ajax
+function selfJobList(auth, id){
 	
 	$.ajax({
 	  url: 'selfJobList',
 	  type: 'post',
-	  data: {auth : auth},
+	  data: {auth : auth, id : id},
 	  success: function (result) {
-		console.log(result);
-		
+		  
+		let selfJobList = result.selfJobList;
+		let selfJobInterest = result.selfJobInterest;		
+
 		selfList.innerHTML = ''; // 초기화
 		
-		let selfJobListHtml = '';
-		for(let i = 0; i < result.length; i++){
-			selfJobListHtml += selfJobListPrint(result[i]);
+		for(let j = 0; j < selfJobInterest.length ; j++){
+			for(let i = 0; i < selfJobList.length; i++){
+				if(selfJobInterest[j].jobSearchNo == selfJobList[i].jobSearchNo){
+				 	 selfJobList[i].interest = 'Y';	// 관심글에만 'Y'
+				}
+			}
 		}
+		
+		let selfJobListHtml = '';
+		// 화면 리스트 출력
+		for(let i = 0; i < selfJobList.length; i++){
+			selfJobListHtml += selfJobListPrint(selfJobList[i]);
+		}
+		
 		selfList.innerHTML = selfJobListHtml;
+		
 	  },
 	  error: function (reject) {	   
    	  	console.log(reject);
@@ -181,31 +295,69 @@ function selfJobList(auth){
 	});	
 }
 
+
 function selfJobListPrint(result={}){
-	let html = `<div class="row align-items-center border-bottom p-4 mb-3 hoverRow">
-			        <div class="col-md-3 text-center">
-			      	<a href="#">
-			      		<img class="img-fluid" src="/moamoreImg/`+result.myimg+`" alt="이미지업로드안함">
-			      	</a>
-			      </div>
-			      <div class="col-md-6 text-center text-lg-start">
-			        <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
-			          <p class="fw-bold mb-0 text-black">`+result.dutyFld+`</p>
-			          <p class="mb-0">`+result.hopeWksite+`</p>
-			          <p class="mb-0">`+result.regDt+`</p>
-			        </div>
-			        	<p class="fs-2 my-3">`+result.ttl+`</p>
-			        <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-2">
-			        	<img class="img-fluid" src="assets/img/blog/profile1.png" alt="">
-			            <p class="mb-0">`+result.id+`</p>
-			        </div>
-			      </div>
-			      <div class="col-md-3" style="display: flex; align-items: center; flex-direction : column;" >
-				      <button type="button" class="btn btn-outline-danger btn-sm listBtn">관심</button>
-				      <button type="button" class="btn btn-outline-info btn-sm listBtn">제안</button>
-				  </div>
-			    </div>`;
-			    
+	
+	let html = '';
+	
+	if(result.interest == 'Y'){ // 관심글이라면 
+		html = `<div class="row align-items-center border-bottom p-4 mb-3 hoverRow">
+	        <div class="col-md-3 text-center">
+	      	<a href="#">
+	      		<img class="img-fluid imgSize" src="/moamoreImg/`+result.myimg+`" onerror=this.src="/moamoreImg/profile.JPG" alt="이미지폴더에없음">
+	      	</a>
+	      </div>
+	      <div class="col-md-6 text-center text-lg-start">
+	        <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
+	          <p class="fw-bold mb-0 text-black">`+result.dutyFld+`</p>
+	          <p class="mb-0">`+result.hopeWksite+`</p>
+	          <p class="mb-0">`+result.regDt+`</p>
+	          <span><i data-id="`+result.jobSearchNo+`" class="bi bi-suit-heart-fill text-danger fa-2x heartIcon"></i></span>
+	        </div>
+	        	<p class="fs-2 my-3">`+result.ttl+`</p>
+	        <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-2">
+	        	<img class="img-fluid" style="display:none;" src="assets/img/blog/profile1.png" alt="">
+	            <p class="mb-0">작성자 : `+result.id+`</p>
+	            
+	        </div>
+	      </div>
+	      <div class="col-md-3" style="display: flex; align-items: center; flex-direction : column;" >
+		      <button  data-id="`+result.jobSearchNo+`" onclick="interest(this)" type="button" class="btn btn-danger btn-sm listBtn">관심해제</button>
+		      <button  data-id="`+result.jobSearchNo+`" type="button" class="btn btn-outline-info btn-sm listBtn">제안</button>
+		      <p class="mb-0">`+result.pubcRange+`</p>
+		      <p class="mb-0" style="color : blue;">받은관심수: `+result.interest+`<span>, 받은제안수: `+result.prop+`</span></p>
+		  </div>
+	    </div>`;
+	}else{
+		html = `<div class="row align-items-center border-bottom p-4 mb-3 hoverRow">
+	        <div class="col-md-3 text-center">
+	      	<a href="#">
+	      		<img class="img-fluid imgSize" src="/moamoreImg/`+result.myimg+`" onerror=this.src="/moamoreImg/profile.JPG" alt="이미지폴더에없음">
+	      	</a>
+	      </div>
+	      <div class="col-md-6 text-center text-lg-start">
+	        <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
+	          <p class="fw-bold mb-0 text-black">`+result.dutyFld+`</p>
+	          <p class="mb-0">`+result.hopeWksite+`</p>
+	          <p class="mb-0">`+result.regDt+`</p>
+	          <span><i data-id="`+result.jobSearchNo+`" class="bi bi-suit-heart text-danger fa-2x heartIcon"></i></span>
+	        </div>
+	        	<p class="fs-2 my-3">`+result.ttl+`</p>
+	        <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-2">
+	        	<img class="img-fluid" src="assets/img/blog/profile1.png" style="display:none;" alt=""> 
+	            <p class="mb-0">작성자 : `+result.id+`</p>
+	        </div>
+	      </div>
+	      <div class="col-md-3" style="display: flex; align-items: center; flex-direction : column;" >
+	   
+	      	  <button  data-id="`+result.jobSearchNo+`" onclick="interest(this)" type="button" class="btn btn-outline-danger btn-sm listBtn">관심</button>
+		      <button  data-id="`+result.jobSearchNo+`" type="button" class="btn btn-outline-info btn-sm listBtn">제안</button>
+		      <p class="mb-0">`+result.pubcRange+`</p>
+		      <p class="mb-0" style="color : blue;">받은관심수: `+result.interest+`<span>, 받은제안수: `+result.prop+`</span></p>
+		  </div>
+	    </div>`;
+	}
+	
 	return html;
 			    
 }
@@ -223,7 +375,10 @@ $('#myProfile').on('click', function(){
 	  data: {id : id},
 	  success: function (result) {
 		if(result == 0){
-			alert('작성된 이력서가 없습니다. 먼저 작성해주세요');
+			Swal.fire({
+				  icon: 'error',
+				  title: '작성된 이력서가 없습니다. \n먼저 작성해주세요.'
+			});
 		}else{
 			location.href="/selfJobProfile";
 		}
