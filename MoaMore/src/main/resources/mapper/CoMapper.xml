@@ -81,11 +81,23 @@
 		
 	<!-- 구인공고목록 -->
 	<select id="selectRec" parameterType="HireVO" resultType="HireVO">
-		SELECT recruit_no,
-			   ttl,
-			   accp_dt,
-			   expr_dt,
-			   co_intro
+		SELECT recruit_no
+recruit_no,
+id,
+ttl,
+shcr,
+carr,
+ma_buss,
+qual_cond,
+pref_cond,
+welf,
+expr_dt,
+wksite,
+co_img,
+accp_dt,
+img_no,
+reg_dt,
+job
 		FROM recruit_anun
 		WHERE id = #{id}	   
 	</select>
@@ -94,18 +106,18 @@
 	<select id="selectInterNoti" parameterType="SelfVO" resultType="SelfVO">
 		SELECT job_search_no,
 				resume_no,
-				intro,
+				id,
+				ttl,
 				hope_wksite,
 				duty_fld,
 				posit,
+				pubc_range,
+				intro,
 				hope_sal,
 				residency,
+				myimg,
 				interest,
 				prop,
-				drwup_dt,
-				pubc_range,
-				id,
-				img_no,
 				reg_dt
 		FROM job_search_notiwr
 		WHERE job_search_no IN (
@@ -119,20 +131,20 @@
 	<!-- 제안완료 셀프구직공고 목록 -->
 	<select id="selectOfferNoti" parameterType="SelfVO" resultType="SelfVO">
 		SELECT  n.job_search_no,
-				n.resume_no,
-				n.intro,
-				n.hope_wksite,
-				n.duty_fld,
-				n.posit,
-				n.hope_sal,
-				n.residency,
-				n.interest,
-				n.prop,
-				n.drwup_dt,
-				n.pubc_range,
-				n.id,
-				n.img_no,
-				n.reg_dt,
+n.resume_no,
+n.id,
+n.ttl,
+n.hope_wksite,
+n.duty_fld,
+n.posit,
+n.pubc_range,
+n.intro,
+n.hope_sal,
+n.residency,
+n.myimg,
+n.interest,
+n.prop,
+n.reg_dt,
                 s.accept_status
 		FROM job_search_notiwr n join job_search_st s
         on n.job_search_no = s.job_search_no

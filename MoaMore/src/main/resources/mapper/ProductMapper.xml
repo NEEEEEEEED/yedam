@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.yedam.moa.products.mapper.ProductMapper">
+  	<select id="disabledDates" resultType="ProductVO">
+  		SELECT reser_dt 
+		FROM reser_precon
+		WHERE reser_cnt = 5	
+  	</select>
+  	
+  	<select id="selectProducts" resultType="ProductVO">
+  		SELECT  prdt_cd,
+				prdt_nm,
+				svc_cnt,
+				SUBSTR(prdt_prc, 1, LENGTH(prdt_prc) - 3)||','||SUBSTR(prdt_prc,-3) prdt_prc,
+				SUBSTR(discount, 1, LENGTH(discount) - 3)||','||SUBSTR(discount,-3) discount,
+				SUBSTR(total_price, 1, LENGTH(total_price) - 3)||','||SUBSTR(total_price,-3) total_price
+		FROM prdt
+		ORDER BY svc_cnt		
+  	</select>
+  	
+  	<select id="getProduct" parameterType="String" resultType="ProductVO">
+  		SELECT  prdt_cd,
+				prdt_nm,
+				svc_cnt,
+				SUBSTR(prdt_prc, 1, LENGTH(prdt_prc) - 3)||','||SUBSTR(prdt_prc,-3) prdt_prc,
+				SUBSTR(discount, 1, LENGTH(discount) - 3)||','||SUBSTR(discount,-3) discount,
+				SUBSTR(total_price, 1, LENGTH(total_price) - 3)||','||SUBSTR(total_price,-3) total_price
+		FROM prdt
+		WHERE prdt_cd =  #{prdtCd}
+				
+  	</select>
+  
+  </mapper>
