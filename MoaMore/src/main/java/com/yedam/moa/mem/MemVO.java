@@ -50,18 +50,19 @@ public class MemVO {
 	private String imgNo;		//이미지 번호
 	private String resumeNo;	//이력서 번호
 	private String regDt;		//승인 날짜
+	private int	   exprSt;		//현재날짜 마감일 차이
+	private String exprStatus;  //마감 상태
 //	구인공고 지원상태 
 	private String aplySt;		//지원상태
 	private String aplyDt;		//지원일자
 	private String period;			//검색기간 
 	private String startDt;		//검색 시작
 	private String endDt;		//검색 끝
-	private String st;		//열람여부
+	private String st;			//열람여부
 	private HireVO hireVO;
 //	기업 정보
 	private String coNm;		//기업 이름
 	
-	private String closeYn;
 	
 	
 

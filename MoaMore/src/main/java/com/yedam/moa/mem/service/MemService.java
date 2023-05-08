@@ -9,5 +9,9 @@ public interface MemService {
 	
 	public List<MemVO> openSesame (MemVO vo);
 	
+	public SearchVO getCount(MemVO vo);
+	
 	public List<MemVO> getSearch (SearchVO vo);
+	
+	public int delAnun(SearchVO vo);
 }
