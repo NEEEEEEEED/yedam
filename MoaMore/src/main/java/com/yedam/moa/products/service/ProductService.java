@@ -11,5 +11,7 @@ public interface ProductService {
 	public List<ProductVO> selectProducts();
 	//상품단건조회
 	public ProductVO getProduct(String prdtCd);
+	//결제이후
+	public int afterPay(ProductVO vo);
 
 }
