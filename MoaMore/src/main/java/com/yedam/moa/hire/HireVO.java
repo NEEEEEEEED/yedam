@@ -4,6 +4,10 @@ import lombok.Data;
 
 @Data
 public class HireVO {
+	// 공통코드
+	private String prov;  		// 공통 코드
+	private String desct; 		// 공통 코드명
+
 	private String recruitNo; // 구인공고 번호
 	private String id; // 회원아이디
 	private String ttl; // 구인공고 제목

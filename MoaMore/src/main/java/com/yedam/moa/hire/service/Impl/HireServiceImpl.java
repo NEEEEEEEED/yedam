@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.yedam.moa.hire.HireVO;
 import com.yedam.moa.hire.mapper.HireMapper;
 import com.yedam.moa.hire.service.HireService;
+import com.yedam.moa.self.SelfVO;
 
 @Service
 public class HireServiceImpl implements HireService{
@@ -30,5 +31,27 @@ public class HireServiceImpl implements HireService{
 	public List<HireVO> hireInfo(HireVO hireVO) {
 		return hireMapper.searchInfo(hireVO);
 	}
+	// 직무 리스트
+	@Override
+	public List<SelfVO> jobList() {
+		return hireMapper.jobList();
+	}
+	// 기술스택 리스트
+	@Override
+	public List<SelfVO> skillList() {
+		return hireMapper.skillList();
+	}
+	// 근무지역 리스트
+	@Override
+	public List<SelfVO> wksiteList() {
+		return hireMapper.wksiteList();
+	}
+	// 경력 리스트
+	@Override
+	public List<SelfVO> carrList() {
+		return hireMapper.carrList();
+	}
+	
+	
 
 }
