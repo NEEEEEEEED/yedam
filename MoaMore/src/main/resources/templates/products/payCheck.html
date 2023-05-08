@@ -37,6 +37,11 @@ section {
 <link href="adminAssets/vendor/remixicon/remixicon.css" rel="stylesheet">
 <link href="adminAssets/vendor/simple-datatables/style.css"
 	rel="stylesheet">
+	<!-- 포트원 결제 -->
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>	
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+    <!-- iamport.payment.js -->
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>	
 <!-- datePicker -->
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
@@ -46,8 +51,6 @@ section {
 <link rel="stylesheet" type="text/css"
 	href="http://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
 
-</head>
-</head>
 <!-- Template Main CSS File -->
 <link href="adminAssets/css/style.css" rel="stylesheet">
 <meta charset="UTF-8">
@@ -130,7 +133,7 @@ section {
 						</div>
 					</div>
 					<div class="text-center">
-						<button type="submit" class="btn btn-primary">Submit</button>
+						<button onclick="requestPay()" class="btn btn-primary">결제</button>
 						<button type="reset" class="btn btn-secondary">Reset</button>
 					</div>
 				</form>
@@ -139,9 +142,34 @@ section {
 			</div>
 		</div>
 		<script>
-			$(document).ready(function() {
-				$('#datePick').multiDatesPicker();
-			});
+			 $(function() {
+				$('#datePick').multiDatesPicker({
+					maxPicks : 3
+				});
+			}); 
+			 
+			 var IMP = window.IMP; 
+		        IMP.init("imp70354300"); 
+		    
+		        function requestPay() {
+		            IMP.request_pay({
+		              pg: "INIBillTst",
+		              pay_method: "card",
+		              merchant_uid: "ORD20180131-0000011",   // 주문번호
+		              name: "노르웨이 회전 의자",
+		              amount: 64900,                         // 숫자 타입
+		              buyer_email: "gildong@gmail.com",
+		              buyer_name: "홍길동",
+		              buyer_tel: "010-4242-4242",
+		              buyer_addr: "서울특별시 강남구 신사동",
+		              buyer_postcode: "01181"
+		            }, function (rsp) { // callback
+		              //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
+		              
+		            });
+		          }
+
+			
 		</script>
 	</div>
 
