@@ -11,13 +11,22 @@
 		from job_search_notiwr
 		<where>
 		    <if test="auth != null and !auth.equals('') and auth.equals('user')">
-		         id = #{id} OR pubc_range = 'c3'
+		         (id = #{id} OR pubc_range = 'c3')
 		    </if>
 		    <if test="auth != null and !auth.equals('') and auth.equals('co')">
-		        pubc_range = 'c3' OR pubc_range = 'c2'
+		        (pubc_range = 'c3' OR pubc_range = 'c2')
 		    </if>
 		    <if test="auth != null and !auth.equals('') and auth.equals('admin')">
 		    
+		    </if>
+		    <if test="dutyFld != null and !dutyFld.equals('')">
+		    	AND duty_fld = #{dutyFld}
+		    </if>
+		    <if test="career != null and !career.equals('')">
+		    	AND career = #{career}
+		    </if>
+		    <if test="hopeWksite != null and !hopeWksite.equals('')">
+		    	AND hope_wksite = #{hopeWksite}
 		    </if>
 		</where>
 		ORDER BY job_search_no desc
@@ -38,16 +47,17 @@
 	</select>
 	
 	<!-- 관심 추가 : 테이블에 INSERT -->
-	<insert id="selfJobInterestAdd" parameterType="SelfVO">
-		INSERT INTO inter_job_search(job_search_no, id)
-		VALUES (#{jobSearchNo}, #{id})
-	</insert>
+	<insert id="selfJobInterestAdd" statementType="CALLABLE" parameterType="SelfVO">
+   		{ 
+      		call interestAdd_PRO(#{jobSearchNo}, #{id})
+   		}
+   </insert>
 	
 	<!-- 관심 삭제 : 테이블에 DELETE -->
-	<delete id="selfJobInterestDelete" parameterType="SelfVO">
-		DELETE
-		FROM inter_job_search
-		WHERE job_search_no = #{jobSearchNo} AND id = #{id}
+	<delete id="selfJobInterestDelete" statementType="CALLABLE" parameterType="SelfVO">
+   		{ 
+      		call interestDelete_PRO(#{jobSearchNo}, #{id})
+   		}
 	</delete>
 
 	<!-- My프로필 등록 페이지 영역 -->
@@ -57,6 +67,14 @@
 		SELECT prov, desct
 		FROM cmmn_dt
 		WHERE comm_cd = 'X'
+		ORDER BY prov
+	</select>
+	
+	<!-- 지역 리스트 -->
+	<select id="carrList" resultType="SelfVO">
+		SELECT prov, desct
+		FROM cmmn_dt
+		WHERE comm_cd = 'Y'
 		ORDER BY prov
 	</select>
 	
@@ -114,10 +132,22 @@
 		FROM DUAL
 	</select>
 	
-	<!-- 이력서 등록 -->
+	<!-- My프로필 등록 -->
 	<insert id="myProfileAdd" parameterType="SelfVO">
-		INSERT INTO job_search_notiwr(JOB_SEARCH_NO, RESUME_NO, ID, TTL, HOPE_WKSITE, DUTY_FLD, POSIT, PUBC_RANGE, INTRO, HOPE_SAL, RESIDENCY, MYIMG)
-		VALUES (#{jobSearchNo}, #{resumeNo}, #{id}, #{ttl}, #{hopeWksite}, #{dutyFld}, #{posit}, #{pubcRange}, #{intro}, #{hopeSal}, #{residency}, #{myimg})
+		INSERT INTO job_search_notiwr(JOB_SEARCH_NO, RESUME_NO, ID, TTL, HOPE_WKSITE, CAREER, DUTY_FLD, POSIT, PUBC_RANGE, INTRO, HOPE_SAL, RESIDENCY, MYIMG)
+		VALUES (#{jobSearchNo}, #{resumeNo}, #{id}, #{ttl}, #{hopeWksite}, #{career}, #{dutyFld}, #{posit}, #{pubcRange}, #{intro}, #{hopeSal}, #{residency}, #{myimg})
+	</insert>
+
+	<!-- 셀프구직 스킬 기본키부여 -->
+	<select id="skillKey" resultType="String">
+		SELECT 'JSKN'|| self_job_skill_seq.NEXTVAL as skillNo
+		FROM DUAL
+	</select>
+
+	<!-- My프로필 스킬 등록 -->
+	<insert id="skillAdd" parameterType="String">
+		INSERT INTO job_search_skill(SKILL_NO, JOB_SEARCH_NO, SKILL, ID)
+		VALUES (#{skillNo}, #{jobSearchNo}, #{skill}, #{id})
 	</insert>
 	
 	<!-- 포트폴리오 기본키 부여 -->

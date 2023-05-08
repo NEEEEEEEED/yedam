@@ -26,6 +26,9 @@ public interface SelfService {
 	// 지역 리스트
 	public List<SelfVO> cityList();
 	
+	// 경력 리스트
+	public List<SelfVO> carrList();
+	
 	// 직무 리스트
 	public List<SelfVO> jobList();
 	
@@ -46,6 +49,12 @@ public interface SelfService {
 	
 	// 셀프구직 게시글 기본키 부여
 	public String selfJobKey();
+	
+	// 셀프구직 스킬 기본키 부여
+	public String skillKey();
+	
+	// 스킬등록
+	public int skillAdd(SelfVO skillVO);
 	
 	// my프로필 등록
 	public int myProfileAdd(SelfVO myProfile);

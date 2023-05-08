@@ -21,6 +21,13 @@ public class SelfServiceImpl implements SelfService{
 		return selfMapper.cityList();
 	}
 	
+	// 경력 리스트
+	@Override
+	public List<SelfVO> carrList() {
+		return selfMapper.carrList();
+	}
+		
+	
 	// 직무 리스트
 	@Override
 	public List<SelfVO> jobList() {
@@ -57,10 +64,31 @@ public class SelfServiceImpl implements SelfService{
 		return selfMapper.schoolList(shcrNo);
 	}
 
+	// 스킬등록
+	@Override
+	public int skillAdd(SelfVO skillVO) {
+		return selfMapper.skillAdd(skillVO);
+	}
+
 	// my프로필 등록
 	@Override
 	public int myProfileAdd(SelfVO myProfile) {
-		return selfMapper.myProfileAdd(myProfile);
+		
+		SelfVO skillVO = new SelfVO();
+		String[] skill = myProfile.getPosit().split(","); // 기술스택을 ,를 기준으로 자름
+		
+		
+		skillVO.setJobSearchNo(myProfile.getJobSearchNo());
+		skillVO.setId(myProfile.getId());
+		
+		for(int i = 0; i < skill.length ; i++) {
+			System.out.println("skill-" + i + " : " + skill[i]);
+			skillVO.setSkillNo(selfMapper.skillKey()); // 스킬 기본키
+			skillVO.setSkill(skill[i]);		// 등록할 스킬1개
+			selfMapper.skillAdd(skillVO); // 스킬등록
+		}
+		
+		return selfMapper.myProfileAdd(myProfile); // 이력서 등록
 	}
 	
 	// 셀프구직 게시글 기본키 부여
@@ -68,6 +96,13 @@ public class SelfServiceImpl implements SelfService{
 	public String selfJobKey() {
 		return selfMapper.selfJobKey();
 	}
+	
+	// 셀프구직 스킬 기본키부여
+	@Override
+	public String skillKey() {
+		return selfMapper.skillKey();
+	}
+	
 	
 	// 포트폴리오 기본키 부여
 	@Override
@@ -125,6 +160,8 @@ public class SelfServiceImpl implements SelfService{
 	public int selfJobInterestDelete(SelfVO interestVO) {
 		return selfMapper.selfJobInterestDelete(interestVO);
 	}
+
+	
 	
 	
 	

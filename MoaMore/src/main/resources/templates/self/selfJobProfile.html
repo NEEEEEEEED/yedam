@@ -73,6 +73,14 @@
 										</td>
 									</tr>
 									<tr>
+										<th>경력</th>
+										<td>
+											<select id="carr" class="inputStyle" style="text-align:center;">
+											     <option th:each="carr : ${carrList}" th:text="${carr.desct}" th:attr="value=${carr.prov}">경력</option>
+											 </select>
+										</td>
+									</tr>
+									<tr>
 										<th>직무분야</th>
 										<td>
 											<select id="job" class="inputStyle" style="text-align:center;">
@@ -87,7 +95,7 @@
 											     <option th:each="tech : ${techList}" th:text="${tech.desct}" th:attr="value=${tech.prov}">기술스택</option>
 											  </select>
 										</td>
-									</tr>
+									</tr>					
 									<tr>
 										<th>보기권한설정</th>
 										<td>
@@ -697,6 +705,7 @@ function myProfileAdd(imgName){
 	let resumeNo = $('#resumeNo').val(); // 이력서번호
 	let title = $('#title').val(); // 제목
 	let city = $('#city').val();   // 지역
+	let carr = $('#carr').val();	// 경력
 	let job = $('#job').val();	   // 직무분야
 	let posit = $('#tech').val();  // 기술스택
 	let auth = $('#auth').val();   // 보기권한
@@ -713,6 +722,7 @@ function myProfileAdd(imgName){
 			id : id,
 			ttl : title,
 			hopeWksite : city,
+			career : carr,
 			dutyFld : job,
 			posit :  posit,
 			pubcRange : auth,
@@ -736,11 +746,15 @@ function myProfileAdd(imgName){
 					
 					Swal.fire({
 						  icon: 'success',
-						  title: 'My프로필 등록성공!'
-					});
+						  title: 'My프로필 등록성공!',
+						  showCancelButton: false,
+						  confirmButtonText: '확인'
+						}).then((result) => {
+						  if (result.isConfirmed) {
+							location.href="/selfJobList";
+						  }
+						});
 					
-					
-					location.href="/selfJobList";
 				}else{
 					Swal.fire({
 						  icon: 'error',
