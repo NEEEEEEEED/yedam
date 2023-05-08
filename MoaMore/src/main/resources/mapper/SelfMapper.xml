@@ -7,11 +7,11 @@
 
 	<!-- 셀프구직 페이지 영역 -->
 	<select id="selfJobList" resultType="SelfVO">
-		select  job_search_no, resume_no, id, posit, ttl, get_common(hope_wksite) as hopeWksite, get_common(duty_fld) as dutyFld, pubc_range, hope_sal, myimg, interest, prop, reg_dt
+		select  job_search_no, resume_no, id, posit, get_common(pubc_range) as pubcRange, ttl, get_common(hope_wksite) as hopeWksite, get_common(duty_fld) as dutyFld, hope_sal, myimg, interest, prop, reg_dt
 		from job_search_notiwr
 		<where>
 		    <if test="auth != null and !auth.equals('') and auth.equals('user')">
-		        (pubc_range = 'c3' OR pubc_range = 'c1') AND id = #{id}
+		         id = #{id} OR pubc_range = 'c3'
 		    </if>
 		    <if test="auth != null and !auth.equals('') and auth.equals('co')">
 		        pubc_range = 'c3' OR pubc_range = 'c2'
@@ -23,12 +23,32 @@
 		ORDER BY job_search_no desc
 	</select>
 	
+	<!-- 관심등록 리스트 -->
+	<select id="selfJobInterestList" resultType="SelfVO">
+		SELECT JOB_SEARCH_NO, id
+		FROM inter_job_search
+		WHERE id = #{id}
+	</select>
+	
 	<!-- 불러올 이력서가 존재하는지 체크 -->
 	<select id="checkResume" resultType="int">
 		SELECT count(resume_no) 
 		FROM resume
 		WHERE id = #{id}
 	</select>
+	
+	<!-- 관심 추가 : 테이블에 INSERT -->
+	<insert id="selfJobInterestAdd" parameterType="SelfVO">
+		INSERT INTO inter_job_search(job_search_no, id)
+		VALUES (#{jobSearchNo}, #{id})
+	</insert>
+	
+	<!-- 관심 삭제 : 테이블에 DELETE -->
+	<delete id="selfJobInterestDelete" parameterType="SelfVO">
+		DELETE
+		FROM inter_job_search
+		WHERE job_search_no = #{jobSearchNo} AND id = #{id}
+	</delete>
 
 	<!-- My프로필 등록 페이지 영역 -->
 	

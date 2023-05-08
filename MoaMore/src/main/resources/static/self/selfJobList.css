@@ -77,3 +77,8 @@ select::-ms-expand {
 .filled {
 	fill: red;
 }
+
+.imgSize{
+	width : 70%;
+	height : 70%;
+}
