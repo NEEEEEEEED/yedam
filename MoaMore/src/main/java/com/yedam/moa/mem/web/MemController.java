@@ -56,7 +56,9 @@ public class MemController {
 	@GetMapping("mem/mkResume")
 	public String createResume(Principal principal, Model model, MemVO vo) {
 		vo.setId(principal.getName());
+		vo.setCommNm("기술");
 		model.addAttribute("list", mem.getSkill(vo));
+		System.out.println(model.getAttribute("list"));
 		return "mem/mem_resume";
 	}
 }
