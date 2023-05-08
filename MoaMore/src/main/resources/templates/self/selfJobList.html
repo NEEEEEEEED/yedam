@@ -30,21 +30,20 @@
 			<div class="col-md-10" style="border-bottom : 1px solid #ddd;">
 				<div style="background-color: white;">
 					<div style="display:flex; justify-content: center;">
-						<select class="selectStyle">
-						    <option>활동분야</option>
-						    <option>두번째 선택항목</option>
-						    <option>세번째 선택항목</option>
-						</select>
-						<select class="selectStyle">
-						    <option>경력조건</option>
-						    <option>두번째 선택항목</option>
-						    <option>세번째 선택항목</option>
-						</select>
-						<select class="selectStyle">
-						    <option>지역</option>
-						    <option>두번째 선택항목</option>
-						    <option>세번째 선택항목</option>
-						</select>
+					
+						<select id="job" class="selectStyle">
+							<option value="" selected>직무선택</option>
+							<option th:each="job : ${jobList}" th:text="${job.desct}" th:attr="value=${job.prov}">직무</option>
+					  	</select>
+						<select id="carr" class="selectStyle">
+							<option value="" selected>경력선택</option>
+							<option th:each="carr : ${carrList}" th:text="${carr.desct}" th:attr="value=${carr.prov}">경력</option>
+					  	</select>
+						<select id="city" class="selectStyle">
+							<option value="" selected>지역선택</option>
+							<option th:each="city : ${cityList}" th:text="${city.desct}" th:attr="value=${city.prov}">도시</option>
+					  	</select>
+					  	
 						<div style="display:flex;">
 							<input type="text" class="search" placeholder="이름을 입력하세요">
 							<button type="button" class="btn btn-dark btn-sm searchBtn radius">
@@ -128,13 +127,21 @@
 		
 <script>
 
+let job = ''; // 검색조건 : 직무
+let carr = ''; // 검색조건 : 경력
+let city = ''; // 검색조건 : 도시
+let auth = ''; // 현재 접속한 사람의 권한
+let id = '';
 
 // 권한에 따른 셀프 구직 목록 리스트
 $(document).ready(function() {
 	
-	let auth = ''; // 권한
-	let id = $('#logId').val();
-	console.log('id : ' + id);
+	id = $('#logId').val(); // 로그인한 id
+	job = $('#job').val();  // 직무 선택
+	carr = $('#carr').val(); // 경력 선택
+	city = $('#city').val(); // 지역 선택
+	
+	
 	if($('#ROLE_USER').val()){ // 유저일때
 		console.log('유저입니다 - ROLE_MEM 일때 수정해야할 부분 -');
 		auth = 'user';
@@ -147,7 +154,26 @@ $(document).ready(function() {
 		console.log('관리자입니다.');
 		auth = 'admin';
 	}
-	selfJobList(auth, id); // 셀프 구직 목록 리스트
+	
+	selfJobList(auth, id, job, carr, city); // 셀프 구직 목록 리스트
+});
+
+// 직무 조건 변경시 검색리스트
+$('#job').on('change', function(){
+	job = $('#job').val();
+	selfJobList(auth, id, job, carr, city); // 셀프 구직 목록 리스트
+});
+
+//경력 조건 변경시 검색리스트
+$('#carr').on('change', function(){
+	carr = $('#carr').val();
+	selfJobList(auth, id, job, carr, city); // 셀프 구직 목록 리스트
+});
+
+//지역 조건 변경시 검색리스트
+$('#city').on('change', function(){
+	city = $('#city').val();
+	selfJobList(auth, id, job, carr, city); // 셀프 구직 목록 리스트
 });
 
 
@@ -177,32 +203,38 @@ function interest(interestBtn){
 		
 	}else{ // 기업일때
 	
-		let id = $('#logId').val(); // 로그인한 아이디
+		//let id = $('#logId').val(); // 로그인한 아이디
+		//let auth = 'co';
 		let i = $(interestBtn).parent().parent(); // 버튼 누른곳의 부모의 부모 태그
 		
 		let heartIcon = $(i).find('.heartIcon'); // 부모태그에서 클래스찾기
 		
+		//console.log('하트가 안채워져있다.: ' + heartIcon.hasClass("bi-suit-heart"));
+		
 		// 관심 등록 여부
 		if(heartIcon.hasClass("bi-suit-heart")){ // 관심이 등록이 안된 상태라면 관심등록
 			
-			heartIcon.removeClass("bi-suit-heart");
-			heartIcon.addClass("bi-suit-heart-fill");
+			//heartIcon.removeClass("bi-suit-heart");
+			//heartIcon.addClass("bi-suit-heart-fill");
 			
-			$(interestBtn).removeClass('btn-outline-danger');
-			$(interestBtn).addClass('btn-danger');
-			$(interestBtn).text('관심해제');
-			interestAdd(jobSearchNo); // 관심등록 ajax호출
-			//selfJobList('co', id); // 리스트 화면 출력함수
+			//$(interestBtn).removeClass('btn-outline-danger');
+			//$(interestBtn).addClass('btn-danger');
+			//$(interestBtn).text('관심해제');
+			
+			interestAdd(jobSearchNo,auth); // 관심등록 ajax호출
+			
+			
 			
 		}else{ // 관심등록이 된상태라면 관심해제
-			heartIcon.removeClass("bi-suit-heart-fill");
-			heartIcon.addClass("bi-suit-heart");
 			
-			$(interestBtn).removeClass('btn-danger');
-			$(interestBtn).addClass('btn-outline-danger');
-			$(interestBtn).text('관심');
+			//heartIcon.removeClass("bi-suit-heart-fill");
+			//heartIcon.addClass("bi-suit-heart");
 			
-			interestDelete(jobSearchNo); // 관심등록 해제 ajax호출
+			//$(interestBtn).removeClass('btn-danger');
+			//$(interestBtn).addClass('btn-outline-danger');
+			//$(interestBtn).text('관심');
+			
+			interestDelete(jobSearchNo,auth); // 관심등록 해제 ajax호출
 			
 		}
 	}
@@ -210,9 +242,9 @@ function interest(interestBtn){
 }
 
 // 관심등록 ajax호출
-function interestAdd(jobSearchNo){
+function interestAdd(jobSearchNo,auth){
 	
-	let id = $('#logId').val();
+	//let id = $('#logId').val();
 	
 	$.ajax({
 		  url: 'selfJobInterestAdd',
@@ -224,7 +256,8 @@ function interestAdd(jobSearchNo){
 			Swal.fire({
 				icon: 'success',
 				title: '관심목록에 추가되었습니다.'
-			})
+		   });
+		   selfJobList(auth, id, job, carr, city); // 리스트 화면 출력함수
 
 		  },
 		  error: function (reject) {	   
@@ -234,8 +267,8 @@ function interestAdd(jobSearchNo){
 }
  
  
-function interestDelete(jobSearchNo){
-	let id = $('#logId').val();
+function interestDelete(jobSearchNo,auth){
+	//let id = $('#logId').val();
 	
 	$.ajax({
 		  url: 'selfJobInterestDelete',
@@ -248,7 +281,7 @@ function interestDelete(jobSearchNo){
 			 	icon: 'success',
 				title: '관심목록에 삭제되었습니다.'
 			})
-
+			selfJobList(auth, id, job, carr, city); // 리스트 화면 출력함수
 		  },
 		  error: function (reject) {	   
 	   	  	console.log(reject);
@@ -259,35 +292,40 @@ function interestDelete(jobSearchNo){
 
  
 // 셀프구직 리스트 호출하는 ajax
-function selfJobList(auth, id){
+function selfJobList(auth, id, job, carr, city){
 	
 	$.ajax({
 	  url: 'selfJobList',
 	  type: 'post',
-	  data: {auth : auth, id : id},
+	  data: {auth : auth, id : id, dutyFld : job, career : carr, hopeWksite : city},
 	  success: function (result) {
 		  
-		let selfJobList = result.selfJobList;
-		let selfJobInterest = result.selfJobInterest;		
+		let selfJobList = result.selfJobList; // 셀프구직 목록 리스트
+		let selfJobInterest = result.selfJobInterest; // 접속한 ID의 셀프구직 관심 리스트
 
 		selfList.innerHTML = ''; // 초기화
 		
-		for(let j = 0; j < selfJobInterest.length ; j++){
-			for(let i = 0; i < selfJobList.length; i++){
-				if(selfJobInterest[j].jobSearchNo == selfJobList[i].jobSearchNo){
-				 	 selfJobList[i].interest = 'Y';	// 관심글에만 'Y'
+		if(selfJobList.length == 0){
+			selfList.innerHTML = `<div class="fs-2 mt-5" style="text-align : center;">검색조건에 만족하는게 없습니다.</div>`;
+			return;
+		}else{
+		
+			for(let j = 0; j < selfJobInterest.length ; j++){
+				for(let i = 0; i < selfJobList.length; i++){
+					if(selfJobInterest[j].jobSearchNo == selfJobList[i].jobSearchNo){
+					 	 selfJobList[i].interestYn = 'Y';	// 관심글에만 'Y'
+					}
 				}
 			}
-		}
-		
-		let selfJobListHtml = '';
-		// 화면 리스트 출력
-		for(let i = 0; i < selfJobList.length; i++){
-			selfJobListHtml += selfJobListPrint(selfJobList[i]);
-		}
-		
-		selfList.innerHTML = selfJobListHtml;
-		
+			
+			let selfJobListHtml = '';
+			// 화면 리스트 출력
+			for(let i = 0; i < selfJobList.length; i++){
+				selfJobListHtml += selfJobListPrint(selfJobList[i]);
+			}
+			
+			selfList.innerHTML = selfJobListHtml;
+	 	 }
 	  },
 	  error: function (reject) {	   
    	  	console.log(reject);
@@ -299,20 +337,22 @@ function selfJobList(auth, id){
 function selfJobListPrint(result={}){
 	
 	let html = '';
-	
-	if(result.interest == 'Y'){ // 관심글이라면 
+	//console.log(result.interestYn == 'Y');
+	// interestYn : 해당 게시글에 관심 등록이 되어있는지 여부
+	if(result.interestYn == 'Y'){ // 관심글이라면 
 		html = `<div class="row align-items-center border-bottom p-4 mb-3 hoverRow">
 	        <div class="col-md-3 text-center">
 	      	<a href="#">
 	      		<img class="img-fluid imgSize" src="/moamoreImg/`+result.myimg+`" onerror=this.src="/moamoreImg/profile.JPG" alt="이미지폴더에없음">
+	      		<p class="mb-0">`+result.pubcRange+`</p>
 	      	</a>
 	      </div>
-	      <div class="col-md-6 text-center text-lg-start">
+	      <div class="col-md-5 text-center text-lg-start">
 	        <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
 	          <p class="fw-bold mb-0 text-black">`+result.dutyFld+`</p>
 	          <p class="mb-0">`+result.hopeWksite+`</p>
 	          <p class="mb-0">`+result.regDt+`</p>
-	          <span><i data-id="`+result.jobSearchNo+`" class="bi bi-suit-heart-fill text-danger fa-2x heartIcon"></i></span>
+	          <span><i data-id="`+result.jobSearchNo+`" class="bi bi-suit-heart-fill text-danger fa-lg heartIcon"></i>`+result.interest+`</span>
 	        </div>
 	        	<p class="fs-2 my-3">`+result.ttl+`</p>
 	        <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-2">
@@ -321,11 +361,10 @@ function selfJobListPrint(result={}){
 	            
 	        </div>
 	      </div>
-	      <div class="col-md-3" style="display: flex; align-items: center; flex-direction : column;" >
+	      <div class="col-md-4" style="display: flex; align-items: center; flex-direction : column;" >
+	      	
 		      <button  data-id="`+result.jobSearchNo+`" onclick="interest(this)" type="button" class="btn btn-danger btn-sm listBtn">관심해제</button>
 		      <button  data-id="`+result.jobSearchNo+`" type="button" class="btn btn-outline-info btn-sm listBtn">제안</button>
-		      <p class="mb-0">`+result.pubcRange+`</p>
-		      <p class="mb-0" style="color : blue;">받은관심수: `+result.interest+`<span>, 받은제안수: `+result.prop+`</span></p>
 		  </div>
 	    </div>`;
 	}else{
@@ -333,14 +372,15 @@ function selfJobListPrint(result={}){
 	        <div class="col-md-3 text-center">
 	      	<a href="#">
 	      		<img class="img-fluid imgSize" src="/moamoreImg/`+result.myimg+`" onerror=this.src="/moamoreImg/profile.JPG" alt="이미지폴더에없음">
+	      		<p class="mb-0">`+result.pubcRange+`</p>
 	      	</a>
 	      </div>
-	      <div class="col-md-6 text-center text-lg-start">
+	      <div class="col-md-5 text-center text-lg-start">
 	        <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
 	          <p class="fw-bold mb-0 text-black">`+result.dutyFld+`</p>
 	          <p class="mb-0">`+result.hopeWksite+`</p>
 	          <p class="mb-0">`+result.regDt+`</p>
-	          <span><i data-id="`+result.jobSearchNo+`" class="bi bi-suit-heart text-danger fa-2x heartIcon"></i></span>
+	          <span><i data-id="`+result.jobSearchNo+`" class="bi bi-suit-heart text-danger fa-lg heartIcon"></i>`+result.interest+`</span>
 	        </div>
 	        	<p class="fs-2 my-3">`+result.ttl+`</p>
 	        <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-2">
@@ -348,12 +388,10 @@ function selfJobListPrint(result={}){
 	            <p class="mb-0">작성자 : `+result.id+`</p>
 	        </div>
 	      </div>
-	      <div class="col-md-3" style="display: flex; align-items: center; flex-direction : column;" >
-	   
+	      <div class="col-md-4" style="display: flex; align-items: center; flex-direction : column;" >
+	      	  
 	      	  <button  data-id="`+result.jobSearchNo+`" onclick="interest(this)" type="button" class="btn btn-outline-danger btn-sm listBtn">관심</button>
 		      <button  data-id="`+result.jobSearchNo+`" type="button" class="btn btn-outline-info btn-sm listBtn">제안</button>
-		      <p class="mb-0">`+result.pubcRange+`</p>
-		      <p class="mb-0" style="color : blue;">받은관심수: `+result.interest+`<span>, 받은제안수: `+result.prop+`</span></p>
 		  </div>
 	    </div>`;
 	}
@@ -366,32 +404,43 @@ function selfJobListPrint(result={}){
 // my프로필 등록 버튼 클릭시 이력가 있는지 체크하는 함수
 $('#myProfile').on('click', function(){
 	
-	let id = logId.value;
+	//let id = logId.value;
 	//console.log(id);
 	
-	$.ajax({
-	  url: 'selfJobCheck',
-	  type: 'post',
-	  data: {id : id},
-	  success: function (result) {
-		if(result == 0){
-			Swal.fire({
-				  icon: 'error',
-				  title: '작성된 이력서가 없습니다. \n먼저 작성해주세요.'
-			});
-		}else{
-			location.href="/selfJobProfile";
-		}
-	  },
-	  error: function (reject) {	   
-   	  	console.log(reject);
-	  }
-	});	
+	if($('#ROLE_USER').val()){ // 유저일때
+		$.ajax({
+			  url: 'selfJobCheck',
+			  type: 'post',
+			  data: {id : id},
+			  success: function (result) {
+				if(result == 0){
+					Swal.fire({
+						  icon: 'error',
+						  title: '작성된 이력서가 없습니다. \n이력서를 먼저 작성해주세요.'
+					});
+				}else{
+					location.href="/selfJobProfile";
+				}
+			  },
+			  error: function (reject) {	   
+		   	  	console.log(reject);
+			  }
+			});	
+	}else if($('#ROLE_CO').val()){ // 기업일때
+		
+		Swal.fire({
+			  icon: 'error',
+			  title: '기업은 My프로필을 작성할 수 없습니다.'
+		});
+		
+	}else{ // 관리자일때
+		Swal.fire({
+			  icon: 'error',
+			  title: '관리자는 My프로필을 작성할 수 없습니다.'
+		});
+	}
 });
-		
-
-
-		
+			
 </script>
 	</div>
 </body>

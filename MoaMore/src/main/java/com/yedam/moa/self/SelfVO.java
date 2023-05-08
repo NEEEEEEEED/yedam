@@ -19,6 +19,7 @@ public class SelfVO {
 	private String id;			// 아이디
 	private String intro;		// 자기소개
 	private String hopeWksite;	// 희망근무지역
+	private String career; 		// 경력
 	private String dutyFld;		// 직무분야 
 	private String posit;		// 포지션(기술스택)
 	private String hopeSal;		// 희망급여
@@ -29,6 +30,11 @@ public class SelfVO {
 	private String pubcRange;	// 공개범위권한
 	private String imgNo;		// 이미지그룹번호
 	private String regDt;		// 등록일자
+	
+	// 스킬
+	private String skillNo;		// 스킬번호
+	private String skill;		// 스킬
+	
 	
 	// 이력서 헤더
 	private String ttl; 		// 이력서 제목

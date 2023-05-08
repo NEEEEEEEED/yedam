@@ -36,6 +36,9 @@ public class SelfController {
 	// 셀프구직 목록 페이지
 	@GetMapping("/selfJobList")
 	public String selfJobList(Model model) {
+		model.addAttribute("jobList", selfServiceImpl.jobList()); // 직무리스트
+		model.addAttribute("carrList", selfServiceImpl.carrList()); // 경력리스트
+		model.addAttribute("cityList", selfServiceImpl.cityList()); // 지역리스트
 		return "self/selfJobList";
 	}
 	
@@ -77,6 +80,7 @@ public class SelfController {
 	@GetMapping("/selfJobProfile")
 	public String selfJobProfile(Model model) {
 		model.addAttribute("cityList", selfServiceImpl.cityList()); // 지역리스트
+		model.addAttribute("carrList", selfServiceImpl.carrList()); // 경력리스트
 		model.addAttribute("jobList", selfServiceImpl.jobList()); // 직무리스트
 		model.addAttribute("techList", selfServiceImpl.techList()); // 기술스택리스트
 		model.addAttribute("authList", selfServiceImpl.authList()); // 보기권한리스트
