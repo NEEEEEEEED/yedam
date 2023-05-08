@@ -64,19 +64,13 @@ section {
 					<div class="row mb-3">
 						<p class="col-sm-3 text-end fs-5 fw-normal">상품명</p>
 						<div class="col-sm-8 text-end">
-							<p class="fs-5 fw-normal"
-								th:text="'광고 '+${product.prdtNm}"></p>
+							<p class="fs-5 fw-normal" th:text="'광고 '+${product.prdtNm}"></p>
 						</div>
 					</div>
 					<div class="row mb-3">
 						<p class="col-sm-3 text-end fs-5 fw-normal">상품가격</p>
 						<div class="col-sm-8 text-end">
-							<p th:if="${#strings.equals(param.count, '1')}"
-								class="fs-5 fw-normal">110,000 원</p>
-							<p th:if="${#strings.equals(param.count, '3')}"
-								class="fs-5 fw-normal">330,000 원</p>
-							<p th:if="${#strings.equals(param.count, '5')}"
-								class="fs-5 fw-normal">550,000 원</p>
+							<p class="fs-5 fw-normal">[[${product.prdtPrc}]] 원</p>
 						</div>
 					</div>
 					<div class="row mb-3">
@@ -84,16 +78,9 @@ section {
 						<div class="col-sm-8 text-end">
 							<div th:if="${#strings.equals(param.count, '1')}">
 								<p class="fs-5 fw-normal">-11,000 원</p>
-								<small class="fw-bold text-danger">10% 할인</small>
+								<small class="fw-bold text-danger">[[${product.discount}]] 할인</small>
 							</div>
-							<div th:if="${#strings.equals(param.count, '3')}">
-								<p class="fs-5 fw-normal">-66,000 원</p>
-								<small class="fw-bold text-danger">20% 할인</small>
-							</div>
-							<div th:if="${#strings.equals(param.count, '5')}">
-								<p class="fs-5 fw-normal">-165,000 원</p>
-								<small class="fw-bold text-danger">30% 할인</small>
-							</div>
+							
 						</div>
 					</div>
 					<hr>
@@ -117,7 +104,8 @@ section {
 						<div class="col-sm-8 text-end">
 							<select id="gonggo" class="form-select">
 								<option selected="">선택</option>
-								<option th:each=" item : ${RecList}" th:text="${item.ttl}" th:value="${item.recruitNo}"></option>
+								<option th:each=" item : ${RecList}" th:text="${item.ttl}"
+									th:value="${item.recruitNo}"></option>
 							</select>
 						</div>
 					</div>
