@@ -122,11 +122,8 @@ i {
 								onclick="changeSlash(this,1)">관심 구직글</span> / <span
 								class="interInfer" onclick="changeSlash(this,2)">제안 구직글</span>
 						</h5>
-						
-						<div id="selfList" class="col-md-12">
-							
 
-						</div>
+						<div id="selfList" class="col-md-12"></div>
 						<!-- 제안구직글목록 뿌리기 -->
 						<!-- 제안구직글목록 뿌리기 끝 -->
 					</div>
@@ -134,23 +131,40 @@ i {
 				</div>
 			</div>
 		</div>
-		<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalLg">Large modal</button>
+		<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+			data-bs-target="#exampleModalLg">Large modal</button>
 		<!-- 모달창 -->
-		
-		<div class="modal fade" id="exampleModalLg" tabindex="-1" aria-labelledby="exampleModalLgLabel" style="display: none;" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-4" id="exampleModalLgLabel">Large modal</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-    </div>
-  </div>
-</div>
-			
+
+		<div class="modal fade " id="exampleModalLg" tabindex="-1"
+			aria-labelledby="exampleModalLgLabel" style="display: none;"
+			aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-4" id="exampleModalLgLabel">Large
+							modal</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<div class="mb-3 row">
+							<label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
+							<div class="col-sm-10">
+								<input type="text" readonly class="form-control-plaintext"
+									id="staticEmail" value="email@example.com">
+							</div>
+						</div>
+						<div class="mb-3 row">
+							<label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
+							<div class="col-sm-10">
+								<input type="password" class="form-control" id="inputPassword">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<script>
 			const tableMenu = document.querySelector('#tableMenu');
 			//상단메뉴클릭
