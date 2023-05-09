@@ -26,7 +26,7 @@ section {
 	rel="stylesheet">
 
 <!-- Vendor CSS Files -->
-<link href="adminAssets/vendor/bootstrap/css/bootstrap.min.css"
+<!-- <link href="adminAssets/vendor/bootstrap/css/bootstrap.min.css"
 	rel="stylesheet">
 <link href="adminAssets/vendor/bootstrap-icons/bootstrap-icons.css"
 	rel="stylesheet">
@@ -34,9 +34,9 @@ section {
 	rel="stylesheet">
 <link href="adminAssets/vendor/quill/quill.snow.css" rel="stylesheet">
 <link href="adminAssets/vendor/quill/quill.bubble.css" rel="stylesheet">
-<link href="adminAssets/vendor/remixicon/remixicon.css" rel="stylesheet">
-<link href="adminAssets/vendor/simple-datatables/style.css"
-	rel="stylesheet">
+<link href="adminAssets/vendor/remixicon/remixicon.css" rel="stylesheet"> -->
+<!-- <link href="adminAssets/vendor/simple-datatables/style.css"
+	rel="stylesheet"> -->
 
 <!-- Template Main CSS File -->
 <link href="adminAssets/css/style.css" rel="stylesheet">
@@ -47,7 +47,7 @@ section {
 <body id="body">
 	<div class="container d-flex justify-content-center" layout:fragment="content">
 
-		<div class="card col-lg-9 ">
+		<div class="card col-lg-10 ">
 			<div class="card-body">
 				<!-- General Form Elements -->
 				<form name="submitForm" action="/saveCoInfo" method="post" class="">
@@ -58,13 +58,14 @@ section {
 					<div class="row mb-4 d-flex justify-content-center">
 						<label for="inputText" class="col-sm-1 col-form-label">기업명</label>
 						<div class="col-sm-4">
-							<input type="text" name="coNm" th:value="${co.coNm}"
+							<input  type="text" name="coNm" th:value="${co?.coNm}" 
 								class="form-control">
+							
 						</div>
 						
 						<label for="inputText" class="col-sm-1 col-form-label">대표자</label>
 						<div class="col-sm-4">
-							<input type="text" name="rpstr" th:value="${co.rpstr}"
+							<input type="text" name="rpstr" th:value="${co?.rpstr}" value=""
 								class="form-control">
 						</div>
 					</div>
@@ -75,11 +76,11 @@ section {
 						<div class="col-sm-4">
 							<select class="form-select" name="coFg"
 								aria-label="Default select example">
-								<option value="">선택</option>
-								<option value="M4" th:selected="${co.coFg == 'M4'}">강소기업</option>
-								<option value="M3" th:selected="${co.coFg == 'M3'}">중소기업</option>
-								<option value="M2" th:selected="${co.coFg == 'M2'}">중견기업</option>
-								<option value="M1" th:selected="${co.coFg == 'M1'}">대기업</option>
+								<option value="" selected>선택</option>
+								<option value="M4" th:selected="${co?.coFg == 'M4'}">강소기업</option>
+								<option value="M3" th:selected="${co?.coFg == 'M3'}">중소기업</option>
+								<option value="M2" th:selected="${co?.coFg == 'M2'}">중견기업</option>
+								<option value="M1" th:selected="${co?.coFg == 'M1'}">대기업</option>
 							</select>
 						</div>
 						
@@ -87,11 +88,11 @@ section {
 						<div class="col-sm-4">
 							<select class="form-select" name="idst" 
 								aria-label="Default select example">
-								<option selected="">선택</option>
-								<option value="W1" th:selected="${co.idst == 'W1'}">소프트웨어 개발 및 공급업</option>
-								<option value="W2" th:selected="${co.idst == 'W2'}">컴퓨터 프로그래밍, 시스템 통합 및 관리업</option>
-								<option value="W3" th:selected="${co.idst == 'W3'}">자료처리, 호스팅, 포털 및 기타 인터넷 정보매개서비스업</option>
-								<option value="W4" th:selected="${co.idst == 'W4'}">기타 정보 서비스업</option>
+								<option value="" selected>선택</option>
+								<option value="W1" th:selected="${co?.idst == 'W1'}">소프트웨어 개발 및 공급업</option>
+								<option value="W2" th:selected="${co?.idst == 'W2'}">컴퓨터 프로그래밍, 시스템 통합 및 관리업</option>
+								<option value="W3" th:selected="${co?.idst == 'W3'}">자료처리, 호스팅, 포털 및 기타 인터넷 정보매개서비스업</option>
+								<option value="W4" th:selected="${co?.idst == 'W4'}">기타 정보 서비스업</option>
 							</select>
 						</div>
 					</div>
@@ -103,13 +104,13 @@ section {
 						<div class="col-sm-4">
 							<select class="form-select" name="sale" 
 								aria-label="Default select example">
-								<option selected="">선택</option>
-								<option value="V1" th:selected="${co.sale == 'V1'}">400억 이하</option>
-								<option value="V2" th:selected="${co.sale == 'V2'}">600억 이하</option>
-								<option value="V3" th:selected="${co.sale == 'V3'}">800억 이하</option>
-								<option value="V4" th:selected="${co.sale == 'V4'}">1000억 이하</option>
-								<option value="V5" th:selected="${co.sale == 'V5'}">1500억 이하</option>
-								<option value="V6" th:selected="${co.sale == 'V6'}">1500억 초과</option>
+								<option value="" selected>선택</option>
+								<option value="V1" th:selected="${co?.sale == 'V1'}">400억 이하</option>
+								<option value="V2" th:selected="${co?.sale == 'V2'}">600억 이하</option>
+								<option value="V3" th:selected="${co?.sale == 'V3'}">800억 이하</option>
+								<option value="V4" th:selected="${co?.sale == 'V4'}">1000억 이하</option>
+								<option value="V5" th:selected="${co?.sale == 'V5'}">1500억 이하</option>
+								<option value="V6" th:selected="${co?.sale == 'V6'}">1500억 초과</option>
 							</select>
 						</div>
 						
@@ -117,13 +118,13 @@ section {
 						<div class="col-sm-4">
 							<select class="form-select" name="cptl"
 								aria-label="Default select example">
-								<option selected="">선택</option>
-								<option value="a1" th:selected="${co.cptl == 'a1'}">5000만원 이하</option>
-								<option value="a2" th:selected="${co.cptl == 'a2'}">1억 이하</option>
-								<option value="a3" th:selected="${co.cptl == 'a3'}">5억 이하</option>
-								<option value="a4" th:selected="${co.cptl == 'a4'}">10억 이하</option>
-								<option value="a5" th:selected="${co.cptl == 'a5'}">50억 이하</option>
-								<option value="a6" th:selected="${co.cptl == 'a6'}">50억 초과</option>
+								<option value="" selected>선택</option>
+								<option value="a1" th:selected="${co?.cptl == 'a1'}">5000만원 이하</option>
+								<option value="a2" th:selected="${co?.cptl == 'a2'}">1억 이하</option>
+								<option value="a3" th:selected="${co?.cptl == 'a3'}">5억 이하</option>
+								<option value="a4" th:selected="${co?.cptl == 'a4'}">10억 이하</option>
+								<option value="a5" th:selected="${co?.cptl == 'a5'}">50억 이하</option>
+								<option value="a6" th:selected="${co?.cptl == 'a6'}">50억 초과</option>
 							</select>
 						</div>
 					</div>
@@ -133,13 +134,13 @@ section {
 					<div class="row mb-4 d-flex justify-content-center">
 						<label for="inputText" class="col-sm-1 col-form-label">사원수</label>
 						<div class="col-sm-4">
-							<input type="text" name="empTtl" th:value="${co.empTtl}"
+							<input type="text" name="empTtl" th:value="${co?.empTtl}" value=""
 								class="form-control">
 						</div>
 						
 						<label for="inputDate" class="col-sm-1 col-form-label">설립일</label>
 						<div class="col-sm-4">
-							<input type="date" name="fondtDt" th:value="${co.fondtDt}"
+							<input type="date" name="fondtDt" th:value="${co?.fondtDt}" value=""
 								class="form-control">
 						</div>
 					</div>
@@ -149,13 +150,13 @@ section {
 					<div class="row mb-4 d-flex justify-content-center">
 						<label for="inputText" class="col-sm-1 col-form-label">주소</label>
 						<div class="col-sm-4">
-							<input type="text" name="addr" th:value="${co.addr}"
+							<input type="text" name="addr" th:value="${co?.addr}" value=""
 								class="form-control">
 						</div>
 						
 						<label for="inputText" class="col-sm-1 col-form-label">사이트</label>
 						<div class="col-sm-4">
-							<input type="text" name="homePage" th:value="${co.homePage}"
+							<input type="text" name="homePage" th:value="${co?.homePage}" value=""
 								class="form-control">
 						</div>
 					</div>
