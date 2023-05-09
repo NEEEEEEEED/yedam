@@ -284,7 +284,7 @@
         <!---------------------- 학력 -------------------------------------------------------->
         <div class="col-md-9 col-lg-10">
           <div class="forSchr my-3 card ps-4 p-3">
-            <div class="row gy-3" name="">
+            <div class="row gy-3" name="toClone">
               <div class="dropdown col-md-2 p-3">
                 <button
                   class="btn btn-chek p-2 dropdown-toggle"
@@ -388,7 +388,13 @@
               </div>
               <input type="hidden" name="shcrSt" id="shcrSt" value />
             </div>
-        	<div><button name="addBtn"><i class="bi bi-plus-circle-fill"></i></button></div>
+            <div>
+              <i
+                class="bi bi-plus-circle-fill"
+                style="cursor: pointer"
+                id="addBtn"
+              ></i>
+            </div>
           </div>
         </div>
         <!-- 			main end -->
@@ -414,6 +420,10 @@
             console.log(
               $(this).closest(".dropdown")[0].nextElementSibling.value
             );
+          });
+          $(document).on("click", "#addBtn", function () {
+            $("div[class=forSchr]").append("<h>왜 안되냐</h>");
+            
           });
         });
       </script>
