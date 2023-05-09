@@ -15,11 +15,14 @@ public interface SelfMapper {
 	// 관심 등록
 	public int selfJobInterestAdd(SelfVO interestVO);
 	
-	// 관심등록 리스트
+	// 관심 등록 리스트
 	public List<SelfVO> selfJobInterestList(String id);
 	
 	// 관심 등록 해제
 	public int selfJobInterestDelete(SelfVO interestVO);
+	
+	// 셀프구직 상세 페이지
+	public List<SelfVO> selfJobDetailInfo(String jobSearchNo);
 	
 	// ----------------------------------------
 	// 지역 리스트

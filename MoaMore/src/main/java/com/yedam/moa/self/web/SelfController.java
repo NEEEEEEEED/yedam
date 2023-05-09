@@ -235,5 +235,14 @@ public class SelfController {
 		}
 	}
 	
+	// 셀프구직 상세페이지
+	@GetMapping("/selfJobDetail")
+	public String selfJobDetail(Model model, String jobSearchNo) {
+		
+		model.addAttribute("selfJobInfo", selfServiceImpl.selfJobDetailInfo(jobSearchNo));
+		
+		return "self/selfJobDetail";
+	}
+	
 	
 }

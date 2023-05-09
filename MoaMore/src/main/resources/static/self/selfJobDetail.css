@@ -1,0 +1,37 @@
+/* selJobDetail.CSS */
+
+.radius{
+	border-radius : 0px;
+}
+
+
+.listStyle{
+   list-style:none;
+   padding-left:0px;
+}
+
+.circleImg {
+  border-radius: 50%;
+  width : 120px;
+  height : 120px;
+}
+
+.subTitle{
+	color: black;
+	border-bottom : 2px solid #00d2bb;
+}
+
+.skillBorder{
+	padding : 10px; 
+	border : 1px solid grey; 
+	border-radius : 500rem;
+}
+
+.listRow{
+	padding:20px; 
+	border-bottom : 1px solid #ddd;
+}
+
+.hoverRow:hover {
+	background-color: rgb(233, 233, 233);
+}

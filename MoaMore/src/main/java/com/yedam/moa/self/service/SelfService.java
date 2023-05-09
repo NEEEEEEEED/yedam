@@ -21,6 +21,9 @@ public interface SelfService {
 	// 관심 등록 해제
 	public int selfJobInterestDelete(SelfVO interestVO);
 	
+	// 셀프구직 상세 페이지
+	public List<SelfVO> selfJobDetailInfo(String jobSearchNo);
+	
 	//-------------------------------------------------
 	
 	// 지역 리스트
