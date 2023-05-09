@@ -29,25 +29,25 @@
 			<label for = "name">직군</label> 
 			<select id = "job" class = "selectStyle">
 				<option selected value = ''>개발 전체</option>
-				<option th:each="jobList : ${jobList}" th:text="${jobList.desct}" th:attr="value=${jobList.prov}">직무</option>
+				<option th:each="list : ${list.N}" th:text="${list.desct}" th:attr="value=${list.prov}">직무</option>
 			</select>
 			
 			<label for="name">지역</label> 
 			<select id="loc" class = "selectStyle">
 				<option selected value=''>전국</option>
-				<option th:each="wksiteList : ${wksiteList}" th:text="${wksiteList.desct}" th:attr="value=${wksiteList.prov}">지역</option>
+				<option th:each="list : ${list.X}" th:text="${list.desct}" th:attr="value=${list.prov}">지역</option>
 			</select>
 			
 			<label for = "name">경력</label> 
 			<select id="cre" class = "selectStyle">
 				<option selected value = ''>경력전체</option>
-				<option th:each="carrList : ${carrList}" th:text="${carrList.desct}" th:attr="value=${carrList.prov}">경력</option>
+				<option th:each="list : ${list.Y}" th:text="${list.desct}" th:attr="value=${list.prov}">경력</option>
 			</select>
 			
 			<label for = "name">기술스택</label> 
 			<select id = "skl" class = "selectStyle">
 				<option selected value=''>기술 전체</option>
-				<option th:each="skillList : ${skillList}" th:text="${skillList.desct}" th:attr="value=${skillList.prov}">경력</option>
+				<option th:each="list : ${list.Z}" th:text="${list.desct}" th:attr="value=${list.prov}">경력</option>
 			</select>
 			
 			<button type="submit" class="btn btn-outline-dark btn-sm searchBtn" id="search">

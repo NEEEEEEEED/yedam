@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.yedam.moa.FileNameModel;
+import com.yedam.moa.comm.service.CommService;
 import com.yedam.moa.hire.HireVO;
 import com.yedam.moa.hire.service.HireService;
 
@@ -27,15 +28,16 @@ public class HireController {
 	@Autowired
 	HireService hireService;
 	
+	@Autowired
+	CommService com;
+	
 	Principal pr;
 	
 	// 구인공고목록 페이지
 	@GetMapping("/hirePage")
 	public String hireList(Model model) {
-		model.addAttribute("wksiteList",hireService.wksiteList() ); // 근무지역 리스트
-		model.addAttribute("jobList", hireService.jobList() ); // 직무 리스트
-		model.addAttribute("skillList",hireService.skillList() ); // 기술스택 리스트
-		model.addAttribute("carrList",hireService.carrList() ); // 경력 리스트
+		model.addAttribute("list", com.getCodes("Z","X","N","Y"));
+
 		return "hire/hirePage";
 	}
 	
@@ -59,12 +61,11 @@ public class HireController {
 	public String hireInfo(@RequestParam("recruitNo") String recruitNo, Model model, Principal principal) {
 		HireVO hireVO = new HireVO();
 		hireVO.setRecruitNo(recruitNo);
+		pr = principal;
+		hireVO.setId(pr.getName());
 		
 		List<HireVO> hireInfo = new ArrayList<HireVO>();
 		hireInfo = hireService.hireInfo(hireVO);
-		
-		pr = principal;
-		hireVO.setId(pr.getName());
 		
 		model.addAttribute("hireInfo",hireInfo);
 		model.addAttribute("recruitNo", recruitNo);
@@ -78,7 +79,13 @@ public class HireController {
 	public List<HireVO> resumeList(@RequestParam(required=false) String id) {
 	    return hireService.resumeList(id);
 	}
-
+	
+	// 구인공고 지원
+	@PostMapping("/resumeInsert")
+	@ResponseBody
+	public String resumeInsert(HireVO hireVO){
+		return hireService.resumeInsert(hireVO);
+	}
 	
 	// 구인공고 등록 페이지
 	@GetMapping("/hireInsert")

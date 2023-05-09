@@ -10,17 +10,6 @@ public interface HireService {
 	public List<HireVO> hireScrapList(HireVO hireVO); // 스크랩목록 조회
 	public List<HireVO> hireInfo(HireVO hireVO); // 구인공고 상세 페이지
 	public List<HireVO> resumeList(String id); // 구인공고페이지 이력서 조회
-	
-	// 직무 리스트
-	public List<SelfVO> jobList();
-			
-	// 기술스택 리스트
-	public List<SelfVO> skillList();
-			
-	// 근무지역 리스트
-	public List<SelfVO> wksiteList();
-			
-	// 경력 리스트
-	public List<SelfVO> carrList();
+	public String resumeInsert(HireVO hireVO); // 구인공고 지원
 			
 }
