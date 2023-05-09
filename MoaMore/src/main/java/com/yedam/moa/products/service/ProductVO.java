@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class ProductVO {
-	//5일 꽉찬 예약 목록
+	//5일 꽉찬 예약일자 목록
 	private String reserDt;
 	
 	//상품
@@ -20,5 +20,5 @@ public class ProductVO {
 	private String orderNo; //주문번호
 	private String recruitNo; //공고게시글번호
 	private String id; 
-	private String reserDts; //광고적용날짜들
+	private String reserDts; //광고적용날짜들 a,b,c
 }

@@ -70,5 +70,11 @@ public class CoMypageController {
 		service.saveCoInfo(vo);
 		return "redirect:coInfoPage";
 	}
+	
+	//기업아이템페이지
+	@GetMapping("/coProducts")
+	public String coProductsPage(Model model, Principal principal, CoVO vo) {
+		return "co/coProducts";
+	}
 
 }
