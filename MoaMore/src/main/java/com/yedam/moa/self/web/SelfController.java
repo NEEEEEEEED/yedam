@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.yedam.moa.comm.CommVO;
+import com.yedam.moa.comm.service.Impl.CommServiceImpl;
 import com.yedam.moa.self.SelfVO;
 import com.yedam.moa.self.service.Impl.SelfServiceImpl;
 
@@ -26,6 +28,9 @@ public class SelfController {
 
 	@Autowired 
 	SelfServiceImpl selfServiceImpl; 
+	
+	@Autowired
+	CommServiceImpl commServiceImpl;
 	
 	@Value("${site.upload}")
 	String uploadPath;
@@ -36,9 +41,8 @@ public class SelfController {
 	// 셀프구직 목록 페이지
 	@GetMapping("/selfJobList")
 	public String selfJobList(Model model) {
-		model.addAttribute("jobList", selfServiceImpl.jobList()); // 직무리스트
-		model.addAttribute("carrList", selfServiceImpl.carrList()); // 경력리스트
-		model.addAttribute("cityList", selfServiceImpl.cityList()); // 지역리스트
+		// 공통코드 리스트
+		model.addAttribute("commList", commServiceImpl.getCodes("N","Y","X")); // 직무, 경력, 지역 리스트
 		return "self/selfJobList";
 	}
 	
@@ -74,21 +78,18 @@ public class SelfController {
 		return selfServiceImpl.selfJobInterestDelete(interestVO);
 	}
 	
-	// 셀프구직 my프로필 등록 페이지 영역-------------------------------------------------
+	// 셀프구직 등록 페이지 영역-------------------------------------------------
 	
-	// 셀프구직 my프로필 등록 페이지
+	// 셀프구직 등록 페이지
 	@GetMapping("/selfJobProfile")
 	public String selfJobProfile(Model model) {
-		model.addAttribute("cityList", selfServiceImpl.cityList()); // 지역리스트
-		model.addAttribute("carrList", selfServiceImpl.carrList()); // 경력리스트
-		model.addAttribute("jobList", selfServiceImpl.jobList()); // 직무리스트
-		model.addAttribute("techList", selfServiceImpl.techList()); // 기술스택리스트
-		model.addAttribute("authList", selfServiceImpl.authList()); // 보기권한리스트
+		// 공통코드 리스트
+		model.addAttribute("commList", commServiceImpl.getCodes("N","Y","X","Z","c")); // 직무, 경력, 지역, 기술스택, 보기권한 리스트
 		model.addAttribute("selfJobKey", selfServiceImpl.selfJobKey()); // 셀프구직 게시글 기본키
 		return "self/selfJobProfile";
 	}
 	
-	// my프로필 이력서 리스트
+	// 셀프구직 이력서 리스트
 	@PostMapping("/resumeHeaderList")
 	@ResponseBody
 	public List<SelfVO> resumeHeaderList(@RequestParam String id){
@@ -109,7 +110,7 @@ public class SelfController {
 		return selfServiceImpl.schoolList(shcrNo);
 	}
 	
-	// my프로필 등록
+	// 셀프구직 등록
 	@PostMapping("/myProfileAdd")
 	@ResponseBody
 	public String myProfileAdd(@RequestBody SelfVO myProfile){
@@ -123,7 +124,7 @@ public class SelfController {
 		}
 	}
 	
-	// my프로필 이미지
+	// 셀프구직 이미지 등록
 	@PostMapping("/myProfileImg")
 	@ResponseBody
 	public String imgUpload(@RequestParam(value="profileImage", required = false) MultipartFile uploadFile) throws IllegalStateException, IOException {
@@ -153,22 +154,14 @@ public class SelfController {
 	}
 	
 	
-	// my프로필 포트폴리오 등록
+	// 셀프구직 포트폴리오 등록
 	@PostMapping("/pofolAdd")
 	@ResponseBody
 	public List<SelfVO> pofolUpload( @RequestParam("jobSearchNo") String jobSearchNo,
-							   @RequestParam("id") String id,
-							   @RequestParam("title") String title,
-							   @RequestParam("pofolImg") MultipartFile pofolImg,
-							   @RequestParam("pofolFile") MultipartFile pofolFile ) throws IllegalStateException, IOException {
-		
-		System.out.println("jobSearchNo : " + jobSearchNo);
-		System.out.println("id : " + id);
-		System.out.println("title : " + title);
-		System.out.println("pofolImg : " + pofolImg);
-		System.out.println("pofolFile : " + pofolFile);
-		System.out.println("성공");
-
+							   		 @RequestParam("id") String id,
+							   		 @RequestParam("title") String title,
+							   		 @RequestParam("pofolImg") MultipartFile pofolImg,
+							   		 @RequestParam("pofolFile") MultipartFile pofolFile ) throws IllegalStateException, IOException {
 		
 		//첨부파일 업로드 처리
 		MultipartFile uploadPofolImg = pofolImg;
@@ -183,7 +176,6 @@ public class SelfController {
 		String uploadFileNamePofolFile = null;   // UUID적용한 파일명(중복 없는 파일명)
 		
 		int r = 0; // sql문 결과
-		
 		
 		if(uploadPofolImg !=null && !uploadPofolImg.isEmpty() && uploadPofolImg.getSize()>0
 		&& uploadPofolFile !=null && !uploadPofolFile.isEmpty() && uploadPofolFile.getSize()>0) {
@@ -238,9 +230,7 @@ public class SelfController {
 	// 셀프구직 상세페이지
 	@GetMapping("/selfJobDetail")
 	public String selfJobDetail(Model model, String jobSearchNo) {
-		
 		model.addAttribute("selfJobInfo", selfServiceImpl.selfJobDetailInfo(jobSearchNo));
-		
 		return "self/selfJobDetail";
 	}
 	

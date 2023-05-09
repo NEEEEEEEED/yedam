@@ -5,7 +5,7 @@
 	  layout:decorate="~{template/layout}">
 <head>
 <meta charset="UTF-8">
-<title>모아모아/셀프구직</title>
+<title>모아모아/셀프구직조회</title>
 <!-- selfJobList.CSS -->
 <link href="self/selfJobList.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
@@ -33,15 +33,15 @@
 					
 						<select id="job" class="selectStyle">
 							<option value="" selected>직무선택</option>
-							<option th:each="job : ${jobList}" th:text="${job.desct}" th:attr="value=${job.prov}">직무</option>
+							<option th:each="job : ${commList.N}" th:text="${job.desct}" th:attr="value=${job.prov}">직무</option>
 					  	</select>
 						<select id="carr" class="selectStyle">
 							<option value="" selected>경력선택</option>
-							<option th:each="carr : ${carrList}" th:text="${carr.desct}" th:attr="value=${carr.prov}">경력</option>
+							<option th:each="carr : ${commList.Y}" th:text="${carr.desct}" th:attr="value=${carr.prov}">경력</option>
 					  	</select>
 						<select id="city" class="selectStyle">
 							<option value="" selected>지역선택</option>
-							<option th:each="city : ${cityList}" th:text="${city.desct}" th:attr="value=${city.prov}">도시</option>
+							<option th:each="city : ${commList.X}" th:text="${city.desct}" th:attr="value=${city.prov}">도시</option>
 					  	</select>
 					  	
 						<div style="display:flex;">
@@ -52,7 +52,7 @@
 						</div>
 						<div class="ms-5">
 							<button id="myProfile" type="button" class="btn btn-outline-danger btn-sm radius fs-1">
-								My프로필 등록
+								셀프구직 등록
 							</button>
 						</div>
 					</div>
@@ -180,7 +180,7 @@ $('#city').on('change', function(){
 
 // 관심버튼을 눌렀을때
 function interest(interestBtn){
-	
+	event.stopPropagation(); // 이벤트 전파 막음
 	let jobSearchNo = interestBtn.dataset.id; // data - 속성 이용해서 값가져옴
 	
 	if($('#ROLE_USER').val()){ // 유저일때
@@ -204,36 +204,36 @@ function interest(interestBtn){
 		
 	}else{ // 기업일때
 	
-		//let id = $('#logId').val(); // 로그인한 아이디
-		//let auth = 'co';
-		let i = $(interestBtn).parent().parent(); // 버튼 누른곳의 부모의 부모 태그
-		
-		let heartIcon = $(i).find('.heartIcon'); // 부모태그에서 클래스찾기
-		
-		//console.log('하트가 안채워져있다.: ' + heartIcon.hasClass("bi-suit-heart"));
+		let i = $(interestBtn).parent().parent(); // 버튼 누른곳의 조상 태그	
+		let heartIcon = $(i).find('.heartIcon'); // 부모태그에서 클래스찾기 , 하트 아이콘
+		let interestNum = $(i).find('.interestNum').text(); // 제안수
 		
 		// 관심 등록 여부
 		if(heartIcon.hasClass("bi-suit-heart")){ // 관심이 등록이 안된 상태라면 관심등록
 			
-			//heartIcon.removeClass("bi-suit-heart");
-			//heartIcon.addClass("bi-suit-heart-fill");
+			heartIcon.removeClass("bi-suit-heart"); // 빈하트 클래스 지우고
+			heartIcon.addClass("bi-suit-heart-fill"); // 꽉찬 하트 클래스 추가
 			
-			//$(interestBtn).removeClass('btn-outline-danger');
-			//$(interestBtn).addClass('btn-danger');
-			//$(interestBtn).text('관심해제');
+			$(interestBtn).removeClass('btn-outline-danger'); // 버튼 부분
+			$(interestBtn).addClass('btn-danger');
+			$(interestBtn).text('관심해제');
 			
-			interestAdd(jobSearchNo,auth); // 관심등록 ajax호출
-			
-			
+			interestNum = parseInt(interestNum) + 1; // 제안수
+			$(i).find('.interestNum').text(interestNum);
+
+			interestAdd(jobSearchNo); // 관심등록 ajax호출
 			
 		}else{ // 관심등록이 된상태라면 관심해제
 			
-			//heartIcon.removeClass("bi-suit-heart-fill");
-			//heartIcon.addClass("bi-suit-heart");
+			heartIcon.removeClass("bi-suit-heart-fill");
+			heartIcon.addClass("bi-suit-heart");
 			
-			//$(interestBtn).removeClass('btn-danger');
-			//$(interestBtn).addClass('btn-outline-danger');
-			//$(interestBtn).text('관심');
+			$(interestBtn).removeClass('btn-danger');
+			$(interestBtn).addClass('btn-outline-danger');
+			$(interestBtn).text('관심');
+			
+			interestNum = parseInt(interestNum) - 1;
+			$(i).find('.interestNum').text(interestNum);
 			
 			interestDelete(jobSearchNo,auth); // 관심등록 해제 ajax호출
 			
@@ -243,22 +243,19 @@ function interest(interestBtn){
 }
 
 // 관심등록 ajax호출
-function interestAdd(jobSearchNo,auth){
-	
-	//let id = $('#logId').val();
-	
+function interestAdd(jobSearchNo){
+
 	$.ajax({
 		  url: 'selfJobInterestAdd',
 		  type: 'post',
 		  data: {jobSearchNo : jobSearchNo, id : id},
 		  success: function (result) {
-			//console.log(result);
 
 			Swal.fire({
 				icon: 'success',
 				title: '관심목록에 추가되었습니다.'
 		   });
-		   selfJobList(auth, id, job, carr, city); // 리스트 화면 출력함수
+		   //selfJobList(auth, id, job, carr, city); // 리스트 화면 출력함수
 
 		  },
 		  error: function (reject) {	   
@@ -267,10 +264,9 @@ function interestAdd(jobSearchNo,auth){
 		});	
 }
  
- 
-function interestDelete(jobSearchNo,auth){
-	//let id = $('#logId').val();
-	
+// 관심등록 해제
+function interestDelete(jobSearchNo){
+
 	$.ajax({
 		  url: 'selfJobInterestDelete',
 		  type: 'post',
@@ -282,7 +278,7 @@ function interestDelete(jobSearchNo,auth){
 			 	icon: 'success',
 				title: '관심목록에 삭제되었습니다.'
 			})
-			selfJobList(auth, id, job, carr, city); // 리스트 화면 출력함수
+			//selfJobList(auth, id, job, carr, city); // 리스트 화면 출력함수
 		  },
 		  error: function (reject) {	   
 	   	  	console.log(reject);
@@ -344,7 +340,7 @@ function selfJobListPrint(result={}){
 		html = `<div class="row align-items-center border-bottom p-4 mb-3 hoverRow" style="cursor:pointer;" onclick="location.href='/selfJobDetail?jobSearchNo=`+result.jobSearchNo+`'">
 	        <div class="col-md-3 text-center">
 	      	<a href="#">
-	      		<img class="img-fluid imgSize" src="/moamoreImg/`+result.myimg+`" onerror=this.src="/moamoreImg/profile.JPG" alt="이미지폴더에없음">
+	      		<img class="img-fluid imgSize" src="/moamoreImg/`+result.myimg+`" onerror=this.src="self/profile.JPG" alt="이미지폴더에없음">
 	      		<p class="mb-0">`+result.pubcRange+`</p>
 	      	</a>
 	      </div>
@@ -353,7 +349,7 @@ function selfJobListPrint(result={}){
 	          <p class="fw-bold mb-0 text-black">`+result.dutyFld+`</p>
 	          <p class="mb-0">`+result.hopeWksite+`</p>
 	          <p class="mb-0">`+result.regDt+`</p>
-	          <span><i data-id="`+result.jobSearchNo+`" class="bi bi-suit-heart-fill text-danger fa-lg heartIcon"></i>`+result.interest+`</span>
+	          <i data-id="`+result.jobSearchNo+`" class="bi bi-suit-heart-fill text-danger fa-lg heartIcon"><span class="interestNum" style="color:#5B7075; font-style: normal;">`+result.interest+`</span></i>
 	        </div>
 	        	<p class="fs-2 my-3">`+result.ttl+`</p>
 	        <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-2">
@@ -372,7 +368,7 @@ function selfJobListPrint(result={}){
 		html = `<div class="row align-items-center border-bottom p-4 mb-3 hoverRow" style="cursor:pointer;" onclick="location.href='/selfJobDetail?jobSearchNo=`+result.jobSearchNo+`'">
 	        <div class="col-md-3 text-center">
 	      	<a href="#">
-	      		<img class="img-fluid imgSize" src="/moamoreImg/`+result.myimg+`" onerror=this.src="/moamoreImg/profile.JPG" alt="이미지폴더에없음">
+	      		<img class="img-fluid imgSize" src="/moamoreImg/`+result.myimg+`" onerror=this.src="self/profile.JPG" alt="이미지폴더에없음">
 	      		<p class="mb-0">`+result.pubcRange+`</p>
 	      	</a>
 	      </div>
@@ -381,7 +377,7 @@ function selfJobListPrint(result={}){
 	          <p class="fw-bold mb-0 text-black">`+result.dutyFld+`</p>
 	          <p class="mb-0">`+result.hopeWksite+`</p>
 	          <p class="mb-0">`+result.regDt+`</p>
-	          <span><i data-id="`+result.jobSearchNo+`" class="bi bi-suit-heart text-danger fa-lg heartIcon"></i>`+result.interest+`</span>
+	          <i data-id="`+result.jobSearchNo+`" class="bi bi-suit-heart text-danger fa-lg heartIcon"><span class="interestNum" style="color:#5B7075; font-style: normal;">`+result.interest+`</span></i>
 	        </div>
 	        	<p class="fs-2 my-3">`+result.ttl+`</p>
 	        <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-2">
@@ -402,11 +398,8 @@ function selfJobListPrint(result={}){
 }
 
 
-// my프로필 등록 버튼 클릭시 이력가 있는지 체크하는 함수
+// 셀프구직 등록 버튼 클릭시 이력가 있는지 체크하는 함수
 $('#myProfile').on('click', function(){
-	
-	//let id = logId.value;
-	//console.log(id);
 	
 	if($('#ROLE_USER').val()){ // 유저일때
 		$.ajax({
@@ -431,13 +424,13 @@ $('#myProfile').on('click', function(){
 		
 		Swal.fire({
 			  icon: 'error',
-			  title: '기업은 My프로필을 작성할 수 없습니다.'
+			  title: '기업은 셀프구직을 \n작성할 수 없습니다.'
 		});
 		
 	}else{ // 관리자일때
 		Swal.fire({
 			  icon: 'error',
-			  title: '관리자는 My프로필을 작성할 수 없습니다.'
+			  title: '관리자는 셀프구직을 \n작성할 수 없습니다.'
 		});
 	}
 });
