@@ -1,7 +1,7 @@
 <template>
   <section class="section">
     <div class="pagetitle">
-      <h1>Form Layouts</h1>
+      <h1>회원관리</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
@@ -15,101 +15,31 @@
       <div class="col-lg-12">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">Horizontal Form</h5>
-
-            <!-- Horizontal Form -->
-            <form>
-              <div class="row mb-3">
-                <label for="inputEmail3" class="col-sm-2 col-form-label"
-                  >Your Name</label
-                >
-                <div class="col-sm-10">
-                  <input type="text" class="form-control" id="inputText" />
-                </div>
+            <p class="card-title">검색조건</p>
+            <div class="row">
+              <div
+                class="col-md-2 spanTitle d-flex align-items-center justify-content-center"
+              >
+                <span>회원상태</span>
               </div>
-              <div class="row mb-3">
-                <label for="inputEmail3" class="col-sm-2 col-form-label"
-                  >Email</label
+              <div class="col-md-6">
+                <div
+                  class="form-check form-check-inline"
+                  v-for="(item, index) in filteredTest"
+                  :key="index"
                 >
-                <div class="col-sm-10">
-                  <input type="email" class="form-control" id="inputEmail" />
-                </div>
-              </div>
-              <div class="row mb-3">
-                <label for="inputPassword3" class="col-sm-2 col-form-label"
-                  >Password</label
-                >
-                <div class="col-sm-10">
+                  <label :for="item.commCd" class="form-check-label">{{
+                    item.desct
+                  }}</label>
                   <input
-                    type="password"
-                    class="form-control"
-                    id="inputPassword"
+                    type="checkbox"
+                    class="form-check-input"
+                    :key="index"
+                    :id="item.commCd"
                   />
                 </div>
               </div>
-              <fieldset class="row mb-3">
-                <legend class="col-form-label col-sm-2 pt-0">Radios</legend>
-                <div class="col-sm-10">
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="gridRadios"
-                      id="gridRadios1"
-                      value="option1"
-                      checked=""
-                    />
-                    <label class="form-check-label" for="gridRadios1">
-                      First radio
-                    </label>
-                  </div>
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="gridRadios"
-                      id="gridRadios2"
-                      value="option2"
-                    />
-                    <label class="form-check-label" for="gridRadios2">
-                      Second radio
-                    </label>
-                  </div>
-                  <div class="form-check disabled">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="gridRadios"
-                      id="gridRadios3"
-                      value="option3"
-                      disabled=""
-                    />
-                    <label class="form-check-label" for="gridRadios3">
-                      Third disabled radio
-                    </label>
-                  </div>
-                </div>
-              </fieldset>
-              <div class="row mb-3">
-                <div class="col-sm-10 offset-sm-2">
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      id="gridCheck1"
-                    />
-                    <label class="form-check-label" for="gridCheck1">
-                      Example checkbox
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div class="text-center">
-                <button type="submit" class="btn btn-primary">Submit</button>
-                <button type="reset" class="btn btn-secondary">Reset</button>
-              </div>
-            </form>
-            <!-- End Horizontal Form -->
+            </div>
           </div>
         </div>
       </div>
@@ -117,7 +47,7 @@
 
     <div class="row">
       <div class="col-md-7 grid-margin stretch-card">
-        <div class="card" style="min-height: 520px">
+        <div class="card" style="min-height: 100%">
           <div class="card-body">
             <p class="card-title">유저목록</p>
             <DataTable
@@ -125,7 +55,6 @@
               selectionMode="single"
               dataKey="id"
               showGridlines
-              removableSort
               sortField="joinDt"
               paginator
               :rows="10"
@@ -134,19 +63,19 @@
               v-model="selected"
               v-on:row-select="onRowSelect"
             >
-              <Column field="clsf" sortable header="분류"></Column>
-              <Column field="id" sortable header="아이디"></Column>
-              <Column field="name" sortable header="이름"></Column>
-              <Column field="gen" sortable header="성별"></Column>
-              <Column field="email" sortable header="이메일"></Column>
-              <Column field="phCl" sortable header="전화번호"></Column>
-              <Column field="joinDt" sortable header="가입일자"></Column>
+              <Column field="clsf" header="분류"></Column>
+              <Column field="id" header="아이디"></Column>
+              <Column field="name" header="이름"></Column>
+              <Column field="gen" header="성별"></Column>
+              <Column field="email" header="이메일"></Column>
+              <Column field="phCl" header="전화번호"></Column>
+              <Column field="joinDt" header="가입일자"></Column>
             </DataTable>
           </div>
         </div>
       </div>
       <div class="col-md-5 grid-margin stretch-card">
-        <div class="card" style="min-height: 520px">
+        <div class="card" style="min-height: 100%">
           <div class="card-body">
             <p class="card-title">상세정보</p>
             <form class="row g-3">
@@ -261,9 +190,9 @@
 </template>
 <script>
 import { userList } from "@/service/userList";
+import { searchForm } from "@/service/searchForm";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
-import axios from "axios";
 export default {
   components: {
     DataTable,
@@ -271,38 +200,27 @@ export default {
   },
   data() {
     return {
-      userList: null,
+      userList: [],
       selected: null,
-      userDetail: {
-        clsf: "",
-        name: "",
-        gen: "",
-        birth: "",
-        phCl: "",
-        ph: "",
-        ltstTm: "",
-        joinDt: "",
-        blog: "",
-        email: "",
-        addr: "",
-      },
+      test: [],
+      userDetail: {},
     };
   },
   mounted() {
     userList.getUserData().then((data) => (this.userList = data));
+    searchForm.getCommonCode().then((data) => (this.test = data));
   },
   methods: {
     onRowSelect(event) {
       const selectedRow = event.data;
-      this.selected = selectedRow;
-      axios
-        .post("/api/getUserDetail", selectedRow, {
-          withCredentials: true,
-        })
-        .then((response) => {
-          console.log(response.data);
-          this.userDetail = response.data;
-        });
+      userList
+        .getuserDetail(selectedRow)
+        .then((data) => (this.userDetail = data));
+    },
+  },
+  computed: {
+    filteredTest() {
+      return this.test.filter((item) => item.desct !== "관리자");
     },
   },
 };

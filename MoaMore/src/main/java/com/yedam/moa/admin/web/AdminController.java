@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.moa.admin.service.AdminService;
 import com.yedam.moa.admin.service.PostListVO;
+import com.yedam.moa.comm.CommVO;
+import com.yedam.moa.comm.service.Impl.CommServiceImpl;
 import com.yedam.moa.mem.MemVO;
 
 @Controller
@@ -22,6 +24,16 @@ public class AdminController {
 
 	@Autowired 
 	AdminService adminService; 
+	
+	@Autowired
+	CommServiceImpl comm;
+	
+	  @GetMapping("/getCommonCode") 
+	  @ResponseBody
+	  public Map<String, List<CommVO>> getCommonCode() { 
+		  return comm.getCodes("I");
+	  }
+	
 	
 	  @GetMapping("/admin") 
 	  public String job() { 
