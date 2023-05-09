@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yedam.moa.comm.service.CommService;
 import com.yedam.moa.mem.MemVO;
 import com.yedam.moa.mem.SearchVO;
 import com.yedam.moa.mem.service.MemService;
@@ -21,6 +22,9 @@ public class MemController {
 	
 	@Autowired
 	MemService mem;
+	
+	@Autowired
+	CommService com;
 	
 	
 	
@@ -56,9 +60,10 @@ public class MemController {
 	@GetMapping("mem/mkResume")
 	public String createResume(Principal principal, Model model, MemVO vo) {
 		vo.setId(principal.getName());
-		vo.setCommNm("기술");
-		model.addAttribute("list", mem.getSkill(vo));
+		model.addAttribute("list", com.getCodes("Z","D","E","B"));
+		;
 		System.out.println(model.getAttribute("list"));
+		model.addAttribute("info", mem.getMemInfo(vo));
 		return "mem/mem_resume";
 	}
 }

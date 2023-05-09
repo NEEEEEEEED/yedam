@@ -1,212 +1,422 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{template/layout}">
-<head>
-<meta charset="UTF-8" />
-<title>Insert title here</title>
-<style>
-.Fixed {
-	-webkit-box-flex: 0;
-	-ms-flex: 0 0 auto;
-	flex: 0 0 auto;
-	width: 30%;
-	-webkit-box-flex: 0;
-	-ms-flex: 0 0 auto;
-	flex: 0 0 auto;
-	width: 15%;
-	-webkit-box-ordinal-group: 7 !important;
-	-ms-flex-order: 6 !important;
-	order: 6 !important;
-	position: fixed;
-	top: 200px;
-	right: 5%;
-}
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{template/layout}"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Insert title here</title>
+    <style>
+      .Fixed {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 auto;
+        flex: 0 0 auto;
+        width: 30%;
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 auto;
+        flex: 0 0 auto;
+        width: 15%;
+        -webkit-box-ordinal-group: 7 !important;
+        -ms-flex-order: 6 !important;
+        order: 6 !important;
+        position: fixed;
+        top: 200px;
+        right: 5%;
+      }
 
-input {
-	height: 50px;
-	/* border-radius: 0.5rem; */
-}
-.btn-sm{
-	width:70px;
-	height:45px;
-	font-size : 4px;
-}
-</style>
-</head>
-<body>
-	<div class="container" layout:fragment="content">
-		<div class="row g-4 my-5 ">
-			<!-- 		sidebar -->
-			<div class="Fixed md-2">
-				<h4 class="d-flex justify-content-between align-items-center mb-3">
-					<span class="text">이력서 항목</span>
-				</h4>
-				<ul class="list-group mb-3">
-					<li class="list-group-item d-flex justify-content-between">
-						<div>
-							<h6 class="my-0">Product name</h6>
-						</div> <span class="text-muted">$12</span>
-					</li>
-					<li class="list-group-item d-flex justify-content-between lh-sm">
-						<div>
-							<h6 class="my-0">Second product</h6>
-						</div> <span class="text-muted">$8</span>
-					</li>
-					<li class="list-group-item d-flex justify-content-between lh-sm">
-						<div>
-							<h6 class="my-0">Third item</h6>
-						</div> <span class="text-muted">$5</span>
-					</li>
-					<li class="list-group-item d-flex justify-content-between bg-light">
-						<div class="text-success">
-							<h6 class="my-0">Promo code</h6>
-						</div> <span class="text-success">−$5</span>
-					</li>
-				</ul>
+      input {
+        height: 50px;
+        /* border-radius: 0.5rem; */
+      }
+      .btn-sm {
+        width: 70px;
+        height: 45px;
+        font-size: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container" layout:fragment="content">
+      <div class="row g-4 my-5">
+        <!-- 		sidebar -->
+        <div class="Fixed md-2">
+          <h4 class="d-flex justify-content-between align-items-center mb-3">
+            <span class="text">이력서 항목</span>
+          </h4>
+          <ul class="list-group mb-3">
+            <li class="list-group-item d-flex justify-content-between">
+              <div>
+                <h6 class="my-0">Product name</h6>
+              </div>
+              <span class="text-muted">$12</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between lh-sm">
+              <div>
+                <h6 class="my-0">Second product</h6>
+              </div>
+              <span class="text-muted">$8</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between lh-sm">
+              <div>
+                <h6 class="my-0">Third item</h6>
+              </div>
+              <span class="text-muted">$5</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between bg-light">
+              <div class="text-success">
+                <h6 class="my-0">Promo code</h6>
+              </div>
+              <span class="text-success">−$5</span>
+            </li>
+          </ul>
 
-				<form class=" p-2">
-					<div class="input-group d-flex justify-content-center">
-						<button type="submit" class="btn  btn-outline-primary px-2">이력서 저장</button>
-					</div>
-				</form>
-			</div>
-			<!-- 			sidebar end -->
-			<!-- 				main -->
-			<div class="col-md-9 col-lg-10">
-				<h4 class="mb-3">개인정보</h4>
-<!-- 				<form class="needs-validation"> -->
-					<!-- 					<div class="row g-3"> -->
-					<!-- 						<div class="col-sm-6"> -->
-					<!-- 							<label for="firstName" class="form-label">First name</label> <input -->
-					<!-- 								type="text" class="form-control" id="firstName" placeholder="" -->
-					<!-- 								value="" required="" /> -->
-					<!-- 							<div class="invalid-feedback">Valid first name is required. -->
-					<!-- 							</div> -->
-					<!-- 						</div> -->
+          <form class="p-2">
+            <div class="input-group d-flex justify-content-center">
+              <button type="submit" class="btn btn-outline-primary px-2">
+                이력서 저장
+              </button>
+            </div>
+          </form>
+        </div>
+        <!-- 			sidebar end -->
+        <!-- 				main -->
+        <div class="col-md-9 col-lg-10">
+          <h4 class="mb-3">개인정보</h4>
+          <!-- 				<form class="needs-validation"> -->
+          <!-- 					<div class="row g-3"> -->
+          <!-- 						<div class="col-sm-6"> -->
+          <!-- 							<label for="firstName" class="form-label">First name</label> <input -->
+          <!-- 								type="text" class="form-control" id="firstName" placeholder="" -->
+          <!-- 								value="" required="" /> -->
+          <!-- 							<div class="invalid-feedback">Valid first name is required. -->
+          <!-- 							</div> -->
+          <!-- 						</div> -->
 
-					<!-- 						<div class="col-sm-6"> -->
-					<!-- 							<label for="lastName" class="form-label">Last name</label> <input -->
-					<!-- 								type="text" class="form-control" id="lastName" placeholder="" -->
-					<!-- 								value="" required="" /> -->
-					<!-- 							<div class="invalid-feedback">Valid last name is required.</div> -->
-					<!-- 						</div> -->
+          <!-- 						<div class="col-sm-6"> -->
+          <!-- 							<label for="lastName" class="form-label">Last name</label> <input -->
+          <!-- 								type="text" class="form-control" id="lastName" placeholder="" -->
+          <!-- 								value="" required="" /> -->
+          <!-- 							<div class="invalid-feedback">Valid last name is required.</div> -->
+          <!-- 						</div> -->
 
-					<!-- 						<div class="col-12"> -->
-					<!-- 							<label for="username" class="form-label">Username</label> -->
-					<!-- 							<div class="input-group has-validation"> -->
-					<!-- 								<span class="input-group-text">@</span> <input type="text" -->
-					<!-- 									class="form-control" id="username" placeholder="Username" -->
-					<!-- 									required="" /> -->
-					<!-- 								<div class="invalid-feedback">Your username is required.</div> -->
-					<!-- 							</div> -->
-					<!-- 						</div> -->
+          <!-- 						<div class="col-12"> -->
+          <!-- 							<label for="username" class="form-label">Username</label> -->
+          <!-- 							<div class="input-group has-validation"> -->
+          <!-- 								<span class="input-group-text">@</span> <input type="text" -->
+          <!-- 									class="form-control" id="username" placeholder="Username" -->
+          <!-- 									required="" /> -->
+          <!-- 								<div class="invalid-feedback">Your username is required.</div> -->
+          <!-- 							</div> -->
+          <!-- 						</div> -->
 
-					<!-- 						<div class="col-12"> -->
-					<!-- 							<label for="email" class="form-label">Email <span -->
-					<!-- 								class="text-muted">(Optional)</span> -->
-					<!-- 							</label> <input type="email" class="form-control" id="email" -->
-					<!-- 								placeholder="you@example.com" /> -->
-					<!-- 							<div class="invalid-feedback">Please enter a valid email -->
-					<!-- 								address for shipping updates.</div> -->
-					<!-- 						</div> -->
+          <!-- 						<div class="col-12"> -->
+          <!-- 							<label for="email" class="form-label">Email <span -->
+          <!-- 								class="text-muted">(Optional)</span> -->
+          <!-- 							</label> <input type="email" class="form-control" id="email" -->
+          <!-- 								placeholder="you@example.com" /> -->
+          <!-- 							<div class="invalid-feedback">Please enter a valid email -->
+          <!-- 								address for shipping updates.</div> -->
+          <!-- 						</div> -->
 
-					<!-- 						<div class="col-12"> -->
-					<!-- 							<label for="address" class="form-label">Address</label> <input -->
-					<!-- 								type="text" class="form-control" id="address" -->
-					<!-- 								placeholder="1234 Main St" required="" /> -->
-					<!-- 							<div class="invalid-feedback">Please enter your shipping -->
-					<!-- 								address.</div> -->
-					<!-- 						</div> -->
+          <!-- 						<div class="col-12"> -->
+          <!-- 							<label for="address" class="form-label">Address</label> <input -->
+          <!-- 								type="text" class="form-control" id="address" -->
+          <!-- 								placeholder="1234 Main St" required="" /> -->
+          <!-- 							<div class="invalid-feedback">Please enter your shipping -->
+          <!-- 								address.</div> -->
+          <!-- 						</div> -->
 
-					<!-- 						<div class="col-12"> -->
-					<!-- 							<label for="address2" class="form-label">Address 2 <span -->
-					<!-- 								class="text-muted">(Optional)</span> -->
-					<!-- 							</label> <input type="text" class="form-control" id="address2" -->
-					<!-- 								placeholder="Apartment or suite" /> -->
-					<!-- 						</div> -->
+          <!-- 						<div class="col-12"> -->
+          <!-- 							<label for="address2" class="form-label">Address 2 <span -->
+          <!-- 								class="text-muted">(Optional)</span> -->
+          <!-- 							</label> <input type="text" class="form-control" id="address2" -->
+          <!-- 								placeholder="Apartment or suite" /> -->
+          <!-- 						</div> -->
 
-					<!-- 						<div class="col-md-5"> -->
-					<!-- 							<label for="country" class="form-label">Country</label> <select -->
-					<!-- 								class="form-select" id="country" required=""> -->
-					<!-- 								<option value="">Choose...</option> -->
-					<!-- 								<option>United States</option> -->
-					<!-- 							</select> -->
-					<!-- 							<div class="invalid-feedback">Please select a valid -->
-					<!-- 								country.</div> -->
-					<!-- 						</div> -->
+          <!-- 						<div class="col-md-5"> -->
+          <!-- 							<label for="country" class="form-label">Country</label> <select -->
+          <!-- 								class="form-select" id="country" required=""> -->
+          <!-- 								<option value="">Choose...</option> -->
+          <!-- 								<option>United States</option> -->
+          <!-- 							</select> -->
+          <!-- 							<div class="invalid-feedback">Please select a valid -->
+          <!-- 								country.</div> -->
+          <!-- 						</div> -->
 
-					<!-- 						<div class="col-md-4"> -->
-					<!-- 							<label for="state" class="form-label">State</label> <select -->
-					<!-- 								class="form-select" id="state" required=""> -->
-					<!-- 								<option value="">Choose...</option> -->
-					<!-- 								<option>California</option> -->
-					<!-- 							</select> -->
-					<!-- 							<div class="invalid-feedback">Please provide a valid state. -->
-					<!-- 							</div> -->
-					<!-- 						</div> -->
+          <!-- 						<div class="col-md-4"> -->
+          <!-- 							<label for="state" class="form-label">State</label> <select -->
+          <!-- 								class="form-select" id="state" required=""> -->
+          <!-- 								<option value="">Choose...</option> -->
+          <!-- 								<option>California</option> -->
+          <!-- 							</select> -->
+          <!-- 							<div class="invalid-feedback">Please provide a valid state. -->
+          <!-- 							</div> -->
+          <!-- 						</div> -->
 
-					<!-- 						<div class="col-md-3"> -->
-					<!-- 							<label for="zip" class="form-label">Zip</label> <input -->
-					<!-- 								type="text" class="form-control" id="zip" placeholder="" -->
-					<!-- 								required="" /> -->
-					<!-- 							<div class="invalid-feedback">Zip code required.</div> -->
-					<!-- 						</div> -->
-					<!-- 					</div> -->
-					<div class="formId my-3 card p-2">
-					<div class="row gy-3">
-						<div class="col-md-3">
-							<label for="cc-expiration" class="form-label">이름</label> <input
-								type="text" class="form-control" id="cc-expiration"
-								value="이름"  readonly />
-						</div>
+          <!-- 						<div class="col-md-3"> -->
+          <!-- 							<label for="zip" class="form-label">Zip</label> <input -->
+          <!-- 								type="text" class="form-control" id="zip" placeholder="" -->
+          <!-- 								required="" /> -->
+          <!-- 							<div class="invalid-feedback">Zip code required.</div> -->
+          <!-- 						</div> -->
+          <!-- 					</div> -->
+          <div class="formId my-3 card p-2">
+            <div class="row gy-3" name="memInfo">
+              <div class="col-md-3">
+                <label for="name" class="form-label">이름</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  name="name"
+                  value="이름"
+                  th:value="${info.name}"
+                  readonly
+                />
+              </div>
 
-						<div class="col-md-3">
-							<label for="cc-cvv" class="form-label">생년월일</label> <input
-								type="text" class="form-control" id="cc-cvv" readonly />
-						</div>
-						<div class="col-md-4">
-							<label for="cc-name" class="form-label">이메일</label> <input
-								type="text" class="form-control" id="cc-name" />
-						</div>
-						<div class="col-md-2">
-							<label for="cc-name" class="form-label">성별</label> <input
-								type="text" class="form-control" id="cc-name" readonly />
-						</div>
-						<div class="col-md-3 mt-0">
-							<label for="cc-expiration" class="form-label">전화번호</label> <input
-								type="text" class="form-control" id="cc-expiration"
-								 />
-						</div>
+              <div class="col-md-3">
+                <label for="birth" class="form-label">생년월일</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="birth"
+                  name="birth"
+                  th:value="${info.birth}"
+                  readonly
+                />
+              </div>
 
-						<div class="col-md-3 mt-0">
-							<label for="cc-cvv" class="form-label">휴대폰</label> <input
-								type="text" class="form-control" id="cc-cvv" />
-						</div>
-						<div class="col-md-6 mt-0">
-							<label for="cc-number" class="form-label">주소</label>
-							<input type="text" class="form-control" id="cc-number"
-								/>
-<!-- 							<div class="invalid-feedback">Credit card number is -->
-<!-- 								required</div> --> 
-<!-- 								유효성 검사용  -->
-						</div>
-					</div>
-					</div>
-					</div>
-					<!-------------- 스킬--------------------------------------------------------------------- -->
-					<div class="col-md-9 col-lg-10">
-					<div class="formSkill my-3 card ps-4 py-3">
-					<div class="row gy-3">
-						<button th:each="list:${list}" class="col-md-2 mx-2 px-0 btn btn-outline-primary btn-sm" th:value="${list.prov}">[[${list.desct}]]</button>
-						
-					</div>
-					</div>
-					
-<!-- 				</form> -->
-			</div>
-			<!-- 			main end -->
-		</div>
-	</div>
-</body>
+              <div class="col-md-4">
+                <label for="email" class="form-label">이메일</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="email"
+                  name="email"
+                  th:value="${info.email}"
+                />
+              </div>
+
+              <div class="col-md-2">
+                <label for="gen" class="form-label">성별</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="gen"
+                  name="cc-name"
+                  th:value="${info.gen}"
+                  readonly
+                />
+              </div>
+
+              <div class="col-md-3 mt-0">
+                <label for="ph" class="form-label">전화번호</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="ph"
+                  name="ph"
+                  th:value="${info.ph}"
+                />
+              </div>
+
+              <div class="col-md-3 mt-0">
+                <label for="phCl" class="form-label">휴대폰</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="phCl"
+                  name="phCl"
+                  th:value="${info.phCl}"
+                />
+              </div>
+
+              <div class="col-md-4 mt-0">
+                <label for="addr" class="form-label">주소</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="addr"
+                  name="addr"
+                  th:value="${info.addr}"
+                />
+                <!-- 							<div class="invalid-feedback">Credit card number is -->
+                <!-- 								required</div> -->
+                <!-- 								유효성 검사용  -->
+              </div>
+              <div class="col-md-2 mt-0">
+                <label for="cc-name" class="form-label">우편 번호</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="post"
+                  name="post"
+                  th:value="${info.post}"
+                  readonly
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-------------- 스킬--------------------------------------------------------------------- -->
+        <div class="col-md-9 col-lg-10">
+          <div class="formSkill my-3 card ps-4 py-3">
+            <div class="row gy-3" name="cardForAddSkill">
+              <button
+                th:each="list:${list.Z}"
+                class="col-md-2 mx-2 px-0 btn btn-outline-primary btn-sm"
+                th:value="${list.prov}"
+                name="skillBtn"
+              >
+                [[${list.desct}]]
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-9 col-lg-10">
+          <div class="formSkill my-3 card ps-4 py-3">
+            <div class="row gy-3" name="cardForViewSkill"></div>
+          </div>
+        </div>
+
+        <!---------------------- 학력 -------------------------------------------------------->
+        <div class="col-md-9 col-lg-10">
+          <div class="forSchr my-3 card ps-4 p-3">
+            <div class="row gy-3" name="">
+              <div class="dropdown col-md-2 p-3">
+                <button
+                  class="btn btn-chek p-2 dropdown-toggle"
+                  type="button"
+                  style="border-radius: 0.5rem"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <span>학교 구분</span>
+                </button>
+                <ul class="dropdown-menu" style="border-radius: 0.5rem">
+                  <li th:each="sh:${list.D}">
+                    <button
+                      type="button"
+                      class="dropdown-item"
+                      style="border-radius: 0.5rem"
+                      th:value="${sh.prov}"
+                    >
+                      <span>[[${sh.desct}]]</span>
+                    </button>
+                  </li>
+                </ul>
+              </div>
+              <input type="hidden" name="fg" id="fg" value />
+              <div class="col-md-5">
+                <label for="breu" class="form-label">학교 이름</label>
+                <input type="text" class="form-control" id="breu" name="breu" />
+              </div>
+              <div class="col-md-5">
+                <label for="mj" class="form-label">전공</label>
+                <input type="text" class="form-control" id="mj" name="mj" />
+              </div>
+              <div class="col-md-2">
+                <label for="cc-expiration" class="form-label">입학 년월</label>
+                <input
+                  type="month"
+                  class="form-control"
+                  id="joinYy"
+                  name="joinYy"
+                />
+              </div>
+              <div class="col-md-2">
+                <label for="cc-expiration" class="form-label">입학 년월</label>
+                <input
+                  type="month"
+                  class="form-control"
+                  id="retiYy"
+                  name="retiYy"
+                />
+              </div>
+              <div class="dropdown col-md-2">
+                <label for="pnt" class="form-label">학점</label>
+                <input type="text" class="form-control" id="pnt" name="pnt" />
+              </div>
+              <div class="dropdown col-md-2 pt-4">
+                <button
+                  class="btn btn-chek p-2 dropdown-toggle mt-2"
+                  type="button"
+                  style="border-radius: 0.5rem; width: 100%"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <span>총 점</span>
+                </button>
+                <ul class="dropdown-menu" style="border-radius: 0.5rem">
+                  <li th:each="tt:${list.E}">
+                    <button
+                      type="button"
+                      class="dropdown-item"
+                      style="border-radius: 0.5rem; width: 100%"
+                      th:value="${tt.prov}"
+                    >
+                      <span>[[${tt.desct}]]</span>
+                    </button>
+                  </li>
+                </ul>
+              </div>
+              <input type="hidden" name="ttScore" id="ttScore" value />
+              <div class="dropdown col-md-2 pt-4">
+                <button
+                  class="btn btn-chek p-2 dropdown-toggle mt-2"
+                  type="button"
+                  style="border-radius: 0.5rem; width: 100%"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <span>졸업 여부</span>
+                </button>
+                <ul class="dropdown-menu" style="border-radius: 0.5rem">
+                  <li th:each="st:${list.B}">
+                    <button
+                      type="button"
+                      class="dropdown-item"
+                      style="border-radius: 0.5rem; width: 100%"
+                      th:value="${st.prov}"
+                    >
+                      <span>[[${st.desct}]]</span>
+                    </button>
+                  </li>
+                </ul>
+              </div>
+              <input type="hidden" name="shcrSt" id="shcrSt" value />
+            </div>
+        	<div><button name="addBtn"><i class="bi bi-plus-circle-fill"></i></button></div>
+          </div>
+        </div>
+        <!-- 			main end -->
+      </div>
+      <script>
+        $(document).ready(function () {
+          $("button[name=skillBtn]").on("click", function (ev) {
+            console.log($(this));
+            if ($(this).parent().attr("name") == "cardForAddSkill") {
+              $("div[name=cardForViewSkill]").append($(this));
+            } else {
+              $("div[name=cardForAddSkill]").append($(this));
+            }
+          });
+          $(".dropdown-item").on("click", function () {
+            let selected = $(this).val();
+            let selectedText = $(this)[0].innerText;
+            console.log(selected);
+            console.log($(this).closest(".dropdown")[0].nextElementSibling);
+            $(this).closest(".dropdown")[0].firstElementChild.innerText =
+              selectedText;
+            $(this).closest(".dropdown")[0].nextElementSibling.value = selected;
+            console.log(
+              $(this).closest(".dropdown")[0].nextElementSibling.value
+            );
+          });
+        });
+      </script>
+    </div>
+  </body>
 </html>

@@ -105,11 +105,20 @@
 	where recruit_no = #{recruitNo} and id = #{id}
 	</delete>
 	
-	<select id="getCode" resultType="CommVO">
-	select d.prov, d.desct
-	from cmmn_dt d join cmmn_cd c
-	on d.comm_cd = c.comm_cd
-	where c.comm_nm = #{commNm}
+	
+	
+	<select id="getMemInfo" resultType="MemVO">
+	select name,
+		   ph,
+		   ph_cl,
+		   email,
+		   blog,
+		   post,
+		   gen,
+		   birth,
+		   addr
+	from member
+	where id = #{id}
 	</select>
 
 </mapper>

@@ -17,5 +17,5 @@ public interface MemService {
 	public int delAnun(SearchVO vo);
 	
 //	이력서 폼 
-	public List<MemVO> getSkill(MemVO vo);
+	public MemVO getMemInfo(MemVO vo);
 }

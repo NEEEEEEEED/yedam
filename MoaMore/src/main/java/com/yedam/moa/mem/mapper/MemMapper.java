@@ -19,4 +19,6 @@ public interface MemMapper {
 	
 //	이력서 작성 폼
 	public List<MemVO> getCode(MemVO vo);
+	
+	public MemVO getMemInfo(MemVO vo);
 }
