@@ -13,8 +13,15 @@ export const userList = {
       });
   },
 
-  getProductsWithOrdersData() {
-    return;
+  getuserDetail(selectedRow) {
+    return axios
+      .post("/api/getUserDetail", selectedRow, {
+        withCredentials: true,
+      })
+      .then((response) => {
+        console.log(response.data);
+        return selectedRow;
+      });
   },
 
   getProductsMini() {
