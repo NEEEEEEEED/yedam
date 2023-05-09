@@ -3,6 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.moa.hire.mapper.HireMapper">
+	<!-- 전체조회 -->
 	<select id="serchHire" resultType="HireVO">
 	    SELECT R.TTL,
 		       K.SKILL,
@@ -49,6 +50,7 @@
                R.CO_IMG,
                R.RECRUIT_NO
 	</select>
+	<!-- 스크랩 조회 -->
 	<select id="scrapHire" resultType="HireVO">
 		SELECT R.TTL,
 		       K.SKILL,
@@ -74,6 +76,7 @@
 		WHERE S.SCRAP_NO IS NOT NULL
         AND M.ID = #{id}
 	</select>
+	<!-- 상세조회 -->
 	<select id="searchInfo" resultType="HireVO">
 		SELECT R.TTL,
 		       K.SKILL,
@@ -97,6 +100,7 @@
               FROM RECRUIT_SKILL
               GROUP BY recruit_no) K
 		ON R.RECRUIT_NO = K.RECRUIT_NO
+		WHERE R.RECRUIT_NO = #{recruitNo}
 	</select>
 	<!-- 직무 분야 리스트 -->
 	<select id="jobList" resultType="HireVO">
@@ -128,5 +132,13 @@
 		FROM cmmn_dt
 		WHERE comm_cd = 'Y'
 		ORDER BY prov
+	</select>
+	<!-- 이력서 조회 -->
+	<select id="resumeList" resultType="HireVO">
+		SELECT RESUME_NO,
+               TTL,
+               REG_DT
+               FROM RESUME
+               WHERE ID = #{id}
 	</select>
 </mapper>

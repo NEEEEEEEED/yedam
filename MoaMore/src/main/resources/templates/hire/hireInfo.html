@@ -11,6 +11,8 @@ body {
 
   padding-top: 70px;
   padding-bottom: 30px;
+  font-family: Arial;
+  margin: 0;
 
 }
 #hireButtons{
@@ -22,14 +24,49 @@ body {
 .modal-body{
 	text-align: center;
 }
+
+.imageSlide{
+	width: 110px;
+	height: 100px;	
+}
 </style>
 </head>
 <body>
 	<div layout:fragment="content">
-   <!-- 토스트 그리드 -->
-   <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
-	<div class = "container" th:each="hireVO:${hireInfo}">
-	<div id="hireButtons">
+   	<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
+   	<div class="container">
+	<!-- 사이드바 -->
+		<div class="row" style="margin-top : 30px; height: auto;">
+			<div class="col-md-1"></div>
+			<div class="col-md-2 border-end" style="margin:10px;">
+				<div style="position: sticky; top:150px;">			
+					<p class="fs-1" style="text-align : center;">My프로필 등록</p>
+					<hr>
+					<div style="display:flex; justify-content: center;">
+						<div style="display:flex; flex-direction: column;">
+							<button type="button" id="resumeList" class="btn btn-outline-danger btn-sm mb-3 radius">이력서불러오기</button>
+							<div class="mb-2 cursor">
+								<a href="#selfMenu"><img src="self/number1.svg" class="number"><span>셀프소개</span></a>
+							</div>
+							<div class="mb-2 cursor">
+								<a href="#selfMenuCarr"><img src="self/number2.svg" class="number"><span>경력사항</span></a>
+							</div>
+							<div class="mb-2 cursor">
+								<a href="#selfMenuSchool"><img src="self/number3.svg" class="number"><span>학력</span></a>
+							</div>
+							<div class="mb-2 cursor">
+								<a href="#selfMenuSal"><img src="self/number4.svg" class="number"><span>희망급여</span></a>
+							</div>
+							<div class="mb-2 cursor">
+								<a href="#selfMenuResident"><img src="self/number5.svg" class="number"><span>상주가능정보</span></a>
+							</div>
+							<div class="mb-2 cursor">
+								<a href="#selfMenuPofol"><img src="self/number6.svg" class="number"><span>포트폴리오</span></a>
+							</div>
+						</div>	
+					</div>
+				</div>
+   	<div id="hireButtons">
 		<button type="button" class="btn btn-outline-dark">공고 스크랩</button>
 		<button type="submit" class="btn btn-outline-dark">기업 팔로우</button>
 		<button type="button"
@@ -38,111 +75,159 @@ body {
 			지원하기
 		</button>
 	</div>
+			</div>
+
+  <!-- 이미지 슬라이드 시작 -->
+  	<div class="col-md-6">
+<div class="card" id="imageSlide">
+	<div class="card-body">
+
+              <!-- Slides with indicators -->
+              <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                  <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="" aria-label="Slide 1"></button>
+                  <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2" class="active" aria-current="true"></button>
+                  <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3" class=""></button>
+                </div>
+                <div class="carousel-inner">
+                  <div class="carousel-item">
+                    <img src="assets/img/blog/2.png" class="d-block w-100" alt="...">
+                  </div>
+                  <div class="carousel-item active">
+                    <img src="assets/img/blog/4.png" class="d-block w-100" alt="...">
+                  </div>
+                  <div class="carousel-item">
+                    <img src="assets/img/blog/5.png" class="d-block w-100" alt="...">
+                  </div>
+                </div>
+
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+
+              </div><!-- End Slides with indicators -->
+
+            </div>
+            </div>
+	<!-- 이미지 슬라이드 끝 -->
+	<br>
+	<div class = "container" th:each="hireVO:${hireInfo}">
 	<!-- Modal -->
 					<div class="modal fade" id="exampleModal" tabindex="-1"
 						aria-labelledby="exampleModalLabel" aria-hidden="true">
 						<!-- <div class="modal-dialog"> -->
 						<div class="modal-dialog modal-dialog-centered modal-lg">
 							<!-- 모달창 화면 중앙에  modal-dialog-centered, 모달 사이즈 변경 직접 불가해서 modal-lg 추가 -->
+							<!-- 현재로그인된 유저정보 -->
+							<input id="logId" name="id" type="hidden" th:value="${#authentication.principal.username}">
 							<div class="modal-content">
 								<div class="modal-header">
 								</div>
 								<div class="modal-body">
 									<!-- 이력서 자동 조회 -->
-									<div id="recruitGrid"></div>
+									<div id="resumeGrid"></div>
 								</div>
 								<div class="modal-footer">
-									<button type="button" class="btn btn-outline-dark" data-dismiss="modal">이력서 수정</button>
-									<button type="button" class="btn btn-outline-dark" onclick="addOrder()">지원하기</button>
+									<button type="button" class="btn btn-outline-dark" data-dismiss="modal" id="recruitMod">이력서 수정</button>
+									<button type="button" class="btn btn-outline-dark" data-dismiss="modal">지원하기</button>
 								</div>
 							</div>
 						</div>
 					</div>
 					<!-- ↑↑↑ 모달 -->
-	<h1 th:text="${hireVO.ttl}">
-		제목
-	</h1>
-	<i class="bi bi-bookmark-heart-fill fs-5 btn1" th:classappend="${hireVO.scrapYn != null} ? 'text-danger' : ''"></i>
-	<article>
-		<div role="main">
-			<form name="form" id="form" role="form" method="post" action="${pageContext.request.contextPath}/board/saveBoard">
-				
-
-				<div class="mb-3">
-					<label for="reg_id">회사이름</label>
-					<input type="text" class="form-control" name="coNm" id="reg_id" value="회사이름" readonly th:text="${hireVO.coNm}">
-				</div>
-				
-				<div class="mb-3">
-					<label for="reg_id">기술스텍</label>
-					<input type="text" class="form-control" name="coNm" id="reg_id" value="기술스텍" readonly th:text="${hireVO.skill}">
-				</div>
-
-				<div class="mb-3">
-					<label for="reg_id">주요업무</label>
-					<input type="text" class="form-control" name="coNm" id="reg_id" value="주요업무" readonly th:text="${hireVO.maBuss}">
-				</div> 
-				
-				<div class="mb-3">
-					<label for="reg_id">자격요건</label>
-					<input type="text" class="form-control" name="coNm" id="reg_id" value="자격요건" readonly th:text="${hireVO.qualCond}">
-				</div>
-				
-				<div class="mb-3">
-					<label for="reg_id">우대사항</label>
-					<input type="text" class="form-control" name="coNm" id="reg_id" value="우대사항" readonly th:text="${hireVO.prefCond}">
-				</div>
-				
-				<div class="mb-3">
-					<label for="reg_id">복지 및 혜택</label>
-					<input type="text" class="form-control" name="coNm" id="reg_id" value="복지 및 혜택" readonly th:text="${hireVO.welf}">
-				</div>
-				
-				<div class="mb-3">
-					<label for="reg_id">경력</label>
-					<input type="text" class="form-control" name="coNm" id="reg_id" value="경력" readonly th:text="${hireVO.carr}">
-				</div>
-				
-				<div class="mb-3">
-					<label for="reg_id">학력</label>
-					<input type="text" class="form-control" name="coNm" id="reg_id" value="학력" readonly th:text="${hireVO.shcr}">
-				</div>
-				
-				<div class="mb-3">
-					<label for="tag">마감일</label>
-					<input type="text" class="form-control" name="exprDt" id="tag" value="마감일" readonly th:text="${hireVO.exprDt}">
-				</div>
-				
-				<div class="mb-3">
-					<label for="tag">근무지역</label>
-					<input type="text" class="form-control" name="exprDt" id="tag" value="근무지역" readonly th:text="${hireVO.wksite}">
-				</div>
-				
-				<div class="mb-3">
-					<label for="tag">기업 / 서비스 소개</label>
-					<input type="text" class="form-control" name="exprDt" id="tag" value="기업 / 서비스 소개" readonly th:text="${hireVO.coIntro}">
-					<br>
-					<!-- 이미지 -->
-					<div  class="row mt-7 gx-xl-7 pt-0">
-						<div class="image col-md-4">
-							<img class="w-100" src="assets/img/blog/2.png" alt="" />
+	<div class="row">
+		<h1 th:text="${hireVO.ttl}">
+			제목
+		</h1>
+		<i class="bi bi-bookmark-heart-fill fs-5 btn1" th:classappend="${hireVO.scrapYn != null} ? 'text-danger' : ''"></i>
+			<article>
+				<div role="main">
+					<form name="form" id="form" role="form" method="post" action="${pageContext.request.contextPath}/board/saveBoard">
+						
+		
+						<div class="mb-3">
+							<h6>기술스텍</h6>
+							<p th:text="${hireVO.coNm}"/>
 						</div>
-						<div class="image col-md-4">
-							<img class="w-100" src="assets/img/blog/4.png" alt="" />
+						
+						<div class="mb-3">
+							<h6>기술스텍</h6>
+							<p th:text="${hireVO.skill}"/>
 						</div>
-						<div class="image col-md-4">
-							<img class="w-100" src="assets/img/blog/5.png" alt="" />
+		
+						<div class="mb-3">
+							<h6>주요업무</h6>
+							<p th:text="${hireVO.maBuss}"/>
+						</div> 
+						
+						<div class="mb-3">
+							<h6>자격요건</h6>
+							<p th:text="${hireVO.qualCond}"/>
 						</div>
+						
+						<div class="mb-3">
+							<h6>우대사항</h6>
+							<p th:text="${hireVO.prefCond}"/>
+						</div>
+						
+						<div class="mb-3">
+							<h6>복지 및 혜택</h6>
+							<p th:text="${hireVO.welf}"/>
+						</div>
+						
+						<div class="mb-3">
+							<h6>경력</h6>
+							<p th:text="${hireVO.carr}"/>
+						</div>
+						
+						<div class="mb-3">
+							<h6>학력</h6>
+							<p th:text="${hireVO.shcr}"/>
+						</div>
+						
+						<div class="mb-3">
+							<h6>마감일</h6>
+							<p th:text="${hireVO.exprDt}"/>
+						</div>
+						
+						<div class="mb-3">
+							<h6>근무지역</h6>
+							<p th:text="${hireVO.wksite}"/>
+						</div>
+						
+						<div class="mb-3">
+							<h6>기업 / 서비스 소개</h6>
+							<p th:text="${hireVO.coIntro}"/>
+							<br>
+							<!-- 이미지 -->
+							<!--/* <div  class="row mt-7 gx-xl-7 pt-0">
+								<div class="image col-md-4">
+									<img class="w-100" src="assets/img/blog/2.png" alt="" />
+								</div>
+								<div class="image col-md-4">
+									<img class="w-100" src="assets/img/blog/4.png" alt="" />
+								</div>
+								<div class="image col-md-4">
+									<img class="w-100" src="assets/img/blog/5.png" alt="" />
+								</div>
+							</div> */-->
+						<!--  -->
+						</div>
+					</form>
+					<div >
+						<button type="button" class="btn btn-outline-dark" id="btnList">목록</button>
 					</div>
-				<!--  -->
 				</div>
-			</form>
-			<div >
-				<button type="button" class="btn btn-outline-dark" id="btnList">목록</button>
-			</div>
+			</article>
 		</div>
-	</article>
-		</div>
+	</div>
+	</div>
+	</div>
 	<br>
 	<!-- 추천공고 -->
 	<section class="bg-dark pt-6  ">
@@ -176,6 +261,8 @@ body {
         </div>
       </section>
 <script>
+let id = $('#logId').val(); // 로그인된 id
+
 	// 공고목록으로 이동
 	$(document).on('click', '#btnList', function(e){
 		e.preventDefault();
@@ -184,12 +271,82 @@ body {
 		
 		
 	});
-	// 모달창 띄우기
-	$('#searchBtn').on('click', function(){
-		$('#exampleModal').modal('show');
-	});
 	
 	// 이력서 그리드 조회
+// 이력서 불러오기 버튼 클릭시
+$('#searchBtn').on('click',function(){
+	// 모달창 open
+	$('#exampleModal').modal('show');
+	let id = logId.value; // 로그인한 아이디
+	resumeList(id); // 이력서 목록 리스트
+});
+
+//그리드
+const grid = new tui.Grid({
+  el: document.getElementById('resumeGrid'), // Container element
+  scrollX: false,
+  scrollY: true,
+  rowHeaders: ['checkbox'],
+  columns: [
+    {
+      header: '이력서번호',
+      name: 'resumeNo',
+      align : 'center',
+      hidden : true,
+      sortable : true,
+    },
+    {
+      header: '이력서제목',
+      name: 'ttl',
+      align : 'center'
+    },
+    {
+      header: '작성일자',
+      name: 'regDt',
+      align : 'center',
+      sortable : true,
+      formatter : function(data){ // 날짜형식 바꿔주는것
+           return dateFormat(data.value); 
+     }
+   }
+  ]
+});
+
+//날짜 변환
+function dateFormat(date) {
+   let date1 = new Date(date);
+   let date2 = date1.getFullYear() + '-' 
+         + ((date1.getMonth()<10)?'0'+(date1.getMonth()+1):(date1.getMonth()+1)) + '-'
+         + ((date1.getDate()<10)?'0'+date1.getDate():date1.getDate());       
+   return date2;
+}
+
+//이력서 리스트 호출
+function resumeList(id){
+	$.ajax({
+		url: 'resumeList',
+		type: 'post',
+		data: {id : id},
+		success: function (result) {
+			setTimeout(function() {
+				grid.refreshLayout(); 
+			},300);
+			grid.resetData(result);
+		},
+ 		error: function (reject) {	   
+    		console.log(reject);
+		}
+	});
+}
+	// 이력서 수정 페이지 이동
+	
+	// 공고등록으로 이동
+		$(document).on('click', '#recruitMod', function(e){
+			e.preventDefault();
+
+			location.href="/";
+			
+		});
 	
 </script>
 	</div>

@@ -9,6 +9,7 @@ public interface HireMapper {
 	public List<HireVO> serchHire(HireVO hireVO); // 구인공고 전체 조회
 	public List<HireVO> scrapHire(HireVO hireVO); // 스크랩한 구인공고 조회
 	public List<HireVO> searchInfo(HireVO hireVO); // 구인공고 상세 페이지
+	public List<HireVO> resumeList(String id); // 구인공고 페이지 이력서 조회
 	
 	// 직무 리스트
 		public List<SelfVO> jobList();

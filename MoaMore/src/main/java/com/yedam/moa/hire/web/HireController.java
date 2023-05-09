@@ -47,6 +47,8 @@ public class HireController {
 		pr = principal;
 		hireVO.setId(pr.getName());
 		
+		
+		
 		 hireList = hireService.hireList(hireVO);
          return hireList;
     }
@@ -54,15 +56,29 @@ public class HireController {
 	
 	// 구인공고 상세 페이지
 	@GetMapping("/hireInfo")
-	public String hireInfo(@RequestParam HireVO hireVO, Principal principal) {
+	public String hireInfo(@RequestParam("recruitNo") String recruitNo, Model model, Principal principal) {
+		HireVO hireVO = new HireVO();
+		hireVO.setRecruitNo(recruitNo);
+		
 		List<HireVO> hireInfo = new ArrayList<HireVO>();
+		hireInfo = hireService.hireInfo(hireVO);
 		
 		pr = principal;
 		hireVO.setId(pr.getName());
-		hireInfo = hireService.hireInfo(hireVO);
+		
+		model.addAttribute("hireInfo",hireInfo);
+		model.addAttribute("recruitNo", recruitNo);
 		
 		return "hire/hireInfo";
 	}
+	
+	// 구인공고 이력서 모달 조회
+	@PostMapping("/resumeList")
+	@ResponseBody
+	public List<HireVO> resumeList(@RequestParam(required=false) String id) {
+	    return hireService.resumeList(id);
+	}
+
 	
 	// 구인공고 등록 페이지
 	@GetMapping("/hireInsert")

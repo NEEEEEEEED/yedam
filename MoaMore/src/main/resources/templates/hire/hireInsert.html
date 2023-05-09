@@ -190,24 +190,26 @@ body {
 				</div>
 			</form>
 			<div >
-				<button type="button" class="btn btn-sm btn-primary" id="btnList">목록</button>
-				<button type="button" class="btn btn-sm btn-primary" id="btnSave">저장</button>
+				<button type="button" class="btn btn-outline-dark" id="btnList">목록</button>
+				<button type="button" class="btn btn-outline-dark" id="btnSave">저장</button>
 			</div>
 		</div>
 	</article>
 		</div>
 	<br>
 <script>
+	// 공고목록으로 이동
+	$(document).on('click', '#btnList', function(e){
+		e.preventDefault();
+
+		location.href="/hirePage";
+	});
+	// 저장	
 	$(document).on('click', '#btnSave', function(e){
 		e.preventDefault();
 		
 		$("#form").submit();
 	
-	});
-	$(document).on('click', '#btnList', function(e){
-		e.preventDefault();
-
-		location.href="${pageContext.request.contextPath}/hire/hirePage";
 	});
 	
 	//에디터 정의

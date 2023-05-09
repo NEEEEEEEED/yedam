@@ -51,6 +51,10 @@ public class HireServiceImpl implements HireService{
 	public List<SelfVO> carrList() {
 		return hireMapper.carrList();
 	}
+	@Override
+	public List<HireVO> resumeList(String id) {
+		return hireMapper.resumeList(id);
+	}
 	
 	
 
