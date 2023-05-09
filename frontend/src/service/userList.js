@@ -3,7 +3,7 @@ import axios from "axios";
 export const userList = {
   getUserData() {
     return axios
-      .get("http://localhost:8000/getUserInfo")
+      .get("http://localhost:8000/getUserInfo", { withCredentials: true })
       .then((response) => {
         console.log(response);
         return response.data;
