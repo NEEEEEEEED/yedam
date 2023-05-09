@@ -143,7 +143,6 @@ section {
 					</div>
 				</form>
 				<!-- End Horizontal Form -->
-				<button onclick="afterPay()">test</button>
 			</div>
 		</div>
 		<script th:inline="javascript">
@@ -202,6 +201,7 @@ section {
 			var name="광고 노출"+ [[${product.svcCnt}]]+"회 이용권"
 			var amount = [[${product.totalPrice}]];
 			function requestPay() {
+				var uid = makeUid();
 				if(agreeCheck() == false){
 					return;
 				};
@@ -214,26 +214,22 @@ section {
 					buyer_name : "홍길동",
 					buyer_postcode : "01181"
 				}, function(rsp) { // callback
-					afterPay()
+					afterPay(uid);
 				});
 			}
 			//결제 성공 시
-			function afterPay(){
-				let uid=makeUid();
+			function afterPay(muid){
 				let recruitNo = gonggo.value;
 				let prdtCd = [[${product.prdtCd}]];
 				let id = [[${id}]];
 				let reserDts = datePick.value;
-				let reserDt = datePick.value.split(', ')
 				let data = {
-						orderNo : uid,
+						orderNo : muid,
 						recruitNo : recruitNo,
 						prdtCd : prdtCd,
 						id : id,
 						reserDts : reserDts,
-						reserDt : reserDt
 				}
-				console.log(recruitNo)
 					 $.ajax({
 						url : "/afterPay",
 						method : "POST",
@@ -242,6 +238,7 @@ section {
 						contentType : "application/json; charset=utf-8",//보내는타입
 						success : function(res) {
 							console.log(res);
+							alert("결제완료!")
 						},
 						error : function(reject) {
 							console.log(reject);

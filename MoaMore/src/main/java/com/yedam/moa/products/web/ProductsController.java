@@ -44,9 +44,9 @@ public class ProductsController {
 	
 	@PostMapping("/afterPay")
 	@ResponseBody
-	public String afterPay(@RequestBody ProductVO vo) {
+	public ProductVO afterPay(@RequestBody ProductVO vo) {
 		pservice.afterPay(vo);
-		return "success";
+		return vo;
 	}
 
 }

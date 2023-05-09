@@ -109,7 +109,7 @@ job
 				id,
 				ttl,
 				hope_wksite,
-				duty_fld,
+				get_common(duty_fld) as duty_fld,
 				posit,
 				pubc_range,
 				intro,

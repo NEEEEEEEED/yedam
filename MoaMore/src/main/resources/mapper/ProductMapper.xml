@@ -33,32 +33,13 @@
   	</select>
   	
   	<insert id="afterPay" parameterType="ProductVO">
-  		BEGIN
-  			INSERT INTO sttl (
-  							  order_no,
-							  recruit_no,
-							  id,
-							  sttl_cd,
-							  sttl_dt,
-							  prdt_cd,
-							  reser_dts
-							  )
-					 VALUES (
-					 		#{orderNo},
-					 		#{recruitNo},
-					 		#{id},
-					 		'no',
-					 		sysdate,
-					 		#{prdtCd},
-					 		#{reserDts});
-			FOR LOOP
-			UPDATE reser_precon
-			SET reser_cnt = reser_precon.reser_cnt + 1  
-			WHERE reser_dt = #{reserDt} 		
-			
-					 		
-  		END;
-  			
+  		 {CALL after_pay(
+                  #{orderNo, mode=IN, jdbcType=VARCHAR},
+                  #{recruitNo, mode=IN, jdbcType=VARCHAR},
+                  #{id, mode=IN, jdbcType=VARCHAR},
+                  #{prdtCd, mode=IN, jdbcType=VARCHAR},
+                  #{reserDts, mode=IN, jdbcType=VARCHAR}
+            )}
   	</insert>
   
   </mapper>
