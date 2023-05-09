@@ -9,7 +9,7 @@ public interface SelfService {
 	// 셀프구직 목록 리스트
 	public List<SelfVO> selfJobList(SelfVO selfVO);
 	
-	// my프로필 등록버튼 클릭시 이력서가 있는지 체크
+	// 셀프구직 등록버튼 클릭시 이력서가 있는지 체크
 	public int checkResume(String id);
 	
 	// 관심 등록
@@ -22,24 +22,10 @@ public interface SelfService {
 	public int selfJobInterestDelete(SelfVO interestVO);
 	
 	// 셀프구직 상세 페이지
-	public List<SelfVO> selfJobDetailInfo(String jobSearchNo);
+	public SelfVO selfJobDetailInfo(String jobSearchNo);
 	
 	//-------------------------------------------------
 	
-	// 지역 리스트
-	public List<SelfVO> cityList();
-	
-	// 경력 리스트
-	public List<SelfVO> carrList();
-	
-	// 직무 리스트
-	public List<SelfVO> jobList();
-	
-	// 기술스택 리스트
-	public List<SelfVO> techList();
-	
-	// 보기권한 리스트
-	public List<SelfVO> authList();
 	
 	// 이력서 리스트
 	List<SelfVO> resumeHeaderList(String id);

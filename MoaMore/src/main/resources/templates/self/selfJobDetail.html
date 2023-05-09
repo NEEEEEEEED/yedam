@@ -5,7 +5,7 @@
 	layout:decorate="~{template/layout}">
 <head>
 <meta charset="UTF-8">
-<title>모아모아/프로필상세</title>
+<title>모아모아/셀프구직상세</title>
 <!-- selfJobDetail.CSS -->
 <link href="self/selfJobDetail.css" rel="stylesheet">
 </head>
@@ -15,18 +15,18 @@
 			<div class="col-md-1"></div>
 
 			<div id="selfDetail" class="col-md-7" style="border-bottom : 1px solid #ddd;"> 
-				<h3 class="text-center">셀프구직 제목</h3>
+				<h3 class="text-center" th:text="${selfJobInfo.ttl}">셀프구직 제목</h3>
 				<hr>
 				<div class="mt-5 text-center">
-					<img src="self/profile.JPG" id="myImg" class="circleImg mb-4">
-					<p class="mb-1">박선아</p>
-					<p class="mb-1">백엔드개발자</p>
-					<p class="mb-1">자바,Spring,오라클DB</p>
+					<img th:src="@{/moamoreImg/} + ${selfJobInfo.myimg}" th:onerror="this.src='self/profile.JPG'" id="myImg" class="circleImg mb-4">
+					<p class="mb-1" th:text="${selfJobInfo.name}">이름</p>
+					<p class="mb-1" th:text="${selfJobInfo.dutyFld}">직무</p>
+					<p class="mb-1" th:text="${selfJobInfo.skill}">기술스택</p>
 				</div>
 
 				<div class="text-left mt-8 mb-8">
 					<span class="fs-2 subTitle">&nbsp&nbsp&nbsp저의 포트폴리오입니다&nbsp&nbsp&nbsp</span>
-					<p class="mt-4 mb-3" style="margin-left : 16px;">◈ OOO님의 포트폴리오</p>
+					<p class="mt-4 mb-3" style="margin-left : 16px;" th:text="|◈ ${selfJobInfo.name}님의 포트폴리오|">◈ OOO님의 포트폴리오</p>
 					<div  class="row "  id = "pofolList" >
 						<div class="col-md-4 text-center text-md-start h-auto" >
 		    				<div class="d-flex justify-content-between flex-column h-100">
@@ -172,7 +172,7 @@
 				<div class="card" style="position: sticky; top:150px;">
 					<div class="card-body">
 						<div class="row text-center" id="topMenu">
-							<h5>OOO님의 셀프구직</h5>
+							<h5 th:text="|${selfJobInfo.name}님의 셀프구직|">OOO님의 셀프구직</h5>
 							<hr>
 							<button class="btn btn-dark radius mb-3" type="button">채용지원제안</button>
 							<div class="col">

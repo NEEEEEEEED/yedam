@@ -60,48 +60,8 @@
    		}
 	</delete>
 
-	<!-- My프로필 등록 페이지 영역 -->
-	
-	<!-- 지역 리스트 -->
-	<select id="cityList" resultType="SelfVO">
-		SELECT prov, desct
-		FROM cmmn_dt
-		WHERE comm_cd = 'X'
-		ORDER BY prov
-	</select>
-	
-	<!-- 지역 리스트 -->
-	<select id="carrList" resultType="SelfVO">
-		SELECT prov, desct
-		FROM cmmn_dt
-		WHERE comm_cd = 'Y'
-		ORDER BY prov
-	</select>
-	
-	<!-- 직무 분야 리스트 -->
-	<select id="jobList" resultType="SelfVO">
-		SELECT prov, desct
-		FROM cmmn_dt
-		WHERE comm_cd = 'N'
-		ORDER BY prov
-	</select>
-	
-	<!-- 기술 스택 리스트 -->
-	<select id="techList" resultType="SelfVO">
-		SELECT prov, desct
-		FROM cmmn_dt
-		WHERE comm_cd = 'Z'
-		ORDER BY prov
-	</select>
-	
-	<!-- 보기권한 -->
-	<select id="authList" resultType="SelfVO">
-		SELECT prov, desct
-		FROM cmmn_dt
-		WHERE comm_cd = 'c'
-		ORDER BY prov
-	</select>
-	
+	<!-- 셀프구직 등록 페이지 영역 -->
+
 	<!-- 이력서 헤더 리스트 -->
 	<select id="resumeHeader" resultType="SelfVO">
 		SELECT RESUME_NO, TTL, CARR_NO, SHCR_NO, REG_DT
@@ -147,7 +107,7 @@
 		WHERE jsn.job_search_no = #{jobSearchNo}
 	</select>
 	
-	<!-- My프로필 등록 -->
+	<!-- 셀프구직 등록 -->
 	<insert id="myProfileAdd" parameterType="SelfVO">
 		INSERT INTO job_search_notiwr(JOB_SEARCH_NO, RESUME_NO, ID, TTL, HOPE_WKSITE, CAREER, DUTY_FLD, POSIT, PUBC_RANGE, INTRO, HOPE_SAL, RESIDENCY, MYIMG)
 		VALUES (#{jobSearchNo}, #{resumeNo}, #{id}, #{ttl}, #{hopeWksite}, #{career}, #{dutyFld}, #{posit}, #{pubcRange}, #{intro}, #{hopeSal}, #{residency}, #{myimg})
@@ -159,7 +119,7 @@
 		FROM DUAL
 	</select>
 
-	<!-- My프로필 스킬 등록 -->
+	<!-- 셀프구직 스킬 등록 -->
 	<insert id="skillAdd" parameterType="String">
 		INSERT INTO job_search_skill(SKILL_NO, JOB_SEARCH_NO, SKILL, ID)
 		VALUES (#{skillNo}, #{jobSearchNo}, #{skill}, #{id})

@@ -15,36 +15,6 @@ public class SelfServiceImpl implements SelfService{
 	@Autowired
 	SelfMapper selfMapper;
 
-	// 지역 리스트
-	@Override
-	public List<SelfVO> cityList() {
-		return selfMapper.cityList();
-	}
-	
-	// 경력 리스트
-	@Override
-	public List<SelfVO> carrList() {
-		return selfMapper.carrList();
-	}
-		
-	
-	// 직무 리스트
-	@Override
-	public List<SelfVO> jobList() {
-		return selfMapper.jobList();
-	}
-	
-	// 기술스택 리스트
-	@Override
-	public List<SelfVO> techList() {
-		return selfMapper.techList();
-	}
-	
-	// 보기권한 리스트
-	@Override
-	public List<SelfVO> authList() {
-		return selfMapper.authList();
-	}
 	
 	// 이력서 리스트
 	@Override
@@ -70,7 +40,7 @@ public class SelfServiceImpl implements SelfService{
 		return selfMapper.skillAdd(skillVO);
 	}
 
-	// my프로필 등록
+	// 셀프구직 등록
 	@Override
 	public int myProfileAdd(SelfVO myProfile) {
 		
@@ -131,7 +101,7 @@ public class SelfServiceImpl implements SelfService{
 
 	// ----------------------------------------------------
 	
-	// my프로필 등록버튼 클릭시 이력가 있는지 체크
+	// 셀프구직 등록버튼 클릭시 이력가 있는지 체크
 	@Override
 	public int checkResume(String id) {
 		return selfMapper.checkResume(id);
@@ -163,7 +133,7 @@ public class SelfServiceImpl implements SelfService{
 
 	// 셀프구직 상세 페이지
 	@Override
-	public List<SelfVO> selfJobDetailInfo(String jobSearchNo) {
+	public SelfVO selfJobDetailInfo(String jobSearchNo) {
 		return selfMapper.selfJobDetailInfo(jobSearchNo);
 	}
 
