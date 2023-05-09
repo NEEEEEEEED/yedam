@@ -34,5 +34,10 @@ public class AdminServiceImpl implements AdminService {
 		map.put("qa",adminMapper.selectQSTPost(id));
 		return map;
 	}
+	@Override
+	public MemVO getUserDetails(String id) {
+		return adminMapper.selectUserDetails(id);
+		
+	}
 
 }

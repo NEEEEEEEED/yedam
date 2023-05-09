@@ -11,4 +11,6 @@ public interface AdminService {
 
 	public Map<String, List<PostListVO>> getUserPost(String id);
 
+	public MemVO getUserDetails(String id);
+
 }

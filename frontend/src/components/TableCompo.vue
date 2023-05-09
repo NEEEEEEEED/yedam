@@ -116,16 +116,143 @@
     </div>
 
     <div class="row">
-      <div class="col-md-12 grid-margin stretch-card">
-        <div class="card">
+      <div class="col-md-7 grid-margin stretch-card">
+        <div class="card" style="min-height: 520px">
           <div class="card-body">
-            <DataTable :value="products" tableStyle="min-width: 50rem">
-              <Column field="id" header="id"></Column>
-              <Column field="name" header="Name"></Column>
-              <Column field="email" header="email"></Column>
-              <Column field="phCl" header="phCl"></Column>
-              <Column field="joinDt" header="joinDt"></Column>
+            <p class="card-title">유저목록</p>
+            <DataTable
+              :value="userList"
+              selectionMode="single"
+              dataKey="id"
+              showGridlines
+              removableSort
+              sortField="joinDt"
+              paginator
+              :rows="10"
+              :rowsPerPageOptions="[5, 10, 20]"
+              tableStyle="min-width: 100%"
+              v-model="selected"
+              v-on:row-select="onRowSelect"
+            >
+              <Column field="clsf" sortable header="분류"></Column>
+              <Column field="id" sortable header="아이디"></Column>
+              <Column field="name" sortable header="이름"></Column>
+              <Column field="gen" sortable header="성별"></Column>
+              <Column field="email" sortable header="이메일"></Column>
+              <Column field="phCl" sortable header="전화번호"></Column>
+              <Column field="joinDt" sortable header="가입일자"></Column>
             </DataTable>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-5 grid-margin stretch-card">
+        <div class="card" style="min-height: 520px">
+          <div class="card-body">
+            <p class="card-title">상세정보</p>
+            <form class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">분류</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  v-model="userDetail.clsf"
+                  readonly
+                />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">이름</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  v-model="userDetail.name"
+                  readonly
+                />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">성별</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  v-model="userDetail.gen"
+                  readonly
+                />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">생년월일</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  v-model="userDetail.birth"
+                  readonly
+                />
+              </div>
+              <div class="col-12">
+                <label class="form-label">주소</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  v-model="userDetail.addr"
+                  readonly
+                />
+              </div>
+              <div class="col-6">
+                <label class="form-label">이메일</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  v-model="userDetail.email"
+                  readonly
+                />
+              </div>
+              <div class="col-6">
+                <label class="form-label">블로그</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  v-model="userDetail.blog"
+                  readonly
+                />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">가입일자</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  v-model="userDetail.joinDt"
+                  readonly
+                />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">최근로그인</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  v-model="userDetail.ltstTm"
+                  readonly
+                />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">전화번호</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  v-model="userDetail.ph"
+                  readonly
+                />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">핸드폰</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  v-model="userDetail.phCl"
+                  readonly
+                />
+              </div>
+              <div class="col-12">
+                <button type="button" class="btn btn-primary">Sign in</button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -136,6 +263,7 @@
 import { userList } from "@/service/userList";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
+import axios from "axios";
 export default {
   components: {
     DataTable,
@@ -143,11 +271,39 @@ export default {
   },
   data() {
     return {
-      products: null,
+      userList: null,
+      selected: null,
+      userDetail: {
+        clsf: "",
+        name: "",
+        gen: "",
+        birth: "",
+        phCl: "",
+        ph: "",
+        ltstTm: "",
+        joinDt: "",
+        blog: "",
+        email: "",
+        addr: "",
+      },
     };
   },
   mounted() {
-    userList.getUserData().then((data) => (this.products = data));
+    userList.getUserData().then((data) => (this.userList = data));
+  },
+  methods: {
+    onRowSelect(event) {
+      const selectedRow = event.data;
+      this.selected = selectedRow;
+      axios
+        .post("/api/getUserDetail", selectedRow, {
+          withCredentials: true,
+        })
+        .then((response) => {
+          console.log(response.data);
+          this.userDetail = response.data;
+        });
+    },
   },
 };
 </script>
