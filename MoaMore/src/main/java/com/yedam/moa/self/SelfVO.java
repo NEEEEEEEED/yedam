@@ -75,6 +75,12 @@ public class SelfVO {
 	
 	// 권한
 	private String auth;				// 현재 로그인한 사람의 권한
+	
+	// 개인정보
+	private String name; 				// 이름
+	private String email;				// 이메일
+	private String blog;				// 블로그, 깃허브
+	
 		
 	
 }

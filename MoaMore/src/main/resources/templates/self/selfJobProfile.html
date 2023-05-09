@@ -68,6 +68,7 @@
 										<th>지역</th>
 										<td>
 										  <select id="city" class= "inputStyle" style="text-align:center;">
+										  	<option value="" selected>지역선택</option>
 										    <option th:each="city : ${cityList}" th:text="${city.desct}" th:attr="value=${city.prov}">지역</option>
 										  </select>
 										</td>
@@ -76,6 +77,7 @@
 										<th>경력</th>
 										<td>
 											<select id="carr" class="inputStyle" style="text-align:center;">
+												 <option value="" selected>경력선택</option>
 											     <option th:each="carr : ${carrList}" th:text="${carr.desct}" th:attr="value=${carr.prov}">경력</option>
 											 </select>
 										</td>
@@ -84,6 +86,7 @@
 										<th>직무분야</th>
 										<td>
 											<select id="job" class="inputStyle" style="text-align:center;">
+												   <option value="" selected>직무선택</option>
 											       <option th:each="job : ${jobList}" th:text="${job.desct}" th:attr="value=${job.prov}">직무</option>
 										  	</select>
 										</td>
@@ -92,6 +95,7 @@
 										<th>기술스택</th>
 										<td>
 											<select id="tech" class="inputStyle" style="text-align:center;">
+												 <option value="" selected>기술선택(다중선택가능)</option>
 											     <option th:each="tech : ${techList}" th:text="${tech.desct}" th:attr="value=${tech.prov}">기술스택</option>
 											  </select>
 										</td>
@@ -494,29 +498,39 @@ function schoolPrint(schoolArr={}){
 	if(schoolArr.fg=='고졸'){
 		schoolHTML = `<div class="hoverRow listRow row">
 					 	<div class="col-md-10 text-center text-lg-start">
-					 		<span style="color:black;"><b>■ 고등학교</b></span> <hr>
-					 		<p class="mb-0">`+schoolArr.joinYy+` ~ `+schoolArr.retiYy+`</p>
-			                <h6 class="fs-md-3 my-3">`+schoolArr.breu+`</h6>
-			                <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
-			                  <p class="mb-0">`+schoolArr.shcrSt+`</p>
-			                </div>
-		              	</div>
-					</div>`;
+						 		<span style="color:black;"><b>■ 고등학교</b></span> <hr>
+						 		<p class="mb-0">`+schoolArr.joinYy+` ~ `+schoolArr.retiYy+`</p>
+				                <h6 class="fs-md-3 my-3">`+schoolArr.breu+`</h6>
+				                <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
+				                  <p class="mb-0">`+schoolArr.shcrSt+`</p>
+				                </div>
+			              </div>
+						</div>`;
 				        	
 	}else if(schoolArr.fg=='대졸' || schoolArr.fg=='초대졸'){
 		schoolHTML = `<div class="hoverRow listRow row">
 					 	<div class="col-md-10 text-center text-lg-start">
-				 		<span style="color:black;"><b>■ 대학교</b></span><hr>
-				 		<p class="mb-0">`+schoolArr.joinYy+` ~ `+schoolArr.retiYy+`</p>
-			            <h6 class="fs-md-3 my-3">`+schoolArr.breu+`</h6>
-			            <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
-			              <p class="fw-bold mb-0 text-black">`+schoolArr.mj+`</p>
-			              <p class="mb-0">`+schoolArr.shcrSt+`</p>
-			            </div>
-			      	</div>
-				</div>`;
+					 		<span style="color:black;"><b>■ 대학교</b></span><hr>
+					 		<p class="mb-0">`+schoolArr.joinYy+` ~ `+schoolArr.retiYy+`</p>
+				            <h6 class="fs-md-3 my-3">`+schoolArr.breu+`</h6>
+				            <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
+				              <p class="fw-bold mb-0 text-black">`+schoolArr.mj+`</p>
+				              <p class="mb-0">`+schoolArr.shcrSt+`</p>
+				            </div>
+				      	</div>
+					</div>`;
 	}else{ // 대학원
-		schoolHTML = '';
+		schoolHTML = `<div class="hoverRow listRow row">
+					 	<div class="col-md-10 text-center text-lg-start">
+					 		<span style="color:black;"><b>■ 대학교</b></span><hr>
+					 		<p class="mb-0">`+schoolArr.joinYy+` ~ `+schoolArr.retiYy+`</p>
+				            <h6 class="fs-md-3 my-3">`+schoolArr.breu+`</h6>
+				            <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
+				              <p class="fw-bold mb-0 text-black">`+schoolArr.mj+`</p>
+				              <p class="mb-0">`+schoolArr.shcrSt+`</p>
+				            </div>
+				      	</div>
+					</div>`;
 	}
 
 	return schoolHTML;

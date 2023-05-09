@@ -132,6 +132,21 @@
 		FROM DUAL
 	</select>
 	
+	<!-- 셀프구직 상세페이지 -->
+	<select id="selfJobDetailInfo" resultType="SelfVO">
+		SELECT DISTINCT jsn.job_search_no, jsn.resume_no, jsn.id, jsn.ttl, 
+                get_common(jsn.hope_wksite) as hopeWksite, 
+                get_common(jsn.duty_fld) as dutyFld, jsn.pubc_range, 
+                jsn.intro, jsn.hope_sal, jsn.residency, jsn.myimg, jsn.interest, 
+                jsn.prop, jsn.reg_dt, jsn.career, m.name, m.email,
+                LISTAGG(get_common(jss.skill), ',') WITHIN GROUP(ORDER BY jss.skill) OVER(PARTITION BY jsn.job_search_no) AS skill
+		FROM job_search_notiwr jsn JOIN member m
+		    ON jsn.id = m.id
+		JOIN job_search_skill jss
+		    ON jsn.job_search_no = jss.job_search_no
+		WHERE jsn.job_search_no = #{jobSearchNo}
+	</select>
+	
 	<!-- My프로필 등록 -->
 	<insert id="myProfileAdd" parameterType="SelfVO">
 		INSERT INTO job_search_notiwr(JOB_SEARCH_NO, RESUME_NO, ID, TTL, HOPE_WKSITE, CAREER, DUTY_FLD, POSIT, PUBC_RANGE, INTRO, HOPE_SAL, RESIDENCY, MYIMG)

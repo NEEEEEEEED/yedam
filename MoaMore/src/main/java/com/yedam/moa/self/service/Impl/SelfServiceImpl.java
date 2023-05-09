@@ -161,6 +161,12 @@ public class SelfServiceImpl implements SelfService{
 		return selfMapper.selfJobInterestDelete(interestVO);
 	}
 
+	// 셀프구직 상세 페이지
+	@Override
+	public List<SelfVO> selfJobDetailInfo(String jobSearchNo) {
+		return selfMapper.selfJobDetailInfo(jobSearchNo);
+	}
+
 	
 	
 	
