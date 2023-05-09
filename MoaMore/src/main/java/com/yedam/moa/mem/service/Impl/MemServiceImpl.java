@@ -53,9 +53,11 @@ public class MemServiceImpl implements MemService {
 	}
 
 	
+
+
 	@Override
-	public List<MemVO> getSkill(MemVO vo) {
-		return mem.getCode(vo);
+	public MemVO getMemInfo(MemVO vo) {
+		return mem.getMemInfo(vo);
 	}
 
 

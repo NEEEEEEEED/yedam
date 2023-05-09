@@ -1,321 +1,430 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{template/layout}">
-<head>
-<style>
-#fullScreen {
-	height: 100vh;
-}
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{template/layout}"
+>
+  <head>
+    <style>
+      #fullScreen {
+        height: 100vh;
+      }
 
-.countVal {
-	height: 100px;
-	font-size: 80px;
-}
+      .countVal {
+        height: 100px;
+        font-size: 80px;
+      }
 
-.month {
-	width: 60px;
-	height: 40px;
-	font-size: auto;
-}
+      .month {
+        width: 60px;
+        height: 40px;
+        font-size: auto;
+      }
 
-.label {
-	width: 100px;
-}
+      .label {
+        width: 100px;
+      }
 
-.dt {
-	width: 120px;
-}
+      .dt {
+        width: 120px;
+      }
 
-.yn {
-	width: 100px;
-}
+      .yn {
+        width: 100px;
+      }
 
-/*       .btn{ */
-/*       border-radius: 0.5rem; */
-/*       } */
-</style>
-<meta charset="UTF-8" />
-<title>Insert title here</title>
-</head>
-<body>
-	<div class="container" layout:fragment="content">
-		<!--센터 레이아웃 플렉스 시작-->
-		<div class="row">
-			<div class="col-xl-3 col-md-2 text-center">
-				<div class="card">
-					<div class="card-body">
-						<h4>000기업</h4>
-						<a id="insertInfo" type="button" class="btn btn-light" href="">기업정보등록</a>
-						<div class="accordion" id="sideMenu">
-							<div class="accordion-item">
-								<h2 class="accordion-header" id="panelsStayOpen-headingOne">
-									<button class="accordion-button collapsed p-1" type="button"
-										data-bs-toggle="collapse"
-										data-bs-target="#panelsStayOpen-collapseOne"
-										aria-expanded="false"
-										aria-controls="panelsStayOpen-collapseOne">
-										이력서</button>
-								</h2>
-								<div id="panelsStayOpen-collapseOne"
-									class="accordion-collapse collapse"
-									aria-labelledby="panelsStayOpen-headingOne">
-									<div
-										class="accordion-body d-flex flex-column align-items-center p-0">
-										<div class="mb-1">
-											<a href="">이력서 등록</a>
-										</div>
-										<div class="mb-1">
-											<a href="">이력서 관리</a>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="accordion-item">
-								<h2 class="accordion-header" id="panelsStayOpen-headingTwo">
-									<button class="accordion-button collapsed p-1" type="button"
-										data-bs-toggle="collapse"
-										data-bs-target="#panelsStayOpen-collapseTwo"
-										aria-expanded="false"
-										aria-controls="panelsStayOpen-collapseTwo">
-										현황</button>
-								</h2>
-								<div id="panelsStayOpen-collapseTwo"
-									class="accordion-collapse collapse"
-									aria-labelledby="panelsStayOpen-headingTwo">
-									<div
-										class="accordion-body d-flex flex-column align-items-center p-0">
-										<div class="mb-1">
-											<a href="">구직 현황</a>
-										</div>
-										<div class="mb-1">
-											<a href="">관심기업</a>
-										</div>
-									</div>
-								</div>
-							</div>
-							<hr />
-							<div class="accordion-item">
-								<h2 class="accordion-header" id="panelsStayOpen-headingThree">
-									<button class="accordion-button collapsed p-1" type="button"
-										data-bs-toggle="collapse"
-										data-bs-target="#panelsStayOpen-collapseThree"
-										aria-expanded="false"
-										aria-controls="panelsStayOpen-collapseThree">
-										개인정보</button>
-								</h2>
-								<div id="panelsStayOpen-collapseThree"
-									class="accordion-collapse collapse"
-									aria-labelledby="panelsStayOpen-headingThree">
-									<div
-										class="accordion-body d-flex flex-column align-items-center p-0">
-										<div class="mb-1">
-											<a href="">개인정보 수정</a>
-										</div>
-										<div class="mb-1">
-											<a href="">작성글 목록</a>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+      /*       .btn{ */
+      /*       border-radius: 0.5rem; */
+      /*       } */
+    </style>
+    <meta charset="UTF-8" />
+    <title>Insert title here</title>
+  </head>
+  <body>
+    <div class="container" layout:fragment="content">
+      <!--센터 레이아웃 플렉스 시작-->
+      <div class="row">
+        <div class="col-xl-3 col-md-2 text-center">
+          <div class="card">
+            <div class="card-body">
+              <h4>000기업</h4>
+              <a id="insertInfo" type="button" class="btn btn-light" href=""
+                >기업정보등록</a
+              >
+              <div class="accordion" id="sideMenu">
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                    <button
+                      class="accordion-button collapsed p-1"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#panelsStayOpen-collapseOne"
+                      aria-expanded="false"
+                      aria-controls="panelsStayOpen-collapseOne"
+                    >
+                      이력서
+                    </button>
+                  </h2>
+                  <div
+                    id="panelsStayOpen-collapseOne"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="panelsStayOpen-headingOne"
+                  >
+                    <div
+                      class="accordion-body d-flex flex-column align-items-center p-0"
+                    >
+                      <div class="mb-1">
+                        <a href="">이력서 등록</a>
+                      </div>
+                      <div class="mb-1">
+                        <a href="">이력서 관리</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                    <button
+                      class="accordion-button collapsed p-1"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#panelsStayOpen-collapseTwo"
+                      aria-expanded="false"
+                      aria-controls="panelsStayOpen-collapseTwo"
+                    >
+                      현황
+                    </button>
+                  </h2>
+                  <div
+                    id="panelsStayOpen-collapseTwo"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="panelsStayOpen-headingTwo"
+                  >
+                    <div
+                      class="accordion-body d-flex flex-column align-items-center p-0"
+                    >
+                      <div class="mb-1">
+                        <a href="">구직 현황</a>
+                      </div>
+                      <div class="mb-1">
+                        <a href="">관심기업</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr />
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                    <button
+                      class="accordion-button collapsed p-1"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#panelsStayOpen-collapseThree"
+                      aria-expanded="false"
+                      aria-controls="panelsStayOpen-collapseThree"
+                    >
+                      개인정보
+                    </button>
+                  </h2>
+                  <div
+                    id="panelsStayOpen-collapseThree"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="panelsStayOpen-headingThree"
+                  >
+                    <div
+                      class="accordion-body d-flex flex-column align-items-center p-0"
+                    >
+                      <div class="mb-1">
+                        <a href="">개인정보 수정</a>
+                      </div>
+                      <div class="mb-1">
+                        <a href="">작성글 목록</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-			<div class="col-xl-9 col-md-8 text-center">
-				<div class="card">
-					<section class="bg-dark pt-6">
-						<div class="container">
-							<div class="col-md-6">
-								<h1 class="text-white fs-lg-5 fs-md-3 fs-2">
-									이달의 공고 <span
-										class="py-1 px-2 rounded-2 bg-success fw-bold text-dark ms-2">Hiring!</span>
-								</h1>
-								<br />
-							</div>
-							<div class="swiper mt-7">
-								<!--  -->
-								<div class="swiper-container swiper-theme"
-									data-swiper='{"slidesPerView":1,"breakpoints":{"640":{"slidesPerView":1,"spaceBetween":10},"768":{"slidesPerView":2,"spaceBetween":20},"1025":{"slidesPerView":3,"spaceBetween":40}},"spaceBetween":10,"grabCursor":true,"pagination":{"el":".swiper-pagination","clickable":true},"navigation":{"nextEl":".swiper-button-next","prevEl":".swiper-button-prev"},"loop":true,"freeMode":true,"loopedSlides":3}'>
-									<div class="swiper-wrapper">
-										<div class="swiper-slide bg-white p-5 rounded-3 h-auto"
-											th:each="list:${list}">
-											<div class="d-flex flex-column justify-content-between h-100">
-												<h4 class="text-black">[[${list.ttl}]]</h4>
-												<input type="hidden" th:value="${list.recruitNo}" />
-												<div class="gap-3 mt-5">
-													<!--                             <img th:src="|/images/${list.coImg}|" alt="기업이미지" /> -->
-													<div class="text-black">
-														<p class="mb-0 fw-bold text-dark">[[${list.coNm}]]</p>
-														<small>[[${list.email}]]</small>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="swiper-button-next">
-									<span class="fas fa-arrow-right fs-lg-3 fs-2"></span>
-								</div>
-								<div class="swiper-button-prev">
-									<span class="fas fa-arrow-left fs-lg-3 fs-2"></span>
-								</div>
-							</div>
-						</div>
-					</section>
-				</div>
-			</div>
-		</div>
-		<!--센터 레이아웃 플렉스 끝-->
-		<!--입사 지원 현황 시작-->
-		<div class="row mt-5" id="fullScreen">
-			<div class="col-xl-3 col-md-2 text-center"></div>
-			<div class="card col-xl-9 col-md-8 border-white">
-				<h3>입사지원 현황</h3>
-				<div class="card-body px-0">
-					<!-- 현황 카운트-->
-					<div class="row">
-						<div class="col-xl-4 col-md-4 text-center">
-							<span class="countVal">[[${count.countAplySt}]]</span>
-							<p>지원완료</p>
-						</div>
-						<div class="col-xl-4 col-md-4 text-center border-start">
-							<span class="countVal">[[${count.countSt}]]</span>
-							<p>열람</p>
-						</div>
-						<div class="col-xl-4 col-md-4 text-center border-start">
-							<span class="countVal">[[${count.countDeny}]]</span>
-							<p>지원취소</p>
-						</div>
-					</div>
-					<!--현황카운트 끝-->
-					<!--기간 선택 버튼 시작-->
-					<div class="row my-5">
-						<div class="col-xl-10 flex-column px-3">
-							<div class="d-flex justify-content-between my-3">
-								<div>
-									<span class="label py-1">기간</span> <input type="radio"
-										class="btn-check" name="options" id="option1"
-										autocomplete="off" value="7" /> <label
-										class="btn month py-1 px-0 m-0" for="option1">1주일</label>
-									<input type="radio" class="btn-check" name="options"
-										id="option2" autocomplete="off" value="1" />
-									<label class="btn month py-1 px-0 m-0" for="option2">1개월</label>
-									<input type="radio" class="btn-check" name="options"
-										id="option3" autocomplete="off" value="2" />
-									<label class="btn month py-1 px-0 m-0" for="option3">2개월</label>
-									<input type="radio" class="btn-check" name="options"
-										id="option4" autocomplete="off" value="3" />
-									<label class="btn month py-1 px-0 m-0" for="option4">3개월</label>
-									<!--기간선택 버튼 끝-->
-								</div>
-								<!--날짜 선택-->
-								<div>
-									<span class="label">날짜 선택</span> <input type="month"
-										name="startDt" id="startDt" class="dt form-control-sm" value= />
-									~ <input type="month" name="endDt" id="endDt"
-										class="dt form-control-sm" value= />
-								</div>
-							</div>
-							<div class="d-flex justify-content-between my-3">
-								<div>
-									<div class="dropdown">
-										<button class="btn btn-chek dropdown-toggle" type="button"
-											style="border-radius: 0.5rem" data-bs-toggle="dropdown"
-											aria-expanded="false" name="dropHead">
-											<span>마감여부</span>
-										</button>
-										<ul class="dropdown-menu" style="border-radius: 0.5rem">
-											<li>
-												<button type="button" class="dropdown-item"
-													style="border-radius: 0.5rem" data-value="J1">
-													<span>마감 전</span>
-												</button>
-											</li>
-											<li>
-												<button type="button" class="dropdown-item"
-													style="border-radius: 0.5rem" data-value="J2">
-													<span>마감 후</span>
-												</button>
-											</li>
-										</ul>
-									</div>
-									<input type="hidden" name="expir" id="expir" value />
-								</div>
-								<div>
-									<div class="dropdown">
-										<button class="btn btn-chek dropdown-toggle" type="button"
-											style="border-radius: 0.5rem" data-bs-toggle="dropdown"
-											aria-expanded="false">
-											<span>열람여부</span>
-										</button>
-										<ul class="dropdown-menu" style="border-radius: 0.5rem">
-											<li>
-												<button type="button" class="dropdown-item"
-													style="border-radius: 0.5rem" data-value="1">
-													<span>열람</span>
-												</button>
-											</li>
-											<li>
-												<button type="button" class="dropdown-item"
-													style="border-radius: 0.5rem" data-value="0">
-													<span>미열람</span>
-												</button>
-											</li>
-										</ul>
-									</div>
-									<input type="hidden" name="st" id="st" value />
-								</div>
-								<div>
-									<div class="dropdown">
-										<button class="btn btn-chek dropdown-toggle" type="button"
-											style="border-radius: 0.5rem" data-bs-toggle="dropdown"
-											aria-expanded="false">
-											<span>지원상태</span>
-										</button>
-										<ul class="dropdown-menu" style="border-radius: 0.5rem">
-											<li>
-												<button type="button" class="dropdown-item"
-													style="border-radius: 0.5rem" data-value="b1">
-													<span>지원완료</span>
-												</button>
-											</li>
-											<li>
-												<button type="button" class="dropdown-item"
-													style="border-radius: 0.5rem" data-value="b2">
-													<span>지원 취소</span>
-												</button>
-											</li>
-										</ul>
-									</div>
-									<input type="hidden" name="aplySt" id="aplySt" value />
-								</div>
-							</div>
-						</div>
-						<div class="col-xl-2 my-4 ps-4">
-							<button class="btn btn-outline-primary px-2"
-								style="border-radius: 0.5rem" id="search">
-								조회</button>
-						</div>
-					</div>
+        <div class="col-xl-9 col-md-8 text-center">
+          <div class="card">
+            <section class="bg-dark pt-6">
+              <div class="container">
+                <div class="col-md-6">
+                  <h1 class="text-white fs-lg-5 fs-md-3 fs-2">
+                    이달의 공고
+                    <span
+                      class="py-1 px-2 rounded-2 bg-success fw-bold text-dark ms-2"
+                      >Hiring!</span
+                    >
+                  </h1>
+                  <br />
+                </div>
+                <div class="swiper mt-7">
+                  <!--  -->
+                  <div
+                    class="swiper-container swiper-theme"
+                    data-swiper='{"slidesPerView":1,"breakpoints":{"640":{"slidesPerView":1,"spaceBetween":10},"768":{"slidesPerView":2,"spaceBetween":20},"1025":{"slidesPerView":3,"spaceBetween":40}},"spaceBetween":10,"grabCursor":true,"pagination":{"el":".swiper-pagination","clickable":true},"navigation":{"nextEl":".swiper-button-next","prevEl":".swiper-button-prev"},"loop":true,"freeMode":true,"loopedSlides":3}'
+                  >
+                    <div class="swiper-wrapper">
+                      <div
+                        class="swiper-slide bg-white p-5 rounded-3 h-auto"
+                        th:each="list:${list}"
+                      >
+                        <div
+                          class="d-flex flex-column justify-content-between h-100"
+                        >
+                          <h4 class="text-black">[[${list.ttl}]]</h4>
+                          <input type="hidden" th:value="${list.recruitNo}" />
+                          <div class="gap-3 mt-5">
+                            <!--                             <img th:src="|/images/${list.coImg}|" alt="기업이미지" /> -->
+                            <div class="text-black">
+                              <p class="mb-0 fw-bold text-dark">
+                                [[${list.coNm}]]
+                              </p>
+                              <small>[[${list.email}]]</small>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="swiper-button-next">
+                    <span class="fas fa-arrow-right fs-lg-3 fs-2"></span>
+                  </div>
+                  <div class="swiper-button-prev">
+                    <span class="fas fa-arrow-left fs-lg-3 fs-2"></span>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+      <!--센터 레이아웃 플렉스 끝-->
+      <!--입사 지원 현황 시작-->
+      <div class="row mt-5" id="fullScreen">
+        <div class="col-xl-3 col-md-2 text-center"></div>
+        <div class="card col-xl-9 col-md-8 border-white">
+          <h3>입사지원 현황</h3>
+          <div class="card-body px-0">
+            <!-- 현황 카운트-->
+            <div class="row">
+              <div class="col-xl-4 col-md-4 text-center">
+                <span class="countVal">[[${count.countAplySt}]]</span>
+                <p>지원완료</p>
+              </div>
+              <div class="col-xl-4 col-md-4 text-center border-start">
+                <span class="countVal">[[${count.countSt}]]</span>
+                <p>열람</p>
+              </div>
+              <div class="col-xl-4 col-md-4 text-center border-start">
+                <span class="countVal">[[${count.countDeny}]]</span>
+                <p>지원취소</p>
+              </div>
+            </div>
+            <!--현황카운트 끝-->
+            <!--기간 선택 버튼 시작-->
+            <div class="row my-5">
+              <div class="col-xl-10 flex-column px-3">
+                <div class="d-flex justify-content-between my-3">
+                  <div>
+                    <span class="label py-1">기간</span>
+                    <input
+                      type="radio"
+                      class="btn-check"
+                      name="options"
+                      id="option1"
+                      autocomplete="off"
+                      value="7"
+                    />
+                    <label class="btn month py-1 px-0 m-0" for="option1"
+                      >1주일</label
+                    >
+                    <input
+                      type="radio"
+                      class="btn-check"
+                      name="options"
+                      id="option2"
+                      autocomplete="off"
+                      value="1"
+                    />
+                    <label class="btn month py-1 px-0 m-0" for="option2"
+                      >1개월</label
+                    >
+                    <input
+                      type="radio"
+                      class="btn-check"
+                      name="options"
+                      id="option3"
+                      autocomplete="off"
+                      value="2"
+                    />
+                    <label class="btn month py-1 px-0 m-0" for="option3"
+                      >2개월</label
+                    >
+                    <input
+                      type="radio"
+                      class="btn-check"
+                      name="options"
+                      id="option4"
+                      autocomplete="off"
+                      value="3"
+                    />
+                    <label class="btn month py-1 px-0 m-0" for="option4"
+                      >3개월</label
+                    >
+                    <!--기간선택 버튼 끝-->
+                  </div>
+                  <!--날짜 선택-->
+                  <div>
+                    <span class="label">날짜 선택</span> <input type="month"
+                    name="startDt" id="startDt" class="dt form-control-sm"
+                    value= /> ~ <input type="month" name="endDt" id="endDt"
+                    class="dt form-control-sm" value= />
+                  </div>
+                </div>
+                <div class="d-flex justify-content-between my-3">
+                  <div>
+                    <div class="dropdown">
+                      <button
+                        class="btn btn-chek dropdown-toggle"
+                        type="button"
+                        style="border-radius: 0.5rem"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        name="dropHead"
+                      >
+                        <span>마감여부</span>
+                      </button>
+                      <ul class="dropdown-menu" style="border-radius: 0.5rem">
+                        <li>
+                          <button
+                            type="button"
+                            class="dropdown-item"
+                            style="border-radius: 0.5rem"
+                            data-value="J1"
+                          >
+                            <span>마감 전</span>
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            type="button"
+                            class="dropdown-item"
+                            style="border-radius: 0.5rem"
+                            data-value="J2"
+                          >
+                            <span>마감 후</span>
+                          </button>
+                        </li>
+                      </ul>
+                    </div>
+                    <input type="hidden" name="expir" id="expir" value />
+                  </div>
+                  <div>
+                    <div class="dropdown">
+                      <button
+                        class="btn btn-chek dropdown-toggle"
+                        type="button"
+                        style="border-radius: 0.5rem"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        <span>열람여부</span>
+                      </button>
+                      <ul class="dropdown-menu" style="border-radius: 0.5rem">
+                        <li>
+                          <button
+                            type="button"
+                            class="dropdown-item"
+                            style="border-radius: 0.5rem"
+                            data-value="1"
+                          >
+                            <span>열람</span>
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            type="button"
+                            class="dropdown-item"
+                            style="border-radius: 0.5rem"
+                            data-value="0"
+                          >
+                            <span>미열람</span>
+                          </button>
+                        </li>
+                      </ul>
+                    </div>
+                    <input type="hidden" name="st" id="st" value />
+                  </div>
+                  <div>
+                    <div class="dropdown">
+                      <button
+                        class="btn btn-chek dropdown-toggle"
+                        type="button"
+                        style="border-radius: 0.5rem"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        <span>지원상태</span>
+                      </button>
+                      <ul class="dropdown-menu" style="border-radius: 0.5rem">
+                        <li>
+                          <button
+                            type="button"
+                            class="dropdown-item"
+                            style="border-radius: 0.5rem"
+                            data-value="b1"
+                          >
+                            <span>지원완료</span>
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            type="button"
+                            class="dropdown-item"
+                            style="border-radius: 0.5rem"
+                            data-value="b2"
+                          >
+                            <span>지원 취소</span>
+                          </button>
+                        </li>
+                      </ul>
+                    </div>
+                    <input type="hidden" name="aplySt" id="aplySt" value />
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-2 my-4 ps-4">
+                <button
+                  class="btn btn-outline-primary px-2"
+                  style="border-radius: 0.5rem"
+                  id="search"
+                >
+                  조회
+                </button>
+              </div>
+            </div>
 
-					<table class="table table-striped text-center">
-						<thead>
-							<tr>
-								<th>지원일</th>
-								<th>지원내역</th>
-								<th>공고 진행상태</th>
-								<th>이력서 열람</th>
-								<th>취소/삭제</th>
-							</tr>
-						</thead>
-						<tbody id="listSt"></tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-		<script>
+            <table class="table table-striped text-center">
+              <thead>
+                <tr>
+                  <th>지원일</th>
+                  <th>지원내역</th>
+                  <th>공고 진행상태</th>
+                  <th>이력서 열람</th>
+                  <th>취소/삭제</th>
+                </tr>
+              </thead>
+              <tbody id="listSt"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <script>
         let container = function (period, startDt, endDt, expir, st, aplySt) {
           this.period = period;
           this.startDt = startDt;
@@ -328,8 +437,9 @@
         $(document).ready(function () {
           $(".dropdown-item").on("click", function () {
             let selected = $(this).data("value");
-            console.log(selected);
             let selectedText = $(this)[0].innerText;
+            console.log(selected);
+            
             $(this).closest(".dropdown")[0].firstElementChild.innerText =
               selectedText;
             $(this).closest(".dropdown")[0].nextElementSibling.value = selected;
@@ -344,7 +454,7 @@
             let expir = $("#expir").val();
             let st = $("#st").val();
             let aplyst = $("#aplySt").val();
-//             console.log(period, startDt, endDt, expir, st, aplyst);
+            //             console.log(period, startDt, endDt, expir, st, aplyst);
             if (startDt == "") {
               startDt = null;
             }
@@ -360,17 +470,17 @@
             if (aplyst == "") {
               aplyst = null;
             }
-//             console.log(aplyst);
+            //             console.log(aplyst);
             let ball = new container(period, startDt, endDt, expir, st, aplySt);
-//             console.log(aplyst);
-//             console.log(ball);
+            //             console.log(aplyst);
+            //             console.log(ball);
             $.ajax({
               type: "POST",
               url: "/getSearch",
               contentType: "application/json",
               data: JSON.stringify(ball),
               success: function (res) {
-//                 console.log(res);
+                //                 console.log(res);
                 mkTr(res);
               },
               error: function (err) {
@@ -378,13 +488,13 @@
               },
             });
           });
-          
+
           $(document).on("click", "button[name=del]", function () {
             let data = $(this).closest("tr").data("recruit-no");
             let tr = $(this).closest("tr");
-//             console.log(data);
-//             console.log(tr);
-//             console.log(tr.data("recruit-no"))
+            //             console.log(data);
+            //             console.log(tr);
+            //             console.log(tr.data("recruit-no"))
             confirmDel(anumDel, tr);
           });
         });
@@ -399,50 +509,43 @@
             table.append(newTr);
           }
         }
-        function confirmDel(callback, data){
-        	Swal.fire({
-        		  title: 'Are you sure?',
-        		  text: "You won't be able to revert this!",
-        		  icon: 'warning',
-        		  showCancelButton: true,
-        		  confirmButtonText: 'Yes, delete it!',
-        		  cancelButtonText: 'No, cancel!',
-        		  reverseButtons: true
-        		}).then((result) => {
-        		  if (result.isConfirmed) {
-        			callback(data.data("recruit-no"));  
-        		    Swal.fire(
-        		      'Deleted!',
-        		      'Your file has been deleted.',
-        		      'success'
-        		    )
-        		    data.remove();
-        		  } else if (
-        		    /* Read more about handling dismissals below */
-        		    result.dismiss === Swal.DismissReason.cancel
-        		  ) {
-        			  Swal.fire(
-        		      'Cancelled',
-        		      'Your imaginary file is safe :)',
-        		      'error'
-        		    )
-        		  }
-        		})
+        function confirmDel(callback, data) {
+          Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "No, cancel!",
+            reverseButtons: true,
+          }).then((result) => {
+            if (result.isConfirmed) {
+              callback(data.data("recruit-no"));
+              Swal.fire("Deleted!", "Your file has been deleted.", "success");
+              data.remove();
+            } else if (
+              /* Read more about handling dismissals below */
+              result.dismiss === Swal.DismissReason.cancel
+            ) {
+              Swal.fire("Cancelled", "Your imaginary file is safe :)", "error");
+            }
+          });
         }
-        function anumDel(data){
-        	 $.ajax({
-                 type: "POST",
-                 url: "/delAnunSt",
-                 data: "recruitNo=" + data,
-                 success: function (res) {
-//                    console.log(res);
-                 }, error: function (err) {
-                     alert(err.responseText);
-                 },})
-        	 
+        function anumDel(data) {
+          $.ajax({
+            type: "POST",
+            url: "/delAnunSt",
+            data: "recruitNo=" + data,
+            success: function (res) {
+              //                    console.log(res);
+            },
+            error: function (err) {
+              alert(err.responseText);
+            },
+          });
         }
       </script>
-	</div>
-	<!-- 	</div> -->
-</body>
+    </div>
+    <!-- 	</div> -->
+  </body>
 </html>

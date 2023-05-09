@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.yedam.moa.comm.mapper.CommMapper">
+<!--   	<select id="getCodeWNm" resultType="CommVO"> -->
+<!-- 	select d.prov, d.desct -->
+<!-- 	from cmmn_dt d join cmmn_cd c -->
+<!-- 	on d.comm_cd = c.comm_cd -->
+<!-- 	where c.comm_nm = #{commNm} -->
+<!-- 	</select> -->
+  	
+  	<select id="getCodeWG" resultType="CommVO">
+  	select prov,
+  		   desct
+  	from   cmmn_dt
+  	where  comm_cd = #{commCd}
+  	</select>
+  </mapper>
