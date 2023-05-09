@@ -25,6 +25,7 @@
 <body>
 	<div layout:fragment = "content">
 		<div class = "container">
+		
 			<label for = "name">직군</label> 
 			<select id = "job" class = "selectStyle">
 				<option selected value = ''>개발 전체</option>
@@ -32,21 +33,18 @@
 			</select>
 			
 			<label for="name">지역</label> 
-			
 			<select id="loc" class = "selectStyle">
 				<option selected value=''>전국</option>
 				<option th:each="wksiteList : ${wksiteList}" th:text="${wksiteList.desct}" th:attr="value=${wksiteList.prov}">지역</option>
 			</select>
 			
 			<label for = "name">경력</label> 
-			
 			<select id="cre" class = "selectStyle">
 				<option selected value = ''>경력전체</option>
 				<option th:each="carrList : ${carrList}" th:text="${carrList.desct}" th:attr="value=${carrList.prov}">경력</option>
 			</select>
 			
 			<label for = "name">기술스택</label> 
-			
 			<select id = "skl" class = "selectStyle">
 				<option selected value=''>기술 전체</option>
 				<option th:each="skillList : ${skillList}" th:text="${skillList.desct}" th:attr="value=${skillList.prov}">경력</option>
@@ -58,7 +56,7 @@
 								
 			<div id="hireButtons">
 				<button type="button" class="btn btn-outline-dark" id="scrapList">스크랩 정렬</button>
-				<button type="submit" class="btn btn-outline-dark">등록하기</button>
+				<button type="button" class="btn btn-outline-dark" id="hireInsert">등록하기</button>
 			</div>
 		</div>
 		
@@ -73,6 +71,15 @@
 		<script>
 		$(document).ready(function () {
 			search();
+		});
+		
+		// 공고등록으로 이동
+		$(document).on('click', '#hireInsert', function(e){
+			e.preventDefault();
+
+			location.href="/hireInsert";
+			
+			
 		});
 		
 		$('#scrapList').click(function() {
@@ -116,37 +123,39 @@
 	                	
 	                	if(item.scrapYn != null){
 	                		str1 = `<div class="col-md-3 text-center text-md-start h-auto mb-5" >
-		    							<div class="d-flex justify-content-between flex-column h-100">
-		    						
-		                				<div class="image">
-											<img class="w-75 w-md-100 rounded-2 " src="assets/img/blog/1.png" alt="" />
-											<i class="bi bi-bookmark-heart-fill fs-5 btn1 text-danger" ></i>
-										</div>`;
+					    							<div class="d-flex justify-content-between flex-column h-100">
+					    						
+					                				<div class="image">
+														<img class="w-75 w-md-100 rounded-2 " src="assets/img/blog/1.png" alt="" />
+														<i class="bi bi-bookmark-heart-fill fs-5 btn1 text-danger" ></i>
+													</div>`;
 		                	} else{
 		                		str1 = `<div class="col-md-3 text-center text-md-start h-auto mb-5" >
-		    							<div class="d-flex justify-content-between flex-column h-100">
-		                				
-		    							<div class="image">
-											<img class="w-75 w-md-100 rounded-2 " src="assets/img/blog/1.png" alt="" />
-											<i class="bi bi-bookmark-heart-fill fs-5 btn1" ></i>
-										</div>`;
+					    							<div class="d-flex justify-content-between flex-column h-100">
+					                				
+					    							<div class="image">
+														<img class="w-75 w-md-100 rounded-2 " src="assets/img/blog/1.png" alt="" />
+														<i class="bi bi-bookmark-heart-fill fs-5 btn1" ></i>
+													</div>`;
 		                	}
 		                	
-		                	
+	                	
 		                	str2 = `<div class="d-flex align-items-center justify-content-center justify-content-md-start gap-2 mt-3">
-										<p class="fw-bold mb-0 text-black" >`+item.skill+`</p>
-										<p class="mb-0"  >`+item.exprDt+`</p>
-									</div>
-									
-									<h5 class="mt-1 mb-3 fs-0 fs-md-1" >`+item.ttl+`</h5>
-									<p class="mb-0" >`+item.wksite+`</p>
-									
-									<div class="d-flex align-items-center justify-content-center justify-content-md-start gap-3">
-										<img class="img-fluid" src="assets/img/blog/profile1.png" alt="" />
-										<p class="mb-0 text-gray" >`+item.coNm+`</p>
-									</div>
-								</div>
-			    			</div>`;
+		                				<a href="/hireInfo?recruitNo=`+item.recruitNo+`" style="text-decoration: none;">						
+		                							<p class="fw-bold mb-0 text-black" >`+item.skill+`</p>
+													<p class="mb-0"  >`+item.exprDt+`</p>
+												</div>
+												
+												<h5 class="mt-1 mb-3 fs-0 fs-md-1" >`+item.ttl+`</h5>
+												<p class="mb-0" >`+item.wksite+`</p>
+												
+												<div class="d-flex align-items-center justify-content-center justify-content-md-start gap-3">
+													<img class="img-fluid" src="assets/img/blog/profile1.png" alt="" />
+													<p class="mb-0 text-gray" >`+item.coNm+`</p>
+												</div>
+											</div>
+										</a>
+						    		</div>`;
 								
 		    					$("#hireList").append(str1+str2);
 	                });
