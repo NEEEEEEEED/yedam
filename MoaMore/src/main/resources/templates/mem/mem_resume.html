@@ -6,7 +6,7 @@
 >
   <head>
     <meta charset="UTF-8" />
-    <title>Insert title here</title>
+    <title>이력서 작성</title>
     <style>
       input {
         height: 50px;
@@ -116,7 +116,7 @@
           <div class="col-md-12 col-lg-12">
             <h4 class="mb-3">개인정보</h4>
             <div class="formId my-3 card p-2">
-              <div class="row gy-3" name="memInfo">
+              <div class="row gy-3" name="memInfo" id="memInfo">
                 <div class="col-md-3">
                   <label class="w-100"
                     >이름
@@ -227,21 +227,22 @@
             <h4 class="mb-3">기술 역량</h4>
             <div class="formSkill my-3 card ps-4 py-3">
               <div class="row gy-3" name="cardForAddSkill">
-                <button
-                  th:each="list:${list.Z}"
-                  class="col-md-2 mx-2 px-0 btn btn-outline-primary btn-sm"
-                  th:value="${list.prov}"
-                  name="skillBtn"
-                >
-                  [[${list.desct}]]
-                </button>
-                <input type="hidden" name="skill" th:value="${list.prov}" />
+                <div th:each="list:${list.Z}" class="col-md-1 mx-2 px-0">
+                  <button
+                    class="btn btn-outline-primary btn-sm px-0"
+                    th:value="${list.prov}"
+                    name="skillBtn"
+                  >
+                    [[${list.desct}]]
+                  </button>
+                  <input type="hidden" name="skill" th:value="${list.prov}" />
+                </div>
               </div>
             </div>
           </div>
           <div class="col-md-12 col-lg-12">
             <div class="formSkill my-3 card ps-4 py-3">
-              <div class="row gy-3" name="cardForViewSkill"></div>
+              <div class="row gy-3" name="cardForViewSkill" id="skill"></div>
             </div>
           </div>
 
@@ -367,7 +368,7 @@
                     </div>
                   </div>
                 </div>
-                <div></div>
+                <div id="school"></div>
                 <div class="fs-4 md-3">
                   <i class="bi bi-plus-circle-fill"></i>
                 </div>
@@ -501,7 +502,7 @@
                     </div>
                   </div>
                 </div>
-                <div></div>
+                <div id="job"></div>
                 <div class="fs-4 md-3">
                   <i class="bi bi-plus-circle-fill"></i>
                 </div>
@@ -565,7 +566,7 @@
                     </div>
                   </div>
                 </div>
-                <div></div>
+                <div id="educate"></div>
                 <div class="fs-4 md-3">
                   <i class="bi bi-plus-circle-fill"></i>
                 </div>
@@ -611,7 +612,7 @@
                     </div>
                   </div>
                 </div>
-                <div></div>
+                <div id="licence"></div>
                 <div class="fs-4 md-3">
                   <i class="bi bi-plus-circle-fill"></i>
                 </div>
@@ -663,7 +664,7 @@
                     </div>
                   </div>
                 </div>
-                <div></div>
+                <div id="award"></div>
                 <div class="fs-4 md-3">
                   <i class="bi bi-plus-circle-fill"></i>
                 </div>
@@ -699,7 +700,7 @@
                     </div>
                   </div>
                 </div>
-                <div></div>
+                <div id="resumeText"></div>
                 <div class="fs-4 md-3">
                   <i class="bi bi-plus-circle-fill"></i>
                 </div>
@@ -834,11 +835,14 @@
       <script>
         $(document).ready(function () {
           // 스킬 클릭 이동
+
           $("button[name=skillBtn]").on("click", function (ev) {
-            if ($(this).parent().attr("name") == "cardForAddSkill") {
-              $("div[name=cardForViewSkill]").append($(this));
+            console.log($(this).parent());
+            let cop = $(this).parent();
+            if ($(this).parent().parent().attr("name") == "cardForAddSkill") {
+              $("div[name=cardForViewSkill]").append(cop);
             } else {
-              $("div[name=cardForAddSkill]").append($(this));
+              $("div[name=cardForAddSkill]").append(cop);
             }
           });
           // 노드 복사
