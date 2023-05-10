@@ -29,4 +29,9 @@ public class HireVO {
 	private String coNm; // 기업이름
 	private String addr; // 기업주소
 	private String scrapYn; // 스크랩 여부
+	private String resumeNo; // 이력서 번호
+	private String regDt; // 이력서 작성일자
+	
+	private String idCo; // 팔로우 받는 기업
+	private String scrapNo; // 스크랩 번호
 }

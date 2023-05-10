@@ -31,14 +31,51 @@ public class HireServiceImpl implements HireService{
 	public List<HireVO> hireInfo(HireVO hireVO) {
 		return hireMapper.searchInfo(hireVO);
 	}
+	// 모달창 이력서 조회
 	@Override
 	public List<HireVO> resumeList(String id) {
 		return hireMapper.resumeList(id);
 	}
+	// 보고있는 공고에 지원
 	@Override
 	public String resumeInsert(HireVO hireVO) {
-		return hireMapper.resumeInsert(hireVO);
+		String message = null;
+		int result = hireMapper.resumeInsert(hireVO);
+		if(result > 0) {
+			message = "success";
+		}else {
+			message = "fail";
+		}
+		return message;
 	}
+	// 현재 공고를 올린 기업 팔로우
+	@Override
+	public String followInsert(HireVO hrieVO) {
+		String message = null;
+		int result = hireMapper.followInsert(hrieVO);
+		if(result > 0) {
+			message = "success";
+		}else {
+			message="fail";
+		}
+		return message;
+	}
+	@Override
+	public List<HireVO> recruitInsertSelect(HireVO hireVO) {
+		return hireMapper.recruitInsertSelect(hireVO);
+	}
+	@Override
+	public String recruitScrapInsert(HireVO hireVO) {
+		String message = null;
+		int result = hireMapper.recruitScrapInsert(hireVO);
+		if(result > 0) {
+			message = "success";
+		}else {
+			message="fail";
+		}
+		return message;
+	}
+	
 	
 	
 

@@ -73,7 +73,7 @@
               FROM RECRUIT_SKILL
               GROUP BY recruit_no) K
 		ON R.RECRUIT_NO = K.RECRUIT_NO
-		WHERE S.SCRAP_NO IS NOT NULL
+		WHERE S.RECRUIT_NO IS NOT NULL
         AND M.ID = #{id}
 	</select>
 	<!-- 상세조회 -->
@@ -92,7 +92,9 @@
                R.WELF,
                get_common(CARR)AS CARR,
                get_common(SHCR)AS SHCR,
-               R.CO_INTRO
+               R.CO_INTRO,
+               R.RECRUIT_NO,
+               C.ID AS ID_CO
 		FROM RECRUIT_ANUN R
 		JOIN CO C
 		ON R.ID = C.ID
@@ -108,13 +110,29 @@
 	<!-- 이력서 조회 -->
 	<select id="resumeList" resultType="HireVO">
 		SELECT RESUME_NO,
-               TTL,
-               REG_DT
-        FROM RESUME
-        WHERE ID = #{id}
+		       ID,
+		       TTL,
+		       REG_DT
+		FROM RESUME
+		WHERE ID = #{id}
 	</select>
 	<!-- 구인공고 지원 -->
 	<insert id="resumeInsert" parameterType="HireVO">
-		
+		INSERT INTO RECRUIT_ANUM_ST (RECRUIT_NO, RESUME_NO, ID, APLY_ST, APLY_DT, ST, WIN)
+       	VALUES (#{recruitNo}, #{resumeNo}, #{id}, 'b1',  TO_CHAR(sysdate,'yyyy-MM-dd'), '0', 'T2')
 	</insert>
+	<!-- 기업 팔로우 -->
+	<insert id="followInsert" parameterType="HireVO">
+		INSERT INTO FOLLOWING(ID_MEM, ID_CO)
+		VALUES (#{id}, #{idCo})
+	</insert>
+	<!-- 공고 스크랩 등록 -->
+	<insert id="recruitScrapInsert" parameterType="HireVO">
+		INSERT INTO RECRUIT_SCRAP (RECRUIT_NO, ID)
+        VALUES(#{recruitNo}, #{id})
+	</insert>
+	<!-- 공고등록 페이지 회사이름 조회 -->
+	<select id="recruitInsertSelect" resultType="HireVO">
+		SELECT CO_NM FROM CO WHERE ID = #{id}
+	</select>
 </mapper>

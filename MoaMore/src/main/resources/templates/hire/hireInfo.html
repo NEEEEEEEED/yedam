@@ -35,6 +35,10 @@ body {
 #searchBtn{
 	width: 100%;
 }
+#title{
+	font-size: 300%;
+	color: black;
+}
 </style>
 </head>
 <body>
@@ -49,10 +53,10 @@ body {
 					<div style="display:flex; justify-content: center;">
 						<div style="display:flex; flex-direction: column;" id="hireButtons">
 							<div class="mb-2 cursor">
-								<button type="button" class="btn btn-outline-dark">공고 스크랩</button>
+								<button type="button" class="btn btn-outline-dark" id="recruitScrap">공고 스크랩</button>
 							</div>
 							<div class="mb-2 cursor">
-								<button type="button" class="btn btn-outline-dark">기업 팔로우</button>
+								<button type="button" class="btn btn-outline-dark" id="followCO">기업 팔로우</button>
 							</div>
 							<div class="mb-2 cursor">
 								<button type="button"
@@ -68,9 +72,9 @@ body {
 			</div>
 
   <!-- 이미지 슬라이드 시작 -->
-  	<div class="col-md-6">
+  	<div class="col-md-4">
 <div class="card" id="imageSlide">
-	<div class="card-body">
+	<div class="card-body" id="imageBody">
 
               <!-- Slides with indicators -->
               <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
@@ -124,77 +128,78 @@ body {
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-outline-dark" data-dismiss="modal" id="recruitMod">이력서 수정</button>
-									<button type="button" class="btn btn-outline-dark" data-dismiss="modal">지원하기</button>
+									<button type="button" class="btn btn-outline-dark" data-dismiss="modal" id="recruitInsert">지원하기</button>
 								</div>
 							</div>
 						</div>
 					</div>
 					<!-- ↑↑↑ 모달 -->
 	<div class="row">
-		<h1 th:text="${hireVO.ttl}">
+		<input type="hidden" th:value="${hireVO.recruitNo}" id="nowRecruitNo" >
+		<div><span id="title" th:text="${hireVO.ttl}">
 			제목
-		</h1>
+		</span> 
+		<span id = "scrapYn">
+		<!-- AJAX 스크랩 여부 들어가는 부분 -->
 		<i class="bi bi-bookmark-heart-fill fs-5 btn1" th:classappend="${hireVO.scrapYn != null} ? 'text-danger' : ''"></i>
+		</span>
+		</div>	
 			<article>
 				<div role="main">
 					<form name="form" id="form" role="form" method="post" action="${pageContext.request.contextPath}/board/saveBoard">
-						
 		
 						<div class="mb-3">
-							<h6>기술스텍</h6>
-							<p th:text="${hireVO.coNm}"/>
+							<span th:text="${hireVO.coNm}"></span>
+							<input type="hidden" th:value="${hireVO.idCo}" id = "co"/>
+							<span> | </span> 
+							<span th:text="${hireVO.wksite}"></span>
 						</div>
 						
 						<div class="mb-3">
-							<h6>기술스텍</h6>
+							<p th:text="${hireVO.coIntro}"/>
+							<br>
+						</div>
+						
+						<div class="mb-3">
+							<h4>기술스텍</h4>
 							<p th:text="${hireVO.skill}"/>
 						</div>
 		
 						<div class="mb-3">
-							<h6>주요업무</h6>
+							<h4>주요업무</h4>
 							<p th:text="${hireVO.maBuss}"/>
 						</div> 
 						
 						<div class="mb-3">
-							<h6>자격요건</h6>
+							<h4>자격요건</h4>
 							<p th:text="${hireVO.qualCond}"/>
 						</div>
 						
 						<div class="mb-3">
-							<h6>우대사항</h6>
+							<h4>우대사항</h4>
 							<p th:text="${hireVO.prefCond}"/>
 						</div>
 						
 						<div class="mb-3">
-							<h6>복지 및 혜택</h6>
+							<h4>복지 및 혜택</h4>
 							<p th:text="${hireVO.welf}"/>
 						</div>
 						
 						<div class="mb-3">
-							<h6>경력</h6>
+							<h4>경력</h4>
 							<p th:text="${hireVO.carr}"/>
 						</div>
 						
 						<div class="mb-3">
-							<h6>학력</h6>
+							<h4>학력</h4>
 							<p th:text="${hireVO.shcr}"/>
 						</div>
 						
 						<div class="mb-3">
-							<h6>마감일</h6>
+							<h4>마감일</h4>
 							<p th:text="${hireVO.exprDt}"/>
 						</div>
 						
-						<div class="mb-3">
-							<h6>근무지역</h6>
-							<p th:text="${hireVO.wksite}"/>
-						</div>
-						
-						<div class="mb-3">
-							<h6>기업 / 서비스 소개</h6>
-							<p th:text="${hireVO.coIntro}"/>
-							<br>
-						</div>
 					</form>
 					<div >
 						<button type="button" class="btn btn-outline-dark" id="btnList">목록</button>
@@ -208,7 +213,7 @@ body {
 	
 	<br>
 	<!-- 추천공고 -->
-	<section class="bg-dark pt-6  ">
+	<section class="bg-dark pt-6">
         <div class="container">
           <div class="col-md-6">
             <h1 class="text-white fs-lg-5 fs-md-3 fs-2">추천공고 <span class="py-1 px-2 rounded-2 bg-success fw-bold text-dark ms-2">Recommend!</span></h1>
@@ -238,8 +243,13 @@ body {
           </div>
         </div>
       </section>
+    <!-- 추천공고 끝 -->
 <script>
 let id = $('#logId').val(); // 로그인된 id
+let resumeNo=''; // 넘길 지원서
+let str=''; // 체크한 이력서
+let recruitNo=$('#nowRecruitNo').val(); // 현재 보고있는 공고번호
+let idCo = $('#co').val(); // 보고있는 공고의 기업
 
 	// 공고목록으로 이동
 	$(document).on('click', '#btnList', function(e){
@@ -256,46 +266,6 @@ $('#searchBtn').on('click',function(){
 	let id = logId.value; // 로그인한 아이디
 	resumeList(id); // 이력서 목록 리스트
 });
-
-//그리드
-const grid = new tui.Grid({
-  el: document.getElementById('resumeGrid'), // Container element
-  scrollX: false,
-  scrollY: true,
-  rowHeaders: ['checkbox'],
-  columns: [
-    {
-      header: '이력서번호',
-      name: 'resumeNo',
-      align : 'center',
-      hidden : true,
-      sortable : true,
-    },
-    {
-      header: '이력서제목',
-      name: 'ttl',
-      align : 'center'
-    },
-    {
-      header: '작성일자',
-      name: 'regDt',
-      align : 'center',
-      sortable : true,
-      formatter : function(data){ // 날짜형식 바꿔주는것
-           return dateFormat(data.value); 
-     }
-   }
-  ]
-});
-
-//날짜 변환
-function dateFormat(date) {
-   let date1 = new Date(date);
-   let date2 = date1.getFullYear() + '-' 
-         + ((date1.getMonth()<10)?'0'+(date1.getMonth()+1):(date1.getMonth()+1)) + '-'
-         + ((date1.getDate()<10)?'0'+date1.getDate():date1.getDate());       
-   return date2;
-}
 
 //이력서 리스트 호출
 function resumeList(id){
@@ -314,14 +284,130 @@ function resumeList(id){
 		}
 	});
 }
-	// 이력서 수정 페이지 이동
 	
+//그리드
+const grid = new tui.Grid({
+  el: document.getElementById('resumeGrid'), // Container element
+  scrollX: false,
+  scrollY: true,
+  rowHeaders: ['checkbox'],
+  columns: [
+    {
+      header: '이력서번호',
+      name: 'resumeNo',
+      align : 'center',
+      hidden : true,
+      sortable : true
+    },
+   {
+      header: '아이디',
+      name: 'id',
+      align : 'center',
+      hidden : true,
+      sortable : true
+     },
+    {
+      header: '이력서제목',
+      name: 'ttl',
+      align : 'center',
+      sortable : true
+
+    },
+    {
+      header: '작성일자',
+      name: 'regDt',
+      align : 'center',
+      sortingType: 'asc',
+      sortable : true,
+      editor: {             
+         type: 'datePicker',              
+         options: {                
+         format: 'yyyy-MM-dd',                
+       	 language: 'ko',     //한국기준               
+         date : getToday()              
+         }         
+          },         
+         formatter: function (data) {            
+         let dateVal = '';            
+         if(data.value != null ){              
+          dateVal = dateFormat(data.value);            
+         }else{               
+         dateVal = getToday();          
+          }            
+         data.value = dateVal;             
+         return dateVal;           
+         }
+     }
+  ]
+});
+
+	//날짜 변환
+	function dateFormat(date) {
+	   let date1 = new Date(date);
+	   let date2 = date1.getFullYear() + '-' 
+	         + ((date1.getMonth()<10)?'0'+(date1.getMonth()+1):(date1.getMonth()+1)) + '-'
+	         + ((date1.getDate()<10)?'0'+date1.getDate():date1.getDate());       
+	   return date2;
+	}
+	
+	// 날짜변형
+	function dateChange(date) {
+		   let date1 = new Date(date);
+		   let date2 =
+		     date1.getFullYear() + "-" + 
+		     (date1.getMonth() < 10 ? "0" + (date1.getMonth() + 1): date1.getMonth() + 1) +"-" +
+		     (date1.getDate() < 10 ? "0" + date1.getDate() : date1.getDate());
+		   return date2;
+		 };
+	
+	function getToday(){
+		const date = new Date();
+		const hours = String (date.getHours()).padStart(2,"0");
+		const minutes = String(date.getMinutes()).padStart(2,"0");
+		const seconds = String(date.getSeconds()).padStart(2,"0");
+		const years = date.getFullYear();
+		const month = String(date.getMonth()+1).padStart(2,"0");
+		const day = String(date.getDate()).padStart(2,"0");
+		return years + "-" + month + "-" + day;
+	}
+
+
+	// 이력서 수정 페이지 이동
+	$('#recruitMod').on('click',function(e){
+		e.preventDefault();
+
+		location.href="/";
+	});
+	
+	// 체크한것만 찾기
+	grid.on('check', (ev) => {
+ 	      checkLen = grid.getCheckedRows().length;
+	  });
+   grid.on('checkAll', (ev) => {
+	      checkLen = grid.getCheckedRows().length;
+	  });   
+   grid.on('unCheck', (ev) => {
+	      checkLen = grid.getCheckedRows().length;
+	  }); 
+	
+	// 지원하기 버튼을 눌렀을 때
+	$('#recruitInsert').on('click',function(){
+		for (let i = 0; i < checkLen; i++) {
+	        str += grid.getCheckedRows()[i].resumeNo;
+	      };
+		let id = logId.value; // 로그인한 아이디
+		let recruitNo = nowRecruitNo.value; // 현재보고있는 공고
+		let resumeNo = str; // 체크한 이력서 번호
+		resumeInsert(resumeNo, id, recruitNo);
+		 $('#exampleModal').modal('hide');
+	     $('.modal-backdrop').remove();
+	});
 	// 공고 지원하기
-	function resumeInsert(id){
+	function resumeInsert(resumeNo, id, recruitNo){
 	$.ajax({
 		url: 'resumeInsert',
 		type: 'post',
-		data: {id : id},
+		data: {resumeNo : resumeNo, id : id, recruitNo : recruitNo},
 		success: function (result) {
 			Swal.fire({
   		      icon: 'success',
@@ -334,12 +420,71 @@ function resumeList(id){
 	});
 }
 	
+	// 공고올린 기업을 관심기업으로 등록
+	$("#followCO").on("click", function(){
+		let idMem = logId.value; // 로그인한 아이디
+		let idCo = co.value;
+		followingCo(idMem, idCo);
+		
+	});
+	
+	function followingCo(idMem, idCo){
+		$.ajax({
+			url: 'followingCo',
+			type: 'post',
+			data: {id : idMem, idCo : idCo},
+			success: function (result){
+				Swal.fire({
+					icon: 'success',
+					title: '관심기업으로 등록되었습니다.'
+				});
+			//window.location.reload();
+			},
+			error: function(reject){
+				console.log(reject);
+			}
+		});
+	}
+	// 보고있는 공고 스크랩(스크랩이 되어있으면 스크랩 풀기)
+	$("#recruitScrap").on("click", function(){
+		let id = logId.value;
+		let recruitNo = nowRecruitNo.value;
+		
+		recScrap(id, recruitNo);
+		
+	});
+	
+	function recScrap(id, recruitNo){
+		$.ajax({
+			url: "recScrap",
+			type: 'post',
+			data: {id : id, recruitNo : recruitNo},
+			success: function(result){
+				Swal.fire({
+					icon: 'success',
+					title: '해당공고를 스크랩 했습니다.'
+				});
+				//window.location.reload();
+				/* $("#scrapYn").empty();
+				if(hireVO.scrapYn != null){
+					icon = `<i class="bi bi-bookmark-heart-fill fs-5 btn1 text-danger" ></i>`;
+				}else{
+					icon = `<i class="bi bi-bookmark-heart-fill fs-5 btn1" ></i>`;
+				}
+				$("#scrapYn").appen(icon); */
+			},
+			error: function(reject){
+				console.log(reject);
+			}
+		});
+	}
+	
+	
 	// 공고등록으로 이동
 		$(document).on('click', '#recruitMod', function(e){
 			e.preventDefault();
 
 			location.href="/";
-			
 		});
 	
 </script>

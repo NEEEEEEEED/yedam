@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,7 +38,6 @@ public class HireController {
 	@GetMapping("/hirePage")
 	public String hireList(Model model) {
 		model.addAttribute("list", com.getCodes("Z","X","N","Y"));
-
 		return "hire/hirePage";
 	}
 	
@@ -48,8 +48,6 @@ public class HireController {
 		List<HireVO> hireList = new ArrayList<HireVO>();
 		pr = principal;
 		hireVO.setId(pr.getName());
-		
-		
 		
 		 hireList = hireService.hireList(hireVO);
          return hireList;
@@ -87,16 +85,38 @@ public class HireController {
 		return hireService.resumeInsert(hireVO);
 	}
 	
-	// 구인공고 등록 페이지
-	@GetMapping("/hireInsert")
-	public String hireInsert() {
-		return "hire/hireInsert";
+	// 구인공고의 기업 팔로우
+	@PostMapping("/followingCo")
+	@ResponseBody
+	public String followInsert(HireVO hireVO) {
+		System.out.println("here");
+		System.out.println(hireVO.getId());
+		System.out.println(hireVO.getIdCo());
+		System.out.println("here");
+		return hireService.followInsert(hireVO);
 	}
 	
+	// 구인공고 공고 스크랩 등록
+	@PostMapping("/recScrap")
+	@ResponseBody
+	public String recruitScrapInsert(HireVO hireVO) {
+		return hireService.recruitScrapInsert(hireVO);
+	}
+	
+	// 구인공고 등록 페이지 (모델말고 hireVO?)
+//	@GetMapping("/hireInsert")
+//	@ResponseBody
+//	public String recruitInsertSelect(Model model) {
+//		model.addAttribute("list", com.getCodes("Z","X","N","Y","D"));
+//		model.addAttribute("recruitInsert",recruitInsertSelect);
+//		return "hire/hireInsert";
+//	}
+
+	
 	// 구인공고 수정 페이지
-		@GetMapping("/hireMod")
-		public String hireMod() {
-			return "hire/hireMod";
+	@GetMapping("/hireMod")
+	public String hireMod() {
+		return "hire/hireMod";
 	}
 
 	//파일변환(에디터)
