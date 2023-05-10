@@ -102,16 +102,12 @@
               </li>
             </ul>
 
-            <form class="p-2">
-              <div class="d-flex justify-content-center">
-                <button type="submit" class="btn btn-outline-primary px-2 m-2">
-                  이력서 저장
-                </button>
-                <button type="submit" class="btn btn-outline-danger px-2 m-2">
-                  취소
-                </button>
-              </div>
-            </form>
+            <div class="d-flex justify-content-center p-2">
+              <button class="btn btn-outline-primary px-2 m-2">
+                이력서 저장
+              </button>
+              <button class="btn btn-outline-danger px-2 m-2">취소</button>
+            </div>
           </div>
         </div>
         <!-- 			sidebar end -->
@@ -129,7 +125,6 @@
                       class="form-control"
                       id="name"
                       name="name"
-                      value="이름"
                       th:value="${info.name}"
                       readonly
                   /></label>
@@ -168,7 +163,7 @@
                       type="text"
                       class="form-control"
                       id="gen"
-                      name="cc-name"
+                      name="gen"
                       th:value="${info.gen}"
                       readonly
                   /></label>
@@ -240,6 +235,7 @@
                 >
                   [[${list.desct}]]
                 </button>
+                <input type="hidden" name="skill" th:value="${list.prov}" />
               </div>
             </div>
           </div>
