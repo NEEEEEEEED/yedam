@@ -274,16 +274,22 @@ public class SelfController {
 	}
 	
 	// 셀프구직 수정기능
-	@GetMapping("/selfJobModifyFn")
-	public String selfJobModifyFn(SelfVO selfVO) {
-		
+	@PostMapping("/selfJobModifyFn")
+	@ResponseBody
+	public String selfJobModifyFn(@RequestBody SelfVO selfVO) {
 		int r = selfServiceImpl.myProfileMod(selfVO);
-		
 		if(r > 0) {
 			return "{\"result\": \"Success\"}";
 		}else {
 			return "{\"result\": \"Fail\"}";
 		}
-		
 	}
+	
+	@PostMapping("/selfJobDelete")
+	@ResponseBody
+	public int selfJobDelete(String jobSearchNo) {
+		return selfServiceImpl.myProfileDel(jobSearchNo);
+	}
+	
+	
 }

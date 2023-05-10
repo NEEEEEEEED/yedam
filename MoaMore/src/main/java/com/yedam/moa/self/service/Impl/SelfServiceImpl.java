@@ -164,23 +164,30 @@ public class SelfServiceImpl implements SelfService{
 		SelfVO skillVO = new SelfVO();
 		String[] skill = selfVO.getPosit().split(","); // 기술스택을 ,를 기준으로 자름
 		
-		skillVO.setJobSearchNo(selfVO.getJobSearchNo());
-		skillVO.setId(selfVO.getId());
+		skillVO.setJobSearchNo(selfVO.getJobSearchNo()); // 셀프구직 게시글 기본키
+		skillVO.setId(selfVO.getId()); // 아이디
+		
+		selfMapper.skillDelete(selfVO.getJobSearchNo()); // 셀프구직 게시글의 스킬목록 삭제
 		
 		for(int i = 0; i < skill.length ; i++) {
-			System.out.println("skill-" + i + " : " + skill[i]);
-			skillVO.setSkillNo(selfMapper.skillKey()); // 스킬 기본키
+			skillVO.setSkillNo(selfMapper.skillKey()); // 스킬 기본키 부텨
 			skillVO.setSkill(skill[i]);		// 등록할 스킬1개
-			selfMapper.skillMod(skillVO); // 스킬등록
+			selfMapper.skillAdd(skillVO); // 스킬등록
 		}
 		
 		return selfMapper.myProfileMod(selfVO); // 이력서 등록
 	}
-
+	
+	// 스킬 삭제
 	@Override
-	public int skillMod(SelfVO skillVO) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int skillDelete(String jobSearchNo) {
+		return selfMapper.skillDelete(jobSearchNo);
+	}
+
+	// 셀프구직 삭제
+	@Override
+	public int myProfileDel(String jobSearchNo) {
+		return selfMapper.myProfileDel(jobSearchNo);
 	}
 	
 	

@@ -36,11 +36,13 @@ public interface SelfService {
 	// 셀프구직 상세페이지 수정
 	public int myProfileMod(SelfVO selfVO);
 	
-	// 셀프구직 스킬수정
-	public int skillMod(SelfVO skillVO);
+	// 스킬 삭제
+	public int skillDelete(String jobSearchNo);
+	
+	// 셀프구직 삭제
+	public int myProfileDel(String jobSearchNo);
 	
 	//-------------------------------------------------
-	
 	
 	// 이력서 리스트
 	List<SelfVO> resumeHeaderList(String id);

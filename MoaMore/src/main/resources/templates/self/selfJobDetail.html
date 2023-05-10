@@ -96,51 +96,51 @@
 								</div>
 							</div>
 
-					<p class="mt-5 mb-3" style="margin-left : 16px;">◈ 학력</p>
-					<div class="row mb-3">
-						<div class="col-md-2" style="text-align:center;">
-						</div>
-						<div id="schoolRows" class="col-md-10" style="margin-left : 40px;">
-						
-						<!-- 반복 - switch case -->
-						<th:block th:each="school : ${schoolList}" >
-							<th:block th:switch="${school.fg}">
-								<div th:case="고졸" class="hoverRow listRow row">
-								 	<div class="col-md-10 text-center text-lg-start">
-								 		<span style="color:black;"><b>■ 고등학교</b></span> <hr>
-								 		<p class="mb-0" th:text="|${school.joinYy} ~ ${school.retiYy}">입학년도 ~ 졸업년도</p>
-						                <h6 class="fs-md-2 my-3" th:text="${school.breu}">학교명</h6>
-						                <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
-						                  <p class="mb-0" th:text="${school.shcrSt}">졸업상태</p>
-						                </div>
-					              	</div>
-								</div>
+						<p class="mt-5 mb-3" style="margin-left : 16px;">◈ 학력</p>
+						<div class="row mb-3">
+							<div class="col-md-2" style="text-align:center;">
+							</div>
+							<div id="schoolRows" class="col-md-10" style="margin-left : 40px;">
 							
-								<div th:case="대졸" class="hoverRow listRow row">
-								 	<div class="col-md-10 text-center text-lg-start">
-								 		<span style="color:black;"><b>■ 대학교</b></span> <hr>
-								 		<p class="mb-0" th:text="|${school.joinYy} ~ ${school.retiYy}">입학년도 ~ 졸업년도</p>
-						                <h6 class="fs-md-2 my-3" th:text="${school.breu}">학교명</h6>
-						                <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
-						                  <p class="fw-bold mb-0 text-black" th:text="${school.mj}">전공</p>
-						                  <p class="mb-0" th:text="${school.shcrSt}">졸업상태</p>
-						                </div>
-					              	</div>
-								</div>
+							<!-- 반복 - switch case -->
+							<th:block th:each="school : ${schoolList}" >
+								<th:block th:switch="${school.fg}">
+									<div th:case="고졸" class="hoverRow listRow row">
+									 	<div class="col-md-10 text-center text-lg-start">
+									 		<span style="color:black;"><b>■ 고등학교</b></span> <hr>
+									 		<p class="mb-0" th:text="|${school.joinYy} ~ ${school.retiYy}">입학년도 ~ 졸업년도</p>
+							                <h6 class="fs-md-2 my-3" th:text="${school.breu}">학교명</h6>
+							                <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
+							                  <p class="mb-0" th:text="${school.shcrSt}">졸업상태</p>
+							                </div>
+						              	</div>
+									</div>
 								
-								<div th:case="대학원" class="hoverRow listRow row">
-								 	<div class="col-md-10 text-center text-lg-start">
-								 		<span style="color:black;"><b>■ 대학원</b></span> <hr>
-								 		<p class="mb-0" th:text="|${school.joinYy} ~ ${school.retiYy}">입학년도 ~ 졸업년도</p>
-						                <h6 class="fs-md-3 my-3" th:text="${school.breu}">학교명</h6>
-						                <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
-						                  <p class="fw-bold mb-0 text-black" th:text="${school.mj}">전공</p>
-						                  <p class="mb-0" th:text="${school.shcrSt}">졸업상태</p>
-						                </div>
-					              	</div>
-								</div>
+									<div th:case="대졸" class="hoverRow listRow row">
+									 	<div class="col-md-10 text-center text-lg-start">
+									 		<span style="color:black;"><b>■ 대학교</b></span> <hr>
+									 		<p class="mb-0" th:text="|${school.joinYy} ~ ${school.retiYy}">입학년도 ~ 졸업년도</p>
+							                <h6 class="fs-md-2 my-3" th:text="${school.breu}">학교명</h6>
+							                <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
+							                  <p class="fw-bold mb-0 text-black" th:text="${school.mj}">전공</p>
+							                  <p class="mb-0" th:text="${school.shcrSt}">졸업상태</p>
+							                </div>
+						              	</div>
+									</div>
+									
+									<div th:case="대학원" class="hoverRow listRow row">
+									 	<div class="col-md-10 text-center text-lg-start">
+									 		<span style="color:black;"><b>■ 대학원</b></span> <hr>
+									 		<p class="mb-0" th:text="|${school.joinYy} ~ ${school.retiYy}">입학년도 ~ 졸업년도</p>
+							                <h6 class="fs-md-3 my-3" th:text="${school.breu}">학교명</h6>
+							                <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
+							                  <p class="fw-bold mb-0 text-black" th:text="${school.mj}">전공</p>
+							                  <p class="mb-0" th:text="${school.shcrSt}">졸업상태</p>
+							                </div>
+						              	</div>
+									</div>
+								</th:block>
 							</th:block>
-						</th:block>
 						</div>
 					</div>
 				</div>
@@ -148,7 +148,7 @@
 
 			<div class="col-md-3 m-5">
 				<div class="card" style="position: sticky; top:150px;">
-					<div class="card-body">
+					<div class="card-body py-4">
 						<div class="row text-center" id="topMenu">
 							<h5 th:text="|${selfJobInfo.name}님의 셀프구직|">OOO님의 셀프구직</h5>
 							<hr>
@@ -168,8 +168,8 @@
 					<!-- 로그인된 사용자가 자기가 작성한 게시물이라면 나타나는 버튼 -->
 					<th:block th:if="${selfJobInfo.id}==${#authentication.principal.username}" >
 						<div class="card-footer text-center" style="background-color:white;">
-							<button type="button" class="btn btn-outline-secondary" th:onclick="|location.href='@{/selfJobMod(jobSearchNo=${selfJobInfo.jobSearchNo},resumeNo=${selfJobInfo.resumeNo})}'|">수정</button>
-							<button type="button" class="btn btn-outline-danger">삭제</button>
+							<button type="button" class="btn btn-outline-secondary radius mx-1 px-4" th:onclick="|location.href='@{/selfJobMod(jobSearchNo=${selfJobInfo.jobSearchNo},resumeNo=${selfJobInfo.resumeNo})}'|">수정</button>
+							<button type="button" class="btn btn-outline-danger radius mx-1 px-4" id="selfJobDelBtn" th:data-no="${selfJobInfo.jobSearchNo}">삭제</button>
 						</div>
 					</th:block>
 					
@@ -178,9 +178,50 @@
 			<hr>
 			<div class="col-md-1"></div>
 		</div>
-		<script>
+<script>
+	// 삭제버튼 클릭시 실행하는 함수
+	$('#selfJobDelBtn').on('click', function(){
+		Swal.fire({
+		  icon: 'warning',
+		  title: '해당 게시글을 \n정말 삭제하시겠습니까?',
+		  showCancelButton: true,
+		  confirmButtonColor: '#d33',
+		  cancelButtonColor: '#3085d6',
+		  confirmButtonText: '삭제',
+		  cancelButtonText: '취소',
+		  buttonsStyling: true,
+		  reverseButtons: true
+		}).then((result) => {
 			
-		</script>
+		  if (result.isConfirmed) {
+			  let jobSearchNo = $('#selfJobDelBtn').data('no');
+			  $.ajax({
+				url: 'selfJobDelete',
+				type: 'post',
+				data: {jobSearchNo : jobSearchNo},
+				success: function (result) {
+					
+					Swal.fire({
+					  icon: 'success',
+					  title: '삭제완료!',
+					  showCancelButton: false,
+					  confirmButtonText: '확인'
+					}).then((result) => {
+					  if (result.isConfirmed) {
+						location.href="/selfJobList";
+					  }
+					});
+					
+				},
+		 		error: function (reject) {	   
+		    		console.log(reject);
+				}
+			});
+		  } // if끝
+		  
+		});
+	});
+</script>
 	</div>
 </body>
 </html>
