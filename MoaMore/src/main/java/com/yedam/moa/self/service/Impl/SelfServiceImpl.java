@@ -137,9 +137,51 @@ public class SelfServiceImpl implements SelfService{
 		return selfMapper.selfJobDetailInfo(jobSearchNo);
 	}
 
+	// 셀프구직 상세 - 포트폴리오 정보
+	@Override
+	public List<SelfVO> selfJobDetailPofol(String jobSearchNo) {
+		return selfMapper.selfJobDetailPofol(jobSearchNo);
+	}
+
+	// 셀프구직 상세 - 스킬 정보
+	@Override
+	public List<SelfVO> selfJobDetailSkill(String jobSearchNo) {
+		return selfMapper.selfJobDetailSkill(jobSearchNo);
+	}
+
+	//--------------------------------------------------
 	
+	// 셀프구직 상세페이지 : 불러올 이력서 정보 학력,경력 기본키값 가져옴
+	@Override
+	public SelfVO resumeKeys(String resumeNo) {
+		return selfMapper.resumeKeys(resumeNo);
+	}
 	
-	
+	// 셀프구직 수정
+	@Override
+	public int myProfileMod(SelfVO selfVO) {
+		
+		SelfVO skillVO = new SelfVO();
+		String[] skill = selfVO.getPosit().split(","); // 기술스택을 ,를 기준으로 자름
+		
+		skillVO.setJobSearchNo(selfVO.getJobSearchNo());
+		skillVO.setId(selfVO.getId());
+		
+		for(int i = 0; i < skill.length ; i++) {
+			System.out.println("skill-" + i + " : " + skill[i]);
+			skillVO.setSkillNo(selfMapper.skillKey()); // 스킬 기본키
+			skillVO.setSkill(skill[i]);		// 등록할 스킬1개
+			selfMapper.skillMod(skillVO); // 스킬등록
+		}
+		
+		return selfMapper.myProfileMod(selfVO); // 이력서 등록
+	}
+
+	@Override
+	public int skillMod(SelfVO skillVO) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 	
 }

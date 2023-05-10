@@ -5,20 +5,19 @@
 	  layout:decorate="~{template/layout}">
 <head>
 <meta charset="UTF-8">
-<title>모아모아/셀프구직등록</title>
-
-<!-- self/selfJobProfile.css.CSS -->
-<link href="self/selfJobProfile.css" rel="stylesheet">
-
-</head>
+<title>모아모아/셀프구직수정</title>
+<!-- selfJobDetailMod.CSS -->
+<link href="self/selfJobDetailMod.css" rel="stylesheet">
 <body>
 	<div layout:fragment="content">
+	<input type="hidden" id="originCarr" th:value="${carrNo}">
+	<input type="hidden" id="originShcr" th:value="${shcrNo}">
 		<!-- 사이드바 -->
 		<div class="row" style="margin-top : 30px; height: auto;">
 			<div class="col-md-1"></div>
 			<div class="col-md-2 border-end" style="margin:10px;">
 				<div style="position: sticky; top:150px;">			
-					<p class="fs-1" style="text-align : center;">셀프구직 등록</p>
+					<p class="fs-1" style="text-align : center;">셀프구직 수정</p>
 					<hr>
 					<div style="display:flex; justify-content: center;">
 						<div style="display:flex; flex-direction: column;">
@@ -45,6 +44,9 @@
 					</div>
 				</div>
 			</div>
+			
+			<input id="originImg" type="hidden" th:value="${selfJobInfo.myimg}">
+			
 			<!-- 본문 : 셀프소개 -->
 			<div id="selfMenu" class="col-md-7">
 				<div class="mb-5">
@@ -52,7 +54,7 @@
 					<div class="row">
 						<div class="col-md-3" style="text-align:center;">
 							<form id="profileImgForm" action="/myProfileAdd" method="post" encType="multipart/form-data" onsubmit="return false">
-								<img src="self/profile.JPG" id="preview" class="circleImg">
+								<img th:src="@{/moamoreImg/} + ${selfJobInfo.myimg}" th:onerror="this.src='self/profile.JPG'" id="preview" class="circleImg">
 								<input id="inputImg" type="file"  onchange="readURL(this);" style="display:none;"><br>
 								<button id="changeImg" type="button" class="btn btn-outline-success btn-sm mt-2">이미지등록</button>
 							</form>
@@ -62,14 +64,14 @@
 								<tbody>
 									<tr>
 										<th>제목</th>
-										<td><input id="title" type="text" class="inputStyle" placeholder="제목을 입력해주세요." style="text-align : center;"></td>
+										<td><input id="title" type="text" class="inputStyle" placeholder="제목을 입력해주세요." style="text-align : center;" th:value="${selfJobInfo.ttl}"></td>
 									</tr>
 									<tr>
 										<th>지역</th>
 										<td>
 										  <select id="city" class= "inputStyle" style="text-align:center;">
-										  	<option value="" selected>지역선택</option>
-										    <option th:each="city : ${commList.X}" th:text="${city.desct}" th:attr="value=${city.prov}">지역</option>
+										  	<option value="">지역선택</option>
+										    <option th:each="city : ${commList.X}" th:text="${city.desct}" th:value="${city.prov}" th:selected="${city.desct}==${selfJobInfo.hopeWksite}">지역</option>
 										  </select>
 										</td>
 									</tr>
@@ -77,8 +79,8 @@
 										<th>경력</th>
 										<td>
 											<select id="carr" class="inputStyle" style="text-align:center;">
-												 <option value="" selected>경력선택</option>
-											     <option th:each="carr : ${commList.Y}" th:text="${carr.desct}" th:attr="value=${carr.prov}">경력</option>
+												 <option value="">경력선택</option>
+											     <option th:each="carr : ${commList.Y}" th:text="${carr.desct}" th:attr="value=${carr.prov}" th:selected="${carr.desct}==${selfJobInfo.career}">경력</option>
 											 </select>
 										</td>
 									</tr>
@@ -86,8 +88,8 @@
 										<th>직무분야</th>
 										<td>
 											<select id="job" class="inputStyle" style="text-align:center;">
-												   <option value="" selected>직무선택</option>
-											       <option th:each="job : ${commList.N}" th:text="${job.desct}" th:attr="value=${job.prov}">직무</option>
+												   <option value="">직무선택</option>
+											       <option th:each="job : ${commList.N}" th:text="${job.desct}" th:attr="value=${job.prov}" th:selected="${job.desct}==${selfJobInfo.dutyFld}">직무</option>
 										  	</select>
 										</td>
 									</tr>
@@ -95,8 +97,9 @@
 										<th>기술스택</th>
 										<td>
 											<select id="tech" class="inputStyle" style="text-align:center;">
-												 <option value="" selected>기술선택(다중선택가능)</option>
+												 <option value="">기술선택(다중선택가능)</option>
 											     <option th:each="tech : ${commList.Z}" th:text="${tech.desct}" th:attr="value=${tech.prov}">기술스택</option>
+											     <option th:text="${selfJobInfo.skill}" th:value="${selfJobInfo.posit}" selected></option>
 											  </select>
 										</td>
 									</tr>					
@@ -105,7 +108,7 @@
 										<td>
 											<select id="auth" class="inputStyle" style="text-align:center;">
 											    <option selected>선택해주세요</option>
-											    <option th:each="auth : ${commList.c}" th:text="${auth.desct}" th:attr="value=${auth.prov}">보기권한</option>
+											    <option th:each="auth : ${commList.c}" th:text="${auth.desct}" th:attr="value=${auth.prov}" th:selected="${auth.prov}==${selfJobInfo.pubcRange}">보기권한</option>
 											  </select>
 										</td>
 									</tr>
@@ -120,7 +123,7 @@
 							  			</div>
 							  		</div>
 							  		<div class="col-md-9">
-							  			<textarea id="intro" class="form-control radius fullWidth" placeholder="자기소개를 작성해주세요" style="height: 200px; resize: none; border:none;"></textarea>
+							  			<textarea id="intro" class="form-control radius fullWidth" placeholder="자기소개를 작성해주세요" style="height: 200px; resize: none; border:none;" th:text="${selfJobInfo.intro}" th:value="${selfJobInfo.intro}"></textarea>
 							  		</div>
 							  	</div>
 							  </div>
@@ -140,7 +143,18 @@
 						<div class="col-md-2" style="text-align:center;">
 						</div>
 						<div id="carrRows" class="col-md-10">
-							<div style="background-color : pink; text-align:center;">경력사항이 비어있습니다. 이력서 정보 불러오기를 해주세요</div>
+							<div th:each="carr : ${carrList}" class="hoverRow listRow row">
+							 	<div class="col-md-10 text-center text-lg-start">
+						        	<div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
+						          		<p class="fw-bold mb-0 text-black" th:text="${carr.duty}">직무</p>
+						         		<p class="mb-0"th:text="|${carr.joinYy} ~ ${carr.retiYy} ${carr.carrSt}">입사일자 ~ 퇴사일자 재직여부</p>
+						        	</div>
+						        	<h6 class="fs-md-2 my-3" th:text="|${carr.co} ${carr.depart} 근무|">회사명 부서명</h6>
+							        <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-2">
+							            <p class="mb-0" th:text="${carr.buss}">업무</p>
+							        </div>
+							  	</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -155,7 +169,45 @@
 						<div class="col-md-2" style="text-align:center;">
 						</div>
 						<div id="schoolRows" class="col-md-10">
-							<div style="background-color : pink; text-align:center;">학력사항이 비어있습니다. 이력서 정보 불러오기를 해주세요</div>
+						<!-- 반복 - switch case -->
+						<th:block th:each="school : ${schoolList}" >
+							<th:block th:switch="${school.fg}">
+								<div th:case="고졸" class="hoverRow listRow row">
+								 	<div class="col-md-10 text-center text-lg-start">
+								 		<span style="color:black;"><b>■ 고등학교</b></span> <hr>
+								 		<p class="mb-0" th:text="|${school.joinYy} ~ ${school.retiYy}">입학년도 ~ 졸업년도</p>
+						                <h6 class="fs-md-2 my-3" th:text="${school.breu}">학교명</h6>
+						                <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
+						                  <p class="mb-0" th:text="${school.shcrSt}">졸업상태</p>
+						                </div>
+					              	</div>
+								</div>
+							
+								<div th:case="대졸" class="hoverRow listRow row">
+								 	<div class="col-md-10 text-center text-lg-start">
+								 		<span style="color:black;"><b>■ 대학교</b></span> <hr>
+								 		<p class="mb-0" th:text="|${school.joinYy} ~ ${school.retiYy}">입학년도 ~ 졸업년도</p>
+						                <h6 class="fs-md-2 my-3" th:text="${school.breu}">학교명</h6>
+						                <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
+						                  <p class="fw-bold mb-0 text-black" th:text="${school.mj}">전공</p>
+						                  <p class="mb-0" th:text="${school.shcrSt}">졸업상태</p>
+						                </div>
+					              	</div>
+								</div>
+								
+								<div th:case="대학원" class="hoverRow listRow row">
+								 	<div class="col-md-10 text-center text-lg-start">
+								 		<span style="color:black;"><b>■ 대학원</b></span> <hr>
+								 		<p class="mb-0" th:text="|${school.joinYy} ~ ${school.retiYy}">입학년도 ~ 졸업년도</p>
+						                <h6 class="fs-md-3 my-3" th:text="${school.breu}">학교명</h6>
+						                <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
+						                  <p class="fw-bold mb-0 text-black" th:text="${school.mj}">전공</p>
+						                  <p class="mb-0" th:text="${school.shcrSt}">졸업상태</p>
+						                </div>
+					              	</div>
+								</div>
+							</th:block>
+						</th:block>
 						</div>
 					</div>
 				</div>
@@ -172,10 +224,10 @@
 						<div class="col-md-8">
 							<div class="border-bottom divStyle mb-3">
 								<span style="width:20%; color:black;"><b>희망 급여</b></span>
-								<input id="salary" type="text" class="inputStyle" style="text-align:right; width:50%;" placeholder="천원 단위로 입력하세요(최소10,000원)">
+								<input id="salary" type="text" class="inputStyle" style="text-align:right; width:50%;" placeholder="천원 단위로 입력하세요(최소10,000원)" th:value="${selfJobInfo.hopeSal}">
 								<b><span style="color:black;">원</span></b>
 								<span style="color:blue; margin-left: 20px; margin-right:5px;"><b>협의가능</b></span>
-								<input id="nego" type="checkbox" style="width:20px; height:20px;">
+								<input id="nego" type="checkbox" style="width:20px; height:20px;" th:checked="${#strings.equals(selfJobInfo.hopeSal, '협의가능')}">
 							</div>
 						</div>
 						<div class="col-md-2">
@@ -196,11 +248,11 @@
 							<div class="border-bottom divStyle mb-3">
 								<span class="me-7" style="width:22%; color:black;"><b>상주가능여부</b></span>
 								<div class="form-check form-check-inline">
-								  <input class="form-check-input" type="radio" name="resident" id="inlineRadio1" value="가능">
+								  <input class="form-check-input" type="radio" name="resident" id="inlineRadio1" value="가능" th:checked="${#strings.equals(selfJobInfo.residency, '가능')}">
 								  <label class="form-check-label" for="inlineRadio1">가능</label>
 								</div>
 								<div class="form-check form-check-inline ms-6">
-								  <input class="form-check-input" type="radio" name="resident" id="inlineRadio2" value="불가능">
+								  <input class="form-check-input" type="radio" name="resident" id="inlineRadio2" value="불가능" th:checked="${#strings.equals(selfJobInfo.residency, '불가능')}">
 								  <label class="form-check-label" for="inlineRadio2">불가능</label>
 								</div>	
 							</div>
@@ -223,15 +275,14 @@
 						<div id="pofolRows" class="col-md-10">
 							<div style="background-color : pink; text-align:center;">포트폴리오 항목이 비어있습니다. 추가를 눌러 채워 주세요</div>
 					 	</div>
-					 
 					</div>
 				</div>
 	
 				<hr style="color : #ddd;">
 				<br>
-				<!-- 프로필 등록 버튼 -->
+				<!-- 셀프구직 수정 버튼 -->
 				<div class="mb-5" style="text-align:right;">
-					<button id="myProfileBtn" type="button" class="btn btn-dark radius">프로필 등록</button>
+					<button id="myProfileBtn" type="button" class="btn btn-dark radius">셀프구직 수정</button>
 				</div>
 			</div>
 			<hr>
@@ -273,10 +324,12 @@
 				
 					<!-- 현재로그인된 유저정보 -->
 					<input id="logId" name="id" type="hidden" th:value="${#authentication.principal.username}">
+					
 					<!-- 불러온 이력서 번호 -->
-					<input id="resumeNo" name="resumeNo" type="hidden" >
+					<input id="resumeNo" name="resumeNo" type="hidden" th:value="${selfJobInfo.resumeNo}">
+					
 					<!-- 현재 작성 게시글 기본키값 -->
-					<input id="selfJobKey" name="jobSearchNo" type="hidden" th:attr="value=${selfJobKey}">
+					<input id="selfJobKey" name="jobSearchNo" type="hidden" th:value="${selfJobInfo.jobSearchNo}">
 					
 					<table class="table">
 						<tbody class="trColor">
@@ -303,11 +356,59 @@
 		    </div>
 		  </div>
 		</div>
-		
-<!-- 스크립트 영역 -->
 <script>
 
-// 프로필변환 버튼 클릭시
+$(document).ready(function() {
+	careerList($('#originCarr').val()); // 경력사항 목록 리스트
+	schoolList($('#originShcr').val());	// 학력사항 목록리스트
+	pofolList(); // 포트폴리오 목록 리스트 ajax호출 함수
+	
+});
+
+// 포트폴리오 목록 리스트 ajax호출 함수
+function pofolList(){
+	$.ajax({
+		url: 'selfJobpofolList',
+		type: 'post',
+		data: {jobSearchNo : $('#selfJobKey').val()},
+		success: function (result) {
+			//console.log(result);
+			pofolRows.innerHTML = ''; // 초기화
+			
+			let pofolHtml = '';
+			for(let i = 0 ; i < result.length; i++){
+				pofolHtml += pofolListPrint(result[i]);
+			}		
+			
+			pofolRows.innerHTML= pofolHtml;			
+			
+		},
+ 		error: function (reject) {	   
+    		console.log(reject);
+		}
+	});
+}
+
+// 포트폴리오 목록 그리는 함수
+function pofolListPrint(result={}){
+	
+	let pofolHtml = `<div class="row align-items-center border-bottom hoverRow mb-3">
+				        <div class="col-md-3">
+				      	<img class="img-fluid imgSize" src="/moamorePofol/`+result.pofolImg+`" alt="이미지없음">
+				      </div>
+				      <div class="col-md-7" style="color:black;">
+				      		<p class="mb-0">[제목] `+result.title+`</p>
+				        	<p class="mb-0">[파일명] <a style="color:blue; text-decoration:underline !important;" target="_blank" href="/moamorePofol/`+result.pofolUuidFile+`">`+result.pofolFile+`</a></p>
+				      </div>
+				      <div class="col-md-2" >
+					      <button id="`+result.fileNo+`" data-no="`+result.jobSearchNo+`" onclick="deletePofol(this)" type="button" style="margin-left : 20px; padding:15px;" class="btn-close" aria-label="Close"></button>
+					  </div>             
+					</div>`;
+	return pofolHtml;
+}
+
+
+//프로필변환 버튼 클릭시
 changeImg.addEventListener('click',function(){
 	inputImg.click();
 });
@@ -326,7 +427,9 @@ function readURL(input) {
   
 }
 
-// 이력서 불러오기 버튼 클릭시
+
+
+//이력서 불러오기 버튼 클릭시
 $('#resumeList').on('click',function(){
 	// 모달창 open
 	$('#resumModal').modal('show');
@@ -452,7 +555,7 @@ function careerPrint(carrArr = {}){
 				          		<p class="fw-bold mb-0 text-black">`+carrArr.duty+`</p>
 				         		<p class="mb-0">`+carrArr.joinYy+` ~ `+carrArr.retiYy+` `+carrArr.carrSt+`</p>
 				        	</div>
-				        	<h6 class="fs-md-3 my-3">`+carrArr.co+` `+carrArr.depart+` 근무`+`</h6>
+				        	<h6 class="fs-md-2 my-3">`+carrArr.co+` `+carrArr.depart+` 근무`+`</h6>
 					        <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-2">
 					            <p class="mb-0">`+carrArr.buss+`</p>
 					        </div>
@@ -491,7 +594,7 @@ function schoolList(shcrNo){
 	});
 }
 
-// 학력사항 append
+// 학력사항 출력
 function schoolPrint(schoolArr={}){
 	let schoolRows = document.getElementById('schoolRows');
 	let schoolHTML = '';
@@ -500,7 +603,7 @@ function schoolPrint(schoolArr={}){
 					 	<div class="col-md-10 text-center text-lg-start">
 						 		<span style="color:black;"><b>■ 고등학교</b></span> <hr>
 						 		<p class="mb-0">`+schoolArr.joinYy+` ~ `+schoolArr.retiYy+`</p>
-				                <h6 class="fs-md-3 my-3">`+schoolArr.breu+`</h6>
+				                <h6 class="fs-md-2 my-3">`+schoolArr.breu+`</h6>
 				                <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
 				                  <p class="mb-0">`+schoolArr.shcrSt+`</p>
 				                </div>
@@ -512,7 +615,7 @@ function schoolPrint(schoolArr={}){
 					 	<div class="col-md-10 text-center text-lg-start">
 					 		<span style="color:black;"><b>■ 대학교</b></span><hr>
 					 		<p class="mb-0">`+schoolArr.joinYy+` ~ `+schoolArr.retiYy+`</p>
-				            <h6 class="fs-md-3 my-3">`+schoolArr.breu+`</h6>
+				            <h6 class="fs-md-2 my-3">`+schoolArr.breu+`</h6>
 				            <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
 				              <p class="fw-bold mb-0 text-black">`+schoolArr.mj+`</p>
 				              <p class="mb-0">`+schoolArr.shcrSt+`</p>
@@ -524,7 +627,7 @@ function schoolPrint(schoolArr={}){
 					 	<div class="col-md-10 text-center text-lg-start">
 					 		<span style="color:black;"><b>■ 대학교</b></span><hr>
 					 		<p class="mb-0">`+schoolArr.joinYy+` ~ `+schoolArr.retiYy+`</p>
-				            <h6 class="fs-md-3 my-3">`+schoolArr.breu+`</h6>
+				            <h6 class="fs-md-2 my-3">`+schoolArr.breu+`</h6>
 				            <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
 				              <p class="fw-bold mb-0 text-black">`+schoolArr.mj+`</p>
 				              <p class="mb-0">`+schoolArr.shcrSt+`</p>
@@ -536,24 +639,22 @@ function schoolPrint(schoolArr={}){
 	return schoolHTML;
 }
 
+let origin_tech_value = $('#tech option:selected').val(); // 기존 기술 정보
+let origin_tech_text = $('#tech option:selected').text(); // 기존 기술 정보
 
-let tech_value = []; // select 태그 value 배열
-let tech_text = []; // seelct 태그 text 배열
 
 // 기술스택 값 변경시 실행되는 함수
 $('#tech').on('change', function(){
-	let tech = $('#tech option:selected').val(); // 선택된 value값을 가져옴
-	let techTxt = $('#tech option:selected').text(); // 선택된 text값을 가져옴
 	
-	tech_text.push(techTxt); // 배열에 push
-	tech_value.push(tech);	// 배열에 push
-	
-	let tech_text_str = tech_text.join(); // Join : 배열의 문자열을 합쳐주는 함수
-	let tech_value_value = tech_value.join();
+	let tech = origin_tech_value + "," + $('#tech option:selected').val(); // 선택된 value값을 가져와서 수정
+	let techTxt = origin_tech_text + "," + $('#tech option:selected').text(); // 선택된 text값을 가져와서 수정
 	
 	// select에 값을 표시해줄땐 해당하는 option이 존재 해야 값을 나타내줄수있으므로 option태그를 생성하여 append 해줘야함
-	$('#tech').append(`<option value="`+tech_value_value+`">`+tech_text_str+`</option>`);
-	$('#tech').val(tech_value_value);
+	$('#tech').append(`<option value="`+tech+`">`+techTxt+`</option>`);
+	$('#tech').val(tech);
+	
+	origin_tech_value = tech;
+	origin_tech_text = techTxt;
 	
 });
 
@@ -597,7 +698,7 @@ $('#pofolRegBtn').on('click', function(){
 	
 });
 
-// 포트폴리오 등록 ajax호출 함수
+//포트폴리오 등록 ajax호출 함수
 function pofolReg(){
 	
 	let formData = new FormData($('#pofolRegForm')[0]); // 폼데이터
@@ -611,6 +712,12 @@ function pofolReg(){
         processData: false, //프로세스 데이터 설정 : false 값을 해야 form data로 인식합니다
         contentType: false, //헤더의 Content-Type을 설정 : false 값을 해야 form data로 인식합니다
 		success: function (result) {
+			
+			Swal.fire({
+				  icon: 'success',
+				  title: '포트폴리오 추가완료!'
+			})
+			
 			console.log(result);
 			pofolRows.innerHTML = ''; // 초기화
 			
@@ -628,34 +735,14 @@ function pofolReg(){
 	});
 }
 
-// 포트폴리오 목록 그리는 함수
-function pofolListPrint(result={}){
-	
-	let pofolHtml = `<div class="row align-items-center border-bottom hoverRow mb-3">
-				        <div class="col-md-3">
-				      	<img class="img-fluid imgSize" src="/moamorePofol/`+result.pofolImg+`" alt="이미지없음">
-				      </div>
-				      <div class="col-md-7" style="color:black;">
-				      		<p class="mb-0">[제목] `+result.title+`</p>
-				        	<p class="mb-0">[파일명] <a style="color:blue; text-decoration:underline !important;" target="_blank" href="/moamorePofol/`+result.pofolUuidFile+`">`+result.pofolFile+`</a></p>
-				      </div>
-				      <div class="col-md-2" >
-					      <button id="`+result.fileNo+`" data-no="`+result.jobSearchNo+`" onclick="deletePofol(this)" type="button" style="margin-left : 20px; padding:15px;" class="btn-close" aria-label="Close"></button>
-					  </div>             
-					</div>`;
-	return pofolHtml;
-	
-}
-
-
-// my프로필 등록 버튼 클릭시
+// 셀프구직 수정 버튼 클릭시
 $('#myProfileBtn').on('click', function(){
 	
-	myImgReg(); // my프로필 이미지 등록함수
+	myImgReg(); // 셀프구직 이미지 등록함수
 	
 });
 
-// my프로필 이미지 등록함수
+// 셀프구직 이미지 등록함수
 function myImgReg(){
 	let formData = new FormData();
 	formData.append("profileImage", inputImg.files[0]);
@@ -671,6 +758,14 @@ function myImgReg(){
 		success: function (result) {
 			let img = JSON.parse(result); // 파싱
 			let imgName = img.file; // 이미지 파일명
+			
+			console.log('이미지명' + imgName);
+			
+			if(imgName == '' || imgName == 'null'){ // 파일업로드 리턴값이 비어있거나 'null'인경우 실행하는 조건
+				imgName = $('#originImg').val(); // 기존 정보 이미지 파일명
+				//console.log('null인 이미지');
+			}
+			
 			myProfileAdd(imgName); // my프로필 등록 함수
 		},
  		error: function (reject) {	   
@@ -686,34 +781,43 @@ function deletePofol(deleteItem){
 	let jobSearchNo = deleteItem.dataset.no; // data - 속성 이용해서 값가져옴
 	console.log(jobSearchNo);
 	
-	$.ajax({
-		url: 'pofolDelete',
-		type: 'post',
-		data: {fileNo : deleteItem.id, jobSearchNo : jobSearchNo},
-		success: function (result) {
-			console.log('삭제성공');
-			pofolRows.innerHTML = ''; // 초기화
-			
-			let pofolHtml = '';
-			if(result.length == 0){ // 포트폴리오 리스트 항목이 0개라면
-				pofolHtml = `<div style="background-color : pink; text-align:center;">포트폴리오 항목이 비어있습니다. 추가를 눌러 채워 주세요</div>`;
-				pofolRows.innerHTML= pofolHtml;
-			}else{
-				for(let i = 0 ; i < result.length; i++){
-					pofolHtml += pofolListPrint(result[i]); // 화면에 뿌려주는 태그들
+	Swal.fire({
+		  icon: 'warning',
+		  title: '기존 정보가 수정 됩니다 \n정말 삭제하시겠습니까?',
+		  showDenyButton: false,
+		  showCancelButton: true,
+		  confirmButtonText: '삭제'
+		}).then((result) => {
+		  if (result.isConfirmed) {
+			  $.ajax({
+				url: 'pofolDelete',
+				type: 'post',
+				data: {fileNo : deleteItem.id, jobSearchNo : jobSearchNo},
+				success: function (result) {
+					Swal.fire('삭제완료!', '', 'success')
+					pofolRows.innerHTML = ''; // 초기화
+					
+					let pofolHtml = '';
+					if(result.length == 0){ // 포트폴리오 리스트 항목이 0개라면
+						pofolHtml = `<div style="background-color : pink; text-align:center;">포트폴리오 항목이 비어있습니다. 추가를 눌러 채워 주세요</div>`;
+						pofolRows.innerHTML= pofolHtml;
+					}else{
+						for(let i = 0 ; i < result.length; i++){
+							pofolHtml += pofolListPrint(result[i]); // 화면에 뿌려주는 태그들
+						}
+						
+						pofolRows.innerHTML= pofolHtml;			
+					}
+				},
+		 		error: function (reject) {	   
+		    		console.log(reject);
 				}
-				
-				pofolRows.innerHTML= pofolHtml;			
-			}
-		},
- 		error: function (reject) {	   
-    		console.log(reject);
-		}
-	});	
+			});	
+		  } 
+		})
 }
 
-
-//my프로필 등록 함수
+// 셀프구직 수정 함수
 function myProfileAdd(imgName){
 	
 	let resumeNo = $('#resumeNo').val(); // 이력서번호
@@ -732,59 +836,75 @@ function myProfileAdd(imgName){
 
 	
 	let data = {
-			resumeNo : resumeNo,
-			id : id,
-			ttl : title,
-			hopeWksite : city,
-			career : carr,
-			dutyFld : job,
-			posit :  posit,
-			pubcRange : auth,
-			intro : intro,
-			hopeSal : salary,
-			residency : resident,
-			carrArr : carrArr,
-			schoolArr : schoolArr,
-			myimg : myimg,
-			jobSearchNo : jobSearchNo
-		}
-		
-		$.ajax({
-			url: 'myProfileAdd',
-			type: 'post',
-			data: JSON.stringify(data),
-			contentType : 'application/json',
-			success: function (result) {
-				let res = JSON.parse(result); // 파싱
-				if(res.result == 'Success'){
-					
-					Swal.fire({
-						  icon: 'success',
-						  title: 'My프로필 등록성공!',
-						  showCancelButton: false,
-						  confirmButtonText: '확인'
-						}).then((result) => {
-						  if (result.isConfirmed) {
-							location.href="/selfJobList";
-						  }
-						});
-					
-				}else{
-					Swal.fire({
-						  icon: 'error',
-						  title: 'My프로필 등록실패!'
+		resumeNo : resumeNo,
+		id : id,
+		ttl : title,
+		hopeWksite : city,
+		career : carr,
+		dutyFld : job,
+		posit :  posit,
+		pubcRange : auth,
+		intro : intro,
+		hopeSal : salary,
+		residency : resident,
+		carrArr : carrArr,
+		schoolArr : schoolArr,
+		myimg : myimg,
+		jobSearchNo : jobSearchNo
+	}
+	
+	console.log("resumeNo : " + resumeNo);
+	console.log("id : " + id);
+	console.log("title : " + title);
+	console.log("city : " + city);
+	console.log("carr : " + carr);
+	console.log("job : " + job);
+	console.log("posit : " + posit);
+	console.log("auth : " + auth);
+	console.log("salary : " + salary);
+	console.log("resident : " + resident);
+	console.log(carrArr);
+	console.log(schoolArr);
+	console.log("myimg : " + myimg);
+	console.log("jobSearchNo : " + jobSearchNo);
+
+	
+	$.ajax({
+ 		url: 'myProfileAdd',
+ 		type: 'post',
+		data: JSON.stringify(data),
+ 		contentType : 'application/json',
+		success: function (result) {
+			let res = JSON.parse(result); // 파싱
+			if(res.result == 'Success'){
+				
+				Swal.fire({
+					  icon: 'success',
+					  title: 'My프로필 수정성공!',
+					  showCancelButton: false,
+					  confirmButtonText: '확인'
+					}).then((result) => {
+					  if (result.isConfirmed) {
+						location.href="/selfJobList";
+					  }
 					});
-				}
-			},
-	 		error: function (reject) {	   
-	    		console.log(reject);
+				
+			}else{
+				Swal.fire({
+					  icon: 'error',
+					  title: 'My프로필 등록실패!'
+				});
 			}
-		});
+ 		},
+  		error: function (reject) {	   
+     		console.log(reject);
+ 		}
+ 	});
+	
 }
 
-</script>
 
-<!-- 닫는 태그가 무조건 있어야함 *필수* -->
+</script>
 	</div>
 </body>
 </html>

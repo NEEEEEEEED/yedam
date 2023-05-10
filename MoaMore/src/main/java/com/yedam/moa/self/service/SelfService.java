@@ -24,6 +24,21 @@ public interface SelfService {
 	// 셀프구직 상세 페이지
 	public SelfVO selfJobDetailInfo(String jobSearchNo);
 	
+	// 셀프구직 상세 - 포트폴리오 정보
+	public List<SelfVO> selfJobDetailPofol(String jobSearchNo);
+	
+	// 셀프구직 상세 - 스킬 정보
+	public List<SelfVO> selfJobDetailSkill(String jobSearchNo);
+	
+	// 셀프구직 상세페이지 : 불러올 이력서 정보 학력,경력 기본키값 가져옴
+	public SelfVO resumeKeys(String resumeNo);
+	
+	// 셀프구직 상세페이지 수정
+	public int myProfileMod(SelfVO selfVO);
+	
+	// 셀프구직 스킬수정
+	public int skillMod(SelfVO skillVO);
+	
 	//-------------------------------------------------
 	
 	

@@ -337,7 +337,7 @@ function selfJobListPrint(result={}){
 	//console.log(result.interestYn == 'Y');
 	// interestYn : 해당 게시글에 관심 등록이 되어있는지 여부
 	if(result.interestYn == 'Y'){ // 관심글이라면 
-		html = `<div class="row align-items-center border-bottom p-4 mb-3 hoverRow" style="cursor:pointer;" onclick="location.href='/selfJobDetail?jobSearchNo=`+result.jobSearchNo+`'">
+		html = `<div class="row align-items-center border-bottom p-4 mb-3 hoverRow" style="cursor:pointer;" onclick="location.href='/selfJobDetail?jobSearchNo=`+result.jobSearchNo+`&resumeNo=`+result.resumeNo+`'">
 	        <div class="col-md-3 text-center">
 	      	<a href="#">
 	      		<img class="img-fluid imgSize" src="/moamoreImg/`+result.myimg+`" onerror=this.src="self/profile.JPG" alt="이미지폴더에없음">
@@ -365,7 +365,7 @@ function selfJobListPrint(result={}){
 		  </div>
 	    </div>`;
 	}else{
-		html = `<div class="row align-items-center border-bottom p-4 mb-3 hoverRow" style="cursor:pointer;" onclick="location.href='/selfJobDetail?jobSearchNo=`+result.jobSearchNo+`'">
+		html = `<div class="row align-items-center border-bottom p-4 mb-3 hoverRow" style="cursor:pointer;" onclick="location.href='/selfJobDetail?jobSearchNo=`+result.jobSearchNo+`&resumeNo=`+result.resumeNo+`'">
 	        <div class="col-md-3 text-center">
 	      	<a href="#">
 	      		<img class="img-fluid imgSize" src="/moamoreImg/`+result.myimg+`" onerror=this.src="self/profile.JPG" alt="이미지폴더에없음">
