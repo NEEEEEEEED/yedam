@@ -121,16 +121,26 @@
 		INSERT INTO RECRUIT_ANUM_ST (RECRUIT_NO, RESUME_NO, ID, APLY_ST, APLY_DT, ST, WIN)
        	VALUES (#{recruitNo}, #{resumeNo}, #{id}, 'b1',  TO_CHAR(sysdate,'yyyy-MM-dd'), '0', 'T2')
 	</insert>
-	<!-- 기업 팔로우 -->
+	<!-- 관심 기업 등록 -->
 	<insert id="followInsert" parameterType="HireVO">
 		INSERT INTO FOLLOWING(ID_MEM, ID_CO)
 		VALUES (#{id}, #{idCo})
 	</insert>
+	<!-- 관심 기업 취소 -->
+	<delete id="followDelete" parameterType="HireVO">
+		DELETE FROM FOLLOWING WHERE ID_CO = #{idCo} AND ID_MEM = #{id}
+	</delete>
 	<!-- 공고 스크랩 등록 -->
 	<insert id="recruitScrapInsert" parameterType="HireVO">
 		INSERT INTO RECRUIT_SCRAP (RECRUIT_NO, ID)
         VALUES(#{recruitNo}, #{id})
 	</insert>
+	
+	<!-- 공고 스크랩 삭제 -->
+	<delete id="recruitScrapDelete" parameterType="HireVO">
+		DELETE FROM RECRUIT_SCRAP WHERE RECRUIT_NO = #{recruitNo} AND ID = #{id}
+	</delete>
+	
 	<!-- 공고등록 페이지 회사이름 조회 -->
 	<select id="recruitInsertSelect" resultType="HireVO">
 		SELECT CO_NM FROM CO WHERE ID = #{id}
