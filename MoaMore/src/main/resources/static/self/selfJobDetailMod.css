@@ -1,0 +1,87 @@
+.number{
+	width:30x; 
+	height:30px;
+	margin-right : 10px;
+}
+
+.cursor{
+	cursor:pointer;
+}
+
+.circleImg {
+  border-radius: 50%;
+  width : 120px;
+  height : 120px;
+}
+
+.divStyle{
+	display:flex; 
+	width:100%; 
+	text-align:center;
+}
+
+.inputStyle{
+	border:0px; 
+	width:100%; 
+	outline: none;
+}
+
+/* jobQnA */
+
+.hoverRow:hover {
+	background-color: rgb(233, 233, 233);
+}
+
+.listRow{
+	padding:20px; 
+	border-bottom : 1px solid #ddd;
+}
+
+
+.listStyle{
+   list-style:none;
+   padding-left:0px;
+}
+
+.listStype li{
+	line-height: 32.13px;
+	color : black;
+}
+
+.listStyle li a:hover{
+	color: red;
+	letter-spacing: -0.88px;
+}
+
+.listBtn{
+	width: 100px; 
+	padding: .8em .5em;
+	margin-bottom : 10px;
+}
+
+.form-check-input:checked {
+    background-color: rgb(10,38,64);
+    border-color: rgb(10,38,64);
+}
+
+.radius{
+	border-radius : 0px;
+}
+
+.fullWidth{
+	width:100%;
+}
+
+.trColor th{
+	background-color : #EBECF0;
+	text-align:center;
+}
+
+.widthSize20 th{
+	width:20%;
+}
+
+.imgSize{
+	width : 70%;
+	height : 70%;
+}

@@ -50,7 +50,7 @@ public class SelfVO {
 	private String joinYy;		// 입사년도
 	private String retiYy;		// 퇴사년도
 	private String buss;		// 업무
-	private String carrSt;		// 경력상태
+	private String carrSt;		// 경력상태(재직여부)
 	
 	// 학력사항
 	private String fg;			// 학교구분

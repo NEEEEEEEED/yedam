@@ -20,60 +20,42 @@
 				<div class="mt-5 text-center">
 					<img th:src="@{/moamoreImg/} + ${selfJobInfo.myimg}" th:onerror="this.src='self/profile.JPG'" id="myImg" class="circleImg mb-4">
 					<p class="mb-1" th:text="${selfJobInfo.name}">이름</p>
+					<p class="mb-1" th:text="${selfJobInfo.email}">이메일</p>
 					<p class="mb-1" th:text="${selfJobInfo.dutyFld}">직무</p>
 					<p class="mb-1" th:text="${selfJobInfo.skill}">기술스택</p>
 				</div>
 
 				<div class="text-left mt-8 mb-8">
 					<span class="fs-2 subTitle">&nbsp&nbsp&nbsp저의 포트폴리오입니다&nbsp&nbsp&nbsp</span>
-					<p class="mt-4 mb-3" style="margin-left : 16px;" th:text="|◈ ${selfJobInfo.name}님의 포트폴리오|">◈ OOO님의 포트폴리오</p>
-					<div  class="row "  id = "pofolList" >
-						<div class="col-md-4 text-center text-md-start h-auto" >
+					<p class="mt-4 mb-3" style="margin-left : 16px;" th:text="|◈ ${selfJobInfo.name}님의 포트폴리오 (파일명클릭시 다운로드가능)|">◈ OOO님의 포트폴리오</p>
+					<div class="row" id = "pofolList">
+					<!-- 반복 -->
+						<div th:each="pofol : ${pofolList}" class="col-md-4 text-center text-md-start h-auto" >
 		    				<div class="d-flex justify-content-between flex-column h-100">
                 				<div class="image">
-									<img class="w-75 w-md-75 rounded-2 mb-2" src="assets/img/blog/1.png" alt="" />
-									<p class="fw-bold mb-0 text-black" >ㆍ제목 : </p>
-									<p class="mb-0">ㆍ파일명: </p>		
-								</div>
-							</div>
-						</div>
-						
-						<div class="col-md-4 text-center text-md-start h-auto" >
-		    				<div class="d-flex justify-content-between flex-column h-100">
-                				<div class="image">
-									<img class="w-75 w-md-75 rounded-2 mb-2" src="assets/img/blog/1.png" alt="" />
-									<p class="fw-bold mb-0 text-black" >ㆍ제목 : </p>
-									<p class="mb-0">ㆍ파일명: </p>		
-								</div>
-							</div>
-						</div>
-						
-						<div class="col-md-4 text-center text-md-start h-auto" >
-		    				<div class="d-flex justify-content-between flex-column h-100">
-                				<div class="image">
-									<img class="w-75 w-md-75 rounded-2 mb-2" src="assets/img/blog/1.png" alt="" />
-									<p class="fw-bold mb-0 text-black" >ㆍ제목 : </p>
-									<p class="mb-0">ㆍ파일명: </p>		
+									<img style="width:200px; height:200px;" class="rounded-2 mb-4" th:src="@{/moamorePofol/} + ${pofol.pofolImg}" alt="이미지 오류" />
+									<p class="fw-bold mb-0 text-black" th:text="|ㆍ제목 : ${pofol.title}|">ㆍ제목 : </p>
+						 			<a class="mb-0" th:href="@{/moamorePofol/} + ${pofol.pofolUuidFile}" target="_blank" style="color:blue;"  th:text="|ㆍ파일명: ${pofol.pofolFile}|">ㆍ파일명: </a>	
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 					
-				<div class="text-left mt-1 mb-6">
+				<div class="text-left mt-1 mb-4">
 					<span class="fs-2 subTitle">&nbsp&nbsp&nbsp저는 이런사람이에요&nbsp&nbsp&nbsp</span>
-					<p class="mt-4 mb-0" style="margin-left : 16px;">◈ OOO님의 희망 사항</p>
+					<p class="mt-4 mb-0" style="margin-left : 16px;" th:text="|◈ ${selfJobInfo.name}님의 희망 사항|">◈ OOO님의 희망 사항</p>
 					<div class="mt-4" style="margin-left : 16px;">
 						<ul>
-							<li class="mb-2">희망 급여 : </li>
-							<li class="mb-2">희망 근무 지역 : 대구</li>
-							<li>상주가능여부 : </li>
+							<li class="mb-2" th:text="|희망 급여 : ${selfJobInfo.hopeSal}|">희망 급여 : </li>
+							<li class="mb-2" th:text="|희망 근무 지역 : ${selfJobInfo.hopeWksite}|">희망 근무 지역 : </li>
+							<li th:text="|상주가능여부 : ${selfJobInfo.residency}|">상주가능여부 : </li>
 						</ul>
 					</div>
-					<p class="mt-4 mb-0" style="margin-left : 16px;">◈ OOO님의 자기소개</p>
+					<p class="mt-4 mb-0" style="margin-left : 16px;" th:text="|◈ ${selfJobInfo.name}님의 자기소개|">◈ OOO님의 자기소개</p>
 				  	<div class="row">
 				  		<div class="col-md-9">
-				  			<textarea id="intro" class="form-control radius" readonly style="background-color : white; height: 100px; resize: none; border:none;">안녕하세여안녕하세여안녕하세여안녕하세여안녕하세여안녕하세여안녕하세여안녕하세여안녕하세여</textarea>
+				  			<textarea id="intro" class="form-control radius" readonly style="background-color : white; height: 100px; resize: none; border:none;" th:text="${selfJobInfo.intro}">자기소개</textarea>
 				  		</div>
 				  		<div class="col-md-3"></div>
 				  	</div>
@@ -82,14 +64,14 @@
 				<div class="text-left mb-8">
 					<span class="fs-2 subTitle">&nbsp&nbsp&nbsp이런 기술스택을 가지고있어요&nbsp&nbsp&nbsp</span>
 					<div class="row">
-						<p class="mt-4 mb-2" style="margin-left : 16px;">◈ OOO님의 보유기술</p>
-						<div class="col-md-3 mt-4" style="margin-left : 16px;">
-							<span class="skillBorder">자바</span>
+						<p class="mt-4 mb-2" style="margin-left : 16px;" th:text="|◈ ${selfJobInfo.name}님의 보유기술|">◈ OOO님의 보유기술</p>
+						
+						<!-- 반복 -->
+						<div th:each="skillItem : ${skillList}" class="col-md-4 mt-4" style="margin-left : 16px;">
+							<span th:text="${skillItem.skill}" class="skillBorder">보유기술1</span>
 						</div>
-						<div class="col-md-3 mt-4" style="margin-left : 16px;">
-							<span class="skillBorder">스프링</span>
-						</div>
-						<div class="col-md-6"></div>
+						
+						<div class="col-md-4"></div>
 					</div>
 				</div>
 				
@@ -98,27 +80,16 @@
 						<p class="mt-4 mb-3" style="margin-left : 16px;">◈ 경력</p>
 							<div class="row">
 								<div id="carrRows" style="margin-left : 40px;" class="col-md-10">
-									<div class="hoverRow listRow row">
+								<!-- 반복 -->
+									<div th:each="carr : ${carrList}" class="hoverRow listRow row">
 									 	<div class="col-md-10 text-center text-lg-start">
 								        	<div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
-								          		<p class="fw-bold mb-0 text-black">직무</p>
-								         		<p class="mb-0">입사일자 ~ 퇴사일자 재직여부</p>
+								          		<p class="fw-bold mb-0 text-black" th:text="${carr.duty}">직무</p>
+								         		<p class="mb-0"th:text="|${carr.joinYy} ~ ${carr.retiYy} ${carr.carrSt}">입사일자 ~ 퇴사일자 재직여부</p>
 								        	</div>
-								        	<h6 class="fs-md-2 my-3">회사명 부서명 근무</h6>
+								        	<h6 class="fs-md-2 my-3" th:text="|${carr.co} ${carr.depart} 근무|">회사명 부서명</h6>
 									        <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-2">
-									            <p class="mb-0">업무</p>
-									        </div>
-									  	</div>
-									</div>
-									<div class="hoverRow listRow row">
-									 	<div class="col-md-10 text-center text-lg-start" >
-								        	<div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
-								          		<p class="fw-bold mb-0 text-black">직무</p>
-								         		<p class="mb-0">입사일자 ~ 퇴사일자 재직여부</p>
-								        	</div>
-								        	<h6 class="fs-md-2 my-3">회사명 부서명 근무</h6>
-									        <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-2">
-									            <p class="mb-0">업무</p>
+									            <p class="mb-0" th:text="${carr.buss}">업무</p>
 									        </div>
 									  	</div>
 									</div>
@@ -130,41 +101,48 @@
 						<div class="col-md-2" style="text-align:center;">
 						</div>
 						<div id="schoolRows" class="col-md-10" style="margin-left : 40px;">
-							<div class="hoverRow listRow row">
-							 	<div class="col-md-10 text-center text-lg-start">
-							 		<span style="color:black;"><b>■ 고등학교</b></span> <hr>
-							 		<p class="mb-0">입학년도 ~ 졸업년도</p>
-					                <h6 class="fs-md-2 my-3">학교명</h6>
-					                <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
-					                  <p class="mb-0">졸업상태</p>
-					                </div>
-				              	</div>
-							</div>
-							<div class="hoverRow listRow row">
-							 	<div class="col-md-10 text-center text-lg-start">
-							 		<span style="color:black;"><b>■ 대학교</b></span> <hr>
-							 		<p class="mb-0">입학년도 ~ 졸업년도</p>
-					                <h6 class="fs-md-2 my-3">학교명</h6>
-					                <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
-					                  <p class="fw-bold mb-0 text-black">전공</p>
-					                  <p class="mb-0">졸업상태</p>
-					                </div>
-				              	</div>
-							</div>
-							<div class="hoverRow listRow row">
-							 	<div class="col-md-10 text-center text-lg-start">
-							 		<span style="color:black;"><b>■ 대학원</b></span> <hr>
-							 		<p class="mb-0">입학년도 ~ 졸업년도</p>
-					                <h6 class="fs-md-3 my-3">학교명</h6>
-					                <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
-					                  <p class="fw-bold mb-0 text-black">전공</p>
-					                  <p class="mb-0">졸업상태</p>
-					                </div>
-				              	</div>
-							</div>
+						
+						<!-- 반복 - switch case -->
+						<th:block th:each="school : ${schoolList}" >
+							<th:block th:switch="${school.fg}">
+								<div th:case="고졸" class="hoverRow listRow row">
+								 	<div class="col-md-10 text-center text-lg-start">
+								 		<span style="color:black;"><b>■ 고등학교</b></span> <hr>
+								 		<p class="mb-0" th:text="|${school.joinYy} ~ ${school.retiYy}">입학년도 ~ 졸업년도</p>
+						                <h6 class="fs-md-2 my-3" th:text="${school.breu}">학교명</h6>
+						                <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
+						                  <p class="mb-0" th:text="${school.shcrSt}">졸업상태</p>
+						                </div>
+					              	</div>
+								</div>
+							
+								<div th:case="대졸" class="hoverRow listRow row">
+								 	<div class="col-md-10 text-center text-lg-start">
+								 		<span style="color:black;"><b>■ 대학교</b></span> <hr>
+								 		<p class="mb-0" th:text="|${school.joinYy} ~ ${school.retiYy}">입학년도 ~ 졸업년도</p>
+						                <h6 class="fs-md-2 my-3" th:text="${school.breu}">학교명</h6>
+						                <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
+						                  <p class="fw-bold mb-0 text-black" th:text="${school.mj}">전공</p>
+						                  <p class="mb-0" th:text="${school.shcrSt}">졸업상태</p>
+						                </div>
+					              	</div>
+								</div>
+								
+								<div th:case="대학원" class="hoverRow listRow row">
+								 	<div class="col-md-10 text-center text-lg-start">
+								 		<span style="color:black;"><b>■ 대학원</b></span> <hr>
+								 		<p class="mb-0" th:text="|${school.joinYy} ~ ${school.retiYy}">입학년도 ~ 졸업년도</p>
+						                <h6 class="fs-md-3 my-3" th:text="${school.breu}">학교명</h6>
+						                <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
+						                  <p class="fw-bold mb-0 text-black" th:text="${school.mj}">전공</p>
+						                  <p class="mb-0" th:text="${school.shcrSt}">졸업상태</p>
+						                </div>
+					              	</div>
+								</div>
+							</th:block>
+						</th:block>
 						</div>
 					</div>
-					
 				</div>
 			</div>
 
@@ -176,16 +154,25 @@
 							<hr>
 							<button class="btn btn-dark radius mb-3" type="button">채용지원제안</button>
 							<div class="col">
-								<span class="fw-bold fs-2">0</span> <br /> 
+								<span class="fw-bold fs-2" th:text="${selfJobInfo.interest}">관심수</span> <br /> 
 								<span class="selected fw-bold">받은관심</span>
 							</div> 
 							<div class="col border-start">
-								<span class="fw-bold fs-2">0</span> 
+								<span class="fw-bold fs-2" th:text="${selfJobInfo.prop}">제안수</span> 
 								<br />
 								<span class="fw-bold">받은제안</span>
 							</div> 
 						</div>
 					</div>
+					
+					<!-- 로그인된 사용자가 자기가 작성한 게시물이라면 나타나는 버튼 -->
+					<th:block th:if="${selfJobInfo.id}==${#authentication.principal.username}" >
+						<div class="card-footer text-center" style="background-color:white;">
+							<button type="button" class="btn btn-outline-secondary" th:onclick="|location.href='@{/selfJobMod(jobSearchNo=${selfJobInfo.jobSearchNo},resumeNo=${selfJobInfo.resumeNo})}'|">수정</button>
+							<button type="button" class="btn btn-outline-danger">삭제</button>
+						</div>
+					</th:block>
+					
 				</div>
 			</div>
 			<hr>

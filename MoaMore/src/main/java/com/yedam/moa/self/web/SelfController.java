@@ -229,10 +229,61 @@ public class SelfController {
 	
 	// 셀프구직 상세페이지
 	@GetMapping("/selfJobDetail")
-	public String selfJobDetail(Model model, String jobSearchNo) {
-		model.addAttribute("selfJobInfo", selfServiceImpl.selfJobDetailInfo(jobSearchNo));
+	public String selfJobDetail(Model model, String jobSearchNo, String resumeNo) {
+		String carrNo = selfServiceImpl.resumeKeys(resumeNo).getCarrNo(); // 해당 이력서의 경력번호
+		String shcrNo = selfServiceImpl.resumeKeys(resumeNo).getShcrNo(); // 해당 이력서의 학력번호
+		
+		System.out.println("경력번호 : " + carrNo);
+		System.out.println("학력번호 : " + shcrNo);
+		
+		model.addAttribute("selfJobInfo", selfServiceImpl.selfJobDetailInfo(jobSearchNo)); // 셀프구직 기본정보
+		model.addAttribute("pofolList", selfServiceImpl.selfJobDetailPofol(jobSearchNo)); // 셀프구직 포트폴리오
+		model.addAttribute("skillList", selfServiceImpl.selfJobDetailSkill(jobSearchNo)); // 셀프구직 스킬
+		
+		model.addAttribute("carrList", selfServiceImpl.careerList(carrNo)); // 경력 리스트
+		model.addAttribute("schoolList", selfServiceImpl.schoolList(shcrNo)); // 학력 리스트
+		
 		return "self/selfJobDetail";
 	}
 	
+	// 셀프구직 수정 페이지
+	@GetMapping("/selfJobMod")
+	public String selfJobModify(Model model, String jobSearchNo, String resumeNo) {
+		String carrNo = selfServiceImpl.resumeKeys(resumeNo).getCarrNo(); // 해당 이력서의 경력번호
+		String shcrNo = selfServiceImpl.resumeKeys(resumeNo).getShcrNo(); // 해당 이력서의 학력번호
+		
 	
+		model.addAttribute("commList", commServiceImpl.getCodes("N","Y","X","Z","c")); // 직무, 경력, 지역, 기술스택, 보기권한 리스트
+		model.addAttribute("selfJobInfo", selfServiceImpl.selfJobDetailInfo(jobSearchNo)); // 셀프구직 기본정보
+		//model.addAttribute("pofolList", selfServiceImpl.selfJobDetailPofol(jobSearchNo)); // 셀프구직 포트폴리오
+		model.addAttribute("carrList", selfServiceImpl.careerList(carrNo)); // 경력 리스트
+		model.addAttribute("schoolList", selfServiceImpl.schoolList(shcrNo)); // 학력 리스트
+		
+		model.addAttribute("carrNo", selfServiceImpl.resumeKeys(resumeNo).getCarrNo()); // 경력 리스트
+		model.addAttribute("shcrNo", selfServiceImpl.resumeKeys(resumeNo).getShcrNo()); // 학력 리스트
+		
+		
+		return "self/selfJobDetailMod";
+	}
+	
+	// 포트폴리오 목록 리스트
+	@PostMapping("/selfJobpofolList")
+	@ResponseBody
+	public List<SelfVO> selfJobpofolList(String jobSearchNo){
+		return selfServiceImpl.selfJobpofolList(jobSearchNo);
+	}
+	
+	// 셀프구직 수정기능
+	@GetMapping("/selfJobModifyFn")
+	public String selfJobModifyFn(SelfVO selfVO) {
+		
+		int r = selfServiceImpl.myProfileMod(selfVO);
+		
+		if(r > 0) {
+			return "{\"result\": \"Success\"}";
+		}else {
+			return "{\"result\": \"Fail\"}";
+		}
+		
+	}
 }
