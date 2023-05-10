@@ -82,51 +82,72 @@
 	<!-- 구인공고목록 -->
 	<select id="selectRec" parameterType="HireVO" resultType="HireVO">
 		SELECT recruit_no
-recruit_no,
-id,
-ttl,
-shcr,
-carr,
-ma_buss,
-qual_cond,
-pref_cond,
-welf,
-expr_dt,
-wksite,
-co_img,
-accp_dt,
-img_no,
-reg_dt,
-job
-		FROM recruit_anun
-		WHERE id = #{id}	   
-	</select>
-	
-	<!-- 관심 셀프구직공고 목록 -->
-	<select id="selectInterNoti" parameterType="SelfVO" resultType="SelfVO">
-		SELECT job_search_no,
-				resume_no,
 				id,
 				ttl,
-				hope_wksite,
-				get_common(duty_fld) as duty_fld,
-				posit,
-				pubc_range,
-				intro,
-				hope_sal,
-				residency,
-				myimg,
-				interest,
-				prop,
-				reg_dt
-		FROM job_search_notiwr
-		WHERE job_search_no IN (
-  								SELECT job_search_no
-  								FROM inter_job_search
- 								WHERE id = #{id}
-												  )
+				shcr,
+				carr,
+				ma_buss,
+				qual_cond,
+				pref_cond,
+				welf,
+				expr_dt,
+				wksite,
+				co_img,
+				accp_dt,
+				img_no,
+				reg_dt,
+				job
+		FROM recruit_anun
+		WHERE id = #{id}	
+	</select>
 	
+	<!-- 관심 게시글 수 -->
+	<select id="selectTotalInter" parameterType="CoVO" resultType="SelfVO">	   
+		SELECT count(*) as totalInter 
+    	FROM job_search_notiwr
+    	WHERE job_search_no IN (
+            					SELECT job_search_no
+            					FROM inter_job_search
+            					WHERE id = #{id})
 	</select> 
+	
+	<!-- 관심 셀프구직공고 페이징 포함해서 2개씩 목록 -->
+	<select id="selectInterNoti" parameterType="SelfVO" resultType="SelfVO">
+    <![CDATA[
+        SELECT *
+            FROM (
+                SELECT job_search_no,
+                       resume_no,
+                       id,
+                       ttl,
+                       hope_wksite,
+                       get_common(duty_fld) as duty_fld,
+                       posit,
+                       pubc_range,
+                       intro,
+                       hope_sal,
+                       residency,
+                       myimg,
+                       interest,
+                       prop,
+                       reg_dt,
+                       ROW_NUMBER() OVER (ORDER BY job_search_no) as row_num
+                FROM job_search_notiwr
+                WHERE job_search_no IN (
+                    SELECT job_search_no
+                    FROM inter_job_search
+                    WHERE id = #{id}
+                )
+            )
+        	WHERE row_num > (#{pageNum}-1) * 2 AND row_num <= #{pageNum} * 2
+    ]]>
+</select>
+	<!-- 셀프구직게시글 관심해제 -->
+	<delete id="deleteInfer" statementType="CALLABLE" parameterType="SelfVO">
+   		{ 
+      		call interestDelete_PRO(#{jobSearchNo}, #{id})
+   		}
+	</delete>
 	
 	<!-- 제안완료 셀프구직공고 목록 -->
 	<select id="selectOfferNoti" parameterType="SelfVO" resultType="SelfVO">

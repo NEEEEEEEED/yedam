@@ -131,10 +131,8 @@ i {
 				</div>
 			</div>
 		</div>
-		<button type="button" class="btn btn-primary" data-bs-toggle="modal"
-			data-bs-target="#exampleModalLg">Large modal</button>
+		
 		<!-- 모달창 -->
-
 		<div class="modal fade " id="exampleModalLg" tabindex="-1"
 			aria-labelledby="exampleModalLgLabel" style="display: none;"
 			aria-hidden="true">
@@ -147,23 +145,107 @@ i {
 							aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
-						<div class="mb-3 row">
-							<label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
-							<div class="col-sm-10">
-								<input type="text" readonly class="form-control-plaintext"
-									id="staticEmail" value="email@example.com">
+						<form>
+							<div class="mb-3 row">
+								<label for="inputPassword" class="col-sm-3 col-form-label  fs-2">●
+									회사명</label>
+								<div class="col-sm-9">
+									<input type="text" name="" class="form-control" id="">
+								</div>
 							</div>
-						</div>
-						<div class="mb-3 row">
-							<label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
-							<div class="col-sm-10">
-								<input type="password" class="form-control" id="inputPassword">
+
+							<div class="mb-3 row">
+								<label for="inputPassword" class="col-sm-3 col-form-label  fs-2">●
+									근무지 주소</label>
+								<div class="col-sm-9">
+									<input type="text" name="" class="form-control" id="">
+								</div>
 							</div>
-						</div>
+
+							<div class="mb-3 row">
+								<label for="inputPassword" class="col-sm-3 col-form-label  fs-2">●
+									프로젝트 명</label>
+								<div class="col-sm-9">
+									<input type="text" name="" class="form-control" id="">
+								</div>
+							</div>
+
+							<div class="mb-3 row">
+								<label for="inputPassword" class="col-sm-3 col-form-label  fs-2">●
+									기술 스택</label>
+								<div class="col-sm-9">
+									<input type="text" name="" class="form-control" id="">
+								</div>
+							</div>
+
+							<div class="mb-3 row">
+								<label for="inputPassword" class="col-sm-3 col-form-label  fs-2">●
+									주요 업무</label>
+								<div class="col-sm-9">
+									<input type="text" name="" class="form-control" id="">
+								</div>
+							</div>
+
+							<div class="mb-3 row">
+								<label for="inputPassword" class="col-sm-3 col-form-label  fs-2">●
+									복지 및 혜택</label>
+								<div class="col-sm-9">
+									<input type="text" name="" class="form-control" id="">
+								</div>
+							</div>
+
+							<div class="mb-3 row">
+								<label for="inputPassword" class="col-sm-3 col-form-label  fs-2">●
+									급여</label>
+								<div class="col-sm-9">
+									<input type="text" name="" class="form-control" id="">
+								</div>
+							</div>
+
+							<div class="mb-3 row">
+								<label for="inputPassword" class="col-sm-3 col-form-label  fs-2">●
+									업무 시작일</label>
+								<div class="col-sm-9">
+									<input type="date" name="" class="form-control" id="">
+								</div>
+							</div>
+
+							<div class="mb-3 row">
+								<label for="inputPassword" class="col-sm-3 col-form-label  fs-2">●
+									제안 마감일</label>
+								<div class="col-sm-9">
+									<input type="date" name="" class="form-control" id="">
+								</div>
+							</div>
+
+							<div class="mb-3 row">
+								<label for="inputPassword" class="col-sm-3 col-form-label  fs-2">●
+									구인공고</label>
+								<div class="col-sm-9">
+									<select name="" class="form-select" id="">
+										<option value='' selected>선택</option>
+										<!-- 구인 완료되면 하기 <option th:each=" item : ${RecList}" th:text="${item.ttl}"
+											th:value="${item.ttl}"></option> -->
+									</select>
+								</div>
+							</div>
+							<input type="hidden" name="id" th:value="${id.id}"> <input
+								type="hidden" name="jobSearchNo">
+							<div class="row mb-4">
+								<div class="col-12 d-flex justify-content-center">
+									<button type="button" class="btn btn-secondary"
+										data-bs-dismiss="modal">취소</button>
+									<button type="button" class="btn btn-primary"
+										onclick="offerCheck()">제안</button>
+								</div>
+							</div>
+						</form>
+
 					</div>
 				</div>
 			</div>
 		</div>
+		
 
 		<script>
 			const tableMenu = document.querySelector('#tableMenu');
@@ -197,6 +279,8 @@ i {
 
 				}
 			}
+			//관심 게시글 수 
+			var totalInter = [[${totalInter.totalInter}]];
 			//관심구직글클릭 / 제안구직글클릭
 			function changeSlash(t, no) {
 				let selected = tableMenu.querySelector('.selected')
@@ -204,7 +288,7 @@ i {
 					selected.classList.remove('selected');
 					t.classList.add('selected');
 					//ajax로 관심구직글 불러오는 함수
-					selectInterNoti();
+					selectInterNoti(1);
 				} else {
 					selected.classList.remove('selected');
 					t.classList.add('selected');
@@ -213,9 +297,9 @@ i {
 				}
 			}
 			//관심구직글호출
-			function selectInterNoti() {
+			function selectInterNoti(pageNum) {
 				$.ajax({
-					url : "/selectInterNoti",
+					url : "/selectInterNoti?pageNum="+pageNum,
 					method : "GET",
 					dataType : "json",
 					success : function(res) {
@@ -227,11 +311,12 @@ i {
 					}
 				});
 			}
-			
+			//관심구직글 출력
 			function makeInterList(res){
 				let html = '';
+				
 				for(let i=0;i<res.length;i++){
-					let notice = `<div
+					let notice = `<div onclick="location.href='/selfJobDetail?jobSearchNo=`+res[i].jobSearchNo+`'"
 						class="row align-items-center border-bottom p-4 mb-3 hoverRow">
 						<div class="col-md-3 text-center">
 							<a href="#"> <img class="img-fluid"
@@ -257,23 +342,91 @@ i {
 						<div class="col-md-3"
 							style="display: flex; align-items: center; flex-direction: column;">
 							<button type="button" onclick="deleteInter(\'`+res[i].jobSearchNo+`\')"
-								class="btn btn-outline-danger btn-sm listBtn">관심</button>
-							<button type="button" onclick="offerModal(\'`+res[i].jobSearchNo+`\')"
-								class="btn btn-outline-info btn-sm listBtn" data-bs-toggle="modal" data-bs-target="#exampleModalLg">제안</button>
+								class="btn btn-danger btn-sm listBtn">관심</button>
+							<button type="button" onclick="insertJobSearchNo(\'`+res[i].jobSearchNo+`\')"
+								class="btn btn-outline-info btn-sm listBtn" data-bs-toggle="modal" data-bs-target="#exampleModalLg"> 제안 </button>
 						</div>
-					</div>`;
+					</div>`; 
 					html += notice;
 					notice = '';
 				}
+				html += paging();
 				selfList.innerHTML = html;
 			}
-			//제안모달
-			function offerModal(no){
-				console.log(no);
+			
+			//관심 페이징 버튼 만들기
+			function paging(){
+				let pageSu = Math.floor(totalInter/2) + totalInter%2
+				console.log(pageSu)
+				let paging = `<nav aria-label="Page navigation example">
+					  <ul class="pagination d-flex justify-content-center">
+				    <li class="page-item">
+				      <a class="page-link" href="#" aria-label="Previous">
+				        <span aria-hidden="true">&laquo;</span>
+				      </a>
+				    </li>`;
+				    /* <a class="page-link" href="/selectInterNoti?pageNum=`+i+`">`+i+`</a> */
+				    for(let i=1;i<=pageSu;i++){
+				    	paging +=
+						    `<li class="page-item"><span onclick="selectInterNoti(`+i+`)" class="page-link">`+i+`</span></li>`
+						    ;	
+				    }
+				    paging +=
+				    `
+				    <li class="page-item">
+				      <a class="page-link" href="#" aria-label="Next">
+				        <span aria-hidden="true">&raquo;</span>
+				      </a>
+				    </li>
+				  </ul>
+				</nav>`;
+				return paging;
+			}
+			
+			//모달에 게시글번호 넣기
+			function insertJobSearchNo(no){
+				document.querySelector('[name="jobSearchNo"]').value = no;
+				console.log(no)
+			}
+			
+			//제안
+			function offerCheck(){
+				
 			}
 			//관심해제
-			function deleteOffer(no){
-				
+			function deleteInter(no){
+				Swal.fire({
+					   title: '관심을 해제 하시겠습니까?',
+					   text: '',
+					   icon: 'question',
+					   
+					   showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+					   confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+					   cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+					   confirmButtonText: '해제', // confirm 버튼 텍스트 지정
+					   cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+					   
+					   reverseButtons: true, // 버튼 순서 거꾸로
+					   
+					}).then(result => {
+					   // 만약 Promise리턴을 받으면,
+					   if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
+						   $.ajax({
+								url : "/deleteInter?jobSearchNo="+no,
+								method : "POST",
+								success : function(res) {
+									console.log(res);
+									$('#'+no).remove();
+									 smallInter.click();
+									
+								},
+								error : function(jqXHR, textStatus, errorThrown) {
+									console.error(textStatus, errorThrown);
+								}
+							});	
+					      
+					   }
+					});	
 			}
 
 			//제안완료된구직글호출
@@ -313,6 +466,28 @@ i {
 					console.error(textStatus, errorThrown);
 				},
 			}); */
+			
+			//sweet alert
+			/* Swal.fire({
+					   title: '정말로 그렇게 하시겠습니까?',
+					   text: '다시 되돌릴 수 없습니다. 신중하세요.',
+					   icon: 'warning',
+					   
+					   showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+					   confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+					   cancelButtonColor: '#d33', // cancel 버튼 색깔 지정
+					   confirmButtonText: '승인', // confirm 버튼 텍스트 지정
+					   cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+					   
+					   reverseButtons: true, // 버튼 순서 거꾸로
+					   
+					}).then(result => {
+					   // 만약 Promise리턴을 받으면,
+					   if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
+					   
+					      Swal.fire('승인이 완료되었습니다.', '화끈하시네요~!', 'success');
+					   }
+					});	 */
 		</script>
 	</div>
 	<!-- container끝 -->
