@@ -81,6 +81,8 @@ public class SelfVO {
 	private String email;				// 이메일
 	private String blog;				// 블로그, 깃허브
 	
-		
 	
+	//주안 페이징
+	private int pageNum;
+	private int totalInter;
 }

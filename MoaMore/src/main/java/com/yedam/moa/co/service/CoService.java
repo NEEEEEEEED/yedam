@@ -18,4 +18,8 @@ public interface CoService {
 	public List<SelfVO> selectOfferNoti(SelfVO vo);
 	//받은 관심 수
 	public String selectFollowers(CoVO vo);
+	//셀프구직관심해제
+	public int deleteInfer(SelfVO vo);
+	//관심 게시글 수 
+	public SelfVO selectTotalInter(CoVO vo);
 }

@@ -24,4 +24,8 @@ public interface CoMapper {
 	
 	//제안셀프구직게시글 
 	public List<SelfVO> selectOfferNoti(SelfVO vo);
+
+	public int deleteInfer(SelfVO vo);
+
+	public SelfVO selectTotalInter(CoVO vo);
 }

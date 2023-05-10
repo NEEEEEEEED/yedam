@@ -1,5 +1,6 @@
 package com.yedam.moa.co.service.impl;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,16 @@ public class CoServiceImpl implements CoService{
 	@Override
 	public String selectFollowers(CoVO vo) {
 		return mapper.selectFollowers(vo);
+	}
+
+	@Override
+	public int deleteInfer(SelfVO vo) {
+		return mapper.deleteInfer(vo);
+	}
+
+	@Override
+	public SelfVO selectTotalInter(CoVO vo) {
+		return mapper.selectTotalInter(vo);
 	}
 	
 	

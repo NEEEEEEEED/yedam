@@ -26,6 +26,7 @@ public class CoMypageController {
 		vo.setId(principal.getName());
 		model.addAttribute("followers",service.selectFollowers(vo));
 		model.addAttribute("id", vo); // user id 가져오기
+		model.addAttribute("totalInter", service.selectTotalInter(vo)); // 관심게시글 수 가져오기
 		return "co/coMypage";
 	}
 
@@ -51,6 +52,15 @@ public class CoMypageController {
 	public List<SelfVO> selectInterNoti(Principal principal, SelfVO vo) {
 		vo.setId(principal.getName());
 		return service.selectInterNoti(vo);
+	}
+	//셀프구직게시글 관심해제
+	@PostMapping("/deleteInter")
+	@ResponseBody
+	public String deleteInter(Principal principal, SelfVO vo) {
+		vo.setId(principal.getName());
+		service.deleteInfer(vo);
+		System.out.println(vo);
+		return "success";
 	}
 
 	// 제안셀프구직게시글
