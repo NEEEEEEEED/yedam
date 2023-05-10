@@ -19,6 +19,7 @@ public class CommServiceImpl implements CommService {
 	
 	@Override
 	public Map<String, List<CommVO>> getCodes(String ... gpCdlist) {
+		
 		Map<String,List<CommVO>> map = new HashMap<String,List<CommVO>>();
 		for(String gpCd : gpCdlist) {
 			map.put(gpCd, mapper.getCodeWG(new CommVO(gpCd)));
