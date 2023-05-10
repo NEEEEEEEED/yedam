@@ -47,7 +47,7 @@
 			<label for = "name">기술스택</label> 
 			<select id = "skl" class = "selectStyle">
 				<option selected value=''>기술 전체</option>
-				<option th:each="list : ${list.Z}" th:text="${list.desct}" th:attr="value=${list.prov}">경력</option>
+				<option th:each="list : ${list.Z}" th:text="${list.desct}" th:attr="value=${list.prov}">기술</option>
 			</select>
 			
 			<button type="submit" class="btn btn-outline-dark btn-sm searchBtn" id="search">
@@ -151,21 +151,22 @@
 												
 												<div class="d-flex align-items-center justify-content-center justify-content-md-start gap-3">
 													<img class="img-fluid" src="assets/img/blog/profile1.png" alt="" />
-													<p class="mb-0 text-gray" >`+item.coNm+`</p>
+													<span class="mb-0 text-gray" >`+item.coNm+`</span>
 												</div>
 											</div>
 										</a>
 						    		</div>`;
 								
+					/* <i class="bi bi-heart-fill fs-5 btn1" th:classappend="${item.followYn != null} ? 'text-danger' : ''"></i> */
 		    					$("#hireList").append(str1+str2);
 	                });
 	                
 	            },
+
 	            error: function(xhr, status, error) {
 	            }
-	        }); 
-
-		}
+	        }); }
+		
 		</script>
 	</div>
 </body>

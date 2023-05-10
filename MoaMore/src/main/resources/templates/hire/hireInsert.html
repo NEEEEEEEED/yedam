@@ -38,33 +38,16 @@ body {
 					<input type="text" class="form-control" name="ttl" id="reg_id" placeholder="제목">
 				</div>
 				
-				<div class="mb-3">
+				<div class="mb-3" th:each="">
 					<label for="reg_id">회사이름</label><span id="star">*</span>
-					<input type="text" class="form-control" name="coNm" id="reg_id" value="회사이름">
+					<input type="text" class="form-control" name="coNm" id="reg_id" th:value="${.coNm}">
 				</div>
 				
 				<div class="mb-3">
 					<label for="reg_id">기술스텍</label><span id="star">*</span>
 					<select id = "skl" class = "selectStyle">
 						<option selected value=''>기술 전체</option>
-						<option value = 'Z1'>Python</option>
-						<option value = 'Z2'>Spring Framework</option>
-						<option value = 'Z3'>AWS</option>
-						<option value = 'Z4'>Git</option>
-						<option value = 'Z5'>IOS</option>
-						<option value = 'Z6'>HTML</option>
-						<option value = 'Z7'>JavaScript</option>
-						<option value = 'Z8'>MySQL</option>
-						<option value = 'Z9'>SQL</option>
-						<option value = 'Z10'>Linux</option>
-						<option value = 'Z11'>Android</option>
-						<option value = 'Z12'>Swift</option>
-						<option value = 'Z13'>C/C++</option>
-						<option value = 'Z14'>PHP</option>
-						<option value = 'Z15'>Doker</option>
-						<option value = 'Z16'>Reack</option>
-						<option value = 'Z17'>Github</option>
-						<option value = 'Z18'>JPA</option>
+				<option th:each="list : ${list.Z}" th:text="${list.desct}" th:attr="value=${list.prov}">기술</option>
 					</select>
 				</div>
 
@@ -72,17 +55,7 @@ body {
 					<label for="reg_id">주요업무</label><span id="star">*</span>
 					<select id = "job" class = "selectStyle">
 						<option selected value = ''>개발 전체</option>
-						<option value = 'N1'>웹 개발자</option>
-						<option value = 'N2'>서버 개발자</option>
-						<option value = 'N3'>안드로이드 개발자</option>
-						<option value = 'N4'>프론트엔드 개발자</option>
-						<option value = 'N5'>백엔드 개발자</option>
-						<option value = 'N6'>자바 개발자</option>
-						<option value = 'N7'>C,C++ 개발자</option>
-						<option value = 'N8'>파이썬 개발자</option>
-						<option value = 'N9'>Node.js 개발자</option>
-						<option value = 'N10'>시스템 관리자</option>
-						<option value = 'N11'>머신러닝 엔지니어</option>
+						<option th:each="list : ${list.N}" th:text="${list.desct}" th:attr="value=${list.prov}">직무</option>
 					</select>
 				</div>
 
@@ -135,23 +108,15 @@ body {
 					<label for="tag">경력</label>
 					<select id="edu" class = "selectStyle">
 						<option selected value = ''>경력전체</option>
-						<option value = 'Y1'>신입</option>
-						<option value = 'Y2'>3년차 이상</option>
-						<option value = 'Y3'>5년차 이상</option>
-						<option value = 'Y4'>7년차 이상</option>
-						<option value = 'Y5'>9년차 이상</option>
-						<option value = 'Y6'>10년차 이상</option>
+						<option th:each="list : ${list.Y}" th:text="${list.desct}" th:attr="value=${list.prov}">경력</option>
 					</select>
 				</div>
 				
 				<div class="mb-3">
 					<label for="tag">학력</label>
 					<select id="cre" class = "selectStyle">
-						<option selected value = ''>경력전체</option>
-						<option value = 'D1'>신입</option>
-						<option value = 'D2'>3년차 이상</option>
-						<option value = 'D3'>5년차 이상</option>
-						<option value = 'D4'>7년차 이상</option>
+						<option selected value = ''>학력전체</option>
+						<option th:each="list : ${list.D}" th:text="${list.desct}" th:attr="value=${list.prov}">경력</option>
 					</select>
 				</div>
 				
@@ -164,23 +129,7 @@ body {
 					<label for="tag">근무지역</label><span id="star">*</span>
 					<select id="loc" class = "selectStyle">
 						<option selected value=''>전국</option>
-						<option value = 'X2'>서울</option>
-						<option value = 'X3'>부산</option>
-						<option value = 'X4'>대구</option>
-						<option value = 'X5'>인천</option>
-						<option value = 'X6'>광주</option>
-						<option value = 'X7'>대전</option>
-						<option value = 'X8'>울산</option>
-						<option value = 'X9'>세종</option>
-						<option value = 'X10'>경기</option>
-						<option value = 'X11'>강원</option>
-						<option value = 'X12'>충북</option>
-						<option value = 'X13'>충남</option>
-						<option value = 'X14'>전북</option>
-						<option value = 'X15'>전남</option>
-						<option value = 'X16'>경북</option>
-						<option value = 'X17'>경남</option>
-						<option value = 'X18'>제주</option>
+						<option th:each="list : ${list.X}" th:text="${list.desct}" th:attr="value=${list.prov}">지역</option>
 					</select>
 				</div>
 				
