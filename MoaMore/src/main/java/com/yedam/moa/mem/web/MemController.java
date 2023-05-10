@@ -60,7 +60,7 @@ public class MemController {
 	@GetMapping("mem/mkResume")
 	public String createResume(Principal principal, Model model, MemVO vo) {
 		vo.setId(principal.getName());
-		model.addAttribute("list", com.getCodes("Z","D","E","B"));
+		model.addAttribute("list", com.getCodes("Z","D","E","B","d","N","A"));
 		
 		System.out.println(model.getAttribute("list"));
 		model.addAttribute("info", mem.getMemInfo(vo));

@@ -8,23 +8,6 @@
     <meta charset="UTF-8" />
     <title>Insert title here</title>
     <style>
-      .Fixed {
-        -webkit-box-flex: 0;
-        -ms-flex: 0 0 auto;
-        flex: 0 0 auto;
-        width: 30%;
-        -webkit-box-flex: 0;
-        -ms-flex: 0 0 auto;
-        flex: 0 0 auto;
-        width: 15%;
-        -webkit-box-ordinal-group: 7 !important;
-        -ms-flex-order: 6 !important;
-        order: 6 !important;
-        position: fixed;
-        top: 200px;
-        right: 5%;
-      }
-
       input {
         height: 50px;
         /* border-radius: 0.5rem; */
@@ -34,397 +17,979 @@
         height: 45px;
         font-size: 4px;
       }
+      .bi.bi-plus-circle-fill::before,
+      .bi.bi-x-lg::before {
+        float: right;
+        cursor: pointer;
+      }
+      .cursor {
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
     <div class="container" layout:fragment="content">
       <div class="row g-4 my-5">
         <!-- 		sidebar -->
-        <div class="Fixed md-2">
-          <h4 class="d-flex justify-content-between align-items-center mb-3">
-            <span class="text">이력서 항목</span>
-          </h4>
-          <ul class="list-group mb-3">
-            <li class="list-group-item d-flex justify-content-between">
-              <div>
-                <h6 class="my-0">Product name</h6>
-              </div>
-              <span class="text-muted">$12</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between lh-sm">
-              <div>
-                <h6 class="my-0">Second product</h6>
-              </div>
-              <span class="text-muted">$8</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between lh-sm">
-              <div>
-                <h6 class="my-0">Third item</h6>
-              </div>
-              <span class="text-muted">$5</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between bg-light">
-              <div class="text-success">
-                <h6 class="my-0">Promo code</h6>
-              </div>
-              <span class="text-success">−$5</span>
-            </li>
-          </ul>
+        <div class="col-md-3 col-lg-3 order-md-last">
+          <div style="position: sticky; top: 150px">
+            <h4 class="mb-3">
+              <span class="text">이력서 항목</span>
+            </h4>
+            <ul class="list-group mb-3 ps-1">
+              <li
+                name="scholar"
+                class="list-group-item d-flex justify-content-between cursor bt"
+              >
+                <div>
+                  <h4 class="my-2">학력</h4>
+                </div>
+                <i name="scholar" class="bi-plus-circle-fill fs-4 md-3"></i>
+              </li>
+              <li
+                name="carrer"
+                class="list-group-item d-flex justify-content-between cursor bt"
+              >
+                <div>
+                  <h4 class="my-2">경력</h4>
+                </div>
+                <i class="bi-plus-circle-fill fs-4 md-3"></i>
+              </li>
+              <li
+                name="ed"
+                class="list-group-item d-flex justify-content-between cursor bt"
+              >
+                <div>
+                  <h4 class="my-2">교육</h4>
+                </div>
+                <i class="bi-plus-circle-fill fs-4 md-3"></i>
+              </li>
+              <li
+                name="licen"
+                class="list-group-item d-flex justify-content-between cursor bt"
+              >
+                <div>
+                  <h4 class="my-2">자격증</h4>
+                </div>
+                <i class="bi-plus-circle-fill fs-4 md-3"></i>
+              </li>
+              <li
+                name="won"
+                class="list-group-item d-flex justify-content-between cursor bt"
+              >
+                <div>
+                  <h4 class="my-2">수상내역</h4>
+                </div>
+                <i class="bi-plus-circle-fill fs-4 md-3"></i>
+              </li>
+              <li
+                name="introduce"
+                class="list-group-item d-flex justify-content-between cursor bt"
+              >
+                <div>
+                  <h4 class="my-2">자기소개서</h4>
+                </div>
+                <i class="bi-plus-circle-fill fs-4 md-3"></i>
+              </li>
+              <li
+                name="pofol"
+                class="list-group-item d-flex justify-content-between cursor bt"
+              >
+                <div>
+                  <h4 class="my-2">포트폴리오</h4>
+                </div>
+                <i name="pofol" class="bi-plus-circle-fill fs-4 md-3"></i>
+              </li>
+            </ul>
 
-          <form class="p-2">
-            <div class="input-group d-flex justify-content-center">
-              <button type="submit" class="btn btn-outline-primary px-2">
-                이력서 저장
-              </button>
-            </div>
-          </form>
+            <form class="p-2">
+              <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-outline-primary px-2 m-2">
+                  이력서 저장
+                </button>
+                <button type="submit" class="btn btn-outline-danger px-2 m-2">
+                  취소
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
         <!-- 			sidebar end -->
-        <!-- 				main -->
-        <div class="col-md-9 col-lg-10">
-          <h4 class="mb-3">개인정보</h4>
-          <!-- 				<form class="needs-validation"> -->
-          <!-- 					<div class="row g-3"> -->
-          <!-- 						<div class="col-sm-6"> -->
-          <!-- 							<label for="firstName" class="form-label">First name</label> <input -->
-          <!-- 								type="text" class="form-control" id="firstName" placeholder="" -->
-          <!-- 								value="" required="" /> -->
-          <!-- 							<div class="invalid-feedback">Valid first name is required. -->
-          <!-- 							</div> -->
-          <!-- 						</div> -->
+        <div class="col-md-9 col-lg-9">
+          <!-- 				main -->
+          <div class="col-md-12 col-lg-12">
+            <h4 class="mb-3">개인정보</h4>
+            <div class="formId my-3 card p-2">
+              <div class="row gy-3" name="memInfo">
+                <div class="col-md-3">
+                  <label class="w-100"
+                    >이름
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="name"
+                      name="name"
+                      value="이름"
+                      th:value="${info.name}"
+                      readonly
+                  /></label>
+                </div>
 
-          <!-- 						<div class="col-sm-6"> -->
-          <!-- 							<label for="lastName" class="form-label">Last name</label> <input -->
-          <!-- 								type="text" class="form-control" id="lastName" placeholder="" -->
-          <!-- 								value="" required="" /> -->
-          <!-- 							<div class="invalid-feedback">Valid last name is required.</div> -->
-          <!-- 						</div> -->
+                <div class="col-md-3">
+                  <label class="w-100"
+                    >생년월일
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="birth"
+                      name="birth"
+                      th:value="${info.birth}"
+                      readonly
+                  /></label>
+                </div>
 
-          <!-- 						<div class="col-12"> -->
-          <!-- 							<label for="username" class="form-label">Username</label> -->
-          <!-- 							<div class="input-group has-validation"> -->
-          <!-- 								<span class="input-group-text">@</span> <input type="text" -->
-          <!-- 									class="form-control" id="username" placeholder="Username" -->
-          <!-- 									required="" /> -->
-          <!-- 								<div class="invalid-feedback">Your username is required.</div> -->
-          <!-- 							</div> -->
-          <!-- 						</div> -->
+                <div class="col-md-4">
+                  <label class="w-100"
+                    >이메일
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="email"
+                      name="email"
+                      th:value="${info.email}"
+                    />
+                  </label>
+                </div>
 
-          <!-- 						<div class="col-12"> -->
-          <!-- 							<label for="email" class="form-label">Email <span -->
-          <!-- 								class="text-muted">(Optional)</span> -->
-          <!-- 							</label> <input type="email" class="form-control" id="email" -->
-          <!-- 								placeholder="you@example.com" /> -->
-          <!-- 							<div class="invalid-feedback">Please enter a valid email -->
-          <!-- 								address for shipping updates.</div> -->
-          <!-- 						</div> -->
+                <div class="col-md-2">
+                  <label class="w-100"
+                    >성별
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="gen"
+                      name="cc-name"
+                      th:value="${info.gen}"
+                      readonly
+                  /></label>
+                </div>
 
-          <!-- 						<div class="col-12"> -->
-          <!-- 							<label for="address" class="form-label">Address</label> <input -->
-          <!-- 								type="text" class="form-control" id="address" -->
-          <!-- 								placeholder="1234 Main St" required="" /> -->
-          <!-- 							<div class="invalid-feedback">Please enter your shipping -->
-          <!-- 								address.</div> -->
-          <!-- 						</div> -->
+                <div class="col-md-3 mt-0">
+                  <label class="w-100"
+                    >전화번호
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="ph"
+                      name="ph"
+                      th:value="${info.ph}"
+                  /></label>
+                </div>
 
-          <!-- 						<div class="col-12"> -->
-          <!-- 							<label for="address2" class="form-label">Address 2 <span -->
-          <!-- 								class="text-muted">(Optional)</span> -->
-          <!-- 							</label> <input type="text" class="form-control" id="address2" -->
-          <!-- 								placeholder="Apartment or suite" /> -->
-          <!-- 						</div> -->
+                <div class="col-md-3 mt-0">
+                  <label class="w-100"
+                    >휴대폰
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="phCl"
+                      name="phCl"
+                      th:value="${info.phCl}"
+                  /></label>
+                </div>
 
-          <!-- 						<div class="col-md-5"> -->
-          <!-- 							<label for="country" class="form-label">Country</label> <select -->
-          <!-- 								class="form-select" id="country" required=""> -->
-          <!-- 								<option value="">Choose...</option> -->
-          <!-- 								<option>United States</option> -->
-          <!-- 							</select> -->
-          <!-- 							<div class="invalid-feedback">Please select a valid -->
-          <!-- 								country.</div> -->
-          <!-- 						</div> -->
-
-          <!-- 						<div class="col-md-4"> -->
-          <!-- 							<label for="state" class="form-label">State</label> <select -->
-          <!-- 								class="form-select" id="state" required=""> -->
-          <!-- 								<option value="">Choose...</option> -->
-          <!-- 								<option>California</option> -->
-          <!-- 							</select> -->
-          <!-- 							<div class="invalid-feedback">Please provide a valid state. -->
-          <!-- 							</div> -->
-          <!-- 						</div> -->
-
-          <!-- 						<div class="col-md-3"> -->
-          <!-- 							<label for="zip" class="form-label">Zip</label> <input -->
-          <!-- 								type="text" class="form-control" id="zip" placeholder="" -->
-          <!-- 								required="" /> -->
-          <!-- 							<div class="invalid-feedback">Zip code required.</div> -->
-          <!-- 						</div> -->
-          <!-- 					</div> -->
-          <div class="formId my-3 card p-2">
-            <div class="row gy-3" name="memInfo">
-              <div class="col-md-3">
-                <label for="name" class="form-label">이름</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="name"
-                  name="name"
-                  value="이름"
-                  th:value="${info.name}"
-                  readonly
-                />
+                <div class="col-md-4 mt-0">
+                  <label class="w-100"
+                    >주소
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="addr"
+                      name="addr"
+                      th:value="${info.addr}"
+                  /></label>
+                  <!-- 							<div class="invalid-feedback">Credit card number is -->
+                  <!-- 								required</div> -->
+                  <!-- 								유효성 검사용  -->
+                </div>
+                <div class="col-md-2 mt-0">
+                  <label class="w-100"
+                    >우편 번호
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="post"
+                      name="post"
+                      th:value="${info.post}"
+                      readonly
+                  /></label>
+                </div>
               </div>
-
-              <div class="col-md-3">
-                <label for="birth" class="form-label">생년월일</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="birth"
-                  name="birth"
-                  th:value="${info.birth}"
-                  readonly
-                />
+            </div>
+          </div>
+          <!-------------- 스킬--------------------------------------------------------------------- -->
+          <div class="col-md-12 col-lg-12">
+            <h4 class="mb-3">기술 역량</h4>
+            <div class="formSkill my-3 card ps-4 py-3">
+              <div class="row gy-3" name="cardForAddSkill">
+                <button
+                  th:each="list:${list.Z}"
+                  class="col-md-2 mx-2 px-0 btn btn-outline-primary btn-sm"
+                  th:value="${list.prov}"
+                  name="skillBtn"
+                >
+                  [[${list.desct}]]
+                </button>
               </div>
+            </div>
+          </div>
+          <div class="col-md-12 col-lg-12">
+            <div class="formSkill my-3 card ps-4 py-3">
+              <div class="row gy-3" name="cardForViewSkill"></div>
+            </div>
+          </div>
 
-              <div class="col-md-4">
-                <label for="email" class="form-label">이메일</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="email"
-                  name="email"
-                  th:value="${info.email}"
-                />
+          <!---------------------- 학력 -------------------------------------------------------->
+          <div id="scholar" style="display: none">
+            <div class="col-md-12 col-lg-12">
+              <h4 class="mb-3">학력</h4>
+              <div class="forSchr my-3 card ps-4 p-3">
+                <div class="whrPst" name="whrPst">
+                  <div style="display: none">
+                    <div class="row gy-3 mb-4 mt-2">
+                      <div><i class="bi bi-x-lg"></i></div>
+                      <div class="dropdown col-md-2 pt-3">
+                        <button
+                          class="btn btn-chek p-2 dropdown-toggle mt-2"
+                          type="button"
+                          style="border-radius: 0.5rem; width: 100%"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <span>학교 구분</span>
+                        </button>
+                        <ul class="dropdown-menu" style="border-radius: 0.5rem">
+                          <li th:each="sh:${list.D}">
+                            <button
+                              type="button"
+                              class="dropdown-item"
+                              style="border-radius: 0.5rem; width: 100%"
+                              th:value="${sh.prov}"
+                            >
+                              <span>[[${sh.desct}]]</span>
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                      <input type="hidden" name="fg" value />
+                      <div class="col-md-5">
+                        <label class="w-100"
+                          >학교 이름
+                          <input type="text" class="form-control" name="breu" />
+                        </label>
+                      </div>
+                      <div class="col-md-5">
+                        <label class="w-100"
+                          >전공
+                          <input type="text" class="form-control" name="mj" />
+                        </label>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="w-100"
+                          >입학 년월
+                          <input
+                            type="month"
+                            class="form-control"
+                            name="joinYy"
+                          />
+                        </label>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="w-100"
+                          >입학 년월
+                          <input
+                            type="month"
+                            class="form-control"
+                            name="retiYy"
+                          />
+                        </label>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="w-100"
+                          >학점
+                          <input type="text" class="form-control" name="pnt" />
+                        </label>
+                      </div>
+                      <div class="dropdown col-md-2 pt-3">
+                        <button
+                          class="btn btn-chek p-2 dropdown-toggle mt-2"
+                          type="button"
+                          style="border-radius: 0.5rem; width: 100%"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <span>총 점</span>
+                        </button>
+                        <ul class="dropdown-menu" style="border-radius: 0.5rem">
+                          <li th:each="tt:${list.E}">
+                            <button
+                              type="button"
+                              class="dropdown-item"
+                              style="border-radius: 0.5rem; width: 100%"
+                              th:value="${tt.prov}"
+                            >
+                              <span>[[${tt.desct}]]</span>
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                      <input type="hidden" name="ttScore" value />
+                      <div class="dropdown col-md-2 pt-3">
+                        <button
+                          class="btn btn-chek p-2 dropdown-toggle mt-2"
+                          type="button"
+                          style="border-radius: 0.5rem; width: 100%"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <span>졸업 여부</span>
+                        </button>
+                        <ul class="dropdown-menu" style="border-radius: 0.5rem">
+                          <li th:each="st:${list.B}">
+                            <button
+                              type="button"
+                              class="dropdown-item"
+                              style="border-radius: 0.5rem; width: 100%"
+                              th:value="${st.prov}"
+                            >
+                              <span>[[${st.desct}]]</span>
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                      <input type="hidden" name="shcrSt" value />
+                    </div>
+                  </div>
+                </div>
+                <div></div>
+                <div class="fs-4 md-3">
+                  <i class="bi bi-plus-circle-fill"></i>
+                </div>
               </div>
+            </div>
+          </div>
+          <!-- -------------------------------경력------------------------------- -->
+          <div id="carrer" style="display: none">
+            <div class="col-md-12 col-lg-12">
+              <h4 class="mb-3">경력</h4>
+              <div class="forCarr my-3 card ps-4 p-3">
+                <div class="whrPst">
+                  <div style="display: none">
+                    <div class="row gy-3 mb-4 mt-2">
+                      <div><i class="bi bi-x-lg"></i></div>
+                      <div class="dropdown col-md-2 pt-3">
+                        <button
+                          class="btn btn-chek p-2 dropdown-toggle mt-2"
+                          type="button"
+                          style="border-radius: 0.5rem; width: 100%"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <span>직책</span>
+                        </button>
+                        <ul class="dropdown-menu" style="border-radius: 0.5rem">
+                          <li th:each="cl:${list.d}">
+                            <button
+                              type="button"
+                              class="dropdown-item"
+                              style="border-radius: 0.5rem; width: 100%"
+                              th:value="${cl.prov}"
+                            >
+                              <span>[[${cl.desct}]]</span>
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                      <input type="hidden" name="wkdty" value />
+                      <div class="col-md-4">
+                        <label class="w-100"
+                          >회사명
+                          <input type="text" class="form-control" name="co" />
+                        </label>
+                      </div>
+                      <div class="col-md-4">
+                        <label class="2-100"
+                          >부서명
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="depart"
+                          />
+                        </label>
+                      </div>
+                      <div class="dropdown col-md-2 pt-3">
+                        <button
+                          class="btn btn-chek p-2 dropdown-toggle mt-2"
+                          type="button"
+                          style="border-radius: 0.5rem; width: 100%"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <span>직무</span>
+                        </button>
+                        <ul class="dropdown-menu" style="border-radius: 0.5rem">
+                          <li th:each="clc:${list.N}">
+                            <button
+                              type="button"
+                              class="dropdown-item"
+                              style="border-radius: 0.5rem; width: 100%"
+                              th:value="${clc.prov}"
+                            >
+                              <span>[[${clc.desct}]]</span>
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                      <input type="hidden" name="duty" value />
+                      <div class="col-md-2">
+                        <label class="w-100"
+                          >입사년도
+                          <input
+                            type="month"
+                            class="form-control"
+                            name="joinYy"
+                          />
+                        </label>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="w-100"
+                          >퇴사년도
+                          <input
+                            type="month"
+                            class="form-control"
+                            name="retiYy"
+                          />
+                        </label>
+                      </div>
+                      <div class="col-md-6">
+                        <label class="w-100"
+                          >업무
+                          <input type="text" class="form-control" name="buss" />
+                        </label>
+                      </div>
 
-              <div class="col-md-2">
-                <label for="gen" class="form-label">성별</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="gen"
-                  name="cc-name"
-                  th:value="${info.gen}"
-                  readonly
-                />
+                      <div class="dropdown col-md-2 pt-3">
+                        <button
+                          class="btn btn-chek p-2 dropdown-toggle mt-2"
+                          type="button"
+                          style="border-radius: 0.5rem; width: 100%"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <span>상태</span>
+                        </button>
+                        <ul class="dropdown-menu" style="border-radius: 0.5rem">
+                          <li th:each="st:${list.B}">
+                            <button
+                              type="button"
+                              class="dropdown-item"
+                              style="border-radius: 0.5rem; width: 100%"
+                              th:value="${st.prov}"
+                            >
+                              <span>[[${st.desct}]]</span>
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                      <input type="hidden" name="carrSt" value />
+                    </div>
+                  </div>
+                </div>
+                <div></div>
+                <div class="fs-4 md-3">
+                  <i class="bi bi-plus-circle-fill"></i>
+                </div>
               </div>
+            </div>
+          </div>
+          <!-- -----------교육--------------------------- -->
+          <div id="ed" style="display: none">
+            <div class="col-md-12 col-lg-12">
+              <h4 class="mb-3">교육</h4>
+              <div class="forCarr my-3 card ps-4 p-3">
+                <div class="whrPst" name="whrPst">
+                  <div style="display: none">
+                    <div class="row gy-3 mb-4 mt-2">
+                      <div><i class="bi bi-x-lg"></i></div>
+                      <div class="col-md-5">
+                        <label class="w-100"
+                          >교육명
+                          <input type="text" class="form-control" name="co" />
+                        </label>
+                      </div>
+                      <div class="col-md-7">
+                        <label class="w-100"
+                          >교육기관
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="depart"
+                          />
+                        </label>
+                      </div>
 
-              <div class="col-md-3 mt-0">
-                <label for="ph" class="form-label">전화번호</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="ph"
-                  name="ph"
-                  th:value="${info.ph}"
-                />
-              </div>
+                      <div class="col-md-2">
+                        <label class="w-100"
+                          >시작년도
+                          <input
+                            type="month"
+                            class="form-control"
+                            name="joinYy"
+                          />
+                        </label>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="w-100"
+                          >종료년도
+                          <input
+                            type="month"
+                            class="form-control"
+                            name="retiYy"
+                          />
+                        </label>
+                      </div>
+                      <div class="col-md-8">
+                        <label class="w-100"
+                          >이수내용
+                          <input type="text" class="form-control" name="buss" />
+                        </label>
+                      </div>
 
-              <div class="col-md-3 mt-0">
-                <label for="phCl" class="form-label">휴대폰</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="phCl"
-                  name="phCl"
-                  th:value="${info.phCl}"
-                />
+                      <input type="hidden" name="carrSt" value />
+                    </div>
+                  </div>
+                </div>
+                <div></div>
+                <div class="fs-4 md-3">
+                  <i class="bi bi-plus-circle-fill"></i>
+                </div>
               </div>
+            </div>
+          </div>
+          <!-----------자격증------------------------------>
+          <div id="licen" style="display: none">
+            <div class="col-md-12 col-lg-12">
+              <h4 class="mb-3">자격증</h4>
+              <div class="forCarr my-3 card ps-4 p-3">
+                <div class="whrPst" name="whrPst">
+                  <div style="display: none">
+                    <div class="row gy-3 mb-4 mt-2">
+                      <div><i class="bi bi-x-lg"></i></div>
+                      <div class="col-md-4">
+                        <label class="w-100"
+                          >자격증명
+                          <input type="text" class="form-control" name="co" />
+                        </label>
+                      </div>
+                      <div class="col-md-6">
+                        <label class="w-100"
+                          >발급기관
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="depart"
+                          />
+                        </label>
+                      </div>
 
-              <div class="col-md-4 mt-0">
-                <label for="addr" class="form-label">주소</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="addr"
-                  name="addr"
-                  th:value="${info.addr}"
-                />
-                <!-- 							<div class="invalid-feedback">Credit card number is -->
-                <!-- 								required</div> -->
-                <!-- 								유효성 검사용  -->
+                      <div class="col-md-2">
+                        <label class="w-100"
+                          >취득월
+                          <input
+                            type="month"
+                            class="form-control"
+                            name="joinYy"
+                          />
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div></div>
+                <div class="fs-4 md-3">
+                  <i class="bi bi-plus-circle-fill"></i>
+                </div>
               </div>
-              <div class="col-md-2 mt-0">
-                <label for="cc-name" class="form-label">우편 번호</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="post"
-                  name="post"
-                  th:value="${info.post}"
-                  readonly
-                />
+            </div>
+          </div>
+          <!--------------------------수상내역------------------------------->
+          <div id="won" style="display: none">
+            <div class="col-md-12 col-lg-12">
+              <h4 class="mb-3">수상내역</h4>
+              <div class="forCarr my-3 card ps-4 p-3">
+                <div class="whrPst" name="whrPst">
+                  <div style="display: none">
+                    <div class="row gy-3 mb-4 mt-2">
+                      <div><i class="bi bi-x-lg"></i></div>
+                      <div class="col-md-4">
+                        <label class="w-100"
+                          >수상명
+                          <input type="text" class="form-control" name="co" />
+                        </label>
+                      </div>
+                      <div class="col-md-6">
+                        <label class="w-100"
+                          >수여기관
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="depart"
+                          />
+                        </label>
+                      </div>
+
+                      <div class="col-md-2">
+                        <label class="w-100"
+                          >수상년도
+                          <input
+                            type="month"
+                            class="form-control"
+                            name="joinYy"
+                          />
+                        </label>
+                      </div>
+                      <div class="col-md-12">
+                        <label class="w-100"
+                          >수여내용
+                          <input type="text" class="form-control" name="co" />
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div></div>
+                <div class="fs-4 md-3">
+                  <i class="bi bi-plus-circle-fill"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--------------------------자기소개서------------------------------->
+          <div id="introduce" style="display: none">
+            <div class="col-md-12 col-lg-12">
+              <h4 class="mb-3">자기소개서</h4>
+              <div class="forCarr my-3 card ps-4 p-3">
+                <div class="whrPst" name="whrPst">
+                  <div style="display: none">
+                    <div class="row gy-3 mb-4 mt-2">
+                      <div><i class="bi bi-x-lg"></i></div>
+                      <div class="col-md-12">
+                        <label class="w-100"
+                          >자기소개서
+                          <input type="text" class="form-control" name="co" />
+                        </label>
+                      </div>
+                      <div class="col-md-12">
+                        <label class="w-100"
+                          >내용
+                          <textarea
+                            class="form-control"
+                            name=""
+                            cols="30"
+                            rows="10"
+                          ></textarea>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div></div>
+                <div class="fs-4 md-3">
+                  <i class="bi bi-plus-circle-fill"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 본문 : 포트폴리오 -->
+          <div id="pofol" style="display: none">
+            <div class="col-md-12 col-lg-12">
+              <h4 class="mb-3"><b>포트폴리오 </b></h4>
+              <div class="forCarr my-3 card ps-4 p-3">
+                <div class="whrPst" name="whrPst">
+                  <div style="display: block">
+                    <div class="mb-5">
+                      <p class="fs-1">
+                        <button
+                          id="pofolBtn"
+                          type="button"
+                          class="btn btn btn-outline-dark btn-sm radius"
+                          style="height: 40px"
+                        >
+                          추가
+                        </button>
+                      </p>
+                      <br />
+                      <div class="row">
+                        <div class="col-md-2" style="text-align: center"></div>
+                        <div id="pofolRows" class="col-md-10">
+                          <div
+                            style="background-color: pink; text-align: center"
+                          >
+                            포트폴리오 항목이 비어있습니다. 추가를 눌러 채워
+                            주세요
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <!-------------- 스킬--------------------------------------------------------------------- -->
-        <div class="col-md-9 col-lg-10">
-          <div class="formSkill my-3 card ps-4 py-3">
-            <div class="row gy-3" name="cardForAddSkill">
+      </div>
+      <div
+        class="modal fade"
+        id="pofolModal"
+        tabindex="-1"
+        aria-labelledby="pofolModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content radius">
+            <div class="modal-header">
+              <h5 class="modal-title" id="pofolModalLabel">포트폴리오 등록</h5>
               <button
-                th:each="list:${list.Z}"
-                class="col-md-2 mx-2 px-0 btn btn-outline-primary btn-sm"
-                th:value="${list.prov}"
-                name="skillBtn"
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <form id="pofolRegForm" enctype="multipart/form-data">
+                <!-- 현재로그인된 유저정보 -->
+                <input
+                  id="logId"
+                  name="id"
+                  type="hidden"
+                  th:value="${#authentication.principal.username}"
+                />
+                <!-- 불러온 이력서 번호 -->
+                <input id="resumeNo" name="resumeNo" type="hidden" />
+                <!-- 현재 작성 게시글 기본키값 -->
+                <input
+                  id="selfJobKey"
+                  name="jobSearchNo"
+                  type="hidden"
+                  th:attr="value=${selfJobKey}"
+                />
+
+                <table class="table">
+                  <tbody class="trColor">
+                    <tr>
+                      <th>제목</th>
+                      <td>
+                        <input
+                          id="pofolTitle"
+                          name="title"
+                          type="text"
+                          class="fullWidth"
+                          style="border: 1px solid #ddd"
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>이미지파일</th>
+                      <td>
+                        <input id="pofolImg" name="pofolImg" type="file" />
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>포트폴리오 파일</th>
+                      <td>
+                        <input id="pofolFile" name="pofolFile" type="file" />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary radius"
+                style="background-color: gray; border: none"
+                data-bs-dismiss="modal"
               >
-                [[${list.desct}]]
+                닫기
+              </button>
+              <button
+                id="pofolRegBtn"
+                type="button"
+                class="btn btn-dark radius"
+              >
+                등록
               </button>
             </div>
           </div>
         </div>
-        <div class="col-md-9 col-lg-10">
-          <div class="formSkill my-3 card ps-4 py-3">
-            <div class="row gy-3" name="cardForViewSkill"></div>
-          </div>
-        </div>
-
-        <!---------------------- 학력 -------------------------------------------------------->
-        <div class="col-md-9 col-lg-10">
-          <div class="forSchr my-3 card ps-4 p-3">
-            <div class="row gy-3" name="toClone">
-              <div class="dropdown col-md-2 p-3">
-                <button
-                  class="btn btn-chek p-2 dropdown-toggle"
-                  type="button"
-                  style="border-radius: 0.5rem"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  <span>학교 구분</span>
-                </button>
-                <ul class="dropdown-menu" style="border-radius: 0.5rem">
-                  <li th:each="sh:${list.D}">
-                    <button
-                      type="button"
-                      class="dropdown-item"
-                      style="border-radius: 0.5rem"
-                      th:value="${sh.prov}"
-                    >
-                      <span>[[${sh.desct}]]</span>
-                    </button>
-                  </li>
-                </ul>
-              </div>
-              <input type="hidden" name="fg" id="fg" value />
-              <div class="col-md-5">
-                <label for="breu" class="form-label">학교 이름</label>
-                <input type="text" class="form-control" id="breu" name="breu" />
-              </div>
-              <div class="col-md-5">
-                <label for="mj" class="form-label">전공</label>
-                <input type="text" class="form-control" id="mj" name="mj" />
-              </div>
-              <div class="col-md-2">
-                <label for="cc-expiration" class="form-label">입학 년월</label>
-                <input
-                  type="month"
-                  class="form-control"
-                  id="joinYy"
-                  name="joinYy"
-                />
-              </div>
-              <div class="col-md-2">
-                <label for="cc-expiration" class="form-label">입학 년월</label>
-                <input
-                  type="month"
-                  class="form-control"
-                  id="retiYy"
-                  name="retiYy"
-                />
-              </div>
-              <div class="dropdown col-md-2">
-                <label for="pnt" class="form-label">학점</label>
-                <input type="text" class="form-control" id="pnt" name="pnt" />
-              </div>
-              <div class="dropdown col-md-2 pt-4">
-                <button
-                  class="btn btn-chek p-2 dropdown-toggle mt-2"
-                  type="button"
-                  style="border-radius: 0.5rem; width: 100%"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  <span>총 점</span>
-                </button>
-                <ul class="dropdown-menu" style="border-radius: 0.5rem">
-                  <li th:each="tt:${list.E}">
-                    <button
-                      type="button"
-                      class="dropdown-item"
-                      style="border-radius: 0.5rem; width: 100%"
-                      th:value="${tt.prov}"
-                    >
-                      <span>[[${tt.desct}]]</span>
-                    </button>
-                  </li>
-                </ul>
-              </div>
-              <input type="hidden" name="ttScore" id="ttScore" value />
-              <div class="dropdown col-md-2 pt-4">
-                <button
-                  class="btn btn-chek p-2 dropdown-toggle mt-2"
-                  type="button"
-                  style="border-radius: 0.5rem; width: 100%"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  <span>졸업 여부</span>
-                </button>
-                <ul class="dropdown-menu" style="border-radius: 0.5rem">
-                  <li th:each="st:${list.B}">
-                    <button
-                      type="button"
-                      class="dropdown-item"
-                      style="border-radius: 0.5rem; width: 100%"
-                      th:value="${st.prov}"
-                    >
-                      <span>[[${st.desct}]]</span>
-                    </button>
-                  </li>
-                </ul>
-              </div>
-              <input type="hidden" name="shcrSt" id="shcrSt" value />
-            </div>
-            <div>
-              <i
-                class="bi bi-plus-circle-fill"
-                style="cursor: pointer"
-                id="addBtn"
-              ></i>
-            </div>
-          </div>
-        </div>
-        <!-- 			main end -->
       </div>
       <script>
         $(document).ready(function () {
+          // 스킬 클릭 이동
           $("button[name=skillBtn]").on("click", function (ev) {
-            console.log($(this));
             if ($(this).parent().attr("name") == "cardForAddSkill") {
               $("div[name=cardForViewSkill]").append($(this));
             } else {
               $("div[name=cardForAddSkill]").append($(this));
             }
           });
+          // 노드 복사
+          $("i.bi.bi-plus-circle-fill").on("click", copy);
+          // 드롭다운 메뉴
           $(".dropdown-item").on("click", function () {
             let selected = $(this).val();
             let selectedText = $(this)[0].innerText;
-            console.log(selected);
             console.log($(this).closest(".dropdown")[0].nextElementSibling);
             $(this).closest(".dropdown")[0].firstElementChild.innerText =
               selectedText;
             $(this).closest(".dropdown")[0].nextElementSibling.value = selected;
-            console.log(
-              $(this).closest(".dropdown")[0].nextElementSibling.value
-            );
           });
-          $(document).on("click", "#addBtn", function () {
-            $("div[class=forSchr]").append("<h>왜 안되냐</h>");
-            
+
+          //삭제
+
+          $(document).on("click", "i.bi.bi-x-lg", function () {
+            let count = $(this).parents()[3].children.length;
+            let bid = $(this).parents()[6].id;
+            let dis = $("#" + bid);
+            $(this).parents()[2].remove();
+            if (count == 1) {
+              dis.css("display", "none");
+            }
           });
+
+          //           메뉴 버튼
+          $(".bt").on("click", function () {
+            //             console.log($(this)[0].getAttribute("name"));
+            let bname = $(this)[0].getAttribute("name");
+            let element = $("#" + bname);
+            console.log(element);
+            element.css("display", "block");
+            $(element).find("i.bi.bi-plus-circle-fill").click();
+          });
+          function copy(ev) {
+            let tar = $(this).parents()[1].children[1];
+            let newNode = $(this).parents()[1].children[0].children[0];
+            let cop = newNode.cloneNode(true);
+            cop.style.display = "block";
+            tar.append(cop);
+            $(this).parents()[1].children[1];
+            ev.stopPropagation();
+          }
+          // 포트폴리오 추가 버튼 클릭시
+          $("#pofolBtn").on("click", function () {
+            $("#pofolTitle").val(""); // 초기화
+            $("#pofolImg").val(""); // 초기화
+            $("#pofolFile").val(""); // 초기화
+            $("#pofolModal").modal("show");
+          });
+
+          // 포트폴리오 등록버튼 클릭시
+          $("#pofolRegBtn").on("click", function () {
+            pofolReg(); // 포트폴리오 등록 ajax호출 함수
+            $("#pofolModal").modal("hide");
+          });
+
+          // 포트폴리오 등록 ajax호출 함수
+          function pofolReg() {
+            let formData = new FormData($("#pofolRegForm")[0]); // 폼데이터
+
+            $.ajax({
+              url: "pofolAdd",
+              type: "post",
+              data: formData,
+              async: true, //비동기 여부
+              enctype: "multipart/form-data", //form data 설정
+              processData: false, //프로세스 데이터 설정 : false 값을 해야 form data로 인식합니다
+              contentType: false, //헤더의 Content-Type을 설정 : false 값을 해야 form data로 인식합니다
+              success: function (result) {
+                console.log(result);
+                pofolRows.innerHTML = ""; // 초기화
+
+                let pofolHtml = "";
+                for (let i = 0; i < result.length; i++) {
+                  pofolHtml += pofolListPrint(result[i]);
+                }
+
+                pofolRows.innerHTML = pofolHtml;
+              },
+              error: function (reject) {
+                console.log(reject);
+              },
+            });
+          }
+
+          // 포트폴리오 목록 그리는 함수
+          function pofolListPrint(result = {}) {
+            let pofolHtml =
+              `<div class="row align-items-center border-bottom hoverRow mb-3">
+          				        <div class="col-md-3">
+          				      	<img class="img-fluid imgSize" src="/moamorePofol/` +
+              result.pofolImg +
+              `" alt="이미지없음">
+          				      </div>
+          				      <div class="col-md-7" style="color:black;">
+          				      		<p class="mb-0">[제목] ` +
+              result.title +
+              `</p>
+          				        	<p class="mb-0">[파일명] <a style="color:blue; text-decoration:underline !important;" href="/moamorePofol/` +
+              result.pofolUuidFile +
+              `">` +
+              result.pofolFile +
+              `</a></p>
+          				      </div>
+          				      <div class="col-md-2" >
+          					      <button id="` +
+              result.fileNo +
+              `" data-no="` +
+              result.jobSearchNo +
+              `" onclick="deletePofol(this)" type="button" style="margin-left : 20px; padding:15px;" class="btn-close" aria-label="Close"></button>
+          					  </div>             
+          					</div>`;
+            return pofolHtml;
+          }
+          // 포트폴리오 리스트에서 닫기 버튼 클릭시 발생하는 함수
+          function deletePofol(deleteItem) {
+            let jobSearchNo = deleteItem.dataset.no; // data - 속성 이용해서 값가져옴
+            console.log(jobSearchNo);
+
+            $.ajax({
+              url: "pofolDelete",
+              type: "post",
+              data: { fileNo: deleteItem.id, jobSearchNo: jobSearchNo },
+              success: function (result) {
+                console.log("삭제성공");
+                pofolRows.innerHTML = ""; // 초기화
+
+                let pofolHtml = "";
+                if (result.length == 0) {
+                  // 포트폴리오 리스트 항목이 0개라면
+                  pofolHtml = `<div style="background-color : pink; text-align:center;">포트폴리오 항목이 비어있습니다. 추가를 눌러 채워 주세요</div>`;
+                  pofolRows.innerHTML = pofolHtml;
+                } else {
+                  for (let i = 0; i < result.length; i++) {
+                    pofolHtml += pofolListPrint(result[i]); // 화면에 뿌려주는 태그들
+                  }
+
+                  pofolRows.innerHTML = pofolHtml;
+                }
+              },
+              error: function (reject) {
+                console.log(reject);
+              },
+            });
+          }
         });
       </script>
     </div>
