@@ -18,8 +18,6 @@ public class MemVO {
 	private String post;	//우편번호
 	private String authr;	//권한
 	private String clsf;	//회원분류
-	private String kakao;	//카카오
-	private String naver;	//네이버
 	private String logCnt;	//로그인횟수
 	private String ltstTm;	//최근로그인시간
 	private String gen;		//성별
@@ -27,7 +25,7 @@ public class MemVO {
 	private String addr;	//주소
 	private String joinDt;	//가입일자
 
-	
+	private String clsfname;
 //	관심기업
 	private String idMem; 	//회원 아이디
 	private String idCo;	//기업 아이디

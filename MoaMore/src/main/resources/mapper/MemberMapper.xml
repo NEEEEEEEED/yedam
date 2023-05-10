@@ -6,11 +6,11 @@
 	
 	<!-- 단건조회 -->
 	<select id="getMember" resultType="MemberVO">
-		SELECT  MEMBER_ID,
-				MEMBER_PW,
-				MEMBER_ROLE
-		 FROM MEMBERS
-		 WHERE MEMBER_ID = #{id}
+		SELECT  ID,
+				PW,
+				authr
+		 FROM MEMBER
+		 WHERE ID = #{id}
 	<!-- #{ } : PreparedStatement 0 -> 0, Kang -> 'Kang'
 		 ${ } : 0 -> 0, Kang -> Kang -->
 	</select>

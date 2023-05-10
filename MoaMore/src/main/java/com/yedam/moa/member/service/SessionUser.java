@@ -9,10 +9,10 @@ import lombok.Getter;
 public class SessionUser implements Serializable {
     SessionUser() {}
 
-    public SessionUser(Logintest Logintest) {
-        this.name = Logintest.getName();
-        this.email = Logintest.getEmail();
-        this.nickName = Logintest.getNickname();
+    public SessionUser(Member Member) {
+        this.name = Member.getName();
+        this.email = Member.getEmail();
+        this.nickName = Member.getNickname();
     }
 
     private String nickName;

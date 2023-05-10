@@ -5,43 +5,100 @@
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item">Forms</li>
-          <li class="breadcrumb-item active">Layouts</li>
+          <li class="breadcrumb-item active">회원관리</li>
         </ol>
       </nav>
     </div>
 
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="card">
-          <div class="card-body">
-            <p class="card-title">검색조건</p>
-            <div class="row">
+    <div class="card">
+      <div class="card-body">
+        <p class="card-title">검색조건</p>
+        <form class="row g-3">
+          <div class="row" style="margin-bottom: 10px">
+            <span class="col-sm-1 col-form-label">회원분류</span>
+            <div class="col-md-4">
               <div
-                class="col-md-2 spanTitle d-flex align-items-center justify-content-center"
+                class="form-check form-check-inline"
+                v-for="(item, index) in filteredTest"
+                style="padding-top: 6px"
+                :key="index"
               >
-                <span>회원상태</span>
-              </div>
-              <div class="col-md-6">
-                <div
-                  class="form-check form-check-inline"
-                  v-for="(item, index) in filteredTest"
+                <label :for="item.commCd" class="form-check-label">{{
+                  item.desct
+                }}</label>
+                <input
+                  type="checkbox"
+                  class="form-check-input"
                   :key="index"
-                >
-                  <label :for="item.commCd" class="form-check-label">{{
-                    item.desct
-                  }}</label>
-                  <input
-                    type="checkbox"
-                    class="form-check-input"
-                    :key="index"
-                    :id="item.commCd"
-                  />
+                  :id="item.commCd"
+                />
+              </div>
+            </div>
+            <div class="col-md-1"></div>
+            <span class="col-sm-1 col-form-label">가입일자</span>
+            <div class="col-md-4">
+              <div class="row">
+                <div class="col-md-6">
+                  <input type="date" class="form-control" />
+                </div>
+                <div class="col-md-6">
+                  <input type="date" class="form-control" />
                 </div>
               </div>
             </div>
           </div>
-        </div>
+          <div class="row" style="margin-bottom: 10px">
+            <span class="col-sm-1 col-form-label">회원명</span>
+            <div class="col-md-4">
+              <input type="text" class="form-control" />
+            </div>
+            <div class="col-md-1"></div>
+            <span class="col-sm-1 col-form-label">이메일</span>
+            <div class="col-md-4">
+              <div class="input-group mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Username"
+                  aria-label="Username"
+                />
+                <span class="input-group-text">@</span>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Server"
+                  aria-label="Server"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row" style="margin-bottom: 10px">
+            <span class="col-sm-1 col-form-label">아이디</span>
+            <div class="col-md-4">
+              <input type="text" class="form-control" />
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-8"></div>
+                <div class="col-md-4">
+                  <button
+                    style="float: right; margin-left: 5px"
+                    class="btn btn-outline-primary"
+                    type="button"
+                  >
+                    검색</button
+                  ><button
+                    style="float: right"
+                    class="btn btn-outline-secondary"
+                    type="reset"
+                  >
+                    초기화
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
 
@@ -53,7 +110,7 @@
             <DataTable
               :value="userList"
               selectionMode="single"
-              dataKey="id"
+              dataKey="email"
               showGridlines
               sortField="joinDt"
               paginator
@@ -63,7 +120,7 @@
               v-model="selected"
               v-on:row-select="onRowSelect"
             >
-              <Column field="clsf" header="분류"></Column>
+              <Column field="clsfname" header="분류"></Column>
               <Column field="id" header="아이디"></Column>
               <Column field="name" header="이름"></Column>
               <Column field="gen" header="성별"></Column>
@@ -78,15 +135,22 @@
         <div class="card" style="min-height: 100%">
           <div class="card-body">
             <p class="card-title">상세정보</p>
-            <form class="row g-3">
+            <form class="row g-3" id="userForm">
               <div class="col-md-6">
                 <label class="form-label">분류</label>
-                <input
-                  type="text"
-                  class="form-control"
+                <select
+                  class="form-select"
+                  id="clsfSelect"
                   v-model="userDetail.clsf"
-                  readonly
-                />
+                >
+                  <option
+                    v-for="(item, index) in filteredTest"
+                    :key="index"
+                    :value="item.commCd"
+                  >
+                    {{ item.desct }}
+                  </option>
+                </select>
               </div>
               <div class="col-md-6">
                 <label class="form-label">이름</label>
@@ -95,6 +159,7 @@
                   class="form-control"
                   v-model="userDetail.name"
                   readonly
+                  @dblclick="($event) => ($event.target.readOnly = false)"
                 />
               </div>
               <div class="col-md-6">
@@ -104,6 +169,7 @@
                   class="form-control"
                   v-model="userDetail.gen"
                   readonly
+                  @dblclick="($event) => ($event.target.readOnly = false)"
                 />
               </div>
               <div class="col-md-6">
@@ -113,6 +179,7 @@
                   class="form-control"
                   v-model="userDetail.birth"
                   readonly
+                  @dblclick="($event) => ($event.target.readOnly = false)"
                 />
               </div>
               <div class="col-12">
@@ -122,6 +189,7 @@
                   class="form-control"
                   v-model="userDetail.addr"
                   readonly
+                  @dblclick="($event) => ($event.target.readOnly = false)"
                 />
               </div>
               <div class="col-6">
@@ -131,6 +199,7 @@
                   class="form-control"
                   v-model="userDetail.email"
                   readonly
+                  @dblclick="($event) => ($event.target.readOnly = false)"
                 />
               </div>
               <div class="col-6">
@@ -140,6 +209,7 @@
                   class="form-control"
                   v-model="userDetail.blog"
                   readonly
+                  @dblclick="($event) => ($event.target.readOnly = false)"
                 />
               </div>
               <div class="col-md-6">
@@ -154,7 +224,7 @@
               <div class="col-md-6">
                 <label class="form-label">최근로그인</label>
                 <input
-                  type="password"
+                  type="date"
                   class="form-control"
                   v-model="userDetail.ltstTm"
                   readonly
@@ -167,6 +237,7 @@
                   class="form-control"
                   v-model="userDetail.ph"
                   readonly
+                  @dblclick="($event) => ($event.target.readOnly = false)"
                 />
               </div>
               <div class="col-md-6">
@@ -176,10 +247,18 @@
                   class="form-control"
                   v-model="userDetail.phCl"
                   readonly
+                  @dblclick="($event) => ($event.target.readOnly = false)"
                 />
               </div>
               <div class="col-12">
-                <button type="button" class="btn btn-primary">Sign in</button>
+                <button
+                  type="button"
+                  style="float: right; margin-left: 5px"
+                  class="btn btn-outline-primary"
+                  @click="submitUserForm"
+                >
+                  수정
+                </button>
               </div>
             </form>
           </div>
@@ -193,6 +272,7 @@ import { userList } from "@/service/userList";
 import { searchForm } from "@/service/searchForm";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
+
 export default {
   components: {
     DataTable,
@@ -200,10 +280,16 @@ export default {
   },
   data() {
     return {
+      readonly: true,
       userList: [],
       selected: null,
       test: [],
       userDetail: {},
+      editableField: null,
+      readonlyStyle: {
+        backgroundColor: "#f5f5f5",
+        cursor: "not-allowed",
+      },
     };
   },
   mounted() {
@@ -211,17 +297,52 @@ export default {
     searchForm.getCommonCode().then((data) => (this.test = data));
   },
   methods: {
+    // 유저 디테일 가져오기
     onRowSelect(event) {
-      const selectedRow = event.data;
+      const selectedRow = event.data.email;
       userList
         .getuserDetail(selectedRow)
-        .then((data) => (this.userDetail = data));
+        .then((data) => {
+          this.userDetail = data;
+        })
+        .then(() => {
+          const form = document.getElementById("userForm");
+          const inputs = form.querySelectorAll("input");
+          inputs.forEach((input) => (input.readOnly = true));
+        });
+    },
+    //유저 정보 수정
+    submitUserForm() {
+      console.log(this.userDetail);
+      userList
+        .modifyUser(this.userDetail)
+        .then((data) => (this.userDetail = data))
+        .then(() => userList.getUserData());
+    },
+    onInputDoubleClick(refName) {
+      // 해당 ref를 가진 input 요소의 readonly 속성 제거
+      this.$refs[refName].removeAttribute("readonly");
+
+      // 해당 ref를 가진 input 요소에 스타일 적용
+      this.$refs[refName].style.backgroundColor = "yellow";
+
+      // editableField 변수에 해당 ref 할당
+      this.editableField = this.$refs[refName];
     },
   },
   computed: {
     filteredTest() {
       return this.test.filter((item) => item.desct !== "관리자");
     },
+    readonlyInputs() {
+      return this.$el.querySelectorAll("input[readonly]");
+    },
   },
 };
 </script>
+<style scoped>
+input[readonly] {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+</style>

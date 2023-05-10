@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 
 import com.yedam.moa.member.UserRepository;
 import com.yedam.moa.member.mapper.MemberMapper;
-import com.yedam.moa.member.service.Logintest;
+import com.yedam.moa.member.service.Member;
 import com.yedam.moa.member.service.MemberService;
 import com.yedam.moa.member.service.MemberVO;
 import com.yedam.moa.member.service.OAuthAttributes;
@@ -29,7 +29,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class MemberServiceImpl implements OAuth2UserService<OAuth2UserRequest, OAuth2User> , MemberService, UserDetailsService   {
+public class MemberServiceImpl implements OAuth2UserService<OAuth2UserRequest, OAuth2User> , UserDetailsService   {
 	
     private final UserRepository userRepository;
 
@@ -45,40 +45,33 @@ public class MemberServiceImpl implements OAuth2UserService<OAuth2UserRequest, O
                 .getUserInfoEndpoint().getUserNameAttributeName();
 		// naver, kakao 로그인 구분
         OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
-        Logintest Logintest = saveOrUpdate(attributes);
-        httpSession.setAttribute("user", new SessionUser(Logintest));
+        Member Member = saveOrUpdate(attributes);
+        httpSession.setAttribute("user", new SessionUser(Member));
 
         return new DefaultOAuth2User(
-                Collections.singleton(new SimpleGrantedAuthority(Logintest.getRoleKey())),
+                Collections.singleton(new SimpleGrantedAuthority(Member.getRoleKey())),
                 attributes.getAttributes(),
                 attributes.getNameAttributeKey());
 	}
 
-    private Logintest saveOrUpdate(OAuthAttributes attributes) {
-        Logintest Logintest = userRepository.findByEmail(attributes.getEmail())
-                .map(entity -> entity.update(attributes.getName()))
+    private Member saveOrUpdate(OAuthAttributes attributes) {
+        Member Member = userRepository.findByEmail(attributes.getEmail())
+                .map(entity -> entity.update(attributes.getEmail(), attributes.getAge(), attributes.getBirth(), attributes.getGen(), attributes.getName(), attributes.getNickname()))
                 .orElse(attributes.toEntity());
 
-        return userRepository.save(Logintest);
+        return userRepository.save(Member);
     }
     
 	@Autowired
 	MemberMapper memberMapper;
 	
-	// 단건조회
-	@Override
-	public MemberVO getMember(String id) {
-
-		return memberMapper.getMember(id);
-		
-	}
 	// 시큐리티 id 체크
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		MemberVO memberVO = memberMapper.getMember(username);
 		if(memberVO == null) {
 			throw new UsernameNotFoundException("no userid");
-		}
+		} 
 		return memberVO;
 	}
 
