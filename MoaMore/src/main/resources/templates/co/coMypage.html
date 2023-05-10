@@ -131,8 +131,8 @@ i {
 				</div>
 			</div>
 		</div>
-		
-		<!-- 모달창 -->
+
+		<!-- html모달창 -->
 		<div class="modal fade " id="exampleModalLg" tabindex="-1"
 			aria-labelledby="exampleModalLgLabel" style="display: none;"
 			aria-hidden="true">
@@ -150,7 +150,7 @@ i {
 								<label for="inputPassword" class="col-sm-3 col-form-label  fs-2">●
 									회사명</label>
 								<div class="col-sm-9">
-									<input type="text" name="" class="form-control" id="">
+									<input type="text" name="coNm" class="form-control" id="">
 								</div>
 							</div>
 
@@ -158,7 +158,7 @@ i {
 								<label for="inputPassword" class="col-sm-3 col-form-label  fs-2">●
 									근무지 주소</label>
 								<div class="col-sm-9">
-									<input type="text" name="" class="form-control" id="">
+									<input type="text" name="wksite" class="form-control" id="">
 								</div>
 							</div>
 
@@ -166,7 +166,7 @@ i {
 								<label for="inputPassword" class="col-sm-3 col-form-label  fs-2">●
 									프로젝트 명</label>
 								<div class="col-sm-9">
-									<input type="text" name="" class="form-control" id="">
+									<input type="text" name="projectNm" class="form-control" id="">
 								</div>
 							</div>
 
@@ -174,7 +174,7 @@ i {
 								<label for="inputPassword" class="col-sm-3 col-form-label  fs-2">●
 									기술 스택</label>
 								<div class="col-sm-9">
-									<input type="text" name="" class="form-control" id="">
+									<input type="text" name="tech" class="form-control" id="">
 								</div>
 							</div>
 
@@ -182,7 +182,7 @@ i {
 								<label for="inputPassword" class="col-sm-3 col-form-label  fs-2">●
 									주요 업무</label>
 								<div class="col-sm-9">
-									<input type="text" name="" class="form-control" id="">
+									<input type="text" name="maBuss" class="form-control" id="">
 								</div>
 							</div>
 
@@ -190,7 +190,7 @@ i {
 								<label for="inputPassword" class="col-sm-3 col-form-label  fs-2">●
 									복지 및 혜택</label>
 								<div class="col-sm-9">
-									<input type="text" name="" class="form-control" id="">
+									<input type="text" name="bnft" class="form-control" id="">
 								</div>
 							</div>
 
@@ -198,7 +198,7 @@ i {
 								<label for="inputPassword" class="col-sm-3 col-form-label  fs-2">●
 									급여</label>
 								<div class="col-sm-9">
-									<input type="text" name="" class="form-control" id="">
+									<input type="text" name="saly" class="form-control" id="">
 								</div>
 							</div>
 
@@ -206,7 +206,8 @@ i {
 								<label for="inputPassword" class="col-sm-3 col-form-label  fs-2">●
 									업무 시작일</label>
 								<div class="col-sm-9">
-									<input type="date" name="" class="form-control" id="">
+									<input type="date" name="bussStartDt" class="form-control"
+										id="">
 								</div>
 							</div>
 
@@ -214,7 +215,7 @@ i {
 								<label for="inputPassword" class="col-sm-3 col-form-label  fs-2">●
 									제안 마감일</label>
 								<div class="col-sm-9">
-									<input type="date" name="" class="form-control" id="">
+									<input type="date" name="clsDt" class="form-control" id="">
 								</div>
 							</div>
 
@@ -222,10 +223,8 @@ i {
 								<label for="inputPassword" class="col-sm-3 col-form-label  fs-2">●
 									구인공고</label>
 								<div class="col-sm-9">
-									<select name="" class="form-select" id="">
+									<select name="ttl" class="form-select" id="">
 										<option value='' selected>선택</option>
-										<!-- 구인 완료되면 하기 <option th:each=" item : ${RecList}" th:text="${item.ttl}"
-											th:value="${item.ttl}"></option> -->
 									</select>
 								</div>
 							</div>
@@ -245,7 +244,7 @@ i {
 				</div>
 			</div>
 		</div>
-		
+
 
 		<script>
 			const tableMenu = document.querySelector('#tableMenu');
@@ -316,7 +315,7 @@ i {
 				let html = '';
 				
 				for(let i=0;i<res.length;i++){
-					let notice = `<div onclick="location.href='/selfJobDetail?jobSearchNo=`+res[i].jobSearchNo+`'"
+					let notice = `<div onclick="location.href='/selfJobDetail?jobSearchNo=`+res[i].jobSearchNo+`&resumeNo=`+res[i].resumeNo+`'"
 						class="row align-items-center border-bottom p-4 mb-3 hoverRow">
 						<div class="col-md-3 text-center">
 							<a href="#"> <img class="img-fluid"
@@ -385,16 +384,40 @@ i {
 			
 			//모달에 게시글번호 넣기
 			function insertJobSearchNo(no){
+				event.stopPropagation();
 				document.querySelector('[name="jobSearchNo"]').value = no;
 				console.log(no)
+				getOfferModalData();//모달에 구인공고목록 들고오기
 			}
 			
-			//제안
+			//모달 안에서 제안클릭
 			function offerCheck(){
-				
 			}
-			//관심해제
+			//제안모달 안 필요한 구인공고 목록
+			function getOfferModalData(){
+				let id = '[[${id.id}]]';
+				 $.ajax({
+						url : "/getOfferModalData?id="+id,
+						method : "GET",
+						dataType : "json",//받는타입
+						success : function(res) {
+							console.log(res);
+							insertRecruit(res);//모달에 공고 넣기
+						},
+						error : function(res) {
+							console.log(res);
+						},
+				}); 	
+			}
+			//제안모달에 구인공고목록 넣기
+			function insertRecruit(res){
+				for(let i=0;i<res.length;i++){
+					document.querySelector('[name="ttl"]').innerHTML += `<option value="`+res[i].id+`">`+res[i].ttl+`</option>`
+				}
+			}
+			//관심클릭 관심해제
 			function deleteInter(no){
+				event.stopPropagation();
 				Swal.fire({
 					   title: '관심을 해제 하시겠습니까?',
 					   text: '',
