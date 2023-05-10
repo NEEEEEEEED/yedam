@@ -45,6 +45,15 @@ public class CoMypageController {
 		model.addAttribute("rec", service.selectRec(vo));
 		return "co/coRecruit";
 	}
+	
+	//제안모달창 열었을 때 필요한 정보들
+	@GetMapping("getOfferModalData")
+	@ResponseBody
+	public List<HireVO> getOfferModalData(HireVO vo){
+		
+		return service.selectRec(vo);//구인공고목록
+		
+	}
 
 	// 관심셀프구직게시글
 	@GetMapping("/selectInterNoti")
@@ -62,6 +71,11 @@ public class CoMypageController {
 		System.out.println(vo);
 		return "success";
 	}
+	
+	//구직에 제안
+//	@PostMapping("/offerSelf"){
+//		
+//	}
 
 	// 제안셀프구직게시글
 	@GetMapping("/selectOfferNoti")

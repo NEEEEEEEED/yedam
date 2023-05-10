@@ -131,7 +131,7 @@
                        interest,
                        prop,
                        reg_dt,
-                       ROW_NUMBER() OVER (ORDER BY job_search_no) as row_num
+                       rownum as rn
                 FROM job_search_notiwr
                 WHERE job_search_no IN (
                     SELECT job_search_no
@@ -139,7 +139,7 @@
                     WHERE id = #{id}
                 )
             )
-        	WHERE row_num > (#{pageNum}-1) * 2 AND row_num <= #{pageNum} * 2
+        	WHERE rn > (#{pageNum}-1) * 2 AND rn <= #{pageNum} * 2
     ]]>
 </select>
 	<!-- 셀프구직게시글 관심해제 -->
