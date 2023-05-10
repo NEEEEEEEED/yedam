@@ -177,12 +177,63 @@
 	
 	<!-- 셀프구직 상세페이지 수정 -->
 	<update id="myProfileMod" parameterType="SelfVO">
-		
+		UPDATE job_search_notiwr
+		<set> 
+			<if test="jobSearchNo != null and !jobSearchNo.equals('')">
+				JOB_SEARCH_NO = #{jobSearchNo},
+			</if>
+			<if test="resumeNo != null and !resumeNo.equals('')">
+		    	RESUME_NO = #{resumeNo},
+		    </if>
+		    <if test="id != null and !id.equals('')">
+		    	ID = #{id},
+		    </if>
+		    <if test="ttl != null and !ttl.equals('')">
+		    	TTL = #{ttl},
+		    </if>
+		    <if test="hopeWksite != null and !hopeWksite.equals('')">
+		    	HOPE_WKSITE = #{hopeWksite},
+		    </if>
+		    <if test="career != null and !career.equals('')">
+		    	CAREER = #{career},
+		    </if>
+		    <if test="dutyFld != null and !dutyFld.equals('')">
+		    	DUTY_FLD = #{dutyFld},
+		    </if>
+		    <if test="posit != null and !posit.equals('')">
+		    	POSIT = #{posit},
+		    </if>
+		    <if test="pubcRange != null and !pubcRange.equals('')">
+		    	PUBC_RANGE = #{pubcRange},
+		    </if>
+		    <if test="intro != null and !intro.equals('')">
+		    	INTRO = #{intro},
+		    </if>
+		    <if test="hopeSal != null and !hopeSal.equals('')">
+		    	HOPE_SAL = #{hopeSal},
+		    </if>
+		    <if test="residency != null and !residency.equals('')">
+		    	RESIDENCY = #{residency},
+		    </if>
+		    <if test="myimg != null and !myimg.equals('')">
+		    	MYIMG = #{myimg},
+		    </if>
+		</set>
+		WHERE JOB_SEARCH_NO = #{jobSearchNo}
 	</update>
 	
-	<!-- 셀프구직 스킬 수정 -->
-	<update id="skillMod" parameterType="SelfVO">
+	<!-- 셀프구직 스킬 삭제 -->
+	<delete id="skillDelete" parameterType="String">
+		DELETE
+		FROM job_search_skill
+		WHERE job_search_no = #{jobSearchNo}
+	</delete>
 	
-	</update>
+	<!-- 셀프구직 삭제 : 관련있는 테이블 삭제 프로시저 -->
+	<delete id="myProfileDel" statementType="CALLABLE" parameterType="String">
+   		{ 
+      		call job_search_Delete_PRO(#{jobSearchNo})
+   		}
+	</delete>
 
 </mapper>

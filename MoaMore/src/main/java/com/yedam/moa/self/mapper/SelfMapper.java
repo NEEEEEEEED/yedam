@@ -36,10 +36,11 @@ public interface SelfMapper {
 	// 셀프구직 수정
 	public int myProfileMod(SelfVO selfVO);
 	
-	// 셀프구직 스킬수정
-	public int skillMod(SelfVO skillVO);
+	// 스킬 삭제
+	public int skillDelete(String jobSearchNo);
 	
-	
+	// 셀프구직 삭제
+	public int myProfileDel(String jobSearchNo);
 	
 	// ----------------------------------------
 
