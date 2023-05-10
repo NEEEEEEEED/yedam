@@ -7,7 +7,7 @@ import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import ColumnGroup from "primevue/columngroup";
 import Row from "primevue/row";
-
+import ToastService from "primevue/toastservice";
 //theme
 import "primevue/resources/themes/lara-light-indigo/theme.css";
 
@@ -22,4 +22,5 @@ createApp(App)
   .use(Column)
   .use(ColumnGroup)
   .use(Row)
+  .use(ToastService)
   .mount("#app");

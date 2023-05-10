@@ -48,7 +48,7 @@ public class AdminServiceImpl implements AdminService {
 		} else {
 			message = "fail";
 		}
-		return null;
+		return message;
 	}
 
 }

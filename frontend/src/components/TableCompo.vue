@@ -1,5 +1,6 @@
 <template>
   <section class="section">
+    <toast />
     <div class="pagetitle">
       <h1>회원관리</h1>
       <nav>
@@ -108,6 +109,7 @@
           <div class="card-body">
             <p class="card-title">유저목록</p>
             <DataTable
+              ref="dataTable"
               :value="userList"
               selectionMode="single"
               dataKey="email"
@@ -272,11 +274,13 @@ import { userList } from "@/service/userList";
 import { searchForm } from "@/service/searchForm";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
+import Toast from "primevue/toast";
 
 export default {
   components: {
     DataTable,
     Column,
+    Toast,
   },
   data() {
     return {
@@ -293,10 +297,13 @@ export default {
     };
   },
   mounted() {
-    userList.getUserData().then((data) => (this.userList = data));
+    this.getUserData().then((data) => (this.userList = data));
     searchForm.getCommonCode().then((data) => (this.test = data));
   },
   methods: {
+    getUserData() {
+      return userList.getUserData();
+    },
     // 유저 디테일 가져오기
     onRowSelect(event) {
       const selectedRow = event.data.email;
@@ -314,10 +321,25 @@ export default {
     //유저 정보 수정
     submitUserForm() {
       console.log(this.userDetail);
-      userList
-        .modifyUser(this.userDetail)
-        .then((data) => (this.userDetail = data))
-        .then(() => userList.getUserData());
+      userList.modifyUser(this.userDetail).then((data) => {
+        if (data == "success") {
+          this.$toast.add({
+            severity: "success",
+            summary: "유저정보 수정 성공",
+            detail: this.userDetail.name + " 정보 수정 성공.",
+            life: 3000,
+          });
+          this.getUserData().then((data) => (this.userList = data));
+          this.userDetail = {};
+        } else {
+          this.$toast.add({
+            severity: "error",
+            summary: "유저정보 수정 실패",
+            detail: this.userDetail.name + " 정보 수정 실패.",
+            life: 3000,
+          });
+        }
+      });
     },
     onInputDoubleClick(refName) {
       // 해당 ref를 가진 input 요소의 readonly 속성 제거
@@ -330,6 +352,7 @@ export default {
       this.editableField = this.$refs[refName];
     },
   },
+
   computed: {
     filteredTest() {
       return this.test.filter((item) => item.desct !== "관리자");
