@@ -17,6 +17,8 @@ public interface AdminMapper {
 
 	public List<PostListVO> selectQSTPost(String id);
 
-	public MemVO selectUserDetails(String id);
+	public MemVO selectUserDetails(String email);
+
+	public int updateUser(MemVO memVo);
 
 }

@@ -4,8 +4,8 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.yedam.moa.member.service.Logintest;
+import com.yedam.moa.member.service.Member;
 
-public interface UserRepository extends JpaRepository<Logintest, Long> {
-	Optional<Logintest> findByEmail(String email);
+public interface UserRepository extends JpaRepository<Member, Long> {
+	Optional<Member> findByEmail(String email);
 }

@@ -15,12 +15,26 @@ export const userList = {
 
   getuserDetail(selectedRow) {
     return axios
-      .post("/api/getUserDetail", selectedRow, {
-        withCredentials: true,
-      })
+      .post("/api/getUserDetail", selectedRow)
       .then((response) => {
         console.log(response.data);
-        return selectedRow;
+        return response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+
+  modifyUser(MemVO) {
+    console.log(MemVO);
+    return axios
+      .post("/api/modifyUser", MemVO)
+      .then((response) => {
+        console.log(response.data);
+        return response.data;
+      })
+      .catch((error) => {
+        console.log(error);
       });
   },
 

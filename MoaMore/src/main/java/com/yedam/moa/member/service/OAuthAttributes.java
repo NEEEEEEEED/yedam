@@ -1,11 +1,13 @@
 package com.yedam.moa.member.service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+
 
 @Getter
 @Builder
@@ -16,8 +18,18 @@ public class OAuthAttributes {
     private final String nickname;
     private final String name;
     private final String email;
-    private final String gender;
+    private final String gen;
     private final String age;
+    private final String birth;
+    private final String clsf ="I1";
+    private final String joinDt = joinDate();
+    //현재 날짜
+    public static String joinDate() {
+        LocalDate currentDate = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedDate = currentDate.format(formatter);
+        return formattedDate;
+    }
 
     
     public static OAuthAttributes of(String registrationId,String userNameAttributeName, Map<String, Object> attributes) {
@@ -32,16 +44,21 @@ public class OAuthAttributes {
 	private static OAuthAttributes ofNaver(String userNameAttributeName, Map<String, Object> attributes) {
         @SuppressWarnings("unchecked")
 		Map<String, Object> response = (Map<String, Object>) attributes.get("response");
-        System.out.println((String) response.get("name"));
-        System.out.println((String) response.get("nickname"));
-        System.out.println((String) response.get("age"));
-        System.out.println((String) response.get("email"));
+        String gender = (String) response.get("gender");
+        if(gender == "M") {
+        	gender="U1";
+        } else if(gender == "F") {
+        	gender="U2";
+        } else {
+        	gender="unknown";
+        }
         return OAuthAttributes.builder()
                 .name((String) response.get("name"))
                 .nickname((String) response.get("nickname"))
                 .email((String) response.get("email"))
-                .gender((String) response.get("gender"))
+                .gen(gender)
                 .age((String) response.get("age"))
+                .birth((String) response.get("birthday"))
                 .attributes(response)
                 .nameAttributeKey(userNameAttributeName)
                 .build();
@@ -51,25 +68,33 @@ public class OAuthAttributes {
 		    Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
 		    Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
 		    String email = (String) kakaoAccount.get("email");
-		    String name = (String) profile.get("name");
+		    String nickname = (String) profile.get("profile_nickname");
+		    String gender = (String) profile.get("gender");
+		    String age_range = (String) profile.get("age_range");
+		    String birthday = (String) profile.get("birthday");
 
 		    // OAuthAttributes 객체 생성
 		    return OAuthAttributes.builder()
-		            .name(name)
+		            .nickname(nickname)
 		            .email(email)
+		            .gen(gender)
+		            .age(age_range)
+		            .birth(birthday)
 		            .attributes(attributes)
 		            .nameAttributeKey(userNameAttributeName)
 		            .build();
 	}
 
 
-	public Logintest toEntity() {
-        return Logintest.builder()
+	public Member toEntity() {
+        return Member.builder()
         		.name(name)
                 .nickname(nickname)
                 .email(email)
-                .gender(gender)
+                .gen(gen)
                 .age(age)
+                .clsf(clsf)
+                .joinDt(joinDt)
                 .authr(Role.ROLE_MEM)
                 .build();
     }

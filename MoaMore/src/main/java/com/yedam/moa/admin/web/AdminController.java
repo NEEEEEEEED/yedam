@@ -1,5 +1,7 @@
 package com.yedam.moa.admin.web;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 import java.util.Map;
 
@@ -22,45 +24,60 @@ import com.yedam.moa.mem.MemVO;
 @CrossOrigin(origins = "http://localhost:3000")
 public class AdminController {
 
-	@Autowired 
-	AdminService adminService; 
-	
+	@Autowired
+	AdminService adminService;
+
 	@Autowired
 	CommServiceImpl comm;
+
+	@GetMapping("/getCommonCode")
+	@ResponseBody
+	public Map<String, List<CommVO>> getCommonCode() {
+		return comm.getCodes("I");
+	}
+
+	@GetMapping("/admin")
+	public String job() {
+		return "admin/dashboard";
+	}
+
+	@GetMapping("/member/common")
+	public String commonMember() {
+		return "admin/commonMember";
+	}
+
+	@GetMapping("/getUserInfo")
+	@ResponseBody
+	public List<MemVO> getUserInfo() {
+		return adminService.getUserInfo();
+	}
+
+	@PostMapping("/getUserDetail")
+	@ResponseBody
+	public MemVO getUserDetails(@RequestBody String email) {
+		//인코딩된 이메일을 디코딩하는 부분
+		String decoded = null;
+		try {
+			decoded = URLDecoder.decode(email, "UTF-8");
+			decoded = decoded.substring(0, URLDecoder.decode(email, "UTF-8").length()-1);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return adminService.getUserDetails(decoded);
+	}
 	
-	  @GetMapping("/getCommonCode") 
-	  @ResponseBody
-	  public Map<String, List<CommVO>> getCommonCode() { 
-		  return comm.getCodes("I");
-	  }
-	
-	
-	  @GetMapping("/admin") 
-	  public String job() { 
-		  return "admin/dashboard"; 
-	  }
-	  @GetMapping("/member/common") 
-	  public String commonMember() { 
-		  return "admin/commonMember"; 
-	  }
-	  
-	  @GetMapping("/getUserInfo") 
-	  @ResponseBody
-	  public List<MemVO> getUserInfo() {
-		  return adminService.getUserInfo(); 
-	  }
-	  
-	  @PostMapping("/getUserDetail")
-	  @ResponseBody
-	  public MemVO  getUserDetails(@RequestBody Map<String, Object> payload) {
-	      String id = payload.get("id").toString();
-	      return adminService.getUserDetails(id);
-	  }
-	
-	  @PostMapping("/getUserPost") 
-	  @ResponseBody
-	  public Map<String, List<PostListVO>> getUserPost(@RequestParam String id) {
-		  System.out.println(id);
-		  return adminService.getUserPost(id); 
-	  }
+	@PostMapping("/modifyUser")
+	@ResponseBody
+	public String modifyUser(@RequestBody MemVO memVo) {
+		//인코딩된 이메일을 디코딩하는 부분
+		System.out.println(memVo);
+		return adminService.modifyUser(memVo);
+	}
+
+	@PostMapping("/getUserPost")
+	@ResponseBody
+	public Map<String, List<PostListVO>> getUserPost(@RequestParam String id) {
+		System.out.println(id);
+		return adminService.getUserPost(id);
+	}
 }

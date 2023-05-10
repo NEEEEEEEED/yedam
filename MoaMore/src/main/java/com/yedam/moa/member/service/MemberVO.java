@@ -14,15 +14,15 @@ import lombok.Data;
 @Data
 public class MemberVO implements UserDetails {
 
-	String memberId;
-	String memberPw;
-	String memberRole;
+	String id;
+	String pw;
+	String authr;
 	
 	// 권한 체크 => 시큐리티가 return값으로 권한 체크를함
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> list = new ArrayList<>();
-		list.add(new SimpleGrantedAuthority(memberRole));
+		list.add(new SimpleGrantedAuthority(authr));
 		return list;
 	}
 	
@@ -30,12 +30,12 @@ public class MemberVO implements UserDetails {
 	// 로그인 체크
 	@Override
 	public String getPassword() {
-		return memberPw;
+		return pw;
 	}
 	// 로그인 체크
 	@Override
 	public String getUsername() {
-		return memberId;
+		return id;
 	}
 	
 	// 여기서부터 하나라도 false있으면 로그인안됨

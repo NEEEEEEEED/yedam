@@ -35,9 +35,20 @@ public class AdminServiceImpl implements AdminService {
 		return map;
 	}
 	@Override
-	public MemVO getUserDetails(String id) {
-		return adminMapper.selectUserDetails(id);
+	public MemVO getUserDetails(String email) {
+		return adminMapper.selectUserDetails(email);
 		
+	}
+	@Override
+	public String modifyUser(MemVO memVo) {
+		String message = null;
+		int result = adminMapper.updateUser(memVo);
+		if(result > 0) {
+			message = "success";
+		} else {
+			message = "fail";
+		}
+		return null;
 	}
 
 }
