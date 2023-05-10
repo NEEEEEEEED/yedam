@@ -29,52 +29,42 @@ body {
 	width: 110px;
 	height: 100px;	
 }
+#btnList{
+	float: right;
+}
+#searchBtn{
+	width: 100%;
+}
 </style>
 </head>
 <body>
 	<div layout:fragment="content">
    	<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
-   	<div class="container">
 	<!-- 사이드바 -->
 		<div class="row" style="margin-top : 30px; height: auto;">
 			<div class="col-md-1"></div>
 			<div class="col-md-2 border-end" style="margin:10px;">
 				<div style="position: sticky; top:150px;">			
-					<p class="fs-1" style="text-align : center;">My프로필 등록</p>
 					<hr>
 					<div style="display:flex; justify-content: center;">
-						<div style="display:flex; flex-direction: column;">
-							<button type="button" id="resumeList" class="btn btn-outline-danger btn-sm mb-3 radius">이력서불러오기</button>
+						<div style="display:flex; flex-direction: column;" id="hireButtons">
 							<div class="mb-2 cursor">
-								<a href="#selfMenu"><img src="self/number1.svg" class="number"><span>셀프소개</span></a>
+								<button type="button" class="btn btn-outline-dark">공고 스크랩</button>
 							</div>
 							<div class="mb-2 cursor">
-								<a href="#selfMenuCarr"><img src="self/number2.svg" class="number"><span>경력사항</span></a>
+								<button type="button" class="btn btn-outline-dark">기업 팔로우</button>
 							</div>
 							<div class="mb-2 cursor">
-								<a href="#selfMenuSchool"><img src="self/number3.svg" class="number"><span>학력</span></a>
+								<button type="button"
+									class="btn btn-outline-dark" data-toggle="modal"
+									data-target="#exampleModal" id="searchBtn" name="searchBtn">
+									지원하기
+								</button>
 							</div>
-							<div class="mb-2 cursor">
-								<a href="#selfMenuSal"><img src="self/number4.svg" class="number"><span>희망급여</span></a>
-							</div>
-							<div class="mb-2 cursor">
-								<a href="#selfMenuResident"><img src="self/number5.svg" class="number"><span>상주가능정보</span></a>
-							</div>
-							<div class="mb-2 cursor">
-								<a href="#selfMenuPofol"><img src="self/number6.svg" class="number"><span>포트폴리오</span></a>
-							</div>
+							<hr>
 						</div>	
 					</div>
 				</div>
-   	<div id="hireButtons">
-		<button type="button" class="btn btn-outline-dark">공고 스크랩</button>
-		<button type="submit" class="btn btn-outline-dark">기업 팔로우</button>
-		<button type="button"
-			class="btn btn-outline-dark" data-toggle="modal"
-			data-target="#exampleModal" id="searchBtn" name="searchBtn">
-			지원하기
-		</button>
-	</div>
 			</div>
 
   <!-- 이미지 슬라이드 시작 -->
@@ -204,19 +194,6 @@ body {
 							<h6>기업 / 서비스 소개</h6>
 							<p th:text="${hireVO.coIntro}"/>
 							<br>
-							<!-- 이미지 -->
-							<!--/* <div  class="row mt-7 gx-xl-7 pt-0">
-								<div class="image col-md-4">
-									<img class="w-100" src="assets/img/blog/2.png" alt="" />
-								</div>
-								<div class="image col-md-4">
-									<img class="w-100" src="assets/img/blog/4.png" alt="" />
-								</div>
-								<div class="image col-md-4">
-									<img class="w-100" src="assets/img/blog/5.png" alt="" />
-								</div>
-							</div> */-->
-						<!--  -->
 						</div>
 					</form>
 					<div >
@@ -228,6 +205,7 @@ body {
 	</div>
 	</div>
 	</div>
+	
 	<br>
 	<!-- 추천공고 -->
 	<section class="bg-dark pt-6  ">
@@ -268,8 +246,6 @@ let id = $('#logId').val(); // 로그인된 id
 		e.preventDefault();
 
 		location.href="/hirePage";
-		
-		
 	});
 	
 	// 이력서 그리드 조회
@@ -339,6 +315,24 @@ function resumeList(id){
 	});
 }
 	// 이력서 수정 페이지 이동
+	
+	// 공고 지원하기
+	function resumeInsert(id){
+	$.ajax({
+		url: 'resumeInsert',
+		type: 'post',
+		data: {id : id},
+		success: function (result) {
+			Swal.fire({
+  		      icon: 'success',
+  		      title: '해당 공고에 지원하였습니다.'
+  		 });
+	    },
+ 		error: function (reject) {	   
+    		console.log(reject);
+		}
+	});
+}
 	
 	// 공고등록으로 이동
 		$(document).on('click', '#recruitMod', function(e){

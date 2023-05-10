@@ -101,44 +101,20 @@
               GROUP BY recruit_no) K
 		ON R.RECRUIT_NO = K.RECRUIT_NO
 		WHERE R.RECRUIT_NO = #{recruitNo}
-	</select>
-	<!-- 직무 분야 리스트 -->
-	<select id="jobList" resultType="HireVO">
-		SELECT prov, desct
-		FROM cmmn_dt
-		WHERE comm_cd = 'N'
-		ORDER BY prov
-	</select>
-	
-	<!-- 기술 스택 리스트 -->
-	<select id="skillList" resultType="HireVO">
-		SELECT prov, desct
-		FROM cmmn_dt
-		WHERE comm_cd = 'Z'
-		ORDER BY prov
-	</select>
-	
-	<!-- 근무 지역 리스트 -->
-	<select id="wksiteList" resultType="HireVO">
-		SELECT prov, desct
-		FROM cmmn_dt
-		WHERE comm_cd = 'X'
-		ORDER BY prov
-	</select>
-	
-	<!-- 경력 리스트 -->
-	<select id="carrList" resultType="HireVO">
-		SELECT prov, desct
-		FROM cmmn_dt
-		WHERE comm_cd = 'Y'
-		ORDER BY prov
+		<if test="scrapYn != null and scrapYn != ''">
+			AND EXISTS (SELECT S.RECRUIT_NO FROM RECRUIT_SCRAP S WHERE R.RECRUIT_NO = S.RECRUIT_NO AND ID = #{id})
+       	</if>
 	</select>
 	<!-- 이력서 조회 -->
 	<select id="resumeList" resultType="HireVO">
 		SELECT RESUME_NO,
                TTL,
                REG_DT
-               FROM RESUME
-               WHERE ID = #{id}
+        FROM RESUME
+        WHERE ID = #{id}
 	</select>
+	<!-- 구인공고 지원 -->
+	<insert id="resumeInsert" parameterType="HireVO">
+		
+	</insert>
 </mapper>
