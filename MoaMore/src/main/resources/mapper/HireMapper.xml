@@ -61,7 +61,7 @@
 		       S.RECRUIT_NO,
 		       <if test="id != null and id != ''">
               	 (SELECT S.RECRUIT_NO FROM RECRUIT_SCRAP S WHERE R.RECRUIT_NO = S.RECRUIT_NO AND ID = #{id}) AS scrapYn
-              	</if>
+               </if>
 		FROM RECRUIT_ANUN R
 		JOIN CO C
 		ON R.ID = C.ID

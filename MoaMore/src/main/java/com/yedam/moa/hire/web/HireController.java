@@ -89,10 +89,6 @@ public class HireController {
 	@PostMapping("/followingCo")
 	@ResponseBody
 	public String followInsert(HireVO hireVO) {
-		System.out.println("here");
-		System.out.println(hireVO.getId());
-		System.out.println(hireVO.getIdCo());
-		System.out.println("here");
 		return hireService.followInsert(hireVO);
 	}
 	
