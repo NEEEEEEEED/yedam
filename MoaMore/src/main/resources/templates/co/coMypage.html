@@ -238,9 +238,9 @@ i {
 							<div class="row mb-4">
 								<div class="col-12 d-flex justify-content-center">
 									<button type="button" class="btn btn-secondary"
-										data-bs-dismiss="modal">취소</button>
-									<button type="button" class="btn btn-primary"
-										onclick="offerCheck(this)">제안</button>
+										data-bs-dismiss="modal" onclick="closeModal()">취소</button>
+									<button id="offerBtn" type="button" class="btn btn-primary"
+										onclick="offerCheck()">제안</button>
 								</div>
 							</div>
 						</form>
@@ -367,10 +367,15 @@ i {
 						<div class="col-md-3"
 							style="display: flex; align-items: center; flex-direction: column;">
 							<button type="button" onclick="deleteInter(\'`+res[i].jobSearchNo+`\')"
-								class="btn btn-danger btn-sm listBtn">관심</button>
-							<button type="button" btn="offerBtn" onclick="insertJobSearchNo(\'`+res[i].jobSearchNo+`\')"
-								class="btn btn-outline-info btn-sm listBtn" data-bs-toggle="modal" data-bs-target="#exampleModalLg"> 제안 </button>
-						</div>
+								class="btn btn-danger btn-sm listBtn">관심해제</button>`
+							if(res[i].offerCd != 'null'){//제안 완료된 게시글 버튼 다르게 표시
+								notice += `<button type="button" btn="offerBtn" onclick="offerCompletedBtn(\'`+res[i].jobSearchNo+`\')"
+								class="btn btn-info btn-sm listBtn" data-bs-toggle="modal" data-bs-target="#exampleModalLg">제안완료</button>`
+							}else {
+								notice += `<button type="button" btn="offerBtn" onclick="insertJobSearchNo(\'`+res[i].jobSearchNo+`\')"
+								class="btn btn-outline-info btn-sm listBtn" data-bs-toggle="modal" data-bs-target="#exampleModalLg">제안</button>`
+							}
+						notice += `</div>
 					</div>`; 
 					html += notice;
 					notice = '';
@@ -378,7 +383,41 @@ i {
 				html += paging();
 				selfList.innerHTML = html;
 			}
-			
+			//제안완료클릭
+			function offerCompletedBtn(jobSearchNo){
+				event.stopPropagation();
+				$.ajax({
+					url : "/selectOffer?jobSearchNo="+jobSearchNo,
+					method : "GET",
+					dataType : "json",//받는타입
+					success : function(res) {
+						console.log(res);
+						insertOffer(res);
+					},
+					error : function(jqXHR, textStatus, errorThrown) {
+						console.error(textStatus, errorThrown);
+					},
+				});
+			}
+			//제안완료모달에 제안이력 넣기
+			function insertOffer(res){
+				$('[name="coNm"]').val(res.coNm);	
+				$('[name="wksite"]').val(res.wksite);	
+				$('[name="tech"]').val(res.tech);	
+				$('[name="maBuss"]').val(res.maBuss);	
+				$('[name="bnft"]').val(res.bnft);	
+				$('[name="saly"]').val(res.saly);	
+				$('[name="bussStartDt"]').val(res.bussStartDt);	
+				$('[name="clsDt"]').val(res.clsDt);	
+				$('[name="projectNm"]').val(res.projectNm);	
+				$('[name="ttl"]').val(res.ttl);	
+				//제안버튼숨기기
+				offerBtn.setAttribute("hidden",true);
+			}
+			//모달취소클릭
+			function closeModal(){
+				offerBtn.removeAttribute("hidden");
+			}			
 			//관심 페이징버튼 만들기
 			function paging(){
 				let pageSu = Math.floor(totalInter/2) + totalInter%2
@@ -417,12 +456,9 @@ i {
 			}
 			
 			//모달 안에서 제안클릭
-			function offerCheck(t){
+			function offerCheck(){
 				$('#offerForm').submit();
-				/* let jobSearchNo = document.querySelector('[name="jobSearchNo"]').value;
-				let notice = document.querySelector('#'+jobSearchNo);
-				let offerBtn = notice.querySelector('[btn="offerBtn"]');
-				console.log(notice); */
+				
 			}
 			//제안모달 안 필요한 구인공고 목록
 			function getOfferModalData(){

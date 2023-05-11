@@ -24,4 +24,6 @@ public interface CoService {
 	public SelfVO selectTotalInter(CoVO vo);
 	//제안이후
 	public int afterOffer(CoVO vo);
+	//제안조회
+	public CoVO selectOffer(CoVO vo);
 }

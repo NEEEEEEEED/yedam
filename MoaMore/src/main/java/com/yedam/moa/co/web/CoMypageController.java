@@ -84,7 +84,13 @@ public class CoMypageController {
 		service.afterOffer(vo);
 		return "redirect:coMypage";
 	}
-	
+	//제안조회
+	@GetMapping("/selectOffer")
+	@ResponseBody
+	public CoVO selectOffer(CoVO vo,Principal principal) {
+		vo.setId(principal.getName());
+		return service.selectOffer(vo);
+	}
 
 	// 제안셀프구직게시글
 	@GetMapping("/selectOfferNoti")
