@@ -3,6 +3,7 @@ package com.yedam.moa.admin.mapper;
 import java.util.List;
 
 import com.yedam.moa.admin.service.PostListVO;
+import com.yedam.moa.admin.service.UserSearchVO;
 import com.yedam.moa.mem.MemVO;
 
 public interface AdminMapper {
@@ -20,5 +21,9 @@ public interface AdminMapper {
 	public MemVO selectUserDetails(String email);
 
 	public int updateUser(MemVO memVo);
+
+	public int deleteUser(String email);
+
+	public List<MemVO> selectSearchUser(UserSearchVO vo);
 
 }

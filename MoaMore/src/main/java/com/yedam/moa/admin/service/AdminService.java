@@ -13,6 +13,10 @@ public interface AdminService {
 
 	public MemVO getUserDetails(String email);
 
-	public String modifyUser(MemVO memVo);
+	public String modifyUser(MemVO[] memVo);
+
+	public String removeUsers(String[] emails);
+
+	public List<MemVO> getSearchUser(UserSearchVO vo);
 
 }

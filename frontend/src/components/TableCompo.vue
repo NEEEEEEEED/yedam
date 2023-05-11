@@ -17,7 +17,7 @@
         <form class="row g-3">
           <div class="row" style="margin-bottom: 10px">
             <span class="col-sm-1 col-form-label">회원분류</span>
-            <div class="col-md-4">
+            <div class="col-md-5">
               <div
                 class="form-check form-check-inline"
                 v-for="(item, index) in filteredTest"
@@ -32,18 +32,19 @@
                   class="form-check-input"
                   :key="index"
                   :id="item.commCd"
+                  :value="item.commCd"
+                  v-model="checkedCommCds"
                 />
               </div>
             </div>
-            <div class="col-md-1"></div>
             <span class="col-sm-1 col-form-label">가입일자</span>
             <div class="col-md-4">
               <div class="row">
                 <div class="col-md-6">
-                  <input type="date" class="form-control" />
+                  <input type="date" class="form-control" v-model="startDate" />
                 </div>
                 <div class="col-md-6">
-                  <input type="date" class="form-control" />
+                  <input type="date" class="form-control" v-model="lastDate" />
                 </div>
               </div>
             </div>
@@ -51,7 +52,7 @@
           <div class="row" style="margin-bottom: 10px">
             <span class="col-sm-1 col-form-label">회원명</span>
             <div class="col-md-4">
-              <input type="text" class="form-control" />
+              <input type="text" class="form-control" v-model="name" />
             </div>
             <div class="col-md-1"></div>
             <span class="col-sm-1 col-form-label">이메일</span>
@@ -62,6 +63,7 @@
                   class="form-control"
                   placeholder="Username"
                   aria-label="Username"
+                  v-model="userName"
                 />
                 <span class="input-group-text">@</span>
                 <input
@@ -69,6 +71,7 @@
                   class="form-control"
                   placeholder="Server"
                   aria-label="Server"
+                  v-model="server"
                 />
               </div>
             </div>
@@ -76,7 +79,7 @@
           <div class="row" style="margin-bottom: 10px">
             <span class="col-sm-1 col-form-label">아이디</span>
             <div class="col-md-4">
-              <input type="text" class="form-control" />
+              <input type="text" class="form-control" v-model="id" />
             </div>
             <div class="col-md-6">
               <div class="row">
@@ -85,7 +88,8 @@
                   <button
                     style="float: right; margin-left: 5px"
                     class="btn btn-outline-primary"
-                    type="button"
+                    type="submit"
+                    @click.prevent="searchBtn"
                   >
                     검색</button
                   ><button
@@ -107,11 +111,65 @@
       <div class="col-md-7 grid-margin stretch-card">
         <div class="card" style="min-height: 100%">
           <div class="card-body">
-            <p class="card-title">유저목록</p>
+            <p class="card-title" style="float: left">유저목록</p>
+            <span
+              class="p-buttonset"
+              data-v-d3f5b421=""
+              style="float: right; padding-top: 10px"
+              ><button
+                class="p-button p-component"
+                type="button"
+                aria-label="Save"
+                data-v-d3f5b421=""
+                @click="submitUserForm"
+              >
+                <!----><span
+                  class="pi pi-check p-button-icon p-button-icon-left"
+                ></span
+                ><span class="p-button-label">Save</span
+                ><!----><span
+                  class="p-ink"
+                  role="presentation"
+                  aria-hidden="true"
+                ></span></button
+              ><button
+                class="p-button p-component"
+                type="button"
+                aria-label="Delete"
+                data-v-d3f5b421=""
+                @click="deleteUser"
+              >
+                <!----><span
+                  class="pi pi-trash p-button-icon p-button-icon-left"
+                ></span
+                ><span class="p-button-label">Delete</span
+                ><!----><span
+                  class="p-ink"
+                  role="presentation"
+                  aria-hidden="true"
+                ></span></button
+              ><button
+                class="p-button p-component"
+                type="button"
+                aria-label="Cancel"
+                data-v-d3f5b421=""
+                @click="cancelBtn"
+              >
+                <!----><span
+                  class="pi pi-times p-button-icon p-button-icon-left"
+                ></span
+                ><span class="p-button-label">Cancel</span
+                ><!----><span
+                  class="p-ink"
+                  role="presentation"
+                  aria-hidden="true"
+                ></span></button
+            ></span>
             <DataTable
+              style="clear: both"
               ref="dataTable"
               :value="userList"
-              selectionMode="single"
+              class="p-datatable-sm"
               dataKey="email"
               showGridlines
               sortField="joinDt"
@@ -119,16 +177,20 @@
               :rows="10"
               :rowsPerPageOptions="[5, 10, 20]"
               tableStyle="min-width: 100%"
-              v-model="selected"
-              v-on:row-select="onRowSelect"
+              v-model:selection="selectedUser"
+              @row-select="onRowSelect"
+              selectionMode="sigle"
             >
+              <Column
+                selectionMode="multiple"
+                headerStyle="width: 3rem"
+              ></Column>
               <Column field="clsfname" header="분류"></Column>
               <Column field="id" header="아이디"></Column>
               <Column field="name" header="이름"></Column>
               <Column field="gen" header="성별"></Column>
               <Column field="email" header="이메일"></Column>
               <Column field="phCl" header="전화번호"></Column>
-              <Column field="joinDt" header="가입일자"></Column>
             </DataTable>
           </div>
         </div>
@@ -252,16 +314,7 @@
                   @dblclick="($event) => ($event.target.readOnly = false)"
                 />
               </div>
-              <div class="col-12">
-                <button
-                  type="button"
-                  style="float: right; margin-left: 5px"
-                  class="btn btn-outline-primary"
-                  @click="submitUserForm"
-                >
-                  수정
-                </button>
-              </div>
+              <div class="col-12"></div>
             </form>
           </div>
         </div>
@@ -284,9 +337,11 @@ export default {
   },
   data() {
     return {
+      searchCondition: {},
+      selectedUser: null,
+      metaKey: true,
       readonly: true,
       userList: [],
-      selected: null,
       test: [],
       userDetail: {},
       editableField: null,
@@ -294,6 +349,13 @@ export default {
         backgroundColor: "#f5f5f5",
         cursor: "not-allowed",
       },
+      id: "",
+      name: "",
+      startDate: "",
+      lastDate: "",
+      userName: "",
+      server: "",
+      checkedCommCds: [],
     };
   },
   mounted() {
@@ -301,46 +363,51 @@ export default {
     searchForm.getCommonCode().then((data) => (this.test = data));
   },
   methods: {
+    // 검색
+    searchBtn() {
+      const data = this.formData;
+      const CommCds = Object.values(this.checkedCommCds);
+
+      data.commds = CommCds;
+      console.log(data);
+      userList.getSearchUser(data);
+    },
+    // 유저 전체 조회 선언
     getUserData() {
       return userList.getUserData();
     },
+    cancelBtn() {
+      userList.getUserData().then((data) => (this.userList = data));
+      this.userDetail = {};
+    },
     // 유저 디테일 가져오기
     onRowSelect(event) {
-      const selectedRow = event.data.email;
-      userList
-        .getuserDetail(selectedRow)
-        .then((data) => {
-          this.userDetail = data;
-        })
-        .then(() => {
-          const form = document.getElementById("userForm");
-          const inputs = form.querySelectorAll("input");
-          inputs.forEach((input) => (input.readOnly = true));
-        });
+      this.userDetail = event.data;
     },
     //유저 정보 수정
     submitUserForm() {
-      console.log(this.userDetail);
-      userList.modifyUser(this.userDetail).then((data) => {
+      console.log(this.selectedUser);
+      userList.modifyUser(this.selectedUser).then((data) => {
+        const names = this.selectedUser.map((item) => item.name);
         if (data == "success") {
           this.$toast.add({
             severity: "success",
             summary: "유저정보 수정 성공",
-            detail: this.userDetail.name + " 정보 수정 성공.",
+            detail: names + " 정보 수정 성공.",
             life: 3000,
           });
-          this.getUserData().then((data) => (this.userList = data));
           this.userDetail = {};
         } else {
           this.$toast.add({
             severity: "error",
             summary: "유저정보 수정 실패",
-            detail: this.userDetail.name + " 정보 수정 실패.",
+            detail: names + " 정보 수정 실패.",
             life: 3000,
           });
         }
       });
     },
+    // 더블클릭시 input 열리기
     onInputDoubleClick(refName) {
       // 해당 ref를 가진 input 요소의 readonly 속성 제거
       this.$refs[refName].removeAttribute("readonly");
@@ -351,6 +418,38 @@ export default {
       // editableField 변수에 해당 ref 할당
       this.editableField = this.$refs[refName];
     },
+    // 유저 정보 삭제
+    deleteUser() {
+      //선택된 행의 이메일 값을 가져와 배열로 변환
+      const emails = this.selectedUser.map((item) => item.email);
+      userList
+        .deleteUsers(emails)
+        .then((data) => {
+          const names = this.selectedUser.map((item) => item.name);
+          if (data == "success") {
+            this.userList = this.userList.filter(
+              (item) => !emails.includes(item.email)
+            );
+            this.selectedUser = null; // 선택한 상품을 초기화합니다.
+            this.$toast.add({
+              severity: "success",
+              summary: "삭제 완료",
+              detail: names + "의 정보가 삭제되었습니다.",
+              life: 3000,
+            });
+          } else {
+            this.$toast.add({
+              severity: "error",
+              summary: "삭제 실패",
+              detail: names + "의 정보가 삭제에 실패했습니다.",
+              life: 3000,
+            });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
 
   computed: {
@@ -359,6 +458,16 @@ export default {
     },
     readonlyInputs() {
       return this.$el.querySelectorAll("input[readonly]");
+    },
+    formData() {
+      return {
+        id: this.id,
+        name: this.name,
+        startDate: this.startDate,
+        lastDate: this.lastDate,
+        userName: this.userName,
+        server: this.server,
+      };
     },
   },
 };
