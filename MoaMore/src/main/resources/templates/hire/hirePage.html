@@ -120,6 +120,7 @@
 	                $.each(data, function(index, item) {
 	                	var str1 = ``;
 	                	var str2 = ``;
+	                	var str3 = ``;
 	                	
 	                	if(item.scrapYn != null){
 	                		str1 = `<div class="col-md-3 text-center text-md-start h-auto mb-5" >
@@ -151,14 +152,27 @@
 												
 												<div class="d-flex align-items-center justify-content-center justify-content-md-start gap-3">
 													<img class="img-fluid" src="assets/img/blog/profile1.png" alt="" />
-													<span class="mb-0 text-gray" >`+item.coNm+`</span>
-												</div>
-											</div>
-										</a>
-						    		</div>`;
-								
-					/* <i class="bi bi-heart-fill fs-5 btn1" th:classappend="${item.followYn != null} ? 'text-danger' : ''"></i> */
+														<span class="mb-0 text-danger" >`+item.coNm+`</span>
+														</div>
+													</div>
+												</a>
+								    		</div>`;
+// 			    		if(item.followYn != null){	
+// 			    			str3 = `<span class="mb-0 text-danger" >`+item.coNm+`</span>
+// 											</div>
+// 										</div>
+// 									</a>
+// 					    		</div>`;
+// 			    		}else {
+// 			    			str3 = `<span class="mb-0 text-gray" >`+item.coNm+`</span>
+// 										</div>
+// 									</div>
+// 								</a>
+// 				    		</div>`;
+// 			    		}
+// 						    <span th:text="${hireVO.coNm}" class="" th:classappend="${hireVO.followYn != null} ? 'text-danger' : ''"></span>
 		    					$("#hireList").append(str1+str2);
+		    					followYn
 	                });
 	                
 	            },
