@@ -1,0 +1,38 @@
+.hoverRow:hover {
+	background-color: rgb(233, 233, 233);
+}
+
+.listRow{
+	padding:20px; 
+	border-bottom : 1px solid #ddd;
+}
+
+.circleImg {
+  border-radius: 50%;
+  width : 30px;
+  height : 30px;
+}
+
+.listStyle{
+   list-style:none;
+   padding-left:0px;
+}
+
+.listStype li{
+	line-height: 32.13px;
+}
+.listStyle li a:hover{
+	color: red;
+	letter-spacing: -0.88px;
+}
+
+
+.radius{
+	border-radius : 0px;
+}
+
+.ck-editor__editable {
+	min-height: 400px;
+}
+
+

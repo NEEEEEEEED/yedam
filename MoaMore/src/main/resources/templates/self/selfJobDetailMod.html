@@ -654,7 +654,7 @@ $('#tech').on('change', function(){
 	let techTxt = origin_tech_text + "," + $('#tech option:selected').text(); // 선택된 text값을 가져와서 수정
 	
 	// select에 값을 표시해줄땐 해당하는 option이 존재 해야 값을 나타내줄수있으므로 option태그를 생성하여 append 해줘야함
-	$('#tech').append(`<option value="`+tech+`">`+techTxt+`</option>`);
+	$('#tech').append(`<option hidden value="`+tech+`">`+techTxt+`</option>`);
 	$('#tech').val(tech);
 	
 	origin_tech_value = tech;

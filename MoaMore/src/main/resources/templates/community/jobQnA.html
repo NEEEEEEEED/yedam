@@ -12,19 +12,23 @@
 <body>
 	<div layout:fragment="content">
 		<div class="row" style="margin-top:10px;">
-			<div class="col-md-1"></div>
-			<div class="col-md-10">
+			<div class="col-md-2"></div>
+			<div class="col-md-8">
 				<nav style="background-color: white; border-bottom : 1px solid #ddd;">
-					<ul class="listStyle" style="display : flex; justify-content:space-evenly;">
+					<ul class="listStyle d-flex justify-content-evenly">
 						<li><a href="#">취업Q&A</a></li>
 						<li><a href="#">면접후기</a></li>
 						<li><a href="#">프로젝트모집</a></li>
 						<li><a href="#">스터디모집</a></li>
-						<li><button type="button" class="btn btn-outline-dark btn-sm">작성하기</button></li>
+						<div sec:authorize="hasRole('ROLE_USER')" >
+							<button id="jobWriteForm" type="button" onclick="location.href='/jobQnAWrite'" class="btn btn-outline-danger btn-sm radius fs-1">
+								게시글작성
+							</button>
+						</div>
 					</ul>
 				</nav>
 			</div>
-			<div class="col-md-1"></div>
+			<div class="col-md-2"></div>
 		</div>
 		<div class="row" style="margin-top : 30px;">
 			<div class="col-md-1"></div>
