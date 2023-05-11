@@ -103,7 +103,7 @@
             </ul>
 
             <div class="d-flex justify-content-center p-2">
-              <button class="btn btn-outline-primary px-2 m-2">
+              <button id="saveResume" class="btn btn-outline-primary px-2 m-2">
                 이력서 저장
               </button>
               <button class="btn btn-outline-danger px-2 m-2">취소</button>
@@ -834,6 +834,41 @@
       </div>
       <script>
         $(document).ready(function () {
+          // 저장
+          $("#saveResume").on("click", function () {
+            // let data = [];
+            console.log($("#school").children());
+            // let data=[]
+            // let ShcrVO
+            // for (let i = 0; i < shl.length; i++) {
+            //   let shl = $("#school").children()[i];
+            // console.log($(shl).find("input"));
+            //  data.push($(shl).find("input").serialize());
+            // }
+
+            data = $.map($("#school").children(), function (shl) {
+              let obj = {
+                breu: $(shl).find("input[name=breu]").val(),
+                mj: $(shl).find("input[name=mj]").val(),
+                joinYy: $(shl).find("input[name=joinYy]").val(),
+                retiYy: $(shl).find("input[name=retiYy]").val(),
+                pnt: $(shl).find("input[name=pnt]").val(),
+                shcrSt: $(shl).find("input[name=shcrSt]").val(),
+                ttScore: $(shl).find("input[name=ttScore]").val(),
+                fg: $(shl).find("input[name=fg]").val(),
+              };
+              console.log(obj);
+              return obj;
+              // let obj={}
+              // let input = $(shl).find('input')
+              // for(let i=0;i<input.length;i++){
+              //   // let container[]
+              // }
+            });
+
+            console.log(data);
+          });
+
           // 스킬 클릭 이동
 
           $("button[name=skillBtn]").on("click", function (ev) {
@@ -848,10 +883,14 @@
           // 노드 복사
           $("i.bi.bi-plus-circle-fill").on("click", copy);
           // 드롭다운 메뉴
-          $(".dropdown-item").on("click", function () {
+
+          $(document).on("click", "button.dropdown-item", function () {
             let selected = $(this).val();
-            let selectedText = $(this)[0].innerText;
-            console.log($(this).closest(".dropdown")[0].nextElementSibling);
+            let selectedText = $(this)[0].children[0].innerText;
+
+            // console.log(selected);
+            // console.log(selectedText);
+
             $(this).closest(".dropdown")[0].firstElementChild.innerText =
               selectedText;
             $(this).closest(".dropdown")[0].nextElementSibling.value = selected;
@@ -878,15 +917,7 @@
             element.css("display", "block");
             $(element).find("i.bi.bi-plus-circle-fill").click();
           });
-          function copy(ev) {
-            let tar = $(this).parents()[1].children[1];
-            let newNode = $(this).parents()[1].children[0].children[0];
-            let cop = newNode.cloneNode(true);
-            cop.style.display = "block";
-            tar.append(cop);
-            $(this).parents()[1].children[1];
-            ev.stopPropagation();
-          }
+
           // 포트폴리오 추가 버튼 클릭시
           $("#pofolBtn").on("click", function () {
             $("#pofolTitle").val(""); // 초기화
@@ -901,6 +932,15 @@
             $("#pofolModal").modal("hide");
           });
 
+          function copy(ev) {
+            let tar = $(this).parents()[1].children[1];
+            let newNode = $(this).parents()[1].children[0].children[0];
+            let cop = newNode.cloneNode(true);
+            cop.style.display = "block";
+            tar.append(cop);
+            $(this).parents()[1].children[1];
+            ev.stopPropagation();
+          }
           // 포트폴리오 등록 ajax호출 함수
           function pofolReg() {
             let formData = new FormData($("#pofolRegForm")[0]); // 폼데이터
