@@ -74,7 +74,7 @@
                       class="accordion-body d-flex flex-column align-items-center p-0"
                     >
                       <div class="mb-1">
-                        <a href="">이력서 등록</a>
+                        <a href="/mem/mkResume">이력서 등록</a>
                       </div>
                       <div class="mb-1">
                         <a href="">이력서 관리</a>
@@ -511,12 +511,12 @@
         }
         function confirmDel(callback, data) {
           Swal.fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
+            title: "삭제하시겠습니까??",
+            text: "삭제하면 지원이 취소됩니다!\n삭제하시겠습니까?",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonText: "Yes, delete it!",
-            cancelButtonText: "No, cancel!",
+            confirmButtonText: "삭제!",
+            cancelButtonText: "취소!",
             reverseButtons: true,
           }).then((result) => {
             if (result.isConfirmed) {

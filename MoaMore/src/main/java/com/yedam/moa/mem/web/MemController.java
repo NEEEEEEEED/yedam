@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.moa.comm.service.CommService;
 import com.yedam.moa.mem.MemVO;
+import com.yedam.moa.mem.ResumeVO;
 import com.yedam.moa.mem.SearchVO;
 import com.yedam.moa.mem.service.MemService;
 
@@ -65,5 +66,12 @@ public class MemController {
 		System.out.println(model.getAttribute("list"));
 		model.addAttribute("info", mem.getMemInfo(vo));
 		return "mem/mem_resume";
+	}
+	
+//	이력서 데이터 입력
+	@PostMapping("/insertResume")
+	@ResponseBody
+	public void insertRes(@RequestBody ResumeVO vo) {
+		System.out.println(vo);
 	}
 }
