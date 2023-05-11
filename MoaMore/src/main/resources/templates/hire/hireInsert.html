@@ -40,7 +40,7 @@ body {
 				
 				<div class="mb-3" th:each="">
 					<label for="reg_id">회사이름</label><span id="star">*</span>
-					<input type="text" class="form-control" name="coNm" id="reg_id" th:value="${.coNm}">
+					<input type="text" class="form-control" name="coNm" id="reg_id " th:each = "recruitInsert : ${recruitInsert}" th:value="${recruitInsert.coNm}">
 				</div>
 				
 				<div class="mb-3">

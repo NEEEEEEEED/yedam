@@ -1,5 +1,6 @@
 package com.yedam.moa.hire.web;
 
+import java.io.Console;
 import java.io.File;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -91,7 +92,7 @@ public class HireController {
 		List<HireVO> hireList = new ArrayList<HireVO>();
 		pr = principal;
 		hireVO.setId(pr.getName());
-
+		
 		hireList = hireService.hireInfo(hireVO);
 
 		return hireList;
@@ -101,17 +102,31 @@ public class HireController {
 	@PostMapping("/followingCo")
 	@ResponseBody
 	public String followInsert(HireVO hireVO, Principal principal) {
-		List<HireVO> hireList = new ArrayList<HireVO>();
 		pr = principal;
 		hireVO.setId(pr.getName());
 		
-		if(hireList.get(0).getIdCo() != null) {
-			return hireService.followDelete(hireVO);
-		}else {
-			return hireService.followInsert(hireVO);
-		}
+		return hireService.followInsert(hireVO);
 	}
-
+	
+	// 구인공고 기업 팔로우, 취소
+//	@PostMapping("/followingCo")
+//	@ResponseBody
+//	public String followInsert(HireVO hireVO, Principal principal) {
+//		List<HireVO> hireList = new ArrayList<HireVO>();
+//		pr = principal;
+//		hireVO.setId(pr.getName());
+//		
+//		hireList = hireService.hireInfo(hireVO);
+//		// hireVO에서 꺼내온다
+//		if(hireList.get(0).getFollowYn() != null) {
+//			return hireService.followInsert(hireVO);
+//		}else {
+//			return hireService.followDelete(hireVO);
+//		}
+//		
+//		
+//	}
+	
 	// 구인공고 공고 스크랩 등록, 취소
 	@PostMapping("/recScrap")
 	@ResponseBody
@@ -144,14 +159,21 @@ public class HireController {
 		return hireList;
 	}
 
-	// 구인공고 등록 페이지 (모델말고 hireVO?)
-//	@GetMapping("/hireInsert")
-//	@ResponseBody
-//	public String recruitInsertSelect(Model model) {
-//		model.addAttribute("list", com.getCodes("Z","X","N","Y","D"));
-//		model.addAttribute("recruitInsert",recruitInsertSelect);
-//		return "hire/hireInsert";
-//	}
+	// 구인공고 등록 페이지 
+	@GetMapping("/hireInsert")
+	@ResponseBody
+	public String recruitInsertSelect(Model model, Principal principal) {
+		HireVO hireVO = new HireVO();
+		pr = principal;
+		hireVO.setId(pr.getName());
+		
+		List<HireVO> recruitInsertSelect = new ArrayList<HireVO>();
+		recruitInsertSelect = hireService.recruitInsertSelect(hireVO);
+		
+		model.addAttribute("list", com.getCodes("Z","X","N","Y","D"));
+		model.addAttribute("recruitInsert",recruitInsertSelect);
+		return "hire/hireInsert";
+	}
 
 	// 구인공고 수정 페이지
 	@GetMapping("/hireMod")

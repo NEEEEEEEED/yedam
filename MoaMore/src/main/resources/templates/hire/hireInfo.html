@@ -145,9 +145,9 @@ body {
 							<form name="form" id="form" role="form" method="post" action="${pageContext.request.contextPath}/board/saveBoard">
 				
 								<div class="mb-3">
-									<span id="followCo">
+									<span>
 									<!-- 관심기업 AJAX -->
-										<span th:text="${hireVO.coNm}" class="text-danger" ></span>
+										<span id="followingCo" th:text="${hireVO.coNm}" class="" th:classappend="${hireVO.followYn != null} ? 'text-danger' : ''"></span>
 									</span>
 									<input type="hidden" th:value="${hireVO.idCo}" id = "co"/>
 									<span> | </span> 
@@ -418,12 +418,10 @@ body {
 	// 공고올린 기업을 관심기업으로 등록
 	$("#followCO").on("click", function(){
 		let idCo = co.value;
-		let recruitNo = nowRecruitNo.value;
 		let data = {
 				"idCo" : idCo,
-				"recruitNo" : recruitNo
     	    } 	
-		recFollow(data);
+		followingCo(data);
 		
 		
 	});
@@ -431,12 +429,22 @@ body {
 	// 관심기업 등록, 취소
 	function followingCo(data){
 		$.ajax({
-			url: 'followingCo',
+			url: "followingCo",
 			type: 'post',
 			data: data,
 			success: function (result){
-				 
-			recFollow(data); // 조회한 후에 등록, 취소 실행
+				Swal.fire({
+					icon: 'success',
+					title: result
+				});
+				let followIcon="";
+				if(result == "관심기업으로 등록했습니다."){
+					$("#followingCo").css('color', 'red');
+				}else{
+					$("#followingCo").css('color', 'gray');
+				}
+				//$("#followingCo").html(followIcon);
+			//recFollow(data); // 조회한 후에 등록, 취소 실행
 
 			},
 			error: function(reject){
@@ -452,18 +460,14 @@ body {
 // 			type: 'get',
 // 			data: data,
 // 			success: function(result){
-// 				Swal.fire({
-// 					icon: 'success',
-// 					title: result
-// 				});
-// 				console.log(result)
+// 				console.log(result[0].followYn)
 // 				let followIcon="";
-// 				if(result[0].팔로우여부 != null){
-// 					followIcon = `<span th:text="${팔로우여부.coNm}" class="text-danger" >`+기업명+`</span>`;
+// 				if(result[0].followYn != null){
+// 					followIcon = `<span class="text-danger" >`+result[0].coNm+`</span>`;
 // 				}else{
-// 					followIcon = `<span th:text="${팔로우여부.coNm}">`+기업명+`</span>`;
+// 					followIcon = `<span>`+result[0].coNm+`</span>`;
 // 				}
-// 				$("#followCo").html(followIcon);
+// 				$("#followingCo").html(followIcon);
 				
 // 			},
 // 			error: function(reject){
@@ -475,7 +479,6 @@ body {
 	
 	// 보고있는 공고 스크랩(스크랩이 되어있으면 스크랩 풀기)
 	$("#recruitScrap").on("click", function(){
-		let id = logId.value;
 		let recruitNo = nowRecruitNo.value;
 		let data = {
 				"recruitNo" : recruitNo // 스크랩 여부 값이 계속 바뀜으로 디비에서 바로 꺼내야한다.

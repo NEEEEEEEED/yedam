@@ -15,5 +15,6 @@ public interface HireMapper {
 	public int followDelete(HireVO hireVO); // 관심기업 취소
 	public int recruitScrapInsert(HireVO hireVO); // 공고 스크랩 등록
 	public int recruitScrapDelete(HireVO hireVO); // 공고 스크랩 삭제
+	public int selectFollow(HireVO hrieVO); // 관심기업 테이블에서 데이터가 있는지 확인
 	public List<HireVO> recruitInsertSelect(HireVO hireVO); // 공고등록 페이지 기업이름 조회
 }

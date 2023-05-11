@@ -5,7 +5,7 @@
 <mapper namespace="com.yedam.moa.hire.mapper.HireMapper">
 	<!-- 전체조회 -->
 	<select id="serchHire" resultType="HireVO">
-	    SELECT R.TTL,
+	     SELECT R.TTL,
 		       K.SKILL,
 		       C.CO_NM,
 		       get_common(WKSITE) AS WKSITE,
@@ -78,7 +78,7 @@
 	</select>
 	<!-- 상세조회 -->
 	<select id="searchInfo" resultType="HireVO">
-		SELECT R.TTL,
+		 SELECT R.TTL,
 		       K.SKILL,
 		       C.CO_NM,
 		       get_common(WKSITE) AS WKSITE,
@@ -86,6 +86,7 @@
                R.CO_IMG,
                R.RECRUIT_NO,
               	 (SELECT S.RECRUIT_NO FROM RECRUIT_SCRAP S WHERE R.RECRUIT_NO = S.RECRUIT_NO AND ID = #{id}) AS scrapYn,
+                 (SELECT F.ID_CO FROM FOLLOWING F WHERE R.ID = F.ID_CO AND F.ID_MEM = #{id}) AS followYn,
                get_common(MA_BUSS)AS MA_BUSS,
                R.QUAL_COND,
                R.PREF_COND,
@@ -105,6 +106,9 @@
 		WHERE R.RECRUIT_NO = #{recruitNo}
 		<if test="scrapYn != null and scrapYn != ''">
 			AND EXISTS (SELECT S.RECRUIT_NO FROM RECRUIT_SCRAP S WHERE R.RECRUIT_NO = S.RECRUIT_NO AND ID = #{id})
+       	</if>
+       	<if test="followYn != null and followYn != ''">
+			AND EXISTS (SELECT F.ID_CO FROM FOLLOWING F WHERE R.ID = F.ID_CO AND F.ID_MEM = #{id})
        	</if>
 	</select>
 	<!-- 이력서 조회 -->
@@ -130,6 +134,10 @@
 	<delete id="followDelete" parameterType="HireVO">
 		DELETE FROM FOLLOWING WHERE ID_CO = #{idCo} AND ID_MEM = #{id}
 	</delete>
+	<!-- 관심 기업 조회 -->
+	<select id="selectFollow" resultType="int">
+		SELECT COUNT(ID_CO) FROM FOLLOWING WHERE ID_CO = #{idCo} AND ID_MEM = #{id}
+	</select>
 	<!-- 공고 스크랩 등록 -->
 	<insert id="recruitScrapInsert" parameterType="HireVO">
 		INSERT INTO RECRUIT_SCRAP (RECRUIT_NO, ID)
