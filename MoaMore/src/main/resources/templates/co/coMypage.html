@@ -145,7 +145,7 @@ i {
 							aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
-						<form>
+						<form id="offerForm" action="/offerSelf" method="POST">
 							<div class="mb-3 row">
 								<label for="inputPassword" class="col-sm-3 col-form-label  fs-2">●
 									회사명</label>
@@ -174,7 +174,11 @@ i {
 								<label for="inputPassword" class="col-sm-3 col-form-label  fs-2">●
 									기술 스택</label>
 								<div class="col-sm-9">
-									<input type="text" name="tech" class="form-control" id="">
+									<select id="tech" name="tech" class="form-select">
+										<option value="" selected>기술선택(다중선택가능)</option>
+										<option th:each="tech : ${commList.Z}" th:text="${tech.desct}"
+											th:value="${tech.prov}">기술스택</option>
+									</select>
 								</div>
 							</div>
 
@@ -228,6 +232,7 @@ i {
 									</select>
 								</div>
 							</div>
+							<!-- 함께보낼데이타 -->
 							<input type="hidden" name="id" th:value="${id.id}"> <input
 								type="hidden" name="jobSearchNo">
 							<div class="row mb-4">
@@ -235,7 +240,7 @@ i {
 									<button type="button" class="btn btn-secondary"
 										data-bs-dismiss="modal">취소</button>
 									<button type="button" class="btn btn-primary"
-										onclick="offerCheck()">제안</button>
+										onclick="offerCheck(this)">제안</button>
 								</div>
 							</div>
 						</form>
@@ -278,6 +283,27 @@ i {
 
 				}
 			}
+			
+			let tech_value = []; // select 태그 value 배열
+			let tech_text = []; // seelct 태그 text 배열
+
+			// 기술스택 값 변경시 실행되는 함수
+			$('#tech').on('change', function(){
+				let tech = $('#tech option:selected').val(); // 선택된 value값을 가져옴
+				let techTxt = $('#tech option:selected').text(); // 선택된 text값을 가져옴
+				
+				tech_value.push(tech);	// 배열에 push
+				tech_text.push(techTxt); // 배열에 push
+				
+				let tech_text_str = tech_text.join(); // Join : 배열의 문자열을 합쳐주는 함수
+				let tech_value_value = tech_value.join();
+				
+				// select에 값을 표시해줄땐 해당하는 option이 존재 해야 값을 나타내줄수있으므로 option태그를 생성하여 append 해줘야함
+				$('#tech').append(`<option hidden value="`+tech_value_value+`">`+tech_text_str+`</option>`);
+				$('#tech').val(tech_value_value);
+				
+			});
+			
 			//관심 게시글 수 
 			var totalInter = [[${totalInter.totalInter}]];
 			//관심구직글클릭 / 제안구직글클릭
@@ -310,12 +336,12 @@ i {
 					}
 				});
 			}
-			//관심구직글 출력
+			//관심게시글목록 출력
 			function makeInterList(res){
 				let html = '';
 				
 				for(let i=0;i<res.length;i++){
-					let notice = `<div onclick="location.href='/selfJobDetail?jobSearchNo=`+res[i].jobSearchNo+`&resumeNo=`+res[i].resumeNo+`'"
+					let notice = `<div id="`+res[i].jobSearchNo+`" onclick="location.href='/selfJobDetail?jobSearchNo=`+res[i].jobSearchNo+`&resumeNo=`+res[i].resumeNo+`'"
 						class="row align-items-center border-bottom p-4 mb-3 hoverRow">
 						<div class="col-md-3 text-center">
 							<a href="#"> <img class="img-fluid"
@@ -342,7 +368,7 @@ i {
 							style="display: flex; align-items: center; flex-direction: column;">
 							<button type="button" onclick="deleteInter(\'`+res[i].jobSearchNo+`\')"
 								class="btn btn-danger btn-sm listBtn">관심</button>
-							<button type="button" onclick="insertJobSearchNo(\'`+res[i].jobSearchNo+`\')"
+							<button type="button" btn="offerBtn" onclick="insertJobSearchNo(\'`+res[i].jobSearchNo+`\')"
 								class="btn btn-outline-info btn-sm listBtn" data-bs-toggle="modal" data-bs-target="#exampleModalLg"> 제안 </button>
 						</div>
 					</div>`; 
@@ -353,7 +379,7 @@ i {
 				selfList.innerHTML = html;
 			}
 			
-			//관심 페이징 버튼 만들기
+			//관심 페이징버튼 만들기
 			function paging(){
 				let pageSu = Math.floor(totalInter/2) + totalInter%2
 				console.log(pageSu)
@@ -391,7 +417,12 @@ i {
 			}
 			
 			//모달 안에서 제안클릭
-			function offerCheck(){
+			function offerCheck(t){
+				$('#offerForm').submit();
+				/* let jobSearchNo = document.querySelector('[name="jobSearchNo"]').value;
+				let notice = document.querySelector('#'+jobSearchNo);
+				let offerBtn = notice.querySelector('[btn="offerBtn"]');
+				console.log(notice); */
 			}
 			//제안모달 안 필요한 구인공고 목록
 			function getOfferModalData(){

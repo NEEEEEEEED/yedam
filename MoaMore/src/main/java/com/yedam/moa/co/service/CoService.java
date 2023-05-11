@@ -22,4 +22,6 @@ public interface CoService {
 	public int deleteInfer(SelfVO vo);
 	//관심 게시글 수 
 	public SelfVO selectTotalInter(CoVO vo);
+	//제안이후
+	public int afterOffer(CoVO vo);
 }

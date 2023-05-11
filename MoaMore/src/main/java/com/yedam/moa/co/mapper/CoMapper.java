@@ -28,4 +28,6 @@ public interface CoMapper {
 	public int deleteInfer(SelfVO vo);
 
 	public SelfVO selectTotalInter(CoVO vo);
+
+	public int afterOffer(CoVO vo);
 }
