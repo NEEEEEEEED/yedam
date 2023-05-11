@@ -27,7 +27,10 @@
 
 				<div class="text-left mt-8 mb-8">
 					<span class="fs-2 subTitle">&nbsp&nbsp&nbsp저의 포트폴리오입니다&nbsp&nbsp&nbsp</span>
-					<p class="mt-4 mb-3" style="margin-left : 16px;" th:text="|◈ ${selfJobInfo.name}님의 포트폴리오 (파일명클릭시 다운로드가능)|">◈ OOO님의 포트폴리오</p>
+					<div style="display:flex">
+						<p class="mt-4 mb-3" style="margin-left : 16px;" th:text="|◈ ${selfJobInfo.name}님의 포트폴리오 (|">◈ OOO님의 포트폴리오</p>
+						<span class="mt-4 mb-3"><span style="color:red; font-weight:bold;">*</span>파일명클릭시 다운로드가능)</span>
+					</div>
 					<div class="row" id = "pofolList">
 					<!-- 반복 -->
 						<div th:each="pofol : ${pofolList}" class="col-md-4 text-center text-md-start h-auto" >

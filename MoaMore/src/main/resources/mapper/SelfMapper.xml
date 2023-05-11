@@ -99,7 +99,7 @@
                 get_common(jsn.duty_fld) as dutyFld, jsn.pubc_range, 
                 jsn.intro, jsn.hope_sal, jsn.residency, jsn.myimg, jsn.interest, 
                 jsn.prop, jsn.reg_dt, get_common(jsn.career) as career, m.name, m.email,
-                LISTAGG(get_common(jss.skill), ',') WITHIN GROUP(ORDER BY jss.skill) OVER(PARTITION BY jsn.job_search_no) AS skill
+                LISTAGG(get_common(jss.skill), ',') WITHIN GROUP(ORDER BY jss.skill_no) OVER(PARTITION BY jsn.job_search_no) AS skill
 		FROM job_search_notiwr jsn JOIN member m
 		    ON jsn.id = m.id
 		JOIN job_search_skill jss

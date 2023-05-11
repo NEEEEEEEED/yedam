@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{template/layout}">
+<head>
+<meta charset="UTF-8">
+<title>모아모아/커뮤니티</title>
+
+<!-- jobQnAWriteForm.CSS -->
+<link href="community/jobQnAWriteForm.css" rel="stylesheet">
+<script src="https://cdn.ckeditor.com/ckeditor5/37.1.0/classic/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
+
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="row mb-5">
+			<div class="col-md-2"></div>
+			<div class="col-md-8">
+				<nav style="background-color: white; border-bottom : 1px solid #ddd;">
+					<ul class="listStyle d-flex justify-content-evenly">
+						<li><a href="#">취업Q&A</a></li>
+						<li><a href="#">면접후기</a></li>
+						<li><a href="#">프로젝트모집</a></li>
+						<li><a href="#">스터디모집</a></li>
+					</ul>
+				</nav>
+			</div>
+			<div class="col-md-2"></div>
+		</div>
+		
+		<div class="row">
+			<div class="col-md-2"></div>
+			<div class="col-md-8">
+			
+				<div class="space-y-2 mb-5">
+					<h4 class="text-xl font-medium sm:text-3xl sm:leading-10">취업 궁금증 해결하기</h4>
+					<p class="text-sm text-gray-500 dark:text-gray-400">
+					<strong>OO</strong>님 개발자 구인구직 플랫폼 MoaMore에서 최고의 개발자들과 함께 궁금증을 해결하세요.</p>
+				</div>
+				
+				<!-- form 시작 -->
+				<form id="writeForm" action="insertBoard.do" method="post" enctype="multipart/form-data" onsubmit="return false">
+					<div class="mb-5">
+						<label id="titleLabel" for="title" class="form-label fs-1">◈ 제목</label>
+						<input id="title" name="title" type="text" class="form-control" placeholder="제목을 입력하여 주세요">
+					</div>
+					
+					<div class="mb-3">
+						<label for="formGroupExampleInput" class="form-label fs-1 mb-3">◈ 내용</label>
+						<textarea id="editor" name="editor"></textarea>
+					</div>
+	                <div class="text-end">
+	                	<button id="cancleBtn" type="button" class="btn btn-light radius mx-2">취소</button>
+	                	<button id="regBtn" type="button" class="btn btn-dark radius">등록</button>
+	                </div>
+                </form>
+             	<!-- form 끝 -->
+			</div>
+			
+			<div class="col-md-2"></div>
+		 </div>
+		 
+<script>
+	/*
+	let editor;
+	
+	 $(function(){ 
+	   	 document.querySelector('#regBtn').addEventListener( 'click', (e) => { //제목검사
+		   	 if($("#title").val() == "") { 
+				alert("제목입력"); 
+				e.preventDefault();
+				return false;
+			 }
+	   	 
+		   	//내용
+		   	const editorData = editor.getData(); 
+		   	
+		   	if(editorData == "") { 
+		   		alert("내용입력"); 
+		   		e.preventDefault();
+		   		return false;
+		   	}
+		   	
+		   	return true; 
+	   	 });
+	   	}); 
+	
+	*/
+	
+    ClassicEditor
+        .create( document.querySelector( '#editor'),{
+            language: "ko", // 한글버전으로 사용하기 위해 필요한 코드 위에 script 추가해야함
+            ckfinder: { 
+            	uploadUrl: 'jobQnAImg' // 내가 지정한 업로드 url (post로 요청감) }
+        	}
+        })
+  		.then( newEditor => {
+        	editor = newEditor;
+    	})
+		.then( editor => {
+			window.editor = editor;
+			console.log(editor);
+
+		})
+        .catch( error => {
+            console.error( error );
+        });
+    
+</script>
+
+	</div>
+</body>
+</html>

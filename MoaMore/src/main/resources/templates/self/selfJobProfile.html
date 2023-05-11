@@ -556,7 +556,7 @@ $('#tech').on('change', function(){
 	let tech_value_value = tech_value.join();
 	
 	// select에 값을 표시해줄땐 해당하는 option이 존재 해야 값을 나타내줄수있으므로 option태그를 생성하여 append 해줘야함
-	$('#tech').append(`<option value="`+tech_value_value+`">`+tech_text_str+`</option>`);
+	$('#tech').append(`<option hidden value="`+tech_value_value+`">`+tech_text_str+`</option>`);
 	$('#tech').val(tech_value_value);
 	
 });
