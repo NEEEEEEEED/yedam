@@ -836,8 +836,9 @@
         $(document).ready(function () {
           // 저장
           $("#saveResume").on("click", function () {
-            // let data = [];
+            let data = [];
             console.log($("#school").children());
+
             // let data=[]
             // let ShcrVO
             // for (let i = 0; i < shl.length; i++) {
@@ -845,27 +846,27 @@
             // console.log($(shl).find("input"));
             //  data.push($(shl).find("input").serialize());
             // }
-
-            data = $.map($("#school").children(), function (shl) {
-              let obj = {
-                breu: $(shl).find("input[name=breu]").val(),
-                mj: $(shl).find("input[name=mj]").val(),
-                joinYy: $(shl).find("input[name=joinYy]").val(),
-                retiYy: $(shl).find("input[name=retiYy]").val(),
-                pnt: $(shl).find("input[name=pnt]").val(),
-                shcrSt: $(shl).find("input[name=shcrSt]").val(),
-                ttScore: $(shl).find("input[name=ttScore]").val(),
-                fg: $(shl).find("input[name=fg]").val(),
-              };
-              console.log(obj);
-              return obj;
-              // let obj={}
-              // let input = $(shl).find('input')
-              // for(let i=0;i<input.length;i++){
-              //   // let container[]
-              // }
-            });
-
+            if ($("#school").children() > 0) {
+              data = $.map($("#school").children(), function (shl) {
+                let obj = {
+                  breu: $(shl).find("input[name=breu]").val(),
+                  mj: $(shl).find("input[name=mj]").val(),
+                  joinYy: $(shl).find("input[name=joinYy]").val(),
+                  retiYy: $(shl).find("input[name=retiYy]").val(),
+                  pnt: $(shl).find("input[name=pnt]").val(),
+                  shcrSt: $(shl).find("input[name=shcrSt]").val(),
+                  ttScore: $(shl).find("input[name=ttScore]").val(),
+                  fg: $(shl).find("input[name=fg]").val(),
+                };
+                console.log(obj);
+                return obj;
+              });
+            }
+            // let obj={}
+            // let input = $(shl).find('input')
+            // for(let i=0;i<input.length;i++){
+            //   // let container[]
+            // }
             console.log(data);
           });
 
