@@ -53,6 +53,11 @@ public class CoServiceImpl implements CoService{
 	public SelfVO selectTotalInter(CoVO vo) {
 		return mapper.selectTotalInter(vo);
 	}
+
+	@Override
+	public int afterOffer(CoVO vo) {
+		return mapper.afterOffer(vo);
+	}
 	
 	
 	

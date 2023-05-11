@@ -85,4 +85,5 @@ public class SelfVO {
 	//주안 페이징
 	private int pageNum;
 	private int totalInter;
+	private String offerCd;
 }
