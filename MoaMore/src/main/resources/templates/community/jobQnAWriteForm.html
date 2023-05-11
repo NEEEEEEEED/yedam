@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{template/layout}">
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{template/layout}">
 <head>
 <meta charset="UTF-8">
 <title>모아모아/커뮤니티</title>
@@ -36,13 +37,13 @@
 				<div class="space-y-2 mb-5">
 					<h4 class="text-xl font-medium sm:text-3xl sm:leading-10">취업 궁금증 해결하기</h4>
 					<p class="text-sm text-gray-500 dark:text-gray-400">
-					<strong>OO</strong>님 개발자 구인구직 플랫폼 MoaMore에서 최고의 개발자들과 함께 궁금증을 해결하세요.</p>
+					<strong style="color:blue" th:text="${logId}">OO</strong>님 개발자 구인구직 플랫폼 MoaMore에서 최고의 개발자들과 함께 궁금증을 해결하세요.</p>
 				</div>
 				
 				<!-- form 시작 -->
-				<form id="writeForm" action="insertBoard.do" method="post" enctype="multipart/form-data" onsubmit="return false">
+				<form id="writeForm" method="post" enctype="multipart/form-data" onsubmit="return false">
 					<div class="mb-5">
-						<label id="titleLabel" for="title" class="form-label fs-1">◈ 제목</label>
+						<label class="form-label fs-1">◈ 제목</label>
 						<input id="title" name="title" type="text" class="form-control" placeholder="제목을 입력하여 주세요">
 					</div>
 					
@@ -62,50 +63,61 @@
 		 </div>
 		 
 <script>
-	/*
-	let editor;
 	
-	 $(function(){ 
-	   	 document.querySelector('#regBtn').addEventListener( 'click', (e) => { //제목검사
-		   	 if($("#title").val() == "") { 
-				alert("제목입력"); 
-				e.preventDefault();
-				return false;
-			 }
-	   	 
-		   	//내용
-		   	const editorData = editor.getData(); 
-		   	
-		   	if(editorData == "") { 
-		   		alert("내용입력"); 
-		   		e.preventDefault();
-		   		return false;
-		   	}
-		   	
-		   	return true; 
-	   	 });
-	   	}); 
+	let newEditor;
 	
-	*/
-	
+	// Editor에 width주고 싶어서 css폴더에 따로 코드넣음
     ClassicEditor
         .create( document.querySelector( '#editor'),{
             language: "ko", // 한글버전으로 사용하기 위해 필요한 코드 위에 script 추가해야함
             ckfinder: { 
-            	uploadUrl: 'jobQnAImg' // 내가 지정한 업로드 url (post로 요청감) }
+            	uploadUrl: 'jobQnAImg' // 내가 지정한 업로드 url (post로 요청감)
         	}
         })
-  		.then( newEditor => {
-        	editor = newEditor;
+  		.then( eidtor => { // 이미지를 업로드하면 요청 경로의 결과를 받아와서 
+  			newEditor = eidtor; // 변수에 담는다
     	})
-		.then( editor => {
-			window.editor = editor;
-			console.log(editor);
-
-		})
         .catch( error => {
             console.error( error );
         });
+	
+    $('#regBtn').on('click', function(e){
+    	
+     	if($("#title").val() == "") { 
+			alert("제목입력"); 
+			e.preventDefault();
+			return;
+		 }
+   	 
+	   	const editorData = newEditor.getData(); 
+	   	
+	   	if(editorData == "") { 
+	   		alert("내용입력"); 
+	   		e.preventDefault();
+	   		return;
+	   	}
+	   	
+	   	console.log($('#title').val());
+	   	console.log(editorData);
+	   	
+	   	let data = {
+	   			title : $('#title').val(),
+	   			content : editorData
+	   	}
+	   	
+		 $.ajax({
+			url: 'jobQnaAdd',
+			type: 'post',
+			data : data,
+			success: function (result) {
+				console.log(result);
+				
+			},
+	 		error: function (reject) {	   
+	    		console.log(reject);
+			}
+		});
+    });
     
 </script>
 
