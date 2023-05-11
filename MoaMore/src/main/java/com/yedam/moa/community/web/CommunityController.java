@@ -27,13 +27,14 @@ public class CommunityController {
 	String uploadPath;
 	
 	@Autowired 
-	CommunityServiceImpl communityServiceImpl; 
+	CommunityServiceImpl commuServiceImpl; 
 	
-	Principal pr;
+	Principal pr; // 현재 로그인된 유저정보
 	
 	// 취업 Q&A 페이지
 	@GetMapping("/jobQnA") 
-	public String jobQnaList() { 
+	public String jobQnaList(Model model) { 
+		model.addAttribute("jobQnaList", commuServiceImpl.jobQnaList());
 		return "community/jobQnA"; 
 	}
 	
@@ -52,7 +53,6 @@ public class CommunityController {
 		
 		Map<String, Object> data = new HashMap<String, Object>();
 
-		
 		//첨부파일 업로드 처리
 		MultipartFile upload = uploadFile;
 		
@@ -68,7 +68,7 @@ public class CommunityController {
 			uploadFileName = uuid.toString() + "_" + fileName;
 			
 			upload.transferTo(new File("c:/moaImg/"+uploadFileName)); // 파일업로드
-			data.put("uploaded","1");
+			data.put("uploaded",true);
 			data.put("fileName",fileName);
 			data.put("UUIDFileName",uploadFileName);
 			data.put("url", "/moamoreImg/"+uploadFileName);
@@ -83,9 +83,7 @@ public class CommunityController {
 	public String jobQnaInsert(CommunityVO communityVO) {
 		int r = 0;
 		
-		System.out.println("title : " + communityVO.getTitle());
-		System.out.println("content :" + communityVO.getContent());
-		
+		r = commuServiceImpl.jobQnaInsert(communityVO);
 		
 		if(r > 0) {
 			return "{\"result\": \"Success\"}";
@@ -93,6 +91,13 @@ public class CommunityController {
 			return "{\"result\": \"Fail\"}";
 		}
 		
+	}
+	
+	// 취업 Q&A 상세페이지
+	@GetMapping("/jobQnaDetail")
+	public String jobQnaDetail(Model model, String qaNotiwrNo) {
+		model.addAttribute("jobQnaDetail", commuServiceImpl.jobQnaDetail(qaNotiwrNo));
+		return "community/jobQnADetail";
 	}
 	
 	

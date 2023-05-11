@@ -25,3 +25,16 @@
 	color: red;
 	letter-spacing: -0.88px;
 }
+
+/* 글자수가 50이상 넘어가면 .. 로 처리 */
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100ch; 
+}
+
+
+
+
+

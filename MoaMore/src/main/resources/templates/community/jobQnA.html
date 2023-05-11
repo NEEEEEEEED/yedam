@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{template/layout}">
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{template/layout}">
 <head>
 <meta charset="UTF-8">
 <title>모아모아/커뮤니티</title>
@@ -16,7 +17,7 @@
 			<div class="col-md-8">
 				<nav style="background-color: white; border-bottom : 1px solid #ddd;">
 					<ul class="listStyle d-flex justify-content-evenly">
-						<li><a href="#">취업Q&A</a></li>
+						<li><a href="/jobQnA">취업Q&A</a></li>
 						<li><a href="#">면접후기</a></li>
 						<li><a href="#">프로젝트모집</a></li>
 						<li><a href="#">스터디모집</a></li>
@@ -44,66 +45,27 @@
 				</div>	
 			</div>
 			<div class="col-md-7">
-				<div class="hoverRow listRow row">
+				<!-- 반복 -->
+				<div th:each="jobQna : ${jobQnaList}" class="hoverRow listRow row" th:onclick="|location.href='@{/jobQnaDetail(qaNotiwrNo=${jobQna.qaNotiwrNo})}'|">
 					<div class="col-md-10">
-						<img src="community/noImg.svg" class="circleImg" alt="이미지안보임" >
-					 	<span>아이디</span>
-					 	<h5 class="mt-2">게시글제목</h5>
-					 	<p class="fs--1">Some text..Some text..Some text..Some text..Some text..</p>
+						<img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
+					 	<span th:text="${jobQna.id}">아이디</span>
+					 	<h5 class="mt-2" th:text="${jobQna.ttl}">게시글제목</h5>
+					 	<p class="fs--1 ellipsis" th:text="${jobQna.cntn}">Some text..Some text..</p>
 				 	</div>
 				 	<div class="col-md-2" style="display: flex; align-items: center; flex-direction : column;" >
 				      <div style="border: 1px solid black; text-align: center; width: 60px; margin: auto; border-radius: 5px;  line-height: 15px; padding: 8px;">
 				        <small>
-				          <span>답변수</span>
+				          <span>댓글수</span>
 				          <br>
-				          <span>1</span>
+				          <span th:text="${jobQna.rplyCnt}">1</span>
 				        </small>
 				      </div>
 				      <div class="fs--1">
-					  	<span>조회수</span>1
+					  	<span>조회수</span><span th:text="${jobQna.inqCnt}">1</span>
 					  </div>
 				    </div>
-				</div>
-				<div class="hoverRow listRow row">
-					<div class="col-md-10">
-						<img src="community/noImg.svg" class="circleImg" alt="이미지안보임" >
-					 	<span>아이디</span>
-					 	<h5 class="mt-2">게시글제목</h5>
-					 	<p class="fs--1">Some text..Some text..Some text..Some text..Some text..</p>
-				 	</div>
-				 	<div class="col-md-2" style="display: flex; align-items: center; flex-direction : column;" >
-				      <div style="border: 1px solid black; text-align: center; width: 60px; margin: auto; border-radius: 5px;  line-height: 15px; padding: 8px;">
-				        <small>
-				          <span>답변수</span>
-				          <br>
-				          <span>1</span>
-				        </small>
-				      </div>
-				      <div class="fs--1">
-					  	<span>조회수</span>1
-					  </div>
-				    </div>
-				</div>
-				<div class="hoverRow listRow row">
-					<div class="col-md-10">
-						<img src="community/noImg.svg" class="circleImg" alt="이미지안보임" >
-					 	<span>아이디</span>
-					 	<h5 class="mt-2">게시글제목</h5>
-					 	<p class="fs--1">Some text..Some text..Some text..Some text..Some text..</p>
-				 	</div>
-				 	<div class="col-md-2" style="display: flex; align-items: center; flex-direction : column;" >
-				      <div style="border: 1px solid black; text-align: center; width: 60px; margin: auto; border-radius: 5px;  line-height: 15px; padding: 8px;">
-				        <small>
-				          <span>답변수</span>
-				          <br>
-				          <span>1</span>
-				        </small>
-				      </div>
-				      <div class="fs--1">
-					  	<span>조회수</span>1
-					  </div>
-				    </div>
-				</div>			
+				</div>	
 			</div>
 			<div class="col-md-1"></div>
 		</div>

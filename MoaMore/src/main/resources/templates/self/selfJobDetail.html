@@ -84,7 +84,7 @@
 							<div class="row">
 								<div id="carrRows" style="margin-left : 40px;" class="col-md-10">
 								<!-- 반복 -->
-									<div th:each="carr : ${carrList}" class="hoverRow listRow row">
+									<div th:each="carr : ${carrList}" class="listRow row">
 									 	<div class="col-md-10 text-center text-lg-start">
 								        	<div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
 								          		<p class="fw-bold mb-0 text-black" th:text="${carr.duty}">직무</p>
@@ -108,7 +108,7 @@
 							<!-- 반복 - switch case -->
 							<th:block th:each="school : ${schoolList}" >
 								<th:block th:switch="${school.fg}">
-									<div th:case="고졸" class="hoverRow listRow row">
+									<div th:case="고졸" class="listRow row">
 									 	<div class="col-md-10 text-center text-lg-start">
 									 		<span style="color:black;"><b>■ 고등학교</b></span> <hr>
 									 		<p class="mb-0" th:text="|${school.joinYy} ~ ${school.retiYy}">입학년도 ~ 졸업년도</p>
@@ -119,7 +119,7 @@
 						              	</div>
 									</div>
 								
-									<div th:case="대졸" class="hoverRow listRow row">
+									<div th:case="대졸" class="listRow row">
 									 	<div class="col-md-10 text-center text-lg-start">
 									 		<span style="color:black;"><b>■ 대학교</b></span> <hr>
 									 		<p class="mb-0" th:text="|${school.joinYy} ~ ${school.retiYy}">입학년도 ~ 졸업년도</p>
@@ -131,7 +131,7 @@
 						              	</div>
 									</div>
 									
-									<div th:case="대학원" class="hoverRow listRow row">
+									<div th:case="대학원" class="listRow row">
 									 	<div class="col-md-10 text-center text-lg-start">
 									 		<span style="color:black;"><b>■ 대학원</b></span> <hr>
 									 		<p class="mb-0" th:text="|${school.joinYy} ~ ${school.retiYy}">입학년도 ~ 졸업년도</p>

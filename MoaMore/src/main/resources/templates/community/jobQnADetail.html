@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{template/layout}">
+<head>
+<meta charset="UTF-8">
+<title>모아모아/커뮤니티</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<h1>게시글 상세페이지</h1>
+		<div>
+			<p th:text="|작성자 : ${jobQnaDetail.id}|">작성자</p>
+			<p th:text="|작성자 : ${jobQnaDetail.ttl}|">제목</p>
+			<p th:utext="|내용 : ${jobQnaDetail.htmlCntn}|">내용</p>
+			<p>댓글수</p>
+			<p>조회수</p>
+			<p>작성일</p>
+		</div>
+	</div>
+</body>
+</html>
