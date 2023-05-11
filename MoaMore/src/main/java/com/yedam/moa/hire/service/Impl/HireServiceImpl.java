@@ -63,30 +63,6 @@ public class HireServiceImpl implements HireService{
 		return message;
 	}
 	
-//	@Override
-//	public String followInsert(HireVO hrieVO) {
-//		String message = null;
-//		int result = hireMapper.followInsert(hrieVO);
-//		if(result > 0) {
-//			message = "관심기업을 등록했습니다.";
-//		}else {
-//			message="fail";
-//		}
-//		return message;
-//	}
-//	
-//	// 관심기업 등록 취소
-//		@Override
-//		public String followDelete(HireVO hrieVO) {
-//			String message = null;
-//			int result = hireMapper.followDelete(hrieVO);
-//			if(result > 0) {
-//				message = "관심기업을 취소했습니다.";
-//			}else {
-//				message="fail";
-//			}
-//			return message;
-//		}
 	// 스크랩 조회
 	@Override
 	public List<HireVO> recruitInsertSelect(HireVO hireVO) {

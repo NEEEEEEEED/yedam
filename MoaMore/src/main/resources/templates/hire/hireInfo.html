@@ -74,29 +74,28 @@ body {
 			<div class="card" id="imageSlide">
 				<div class="card-body" id="imageBody">
 					<!-- Slides with indicators -->
-					<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-						<div class="carousel-indicators">
-							<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="" aria-label="Slide 1"></button>
-							<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2" class="active" aria-current="true"></button>
-							<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3" class=""></button>
-						</div>
-						<div class="carousel-inner" >
-						<!-- 조건문으로 index가 0이면 클래스에 active에 추가 -->
-							<div class="carousel-item" th:each="recImg, userStat : ${recImg}"  th:active="${userStat.index}==0" >
-								<img   th:src="@{/moamoreImg/}+${recImg.recruitImg}" class="d-block w-100" alt="...">
-							</div>
-						</div>
-						<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-							<span class="visually-hidden">Previous</span>
-						</button>
-						<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-							<span class="carousel-control-next-icon" aria-hidden="true"></span>
-							<span class="visually-hidden">Next</span>
-						</button>
-			
-					</div>
-					<!-- End Slides with indicators -->
+					  <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+					    <div class="carousel-indicators">
+					      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+					      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+					      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+					    </div>
+					    <div class="carousel-inner" >
+					      <div class="carousel-item " th:each="recImg, userStat : ${recImg}" th:classappend="${userStat.index == 0} ? 'active' : ''">
+					        <img th:src="@{/moamoreImg/}+${recImg.recruitImg}" class="d-block" style="width: 700px; height: 500px;" alt="...">
+					      </div>
+					    </div>
+					
+					    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+					      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					      <span class="visually-hidden">Previous</span>
+					    </button>
+					    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+					      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+					      <span class="visually-hidden">Next</span>
+					    </button>
+					
+					  </div><!-- End Slides with indicators -->
 				</div>
 			</div>
 		<!-- 이미지 슬라이드 끝 -->
@@ -437,8 +436,6 @@ body {
 				}else{
 					$("#followingCo").css('color', 'gray');
 				}
-				//$("#followingCo").html(followIcon);
-			//recFollow(data); // 조회한 후에 등록, 취소 실행
 
 			},
 			error: function(reject){
@@ -447,28 +444,6 @@ body {
 		});
 	}
 	
-	// 관심기업인지 조회
-// 	function recFollow(data){
-// 		$.ajax({
-// 			url: "selectFollow",
-// 			type: 'get',
-// 			data: data,
-// 			success: function(result){
-// 				console.log(result[0].followYn)
-// 				let followIcon="";
-// 				if(result[0].followYn != null){
-// 					followIcon = `<span class="text-danger" >`+result[0].coNm+`</span>`;
-// 				}else{
-// 					followIcon = `<span>`+result[0].coNm+`</span>`;
-// 				}
-// 				$("#followingCo").html(followIcon);
-				
-// 			},
-// 			error: function(reject){
-// 				console.log(reject);
-// 			}
-// 		});
-// 	}
 
 	
 	// 보고있는 공고 스크랩(스크랩이 되어있으면 스크랩 풀기)

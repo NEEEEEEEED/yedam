@@ -12,7 +12,8 @@
                R.EXPR_DT,
                R.CO_IMG,
                R.RECRUIT_NO,
-              	 (SELECT S.RECRUIT_NO FROM RECRUIT_SCRAP S WHERE R.RECRUIT_NO = S.RECRUIT_NO AND ID = #{id}) AS scrapYn
+              	 (SELECT S.RECRUIT_NO FROM RECRUIT_SCRAP S WHERE R.RECRUIT_NO = S.RECRUIT_NO AND ID = #{id}) AS scrapYn,
+                 F.ID_CO AS followYn
 		FROM RECRUIT_ANUN R
 		JOIN CO C
 		ON R.ID = C.ID
@@ -20,8 +21,10 @@
               FROM RECRUIT_SKILL
               GROUP BY recruit_no) K
 		ON R.RECRUIT_NO = K.RECRUIT_NO
-		
+		LEFT JOIN (SELECT ID_CO FROM FOLLOWING WHERE ID_MEM = #{id}) F
+        ON R.ID = F.ID_CO
 		WHERE 1=1
+		<!-- 스크랩 정렬용 -->
 			<if test="scrapYn != null and scrapYn != ''">
 				AND EXISTS (SELECT S.RECRUIT_NO FROM RECRUIT_SCRAP S WHERE R.RECRUIT_NO = S.RECRUIT_NO AND ID = #{id})
        		</if>
@@ -48,7 +51,9 @@
 		       WKSITE,
                R.EXPR_DT,
                R.CO_IMG,
-               R.RECRUIT_NO
+               R.RECRUIT_NO,
+               F.ID_CO
+               
 	</select>
 	<!-- 스크랩 조회 -->
 	<select id="scrapHire" resultType="HireVO">

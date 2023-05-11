@@ -152,25 +152,21 @@
 												
 												<div class="d-flex align-items-center justify-content-center justify-content-md-start gap-3">
 													<img class="img-fluid" src="assets/img/blog/profile1.png" alt="" />
-														<span class="mb-0 text-danger" >`+item.coNm+`</span>
-														</div>
-													</div>
-												</a>
-								    		</div>`;
-// 			    		if(item.followYn != null){	
-// 			    			str3 = `<span class="mb-0 text-danger" >`+item.coNm+`</span>
-// 											</div>
-// 										</div>
-// 									</a>
-// 					    		</div>`;
-// 			    		}else {
-// 			    			str3 = `<span class="mb-0 text-gray" >`+item.coNm+`</span>
-// 										</div>
-// 									</div>
-// 								</a>
-// 				    		</div>`;
-// 			    		}
-		    					$("#hireList").append(str1+str2);
+														`;
+				    		if(item.followYn != null){	
+				    			str3 = `<span class="mb-0 text-danger" >`+item.coNm+`</span>
+												</div>
+											</div>
+										</a>
+						    		</div>`;
+				    		}else {
+				    			str3 = `<span class="mb-0 text-gray" >`+item.coNm+`</span>
+											</div>
+										</div>
+									</a>
+					    		</div>`;
+				    		}
+		    					$("#hireList").append(str1+str2+str3);
 	                });
 	                
 	            },
