@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.moa.admin.service.AdminService;
 import com.yedam.moa.admin.service.PostListVO;
+import com.yedam.moa.admin.service.UserSearchVO;
 import com.yedam.moa.comm.CommVO;
 import com.yedam.moa.comm.service.Impl.CommServiceImpl;
 import com.yedam.moa.mem.MemVO;
@@ -68,7 +69,7 @@ public class AdminController {
 	
 	@PostMapping("/modifyUser")
 	@ResponseBody
-	public String modifyUser(@RequestBody MemVO memVo) {
+	public String modifyUser(@RequestBody MemVO[] memVo) {
 		//인코딩된 이메일을 디코딩하는 부분
 		System.out.println(memVo);
 		return adminService.modifyUser(memVo);
@@ -79,5 +80,19 @@ public class AdminController {
 	public Map<String, List<PostListVO>> getUserPost(@RequestParam String id) {
 		System.out.println(id);
 		return adminService.getUserPost(id);
+	}
+	
+	@PostMapping("/deleteUsers")
+	@ResponseBody
+	public String removeUsers(@RequestBody String[] emails) {
+		System.out.println(emails);
+		return adminService.removeUsers(emails);
+	}
+	
+	@PostMapping("/getSearchUser")
+	@ResponseBody
+	public List<MemVO> getSearchUser(@RequestBody UserSearchVO vo) {
+		System.out.println(vo);
+		return adminService.getSearchUser(vo);
 	}
 }

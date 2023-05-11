@@ -13,9 +13,10 @@ export const userList = {
       });
   },
 
-  getuserDetail(selectedRow) {
+  modifyUser(selectedUser) {
+    console.log(selectedUser);
     return axios
-      .post("/api/getUserDetail", selectedRow)
+      .post("/api/modifyUser", selectedUser)
       .then((response) => {
         console.log(response.data);
         return response.data;
@@ -25,10 +26,10 @@ export const userList = {
       });
   },
 
-  modifyUser(MemVO) {
-    console.log(MemVO);
+  deleteUsers(emails) {
+    console.log(emails);
     return axios
-      .post("/api/modifyUser", MemVO)
+      .post("/api/deleteUsers", { emails })
       .then((response) => {
         console.log(response.data);
         return response.data;
@@ -38,23 +39,15 @@ export const userList = {
       });
   },
 
-  getProductsMini() {
-    return Promise.resolve(this.getUserData().slice(0, 5));
-  },
-
-  getProductsSmall() {
-    return Promise.resolve(this.getUserData().slice(0, 10));
-  },
-
-  getProducts() {
-    return Promise.resolve(this.getUserData());
-  },
-
-  getProductsWithOrdersSmall() {
-    return Promise.resolve(this.getProductsWithOrdersData().slice(0, 10));
-  },
-
-  getProductsWithOrders() {
-    return Promise.resolve(this.getProductsWithOrdersData());
+  getSearchUser(vo) {
+    return axios
+      .post("/api/getSearchUser", vo)
+      .then((response) => {
+        console.log(response.data);
+        return response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   },
 };
