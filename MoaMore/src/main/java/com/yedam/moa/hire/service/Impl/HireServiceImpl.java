@@ -116,6 +116,10 @@ public class HireServiceImpl implements HireService{
 		}
 		return message;
 	}
+	@Override
+	public List<HireVO> recImg(HireVO hireVO) {
+		return hireMapper.recImg(hireVO);
+	}
 
 	
 	

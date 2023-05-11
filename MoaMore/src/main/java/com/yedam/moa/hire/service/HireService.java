@@ -16,5 +16,6 @@ public interface HireService {
 	public String recruitScrapInsert(HireVO hireVO); // 공고 스크랩 등록
 	public String recruitScrapDelete(HireVO hireVO); // 공고 스크랩 삭제
 	public List<HireVO> recruitInsertSelect(HireVO hireVO); // 공고등록 페이지 기업이름 조회
+	public List<HireVO> recImg(HireVO hireVO); // 공고상세 페이지의 이미지 조회
 			
 }

@@ -21,10 +21,11 @@ public class HireVO {
 	private String exprDt; // 마갈일
 	private String wksite; // 근무지역
 	private byte[] coIntro; // 기업 소개
-	private String coImg; // 기업 이미지
+	private String coImg; // 기업 대표 이미지
 	private String accpDt; // 승인날짜
 	private String imgNo; // 이미지 그룹번호
 	private String job; // 직군
+	private String recruitImg; // 기업이미지들
 	
 	private String coNm; // 기업이름
 	private String addr; // 기업주소

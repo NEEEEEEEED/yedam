@@ -111,6 +111,10 @@
 			AND EXISTS (SELECT F.ID_CO FROM FOLLOWING F WHERE R.ID = F.ID_CO AND F.ID_MEM = #{id})
        	</if>
 	</select>
+	<!-- 구인공고 상세 이미지들 불러오기 -->
+	<select id="recImg" resultType="HireVO">
+		SELECT RECRUIT_NO, RECRUIT_IMG FROM RECRUIT_IMAGES WHERE RECRUIT_NO=#{recruitNo}
+	</select>
 	<!-- 이력서 조회 -->
 	<select id="resumeList" resultType="HireVO">
 		SELECT RESUME_NO,

@@ -64,10 +64,11 @@ public class HireController {
 
 		List<HireVO> hireInfo = new ArrayList<HireVO>();
 		hireInfo = hireService.hireInfo(hireVO);
-
+		
+		model.addAttribute("recImg", hireService.recImg(hireVO));
 		model.addAttribute("hireInfo", hireInfo);
 		model.addAttribute("recruitNo", recruitNo);
-
+        System.out.println(model);
 		return "hire/hireInfo";
 	}
 

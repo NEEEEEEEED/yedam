@@ -127,7 +127,7 @@
 					    							<div class="d-flex justify-content-between flex-column h-100">
 					    						
 					                				<div class="image">
-														<img class="w-75 w-md-100 rounded-2 " src="assets/img/blog/1.png" alt="" />
+														<img class="w-75 w-md-100 rounded-2 " src="/moamoreImg/`+item.coImg+`" alt="" />
 														<i class="bi bi-bookmark-heart-fill fs-5 btn1 text-danger" ></i>
 													</div>`;
 		                	} else{
@@ -135,7 +135,7 @@
 					    							<div class="d-flex justify-content-between flex-column h-100">
 					                				
 					    							<div class="image">
-														<img class="w-75 w-md-100 rounded-2 " src="assets/img/blog/1.png" alt="" />
+														<img class="w-75 w-md-100 rounded-2 " src="/moamoreImg/`+item.coImg+`" alt="" />
 														<i class="bi bi-bookmark-heart-fill fs-5 btn1" ></i>
 													</div>`;
 		                	}
@@ -170,9 +170,7 @@
 // 								</a>
 // 				    		</div>`;
 // 			    		}
-// 						    <span th:text="${hireVO.coNm}" class="" th:classappend="${hireVO.followYn != null} ? 'text-danger' : ''"></span>
 		    					$("#hireList").append(str1+str2);
-		    					followYn
 	                });
 	                
 	            },
