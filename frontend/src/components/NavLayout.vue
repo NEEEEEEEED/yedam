@@ -14,10 +14,7 @@
         <router-link class="nav-link" to="/user">일반회원관리</router-link>
       </li>
       <li class="nav-item">
-        <router-link class="nav-link" to="/">기업회원관리</router-link>
-      </li>
-      <li class="nav-item">
-        <router-link class="nav-link" to="/">게시글관리</router-link>
+        <router-link class="nav-link" to="/board">게시글관리</router-link>
       </li>
       <li class="nav-item">
         <router-link class="nav-link" to="/">고객센터관리</router-link>
