@@ -2,8 +2,16 @@ package com.yedam.moa.mem.service;
 
 import java.util.List;
 
+import com.yedam.moa.mem.ArdVO;
+import com.yedam.moa.mem.CarrVO;
+import com.yedam.moa.mem.EduVO;
+import com.yedam.moa.mem.IntroVO;
+import com.yedam.moa.mem.LicnVO;
 import com.yedam.moa.mem.MemVO;
+import com.yedam.moa.mem.PrtflVO;
 import com.yedam.moa.mem.SearchVO;
+import com.yedam.moa.mem.ShcrVO;
+import com.yedam.moa.mem.SkillVO;
 
 public interface MemService {
 	
@@ -18,4 +26,12 @@ public interface MemService {
 	
 //	이력서 폼 
 	public MemVO getMemInfo(MemVO vo);
+	public PrtflVO getPrtflNo();
+	public ShcrVO getShcrlNo();
+	public SkillVO getSkillNo();
+	public ArdVO getArdNo();
+	public CarrVO getCarrNo();
+	public EduVO getEduNo();
+	public IntroVO getIntroNo();
+	public LicnVO getLicnNo();
 }
