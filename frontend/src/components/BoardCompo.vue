@@ -175,19 +175,20 @@
                     selectionMode="multiple"
                     headerStyle="width: 3rem"
                   ></Column>
+                  <Column field="no" sortable header="글번호"></Column>
                   <Column field="postType" sortable header="분류"></Column>
                   <Column field="ttl" header="제목"></Column>
-                  <Column field="cntn" header="내용">
+                  <Column field="cntn" header="  본문/신고내용">
                     <template #body="">
-                      <div class="">
+                      <div class="g-3" style="text-align: center">
                         <Button
-                          @click="confirm1($event)"
+                          @click="cntnToggle = 1"
                           icon="pi pi-search"
                           severity="secondary"
                           aria-label="search"
                         />
                         <Button
-                          @click="confirm2($event)"
+                          class="ms-2"
                           icon="pi pi-search"
                           severity="danger"
                           aria-label="Cancel"
@@ -276,20 +277,22 @@
       </div>
     </div>
     <toast />
-    <confirm-popup />
+    <div v-if="cntnToggle === 1">
+      <cntn-modal v-model:cntnToggle="cntnToggle" />
+    </div>
   </section>
 </template>
 <script>
 import BoardSearchForm1 from "@/components/searchForm/BoardSearchForm1.vue";
 import BoardSearchForm2 from "@/components/searchForm/BoardSearchForm2.vue";
 import BoardSearchForm3 from "@/components/searchForm/BoardSearchForm3.vue";
+import cntnModal from "@/components/modal/cntnModal.vue";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import Toast from "primevue/toast";
 import TabView from "primevue/tabview";
 import TabPanel from "primevue/tabpanel";
 import { boardList } from "@/service/boardList.js";
-import ConfirmPopup from "primevue/confirmpopup";
 import Button from "primevue/button";
 import "primeicons/primeicons.css";
 
@@ -303,11 +306,12 @@ export default {
     BoardSearchForm1,
     BoardSearchForm2,
     BoardSearchForm3,
-    ConfirmPopup,
+    cntnModal,
     Button,
   },
   data() {
     return {
+      cntnToggle: 0,
       activeIndex: 0, //탭=>라디오
       active: 0, //라디오=>탭
       searchCondition: {},
@@ -333,6 +337,7 @@ export default {
       },
     };
   },
+
   mounted() {
     this.getBoardData().then((data) => {
       //배열합치기 spread operator
@@ -351,56 +356,6 @@ export default {
     searchBtn() {
       console.log(this.boardCondi);
       // boardList.getSearchUser();
-    },
-    showCntn() {
-      console.log("내본문");
-    },
-    confirm1(event) {
-      this.$confirm.require({
-        target: event.currentTarget,
-        message: "Are you sure you want to proceed?",
-        icon: "pi pi-exclamation-triangle",
-        accept: () => {
-          this.$toast.add({
-            severity: "info",
-            summary: "Confirmed",
-            detail: "You have accepted",
-            life: 3000,
-          });
-        },
-        reject: () => {
-          this.$toast.add({
-            severity: "error",
-            summary: "Rejected",
-            detail: "You have rejected",
-            life: 3000,
-          });
-        },
-      });
-    },
-    confirm2(event) {
-      this.$confirm.require({
-        target: event.currentTarget,
-        message: "Do you want to delete this record?",
-        icon: "pi pi-info-circle",
-        acceptClass: "p-button-danger",
-        accept: () => {
-          this.$toast.add({
-            severity: "info",
-            summary: "Confirmed",
-            detail: "Record deleted",
-            life: 3000,
-          });
-        },
-        reject: () => {
-          this.$toast.add({
-            severity: "error",
-            summary: "Rejected",
-            detail: "You have rejected",
-            life: 3000,
-          });
-        },
-      });
     },
     // 더블클릭시 input 열리기
     onInputDoubleClick(refName) {
