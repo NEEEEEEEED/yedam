@@ -15,6 +15,5 @@ public class CommunityVO {
 	private String regDt;		// 등록일자
 
 	
-	
 
 }

@@ -17,6 +17,7 @@
 		VALUES (#{qaNotiwrNo}, #{ttl}, #{id}, #{cntn}, #{htmlCntn})
 	</insert>
 
+	<!-- 취업Q&A 게시글 목록 조회 -->
 	<select id="jobQnaList" resultType="CommunityVO">
 		SELECT QA_NOTIWR_NO, TTL, ID, CNTN, HTML_CNTN, 
 			   INQ_CNT, RPLY_CNT, REG_DT 
@@ -24,11 +25,42 @@
 		ORDER BY QA_NOTIWR_NO DESC
 	</select>
 	
+	<!-- 취업Q&A 상세 페이지 조회 -->
 	<select id="jobQnaDetail" resultType="CommunityVO">
 		SELECT QA_NOTIWR_NO, TTL, ID, CNTN, HTML_CNTN, 
 	        	INQ_CNT, RPLY_CNT, REG_DT 
 		FROM EMPL_QST
 		WHERE QA_NOTIWR_NO = #{qaNotiwrNo}
 	</select>
+	
+	<!-- 취업 Q&A 수정 기능 -->
+	<update id="jobQnaModFn" parameterType="String">
+		UPDATE EMPL_QST
+		<set>
+			 <if test="ttl != null and !ttl.equals('')">
+				 ttl = #{ttl},
+			 </if>
+			 <if test="cntn != null and !cntn.equals('')">
+				 cntn = #{cntn},
+			 </if>
+			 <if test="htmlCntn != null and !htmlCntn.equals('')">
+				 HTML_CNTN = #{htmlCntn}
+			 </if>
+		</set>
+		WHERE QA_NOTIWR_NO = #{qaNotiwrNo}
+	</update>
+	
+	<!-- 취업 Q&A 삭제 기능 -->
+	<delete id="jobQnaDelete" parameterType="String">
+		DELETE 
+		  FROM empl_qst
+		 WHERE QA_NOTIWR_NO = #{qaNotiwrNo}
+	</delete>
 
+	<!-- 취업 Q&A 조회수 기능 -->
+	<update id="jobQnaView" parameterType="String">
+		UPDATE EMPL_QST
+		   SET INQ_CNT = INQ_CNT + 1
+		 WHERE QA_NOTIWR_NO = #{qaNotiwrNo}
+	</update>
 </mapper>

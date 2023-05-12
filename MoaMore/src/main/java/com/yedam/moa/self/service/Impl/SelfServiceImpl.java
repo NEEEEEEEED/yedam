@@ -67,19 +67,6 @@ public class SelfServiceImpl implements SelfService{
 		return selfMapper.selfJobKey();
 	}
 	
-	// 셀프구직 스킬 기본키부여
-	@Override
-	public String skillKey() {
-		return selfMapper.skillKey();
-	}
-	
-	
-	// 포트폴리오 기본키 부여
-	@Override
-	public String selfJobPofolKey() {
-		return selfMapper.selfJobPofolKey();
-	}
-	
 	// 포트폴리오 등록
 	@Override
 	public int selfJobPofolAdd(SelfVO pofol) {
@@ -101,7 +88,7 @@ public class SelfServiceImpl implements SelfService{
 
 	// ----------------------------------------------------
 	
-	// 셀프구직 등록버튼 클릭시 이력가 있는지 체크
+	// 셀프구직 등록버튼 클릭시 이력서가 있는지 체크
 	@Override
 	public int checkResume(String id) {
 		return selfMapper.checkResume(id);
