@@ -5,24 +5,28 @@
 <mapper namespace="com.yedam.moa.hire.mapper.HireMapper">
 	<!-- 전체조회 -->
 	<select id="serchHire" resultType="HireVO">
-	     SELECT R.TTL,
+	  SELECT  R.TTL,
 		       K.SKILL,
 		       C.CO_NM,
 		       get_common(WKSITE) AS WKSITE,
                R.EXPR_DT,
                R.CO_IMG,
                R.RECRUIT_NO,
-              	 (SELECT S.RECRUIT_NO FROM RECRUIT_SCRAP S WHERE R.RECRUIT_NO = S.RECRUIT_NO AND ID = #{id}) AS scrapYn,
-                 F.ID_CO AS followYn
+               (SELECT S.RECRUIT_NO FROM RECRUIT_SCRAP S WHERE R.RECRUIT_NO = S.RECRUIT_NO AND ID = #{id}) AS scrapYn,
+               F.ID_CO AS followYn
+		
 		FROM RECRUIT_ANUN R
 		JOIN CO C
-		ON R.ID = C.ID
+		  ON R.ID = C.ID
+		
 		JOIN (SELECT recruit_no , LISTAGG(get_common(SKILL), ',') WITHIN GROUP (ORDER BY SKILL_NO) as SKILL
               FROM RECRUIT_SKILL
               GROUP BY recruit_no) K
-		ON R.RECRUIT_NO = K.RECRUIT_NO
+		  ON R.RECRUIT_NO = K.RECRUIT_NO
+		
 		LEFT JOIN (SELECT ID_CO FROM FOLLOWING WHERE ID_MEM = #{id}) F
-        ON R.ID = F.ID_CO
+          ON R.ID = F.ID_CO
+		
 		WHERE 1=1
 		<!-- 스크랩 정렬용 -->
 			<if test="scrapYn != null and scrapYn != ''">
@@ -45,14 +49,7 @@
        			AND K.SKILL LIKE '%' || get_common(#{skill}) || '%'
        		</if>
 		
-        GROUP BY R.TTL,
-		       K.SKILL,
-		       C.CO_NM,
-		       WKSITE,
-               R.EXPR_DT,
-               R.CO_IMG,
-               R.RECRUIT_NO,
-               F.ID_CO
+       ORDER BY RECRUIT_NO DESC
                
 	</select>
 	<!-- 스크랩 조회 -->
@@ -69,17 +66,18 @@
                </if>
 		FROM RECRUIT_ANUN R
 		JOIN CO C
-		ON R.ID = C.ID
+			ON R.ID = C.ID
 		JOIN RECRUIT_SCRAP S
-		ON R.RECRUIT_NO = S.RECRUIT_NO
+			ON R.RECRUIT_NO = S.RECRUIT_NO
         JOIN MEMBER M
-        ON S.ID = M.ID
+        	ON S.ID = M.ID
         JOIN (SELECT recruit_no , LISTAGG(get_common(SKILL), ',') WITHIN GROUP (ORDER BY SKILL_NO) as SKILL
               FROM RECRUIT_SKILL
               GROUP BY recruit_no) K
-		ON R.RECRUIT_NO = K.RECRUIT_NO
+			ON R.RECRUIT_NO = K.RECRUIT_NO
 		WHERE S.RECRUIT_NO IS NOT NULL
         AND M.ID = #{id}
+        ORDER BY RECRUIT_NO DESC 
 	</select>
 	<!-- 상세조회 -->
 	<select id="searchInfo" resultType="HireVO">
@@ -103,11 +101,11 @@
                C.ID AS ID_CO
 		FROM RECRUIT_ANUN R
 		JOIN CO C
-		ON R.ID = C.ID
+			ON R.ID = C.ID
 		JOIN (SELECT recruit_no , LISTAGG(get_common(SKILL), ',') WITHIN GROUP (ORDER BY SKILL_NO) as SKILL
               FROM RECRUIT_SKILL
               GROUP BY recruit_no) K
-		ON R.RECRUIT_NO = K.RECRUIT_NO
+			ON R.RECRUIT_NO = K.RECRUIT_NO
 		WHERE R.RECRUIT_NO = #{recruitNo}
 		<if test="scrapYn != null and scrapYn != ''">
 			AND EXISTS (SELECT S.RECRUIT_NO FROM RECRUIT_SCRAP S WHERE R.RECRUIT_NO = S.RECRUIT_NO AND ID = #{id})
@@ -119,6 +117,24 @@
 	<!-- 구인공고 상세 이미지들 불러오기 -->
 	<select id="recImg" resultType="HireVO">
 		SELECT RECRUIT_NO, RECRUIT_IMG FROM RECRUIT_IMAGES WHERE RECRUIT_NO=#{recruitNo}
+	</select>
+	<!-- 공고 상세 추천공고(기술로 추천) 조회 -->
+	<select id="selectRecommend" resultType="HireVO">
+		SELECT K.RECRUIT_NO, 
+		       R.TTL, get_common(CARR) AS CARR, 
+		       get_common(JOB) AS JOB,
+		       LISTAGG(get_common(SKILL), ',') WITHIN GROUP (ORDER BY SKILL_NO) as SKILL,
+		       R.ACCP_DT,
+		       C.CO_NM,
+		       R.CO_IMG
+		FROM RECRUIT_SKILL K
+		JOIN RECRUIT_ANUN R 
+		ON K.RECRUIT_NO = R.RECRUIT_NO
+		JOIN CO C
+		ON C.ID = R.ID
+		WHERE get_common(SKILL) = #{skill}
+		GROUP BY K.RECRUIT_NO, R.TTL, CARR, JOB, R.ACCP_DT, C.CO_NM, R.CO_IMG
+		ORDER BY K.RECRUIT_NO
 	</select>
 	<!-- 이력서 조회 -->
 	<select id="resumeList" resultType="HireVO">
@@ -162,4 +178,9 @@
 	<select id="recruitInsertSelect" resultType="HireVO">
 		SELECT CO_NM FROM CO WHERE ID = #{id}
 	</select>
+	
+	<!-- 공고 데이터 등록 -->
+	<insert id="hireDataInsert" parameterType="HireVO">
+	
+	</insert>
 </mapper>

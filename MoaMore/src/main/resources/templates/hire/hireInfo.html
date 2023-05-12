@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{template/layout}">
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	  layout:decorate="~{template/layout}">
 <head>
 <meta charset="UTF-8">
 <title>hireInfo</title>
@@ -39,11 +40,19 @@ body {
 	font-size: 300%;
 	color: black;
 }
+.circleImg {
+  border-radius: 50%;
+  width : 100px;
+  height : 100px;
+}
+
 </style>
 </head>
 <body>
 	<div layout:fragment="content">
    	<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
+   	<!-- 권한 -->
+   	<!-- <div sec:authorize="hasRole('ROLE_USER')"> -->
 	<!-- 사이드바 -->
 	<div class="row" style="margin-top : 30px; height: auto;"  th:each="hireVO:${hireInfo}">
 		<div class="col-md-1"></div>
@@ -68,7 +77,7 @@ body {
 				</div>
 			</div>
 		</div>
-
+<!-- 	</div> -->
 		<!-- 이미지 슬라이드 시작 -->
 		<div class="col-md-5">
 			<div class="card" id="imageSlide">
@@ -111,6 +120,8 @@ body {
 					<div class="modal-content">
 						<div class="modal-header">
 						</div>
+						<br>
+							<h4 style="text-align:center;">이력서를 하나 선택해주세요</h4>
 						<div class="modal-body">
 							<!-- 이력서 자동 조회 -->
 							<div id="resumeGrid"></div>
@@ -154,7 +165,7 @@ body {
 								
 								<div class="mb-3">
 									<h4>기술스텍</h4>
-									<p th:text="${hireVO.skill}"/>
+									<p th:text="${hireVO.skill}" th:value="${hireVO.skill}" id="nowSkill"/>
 								</div>
 				
 								<div class="mb-3">
@@ -193,7 +204,8 @@ body {
 								</div>
 								
 							</form>
-							<div>
+							<div><!-- 공고수정은 본인만 가능하도록 -->
+								<button type="button" class="btn btn-outline-dark" id="hireMod">공고수정</button>
 								<button type="button" class="btn btn-outline-dark" id="btnList">목록</button>
 							</div>
 						</div>
@@ -205,10 +217,10 @@ body {
 	
 	<br>
 	<!-- 추천공고 -->
-	<section class="bg-dark pt-6">
-		<div class="container">
-			<div class="col-md-6">
-				<h1 class="text-white fs-lg-5 fs-md-3 fs-2">추천공고 <span class="py-1 px-2 rounded-2 bg-success fw-bold text-dark ms-2">Recommend!</span></h1>
+	<section class="bg-dark pt-6" >
+		<div class="container" th:each="recommend:${recommend}">
+			<div class="col-md-12">
+				<p class="text-white fs-lg-5 fs-md-3 fs-2">같은 기술을 원하는 공고 <span class="py-1 px-2 rounded-2 bg-success fw-bold text-dark ms-2">Recommend!</span></p>
 				<br>
 			</div>
 			<div class="swiper mt-7">
@@ -216,13 +228,13 @@ body {
 					<div class="swiper-wrapper">
 						<div class="swiper-slide bg-white p-5 rounded-3 h-auto">
 							<div class="d-flex flex-column justify-content-between h-100">
-								<h4 class="text-black">제목</h4>
-								<h5 class="text-black">고용 형태</h5>
-								<h5 class="text-black">구인 분야</h5>
+								<h4 class="text-black" th:text="${recommend.ttl}">제목</h4>
+								<h5 class="text-black" th:text="${recommend.carr}">고용 형태</h5>
+								<h5 class="text-black" th:text="${recommend.job}">구인 분야</h5>
 								<div class="d-flex align-items-center gap-3 mt-5">
-									<img src="assets/img/review/1.png" alt="" />
+									<img th:src="@{/moamoreImg/}+${recommend.coImg}" id="preview" class="circleImg"> 
 									<div class="text-black">
-										<p class="mb-0 fw-bold text-dark">기업이름</p><small>마감일</small>
+										<p class="mb-0 fw-bold text-dark" th:text="${recommend.coNm}">기업이름</p><small th:text="${recommend.accpDt}">마감일</small>
 									</div>
 								</div>
 							</div>
@@ -235,12 +247,13 @@ body {
 		</div>
 	</section>
     <!-- 추천공고 끝 -->
-<script>
+	<script>
 	let id        = $('#logId').val(); // 로그인된 id
 	let resumeNo  = ''; // 넘길 지원서
 	let str       = ''; // 체크한 이력서
 	let recruitNo = $('#nowRecruitNo').val(); // 현재 보고있는 공고번호
 	let idCo      = $('#co').val(); // 보고있는 공고의 기업
+	let skill = $('#nowSkill').val(); // 보고있는 공고의 기술정보
 
 	// 공고목록으로 이동
 	$(document).on('click', '#btnList', function(e){
@@ -494,7 +507,15 @@ body {
 		});
 	}
 	
-	// 공고등록으로 이동
+	// 공고수정으로 이동
+	$(document).on('click', '#hireMod', function(e){
+		e.preventDefault();
+
+		location.href="/hireMod";
+	});
+	
+	
+	// 이력서수정으로 이동
 	$(document).on('click', '#recruitMod', function(e){
 		e.preventDefault();
 

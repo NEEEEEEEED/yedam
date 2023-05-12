@@ -65,7 +65,7 @@ public class HireServiceImpl implements HireService{
 	
 	// 스크랩 조회
 	@Override
-	public List<HireVO> recruitInsertSelect(HireVO hireVO) {
+	public HireVO recruitInsertSelect(HireVO hireVO) {
 		return hireMapper.recruitInsertSelect(hireVO);
 	}
 	// 스그랩 등록
@@ -92,14 +92,35 @@ public class HireServiceImpl implements HireService{
 		}
 		return message;
 	}
+	
+	// 구인공고 목록에 썸네일 이미지 조회
 	@Override
 	public List<HireVO> recImg(HireVO hireVO) {
 		return hireMapper.recImg(hireVO);
 	}
-
 	
-	
-	
-	
-
+	// 구인공고 등록 데이터 등록
+	@Override
+	public String hireDataInsert(HireVO hireVO) {
+		String message = null;
+		int result = hireMapper.hireDataInsert(hireVO);
+		if(result > 0) {
+			message = "스크랩 되었습니다.";
+		}else {
+			message="fail";
+		}
+		return message;
+	}
+	// 공고 상세 추천공고 조회
+	@Override
+	public List<HireVO> selectRecommend(HireVO hireVO) {
+		return hireMapper.selectRecommend(hireVO);
+	}
 }
+
+	
+	
+	
+	
+
+
