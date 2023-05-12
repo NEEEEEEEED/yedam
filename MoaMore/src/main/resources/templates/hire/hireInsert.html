@@ -23,7 +23,303 @@ body {
 </head>
 <body>
 	<div layout:fragment="content">
-  <h1>aaa</h1>
+   <!-- 토스트 에디터 -->
+   <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+	<div class = "container">
+	<h1>
+		공고등록 페이지
+	</h1>
+	<article>
+		<div role="main">
+			<form name="form" id="form" role="form" method="post" action="${pageContext.request.contextPath}/board/saveBoard">
+				
+				<div class="mb-3">
+					<label for="reg_id">제목</label><span id="star">*</span>
+					<input id="ttl" type="text" class="form-control" name="ttl" placeholder="제목">
+				</div>
+				
+				<div class="mb-3" >
+					<label for="reg_id">회사이름</label><span id="star">*</span>
+					<input id="coNm" type="text" class="form-control" name="coNm" th:value="${recruitInsert.coNm}" readonly>
+				</div>
+				
+				<div class="mb-3">
+					<label for="reg_id">기술선택(다중선택가능)</label><span id="star">*</span>
+					<select id = "skill" class = "selectStyle">
+						<option th:each="list : ${list.Z}" th:text="${list.desct}" th:attr="value=${list.prov}">기술</option>
+					</select>
+				</div>
+
+				<div class="mb-3">
+					<label for="reg_id">직군</label><span id="star">*</span>
+					<select id = "job" class = "selectStyle">
+						<option th:each="list : ${list.N}" th:text="${list.desct}" th:attr="value=${list.prov}">직무</option>
+					</select>
+				</div>
+				
+				<div class="divStyle mb-3">
+							  <div class="form-floating border fullWidth">
+							  	<div class="row">
+							  		<div class="col-md-3">
+							  			<div style="padding : 16px;">
+							  				<label for="floatingTextarea">주요업무</label><span id="star">*</span>
+							  			</div>
+							  		</div>
+							  		<div class="col-md-9">
+							  			<textarea id="maBuss" class="form-control radius fullWidth" placeholder="자격요건을 작성해주세요" style="height: 200px; resize: none; border:none;"></textarea>
+							  		</div>
+							  	</div>
+							  </div>
+							</div>
+				
+				<div class="divStyle mb-3">
+							  <div class="form-floating border fullWidth">
+							  	<div class="row">
+							  		<div class="col-md-3">
+							  			<div style="padding : 16px;">
+							  				<label for="floatingTextarea">자격요건</label><span id="star">*</span>
+							  			</div>
+							  		</div>
+							  		<div class="col-md-9">
+							  			<textarea id="qual" class="form-control radius fullWidth" placeholder="자격요건을 작성해주세요" style="height: 200px; resize: none; border:none;"></textarea>
+							  		</div>
+							  	</div>
+							  </div>
+							</div>
+				
+				<div class="divStyle mb-3">
+							  <div class="form-floating border fullWidth">
+							  	<div class="row">
+							  		<div class="col-md-3">
+							  			<div style="padding : 16px;">
+							  				<label for="floatingTextarea">우대사항</label>
+							  			</div>
+							  		</div>
+							  		<div class="col-md-9">
+							  			<textarea id="pref" class="form-control radius fullWidth" placeholder="우대사항을 작성해주세요" style="height: 200px; resize: none; border:none;"></textarea>
+							  		</div>
+							  	</div>
+							  </div>
+							</div>
+				
+				<div class="divStyle mb-3">
+							  <div class="form-floating border fullWidth">
+							  	<div class="row">
+							  		<div class="col-md-3">
+							  			<div style="padding : 16px;">
+							  				<label for="floatingTextarea">복지 및 혜택</label>
+							  			</div>
+							  		</div>
+							  		<div class="col-md-9">
+							  			<textarea id="welf" class="form-control radius fullWidth" placeholder="복지 및 혜택을 작성해주세요" style="height: 200px; resize: none; border:none;"></textarea>
+							  		</div>
+							  	</div>
+							  </div>
+							</div>
+				
+				<div class="mb-3">
+					<label for="tag">경력</label>
+					<select id="carr" class = "selectStyle">
+						<option th:each="list : ${list.Y}" th:text="${list.desct}" th:attr="value=${list.prov}">경력</option>
+					</select>
+				</div>
+				
+				<div class="mb-3">
+					<label for="tag">학력</label>
+					<select id="shcr" class = "selectStyle">
+						<option th:each="list : ${list.D}" th:text="${list.desct}" th:attr="value=${list.prov}">학력</option>
+					</select>
+				</div>
+				
+				<div class="mb-3">
+					<label for="tag">마감일</label><span id="star">*</span>
+					<input id="ecprDt" type="date" class="form-control" name="exprDt" placeholder="태그를 입력해 주세요">
+				</div>
+				
+				<div class="mb-3">
+					<label for="tag">근무지역</label><span id="star">*</span>
+					<select id="wksite" class = "selectStyle">
+						<option th:each="list : ${list.X}" th:text="${list.desct}" th:attr="value=${list.prov}">지역</option>
+					</select>
+				</div>
+				
+				<div class="mb-3">
+					<div>
+						<label for="tag">기업 / 서비스 소개</label><span id="star">*</span>
+						<button type="button" id="imgUp" class="btn btn btn-outline-dark btn-sm radius" style="height:40px;">이미지 업로드</button>
+					</div>
+					<br>
+					<div id="editor2"></div>
+				</div>
+			</form>
+			<div >
+				<button type="button" class="btn btn-outline-dark" id="btnList">목록</button>
+				<button type="button" class="btn btn-outline-dark" id="btnSave">저장</button>
+			</div>
+			<!-- 이미지업로드 버튼 모달창 -->
+				<!-- Modal -->
+				<div class="modal fade" id="imgUpModal" tabindex="-1" aria-labelledby="imgUpModalLabel" aria-hidden="true">
+				  <div class="modal-dialog">
+				    <div class="modal-content radius">
+				      <div class="modal-header">
+				        <h5 class="modal-title" id="imgUpModalLabel" >구인공고 이미지 등록</h5>
+				        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				      </div>
+				      <div class="modal-body">
+						<form id="imgUpForm" encType="multipart/form-data">
+						
+							<!-- 현재 작성 구인공고 기본키값 -->
+							<!-- <input id="recruitKey" name="recruitNo" type="hidden" th:value="${.recruitNo}"> -->
+
+							<table class="table">
+								<tbody class="trColor">
+									<tr>
+										<th>썸네일</th>
+										<td><input id="thumbnailImg" name="thumbnailImg" type="file"></td>
+									</tr>
+									<tr>
+										<th>상세 이미지</th>
+										<!-- 다중임으로 배열형식으로 받아오기 detailImg[] -->
+										<td><input id="detailImg" name="detailImg" type="file"></td>
+									</tr>
+								</tbody>
+							</table>
+						</form>
+					  </div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-secondary radius" style="background-color:gray; border : none;" data-bs-dismiss="modal">닫기</button>
+				        <button id="imgUpBtn" type="button" class="btn btn-dark radius">등록</button>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+		</div>
+	</article>
+		</div>
+	<br>
+<script>
+let ttl = $('#ttl').val(); // 제목
+let coNm = $('#coNm').val(); // 기업이름
+let skill = $('#skill').val(); // 기술
+let job = $('#job').val(); // 직군
+let maBuss = $('#maBuss').val(); // 주요업무
+let qual = $('#qual').val(); // 자격요건
+let pref = $('#pref').val(); // 우대사항
+let welf = $('#welf').val(); // 복지
+let carr = $('#carr').val(); // 경력
+let shcr = $('#shcr').val(); // 학력
+let accpDt = $('#accpDt').val(); // 마감일
+let wksite = $('#wksite').val(); // 지역
+
+// let formData = new FormData($('#coImg')[0]); // 폼데이터 썸네일
+// let formData = new FormData($('#recruitImg')[i]); // 상세 이미지(여러장 배열) 
+
+	// 공고목록으로 이동
+	$(document).on('click', '#btnList', function(e){
+		e.preventDefault();
+
+		location.href="/hirePage";
+	});
+	// 저장	
+	$(document).on('click', '#btnSave', function(e){
+		e.preventDefault();
+		
+		$("#form").submit();
+	
+	});
+	
+	// 이미지 등록 버튼 클릭시
+	$('#imgUp').on('click',function(){
+		// 모달창 open
+		$('#imgUpModal').modal('show');
+	});
+	
+	
+	
+	//에디터 정의
+	 let imgAddSave = '';
+    const editor2 = new toastui.Editor({  
+              el: document.querySelector('#editor2'),
+              previewStyle: 'vertical',
+              height: '500px',
+             initialValue: '', 
+             initialEditType: "wysiwyg",
+              hooks: {
+                   addImageBlobHook: (blob, callback) => {
+                     var token = $("meta[name='_csrf']").attr("content");
+                     var header = $("meta[name='_csrf_header']").attr("content");
+                     // blob : Java Script 파일 객체
+                     //console.log(blob);
+
+                     const formData = new FormData();
+                     formData.append("image", blob);
+
+                     let url = "/moamoreImg/";
+                     $.ajax({
+                       type: "POST",
+                       enctype: "multipart/form-data",
+                       url: "/test",
+                       data: formData,
+                       /* beforeSend: function (xhr) {
+                         /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다
+                         xhr.setRequestHeader(header, token);
+                       }, */
+                       //dataType: "json",
+                       processData: false,
+                       contentType: false,
+                       cache: false,
+                       success: function (data) {
+                         data = JSON.parse(data);
+        
+                         url += data.filename;
+                         callback(url, "");
+                       },
+                       error: function (e) {
+                         callback("image_load_fail", "사진 대체 텍스트 입력");
+                       },
+                     });
+                   },
+                 },
+            });
+    
+ 	// 공고 등록
+	$('#btnSave').on('click',function(){
+		let intro=editor2.getHTML(); // 서비스
+		let data = {
+				"ttl" : ttl,
+				"coNm" : coNm,
+				"skill" : skill,
+				"job" : job,
+				"qual" : qual,
+				"pref" : pref,
+				"welf" : welf,
+				"carr" : carr,
+				"shcr" : shcr,
+				"accpDt" : accpDt,
+				"wksite" : wksite,
+				"intro" : intro
+		}
+		recruitInsert();
+	})
+	
+	// 공고 데이터 등록(이미지 제외)
+	function recruitInsert(){
+		$.ajax({
+			url: 'hireDataInsert',
+			type: 'post',
+			data: data,
+			success: function (result){
+				Swal.fire({
+					icon: 'success',
+					title: '구인공고를 등록했습니다.'
+				});
+			},
+			error: function(reject){
+				console.log(reject);
+			}
+		})
+	}
+</script>
 	</div>
 </body>
 </html>

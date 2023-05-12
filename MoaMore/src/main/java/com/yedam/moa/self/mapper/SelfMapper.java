@@ -58,7 +58,7 @@ public interface SelfMapper {
 	
 	// 셀프구직 스킬 기본키 부여
 	public String skillKey();
-		
+	
 	// 스킬등록
 	public int skillAdd(SelfVO skillVO);
 	

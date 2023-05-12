@@ -13,11 +13,14 @@ public class CommunityVO {
 	private String inqCnt;		// 조회수
 	private String rplyCnt;		// 댓글수
 	private String regDt;		// 등록일자
+
+  
 	private String postType;
 	//신고
 	private String rprtCnt="0"; //신고건수
 	private String rprtSt; //처리결과
 	private String dispoDt="-"; //처리일자
+
 	
 
 }

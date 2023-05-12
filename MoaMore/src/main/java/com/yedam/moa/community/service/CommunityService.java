@@ -18,4 +18,10 @@ public interface CommunityService {
 	// 취업 Q&A 상세 페이지
 	public CommunityVO jobQnaDetail(String qaNotiwrNo);
 	
+	// 취업 Q&A 수정기능
+	public int jobQnaModFn(CommunityVO communityVO);
+	
+	// 취업 Q&A 삭제기능
+	public int jobQnaDelete(String qaNotiwrNo);
+	
 }
