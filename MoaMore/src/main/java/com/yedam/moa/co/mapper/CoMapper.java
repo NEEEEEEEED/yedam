@@ -30,4 +30,7 @@ public interface CoMapper {
 	public SelfVO selectTotalInter(CoVO vo);
 
 	public int afterOffer(CoVO vo);
+	
+	//제안조회
+	public CoVO selectOffer(CoVO vo);
 }

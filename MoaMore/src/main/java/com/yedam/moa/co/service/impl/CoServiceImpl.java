@@ -58,6 +58,11 @@ public class CoServiceImpl implements CoService{
 	public int afterOffer(CoVO vo) {
 		return mapper.afterOffer(vo);
 	}
+
+	@Override
+	public CoVO selectOffer(CoVO vo) {
+		return mapper.selectOffer(vo);
+	}
 	
 	
 	

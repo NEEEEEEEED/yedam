@@ -131,7 +131,7 @@ FROM (
            n.interest,
            n.prop,
            n.reg_dt,
-           s.offer_cd,
+           nvl(s.offer_cd,'null') as offer_cd,
            rownum as rn
     FROM job_search_notiwr n    
     LEFT JOIN job_search_st s ON n.job_search_no = s.job_search_no
@@ -181,6 +181,23 @@ WHERE rn > (#{pageNum}-1) * 2 AND rn <= #{pageNum} * 2
 								)
 	</select> 
 	
+	<!-- 제안내용 조회 -->
+	<select id="selectOffer" parameterType="CoVO" resultType="CoVO">
+		SELECT  offer_cd,
+				co_nm,
+				wksite,
+				tech,
+				ma_buss,
+				bnft,
+				saly,
+				buss_start_dt,
+				cls_dt,
+				project_nm,
+				ttl
+		  FROM offer 
+		 WHERE offer_cd = (select offer_cd from job_search_st where id = #{id} and job_search_no = #{jobSearchNo})
+	</select>
+	
 	<insert id="afterOffer" parameterType="CoVO">
 	<selectKey keyProperty="offerCd" resultType="String" order="BEFORE">
 		SELECT 'OFFER'||nvl((SUBSTR(MAX(offer_cd),6,5))+1,10001) FROM offer
@@ -219,7 +236,11 @@ WHERE rn > (#{pageNum}-1) * 2 AND rn <= #{pageNum} * 2
 									#{id},
 									#{jobSearchNo},
 									#{acceptStatus}
-									);						
+									);	
+									
+		UPDATE job_search_notiwr
+		   SET prop = prop + 1
+		 WHERE job_search_no = #{jobSearchNo};												
 	END;
 	</insert>
 	
