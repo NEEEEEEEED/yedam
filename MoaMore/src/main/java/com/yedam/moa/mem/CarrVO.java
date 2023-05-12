@@ -5,13 +5,13 @@ import lombok.Data;
 @Data
 public class CarrVO {
 	
-	private String wkdty;
-	private String depart;
-	private String duty;
-	private String joinYy;
-	private String retiYy;
-	private String buss;
-	private String carrSt;
-	private String co;
+	private String wkdty;		//직책
+	private String depart;		//부서명
+	private String duty;		//직무
+	private String joinYy;		//입사년도
+	private String retiYy;		//퇴사년도
+	private String buss;		//업무
+	private String carrSt;		//경력 상태(재직 퇴사..)
+	private String co;			//회사이름
 	
 }

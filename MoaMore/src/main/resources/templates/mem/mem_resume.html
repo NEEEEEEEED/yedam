@@ -521,17 +521,17 @@
                       <div class="col-md-5">
                         <label class="w-100"
                           >교육명
-                          <input type="text" class="form-control" name="co" />
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="eduNm"
+                          />
                         </label>
                       </div>
                       <div class="col-md-7">
                         <label class="w-100"
                           >교육기관
-                          <input
-                            type="text"
-                            class="form-control"
-                            name="depart"
-                          />
+                          <input type="text" class="form-control" name="breu" />
                         </label>
                       </div>
 
@@ -558,11 +558,9 @@
                       <div class="col-md-8">
                         <label class="w-100"
                           >이수내용
-                          <input type="text" class="form-control" name="buss" />
+                          <input type="text" class="form-control" name="cntn" />
                         </label>
                       </div>
-
-                      <input type="hidden" name="carrSt" value />
                     </div>
                   </div>
                 </div>
@@ -585,17 +583,17 @@
                       <div class="col-md-4">
                         <label class="w-100"
                           >자격증명
-                          <input type="text" class="form-control" name="co" />
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="licnNm"
+                          />
                         </label>
                       </div>
                       <div class="col-md-6">
                         <label class="w-100"
                           >발급기관
-                          <input
-                            type="text"
-                            class="form-control"
-                            name="depart"
-                          />
+                          <input type="text" class="form-control" name="breu" />
                         </label>
                       </div>
 
@@ -605,7 +603,7 @@
                           <input
                             type="month"
                             class="form-control"
-                            name="joinYy"
+                            name="issuNm"
                           />
                         </label>
                       </div>
@@ -631,17 +629,17 @@
                       <div class="col-md-4">
                         <label class="w-100"
                           >수상명
-                          <input type="text" class="form-control" name="co" />
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="ardNm"
+                          />
                         </label>
                       </div>
                       <div class="col-md-6">
                         <label class="w-100"
                           >수여기관
-                          <input
-                            type="text"
-                            class="form-control"
-                            name="depart"
-                          />
+                          <input type="text" class="form-control" name="breu" />
                         </label>
                       </div>
 
@@ -651,14 +649,14 @@
                           <input
                             type="month"
                             class="form-control"
-                            name="joinYy"
+                            name="issuYy"
                           />
                         </label>
                       </div>
                       <div class="col-md-12">
                         <label class="w-100"
                           >수여내용
-                          <input type="text" class="form-control" name="co" />
+                          <input type="text" class="form-control" name="cntn" />
                         </label>
                       </div>
                     </div>
@@ -834,40 +832,45 @@
       </div>
       <script>
         $(document).ready(function () {
+          let sch = [];
+          let ard = [];
+          let carr = [];
+          let edu = [];
+          let intro = [];
+          let licn = [];
+          let skill = [];
+          let memInfo = [];
           // 저장
           $("#saveResume").on("click", function () {
-            let data = [];
             console.log($("#school").children());
 
-            // let data=[]
-            // let ShcrVO
-            // for (let i = 0; i < shl.length; i++) {
-            //   let shl = $("#school").children()[i];
-            // console.log($(shl).find("input"));
-            //  data.push($(shl).find("input").serialize());
-            // }
-            if ($("#school").children() > 0) {
-              data = $.map($("#school").children(), function (shl) {
-                let obj = {
-                  breu: $(shl).find("input[name=breu]").val(),
-                  mj: $(shl).find("input[name=mj]").val(),
-                  joinYy: $(shl).find("input[name=joinYy]").val(),
-                  retiYy: $(shl).find("input[name=retiYy]").val(),
-                  pnt: $(shl).find("input[name=pnt]").val(),
-                  shcrSt: $(shl).find("input[name=shcrSt]").val(),
-                  ttScore: $(shl).find("input[name=ttScore]").val(),
-                  fg: $(shl).find("input[name=fg]").val(),
-                };
-                console.log(obj);
-                return obj;
-              });
-            }
-            // let obj={}
-            // let input = $(shl).find('input')
-            // for(let i=0;i<input.length;i++){
-            //   // let container[]
-            // }
+            console.log($("#school").children()[0]);
+            console.log(sch);
+            let data = getAllData();
             console.log(data);
+            console.log($("#job").children().length);
+            console.log($("#school").children().length);
+            console.log($("#skill").children().length);
+            console.log($("#job").children().length);
+            console.log($("#educate").children().length);
+            console.log($("#award").children().length);
+            console.log($("#licence").children().length);
+            console.log($("#resumeText").children().length);
+            console.log($("div.formId").children().length);
+
+            // $.ajax({
+            //   url: "/insertResume",
+            //   method: "POST",
+            //   dataType: "json",
+            //   contentType: "application/json; charset=utf-8",
+            //   data: JSON.stringify(data),
+            //   success: function (result) {
+            //     console.log(result);
+            //   },
+            //   error: function (err) {
+            //     console.log(err);
+            //   },
+            // });
           });
 
           // 스킬 클릭 이동
@@ -996,7 +999,7 @@
               `" data-no="` +
               result.jobSearchNo +
               `" onclick="deletePofol(this)" type="button" style="margin-left : 20px; padding:15px;" class="btn-close" aria-label="Close"></button>
-          					  </div>             
+          					  </div>
           					</div>`;
             return pofolHtml;
           }
@@ -1031,7 +1034,209 @@
               },
             });
           }
+          function checkArr(arr, target) {
+            let emptyIndexes = arr
+              .map(function (obj, index) {
+                return Object.values(obj).some(function (val) {
+                  return val === "";
+                })
+                  ? index
+                  : -1;
+              })
+              .filter(function (index) {
+                return index !== -1;
+              });
+
+            if (emptyIndexes.length === 0) {
+              // 빈 값이 없는 경우
+              console.log("객체 배열에 빈 값이 없습니다.");
+            } else {
+              // 빈 값이 있는 경우
+              console.log("빈 값을 가진 객체의 인덱스:", emptyIndexes);
+              alertBin(emptyIndexes, target);
+            }
+          }
+          //입력 값 받는 함수 (학력)
+          function mkSchool() {
+            if ($("#school").children().length > 0) {
+              sch = $.map($("#school").children(), function (shl) {
+                let obj = {
+                  breu: $(shl).find("input[name=breu]").val(),
+                  mj: $(shl).find("input[name=mj]").val(),
+                  joinYy: $(shl).find("input[name=joinYy]").val(),
+                  retiYy: $(shl).find("input[name=retiYy]").val(),
+                  pnt: $(shl).find("input[name=pnt]").val(),
+                  shcrSt: $(shl).find("input[name=shcrSt]").val(),
+                  ttScore: $(shl).find("input[name=ttScore]").val(),
+                  fg: $(shl).find("input[name=fg]").val(),
+                };
+                checkArr(sch, $("#school").children());
+                console.log(obj);
+                return obj;
+              });
+            }
+          }
+          //입력 값 받는 함수 (기술 역량)
+          function mkSkill() {
+            if ($("#skill").children().length > 0) {
+              skill = $.map($("#skill").children(), function (shl) {
+                let obj = {
+                  skill: $(shl).find("input[name=skill]").val(),
+                };
+                checkArr(skill, $("#skill").children());
+
+                console.log(obj);
+                return obj;
+              });
+            }
+          }
+          //입력 값 받는 함수 (경력)
+          function mkJob() {
+            if ($("#job").children().length > 0) {
+              carr = $.map($("#job").children(), function (shl) {
+                let obj = {
+                  wkdty: $(shl).find("input[name=wkdty]").val(),
+                  depart: $(shl).find("input[name=depart]").val(),
+                  duty: $(shl).find("input[name=duty]").val(),
+                  joinYy: $(shl).find("input[name=joinYy]").val(),
+                  retiYy: $(shl).find("input[name=retiYy]").val(),
+                  buss: $(shl).find("input[name=buss]").val(),
+                  carrSt: $(shl).find("input[name=carrSt]").val(),
+                  co: $(shl).find("input[name=co]").val(),
+                };
+                checkArr(carr, $("#job").children());
+
+                console.log(obj);
+                return obj;
+              });
+            }
+          }
+          //입력 값 받는 함수 (교육))
+          function mkEducate() {
+            if ($("#educate").children().length > 0) {
+              edu = $.map($("#educate").children(), function (shl) {
+                let obj = {
+                  breu: $(shl).find("input[name=breu]").val(),
+                  joinYy: $(shl).find("input[name=joinYy]").val(),
+                  retiYy: $(shl).find("input[name=retiYy]").val(),
+                  cntn: $(shl).find("input[name=cntn]").val(),
+                  eduNm: $(shl).find("input[name=eduNm]").val(),
+                };
+                checkArr(edu, $("#educate").children());
+
+                console.log(obj);
+                return obj;
+              });
+            }
+          }
+          //입력 값 받는 함수 (수상)
+          function mkAward() {
+            if ($("#award").children().length > 0) {
+              ard = $.map($("#award").children(), function (shl) {
+                let obj = {
+                  cntn: $(shl).find("input[name=cntn]").val(),
+                  issuYy: $(shl).find("input[name=issuYy]").val(),
+                  ardNm: $(shl).find("input[name=ardNm]").val(),
+                  breu: $(shl).find("input[name=breu]").val(),
+                };
+                checkArr(ard, $("#award").children());
+
+                console.log(obj);
+                return obj;
+              });
+            }
+          }
+          //입력 값 받는 함수 (자격증)
+          function mkLicence() {
+            if ($("#licence").children().length > 0) {
+              licn = $.map($("#school").children(), function (shl) {
+                let obj = {
+                  breu: $(shl).find("input[name=breu]").val(),
+                  issuNm: $(shl).find("input[name=issuNm]").val(),
+                  licnNm: $(shl).find("input[name=licnNm]").val(),
+                };
+                checkArr(licn, $("#licence").children());
+
+                console.log(obj);
+                return obj;
+              });
+            }
+          }
+          //입력 값 받는 함수 (자기소개)
+          function mkResumeText() {
+            if ($("#resumeText").children().length > 0) {
+              intro = $.map($("#resumeText").children(), function (shl) {
+                let obj = {
+                  cntn: $(shl).find("input[name=cntn]").val(),
+                  ttl: $(shl).find("input[name=ttl]").val(),
+                };
+                checkArr(intro, $("#resumeText").children());
+
+                console.log(obj);
+                return obj;
+              });
+            }
+          }
+          //입력 값 받는 함수 (개인정보)
+          function mkMemInfo() {
+            if ($("div.formId").children().length > 0) {
+              memInfo = $.map($("div.formId").children(), function (shl) {
+                let obj = {
+                  name: $(shl).find("input[name=name]").val(),
+                  birth: $(shl).find("input[name=birth]").val(),
+                  email: $(shl).find("input[name=email]").val(),
+                  ph: $(shl).find("input[name=ph]").val(),
+                  phCl: $(shl).find("input[name=phCl]").val(),
+                  addr: $(shl).find("input[name=addr]").val(),
+                  post: $(shl).find("input[name=post]").val(),
+                  gen: $(shl).find("input[name=gen]").val(),
+                };
+                checkArr(memInfo, $("div.formId").children());
+
+                console.log(obj);
+                return obj;
+              });
+            }
+          }
+          function getAllData() {
+            mkSchool(),
+              mkJob(),
+              mkEducate(),
+              mkAward(),
+              mkSkill(),
+              mkResumeText(),
+              mkMemInfo();
+            return {
+              sch: sch,
+              carr: carr,
+              edu: edu,
+              ard: ard,
+              skill: skill,
+              intro: intro,
+              memInfo: memInfo,
+            };
+          }
         });
+        function alertBin(num, loca) {
+          Swal.fire({
+            title: "빈칸발견!",
+            text: "빈칸이 있습니다!!\n빈칸을 채워주세요!!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "확인!",
+            cancelButtonText: "취소!",
+            reverseButtons: true,
+          }).then((result) => {
+            if (result.isConfirmed) {
+              $(loca[num[0]]).focus();
+            } else if (
+              /* Read more about handling dismissals below */
+              result.dismiss === Swal.DismissReason.cancel
+            ) {
+              $(loca[num[0]]).focus();
+            }
+          });
+        }
       </script>
     </div>
   </body>
