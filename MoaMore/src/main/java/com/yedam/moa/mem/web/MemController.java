@@ -1,21 +1,29 @@
 package com.yedam.moa.mem.web;
 
+import java.io.File;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.yedam.moa.comm.service.CommService;
 import com.yedam.moa.mem.MemVO;
+import com.yedam.moa.mem.PrtflVO;
 import com.yedam.moa.mem.ResumeVO;
 import com.yedam.moa.mem.SearchVO;
 import com.yedam.moa.mem.service.MemService;
+import com.yedam.moa.self.SelfVO;
 
 @Controller
 public class MemController {
@@ -27,7 +35,11 @@ public class MemController {
 	@Autowired
 	CommService com;
 	
+	@Value("${site.upload}")
+	String uploadPath;
 	
+	@Value("${site.pofol}")
+	String uploadPofolPath; 
 	
 //	마이페이지 홈
 //	마이페이지 홈 화면
@@ -74,4 +86,72 @@ public class MemController {
 	public void insertRes(@RequestBody ResumeVO vo) {
 		System.out.println(vo);
 	}
+	
+//	포폴 업로드
+	@PostMapping("/lllll")
+	@ResponseBody
+	public List<PrtflVO> pofolUpload( @RequestBody PrtflVO vo ) throws IllegalStateException, IOException {
+		
+		//첨부파일 업로드 처리
+//		MultipartFile uploadPofolImg = pofolImg;
+//		MultipartFile uploadPofolFile = pofolFile;
+		
+		// 포트폴리오 이미지
+		String fileNamePofolImg = null; // 원본파일명
+		String uploadFileNamePofolImg = null;   // UUID적용한 파일명(중복 없는 파일명)
+		
+		// 포트폴리오 파일
+		String fileNamePofolFile = null; // 원본파일명
+		String uploadFileNamePofolFile = null;   // UUID적용한 파일명(중복 없는 파일명)
+		
+		int r = 0; // sql문 결과
+		
+		if(vo.getUploadPofolImg() !=null && !vo.getUploadPofolImg().isEmpty() && vo.getUploadPofolImg().getSize()>0
+		&& vo.getUploadPofolFile() !=null && !vo.getUploadPofolFile().isEmpty() && vo.getUploadPofolFile().getSize()>0) {
+			
+			// 포트폴리오 이미지
+			fileNamePofolImg = vo.getUploadPofolImg().getOriginalFilename(); // 원본 이미지 파일명
+			
+			// 포트폴리오 파일
+			fileNamePofolFile = vo.getUploadPofolFile().getOriginalFilename(); // 원본 포트폴리오 파일명
+			
+			// 동일 파일명 처리 UUID 사용
+			UUID uuid = UUID.randomUUID();
+			uploadFileNamePofolImg = uuid.toString() + "_" + fileNamePofolImg; // 이미지 UUID 적용한 파일명
+			uploadFileNamePofolFile = uuid.toString() + "_" + fileNamePofolFile; // 파일 UUID 적용한 파일명
+			
+			vo.getUploadPofolImg().transferTo(new File(uploadPath+'/'+uploadFileNamePofolImg)); // 이미지 파일
+			vo.getUploadPofolFile().transferTo(new File(uploadPath+'/'+uploadFileNamePofolFile)); // 이미지 파일
+			
+			//첨부파일명 VO에 지정
+			System.out.println("파일이름: " + fileNamePofolImg);
+			System.out.println("파일이름: " + fileNamePofolFile);
+			
+//			PrtflVO pofol = new PrtflVO();
+//			pofol.setPrtflNo(vo.getPrtflNo());
+//			pofol.setId(id);
+//			pofol.setttl(ttl);
+//			pofol.setPofolImg(uploadFileNamePofolImg);
+//			pofol.setPofolFile(fileNamePofolFile);
+//			pofol.setPofolUuidFile(uploadFileNamePofolFile);
+
+//			r = selfServiceImpl.selfJobPofolAdd(vo);	
+		}
+		if(r > 0) {
+//			return selfServiceImpl.selfJobpofolList(jobSearchNo);
+			return null;
+		}else {			
+			return null;
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
