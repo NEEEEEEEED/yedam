@@ -10,35 +10,47 @@
 </head>
 <body>
 	<div class="container" layout:fragment="content">
-		<span class="fw-bold fs-3" style="color:#0a2640;">나의 구인공고 목록</span>
+		<span class="fw-bold fs-3" style="color: #0a2640;">나의 구인공고 목록</span>
 		<hr>
-		<div class="col-md-12">
-			<div class="hoverRow listRow row" th:each="rec : ${rec}">
-				<div class="col-md-8">
-					<img src="community/noImg.svg" class="circleImg" alt="이미지안보임">
-					<span th:text="${rec.id}">아이디</span>
-					<h5 class="mt-2" th:text="${rec.ttl}">게시글제목</h5>
-					<p class="fs--1" th:text="${rec.coIntro}">Some text..Some text..Some text..Some
-						text..Some text..</p>
-				</div>
-				<div class="col-md-2">
-				<br>
-					<span>마감일</span>
-					<h5 class="mt-2" th:text="${rec.exprDt}"></h5>
-				</div>
-				<div class="col-md-2"
-					style="display: flex; align-items: center; flex-direction: column;">
+
+		<div class="row mt-7 gx-xl-7" id="hireList">
+			<div class="col-md-3 text-center text-md-start h-auto mb-5">
+				<div class="d-flex justify-content-between flex-column h-100">
+
+					<div class="image">
+						<img class="w-75 w-md-100 rounded-2 "
+							src="/moamoreImg/profile.JPG" alt=""> <i
+							class="bi bi-bookmark-heart-fill fs-5 btn1"></i>
+					</div>
 					<div
-						style="border: 1px solid black; text-align: center; width: 60px; margin: auto; border-radius: 5px; line-height: 15px; padding: 8px;">
-						<small> <span>답변수</span> <br> <span>1</span>
-						</small>
+						class="d-flex align-items-center justify-content-center justify-content-md-start gap-2 mt-3">
+						<a href="/hireInfo?recruitNo=GONGGO004"
+							style="text-decoration: none;">
+							<p class="fw-bold mb-0 text-black">Git</p>
+							<p class="mb-0">2023-08-09</p>
+						</a>
 					</div>
-					<div class="fs--1">
-						<span>조회수</span>1
-					</div>
+					<a href="/hireInfo?recruitNo=GONGGO004"
+						style="text-decoration: none;">
+
+						<h5 class="mt-1 mb-3 fs-0 fs-md-1">영업사원 모집</h5>
+						<p class="mb-0">제주</p>
+
+						<div
+							class="d-flex align-items-center justify-content-center justify-content-md-start gap-3">
+							<img class="img-fluid" src="assets/img/blog/profile1.png" alt="">
+							<span class="mb-0 text-gray">하이테코</span>
+						</div>
+					</a>
 				</div>
+				<a href="/hireInfo?recruitNo=GONGGO004"
+					style="text-decoration: none;"> </a>
 			</div>
+
 		</div>
+		<script>
+			
+		</script>
 	</div>
 </body>
 </html>

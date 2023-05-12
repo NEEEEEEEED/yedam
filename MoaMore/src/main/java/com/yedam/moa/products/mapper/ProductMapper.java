@@ -2,6 +2,7 @@ package com.yedam.moa.products.mapper;
 
 import java.util.List;
 
+import com.yedam.moa.co.service.CoVO;
 import com.yedam.moa.products.service.ProductVO;
 
 public interface ProductMapper {
@@ -16,4 +17,6 @@ public interface ProductMapper {
 
 	// 결제이후
 	public int afterPay(ProductVO vo);
+
+	public List<ProductVO> selectCoProducts(CoVO vo);
 }

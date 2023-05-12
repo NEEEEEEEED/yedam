@@ -30,8 +30,12 @@ public class ProductsController {
 		return "products/products";
 	}
 	
+	//상품클릭시 해당상품 결제 페이지로 이동
 	@GetMapping("/payCheck")
-	public String payCheckPage(Principal principal, Model model,HireVO vo,@RequestParam("prdtCd") String prdtCd) {
+	public String payCheckPage(Principal principal, 
+			                   Model model,
+			                   HireVO vo,
+			                   @RequestParam("prdtCd") String prdtCd) {
 		vo.setId(principal.getName()); 
 		
 		model.addAttribute("id", principal.getName());
@@ -41,7 +45,7 @@ public class ProductsController {
 		
 		return "products/payCheck";
 	}
-	
+	//결제완료 이후
 	@PostMapping("/afterPay")
 	@ResponseBody
 	public ProductVO afterPay(@RequestBody ProductVO vo) {

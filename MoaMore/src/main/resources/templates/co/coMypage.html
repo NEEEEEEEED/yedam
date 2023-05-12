@@ -19,7 +19,8 @@ a {
 a:hover {
 	cursor: pointer;
 }
-
+notice += `<span><i id="heartIcon"
+									class="bi bi-suit-heart fa-2x" style="color:#6610f2;"></i></span>`r
 .interInfer:hover {
 	cursor: pointer;
 }
@@ -49,8 +50,8 @@ i {
 							href="coInfoPage">기업정보등록</a>
 						<hr />
 						<a href="">받은 관심<i class="bi bi-suit-heart-fill"></i><small
-							th:text="${followers}"></small></a><br /> <a href="coRecruit">나의
-							공고목록</a><br /> <a href="/coProducts">나의 아이템</a>
+							th:text="${followers}"></small></a><br /> <a href="/coRecruit">나의
+							공고목록</a><br /> <a href="/coProducts">아이템 / 결제내역</a>
 						<hr />
 						<a href="">개인정보 수정</a>
 					</div>
@@ -119,8 +120,8 @@ i {
 					<div id="thirdTop" class="card-body" style="display: none">
 						<h5>
 							<span id="smallInter" class="selected interInfer"
-								onclick="changeSlash(this,1)">관심 구직글</span> / <span
-								class="interInfer" onclick="changeSlash(this,2)">제안 구직글</span>
+								onclick="changeSlash(this,1)">관심 구직글</span><!--  / <span
+								class="interInfer" onclick="changeSlash(this,2)">제안 구직글</span> -->
 						</h5>
 
 						<div id="selfList" class="col-md-12"></div>
@@ -315,9 +316,10 @@ i {
 					//ajax로 관심구직글 불러오는 함수
 					selectInterNoti(1);
 				} else {
+					$('#selfList').empty();
 					selected.classList.remove('selected');
 					t.classList.add('selected');
-					//ajax로 제안구직글 불러오는 함수
+					//ajax로 제안완료구직글 불러오는 함수
 					selectOfferNoti();
 				}
 			}
@@ -354,8 +356,17 @@ i {
 								<p class="fw-bold mb-0 text-black">`+res[i].dutyFld+`</p>
 								<p class="mb-0">`+res[i].regDt+`</p>
 								<span><i id="heartIcon"
-									class="bi bi-suit-heart-fill text-danger fa-2x"></i></span>
-							</div>
+									class="bi bi-suit-heart-fill text-danger fa-2x"></i></span>`
+									
+								if(res[i].offerCd != 'null' && res[i].acceptStatus == '대기중'){//제안 완료 하트표시
+								notice += `<span><i id="heartIcon"
+									class="bi bi-suit-heart fa-2x" style="color:#6610f2;"></i></span>`
+							}else if(res[i].offerCd != 'null' && res[i].acceptStatus != '대기중'){
+								notice += `<span><i id="heartIcon"
+									class="bi bi-suit-heart-fill fa-2x" style="color:#6610f2;"></i></span>`	
+							}
+								
+							notice +=`</div>
 							<p class="fs-2 my-3">`+res[i].intro+`</p>
 							<div
 								class="d-flex align-items-center justify-content-center justify-content-lg-start gap-2">
@@ -367,10 +378,11 @@ i {
 						<div class="col-md-3"
 							style="display: flex; align-items: center; flex-direction: column;">
 							<button type="button" onclick="deleteInter(\'`+res[i].jobSearchNo+`\')"
-								class="btn btn-danger btn-sm listBtn">관심해제</button>`
+								class="btn btn-danger btn-sm listBtn mb-1">관심해제</button>`
 							if(res[i].offerCd != 'null'){//제안 완료된 게시글 버튼 다르게 표시
 								notice += `<button type="button" btn="offerBtn" onclick="offerCompletedBtn(\'`+res[i].jobSearchNo+`\')"
-								class="btn btn-info btn-sm listBtn" data-bs-toggle="modal" data-bs-target="#exampleModalLg">제안완료</button>`
+								class="btn btn-info btn-sm listBtn mb-1" data-bs-toggle="modal" data-bs-target="#exampleModalLg">제안완료</button>
+								<p class="mb-0">`+res[i].acceptStatus+`</p>`
 							}else {
 								notice += `<button type="button" btn="offerBtn" onclick="insertJobSearchNo(\'`+res[i].jobSearchNo+`\')"
 								class="btn btn-outline-info btn-sm listBtn" data-bs-toggle="modal" data-bs-target="#exampleModalLg">제안</button>`
@@ -417,10 +429,20 @@ i {
 			//모달취소클릭
 			function closeModal(){
 				offerBtn.removeAttribute("hidden");
+				$('[name="coNm"]').val('');	
+				$('[name="wksite"]').val('');	
+				$('[name="tech"]').val('');	
+				$('[name="maBuss"]').val('');	
+				$('[name="bnft"]').val('');	
+				$('[name="saly"]').val('');	
+				$('[name="bussStartDt"]').val('');	
+				$('[name="clsDt"]').val('');	
+				$('[name="projectNm"]').val('');	
+				$('[name="ttl"]').val('');	
 			}			
 			//관심 페이징버튼 만들기
 			function paging(){
-				let pageSu = Math.floor(totalInter/2) + totalInter%2
+				let pageSu = Math.ceil(totalInter/5); //ceil 올림
 				console.log(pageSu)
 				let paging = `<nav aria-label="Page navigation example">
 					  <ul class="pagination d-flex justify-content-center">
@@ -536,8 +558,7 @@ i {
 			function test(t) {
 				console.log(t);
 			}
-			
-			
+		
 
 			//ajax예시
 			/* $.ajax({

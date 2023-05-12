@@ -86,4 +86,5 @@ public class SelfVO {
 	private int pageNum;
 	private int totalInter;
 	private String offerCd;
+	private String acceptStatus;
 }
