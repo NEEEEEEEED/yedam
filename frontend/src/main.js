@@ -8,6 +8,7 @@ import Column from "primevue/column";
 import ColumnGroup from "primevue/columngroup";
 import Row from "primevue/row";
 import ToastService from "primevue/toastservice";
+import ConfirmationService from "primevue/confirmationservice";
 
 //core
 import "primevue/resources/primevue.min.css";
@@ -23,5 +24,5 @@ createApp(App)
   .use(ColumnGroup)
   .use(Row)
   .use(ToastService)
-
+  .use(ConfirmationService)
   .mount("#app");

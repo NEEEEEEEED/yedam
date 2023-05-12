@@ -75,11 +75,10 @@ public class AdminController {
 		return adminService.modifyUser(memVo);
 	}
 
-	@PostMapping("/getUserPost")
+	@GetMapping("/getBoardData")
 	@ResponseBody
-	public Map<String, List<PostListVO>> getUserPost(@RequestParam String id) {
-		System.out.println(id);
-		return adminService.getUserPost(id);
+	public PostListVO getBoardData() {
+		return adminService.getBoardData();
 	}
 	
 	@PostMapping("/deleteUsers")

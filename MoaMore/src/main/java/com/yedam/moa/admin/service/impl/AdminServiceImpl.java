@@ -1,8 +1,6 @@
 package com.yedam.moa.admin.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,17 +21,17 @@ public class AdminServiceImpl implements AdminService {
 		return adminMapper.selectUserInfo();
 	}
 	@Override
-	public Map<String, List<PostListVO>> getUserPost(String id) {
-		 Map<String, List<PostListVO>> map = new HashMap<>();
+	public PostListVO getBoardData() {
+		PostListVO vo = new PostListVO();
 		//스터디모집
-		map.put("study",adminMapper.selectStudyPost(id));
+		vo.setStudyVO(adminMapper.selectStudyPost());
 		//프로젝트모집
-		map.put("prjt",adminMapper.selectPRJTPost(id));
+		vo.setPrjtVO(adminMapper.selectPRJTPost());
 		//면접후기
-		map.put("intr",adminMapper.selectINTRVPost(id));
+		vo.setIntrvVO(adminMapper.selectINTRVPost());
 		//취업Q&A
-		map.put("qa",adminMapper.selectQSTPost(id));
-		return map;
+		vo.setCommVO(adminMapper.selectQSTPost());
+		return vo;
 	}
 	@Override
 	public MemVO getUserDetails(String email) {
