@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{template/layout}">
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	  layout:decorate="~{template/layout}">
+
 <head>
 <style>
 	#id{
@@ -44,7 +46,7 @@
 				<option th:each="list : ${list.Y}" th:text="${list.desct}" th:attr="value=${list.prov}">경력</option>
 			</select>
 			
-			<label for = "name">기술스택</label> 
+			<label for = "name">기술선택</label> 
 			<select id = "skl" class = "selectStyle">
 				<option selected value=''>기술 전체</option>
 				<option th:each="list : ${list.Z}" th:text="${list.desct}" th:attr="value=${list.prov}">기술</option>
@@ -55,8 +57,13 @@
 			</button>
 								
 			<div id="hireButtons">
-				<button type="button" class="btn btn-outline-dark" id="scrapList">스크랩 정렬</button>
-				<button type="button" class="btn btn-outline-dark" id="hireInsert">등록하기</button>
+			<!-- 현재로그인된 유저가 가진 권한 -->
+	        	<div sec:authorize="hasRole('ROLE_USER')">
+					<button type="button" class="btn btn-outline-dark" id="scrapList">스크랩 정렬</button>
+				</div>
+				<div sec:authorize="hasRole('ROLE_CO')" >
+					<button type="button" class="btn btn-outline-dark" id="hireInsert">등록하기</button>
+				</div> 
 			</div>
 		</div>
 		
@@ -142,7 +149,7 @@
 		                	
 	                	
 		                	str2 = `<div class="d-flex align-items-center justify-content-center justify-content-md-start gap-2 mt-3">
-		                				<a href="/hireInfo?recruitNo=`+item.recruitNo+`" style="text-decoration: none;">						
+		                				<a href="/hireInfo?recruitNo=`+item.recruitNo+`&skill=`+item.skill+`" style="text-decoration: none;">						
 		                							<p class="fw-bold mb-0 text-black" >`+item.skill+`</p>
 													<p class="mb-0"  >`+item.exprDt+`</p>
 												</div>
