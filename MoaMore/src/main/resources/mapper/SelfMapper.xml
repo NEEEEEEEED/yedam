@@ -7,7 +7,12 @@
 
 	<!-- 셀프구직 페이지 영역 -->
 	<select id="selfJobList" resultType="SelfVO">
-		select  job_search_no, resume_no, id, posit, get_common(pubc_range) as pubcRange, ttl, get_common(hope_wksite) as hopeWksite, get_common(duty_fld) as dutyFld, hope_sal, myimg, interest, prop, reg_dt
+		select  job_search_no, 
+		        resume_no, id, 
+		        posit, 
+		        get_common(pubc_range) as pubcRange, 
+		        ttl, get_common(hope_wksite) as hopeWksite, get_common(duty_fld) as dutyFld, hope_sal, myimg, 
+		        interest, prop, reg_dt
 		from job_search_notiwr
 		<where>
 		    <if test="auth != null and !auth.equals('') and auth.equals('user')">
@@ -35,8 +40,8 @@
 	<!-- 관심등록 리스트 -->
 	<select id="selfJobInterestList" resultType="SelfVO">
 		SELECT JOB_SEARCH_NO, id
-		FROM inter_job_search
-		WHERE id = #{id}
+		  FROM inter_job_search
+		 WHERE id = #{id}
 	</select>
 	
 	<!-- 불러올 이력서가 존재하는지 체크 -->
@@ -94,21 +99,30 @@
 	
 	<!-- 셀프구직 상세페이지 : 기본정보 -->
 	<select id="selfJobDetailInfo" resultType="SelfVO">
-		SELECT DISTINCT jsn.job_search_no, jsn.resume_no, jsn.id, jsn.ttl, 
-                get_common(jsn.hope_wksite) as hopeWksite, jsn.posit,
-                get_common(jsn.duty_fld) as dutyFld, jsn.pubc_range, 
+		SELECT  DISTINCT jsn.job_search_no, 
+		        jsn.resume_no, jsn.id, jsn.ttl, 
+                get_common(jsn.hope_wksite) as hopeWksite, 
+                jsn.posit,
+                get_common(jsn.duty_fld) as dutyFld, 
+                jsn.pubc_range, 
                 jsn.intro, jsn.hope_sal, jsn.residency, jsn.myimg, jsn.interest, 
-                jsn.prop, jsn.reg_dt, get_common(jsn.career) as career, m.name, m.email,
+                jsn.prop, 
+                jsn.reg_dt, get_common(jsn.career) as career, 
+                m.name, m.email,
                 LISTAGG(get_common(jss.skill), ',') WITHIN GROUP(ORDER BY jss.skill_no) OVER(PARTITION BY jsn.job_search_no) AS skill
-		FROM job_search_notiwr jsn JOIN member m
-		    ON jsn.id = m.id
-		JOIN job_search_skill jss
-		    ON jsn.job_search_no = jss.job_search_no
+		 
+		 FROM  job_search_notiwr jsn 
+		 JOIN  member m
+		   ON  jsn.id = m.id
+		 JOIN  job_search_skill jss
+		   ON  jsn.job_search_no = jss.job_search_no
+		   
 		WHERE jsn.job_search_no = #{jobSearchNo}
 	</select>
 	
 	<!-- 셀프구직 상세페이지 : 포트폴리오 리스트 -->
 	<select id="selfJobDetailPofol" resultType="SelfVO">
+		
 		select File_no, title, pofol_img, pofol_file, pofol_uuid_file
 		from job_search_pof 
 		where job_search_no = #{jobSearchNo}
@@ -216,7 +230,7 @@
 		    	RESIDENCY = #{residency},
 		    </if>
 		    <if test="myimg != null and !myimg.equals('')">
-		    	MYIMG = #{myimg},
+		    	MYIMG = #{myimg}
 		    </if>
 		</set>
 		WHERE JOB_SEARCH_NO = #{jobSearchNo}

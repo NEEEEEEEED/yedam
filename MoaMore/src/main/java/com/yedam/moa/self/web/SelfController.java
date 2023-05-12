@@ -22,7 +22,7 @@ import com.yedam.moa.comm.CommVO;
 import com.yedam.moa.comm.service.Impl.CommServiceImpl;
 import com.yedam.moa.self.SelfVO;
 import com.yedam.moa.self.service.Impl.SelfServiceImpl;
-
+/*작성자 작성일자 컨트롤 내용*/
 @Controller
 public class SelfController {
 
@@ -52,8 +52,8 @@ public class SelfController {
 	public Map<String,Object> selfJobListPrint(SelfVO selfVO) {
 	
 		Map<String,Object> map = new HashMap<>();
-		map.put("selfJobList", selfServiceImpl.selfJobList(selfVO));
-		map.put("selfJobInterest", selfServiceImpl.selfJobInterestList(selfVO.getId()));
+		map.put("selfJobList", selfServiceImpl.selfJobList(selfVO)); // 셀프구직 목록 리스트
+		map.put("selfJobInterest", selfServiceImpl.selfJobInterestList(selfVO.getId())); // 관심 리스트
 		return map;
 	}
 	
@@ -145,7 +145,7 @@ public class SelfController {
 			UUID uuid = UUID.randomUUID();
 			uploadFileName = uuid.toString() + "_" + fileName;
 			
-			upload.transferTo(new File("c:/moaImg/"+uploadFileName)); // 파일업로드
+			upload.transferTo(new File(uploadPath,uploadFileName)); // 파일업로드
 			
 			//System.out.println("파일이름: " + uploadFileName);
 		}
@@ -154,18 +154,14 @@ public class SelfController {
 	}
 	
 	
-	// 셀프구직 포트폴리오 등록
+	// 셀프구직 포트폴리오 등록 - 첨부파일 업로드 처리 // 피드백 : 받오는값을 커멘트 객체 형식으로 VO에 한꺼번에 받아도됨(대신 이름이 일치해야함)
 	@PostMapping("/pofolAdd")
 	@ResponseBody
 	public List<SelfVO> pofolUpload( @RequestParam("jobSearchNo") String jobSearchNo,
 							   		 @RequestParam("id") String id,
 							   		 @RequestParam("title") String title,
-							   		 @RequestParam("pofolImg") MultipartFile pofolImg,
-							   		 @RequestParam("pofolFile") MultipartFile pofolFile ) throws IllegalStateException, IOException {
-		
-		//첨부파일 업로드 처리
-		MultipartFile uploadPofolImg = pofolImg;
-		MultipartFile uploadPofolFile = pofolFile;
+							   		 @RequestParam("pofolImg") MultipartFile uploadPofolImg,
+							   		 @RequestParam("pofolFile") MultipartFile uploadPofolFile ) throws IllegalStateException, IOException {
 		
 		// 포트폴리오 이미지
 		String fileNamePofolImg = null; // 원본파일명
@@ -191,8 +187,8 @@ public class SelfController {
 			uploadFileNamePofolImg = uuid.toString() + "_" + fileNamePofolImg; // 이미지 UUID 적용한 파일명
 			uploadFileNamePofolFile = uuid.toString() + "_" + fileNamePofolFile; // 파일 UUID 적용한 파일명
 			
-			uploadPofolImg.transferTo(new File("c:/moapofol/"+uploadFileNamePofolImg)); // 이미지 파일
-			uploadPofolFile.transferTo(new File("c:/moapofol/"+uploadFileNamePofolFile)); // 이미지 파일
+			uploadPofolImg.transferTo(new File(uploadPofolPath,uploadFileNamePofolImg)); // 이미지 파일
+			uploadPofolFile.transferTo(new File(uploadPofolPath,uploadFileNamePofolFile)); // 이미지 파일
 			
 			//첨부파일명 VO에 지정
 			System.out.println("파일이름: " + fileNamePofolImg);
@@ -233,8 +229,8 @@ public class SelfController {
 		String carrNo = selfServiceImpl.resumeKeys(resumeNo).getCarrNo(); // 해당 이력서의 경력번호
 		String shcrNo = selfServiceImpl.resumeKeys(resumeNo).getShcrNo(); // 해당 이력서의 학력번호
 		
-		System.out.println("경력번호 : " + carrNo);
-		System.out.println("학력번호 : " + shcrNo);
+		//System.out.println("경력번호 : " + carrNo);
+		//System.out.println("학력번호 : " + shcrNo);
 		
 		model.addAttribute("selfJobInfo", selfServiceImpl.selfJobDetailInfo(jobSearchNo)); // 셀프구직 기본정보
 		model.addAttribute("pofolList", selfServiceImpl.selfJobDetailPofol(jobSearchNo)); // 셀프구직 포트폴리오

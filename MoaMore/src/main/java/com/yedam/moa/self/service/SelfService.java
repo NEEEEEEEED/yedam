@@ -30,7 +30,7 @@ public interface SelfService {
 	// 셀프구직 상세 - 스킬 정보
 	public List<SelfVO> selfJobDetailSkill(String jobSearchNo);
 	
-	// 셀프구직 상세페이지 : 불러올 이력서 정보 학력,경력 기본키값 가져옴
+	// 셀프구직 상세페이지 : 불러올 이력서 정보 학력, 경력 기본키값 가져옴
 	public SelfVO resumeKeys(String resumeNo);
 	
 	// 셀프구직 상세페이지 수정
@@ -55,18 +55,12 @@ public interface SelfService {
 	
 	// 셀프구직 게시글 기본키 부여
 	public String selfJobKey();
-	
-	// 셀프구직 스킬 기본키 부여
-	public String skillKey();
-	
+
 	// 스킬등록
 	public int skillAdd(SelfVO skillVO);
 	
 	// my프로필 등록
 	public int myProfileAdd(SelfVO myProfile);
-	
-	// 포트폴리오 기본키부여
-	public String selfJobPofolKey();
 	
 	// 포트폴리오 등록
 	public int selfJobPofolAdd(SelfVO pofol);

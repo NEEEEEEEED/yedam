@@ -37,9 +37,20 @@ public class CommunityServiceImpl implements CommunityService{
 	// 취업 Q&A 상세 페이지
 	@Override
 	public CommunityVO jobQnaDetail(String qaNotiwrNo) {
+		commuMapper.jobQnaView(qaNotiwrNo); // 조회수 증가
 		return commuMapper.jobQnaDetail(qaNotiwrNo);
 	}
-	
+
+	// 취업 Q&A 수정기능
+	@Override
+	public int jobQnaModFn(CommunityVO communityVO) {
+		return commuMapper.jobQnaModFn(communityVO);
+	}
+
+	@Override
+	public int jobQnaDelete(String qaNotiwrNo) {
+		return commuMapper.jobQnaDelete(qaNotiwrNo);
+	}
 	
 	
 }
