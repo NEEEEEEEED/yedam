@@ -64,10 +64,11 @@ public class HireController {
 
 		List<HireVO> hireInfo = new ArrayList<HireVO>();
 		hireInfo = hireService.hireInfo(hireVO);
-
+		
+		model.addAttribute("recImg", hireService.recImg(hireVO));
 		model.addAttribute("hireInfo", hireInfo);
 		model.addAttribute("recruitNo", recruitNo);
-
+        System.out.println(model);
 		return "hire/hireInfo";
 	}
 
@@ -108,24 +109,6 @@ public class HireController {
 		return hireService.followInsert(hireVO);
 	}
 	
-	// 구인공고 기업 팔로우, 취소
-//	@PostMapping("/followingCo")
-//	@ResponseBody
-//	public String followInsert(HireVO hireVO, Principal principal) {
-//		List<HireVO> hireList = new ArrayList<HireVO>();
-//		pr = principal;
-//		hireVO.setId(pr.getName());
-//		
-//		hireList = hireService.hireInfo(hireVO);
-//		// hireVO에서 꺼내온다
-//		if(hireList.get(0).getFollowYn() != null) {
-//			return hireService.followInsert(hireVO);
-//		}else {
-//			return hireService.followDelete(hireVO);
-//		}
-//		
-//		
-//	}
 	
 	// 구인공고 공고 스크랩 등록, 취소
 	@PostMapping("/recScrap")
@@ -161,7 +144,6 @@ public class HireController {
 
 	// 구인공고 등록 페이지 
 	@GetMapping("/hireInsert")
-	@ResponseBody
 	public String recruitInsertSelect(Model model, Principal principal) {
 		HireVO hireVO = new HireVO();
 		pr = principal;
