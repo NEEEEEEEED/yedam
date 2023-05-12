@@ -8,11 +8,11 @@ import Column from "primevue/column";
 import ColumnGroup from "primevue/columngroup";
 import Row from "primevue/row";
 import ToastService from "primevue/toastservice";
-//theme
-import "primevue/resources/themes/lara-light-indigo/theme.css";
 
 //core
 import "primevue/resources/primevue.min.css";
+//theme
+import "primevue/resources/themes/lara-light-indigo/theme.css";
 
 createApp(App)
   .use(router)
@@ -23,4 +23,5 @@ createApp(App)
   .use(ColumnGroup)
   .use(Row)
   .use(ToastService)
+
   .mount("#app");
