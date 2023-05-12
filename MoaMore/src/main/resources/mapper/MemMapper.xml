@@ -5,104 +5,102 @@
 <mapper namespace="com.yedam.moa.mem.mapper.MemMapper">
 
 	<select id="openSesame" resultType="MemVO">
-		SELECT r.id as id_co,
-		r.ttl,
-		r.expr_dt,
-		r.recruit_no,
-		r.co_img,
-		c.co_nm,
-		m.email
-		FROM co c join
-		recruit_anun r
-		ON r.id = c.id
-		join member m
-		on c.id = m.id
-		WHERE r.id IN
-		(SELECT id_co
-		FROM following
-		WHERE id_mem = #{id})
+		SELECT  r.id as id_co,
+				r.ttl,
+				r.expr_dt,
+				r.recruit_no,
+				r.co_img,
+				c.co_nm,
+				m.email
+		 FROM co c 
+		 join recruit_anun r
+		   ON r.id = c.id
+		 join member m
+		   on c.id = m.id
+		   
+		WHERE r.id IN (SELECT id_co
+		                 FROM following
+		                WHERE id_mem = #{id})
 	</select>
 	<select id="getCount" resultType="SearchVO">
-		SELECT count_aply_st,
-		count_deny,count_st
-		FROM
-		(SELECT COUNT(aply_st) AS count_aply_st
-		FROM
-		recruit_anum_st
-		WHERE aply_st ='b1')
-		CROSS JOIN
-		(SELECT COUNT(aply_st) AS
-		count_deny
-		FROM recruit_anum_st
-		WHERE aply_st ='b2')
-		CROSS JOIN
-		(SELECT
-		COUNT(st) AS count_st
-		FROM recruit_anum_st
-		WHERE st ='1')
+		SELECT 
+				(SELECT COUNT(aply_st) AS count_aply_st
+				FROM recruit_anum_st
+				WHERE aply_st ='b1')
+				,
+				(SELECT COUNT(aply_st) AS
+				count_deny
+				FROM recruit_anum_st
+				WHERE aply_st ='b2')
+				,
+				(SELECT
+				COUNT(st) AS count_st
+				FROM recruit_anum_st
+				WHERE st ='1')
+		  FROM dual
 	</select>
 
 
 
 	<select id="getSearch" resultType="MemVO">
 		select d.recruit_no,
-		d.aply_dt,
-		d.aply_st,
-		d.ttl,
-		d.expr_dt,
-		d.st,
-		e.expr_st,
-		d.ma_buss
-		from
-		(select s.recruit_no,
-		s.aply_dt,
-		get_common(s.aply_st) as aply_st,
-		r.ttl,
-		r.expr_dt,
-		s.st,
-		r.ma_buss
-		from recruit_anum_st s join recruit_anun r
-		on s.recruit_no =
-		r.recruit_no
-		where s.id = #{id}
-		<if test="period == 7">
-			and s.aply_dt BETWEEN sysdate-7 and sysdate
-		</if>
-		<if test="period == 1">
-			and s.aply_dt BETWEEN ADD_MONTHS(sysdate,-1) and sysdate
-		</if>
-		<if test="period == 2">
-			and s.aply_dt BETWEEN ADD_MONTHS(sysdate,-2) and sysdate
-		</if>
-		<if test="period == 3">
-			and s.aply_dt BETWEEN ADD_MONTHS(sysdate,-3) and sysdate
-		</if>
-		<if test='expir == "J2"'>
-			<![CDATA[and sysdate - to_date(r.expr_dt,'yyyy-MM-dd') > 0]]>
-		</if>
-		<if test='expir == "J1"'>
-			<![CDATA[and sysdate - to_date(r.expr_dt,'yyyy-MM-dd') <= 0]]>
-		</if>
-		<if test='startDt != null and endDt != null '>
-			and s.aply_dt BETWEEN #{startDt} and #{endDt}
-		</if>
-		<if test='st != null '>
-			and s.st = #{st}
-		</if>
-		<if test='aplySt != null '>
-			and s.aply_st = #{aplySt}
-		</if>
-		) d join
-		(select recruit_no, (trunc(to_date(expr_dt,'yyyy-MM-dd')- sysdate)) as
-		expr_st
-		from recruit_anun) e
+				d.aply_dt,
+				d.aply_st,
+				d.ttl,
+				d.expr_dt,
+				d.st,
+				e.expr_st,
+				d.ma_buss
+		from	(select 	s.recruit_no,
+							s.aply_dt,
+							get_common(s.aply_st) as aply_st,
+							r.ttl,
+							r.expr_dt,
+							s.st,
+							r.ma_buss
+					   from recruit_anum_st s 
+					   join recruit_anun r
+						  on s.recruit_no =	r.recruit_no
+						where s.id = #{id}
+						<if test="period == 7">
+							and s.aply_dt BETWEEN TO_CHAR(sysdate-7,'yyyy-MM-dd') and TO_CHAR(sysdate,'yyyy-MM-dd')
+						</if>
+						<if test="period == 1">
+							and s.aply_dt BETWEEN TO_CHAR(ADD_MONTHS(sysdate,-1),'yyyy-MM-dd')  and TO_CHAR(sysdate,'yyyy-MM-dd')
+						</if>
+						<if test="period == 2">
+							and s.aply_dt BETWEEN TO_CHAR(ADD_MONTHS(sysdate,-2),'yyyy-MM-dd')  and TO_CHAR(sysdate,'yyyy-MM-dd')
+						</if>
+						<if test="period == 3">
+							and s.aply_dt BETWEEN TO_CHAR(ADD_MONTHS(sysdate,-3),'yyyy-MM-dd')  and TO_CHAR(sysdate,'yyyy-MM-dd')
+						</if>
+						<if test='expir == "J2"'>
+							<![CDATA[and sysdate - to_date(r.expr_dt,'yyyy-MM-dd') > 0]]>
+						</if>
+						<if test='expir == "J1"'>
+							<![CDATA[and sysdate - to_date(r.expr_dt,'yyyy-MM-dd') <= 0]]>
+						</if>
+						<if test='startDt != null and endDt != null '>
+							and s.aply_dt BETWEEN TO_CHAR(#{startDt},'yyyy-MM-dd') and  TO_CHAR(#{endDt},'yyyy-MM-dd')
+						</if>
+						<if test='st != null '>
+							and s.st = #{st}
+						</if>
+						<if test='aplySt != null '>
+							and s.aply_st = TO_CHAR(#{aplySt},'yyyy-MM-dd')
+						</if>
+			) d 
+		join (select recruit_no, 
+		             (trunc(to_date(expr_dt,'yyyy-MM-dd')- sysdate)) as
+					 expr_st
+				from recruit_anun) e
 		on d.recruit_no = e.recruit_no
 	</select>
 	
 	<delete id="delAnun" parameterType="SearchVO">
 	delete 
-	from recruit_anum_st 
-	where recruit_no = #{recruitNo} and id = #{id}
+	  from recruit_anum_st 
+	 where recruit_no = #{recruitNo} and id = #{id}
 	</delete>
 	
 	
@@ -117,8 +115,8 @@
 		   gen,
 		   birth,
 		   addr
-	from member
-	where id = #{id}
+	  from member
+	 where id = #{id}
 	</select>
 
 </mapper>

@@ -681,7 +681,7 @@
                       <div class="col-md-12">
                         <label class="w-100"
                           >자기소개서
-                          <input type="text" class="form-control" name="co" />
+                          <input type="text" class="form-control" name="ttl" />
                         </label>
                       </div>
                       <div class="col-md-12">
@@ -689,7 +689,7 @@
                           >내용
                           <textarea
                             class="form-control"
-                            name=""
+                            name="cntn"
                             cols="30"
                             rows="10"
                           ></textarea>
@@ -773,12 +773,7 @@
                 <!-- 불러온 이력서 번호 -->
                 <input id="resumeNo" name="resumeNo" type="hidden" />
                 <!-- 현재 작성 게시글 기본키값 -->
-                <input
-                  id="selfJobKey"
-                  name="jobSearchNo"
-                  type="hidden"
-                  th:attr="value=${selfJobKey}"
-                />
+                
 
                 <table class="table">
                   <tbody class="trColor">
@@ -787,7 +782,7 @@
                       <td>
                         <input
                           id="pofolTitle"
-                          name="title"
+                          name="ttl"
                           type="text"
                           class="fullWidth"
                           style="border: 1px solid #ddd"
@@ -797,13 +792,21 @@
                     <tr>
                       <th>이미지파일</th>
                       <td>
-                        <input id="pofolImg" name="pofolImg" type="file" />
+                        <input
+                          id="pofolImg"
+                          name="uploadPofolImg"
+                          type="file"
+                        />
                       </td>
                     </tr>
                     <tr>
                       <th>포트폴리오 파일</th>
                       <td>
-                        <input id="pofolFile" name="pofolFile" type="file" />
+                        <input
+                          id="pofolFile"
+                          name="uploadPofolFile"
+                          type="file"
+                        />
                       </td>
                     </tr>
                   </tbody>
@@ -840,6 +843,9 @@
           let licn = [];
           let skill = [];
           let memInfo = [];
+
+          //           주소 입력
+          $("#addr").on("click", sample6_execDaumPostcode);
           // 저장
           $("#saveResume").on("click", function () {
             console.log($("#school").children());
@@ -935,7 +941,7 @@
             pofolReg(); // 포트폴리오 등록 ajax호출 함수
             $("#pofolModal").modal("hide");
           });
-
+          //+버튼 클릭시 노드 복사 함수
           function copy(ev) {
             let tar = $(this).parents()[1].children[1];
             let newNode = $(this).parents()[1].children[0].children[0];
@@ -947,10 +953,11 @@
           }
           // 포트폴리오 등록 ajax호출 함수
           function pofolReg() {
+            console.log($("#pofolRegForm"));
             let formData = new FormData($("#pofolRegForm")[0]); // 폼데이터
-
+            console.log(formData);
             $.ajax({
-              url: "pofolAdd",
+              url: "/resumePopol",
               type: "post",
               data: formData,
               async: true, //비동기 여부
@@ -978,40 +985,40 @@
           function pofolListPrint(result = {}) {
             let pofolHtml =
               `<div class="row align-items-center border-bottom hoverRow mb-3">
-          				        <div class="col-md-3">
-          				      	<img class="img-fluid imgSize" src="/moamorePofol/` +
+                  				        <div class="col-md-3">
+                  				      	<img class="img-fluid imgSize" src="/moamorePofol/` +
               result.pofolImg +
               `" alt="이미지없음">
-          				      </div>
-          				      <div class="col-md-7" style="color:black;">
-          				      		<p class="mb-0">[제목] ` +
-              result.title +
+                  				      </div>
+                  				      <div class="col-md-7" style="color:black;">
+                  				      		<p class="mb-0">[제목] ` +
+              result.ttl +
               `</p>
-          				        	<p class="mb-0">[파일명] <a style="color:blue; text-decoration:underline !important;" href="/moamorePofol/` +
+                  				        	<p class="mb-0">[파일명] <a style="color:blue; text-decoration:underline !important;" href="/moamorePofol/` +
               result.pofolUuidFile +
               `">` +
-              result.pofolFile +
+              result.prtflNo +
               `</a></p>
-          				      </div>
-          				      <div class="col-md-2" >
-          					      <button id="` +
-              result.fileNo +
+                  				      </div>
+                  				      <div class="col-md-2" >
+                  					      <button id="` +
+              result.prtflNo +
               `" data-no="` +
-              result.jobSearchNo +
+              result.prtflNo +
               `" onclick="deletePofol(this)" type="button" style="margin-left : 20px; padding:15px;" class="btn-close" aria-label="Close"></button>
-          					  </div>
-          					</div>`;
+                  					  </div>
+                  					</div>`;
             return pofolHtml;
           }
           // 포트폴리오 리스트에서 닫기 버튼 클릭시 발생하는 함수
           function deletePofol(deleteItem) {
-            let jobSearchNo = deleteItem.dataset.no; // data - 속성 이용해서 값가져옴
-            console.log(jobSearchNo);
+            let prtflNo = deleteItem.dataset.no; // data - 속성 이용해서 값가져옴
+            console.log(prtflNo);
 
             $.ajax({
-              url: "pofolDelete",
+              url: "",
               type: "post",
-              data: { fileNo: deleteItem.id, jobSearchNo: jobSearchNo },
+              data: { fileNo: deleteItem.id, prtflNo: prtflNo },
               success: function (result) {
                 console.log("삭제성공");
                 pofolRows.innerHTML = ""; // 초기화
@@ -1070,10 +1077,10 @@
                   ttScore: $(shl).find("input[name=ttScore]").val(),
                   fg: $(shl).find("input[name=fg]").val(),
                 };
-                checkArr(sch, $("#school").children());
                 console.log(obj);
                 return obj;
               });
+              checkArr(sch, $("#school").children());
             }
           }
           //입력 값 받는 함수 (기술 역량)
@@ -1083,11 +1090,11 @@
                 let obj = {
                   skill: $(shl).find("input[name=skill]").val(),
                 };
-                checkArr(skill, $("#skill").children());
 
                 console.log(obj);
                 return obj;
               });
+              checkArr(skill, $("#skill").children());
             }
           }
           //입력 값 받는 함수 (경력)
@@ -1104,11 +1111,11 @@
                   carrSt: $(shl).find("input[name=carrSt]").val(),
                   co: $(shl).find("input[name=co]").val(),
                 };
-                checkArr(carr, $("#job").children());
 
                 console.log(obj);
                 return obj;
               });
+              checkArr(carr, $("#job").children());
             }
           }
           //입력 값 받는 함수 (교육))
@@ -1122,11 +1129,11 @@
                   cntn: $(shl).find("input[name=cntn]").val(),
                   eduNm: $(shl).find("input[name=eduNm]").val(),
                 };
-                checkArr(edu, $("#educate").children());
 
                 console.log(obj);
                 return obj;
               });
+              checkArr(edu, $("#educate").children());
             }
           }
           //입력 값 받는 함수 (수상)
@@ -1139,11 +1146,11 @@
                   ardNm: $(shl).find("input[name=ardNm]").val(),
                   breu: $(shl).find("input[name=breu]").val(),
                 };
-                checkArr(ard, $("#award").children());
 
                 console.log(obj);
                 return obj;
               });
+              checkArr(ard, $("#award").children());
             }
           }
           //입력 값 받는 함수 (자격증)
@@ -1155,11 +1162,11 @@
                   issuNm: $(shl).find("input[name=issuNm]").val(),
                   licnNm: $(shl).find("input[name=licnNm]").val(),
                 };
-                checkArr(licn, $("#licence").children());
 
                 console.log(obj);
                 return obj;
               });
+              checkArr(licn, $("#licence").children());
             }
           }
           //입력 값 받는 함수 (자기소개)
@@ -1167,14 +1174,14 @@
             if ($("#resumeText").children().length > 0) {
               intro = $.map($("#resumeText").children(), function (shl) {
                 let obj = {
-                  cntn: $(shl).find("input[name=cntn]").val(),
+                  cntn: $(shl).find("textarea[name=cntn]").val(),
                   ttl: $(shl).find("input[name=ttl]").val(),
                 };
-                checkArr(intro, $("#resumeText").children());
 
                 console.log(obj);
                 return obj;
               });
+              checkArr(intro, $("#resumeText").children());
             }
           }
           //입력 값 받는 함수 (개인정보)
@@ -1191,13 +1198,14 @@
                   post: $(shl).find("input[name=post]").val(),
                   gen: $(shl).find("input[name=gen]").val(),
                 };
-                checkArr(memInfo, $("div.formId").children());
 
                 console.log(obj);
                 return obj;
               });
+              checkArr(memInfo, $("div.formId").children());
             }
           }
+          //화면 데이터 저장
           function getAllData() {
             mkSchool(),
               mkJob(),
@@ -1217,6 +1225,7 @@
             };
           }
         });
+        //빈칸 알람
         function alertBin(num, loca) {
           Swal.fire({
             title: "빈칸발견!",
@@ -1236,6 +1245,50 @@
               $(loca[num[0]]).focus();
             }
           });
+        }
+        //주소 API JS
+        function sample6_execDaumPostcode() {
+          new daum.Postcode({
+            oncomplete: function (data) {
+              console.log(1, data);
+              // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+              // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+              // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+              var addr = ""; // 주소 변수
+              var extraAddr = ""; // 참고항목 변수
+
+              //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+              if (data.userSelectedType === "R") {
+                // 사용자가 도로명 주소를 선택했을 경우
+                addr = data.roadAddress;
+              } else {
+                // 사용자가 지번 주소를 선택했을 경우(J)
+                addr = data.jibunAddress;
+              }
+
+              console.log(2, addr);
+              // 우편번호와 주소 정보를 해당 필드에 넣는다.
+              $("#addr").val(addr);
+              $("#post").val(data.zonecode);
+
+              //       document.getElementById("sample6_postcode").value = data.zonecode;
+              //       document.getElementById("sample6_address").value = addr;
+              // 커서를 상세주소 필드로 이동한다.
+              //       document.getElementById("sample6_detailAddress").focus();
+            },
+            theme: {
+              //bgColor: "", //바탕 배경색
+              searchBgColor: "#254364", //검색창 배경색
+              //contentBgColor: "", //본문 배경색(검색결과,결과없음,첫화면,검색서제스트)
+              //pageBgColor: "", //페이지 배경색
+              //textColor: "", //기본 글자색
+              queryTextColor: "#FFFFFF", //검색창 글자색
+              //postcodeTextColor: "", //우편번호 글자색
+              //emphTextColor: "", //강조 글자색
+              //outlineColor: "", //테두리
+            },
+          }).open();
         }
       </script>
     </div>
