@@ -9,7 +9,7 @@ public interface AdminService {
 
 	public List<MemVO> getUserInfo();
 
-	public Map<String, List<PostListVO>> getUserPost(String id);
+	public PostListVO getBoardData();
 
 	public MemVO getUserDetails(String email);
 
