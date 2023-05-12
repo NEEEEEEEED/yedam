@@ -44,8 +44,7 @@
 				co_nm = #{coNm}  
 			WHERE id = #{id};
 			
-  			IF SQL%NOTFOUND 
-  			THEN
+  			IF SQL%ROWCOUNT = 0	THEN
     			INSERT INTO co (
     						id,
 			   				rpstr,
@@ -81,7 +80,7 @@
 		
 	<!-- 구인공고목록 -->
 	<select id="selectRec" parameterType="HireVO" resultType="HireVO">
-		SELECT recruit_no
+		SELECT recruit_no,
 				id,
 				ttl,
 				shcr,
@@ -114,34 +113,33 @@
 	<!-- 관심 셀프구직공고 페이징 포함해서 2개씩 목록 -->
 	<select id="selectInterNoti" parameterType="SelfVO" resultType="SelfVO">
     <![CDATA[
-        SELECT *
-FROM (
-    SELECT n.job_search_no,
-           n.resume_no,
-           n.id,
-           n.ttl,
-           n.hope_wksite,
-           get_common(duty_fld) as duty_fld,
-           n.posit,
-           n.pubc_range,
-           n.intro,
-           n.hope_sal,
-           n.residency,
-           n.myimg,
-           n.interest,
-           n.prop,
-           n.reg_dt,
-           nvl(s.offer_cd,'null') as offer_cd,
-           rownum as rn
-    FROM job_search_notiwr n    
-    LEFT JOIN job_search_st s ON n.job_search_no = s.job_search_no
-    WHERE n.job_search_no IN (
-        SELECT job_search_no
-        FROM inter_job_search
-        WHERE id = #{id}
-    )   
-)
-WHERE rn > (#{pageNum}-1) * 2 AND rn <= #{pageNum} * 2
+        SELECT * FROM (SELECT a.*, rownum rn 
+        				 FROM (
+    							SELECT n.job_search_no,
+           							   n.resume_no,
+           							   n.id,
+           							   n.ttl,
+           							   n.hope_wksite,
+           							   get_common(duty_fld) as duty_fld,
+           							   n.posit,
+           							   n.pubc_range,
+           							   n.intro,
+           							   n.hope_sal,
+           							   n.residency,
+           							   n.myimg,
+          							   n.interest,
+           							   n.prop,
+           							   n.reg_dt,
+           							   NVL(s.offer_cd,'null') as offer_cd,
+           							   get_common(s.accept_status) as accept_status
+    							  FROM job_search_notiwr n    
+    						 LEFT JOIN job_search_st s 
+    						        ON n.job_search_no = s.job_search_no
+    							 WHERE n.job_search_no IN ( SELECT job_search_no
+                                    						  FROM inter_job_search
+                                    						 WHERE id = #{id}
+                                						   )   
+		ORDER BY job_search_no ) a  ) WHERE rn > (#{pageNum}-1) * 5 AND rn <= #{pageNum} * 5
     ]]>
 </select>
 	<!-- 셀프구직게시글 관심해제 -->
@@ -195,7 +193,10 @@ WHERE rn > (#{pageNum}-1) * 2 AND rn <= #{pageNum} * 2
 				project_nm,
 				ttl
 		  FROM offer 
-		 WHERE offer_cd = (select offer_cd from job_search_st where id = #{id} and job_search_no = #{jobSearchNo})
+		 WHERE offer_cd = (select offer_cd 
+		                     from job_search_st 
+		                    where id = #{id} 
+		                      and job_search_no = #{jobSearchNo})
 	</select>
 	
 	<insert id="afterOffer" parameterType="CoVO">
@@ -235,7 +236,7 @@ WHERE rn > (#{pageNum}-1) * 2 AND rn <= #{pageNum} * 2
       						VALUES(#{offerCd},
 									#{id},
 									#{jobSearchNo},
-									#{acceptStatus}
+									'e1'
 									);	
 									
 		UPDATE job_search_notiwr

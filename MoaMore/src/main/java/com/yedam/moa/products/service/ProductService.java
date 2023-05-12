@@ -2,6 +2,8 @@ package com.yedam.moa.products.service;
 
 import java.util.List;
 
+import com.yedam.moa.co.service.CoVO;
+
 
 
 public interface ProductService {
@@ -13,5 +15,6 @@ public interface ProductService {
 	public ProductVO getProduct(String prdtCd);
 	//결제이후
 	public int afterPay(ProductVO vo);
+	public List<ProductVO> selectCoProducts(CoVO vo);
 
 }

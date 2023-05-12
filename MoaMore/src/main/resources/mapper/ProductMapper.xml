@@ -5,8 +5,8 @@
   <mapper namespace="com.yedam.moa.products.mapper.ProductMapper">
   	<select id="disabledDates" resultType="ProductVO">
   		SELECT reser_dt 
-		FROM reser_precon
-		WHERE reser_cnt = 5	
+		  FROM reser_precon
+		 WHERE reser_cnt = 5	
   	</select>
   	
   	<select id="selectProducts" resultType="ProductVO">
@@ -34,12 +34,31 @@
   	
   	<insert id="afterPay" parameterType="ProductVO">
   		 {CALL after_pay(
-                  #{orderNo, mode=IN, jdbcType=VARCHAR},
+                  #{orderNo},
                   #{recruitNo, mode=IN, jdbcType=VARCHAR},
                   #{id, mode=IN, jdbcType=VARCHAR},
                   #{prdtCd, mode=IN, jdbcType=VARCHAR},
-                  #{reserDts, mode=IN, jdbcType=VARCHAR}
+                  #{reserDts}
             )}
   	</insert>
+  	<!-- 기업보유상품목록 -->
+  	<select id="selectCoProducts" resultType="ProductVO">
+  		SELECT  s.order_no,
+			    s.recruit_no,
+			    s.id,
+				s.sttl_cd,
+				s.sttl_dt,
+				s.prdt_cd,
+				s.reser_dts,
+                p.prdt_nm,
+                r.ttl,
+                p.total_price,
+                p.svc_cnt
+  		  FROM  sttl s join prdt p 
+  		    ON  s.prdt_cd = p.prdt_cd   
+          JOIN  recruit_anun r 
+            ON  s.recruit_no = r.recruit_no
+  		 WHERE  s.id = #{id}
+  	</select>
   
   </mapper>

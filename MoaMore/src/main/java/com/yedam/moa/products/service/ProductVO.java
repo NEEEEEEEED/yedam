@@ -21,4 +21,6 @@ public class ProductVO {
 	private String recruitNo; //공고게시글번호
 	private String id; 
 	private String reserDts; //광고적용날짜들 a,b,c
+	private String sttlCd; //결제코드
+	private String sttlDt; //결제일자
 }
