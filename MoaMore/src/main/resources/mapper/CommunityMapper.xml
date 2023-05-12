@@ -5,4 +5,30 @@
   
 <mapper namespace="com.yedam.moa.community.mapper.CommunityMapper">
 
+	<!-- 취업Q&A 게시글 기본키부여 -->
+	<select id="jobQnaKey" resultType="String">
+		SELECT 'EQT'|| EMPL_QST_SEQ.NEXTVAL as qaNotiwrNo
+		FROM DUAL
+	</select>
+
+	<!-- 취업Q&A 게시글 등록 -->
+	<insert id="jobQnaInsert" parameterType="CommunityVO">
+		INSERT INTO EMPL_QST(QA_NOTIWR_NO, TTL, ID, CNTN, HTML_CNTN)
+		VALUES (#{qaNotiwrNo}, #{ttl}, #{id}, #{cntn}, #{htmlCntn})
+	</insert>
+
+	<select id="jobQnaList" resultType="CommunityVO">
+		SELECT QA_NOTIWR_NO, TTL, ID, CNTN, HTML_CNTN, 
+			   INQ_CNT, RPLY_CNT, REG_DT 
+		FROM EMPL_QST
+		ORDER BY QA_NOTIWR_NO DESC
+	</select>
+	
+	<select id="jobQnaDetail" resultType="CommunityVO">
+		SELECT QA_NOTIWR_NO, TTL, ID, CNTN, HTML_CNTN, 
+	        	INQ_CNT, RPLY_CNT, REG_DT 
+		FROM EMPL_QST
+		WHERE QA_NOTIWR_NO = #{qaNotiwrNo}
+	</select>
+
 </mapper>
