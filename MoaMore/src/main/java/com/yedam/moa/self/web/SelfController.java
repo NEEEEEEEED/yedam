@@ -52,8 +52,13 @@ public class SelfController {
 	public Map<String,Object> selfJobListPrint(SelfVO selfVO) {
 	
 		Map<String,Object> map = new HashMap<>();
+		
+		int pageNum = Integer.parseInt(selfVO.getCurrentPage());
+		selfVO.setPageNum(pageNum); // 현재페이지
+		
 		map.put("selfJobList", selfServiceImpl.selfJobList(selfVO)); // 셀프구직 목록 리스트
 		map.put("selfJobInterest", selfServiceImpl.selfJobInterestList(selfVO.getId())); // 관심 리스트
+		map.put("totalListNum", selfServiceImpl.totalListNum(selfVO));
 		return map;
 	}
 	

@@ -176,6 +176,14 @@ public class SelfServiceImpl implements SelfService{
 	public int myProfileDel(String jobSearchNo) {
 		return selfMapper.myProfileDel(jobSearchNo);
 	}
+
+	// 페이징 ---------------------------------------
+	
+	// 셀프구직 리스트 총 갯수
+	@Override
+	public int totalListNum(SelfVO selfVO) {
+		return selfMapper.totalListNum(selfVO);
+	}
 	
 	
 }

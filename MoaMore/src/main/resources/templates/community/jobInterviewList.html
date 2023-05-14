@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{template/layout}">
+<head>
+<meta charset="UTF-8">
+<title>커뮤니티/면접후기</title>
+
+<!-- jobInterviewList.CSS -->
+<link href="community/jobInterviewList.css" rel="stylesheet">
+
+</head>
+<body>
+	<div layout:fragment="content">
+	
+	<!-- nav -->
+	<div class="row mb-4 p-2">
+		<div class="col-md-1"></div>
+		<div class="col-md-10" style="border-bottom : 1px solid #ddd;">
+			<div class="mb-4 d-flex justify-content-evenly">
+				 <nav>
+				    <ul class="nav-list">
+				      <li class="mx-6"><a href="/jobQnA">취업Q&A</a></li>
+				      <li class="mx-6"><a href="/jobInterview" style="color:red">면접후기</a></li>
+				      <li class="mx-6"><a href="/projectList">프로젝트모집</a></li>
+				      <li class="mx-6"><a href="/studyList">스터디모집</a></li>
+				      <li class="mx-6" sec:authorize="hasRole('ROLE_USER')">
+					      <button type="button" class="btn btn-outline-danger radius nav-button">게시글작성</button>
+				      </li>
+				    </ul>
+				  </nav>
+			</div>
+		</div>
+		<div class="col-md-1"></div>
+	</div>
+	
+	<!-- nav2 -->
+	<div class="row">
+		<div class="col-md-1"></div>
+		<div class="col-md-10">
+			<div class="me-9 mb-3">
+				<div style="display:flex; justify-content: flex-end;">
+					<select id="job" class="selectStyle">
+						<option value="" selected>직무선택</option>
+						<option>직무</option>
+				  	</select>
+					<select id="carr" class="selectStyle">
+						<option value="" selected>경력선택</option>
+						<option>경력</option>
+				  	</select>
+				  	
+					<div style="display:flex;">
+						<input type="text" class="search" placeholder="회사명을 입력하세요">
+						<button type="button" class="btn btn-dark btn-sm searchBtn radius">
+							<i class="fas fa-search fa-lg"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-1"></div>
+	</div>
+	
+	<!-- 본문 -->
+	<div class="row mb-5">
+		<div class="col-md-2"></div>
+		<div class="col-md-8">
+			<!-- 반복 -->
+			<div id="change_id01" class="accordion accordion-flush">
+				<div class="accordion-item"></div>
+				<h2 id="srgdgfdgdgg45" class="accordion-header border-bottom">
+					<button class="accordion-button text-black collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#change_id02" aria-expanded="false" aria-controls="srgdgfdgdgg45">
+						<div style="display:flex; flex-direction: column;">
+							<div style="display:flex; align-items: center;">
+								<h2 class="pe-3">회사명</h2>
+								<span>입사지원현황(면접합격,서류합격 등)</span>
+							</div>
+							<br>
+							<div>
+								<span>지원직무 | </span> 
+								<span>[신입/경력]</span>
+								<span class="ms-1">2023/05/13</span>
+							</div>
+						</div>
+					</button>
+				</h2>
+			  	<div id="change_id02" style="background-color:#f9f9f9; border:1px solid #ddd;" class="accordion-collapse collapse" aria-labelledby="srgdgfdgdgg45" data-bs-parent="#change_id01" >
+				    <div class="accordion-body mx-2 p-4">
+				    	<div class="fs-1 mb-3">
+				    		<span>[전반적인평가] </span><span style="color:blue">상</span><span> / </span>
+				    		<span>[난이도] </span><span style="color:blue">상</span><span> / </span>
+				    		<span>[결과] </span><span style="color:blue">합격</span>
+				     	</div>		
+				     	
+				     	<div class="row mb-1">
+						    <div class="col-md-2 fw-bold">[면접유형]</div>
+						    <div class="col-md-9">인적성검사</div>
+						 </div>
+						<div class="row mb-1">
+						    <div class="col-md-2 fw-bold">[면접인원]</div>
+						    <div class="col-md-9">지원자 1명, 면접관 다수</div>
+						</div>
+						<div class="row mb-1">
+						    <div class="col-md-2 fw-bold">[면접진행방식]</div>
+						    <div class="col-md-9">1차면접은면접관2명이고기술력에대한질문과답변을하였습니다</div>
+						 </div>
+						 <div class="row mb-1">
+						    <div class="col-md-2 fw-bold">[면접질문]</div>
+						    <div class="col-md-9">건축업무중자신감있는분야에대해얘기하세요신한에대해아는대로얘기하</div>
+						 </div>
+						 <div class="row mb-1">
+						    <div class="col-md-2 fw-bold">[Tip 및 특이사항]</div>
+						    <div class="col-md-9">없음</div>
+						 </div>
+				    </div>
+				</div>
+			</div>
+			
+			<!-- 반복 -->
+			<div id="change_id03" class="accordion accordion-flush">
+				<div class="accordion-item"></div>
+				<h2 id="srgdgfdgdgg45" class="accordion-header border-bottom">
+					<button class="accordion-button text-black collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#change_id04" aria-expanded="false" aria-controls="srgdgfdgdgg45">
+						<div style="display:flex; flex-direction: column;">
+							<div style="display:flex; align-items: center;">
+								<h2 class="pe-3">회사명</h2>
+								<span>입사지원현황(면접합격,서류합격 등)</span>
+							</div>
+							<br>
+							<div>
+								<span>지원직무 | </span> 
+								<span>[신입/경력]</span>
+								<span class="ms-1">2023/05/13</span>
+							</div>
+						</div>
+					</button>
+				</h2>
+			  	<div id="change_id04" style="background-color:#f9f9f9; border:1px solid #ddd;" class="accordion-collapse collapse" aria-labelledby="srgdgfdgdgg45" data-bs-parent="#change_id03" >
+				    <div class="accordion-body mx-2 p-4">
+				    	<div class="fs-1 mb-3">
+				    		<span>[전반적인평가] </span><span style="color:blue">cxcczcz</span><span> / </span>
+				    		<span>[난이도] </span><span style="color:blue">상</span><span> / </span>
+				    		<span>[결과] </span><span style="color:blue">합격</span>
+				     	</div>		
+				     	
+				     	<div class="row mb-1">
+						    <div class="col-md-2 fw-bold">[면접유형]</div>
+						    <div class="col-md-9">인적성검사</div>
+						 </div>
+						<div class="row mb-1">
+						    <div class="col-md-2 fw-bold">[면접인원]</div>
+						    <div class="col-md-9">지원자 1명, 면접관 다수</div>
+						</div>
+						<div class="row mb-1">
+						    <div class="col-md-2 fw-bold">[면접진행방식]</div>
+						    <div class="col-md-9">1차면접은면접관2명이고기술력에대한질문과답변을하였습니다</div>
+						 </div>
+						 <div class="row mb-1">
+						    <div class="col-md-2 fw-bold">[면접질문]</div>
+						    <div class="col-md-9">건축업무중자신감있는분야에대해얘기하세요신한에대해아는대로얘기하</div>
+						 </div>
+						 <div class="row mb-1">
+						    <div class="col-md-2 fw-bold">[Tip 및 특이사항]</div>
+						    <div class="col-md-9">없음</div>
+						 </div>
+				    </div>
+				</div>
+			</div>	
+		</div>
+		<div class="col-md-2"></div>
+	</div>
+<script>
+
+</script>
+	</div>
+</body>
+</html>

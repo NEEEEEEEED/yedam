@@ -139,6 +139,35 @@ public class CommunityController {
 		}
 	}
 	
+	// 면접후기 리스트
+	@GetMapping("/jobInterview")
+	public String jobInterview() {
+		return "community/jobInterviewList";
+	}
 	
-	 
+	// 스터디 모집 리스트
+	@GetMapping("/studyList")
+	public String studyList() {
+		return "community/studyList";
+	}
+	
+	// 프로젝트 모집 리스트
+	@GetMapping("/projectList")
+	public String projectList() {
+		return "community/projectList";
+	}
+	
+	// 프로젝트 모집 상세페이지
+	@GetMapping("/projectDetail")
+	public String projectDetail() {
+		return "community/projectDetail";
+	}
+	
+	// 스터디 모집 상세페이지
+	@GetMapping("/studyDetail")
+	public String studyDetail() {
+		return "community/studyDetail";
+	}
+	
+	
 }

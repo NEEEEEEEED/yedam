@@ -9,8 +9,8 @@
 
 .circleImg {
   border-radius: 50%;
-  width : 30px;
-  height : 30px;
+  width : 25px;
+  height : 25px;
 }
 
 .listStyle{
@@ -34,7 +34,28 @@
   max-width: 100ch; 
 }
 
+.nav-list {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
 
+.nav-list li {
+  margin-right: 10px;
+}
 
+.nav-button {
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
 
+.radius{
+	border-radius : 0px;
+}
 
+.cursor{
+	cursor:pointer;
+}

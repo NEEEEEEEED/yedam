@@ -42,6 +42,7 @@ public interface SelfMapper {
 	// 셀프구직 삭제
 	public int myProfileDel(String jobSearchNo);
 	
+	
 	// ----------------------------------------
 
 	// 이력서 리스트
@@ -76,5 +77,10 @@ public interface SelfMapper {
 	
 	// 포트폴리오 삭제
 	public int pofolDelete(String fileNo);
+	
+	// 페이징 ---------------------------------------
+	
+	// 셀프구직 리스트 총 갯수
+	public int totalListNum(SelfVO selfVO);
 	
 }

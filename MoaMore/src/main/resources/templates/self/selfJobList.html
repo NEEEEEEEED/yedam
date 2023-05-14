@@ -45,8 +45,8 @@
 					  	</select>
 					  	
 						<div style="display:flex;">
-							<input type="text" class="search" placeholder="기술스택을 입력하세요">
-							<button type="button" class="btn btn-dark btn-sm searchBtn radius">
+							<input id="skill" type="text" class="search" placeholder="기술스택을 입력하세요" onkeydown="if(event.keyCode===13){document.getElementById('skillBtn').click();}">
+							<button id="skillBtn" type="button" class="btn btn-dark btn-sm searchBtn radius">
 								<i class="fas fa-search fa-lg"></i>
 							</button>
 						</div>
@@ -96,54 +96,33 @@
 			</div>
 
 			<div id="selfList" class="col-md-7">
-				<!-- <div class="row align-items-center border-bottom p-4 mb-3 hoverRow">
-	              <div class="col-md-3 text-center">
-	              	<a href="#">
-	              		<img class="img-fluid" src="assets/img/blog/blog-hero.png" alt="">
-	              	</a>
-	              </div>
-	              <div class="col-md-6 text-center text-lg-start">
-	                <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
-	                  <p class="fw-bold mb-0 text-black">Category</p>
-	                  <p class="mb-0">November 22, 2021</p>
-	                  <span><i id="heartIcon" class="bi bi-suit-heart text-danger fa-2x"></i></span>
-	                </div>
-	                	<p class="fs-2 my-3">한줄자기소개</p>
-	                <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-2">
-	                	<img class="img-fluid" src="assets/img/blog/profile1.png" alt="">
-	                    <p class="mb-0">아이디</p>
-	                </div>
-	              </div>
-	              <div class="col-md-3" style="display: flex; align-items: center; flex-direction : column;" >
-				      <button type="button" class="btn btn-outline-info btn-sm listBtn">제안</button>
-				  </div>
-	            </div>	 -->	
-	            
-
-	             <!-- <div class="row align-items-center border-bottom p-4 mb-3 hoverRow">
-	              <div class="col-md-3 text-center">
-	              	<a href="#">
-	              		<img class="img-fluid" src="assets/img/blog/blog-hero.png" alt="">
-	              	</a>
-	              </div>
-	              <div class="col-md-6 text-center text-lg-start">
-	                <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
-	                  <p class="fw-bold mb-0 text-black">Category</p>
-	                  <p class="mb-0">November 22, 2021</p>
-	                </div>
-	                	<p class="fs-2 my-3">한줄자기소개</p>
-	                <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-2">
-	                	<img class="img-fluid" src="assets/img/blog/profile1.png" alt="">
-	                    <p class="mb-0">아이디</p>
-	                </div>
-	              </div>
-	              <div class="col-md-3" style="display: flex; align-items: center; flex-direction : column;" >
-				      <button type="button" class="btn btn-outline-danger btn-sm listBtn">관심</button>
-				      <button type="button" class="btn btn-outline-info btn-sm listBtn">제안</button>
-				  </div>
-	            </div> -->
-	            
 			</div>
+				
+			<!-- <div class="row">
+				<div class="col-md-1"></div>
+				<div class="col-md-2"></div>
+				<div class="col-md-7">
+				  <nav aria-label="Page navigation example">
+					  <ul class="pagination  d-flx justify-content-center">
+					    <li class="page-item">
+					      <a class="page-link" href="#" aria-label="Previous">
+					        <span aria-hidden="true">&laquo;</span>
+					      </a>
+					    </li>
+					    <li class="page-item"><a class="page-link" href="#">1</a></li>
+					    <li class="page-item"><a class="page-link" href="#">2</a></li>
+					    <li class="page-item"><a class="page-link" href="#">3</a></li>
+					    <li class="page-item">
+					      <a class="page-link" href="#" aria-label="Next">
+					        <span aria-hidden="true">&raquo;</span>
+					      </a>
+					    </li>
+					  </ul>
+				 </nav>
+				</div>
+				<div class="col-md-1"></div>
+			</div> -->
+			
 			<div class="col-md-1"></div>
 		</div>
 		
@@ -154,6 +133,8 @@ let carr = ''; // 검색조건 : 경력
 let city = ''; // 검색조건 : 도시
 let auth = ''; // 현재 접속한 사람의 권한
 let id = '';
+let skill = ''; // 검색조건 : 기술스택
+let currentPage = 1; // 현재 페이지
 
 // 권한에 따른 셀프 구직 목록 리스트
 $(document).ready(function() {
@@ -162,6 +143,7 @@ $(document).ready(function() {
 	job = $('#job').val();  // 직무 선택
 	carr = $('#carr').val(); // 경력 선택
 	city = $('#city').val(); // 지역 선택
+	skill = $('#skill').val(); // 기술 스택
 	
 	
 	if($('#ROLE_USER').val()){ // 유저일때
@@ -177,25 +159,35 @@ $(document).ready(function() {
 		auth = 'admin';
 	}
 	
-	selfJobList(auth, id, job, carr, city); // 셀프 구직 목록 리스트
+	selfJobList(auth, id, job, carr, city, skill, currentPage); // 셀프 구직 목록 리스트
 });
 
 // 직무 조건 변경시 검색리스트
 $('#job').on('change', function(){
 	job = $('#job').val();
-	selfJobList(auth, id, job, carr, city); // 셀프 구직 목록 리스트
+	currentPage = 1;
+	selfJobList(auth, id, job, carr, city, skill, currentPage); // 셀프 구직 목록 리스트
 });
 
 //경력 조건 변경시 검색리스트
 $('#carr').on('change', function(){
 	carr = $('#carr').val();
-	selfJobList(auth, id, job, carr, city); // 셀프 구직 목록 리스트
+	currentPage = 1;
+	selfJobList(auth, id, job, carr, city, skill, currentPage); // 셀프 구직 목록 리스트
 });
 
 //지역 조건 변경시 검색리스트
 $('#city').on('change', function(){
 	city = $('#city').val();
-	selfJobList(auth, id, job, carr, city); // 셀프 구직 목록 리스트
+	currentPage = 1;
+	selfJobList(auth, id, job, carr, city, skill, currentPage); // 셀프 구직 목록 리스트
+});
+
+// 기술스택 검색 버튼 클릭시
+$('#skillBtn').on('click', function(){
+	skill = $('#skill').val();
+	currentPage = 1;
+	selfJobList(auth, id, job, carr, city, skill, currentPage); // 셀프 구직 목록 리스트
 });
 
 
@@ -276,7 +268,7 @@ function interestAdd(jobSearchNo){
 				icon: 'success',
 				title: '관심목록에 추가되었습니다.'
 		   });
-		   //selfJobList(auth, id, job, carr, city); // 리스트 화면 출력함수
+		   //selfJobList(auth, id, job, carr, city, skill); // 리스트 화면 출력함수
 
 		  },
 		  error: function (reject) {	   
@@ -299,7 +291,7 @@ function interestDelete(jobSearchNo){
 			 	icon: 'success',
 				title: '관심목록에 삭제되었습니다.'
 			})
-			//selfJobList(auth, id, job, carr, city); // 리스트 화면 출력함수
+			//selfJobList(auth, id, job, carr, city, skill); // 리스트 화면 출력함수
 		  },
 		  error: function (reject) {	   
 	   	  	console.log(reject);
@@ -308,19 +300,30 @@ function interestDelete(jobSearchNo){
 	
 }
 
- 
+
 // 셀프구직 리스트 호출하는 ajax
-function selfJobList(auth, id, job, carr, city){
+function selfJobList(auth, id, job, carr, city, skill, currentPage){
+	
+	let data = {
+			auth : auth, 
+			id : id, 
+			dutyFld : job, 
+			career : carr, 
+			hopeWksite : city, 
+			skill : skill , 
+			currentPage : currentPage
+	}
 	
 	$.ajax({
 	  url: 'selfJobList',
 	  type: 'post',
-	  data: {auth : auth, id : id, dutyFld : job, career : carr, hopeWksite : city},
+	  data: data,
 	  success: function (result) {
 		  
 		let selfJobList = result.selfJobList; // 셀프구직 목록 리스트
 		let selfJobInterest = result.selfJobInterest; // 접속한 ID의 셀프구직 관심 리스트
-
+		let totalListNum = result.totalListNum; // 셀프구직 목록리스트 총갯수
+		
 		selfList.innerHTML = ''; // 초기화
 		
 		if(selfJobList.length == 0){
@@ -337,10 +340,14 @@ function selfJobList(auth, id, job, carr, city){
 			}
 			
 			let selfJobListHtml = '';
+			
 			// 화면 리스트 출력
 			for(let i = 0; i < selfJobList.length; i++){
 				selfJobListHtml += selfJobListPrint(selfJobList[i]);
 			}
+			
+			// 페이징 버튼 만들기
+			selfJobListHtml += pagingBtnPrint(totalListNum); 
 			
 			selfList.innerHTML = selfJobListHtml;
 	 	 }
@@ -351,7 +358,47 @@ function selfJobList(auth, id, job, carr, city){
 	});	
 }
 
+//페이징 버튼만들기
+function pagingBtnPrint(totalListNum){
+	console.log('페이지수 : ' + totalListNum );
+	let totalPageNum = Math.ceil(totalListNum/5); // 총페이지 = 총 게시글수 / 5 
+	
+	let pagingBtn = `<nav aria-label="Page navigation example">
+					  <ul class="pagination  d-flx justify-content-center">
+					    <li class="page-item">
+					      <a class="page-link" href="#" aria-label="Previous">
+					        <span aria-hidden="true">&laquo;</span>
+					      </a>
+					    </li>`;
+						
+					    // 페이지 버튼수
+					    for(let i = 1; i <= totalPageNum; i++){
+					    	if(currentPage == i){ // 현재 페이지에 active
+		 						pagingBtn += `<li class="page-item active"><a class="page-link" href="#" onclick="clickPage(`+i+`)">`+i+`</a></li>`;	
+					    	}else{
+					    		pagingBtn += `<li class="page-item"><a class="page-link" href="#" onclick="clickPage(`+i+`)">`+i+`</a></li>`;
+					    	}
+						}			    
+		  
+		pagingBtn += `<li class="page-item">
+					      <a class="page-link" href="#" aria-label="Next">
+					        <span aria-hidden="true">&raquo;</span>
+					      </a>
+				      </li>
+				  	</ul>
+				  </nav>`;
+					
+	return pagingBtn;
+}
 
+// 페이지 버튼 클릭시 발생하는 이벤트
+function clickPage(clickPageNum){
+	//console.log('클릭한 페이지 : ' + clickPageNum);
+	currentPage = clickPageNum;
+	selfJobList(auth, id, job, carr, city, skill, currentPage);
+}
+
+//화면 리스트 출력
 function selfJobListPrint(result={}){
 	
 	let html = '';
@@ -365,7 +412,7 @@ function selfJobListPrint(result={}){
 	      		<p class="mb-0">`+result.pubcRange+`</p>
 	      	</a>
 	      </div>
-	      <div class="col-md-5 text-center text-lg-start">
+	      <div class="col-md-7 text-center text-lg-start">
 	        <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
 	          <p class="fw-bold mb-0 text-black">`+result.dutyFld+`</p>
 	          <p class="mb-0">`+result.hopeWksite+`</p>
@@ -375,11 +422,11 @@ function selfJobListPrint(result={}){
 	        	<p class="fs-2 my-3">`+result.ttl+`</p>
 	        <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-2">
 	        	<img class="img-fluid" style="display:none;" src="assets/img/blog/profile1.png" alt="">
-	            <p class="mb-0">작성자 : `+result.id+`</p>
+	            <span class="mb-0">작성자: `+result.id+`</span>/<span>기술스택: `+result.skill+`</span>
 	            
 	        </div>
 	      </div>
-	      <div class="col-md-4" style="display: flex; align-items: center; flex-direction : column;" >
+	      <div class="col-md-2" style="display: flex; align-items: center; flex-direction : column;" >
 	      	
 		      <button  data-id="`+result.jobSearchNo+`" onclick="interest(this)" type="button" class="btn btn-danger btn-sm listBtn">관심해제</button>
 		      <button  data-id="`+result.jobSearchNo+`" type="button" class="btn btn-outline-info btn-sm listBtn">제안</button>
@@ -393,7 +440,7 @@ function selfJobListPrint(result={}){
 	      		<p class="mb-0">`+result.pubcRange+`</p>
 	      	</a>
 	      </div>
-	      <div class="col-md-5 text-center text-lg-start">
+	      <div class="col-md-7 text-center text-lg-start">
 	        <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
 	          <p class="fw-bold mb-0 text-black">`+result.dutyFld+`</p>
 	          <p class="mb-0">`+result.hopeWksite+`</p>
@@ -403,10 +450,10 @@ function selfJobListPrint(result={}){
 	        	<p class="fs-2 my-3">`+result.ttl+`</p>
 	        <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-2">
 	        	<img class="img-fluid" src="assets/img/blog/profile1.png" style="display:none;" alt=""> 
-	            <p class="mb-0">작성자 : `+result.id+`</p>
+	            <span class="mb-0">작성자: `+result.id+`</span>/<span>기술스택: `+result.skill+`</span>
 	        </div>
 	      </div>
-	      <div class="col-md-4" style="display: flex; align-items: center; flex-direction : column;" >
+	      <div class="col-md-2" style="display: flex; align-items: center; flex-direction : column;" >
 	      	  
 	      	  <button  data-id="`+result.jobSearchNo+`" onclick="interest(this)" type="button" class="btn btn-outline-danger btn-sm listBtn">관심</button>
 		      <button  data-id="`+result.jobSearchNo+`" type="button" class="btn btn-outline-info btn-sm listBtn">제안</button>

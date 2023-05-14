@@ -71,4 +71,9 @@ public interface SelfService {
 	// 포트폴리오 삭제
 	public int pofolDelete(String fileNo);
 	
+	// 페이징 ---------------------------------------
+	
+	// 셀프구직 리스트 총 갯수
+	public int totalListNum(SelfVO selfVO);
+	
 }

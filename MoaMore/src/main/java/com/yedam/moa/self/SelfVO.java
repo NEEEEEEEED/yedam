@@ -35,7 +35,6 @@ public class SelfVO {
 	private String skillNo;		// 스킬번호
 	private String skill;		// 스킬
 	
-	
 	// 이력서 헤더
 	private String ttl; 		// 이력서 제목
 	private String carrNo;		// 이력서 경력번호
@@ -81,6 +80,9 @@ public class SelfVO {
 	private String email;				// 이메일
 	private String blog;				// 블로그, 깃허브
 	
+	// 페이지
+	private String currentPage; // 현재페이지
+	private int showPage = 5; // 한페이지에 보여줄 리스트 갯수(양)
 	
 	//주안 페이징
 	private int pageNum;
