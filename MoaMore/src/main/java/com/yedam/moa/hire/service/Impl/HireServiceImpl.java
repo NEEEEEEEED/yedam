@@ -1,5 +1,6 @@
 package com.yedam.moa.hire.service.Impl;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.yedam.moa.hire.HireVO;
 import com.yedam.moa.hire.mapper.HireMapper;
 import com.yedam.moa.hire.service.HireService;
-import com.yedam.moa.self.SelfVO;
 
 @Service
 public class HireServiceImpl implements HireService{
@@ -99,16 +99,34 @@ public class HireServiceImpl implements HireService{
 		return hireMapper.recImg(hireVO);
 	}
 	
-	// 구인공고 등록 데이터 등록
+	// 구인공고 등록(이미지 제외)
 	@Override
-	public String hireDataInsert(HireVO hireVO) {
+	public String hireDataInsert(HireVO vo, Principal pr ) {
+		
+		String skillNo = hireMapper.skillNo();
+		String recruitNo = hireMapper.recruitNo();
 		String message = null;
-		int result = hireMapper.hireDataInsert(hireVO);
+		
+		int result= 0;
+		
+		vo.setSkillNo(skillNo);
+		vo.setRecruitNo(recruitNo);
+		vo.setId(pr.getName());
+		result = hireMapper.hireDataInsert(vo);
+		
+		String [] skillArray = vo.getSkill().split(",");
+		
+		for(String str : skillArray) {
+			result += hireMapper.skillInsert(str);
+		}
+		
+		
 		if(result > 0) {
 			message = "스크랩 되었습니다.";
 		}else {
 			message="fail";
 		}
+		
 		return message;
 	}
 	// 공고 상세 추천공고 조회
