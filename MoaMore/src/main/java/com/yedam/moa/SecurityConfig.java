@@ -32,7 +32,7 @@ public class SecurityConfig {
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.authorizeHttpRequests().antMatchers("/home", "/").permitAll().antMatchers("/admin/**")
+		http.authorizeHttpRequests().antMatchers("/loginForm", "/").permitAll().antMatchers("/admin/**")
 				.hasAuthority("ROLE_ADMIN").anyRequest().authenticated().and().formLogin().loginPage("/login")
 				.usernameParameter("userid").successHandler(successHandler()) // successHandler()를 호출하여 로그인 성공 후 어떤 페이지로
 																				// 이동할지 구현
