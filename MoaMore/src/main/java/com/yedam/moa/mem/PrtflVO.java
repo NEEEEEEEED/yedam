@@ -12,6 +12,5 @@ public class PrtflVO {
 	private String prtfImg;	  //포폴 이미지명
 	private String uuid;	  //UUID 파일명
 	private String ttl;		  //포폴 제목
-	private MultipartFile uploadPofolImg;	//포폴 이미지 멀티파트용
-	private MultipartFile uploadPofolFile;	//포포 파일 멀티파트용
+	private String id;
 }

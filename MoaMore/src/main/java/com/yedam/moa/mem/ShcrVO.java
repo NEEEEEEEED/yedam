@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class ShcrVO {
-	
+	private String shcrNo;		//학력 번호
 	private String breu;		//학교이름
 	private String mj;			//전공
 	private String joinYy;		//입학년도

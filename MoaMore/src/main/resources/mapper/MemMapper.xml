@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.moa.mem.mapper.MemMapper">
-
+<!-- 	마이페이지 홈  -->
 	<select id="openSesame" resultType="MemVO">
 		SELECT  r.id as id_co,
 				r.ttl,
@@ -22,26 +22,27 @@
 		                 FROM following
 		                WHERE id_mem = #{id})
 	</select>
+<!-- 공고 검색 조건 갯수 뷰 -->
 	<select id="getCount" resultType="SearchVO">
 		SELECT 
 				(SELECT COUNT(aply_st) AS count_aply_st
 				FROM recruit_anum_st
-				WHERE aply_st ='b1')
+				WHERE aply_st ='b1') as count_aply_st
 				,
 				(SELECT COUNT(aply_st) AS
 				count_deny
 				FROM recruit_anum_st
-				WHERE aply_st ='b2')
+				WHERE aply_st ='b2') as count_deny
 				,
 				(SELECT
 				COUNT(st) AS count_st
 				FROM recruit_anum_st
-				WHERE st ='1')
+				WHERE st ='1') as count_st
 		  FROM dual
 	</select>
 
 
-
+<!-- 공고 검색 -->
 	<select id="getSearch" resultType="MemVO">
 		select d.recruit_no,
 				d.aply_dt,
@@ -104,8 +105,8 @@
 	</delete>
 	
 	
-	
-	<select id="getMemInfo" resultType="MemVO">
+<!-- 	개인정보 조회 -->
+	<select id="getMemInfo" resultType="MemInfoVO">
 	select name,
 		   ph,
 		   ph_cl,
@@ -118,5 +119,168 @@
 	  from member
 	 where id = #{id}
 	</select>
+	
+<!-- 	스킬 번호 생성 -->
+	<select id="getSkillNo" resultType="String">
+		 SELECT 'SKILL'|| TO_CHAR(skill_seq.NEXTVAL)
+        FROM dual
+	</select>
+	
+<!-- 	자격증 번호 생성 -->
+	<select id="getLicnNo" resultType="String">
+		 SELECT 'LICN'|| TO_CHAR(Licn_seq.NEXTVAL)
+        FROM dual
+	</select>
+	
+<!-- 	수상 번호 생성 -->
+	<select id="getArdNo" resultType="String">
+		 SELECT 'ARD'|| TO_CHAR(Ard_seq.NEXTVAL)
+        FROM dual
+	</select>
+	
+<!-- 	학력번호 생성 -->
+	<select id="getSchNo" resultType="String">
+		 SELECT 'SCH'|| TO_CHAR(sch_seq.NEXTVAL)
+        FROM dual
+	</select>
+	
+<!-- 	경력번호생성 -->
+	<select id="getCarrlNo" resultType="String">
+		 SELECT 'CARR'|| TO_CHAR(carr_seq.NEXTVAL)
+        FROM dual
+	</select>
+	
+<!-- 	교육번호 생성 -->
+	<select id="getEduNo" resultType="String">
+		 SELECT 'EDU'|| TO_CHAR(edu_seq.NEXTVAL)
+        FROM dual
+	</select>
+	
+<!-- 	자소서 번호 생성 -->
+	<select id="getIntroNo" resultType="String">
+		 SELECT 'INTRO'|| TO_CHAR(intro_seq.NEXTVAL)
+        FROM dual
+	</select>
+<!-- 	이력서 번호 생성 -->
+	<select id="getResumeNo" resultType="String">
+	 SELECT 'RESUME'|| TO_CHAR(resume_seq.NEXTVAL)
+        FROM dual
+	</select>
+	
+<!-- 	스킬 입력 -->
+	 <select id="insertSkill" parameterType="SkillVO" statementType="CALLABLE" >
+     call insert_skill (
+        #{skillNo },
+        #{skill}
+      )
+ 	 </select>
+ 	 
+<!--  	 학력입력 -->
+ 	 <select id="insertSchr" parameterType="ShcrVO" statementType="CALLABLE" >
+     call insert_shcr (
+        #{shcrNo}, 
+        #{fg}, 
+        #{breu}, 
+        #{mj}, 
+        #{joinYy},
+        #{retiYy}, 
+        #{pnt}, 
+        #{shcrSt}, 
+        #{ttScore}
+      )
+ 	 </select>
+ 	 
+<!--  	 수상입력 -->
+ 	 <select id="insertArd" parameterType="ArdVO" statementType="CALLABLE" >
+     call insert_ard (
+       #{ardNo}, 
+       #{ardNm}, 
+       #{breu}, 
+       #{cntn}, 
+       #{issuYy}
+      )
+ 	 </select>
+ 	 
+<!--  	 교육입력 -->
+ 	 <select id="insertEdu" parameterType="EduVO" statementType="CALLABLE" >
+     call insert_edu (
+        #{eduNo}, 
+        #{eduNm}, 
+        #{breu}, 
+        #{joinYy},
+        #{retiYy}, 
+        #{cntn}
+      )
+ 	 </select>
+ 	 
+<!--  	 자소서 입력 -->
+ 	 <select id="insertIntro" parameterType="IntroVO" statementType="CALLABLE" >
+     call insert_intro (
+        #{introNo},
+        #{ttl},
+        #{cntn}
+      )
+ 	 </select>
+ 	 
+<!--  	 자격증 입력 -->
+ 	 <select id="insertLicn" parameterType="LicnVO" statementType="CALLABLE" >
+     call insert_licn (
+        #{licnNo}, 
+        #{licnNm}, 
+        #{breu}, 
+        #{issuMm}
+      )
+ 	 </select>
+ 	 
+<!--  	 경력입력 -->
+ 	 <select id="insertCarr" parameterType="CarrVO" statementType="CALLABLE" >
+     call insert_carr (
+        #{carrNo},
+        #{co},
+        #{wkdty},
+        #{depart},
+        #{duty},
+        #{joinYy},
+        #{retiYy},
+        #{buss},
+        #{carr_st}
+      )
+ 	 </select>
+<!--  	 개인정보 입력(업데이트) -->
+		<update id="insertMem">   	
+		UPDATE member
+		SET  email = #{email}, 
+			 ph=#{ph},
+			 phCl=#{phCl},
+			 addr=#{addr},
+			 post=#{post} 
+		where id = #{id}
+		</update>
+		
+	<insert id="insertResume" parameterType="ResumeVO">
+		insert into resume (resume_no, 
+							id, 
+							ttl, 
+							carr_no,
+							edu_no,
+							licn_no,
+							ard_no, 
+							intro_no,
+							shcr_no,
+							skill_no,
+							reg_dt)
+		values(#{resumeNo},
+			   #{id},
+			   #{ttl},
+			   #{carrNo},
+			   #{eduNo},
+			   #{licnNo},
+			   #{ardNo},
+			   #{introNo},
+			   #{shcrNo},
+			   #{skillNo},
+			   to_char(sysdate,'yyyy-MM-dd'))
+	</insert>
+ 	 
 
 </mapper>
