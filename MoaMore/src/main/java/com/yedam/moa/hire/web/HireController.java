@@ -156,9 +156,9 @@ public class HireController {
 	
 	// 구인공고 등록 기능
 	@PostMapping("/hireDataInsert")
-	public String hireDataInsert(HireVO hireVO, Principal pr) {
-		hireVO.setId(pr.getName());
-		return hireService.hireDataInsert(hireVO);
+	@ResponseBody
+	public String hireDataInsert(HireVO vo, Principal pr) {
+		return hireService.hireDataInsert(vo, pr);
 	}
 	
 	// 구인공고 이미지 등록	

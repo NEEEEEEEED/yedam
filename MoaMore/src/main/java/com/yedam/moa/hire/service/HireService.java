@@ -1,9 +1,9 @@
 package com.yedam.moa.hire.service;
 
+import java.security.Principal;
 import java.util.List;
 
 import com.yedam.moa.hire.HireVO;
-import com.yedam.moa.self.SelfVO;
 
 public interface HireService {
 	public List<HireVO> hireList(HireVO hireVO); // 구인공고목록 조회
@@ -17,6 +17,6 @@ public interface HireService {
 	public List<HireVO> recImg(HireVO hireVO); // 공고상세 페이지의 이미지 조회
 	public List<HireVO> selectRecommend(HireVO hireVO); // 공고상세 추천공고 조회
 	public HireVO recruitInsertSelect(HireVO hireVO); // 공고등록 페이지 기업이름 조회
-	public String hireDataInsert(HireVO hireVO); //  공고 데이터 등록
+	public String hireDataInsert(HireVO vo,Principal pr); //  공고 데이터 등록
 			
 }

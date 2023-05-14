@@ -39,4 +39,5 @@ public class HireVO {
 	private String idCo; // 팔로우 받는 기업
 	private String idMem; // 팔로우 하는 회원
 	private String scrapNo; // 스크랩 번호
+	private String skillNo; // 스킬 번호
 }

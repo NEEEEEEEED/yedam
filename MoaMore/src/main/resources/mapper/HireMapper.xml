@@ -179,8 +179,25 @@
 		SELECT CO_NM FROM CO WHERE ID = #{id}
 	</select>
 	
-	<!-- 공고 데이터 등록 -->
-	<insert id="hireDataInsert" parameterType="HireVO">
+	<!-- 공고 등록 키 -->
+	<select id="recruitNo" resultType="String">
+		SELECT 'REA' || RECRUIT_ANUN_SEQ.NEXTVAL AS RECRUIT_NO FROM DUAL 
+	</select>
 	
+	<!-- 공고 등록(이미지 제외) -->
+	<insert id="hireDataInsert" parameterType="HireVO">
+		INSERT INTO RECRUIT_ANUN(RECRUIT_NO, ID, TTL, SHCR, CARR, MA_BUSS, QUAL_COND, PREF_COND, WELF, EXPR_DT, WKSITE, ACCP_DT, REG_DT, JOB, CO_INTRO)
+						 VALUES (RECRUIT_NO, #{id}, #{ttl}, #{shcr}, #{carr}, #{maBuss}, #{qualCond}, #{prefCond}, #{welf}, TO_CHAR(#{exprDt}, 'yyyy-MM-dd'), #{wksite}, TO_CHAR(#{accpDt}, 'yyyy-MM-dd'), TO_CHAR(SYSDATE,'yyyy-MM-dd'), #{job}, #{coIntro})  
+	</insert>
+	
+	<!-- 공고 스킬 번호 -->
+	<select id="skillNo" resultType="String">
+		SELECT 'RSKL' || RECRUIT_SKILL_SEQ.NEXTVAL AS SKILL_NO FROM DUAL 
+	</select>
+	
+	<!-- 공고 스킬 등록 -->
+	<insert id="skillInsert" parameterType="String">
+		INSERT INTO RECRUIT_SKILL(SKILL_NO, RECRUIT_NO, SKILL, ID)
+                   VALUES(SKILL_NO, recruitNo, #{skill}, #{id})
 	</insert>
 </mapper>
