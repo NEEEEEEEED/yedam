@@ -21,18 +21,18 @@ import com.yedam.moa.self.SelfVO;
 public class CoMypageController {
 	@Autowired
 	CoService service;
-	
+
 	@Autowired
 	ProductService pservice;
-	
+
 	@Autowired
 	CommService commService;
 
 	// 기업마이페이지
 	@GetMapping("/coMypage")
-	public String coMypage(Principal principal, Model model,CoVO vo) {
+	public String coMypage(Principal principal, Model model, CoVO vo) {
 		vo.setId(principal.getName());
-		model.addAttribute("followers",service.selectFollowers(vo)); //나를 관심가진 수 가져오기
+		model.addAttribute("followers", service.selectFollowers(vo)); // 나를 관심가진 수 가져오기
 		model.addAttribute("id", vo); // user id 가져오기
 		model.addAttribute("totalInter", service.selectTotalInter(vo)); // 관심게시글 수 가져오기
 		model.addAttribute("commList", commService.getCodes("Z")); // 제안모달 기술스택가져오기
@@ -54,13 +54,13 @@ public class CoMypageController {
 		model.addAttribute("rec", service.selectRec(vo));
 		return "co/coRecruit";
 	}
-	
-	//제안모달창 열었을 때 필요한 정보들
+
+	// 제안모달창 열었을 때 필요한 정보들
 	@GetMapping("/getOfferModalData")
 	@ResponseBody
-	public List<HireVO> getOfferModalData(HireVO vo){
-		return service.selectRec(vo);//구인공고목록
-		
+	public List<HireVO> getOfferModalData(HireVO vo) {
+		return service.selectRec(vo);// 구인공고목록
+
 	}
 
 	// 관심셀프구직게시글목록
@@ -70,7 +70,8 @@ public class CoMypageController {
 		vo.setId(principal.getName());
 		return service.selectInterNoti(vo);
 	}
-	//셀프구직게시글 관심해제
+
+	// 셀프구직게시글 관심해제
 	@PostMapping("/deleteInter")
 	@ResponseBody
 	public String deleteInter(Principal principal, SelfVO vo) {
@@ -78,17 +79,18 @@ public class CoMypageController {
 		service.deleteInfer(vo);
 		return "success";
 	}
-	
-	//구직에 제안
+
+	// 구직에 제안
 	@PostMapping("/offerSelf")
 	public String offerSelf(CoVO vo) {
 		service.afterOffer(vo);
 		return "redirect:coMypage";
 	}
-	//제안조회
+
+	// 제안조회
 	@GetMapping("/selectOffer")
 	@ResponseBody
-	public CoVO selectOffer(CoVO vo,Principal principal,String offerCd) {
+	public CoVO selectOffer(CoVO vo, Principal principal, String offerCd) {
 		vo.setId(principal.getName());
 		return service.selectOffer(vo);
 	}
@@ -100,18 +102,18 @@ public class CoMypageController {
 		vo.setId(principal.getName());
 		return service.selectOfferNoti(vo);
 	}
-	
-	//기업정보등록/수정
+
+	// 기업정보등록/수정
 	@PostMapping("/saveCoInfo")
 	public String saveCoInfo(Principal principal, CoVO vo) {
 		System.out.println(vo);
 		vo.setId(principal.getName());
-		
+
 		service.saveCoInfo(vo);
 		return "redirect:coInfoPage";
 	}
-	
-	//기업보유상품페이지
+
+	// 기업보유상품페이지
 	@GetMapping("/coProducts")
 	public String coProductsPage(Model model, Principal principal, CoVO vo) {
 		vo.setId(principal.getName());
