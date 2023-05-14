@@ -3,8 +3,9 @@ package com.yedam.moa.mem;
 import lombok.Data;
 
 @Data
-public class MemInfo {
+public class MemInfoVO {
 	
+	private String id;
 	private String name;	//이름
 	private String birth;	//생일
 	private String email;	//이메일

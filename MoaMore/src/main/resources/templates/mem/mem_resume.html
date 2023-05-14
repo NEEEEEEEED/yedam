@@ -84,7 +84,7 @@
               </li>
               <li
                 name="introduce"
-                class="list-group-item d-flex justify-content-between cursor bt"
+                class="list-group-item d-flex justify-content-between c"ursor bt"
               >
                 <div>
                   <h4 class="my-2">자기소개서</h4>
@@ -112,6 +112,15 @@
         </div>
         <!-- 			sidebar end -->
         <div class="col-md-9 col-lg-9">
+          <label for="ttl" style="width: 100%; font-size: larger">
+            <h4>이력서 제목</h4>
+            <input
+              type="text"
+              id="ttl"
+              name="ttl"
+              style="height: 50; width: 100%"
+              placeholder="제목"
+          /></label>
           <!-- 				main -->
           <div class="col-md-12 col-lg-12">
             <h4 class="mb-3">개인정보</h4>
@@ -764,16 +773,15 @@
             <div class="modal-body">
               <form id="pofolRegForm" enctype="multipart/form-data">
                 <!-- 현재로그인된 유저정보 -->
-                <input
+                <!-- <input
                   id="logId"
                   name="id"
                   type="hidden"
                   th:value="${#authentication.principal.username}"
-                />
+                /> -->
                 <!-- 불러온 이력서 번호 -->
-                <input id="resumeNo" name="resumeNo" type="hidden" />
+                <!-- <input id="resumeNo" name="resumeNo" type="hidden" /> -->
                 <!-- 현재 작성 게시글 기본키값 -->
-                
 
                 <table class="table">
                   <tbody class="trColor">
@@ -792,21 +800,13 @@
                     <tr>
                       <th>이미지파일</th>
                       <td>
-                        <input
-                          id="pofolImg"
-                          name="uploadPofolImg"
-                          type="file"
-                        />
+                        <input id="pofolImg" name="pofolImg" type="file" />
                       </td>
                     </tr>
                     <tr>
                       <th>포트폴리오 파일</th>
                       <td>
-                        <input
-                          id="pofolFile"
-                          name="uploadPofolFile"
-                          type="file"
-                        />
+                        <input id="pofolFile" name="pofolFile" type="file" />
                       </td>
                     </tr>
                   </tbody>
@@ -843,40 +843,41 @@
           let licn = [];
           let skill = [];
           let memInfo = [];
+          let ttl = null;
 
           //           주소 입력
           $("#addr").on("click", sample6_execDaumPostcode);
           // 저장
           $("#saveResume").on("click", function () {
-            console.log($("#school").children());
-
-            console.log($("#school").children()[0]);
-            console.log(sch);
+            // console.log($("#school").children());
+            ttl = $("#ttl").val();
+            // console.log($("#school").children()[0]);
+            // console.log(sch);
             let data = getAllData();
             console.log(data);
-            console.log($("#job").children().length);
-            console.log($("#school").children().length);
-            console.log($("#skill").children().length);
-            console.log($("#job").children().length);
-            console.log($("#educate").children().length);
-            console.log($("#award").children().length);
-            console.log($("#licence").children().length);
-            console.log($("#resumeText").children().length);
-            console.log($("div.formId").children().length);
+            // console.log($("#job").children().length);
+            // console.log($("#school").children().length);
+            // console.log($("#skill").children().length);
+            // console.log($("#job").children().length);
+            // console.log($("#educate").children().length);
+            // console.log($("#award").children().length);
+            // console.log($("#licence").children().length);
+            // console.log($("#resumeText").children().length);
+            // console.log($("div.formId").children().length);
 
-            // $.ajax({
-            //   url: "/insertResume",
-            //   method: "POST",
-            //   dataType: "json",
-            //   contentType: "application/json; charset=utf-8",
-            //   data: JSON.stringify(data),
-            //   success: function (result) {
-            //     console.log(result);
-            //   },
-            //   error: function (err) {
-            //     console.log(err);
-            //   },
-            // });
+            $.ajax({
+              url: "/insertResume",
+              method: "POST",
+              dataType: "json",
+              contentType: "application/json; charset=utf-8",
+              data: JSON.stringify(data),
+              success: function (result) {
+                console.log(result);
+              },
+              error: function (err) {
+                console.log(err);
+              },
+            });
           });
 
           // 스킬 클릭 이동
@@ -957,8 +958,8 @@
             let formData = new FormData($("#pofolRegForm")[0]); // 폼데이터
             console.log(formData);
             $.ajax({
-              url: "/resumePopol",
-              type: "post",
+              url: "/resumePofol",
+              type: "POST",
               data: formData,
               async: true, //비동기 여부
               enctype: "multipart/form-data", //form data 설정
@@ -1089,6 +1090,7 @@
               skill = $.map($("#skill").children(), function (shl) {
                 let obj = {
                   skill: $(shl).find("input[name=skill]").val(),
+                  skillNo: $(shl).find("input[name=skillNo]").val(),
                 };
 
                 console.log(obj);
@@ -1156,7 +1158,7 @@
           //입력 값 받는 함수 (자격증)
           function mkLicence() {
             if ($("#licence").children().length > 0) {
-              licn = $.map($("#school").children(), function (shl) {
+              licn = $.map($("#licence").children(), function (shl) {
                 let obj = {
                   breu: $(shl).find("input[name=breu]").val(),
                   issuNm: $(shl).find("input[name=issuNm]").val(),
@@ -1207,18 +1209,15 @@
           }
           //화면 데이터 저장
           function getAllData() {
-            mkSchool(),
-              mkJob(),
-              mkEducate(),
-              mkAward(),
-              mkSkill(),
-              mkResumeText(),
-              mkMemInfo();
+            mkSchool(), mkJob(), mkEducate(), mkLicence();
+            mkAward(), mkSkill(), mkResumeText(), mkMemInfo();
             return {
+              ttl: ttl,
               sch: sch,
               carr: carr,
               edu: edu,
               ard: ard,
+              licn: licn,
               skill: skill,
               intro: intro,
               memInfo: memInfo,

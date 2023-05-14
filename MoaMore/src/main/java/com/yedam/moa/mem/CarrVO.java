@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class CarrVO {
-	
+	private String carrNo;		//경력 번호
 	private String wkdty;		//직책
 	private String depart;		//부서명
 	private String duty;		//직무

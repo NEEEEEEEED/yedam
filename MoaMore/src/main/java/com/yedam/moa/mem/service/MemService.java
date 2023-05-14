@@ -2,16 +2,11 @@ package com.yedam.moa.mem.service;
 
 import java.util.List;
 
-import com.yedam.moa.mem.ArdVO;
-import com.yedam.moa.mem.CarrVO;
-import com.yedam.moa.mem.EduVO;
-import com.yedam.moa.mem.IntroVO;
-import com.yedam.moa.mem.LicnVO;
+import com.yedam.moa.mem.MemInfoVO;
 import com.yedam.moa.mem.MemVO;
 import com.yedam.moa.mem.PrtflVO;
+import com.yedam.moa.mem.ResumeVO;
 import com.yedam.moa.mem.SearchVO;
-import com.yedam.moa.mem.ShcrVO;
-import com.yedam.moa.mem.SkillVO;
 
 public interface MemService {
 	
@@ -25,13 +20,10 @@ public interface MemService {
 	public int delAnun(SearchVO vo);
 	
 //	이력서 폼 
-	public MemVO getMemInfo(MemVO vo);
-	public PrtflVO getPrtflNo();
-	public ShcrVO getShcrlNo();
-	public SkillVO getSkillNo();
-	public ArdVO getArdNo();
-	public CarrVO getCarrNo();
-	public EduVO getEduNo();
-	public IntroVO getIntroNo();
-	public LicnVO getLicnNo();
+	public MemInfoVO getMemInfo(MemVO vo);
+	
+	public String insertResume(ResumeVO vo);
+	
+//	디비에 포폴 입력하고 생성된 번호로 입력한 포폴 리스트 가져오기
+	public List<PrtflVO> insGetPofl(PrtflVO vo);
 }

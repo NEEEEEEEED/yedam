@@ -5,16 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.yedam.moa.mem.ArdVO;
-import com.yedam.moa.mem.CarrVO;
-import com.yedam.moa.mem.EduVO;
-import com.yedam.moa.mem.IntroVO;
-import com.yedam.moa.mem.LicnVO;
+import com.yedam.moa.mem.MemInfoVO;
 import com.yedam.moa.mem.MemVO;
 import com.yedam.moa.mem.PrtflVO;
+import com.yedam.moa.mem.ResumeVO;
 import com.yedam.moa.mem.SearchVO;
-import com.yedam.moa.mem.ShcrVO;
-import com.yedam.moa.mem.SkillVO;
 import com.yedam.moa.mem.mapper.MemMapper;
 import com.yedam.moa.mem.service.MemService;
 
@@ -61,57 +56,121 @@ public class MemServiceImpl implements MemService {
 	}
 //	개인정보 불러오기
 	@Override
-	public MemVO getMemInfo(MemVO vo) {
+	public MemInfoVO getMemInfo(MemVO vo) {
 		return mem.getMemInfo(vo);
 	}
-//	포폴 넘버 생성
+
+//	디비에 포폴 입력하고 생성된 번호로 입력한 포폴 리스트 가져오기
 	@Override
-	public PrtflVO getPrtflNo() {
-		// TODO Auto-generated method stub
+	public List<PrtflVO> insGetPofl(PrtflVO vo) {
+		
+		
 		return null;
 	}
-//	학력 넘버 생성
+
 	@Override
-	public ShcrVO getShcrlNo() {
-		// TODO Auto-generated method stub
-		return null;
+	public String insertResume(ResumeVO vo) {
+		int count = 0;
+		int compare = 0;
+		System.out.println(vo.getSkill());
+		System.out.println(!vo.getSkill().isEmpty());
+//		스킬 번호 생성 입력
+		if(!vo.getSkill().isEmpty()) {
+			compare +=vo.getSkill().size();
+			vo.setSkillNo(mem.getSkillNo());
+			for(int i=0;i<vo.getSkill().size();i++) {
+				vo.getSkill().get(i).setSkillNo(vo.getSkillNo());
+				mem.insertSkill(vo.getSkill().get(i));
+				count++;
+			}
+			System.out.println(count);
+		}
+//		수상 번호 생성 입력
+		if(!vo.getArd().isEmpty()) {
+			compare += vo.getArd().size();
+			vo.setArdNo(mem.getArdNo());
+			for(int i=0;i<vo.getArd().size();i++) {
+				vo.getArd().get(i).setArdNo(vo.getArdNo());
+				mem.insertAward(vo.getArd().get(i));
+				count++;
+			}
+			System.out.println(count);
+		}
+//		경력 번호 생성 입력
+		if(!vo.getCarr().isEmpty()) {
+			compare += vo.getCarr().size();
+			vo.setCarrNo(mem.getCarrNo()); 
+			for(int i=0;i<vo.getCarr().size();i++) {
+				vo.getCarr().get(i).setCarrNo(vo.getArdNo());
+				mem.insertCarrer(vo.getCarr().get(i));
+				count++;
+			}
+			System.out.println(count);
+		}
+//		교육번호 생성 입력
+		if(!vo.getEdu().isEmpty()) {
+			compare+=vo.getEdu().size();
+			vo.setEduNo(mem.getEduNo());
+			for(int i=0;i<vo.getEdu().size();i++) {
+				vo.getEdu().get(i).setEduNo(vo.getEduNo());
+				mem.insertEducate(vo.getEdu().get(i));
+				count++;
+			}
+			System.out.println(count);
+		}
+//		자소서 번호생성 입력
+		if(!vo.getIntro().isEmpty()) {
+			compare += vo.getIntro().size();
+			 vo.setIntroNo(mem.getEduNo());
+			for(int i=0;i<vo.getIntro().size();i++) {
+				vo.getIntro().get(i).setIntroNo(vo.getIntroNo());
+				mem.insertIntro(vo.getIntro().get(i));
+				count++;
+			}
+			System.out.println(count);
+		}
+//		자격증 번호 생성 입력
+		if(!vo.getLicn().isEmpty()) {
+			compare += vo.getLicn().size();
+			vo.setLicnNo( mem.getLicnNo()); 
+			for(int i=0;i<vo.getLicn().size();i++) {
+				vo.getLicn().get(i).setLicnNo(vo.getLicnNo());
+				mem.insertLicence(vo.getLicn().get(i));
+				count++;
+			}
+			System.out.println(count);
+		}
+//		학력 번호 생성 입력
+		if(!vo.getSch().isEmpty()) {
+			compare += vo.getSch().size();
+			vo.setShcrNo(mem.getSchNo());
+			for(int i=0;i<vo.getSch().size();i++) {
+				vo.getSch().get(i).setShcrNo(vo.getShcrNo());
+				mem.insertSchool(vo.getSch().get(i));
+				count++;
+			}
+			System.out.println(count);
+		}
+		if(!vo.getMemInfo().isEmpty()) {
+			compare += vo.getMemInfo().size();
+			vo.getMemInfo().get(0).setId(vo.getId());
+			mem.insertMem(vo.getMemInfo().get(0));
+				count++;
+			System.out.println(count);
+		}
+//		이력서 헤더 입력
+		
+		vo.setResumeNo(mem.getResumeNo());	
+		count += mem.insertResume(vo);
+		if(count == compare-1 ) {
+			return "{\"result\": \"Success\"}";
+		}else {
+			return "{\"result\": \"Fail\"}";
+		}
+		
 	}
-//	스킬 넘버 생성
-	@Override
-	public SkillVO getSkillNo() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-//	수상 넘버 생성
-	@Override
-	public ArdVO getArdNo() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-//	경력 넘버 생성
-	@Override
-	public CarrVO getCarrNo() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-//	교육 넘버 생성
-	@Override
-	public EduVO getEduNo() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-//	자기소개 넘버 생성
-	@Override
-	public IntroVO getIntroNo() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-//	자격증 넘버 생성
-	@Override
-	public LicnVO getLicnNo() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
+
 
 
 
