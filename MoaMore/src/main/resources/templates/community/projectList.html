@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{template/layout}">
+<head>
+<meta charset="UTF-8">
+<title>커뮤니티/프로젝트모집</title>
+<!-- projectList.CSS -->
+<link href="community/projectList.css" rel="stylesheet">
+</head>
+<body>
+	<div layout:fragment="content">
+		<!-- nav -->
+		<div class="row mb-5 p-2">
+			<div class="col-md-1"></div>
+			<div class="col-md-10" style="border-bottom : 1px solid #ddd;">
+				<div class="mb-4 d-flex justify-content-evenly">
+					 <nav>
+					    <ul class="nav-list">
+					      <li class="mx-6"><a href="/jobQnA">취업Q&A</a></li>
+					      <li class="mx-6"><a href="/jobInterview">면접후기</a></li>
+					      <li class="mx-6"><a href="/projectList" style="color:red">프로젝트모집</a></li>
+				      	  <li class="mx-6"><a href="/studyList">스터디모집</a></li>
+					      <li class="mx-6" sec:authorize="hasRole('ROLE_USER')">
+						      <button id="jobWriteForm" type="button" onclick="location.href='/jobQnAWrite'" class="btn btn-outline-danger radius nav-button">게시글작성</button>
+					      </li>
+					    </ul>
+					  </nav>
+				</div>
+			</div>
+			<div class="col-md-1"></div>
+		</div>
+		
+		<div class="row mb-6">
+			<div class="col-md-1"></div>
+			<div class="col-md-10">
+				<div class="row">
+					<!-- 반복 -->
+					<div class="col-md-3 cursor" onclick="location.href='/projectDetail'">
+						<div class="card">
+							<div class="card-body pb-4">
+								<div class="text-start" style="position:relative; right:30px; bottom:30px;">
+									<span class="fs--1">마감일 | </span><span class="fs--1">2023/05/14</span>
+								</div>
+								<div class="text-end" style="position:relative; left:30px; bottom:55px;">
+									<span class="badge bg-dark radius">모집중</span>
+								</div>
+								<div>
+									<h5 class="text-center">제목(프로젝트명)</h5>
+									<hr style="color:#ddd;">
+								</div>
+								
+								<ul class="listStyle text-start">
+									<li><span>ㆍ직무 : </span><span>백엔드개발자</span></li>
+									<li><span>ㆍ모집입원 : </span><span>0명</span></li>
+									<li><span>ㆍ진행방식 : </span><span>오프라인</span></li>
+									<li><span>ㆍ시작예정 : </span><span>2023/05/01</span></li>
+								</ul>
+								<hr style="color:#ddd;">
+								
+								<div class="d-flex">
+									<div>
+										<img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
+										<span>아이디</span>
+									</div>
+									<div style="margin-left:auto">
+										<i class="fa-regular fa-eye fa-sm"></i>
+								    	<span>0</span>
+							    	</div>
+						    	</div>
+							</div>
+						</div>
+					</div>
+					
+					<!-- 반복 -->
+					<div class="col-md-3 cursor" onclick="location.href='/projectDetail'">
+						<div class="card">
+							<div class="card-body pb-4">
+								<div class="text-start" style="position:relative; right:30px; bottom:30px;">
+									<span class="fs--1">마감일 | </span><span class="fs--1">2023/05/14</span>
+								</div>
+								<div class="text-end" style="position:relative; left:30px; bottom:55px;">
+									<span class="badge bg-dark radius">모집중</span>
+								</div>
+								<div>
+									<h5 class="text-center">제목(프로젝트명)</h5>
+									<hr style="color:#ddd;">
+								</div>
+								
+								<ul class="listStyle text-start">
+									<li><span>ㆍ직무 : </span><span>백엔드개발자</span></li>
+									<li><span>ㆍ모집입원 : </span><span>0명</span></li>
+									<li><span>ㆍ진행방식 : </span><span>오프라인</span></li>
+									<li><span>ㆍ시작예정 : </span><span>2023/05/01</span></li>
+								</ul>
+								<hr style="color:#ddd;">
+								
+								<div class="d-flex">
+									<div>
+										<img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
+										<span>아이디</span>
+									</div>
+									<div style="margin-left:auto">
+										<i class="fa-regular fa-eye fa-sm"></i>
+								    	<span>0</span>
+							    	</div>
+						    	</div>
+							</div>
+						</div>
+					</div>
+					
+					<!-- 반복 -->
+					<div class="col-md-3 cursor" onclick="location.href='/projectDetail'">
+						<div class="card">
+							<div class="card-body pb-4">
+								<div class="text-start" style="position:relative; right:30px; bottom:30px;">
+									<span class="fs--1">마감일 | </span><span class="fs--1">2023/05/14</span>
+								</div>
+								<div class="text-end" style="position:relative; left:30px; bottom:55px;">
+									<span class="badge bg-dark radius">모집중</span>
+								</div>
+								<div>
+									<h5 class="text-center">제목(프로젝트명)</h5>
+									<hr style="color:#ddd;">
+								</div>
+								
+								<ul class="listStyle text-start">
+									<li><span>ㆍ직무 : </span><span>백엔드개발자</span></li>
+									<li><span>ㆍ모집입원 : </span><span>0명</span></li>
+									<li><span>ㆍ진행방식 : </span><span>오프라인</span></li>
+									<li><span>ㆍ시작예정 : </span><span>2023/05/01</span></li>
+								</ul>
+								<hr style="color:#ddd;">
+								
+								<div class="d-flex">
+									<div>
+										<img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
+										<span>아이디</span>
+									</div>
+									<div style="margin-left:auto">
+										<i class="fa-regular fa-eye fa-sm"></i>
+								    	<span>0</span>
+							    	</div>
+						    	</div>
+							</div>
+						</div>
+					</div>
+					
+					<!-- 반복 -->
+					<div class="col-md-3 cursor" onclick="location.href='/projectDetail'">
+						<div class="card">
+							<div class="card-body pb-4">
+								<div class="text-start" style="position:relative; right:30px; bottom:30px;">
+									<span class="fs--1">마감일 | </span><span class="fs--1">2023/05/14</span>
+								</div>
+								<div class="text-end" style="position:relative; left:30px; bottom:55px;">
+									<span class="badge bg-dark radius">모집중</span>
+								</div>
+								<div>
+									<h5 class="text-center">제목(프로젝트명)</h5>
+									<hr style="color:#ddd;">
+								</div>
+								
+								<ul class="listStyle text-start">
+									<li><span>ㆍ직무 : </span><span>백엔드개발자</span></li>
+									<li><span>ㆍ모집입원 : </span><span>0명</span></li>
+									<li><span>ㆍ진행방식 : </span><span>오프라인</span></li>
+									<li><span>ㆍ시작예정 : </span><span>2023/05/01</span></li>
+								</ul>
+								<hr style="color:#ddd;">
+								
+								<div class="d-flex">
+									<div>
+										<img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
+										<span>아이디</span>
+									</div>
+									<div style="margin-left:auto">
+										<i class="fa-regular fa-eye fa-sm"></i>
+								    	<span>0</span>
+							    	</div>
+						    	</div>
+							</div>
+						</div>
+					</div>
+					
+				</div><!-- row 끝 -->
+			</div>
+			<div class="col-md-1"></div>
+		</div>
+<script>
+
+</script>	
+	</div>
+</body>
+</html>

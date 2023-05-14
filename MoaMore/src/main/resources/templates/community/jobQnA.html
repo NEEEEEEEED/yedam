@@ -12,25 +12,27 @@
 </head>
 <body>
 	<div layout:fragment="content">
-		<div class="row" style="margin-top:10px;">
-			<div class="col-md-2"></div>
-			<div class="col-md-8">
-				<nav style="background-color: white; border-bottom : 1px solid #ddd;">
-					<ul class="listStyle d-flex justify-content-evenly">
-						<li><a href="/jobQnA">취업Q&A</a></li>
-						<li><a href="#">면접후기</a></li>
-						<li><a href="#">프로젝트모집</a></li>
-						<li><a href="#">스터디모집</a></li>
-						<div sec:authorize="hasRole('ROLE_USER')" >
-							<button id="jobWriteForm" type="button" onclick="location.href='/jobQnAWrite'" class="btn btn-outline-danger btn-sm radius fs-1">
-								게시글작성
-							</button>
-						</div>
-					</ul>
-				</nav>
+		<!-- nav -->
+		<div class="row mb-4 p-2">
+			<div class="col-md-1"></div>
+			<div class="col-md-10" style="border-bottom : 1px solid #ddd;">
+				<div class="mb-4 d-flex justify-content-evenly">
+					 <nav>
+					    <ul class="nav-list">
+					      <li class="mx-6"><a href="/jobQnA" style="color:red">취업Q&A</a></li>
+					      <li class="mx-6"><a href="/jobInterview">면접후기</a></li>
+					      <li class="mx-6"><a href="/projectList">프로젝트모집</a></li>
+				      	  <li class="mx-6"><a href="/studyList">스터디모집</a></li>
+					      <li class="mx-6" sec:authorize="hasRole('ROLE_USER')">
+						      <button id="jobWriteForm" type="button" onclick="location.href='/jobQnAWrite'" class="btn btn-outline-danger radius nav-button">게시글작성</button>
+					      </li>
+					    </ul>
+					  </nav>
+				</div>
 			</div>
-			<div class="col-md-2"></div>
+			<div class="col-md-1"></div>
 		</div>
+		
 		<div class="row" style="margin-top : 30px;">
 			<div class="col-md-1"></div>
 			<div class="col-md-2" style="margin : 10px;">
@@ -46,12 +48,12 @@
 			</div>
 			<div class="col-md-7">
 				<!-- 반복 -->
-				<div th:each="jobQna : ${jobQnaList}" class="hoverRow listRow row" th:onclick="|location.href='@{/jobQnaDetail(qaNotiwrNo=${jobQna.qaNotiwrNo})}'|">
+				<div th:each="jobQna : ${jobQnaList}" class="hoverRow listRow row cursor" th:onclick="|location.href='@{/jobQnaDetail(qaNotiwrNo=${jobQna.qaNotiwrNo})}'|">
 					<div class="col-md-10">
-						<img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
-					 	<span th:text="${jobQna.id}">아이디</span>
 					 	<h5 class="mt-2" th:text="${jobQna.ttl}">게시글제목</h5>
 					 	<p class="fs--1 ellipsis" th:text="${jobQna.cntn}">Some text..Some text..</p>
+					 	<img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
+					 	<span th:text="${jobQna.id}">아이디</span>
 				 	</div>
 				 	<div class="col-md-2" style="display: flex; align-items: center; flex-direction : column;" >
 				      <div style="border: 1px solid black; text-align: center; width: 60px; margin: auto; border-radius: 5px;  line-height: 15px; padding: 8px;">

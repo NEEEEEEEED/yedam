@@ -8,8 +8,8 @@
 <title>모아모아/커뮤니티</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
-<!-- jobQnADetail.CSS -->
-<link href="community/jobQnADetail.css" rel="stylesheet">
+<!-- studyDetail.CSS -->
+<link href="community/studyDetail.css" rel="stylesheet">
 
 </head>
 <body>
@@ -37,10 +37,10 @@
 							<h5>커뮤니티</h5>
 							<hr>
 							<ul class="decoUl">
-								<li><a href="/jobQnA" style="color:red">ㆍ취업Q&A</a></li>
+								<li><a href="/jobQnA">ㆍ취업Q&A</a></li>
 								<li><a href="/jobInterview">ㆍ면접후기</a></li>
 								<li><a href="/projectList">ㆍ프로젝트모집</a></li>
-								<li><a href="/studyList">ㆍ스터디모집</a></li>
+								<li><a href="/studyList" style="color:red">ㆍ스터디모집</a></li>
 							</ul>
 						</div>
 					</div>
@@ -49,7 +49,7 @@
 			
 			<div class="col-md-8">
 				<div class="line mt-3 mb-5">
-					<span>커뮤니티 /&nbsp</span><span style="color:red">취업Q&A</span>
+					<span>커뮤니티 /&nbsp</span><span style="color:red">스터디모집</span>
 				</div>
 				<div class="mb-4">
 				  <div class="card col-lg-12">
@@ -57,19 +57,19 @@
 				    
 				    	<!-- 버전1 -->
 					    <div class="card-title mb-1" style="display:flex">
-					    	<h3 class="fw-bold" th:text="${jobQnaDetail.ttl}">제목</h3>
+					    	<h3 class="fw-bold">제목</h3>
 					    	<div style="margin-left: auto;">
 						    	<div class="d-flex">
 						    		<div class="ms-3">
 					    				<i class="fa-regular fa-eye fa-sm"></i>
-					    				<span th:text="${jobQnaDetail.inqCnt}">조회수</span>
+					    				<span>0</span>
 					    			</div>
 						    		<div class="ms-3">
 					    				<i class="fa-regular fa-comment-dots fa-sm"></i>
-					    				<span th:text="${jobQnaDetail.rplyCnt}">댓글수</span>
+					    				<span>0</span>
 					    			</div>
 					    			<div class="ms-3">
-						    			<p th:text="${jobQnaDetail.regDt}">작성일자</p>
+						    			<p>2023/05/14</p>
 						    		</div>
 					    			<div class="ms-3 cursor">
 						   				<i class="fa-solid fa-land-mine-on"></i>
@@ -104,12 +104,76 @@
 					    
 				    	<div class="mb-5">
 				    		<img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
-				    		<span class="ms-1" th:text="${jobQnaDetail.id}">작성자</span>
+				    		<span class="ms-1">작성자</span>
 				    		<!-- <hr class="mt-4" style="color:#ddd"> -->
 				    	</div>
 				    	
+				    	<p class="mb-4">◈ 스터디진행</p>
+				    	<div class="card mb-4">
+				    		<div class="card-body ms-9 p-4">
+						    	<div>
+							    	<div class="row">
+										<div class="col-md-2">
+											<span class="fw-bold">목적</span>
+										</div>
+										<div class="col-md-3">
+											<span>코딩테스트대비</span>
+										</div>
+										<div class="col-md-2">
+											<span class="fw-bold">모집인원</span>
+										</div>
+										<div class="col-md-3">
+											<span>5</span>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-2">
+											<span class="fw-bold">진행방식</span>
+										</div>
+										<div class="col-md-3">
+											<span>온라인</span>
+										</div>
+										<div class="col-md-2">
+											<span class="fw-bold ">공부</span>
+										</div>
+										<div class="col-md-3">
+											<span>자바,스프링</span>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-2">
+											<span class="fw-bold ">예상기간</span>
+										</div>
+										<div class="col-md-3">
+											<span>2개월</span>
+										</div>
+										<div class="col-md-2">
+											<span class="fw-bold">연락방법</span>
+										</div>
+										<div class="col-md-3">
+											<span>카카오</span>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-2">
+											<span class="fw-bold">시작예정</span>
+										</div>
+										<div class="col-md-3">
+											<span>2023/05/14</span>
+										</div>
+										<div class="col-md-2">
+											<span class="fw-bold ">마감일</span>
+										</div>
+										<div class="col-md-3">
+											<span>2023/05/17</span>
+										</div>
+									</div>
+								</div>	
+							</div>
+						</div>
+				    	
 				    	<div>
-					    	<p th:utext="|${jobQnaDetail.htmlCntn}|">내용</p>
+					    	<p>◈ 스터디소개</p>
 					    </div>
 				    </div>
 				  </div>
@@ -184,9 +248,9 @@
 				
 				<div class="mt-5 mb-5" style="text-align:right;">
 					<!-- 로그인된 사용자가 자기가 작성한 게시물이라면 나타나는 버튼 -->
-					<th:block th:if="${jobQnaDetail.id}==${#authentication.principal.username}" >
-						<button type="button" class="btn btn-outline-secondary radius mx-1 px-5"  style="height:50px;" th:onclick="|location.href='@{/jobQnaMod(qaNotiwrNo=${jobQnaDetail.qaNotiwrNo})}'|">수정</button>
-						<button type="button" class="btn btn-outline-danger radius mx-1 px-5" style="height:50px; text-align:center;" id="jobQnaDelete" th:data-no="${jobQnaDetail.qaNotiwrNo}">삭제</button>
+					<th:block>
+						<button type="button" class="btn btn-outline-secondary radius mx-1 px-5"  style="height:50px;">수정</button>
+						<button type="button" class="btn btn-outline-danger radius mx-1 px-5" style="height:50px; text-align:center;" id="jobQnaDelete">삭제</button>
 					</th:block>
 					<button type="button" class="btn btn-dark radius mx-1 px-5" style="background-color: #536779; color:white; border-color: #536779; height:50px;" onclick="location.href='/jobQnA'">목록</button>
 				</div>
@@ -197,53 +261,6 @@
 		
 <script>
 
-//삭제버튼 클릭시 실행하는 함수
-$('#jobQnaDelete').on('click', function(){
-	Swal.fire({
-	  icon: 'warning',
-	  title: '해당 게시글을 \n정말 삭제하시겠습니까?',
-	  showCancelButton: true,
-	  confirmButtonColor: '#d33',
-	  cancelButtonColor: '#3085d6',
-	  confirmButtonText: '삭제',
-	  cancelButtonText: '취소',
-	  buttonsStyling: true,
-	  reverseButtons: true
-	}).then((result) => {
-	  if (result.isConfirmed) {
-		  let qaNotiwrNo = $('#jobQnaDelete').data('no');
-		  $.ajax({
-			url: 'jobQnaDelete',
-			type: 'post',
-			data: {qaNotiwrNo : qaNotiwrNo},
-			success: function (result) {
-				
-				if(result.result == 'Success'){
-					Swal.fire({
-					  icon: 'success',
-					  title: '삭제완료!',
-					  showCancelButton: false,
-					  confirmButtonText: '확인'
-					}).then((result) => {
-					  if (result.isConfirmed) {
-						location.href="/jobQnA";
-					  }
-					});
-				}else{
-					Swal.fire({
-						  icon: 'error',
-						  title: '게시글 삭제실패!'
-					});
-				}
-				
-			},
-	 		error: function (reject) {	   
-	    		console.log(reject);
-			}
-		});
-	  } // if끝
-	});
-});
 
 </script>
 	</div>

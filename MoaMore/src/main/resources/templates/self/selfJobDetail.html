@@ -82,20 +82,25 @@
 					<span class="fs-2 subTitle">&nbsp&nbsp&nbsp제 실무경험과 학력입니다&nbsp&nbsp&nbsp</span>
 						<p class="mt-4 mb-3" style="margin-left : 16px;">◈ 경력</p>
 							<div class="row">
-								<div id="carrRows" style="margin-left : 40px;" class="col-md-10">
-								<!-- 반복 -->
-									<div th:each="carr : ${carrList}" class="listRow row">
-									 	<div class="col-md-10 text-center text-lg-start">
-								        	<div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
-								          		<p class="fw-bold mb-0 text-black" th:text="${carr.duty}">직무</p>
-								         		<p class="mb-0"th:text="|${carr.joinYy} ~ ${carr.retiYy} ${carr.carrSt}">입사일자 ~ 퇴사일자 재직여부</p>
-								        	</div>
-								        	<h6 class="fs-md-2 my-3" th:text="|${carr.co} ${carr.depart} 근무|">회사명 부서명</h6>
-									        <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-2">
-									            <p class="mb-0" th:text="${carr.buss}">업무</p>
-									        </div>
-									  	</div>
-									</div>
+								<div id="carrRows" class="col-md-10" style="margin-left : 40px;">
+									<th:block th:if="${#lists.size(carrList)} == 0">
+										<div style="text-align:center;">경력사항이 없는 신입입니다.</div>
+									</th:block>
+									<th:block th:unless="${#lists.size(carrList)} == 0">
+										<!-- 반복 -->
+										<div th:each="carr : ${carrList}" class="listRow row">
+										 	<div class="col-md-10 text-center text-lg-start">
+									        	<div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
+									          		<p class="fw-bold mb-0 text-black" th:text="${carr.duty}">직무</p>
+									         		<p class="mb-0"th:text="|${carr.joinYy} ~ ${carr.retiYy} ${carr.carrSt}">입사일자 ~ 퇴사일자 재직여부</p>
+									        	</div>
+									        	<h6 class="fs-md-2 my-3" th:text="|${carr.co} ${carr.depart} 근무|">회사명 부서명</h6>
+										        <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-2">
+										            <p class="mb-0" th:text="${carr.buss}">업무</p>
+										        </div>
+										  	</div>
+										</div>
+									</th:block>
 								</div>
 							</div>
 

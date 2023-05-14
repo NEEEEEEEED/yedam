@@ -539,6 +539,14 @@ function careerList(carrNo){
 			carrRows.innerHTML=''; // 경력사항 초기화
 			
 			let carrHtml = '';
+			
+			// 경력사항이 없을때
+			if(carrArr.length==0){
+				carrRows.innerHTML = '<div style="text-align:center;">경력사항이 없는 신입입니다.</div>';
+				return;
+			}
+			
+			// 경력사항이 있을때
 			for(let i=0; i<carrArr.length; i++){
 				carrHtml += careerPrint(carrArr[i]); // 경력사항 리스트 출력
 			}	
@@ -861,7 +869,7 @@ function myProfileAdd(imgName){
 		jobSearchNo : jobSearchNo
 	}
 	
-	console.log("resumeNo : " + resumeNo);
+/*	console.log("resumeNo : " + resumeNo);
 	console.log("id : " + id);
 	console.log("title : " + title);
 	console.log("city : " + city);
@@ -874,7 +882,7 @@ function myProfileAdd(imgName){
 	console.log(carrArr);
 	console.log(schoolArr);
 	console.log("myimg : " + myimg);
-	console.log("jobSearchNo : " + jobSearchNo);
+	console.log("jobSearchNo : " + jobSearchNo); */
 
 	$.ajax({
  		url: 'selfJobModifyFn',
