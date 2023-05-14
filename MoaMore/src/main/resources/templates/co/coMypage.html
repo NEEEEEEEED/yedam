@@ -49,9 +49,9 @@ i {
 						<a id="insertInfo" type="button" class="btn btn-light"
 							href="coInfoPage">기업정보등록</a>
 						<hr />
-						<a href="">받은 관심<i class="bi bi-suit-heart-fill"></i><small
-							th:text="${followers}"></small></a><br /> <a href="/coRecruit">나의
-							공고목록</a><br /> <a href="/coProducts">아이템 / 결제내역</a>
+						<div  class="mb-0"><a>받은 관심</a><i class="bi bi-suit-heart-fill"></i><small
+							th:text="${followers}"></small></div><br /><p> <span class="mb-2"><a href="/coRecruit"  >나의
+							공고목록 </a></span><br /> <a href="/coProducts" class="">아이템 / 결제내역</a>
 						<hr />
 						<a href="">개인정보 수정</a>
 					</div>
@@ -69,7 +69,7 @@ i {
 								class="fw-bold fs-7">0</span> <br /> <span class="fw-bold fs-1">처리된
 									지원</span> </a> <a onclick="changeTable('third',this)"
 								class="col text-center border-start"><span
-								class="fw-bold fs-7">0</span> <br /> <span class="fw-bold fs-1">관심
+								class="fw-bold fs-7 " th:text="${totalInter.totalInter}" ></span> <br /> <span class="fw-bold fs-1">관심
 									구직글</span> </a>
 						</div>
 					</div>
