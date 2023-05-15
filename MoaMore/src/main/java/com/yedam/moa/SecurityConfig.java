@@ -2,6 +2,7 @@ package com.yedam.moa;
 
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,6 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import com.yedam.moa.member.service.Impl.MemberServiceImpl;
+import com.yedam.moa.test.WebAuthenticationDetailsSource;
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,17 +35,27 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests().antMatchers("/loginForm", "/").permitAll().antMatchers("/admin/**")
-				.hasAuthority("ROLE_ADMIN").anyRequest().authenticated().and().formLogin().loginPage("/login")
-				.usernameParameter("userid").successHandler(successHandler()) // successHandler()를 호출하여 로그인 성공 후 어떤 페이지로
+				.hasAuthority("ROLE_ADMIN")
+				.anyRequest()
+				.authenticated()
+				.and()
+				.formLogin()
+				.loginPage("/login")
+				.usernameParameter("userid")
+				.authenticationDetailsSource(webAuthenticationDetailsSource)
+				.successHandler(successHandler()) // successHandler()를 호출하여 로그인 성공 후 어떤 페이지로
 																				// 이동할지 구현
-				.permitAll().and().logout().logoutUrl("/logout").logoutSuccessUrl("/login").permitAll().and().csrf()
-				.disable().oauth2Login().loginPage("/loginForm").userInfoEndpoint().userService(userService);
+				.permitAll().and().logout().logoutUrl("/logout").logoutSuccessUrl("/login").permitAll().and()
+				.csrf().disable()
+				.oauth2Login().loginPage("/loginForm").userInfoEndpoint().userService(userService);
 		return http.build();
 	}
 
 	private AuthenticationSuccessHandler successHandler() {
 		return (request, response, authentication) -> {
 			Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
+			
+			//유저 정보 세션추가
 			System.out.println("권한" + roles);
 			if (roles.contains("ROLE_ADMIN")) {
 				response.sendRedirect("/admin");
@@ -55,34 +67,15 @@ public class SecurityConfig {
 		};
 	}
 
-//	@Bean
-//	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//		http.authorizeHttpRequests((requests) -> requests
-//			.antMatchers("/home","/").permitAll() // home은 아무나 접근가능
-//			.antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
-//			.anyRequest().authenticated()) // 나머지 모든 요청은 로그인해야지만 가능
-//		.formLogin(login -> login
-//			//.defaultSuccessUrl("/empList")
-//			.loginPage("/login")
-//			.usernameParameter("userid")
-//			.permitAll())
-//			//.and()
-//		.logout()
-//			.logoutUrl("/logout")
-//			.logoutSuccessUrl("/") // 로그아웃 성공시
-//			.permitAll()
-//			.and()
-//		    .csrf().disable()
-//		    .oauth2Login().loginPage("/loginForm")
-//		    ;
-//	return http.build();
-//	
-//	}
 
 	// static 아래에 있는것들은 다 넣어주면됨
 	// 정적 컨텐츠들은 다 넣어주면됨
 	@Bean
 	public WebSecurityCustomizer webSecurityCustomizer() {
-		return (web) -> web.ignoring().antMatchers("/assets/**","/admin/**","/images/**", "/js/**", "/css/**", "/assets/**", "/vendors/**");
+		return (web) -> web.ignoring().antMatchers("/assets/**", "/admin/**", "/images/**", "/js/**", "/css/**",
+				"/assets/**", "/vendors/**");
 	}
+	
+    @Autowired
+    private WebAuthenticationDetailsSource webAuthenticationDetailsSource;
 }

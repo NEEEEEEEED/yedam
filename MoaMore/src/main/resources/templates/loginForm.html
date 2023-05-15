@@ -29,160 +29,168 @@
 <link href="assets/css/style.css" rel="stylesheet">
 </head>
 <body>
-	<main style="background-color: black">
+	<main style="background-color: #0A2640">
 		<div class="row">
-			<div class="col-md-6"></div>
+			<div class="col-md-6" style="text-align:center;vertical-align:middle; "><span style="color:#65E4A3;">MoaMore</span></div>
 			<div class="col-md-6">
-				<div class="container" style="background-color: white">
+				<div class="container" style="background-color: white;">
 					<section
 						class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
 						<div class="container">
 							<div
 								class=" d-flex flex-column align-items-center justify-content-center">
-								<div class="card mb-3">
+								<div class="card mb-3 w-50">
 									<div class="card-body">
+										<div sec:authorize="isAnonymous()">
+											<!-- Bordered Tabs Justified -->
+											<ul class="nav nav-tabs nav-tabs-bordered d-flex"
+												id="borderedTabJustified" role="tablist">
+												<li class="nav-item flex-fill" role="presentation">
+													<button class="nav-link w-100 active" id="home-tab"
+														data-bs-toggle="tab"
+														data-bs-target="#bordered-justified-home" type="button"
+														role="tab" aria-controls="home" aria-selected="true">일반회원</button>
+												</li>
+												<li class="nav-item flex-fill" role="presentation">
+													<button class="nav-link w-100" id="profile-tab"
+														data-bs-toggle="tab"
+														data-bs-target="#bordered-justified-profile" type="button"
+														role="tab" aria-controls="profile" aria-selected="false"
+														tabindex="-1">기업회원</button>
+												</li>
+											</ul>
+											<div class="tab-content pt-2"
+												id="borderedTabJustifiedContent">
+												<div class="tab-pane fade show active"
+													id="bordered-justified-home" role="tabpanel"
+													aria-labelledby="home-tab">
+													<div class="pt-4 pb-2">
+														<h5 class="card-title text-center pb-0 fs-4">Login to
+															Your Account</h5>
+														<p class="text-center small">Enter your username &
+															password to login</p>
+													</div>
+													<div th:if="${param.error}">ID 또는 PW를 확인하세요.</div>
 
-										<!-- Bordered Tabs Justified -->
-										<ul class="nav nav-tabs nav-tabs-bordered d-flex"
-											id="borderedTabJustified" role="tablist">
-											<li class="nav-item flex-fill" role="presentation">
-												<button class="nav-link w-100 active" id="home-tab"
-													data-bs-toggle="tab"
-													data-bs-target="#bordered-justified-home" type="button"
-													role="tab" aria-controls="home" aria-selected="true">일반회원</button>
-											</li>
-											<li class="nav-item flex-fill" role="presentation">
-												<button class="nav-link w-100" id="profile-tab"
-													data-bs-toggle="tab"
-													data-bs-target="#bordered-justified-profile" type="button"
-													role="tab" aria-controls="profile" aria-selected="false"
-													tabindex="-1">기업회원</button>
-											</li>
-										</ul>
-										<div class="tab-content pt-2" id="borderedTabJustifiedContent">
-											<div class="tab-pane fade show active"
-												id="bordered-justified-home" role="tabpanel"
-												aria-labelledby="home-tab">
-												<div class="pt-4 pb-2">
-													<h5 class="card-title text-center pb-0 fs-4">Login to
-														Your Account</h5>
-													<p class="text-center small">Enter your username &
-														password to login</p>
-												</div>
+													<form action="/login" method="post"
+														class="row g-3 needs-validation">
+														<input type="hidden" th:value="user" name="user_key" />
+														<div class="col-12">
+															<label for="yourUsername" class="form-label">email</label>
+															<div class="input-group has-validation">
+																<input type="text" name="userid" class="form-control"
+																	required>
+																<div class="invalid-feedback">Please enter your
+																	username.</div>
+															</div>
+														</div>
 
-												<form action="/login" method="post"
-													class="row g-3 needs-validation">
-
-													<div class="col-12">
-														<label for="yourUsername" class="form-label">email</label>
-														<div class="input-group has-validation">
-															<input type="text" name="userid" class="form-control"
-																required>
+														<div class="col-12">
+															<label for="yourPassword" class="form-label">Password</label>
+															<input type="password" name="password"
+																class="form-control" required>
 															<div class="invalid-feedback">Please enter your
-																username.</div>
+																password!</div>
 														</div>
-													</div>
+														<div class="col-12">
+															<div class="form-check">
+																<input class="form-check-input" type="checkbox"
+																	name="remember" value="true" id="rememberMeUser">
+																<label class="form-check-label" for="rememberMeUser">Remember
+																	me</label>
+															</div>
+														</div>
+														<div class="col-12">
+															<button class="btn btn-primary w-100" type="submit">Login</button>
+														</div>
+														<div class="row mt-2">
+															<div class="col-md-6">
+																<a sec:authorize="isAnonymous()"
+																	href="/oauth2/authorization/naver" role="button"> <img
+																	class="w-75" src="images/btnG_축약형.png">
+																</a>
+															</div>
+															<div class="col-md-6">
+																<a sec:authorize="isAnonymous()"
+																	href="/oauth2/authorization/kakao" role="button"><img
+																	src="images/kakao_login_medium.png"></a>
+															</div>
+														</div>
+														<div class="row"></div>
+														<div class="col-6">
+															<span class="small mb-0"> <a
+																href="pages-register.html">회원가입</a>
+															</span>
+														</div>
+														<div class="col-6" style="text-align: right">
+															<span class="small mb-0"> <a
+																data-bs-toggle="modal" data-bs-target="#exampleModal">아이디/비밀번호
+																	찾기</a>
+															</span>
+														</div>
+													</form>
 
-													<div class="col-12">
-														<label for="yourPassword" class="form-label">Password</label>
-														<input type="password" name="password"
-															class="form-control" required>
-														<div class="invalid-feedback">Please enter your
-															password!</div>
-													</div>
-													<div class="col-12">
-														<div class="form-check">
-															<input class="form-check-input" type="checkbox"
-																name="remember" value="true" id="rememberMe"> <label
-																class="form-check-label" for="rememberMe">Remember
-																me</label>
-														</div>
-													</div>
-													<div class="col-12">
-														<button class="btn btn-primary w-100" type="submit">Login</button>
-													</div>
-													<div class="row mt-2">
-														<div class="col-md-6">
-															<a sec:authorize="isAnonymous()"
-																href="/oauth2/authorization/naver" role="button"> <img
-																class="w-75" src="images/btnG_축약형.png">
-															</a>
-														</div>
-														<div class="col-md-6">
-															<a sec:authorize="isAnonymous()"
-																href="/oauth2/authorization/kakao" role="button"><img
-																src="images/kakao_login_medium.png"></a>
-														</div>
-													</div>
-													<div class="row"></div>
-													<div class="col-6">
-														<span class="small mb-0"> <a
-															href="pages-register.html">회원가입</a>
-														</span>
-													</div>
-													<div class="col-6" style="text-align: right">
-														<span class="small mb-0"> <a data-bs-toggle="modal"
-															data-bs-target="#exampleModal">아이디/비밀번호 찾기</a>
-														</span>
-													</div>
-												</form>
-
-											</div>
-											<div class="tab-pane fade" id="bordered-justified-profile"
-												role="tabpanel" aria-labelledby="profile-tab">
-												<div class="pt-4 pb-2">
-													<h5 class="card-title text-center pb-0 fs-4">Login to
-														Your Account</h5>
-													<p class="text-center small">Enter your username &
-														password to login</p>
 												</div>
+												<div class="tab-pane fade" id="bordered-justified-profile"
+													role="tabpanel" aria-labelledby="profile-tab">
+													<div class="pt-4 pb-2">
+														<h5 class="card-title text-center pb-0 fs-4">Login to
+															Your Account</h5>
+														<p class="text-center small">Enter your username &
+															password to login</p>
+													</div>
+													<div th:if="${param.error}">ID 또는 PW를 확인하세요.</div>
+													<form action="/login" method="post"
+														class="row g-3 needs-validation">
+														<input type="hidden" th:value="co" name="user_key" />
+														<div class="col-12">
+															<label for="yourUsername" class="form-label">email</label>
+															<div class="input-group has-validation">
+																<input type="text" name="userid" class="form-control"
+																	id="userid" required>
+																<div class="invalid-feedback">Please enter your
+																	username.</div>
+															</div>
+														</div>
 
-												<form class="row g-3 needs-validation" novalidate>
-
-													<div class="col-12">
-														<label for="yourUsername" class="form-label">email</label>
-														<div class="input-group has-validation">
-															<input type="text" name="username" class="form-control"
-																id="yourUsername" required>
+														<div class="col-12">
+															<label for="yourPassword" class="form-label">Password</label>
+															<input type="password" name="password"
+																class="form-control" id="password" required>
 															<div class="invalid-feedback">Please enter your
-																username.</div>
+																password!</div>
 														</div>
-													</div>
-
-													<div class="col-12">
-														<label for="yourPassword" class="form-label">Password</label>
-														<input type="password" name="password"
-															class="form-control" id="yourPassword" required>
-														<div class="invalid-feedback">Please enter your
-															password!</div>
-													</div>
-													<div class="col-12">
-														<div class="form-check">
-															<input class="form-check-input" type="checkbox"
-																name="remember" value="true" id="rememberMe"> <label
-																class="form-check-label" for="rememberMe">Remember
-																me</label>
+														<div class="col-12">
+															<div class="form-check">
+																<input class="form-check-input" type="checkbox"
+																	name="remember" value="true" id="rememberMeCo">
+																<label class="form-check-label" for="rememberMeCo">Remember
+																	me</label>
+															</div>
 														</div>
-													</div>
-													<div class="col-12">
-														<button class="btn btn-primary w-100" type="submit">Login</button>
-													</div>
-													<div class="row"></div>
-													<div class="col-6">
-														<span class="small mb-0"> <a
-															href="pages-register.html">회원가입</a>
-														</span>
-													</div>
-													<div class="col-6" style="text-align: right">
-														<span class="small mb-0"> <a
-															href="pages-register.html">아이디/비밀번호 찾기</a>
-														</span>
-													</div>
-												</form>
+														<div class="col-12">
+															<button class="btn btn-primary w-100" type="submit">Login</button>
+														</div>
+														<div class="row"></div>
+														<div class="col-6">
+															<span class="small mb-0"> <a
+																href="pages-register.html">회원가입</a>
+															</span>
+														</div>
+														<div class="col-6" style="text-align: right">
+															<span class="small mb-0"> <a
+																href="pages-register.html">아이디/비밀번호 찾기</a>
+															</span>
+														</div>
+													</form>
 
+												</div>
 											</div>
+											<!-- End Bordered Tabs Justified -->
 										</div>
-										<!-- End Bordered Tabs Justified -->
+										<div sec:authorize="isAuthenticated()">
+											<span sec:authentication="principal.username"></span>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -203,33 +211,29 @@
 								id="borderedTabJustified" role="tablist">
 								<li class="nav-item flex-fill" role="presentation">
 									<button class="nav-link w-100 active" id="home-tab"
-										data-bs-toggle="tab" data-bs-target="#bordered-justified-home"
-										type="button" role="tab" aria-controls="home"
-										aria-selected="true">일반회원</button>
+										data-bs-toggle="tab" data-bs-target="#userFind" type="button"
+										role="tab" aria-controls="home" aria-selected="true">일반회원</button>
 								</li>
 								<li class="nav-item flex-fill" role="presentation">
 									<button class="nav-link w-100" id="profile-tab"
-										data-bs-toggle="tab"
-										data-bs-target="#bordered-justified-profile" type="button"
+										data-bs-toggle="tab" data-bs-target="#coFind" type="button"
 										role="tab" aria-controls="profile" aria-selected="false"
 										tabindex="-1">기업회원</button>
 								</li>
 							</ul>
 							<div class="tab-content pt-2" id="borderedTabJustifiedContent">
-								<div class="tab-pane fade show active"
-									id="bordered-justified-home" role="tabpanel"
-									aria-labelledby="home-tab">Sunt est soluta temporibus
-									accusantium neque nam maiores cumque temporibus. Tempora libero
-									non est unde veniam est qui dolor. Ut sunt iure rerum quae
-									quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea
-									saepe at unde.</div>
-								<div class="tab-pane fade" id="bordered-justified-profile"
-									role="tabpanel" aria-labelledby="profile-tab">Nesciunt
-									totam et. Consequuntur magnam aliquid eos nulla dolor iure eos
-									quia. Accusantium distinctio omnis et atque fugiat. Itaque
-									doloremque aliquid sint quasi quia distinctio similique.
-									Voluptate nihil recusandae mollitia dolores. Ut laboriosam
-									voluptatum dicta.</div>
+								<div class="tab-pane fade show active" id="userFind"
+									role="tabpanel" aria-labelledby="home-tab">Sunt est
+									soluta temporibus accusantium neque nam maiores cumque
+									temporibus. Tempora libero non est unde veniam est qui dolor.
+									Ut sunt iure rerum quae quisquam autem eveniet perspiciatis
+									odit. Fuga sequi sed ea saepe at unde.</div>
+								<div class="tab-pane fade" id="coFind" role="tabpanel"
+									aria-labelledby="profile-tab">Nesciunt totam et.
+									Consequuntur magnam aliquid eos nulla dolor iure eos quia.
+									Accusantium distinctio omnis et atque fugiat. Itaque doloremque
+									aliquid sint quasi quia distinctio similique. Voluptate nihil
+									recusandae mollitia dolores. Ut laboriosam voluptatum dicta.</div>
 							</div>
 							<!-- End Bordered Tabs Justified -->
 
