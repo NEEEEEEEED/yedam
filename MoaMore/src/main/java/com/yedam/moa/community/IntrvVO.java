@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class IntrvVO {
 	//면접
-	private String intrvNo; 	// 면접 후기 등록
+	private String intrvNo; 	// 면접 후기 기본키
 	private String coNm;		// 회사명
 	private String duty;		// 직무(지원분야)
 	private String carr;		// 면접당시 경력
@@ -22,6 +22,7 @@ public class IntrvVO {
 	private String id;			// 아이디
 	private String intrvImg;	// 면접증빙 이미지
 	private String qstCntn;		// 면접질문
+	private String intrvDt;		// 면접일자
 	
 	private MultipartFile upload;	// 이미지파일
 	
