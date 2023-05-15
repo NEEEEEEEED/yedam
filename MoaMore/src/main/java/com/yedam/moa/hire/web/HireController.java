@@ -163,6 +163,11 @@ public class HireController {
 	
 	// 구인공고 이미지 등록	
 	@PostMapping("/hireImgInsert")
+	@ResponseBody
+	public String hireImgInsert(HireVO hireVO, Principal pr) {
+		hireVO.setId(pr.getName());
+		return null;
+	}
 
 	// 구인공고 수정 페이지
 	@GetMapping("/hireMod")
@@ -170,34 +175,5 @@ public class HireController {
 		return "hire/hireMod";
 	}
 
-	// 파일변환(에디터)
-	@PostMapping("/test")
-	@ResponseBody
-	public String test(@RequestParam("image") MultipartFile multi, HttpServletRequest request,
-			HttpServletResponse response) {
-		// String absolutePath = new File("").getAbsolutePath() + "\";
-		String url = null;
-		String mv = "";
 
-		try {
-			String originFilename = multi.getOriginalFilename();
-			String extName = originFilename.substring(originFilename.lastIndexOf("."), originFilename.length());
-			long size = multi.getSize();
-			FileNameModel fileNameModel = new FileNameModel();
-			String saveFileName = fileNameModel.GenSaveFileName(extName);
-
-			if (!multi.isEmpty()) {
-				File file = new File(uploadPath, saveFileName);
-				multi.transferTo(file);
-
-				mv = "{\"filename\":\"" + saveFileName + "\"}";
-
-			} else {
-				mv = "fail";
-			}
-		} catch (Exception e) {
-			System.out.println("[Error] " + e.getMessage());
-		}
-		return mv;
-	}
 }

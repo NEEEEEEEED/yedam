@@ -20,7 +20,7 @@ public class HireVO {
 	private String welf; // 복지 및 혜택
 	private String exprDt; // 마갈일
 	private String wksite; // 근무지역
-	private byte[] coIntro; // 기업 소개
+	private String coIntro; // 기업 소개
 	private String coImg; // 기업 대표 이미지
 	private String accpDt; // 승인날짜
 	private String imgNo; // 이미지 그룹번호

@@ -103,13 +103,13 @@ public class HireServiceImpl implements HireService{
 	@Override
 	public String hireDataInsert(HireVO vo, Principal pr ) {
 		
-		String skillNo = hireMapper.skillNo();
+		
 		String recruitNo = hireMapper.recruitNo();
 		String message = null;
 		
 		int result= 0;
 		
-		vo.setSkillNo(skillNo);
+		
 		vo.setRecruitNo(recruitNo);
 		vo.setId(pr.getName());
 		result = hireMapper.hireDataInsert(vo);
@@ -117,7 +117,10 @@ public class HireServiceImpl implements HireService{
 		String [] skillArray = vo.getSkill().split(",");
 		
 		for(String str : skillArray) {
-			result += hireMapper.skillInsert(str);
+			String skillNo = hireMapper.skillNo();
+			vo.setSkillNo(skillNo);
+			vo.setSkill(str);
+			result += hireMapper.skillInsert(vo);
 		}
 		
 		
@@ -133,6 +136,13 @@ public class HireServiceImpl implements HireService{
 	@Override
 	public List<HireVO> selectRecommend(HireVO hireVO) {
 		return hireMapper.selectRecommend(hireVO);
+	}
+	
+	// 공고 이미지 등록
+	@Override
+	public String hireImgInsert(HireVO vo, Principal pr) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
 

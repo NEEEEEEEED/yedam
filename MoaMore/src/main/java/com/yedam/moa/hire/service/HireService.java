@@ -18,5 +18,6 @@ public interface HireService {
 	public List<HireVO> selectRecommend(HireVO hireVO); // 공고상세 추천공고 조회
 	public HireVO recruitInsertSelect(HireVO hireVO); // 공고등록 페이지 기업이름 조회
 	public String hireDataInsert(HireVO vo,Principal pr); //  공고 데이터 등록
+	public String hireImgInsert(HireVO vo, Principal pr); // 공고 이미지만 등록
 			
 }
