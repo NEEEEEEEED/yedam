@@ -72,106 +72,134 @@ public class MemServiceImpl implements MemService {
 	public String insertResume(ResumeVO vo) {
 		int count = 0;
 		int compare = 0;
-		System.out.println(vo.getSkill());
-		System.out.println(!vo.getSkill().isEmpty());
+		String no = null;
+
 //		스킬 번호 생성 입력
 		if(!vo.getSkill().isEmpty()) {
-			compare +=vo.getSkill().size();
-			vo.setSkillNo(mem.getSkillNo());
+			compare += vo.getSkill().size();
 			for(int i=0;i<vo.getSkill().size();i++) {
-				vo.getSkill().get(i).setSkillNo(vo.getSkillNo());
+
+				vo.getSkill().get(i).setSkillNo(no);
 				mem.insertSkill(vo.getSkill().get(i));
+				no=vo.getSkill().get(i).getSkillNo();
+					if(no == null){break;}
 				count++;
+				System.out.println(count);
+				System.out.println(compare);
+				
 			}
-			System.out.println(count);
+			vo.setSkillNo(no);
+			no=null;
 		}
 //		수상 번호 생성 입력
 		if(!vo.getArd().isEmpty()) {
 			compare += vo.getArd().size();
-			vo.setArdNo(mem.getArdNo());
 			for(int i=0;i<vo.getArd().size();i++) {
-				vo.getArd().get(i).setArdNo(vo.getArdNo());
+				vo.getArd().get(i).setArdNo(no);
 				mem.insertAward(vo.getArd().get(i));
+				no = vo.getArd().get(i).getArdNo();
+				System.out.println(no);
+				if(no == null){break;}
 				count++;
+				System.out.println(count);
+				 System.out.println(compare);
 			}
-			System.out.println(count);
+			vo.setArdNo(no);
+			no=null;
 		}
 //		경력 번호 생성 입력
 		if(!vo.getCarr().isEmpty()) {
 			compare += vo.getCarr().size();
-			vo.setCarrNo(mem.getCarrNo()); 
 			for(int i=0;i<vo.getCarr().size();i++) {
-				vo.getCarr().get(i).setCarrNo(vo.getArdNo());
-				mem.insertCarrer(vo.getCarr().get(i));
-				count++;
+				vo.getCarr().get(i).setCarrNo(no);
+				 mem.insertCarrer(vo.getCarr().get(i));
+				 no = vo.getCarr().get(i).getCarrNo();
+				 if(no == null){break;}
+				 count++;
+				 System.out.println(count);
+				 System.out.println(compare);
 			}
-			System.out.println(count);
+			vo.setCarrNo(no);
+			no =null;
 		}
 //		교육번호 생성 입력
 		if(!vo.getEdu().isEmpty()) {
-			compare+=vo.getEdu().size();
-			vo.setEduNo(mem.getEduNo());
+			compare += vo.getEdu().size();
 			for(int i=0;i<vo.getEdu().size();i++) {
-				vo.getEdu().get(i).setEduNo(vo.getEduNo());
+				vo.getEdu().get(i).setEduNo(no);
 				mem.insertEducate(vo.getEdu().get(i));
-				count++;
+				no = vo.getEdu().get(i).getEduNo();
+				 if(no == null){break;}
+				 count++;
+				 System.out.println(count);
+				 System.out.println(compare);
 			}
-			System.out.println(count);
+			vo.setEduNo(no);
+			no=null;
 		}
 //		자소서 번호생성 입력
 		if(!vo.getIntro().isEmpty()) {
 			compare += vo.getIntro().size();
-			 vo.setIntroNo(mem.getEduNo());
 			for(int i=0;i<vo.getIntro().size();i++) {
-				vo.getIntro().get(i).setIntroNo(vo.getIntroNo());
+				vo.getIntro().get(i).setIntroNo(no);
 				mem.insertIntro(vo.getIntro().get(i));
+				no=vo.getIntro().get(i).getIntroNo();
+				if(no == null){break;}
 				count++;
+				System.out.println(count);
+				 System.out.println(compare);
 			}
-			System.out.println(count);
+			vo.setIntroNo(no);
+			no=null;
 		}
 //		자격증 번호 생성 입력
 		if(!vo.getLicn().isEmpty()) {
 			compare += vo.getLicn().size();
-			vo.setLicnNo( mem.getLicnNo()); 
 			for(int i=0;i<vo.getLicn().size();i++) {
-				vo.getLicn().get(i).setLicnNo(vo.getLicnNo());
-				mem.insertLicence(vo.getLicn().get(i));
+				vo.getLicn().get(i).setLicnNo(no);
+				 mem.insertLicence(vo.getLicn().get(i));
+				no=vo.getLicn().get(i).getLicnNo();
+				if(no == null){break;}
 				count++;
+				System.out.println(count);
+				 System.out.println(compare);
 			}
-			System.out.println(count);
+			vo.setLicnNo(no);
+			no=null;
 		}
 //		학력 번호 생성 입력
 		if(!vo.getSch().isEmpty()) {
 			compare += vo.getSch().size();
-			vo.setShcrNo(mem.getSchNo());
 			for(int i=0;i<vo.getSch().size();i++) {
-				vo.getSch().get(i).setShcrNo(vo.getShcrNo());
+				vo.getSch().get(i).setShcrNo(no);
 				mem.insertSchool(vo.getSch().get(i));
+				no=vo.getSch().get(i).getShcrNo();
+				if(no == null){break;}
 				count++;
+				System.out.println(count);
+				 System.out.println(compare);
 			}
-			System.out.println(count);
+			vo.setShcrNo(no);
+			no=null;
 		}
 		if(!vo.getMemInfo().isEmpty()) {
-			compare += vo.getMemInfo().size();
 			vo.getMemInfo().get(0).setId(vo.getId());
-			mem.insertMem(vo.getMemInfo().get(0));
-				count++;
+			count += mem.insertMem(vo.getMemInfo().get(0));
+			compare++;
 			System.out.println(count);
+			 System.out.println(compare);
 		}
 //		이력서 헤더 입력
-		
-		vo.setResumeNo(mem.getResumeNo());	
-		count += mem.insertResume(vo);
-		if(count == compare-1 ) {
+		 vo.setResumeNo(mem.getResumeNo());	
+		 count += mem.insertResume(vo);
+		 compare ++;
+		 System.out.println(count);
+		 System.out.println(compare);
+		if(count == compare) {
 			return "{\"result\": \"Success\"}";
 		}else {
 			return "{\"result\": \"Fail\"}";
 		}
 		
 	}
-	
-
-
-
-
 }

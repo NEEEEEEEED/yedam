@@ -145,7 +145,7 @@
 	</select>
 	
 <!-- 	경력번호생성 -->
-	<select id="getCarrlNo" resultType="String">
+	<select id="getCarrNo" resultType="String">
 		 SELECT 'CARR'|| TO_CHAR(carr_seq.NEXTVAL)
         FROM dual
 	</select>
@@ -168,17 +168,17 @@
 	</select>
 	
 <!-- 	스킬 입력 -->
-	 <select id="insertSkill" parameterType="SkillVO" statementType="CALLABLE" >
+	 <insert id="insertSkill" parameterType="SkillVO" statementType="CALLABLE"  >
      call insert_skill (
-        #{skillNo },
+        #{skillNo, mode=INOUT, jdbcType=VARCHAR },
         #{skill}
       )
- 	 </select>
+ 	 </insert>
  	 
 <!--  	 학력입력 -->
- 	 <select id="insertSchr" parameterType="ShcrVO" statementType="CALLABLE" >
+ 	 <insert id="insertSchool" parameterType="ShcrVO" statementType="CALLABLE" >
      call insert_shcr (
-        #{shcrNo}, 
+        #{shcrNo, mode=INOUT, jdbcType=VARCHAR}, 
         #{fg}, 
         #{breu}, 
         #{mj}, 
@@ -188,54 +188,55 @@
         #{shcrSt}, 
         #{ttScore}
       )
- 	 </select>
+ 	 </insert>
  	 
 <!--  	 수상입력 -->
- 	 <select id="insertArd" parameterType="ArdVO" statementType="CALLABLE" >
+ 	 <insert id="insertAward" parameterType="ArdVO" statementType="CALLABLE"  >
      call insert_ard (
-       #{ardNo}, 
+       #{ardNo, mode=INOUT, jdbcType=VARCHAR}, 
        #{ardNm}, 
        #{breu}, 
        #{cntn}, 
        #{issuYy}
       )
- 	 </select>
+ 	 </insert>
  	 
 <!--  	 교육입력 -->
- 	 <select id="insertEdu" parameterType="EduVO" statementType="CALLABLE" >
+ 	 <insert id="insertEducate" parameterType="EduVO" statementType="CALLABLE" >
      call insert_edu (
-        #{eduNo}, 
+        #{eduNo, mode=INOUT, jdbcType=VARCHAR}, 
         #{eduNm}, 
         #{breu}, 
         #{joinYy},
         #{retiYy}, 
         #{cntn}
       )
- 	 </select>
+ 	 </insert>
  	 
 <!--  	 자소서 입력 -->
- 	 <select id="insertIntro" parameterType="IntroVO" statementType="CALLABLE" >
+ 	 <insert id="insertIntro" parameterType="IntroVO" statementType="CALLABLE" >
      call insert_intro (
-        #{introNo},
+        #{introNo, mode=INOUT, jdbcType=VARCHAR},
         #{ttl},
         #{cntn}
       )
- 	 </select>
+ 	 </insert>
  	 
 <!--  	 자격증 입력 -->
- 	 <select id="insertLicn" parameterType="LicnVO" statementType="CALLABLE" >
-     call insert_licn (
-        #{licnNo}, 
+ 	 <insert id="insertLicence" parameterType="LicnVO" statementType="CALLABLE" >
+     {call insert_licn (
+        #{licnNo, mode=INOUT, jdbcType=VARCHAR}, 
         #{licnNm}, 
         #{breu}, 
         #{issuMm}
-      )
- 	 </select>
+        
+      )}
+ 	 </insert>
  	 
 <!--  	 경력입력 -->
- 	 <select id="insertCarr" parameterType="CarrVO" statementType="CALLABLE" >
+ 	 <insert id="insertCarrer" parameterType="CarrVO" statementType="CALLABLE" >
      call insert_carr (
-        #{carrNo},
+        #{carrNo, mode=INOUT, jdbcType=VARCHAR},
         #{co},
         #{wkdty},
         #{depart},
@@ -243,15 +244,15 @@
         #{joinYy},
         #{retiYy},
         #{buss},
-        #{carr_st}
+        #{carrSt}
       )
- 	 </select>
+ 	 </insert>
 <!--  	 개인정보 입력(업데이트) -->
 		<update id="insertMem">   	
 		UPDATE member
 		SET  email = #{email}, 
 			 ph=#{ph},
-			 phCl=#{phCl},
+			 ph_cl=#{phCl},
 			 addr=#{addr},
 			 post=#{post} 
 		where id = #{id}
