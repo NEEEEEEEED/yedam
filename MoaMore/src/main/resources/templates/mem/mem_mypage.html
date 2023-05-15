@@ -433,13 +433,14 @@
           this.st = st;
           // this.aplySt = aplySt;
         };
+        
 
         $(document).ready(function () {
           $(".dropdown-item").on("click", function () {
             let selected = $(this).data("value");
             let selectedText = $(this)[0].innerText;
             console.log(selected);
-            
+
             $(this).closest(".dropdown")[0].firstElementChild.innerText =
               selectedText;
             $(this).closest(".dropdown")[0].nextElementSibling.value = selected;
