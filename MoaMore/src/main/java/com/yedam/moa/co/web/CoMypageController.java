@@ -4,16 +4,19 @@ import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.moa.co.service.CoService;
 import com.yedam.moa.co.service.CoVO;
 import com.yedam.moa.comm.service.CommService;
 import com.yedam.moa.hire.HireVO;
+import com.yedam.moa.member.service.MemberService;
 import com.yedam.moa.products.service.ProductService;
 import com.yedam.moa.self.SelfVO;
 
@@ -27,6 +30,12 @@ public class CoMypageController {
 
 	@Autowired
 	CommService commService;
+
+	@Autowired
+	MemberService mservice;
+
+	@Autowired
+	PasswordEncoder passwordEncoder;
 
 	// 기업마이페이지
 	@GetMapping("/coMypage")
@@ -45,6 +54,18 @@ public class CoMypageController {
 		vo.setId(principal.getName());
 		model.addAttribute("co", service.selectCo(vo));
 		return "co/coInfo";
+	}
+
+	// 기업정보수정 비밀번호
+	@PostMapping("/checkPw")
+	@ResponseBody
+	public boolean checkPw(Principal principal, @RequestParam String pw) {
+		String id = principal.getName();
+		System.out.println(pw);
+		if (passwordEncoder.matches(pw, mservice.getMember(id).getPw())) {
+			return true;
+		} else
+			return false;
 	}
 
 	// 구인공고목록

@@ -35,4 +35,6 @@ public interface CoService {
 
 	// 제안조회
 	public CoVO selectOffer(CoVO vo);
+	
+
 }

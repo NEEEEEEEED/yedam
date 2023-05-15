@@ -29,7 +29,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class MemberServiceImpl implements OAuth2UserService<OAuth2UserRequest, OAuth2User> , UserDetailsService   {
+public class MemberServiceImpl implements OAuth2UserService<OAuth2UserRequest, OAuth2User> , UserDetailsService ,MemberService  {
 	
     private final UserRepository userRepository;
 
@@ -73,6 +73,11 @@ public class MemberServiceImpl implements OAuth2UserService<OAuth2UserRequest, O
 			throw new UsernameNotFoundException("no userid");
 		} 
 		return memberVO;
+	}
+
+	@Override
+	public MemberVO getMember(String id) {
+		return memberMapper.getMember(id);
 	}
 
 }

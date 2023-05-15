@@ -42,138 +42,352 @@ section {
 <link href="adminAssets/css/style.css" rel="stylesheet">
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
+<style>
+.gray {
+	color: #76979e;
+}
+</style>
 </head>
 <body id="body">
-	<div class="container d-flex justify-content-center" layout:fragment="content">
-
-		<div class="card col-lg-10 ">
-			<div class="card-body">
-				<!-- General Form Elements -->
-				<form name="submitForm" action="/saveCoInfo" method="post" class="">
-					<br>
-					<h2>기업정보등록</h2>
-					<hr>
-					<br>
-					<div class="row mb-4 d-flex justify-content-center">
-						<label for="inputText" class="col-sm-1 col-form-label">기업명</label>
-						<div class="col-sm-4">
-							<input  type="text" name="coNm" th:value="${co?.coNm}" 
-								class="form-control">
-							
-						</div>
-						
-						<label for="inputText" class="col-sm-1 col-form-label">대표자</label>
-						<div class="col-sm-4">
-							<input type="text" name="rpstr" th:value="${co?.rpstr}" value=""
-								class="form-control">
-						</div>
-					</div>
+	<div class="container d-flex justify-content-center"
+		layout:fragment="content">
 
 
-					<div class="row mb-4 d-flex justify-content-center">
-						<label class="col-sm-1 col-form-label">구분</label>
-						<div class="col-sm-4">
-							<select class="form-select" name="coFg"
-								aria-label="Default select example">
-								<option value="" selected>선택</option>
-								<option value="M4" th:selected="${co?.coFg == 'M4'}">강소기업</option>
-								<option value="M3" th:selected="${co?.coFg == 'M3'}">중소기업</option>
-								<option value="M2" th:selected="${co?.coFg == 'M2'}">중견기업</option>
-								<option value="M1" th:selected="${co?.coFg == 'M1'}">대기업</option>
-							</select>
-						</div>
-						
-						<label class="col-sm-1 col-form-label">산업</label>
-						<div class="col-sm-4">
-							<select class="form-select" name="idst" 
-								aria-label="Default select example">
-								<option value="" selected>선택</option>
-								<option value="W1" th:selected="${co?.idst == 'W1'}">소프트웨어 개발 및 공급업</option>
-								<option value="W2" th:selected="${co?.idst == 'W2'}">컴퓨터 프로그래밍, 시스템 통합 및 관리업</option>
-								<option value="W3" th:selected="${co?.idst == 'W3'}">자료처리, 호스팅, 포털 및 기타 인터넷 정보매개서비스업</option>
-								<option value="W4" th:selected="${co?.idst == 'W4'}">기타 정보 서비스업</option>
-							</select>
-						</div>
-					</div>
 
-					
 
-					<div class="row mb-4 d-flex justify-content-center">
-						<label class="col-sm-1 col-form-label">매출액</label>
-						<div class="col-sm-4">
-							<select class="form-select" name="sale" 
-								aria-label="Default select example">
-								<option value="" selected>선택</option>
-								<option value="V1" th:selected="${co?.sale == 'V1'}">400억 이하</option>
-								<option value="V2" th:selected="${co?.sale == 'V2'}">600억 이하</option>
-								<option value="V3" th:selected="${co?.sale == 'V3'}">800억 이하</option>
-								<option value="V4" th:selected="${co?.sale == 'V4'}">1000억 이하</option>
-								<option value="V5" th:selected="${co?.sale == 'V5'}">1500억 이하</option>
-								<option value="V6" th:selected="${co?.sale == 'V6'}">1500억 초과</option>
-							</select>
-						</div>
-						
-						<label class="col-sm-1 col-form-label">자본금</label>
-						<div class="col-sm-4">
-							<select class="form-select" name="cptl"
-								aria-label="Default select example">
-								<option value="" selected>선택</option>
-								<option value="a1" th:selected="${co?.cptl == 'a1'}">5000만원 이하</option>
-								<option value="a2" th:selected="${co?.cptl == 'a2'}">1억 이하</option>
-								<option value="a3" th:selected="${co?.cptl == 'a3'}">5억 이하</option>
-								<option value="a4" th:selected="${co?.cptl == 'a4'}">10억 이하</option>
-								<option value="a5" th:selected="${co?.cptl == 'a5'}">50억 이하</option>
-								<option value="a6" th:selected="${co?.cptl == 'a6'}">50억 초과</option>
-							</select>
+		<div class="col-lg-9">
+			<div class="">
+				<div class="card">
+					<div class="card-body text-center" style="padding: 30px">
+						<div class="">
+							<h3>계정관리</h3>
+							<h5 class="text-muted mb-5">서비스에서 사용하는 내 계정 정보를 관리할 수 있습니다.</h5>
+							<div></div>
+							<div class="row d-flex justify-content-center">
+								<div class="col-lg-4">아이디</div>
+
+								<div class="col-lg-4">wndks8564</div>
+								<div class="col-lg-2"></div>
+							</div>
+							<hr style="color: #e3e5e5">
+							<div class="row d-flex justify-content-center"
+								data-bs-toggle="modal" data-bs-target="#updatePw"
+								>
+								<div class="col-lg-4">비밀번호</div>
+
+								<div class="col-lg-4 gray">*********</div>
+								<div class="col-lg-2">
+									<i class="bi bi-chevron-compact-right"></i>
+								</div>
+							</div>
+							<hr style="color: #e3e5e5">
+							<div class="row d-flex justify-content-center"
+								data-bs-toggle="modal" data-bs-target="#updatePh"
+								>
+								<div class="col-lg-4">전화번호</div>
+
+								<div class="col-lg-4 gray">wndks8564</div>
+								<div class="col-lg-2">
+									<i class="bi bi-chevron-compact-right"></i>
+								</div>
+							</div>
+							<hr style="color: #e3e5e5">
+							<div class="row d-flex justify-content-center mb-5"
+								data-bs-toggle="modal" data-bs-target="#updateEmail"
+								onclick="updateEmail()">
+								<div class="col-lg-4 ">이메일</div>
+
+								<div class="col-lg-4 gray">wndks8564</div>
+								<div class="col-lg-2">
+									<i class="bi bi-chevron-compact-right"></i>
+								</div>
+							</div>
 						</div>
 					</div>
-					
-						
+				</div>
+			</div>
 
-					<div class="row mb-4 d-flex justify-content-center">
-						<label for="inputText" class="col-sm-1 col-form-label">사원수</label>
-						<div class="col-sm-4">
-							<input type="text" name="empTtl" th:value="${co?.empTtl}" value=""
-								class="form-control">
+
+			<div class="card  text-center">
+				<div class="card-body">
+					<!-- General Form Elements -->
+					<form name="submitForm" action="/saveCoInfo" method="post" class="">
+						<br>
+						<h3>기업정보등록</h3>
+						<hr>
+						<br>
+						<div class="row mb-4 d-flex justify-content-center">
+							<label for="inputText" class="col col-form-label text-center">기업명</label>
+							<div class="col-sm-4">
+								<input type="text" name="coNm" th:value="${co?.coNm}"
+									class="form-control">
+
+							</div>
+
+							<label for="inputText" class="col col-form-label text-center">대표자</label>
+							<div class="col-sm-4">
+								<input type="text" name="rpstr" th:value="${co?.rpstr}" value=""
+									class="form-control">
+							</div>
 						</div>
-						
-						<label for="inputDate" class="col-sm-1 col-form-label">설립일</label>
-						<div class="col-sm-4">
-							<input type="date" name="fondtDt" th:value="${co?.fondtDt}" value=""
-								class="form-control">
+
+
+						<div class="row mb-4 d-flex justify-content-center">
+							<label class="col-sm col-form-label">구분</label>
+							<div class="col-sm-4">
+								<select class="form-select" name="coFg"
+									aria-label="Default select example">
+									<option value="" selected>선택</option>
+									<option value="M4" th:selected="${co?.coFg == 'M4'}">강소기업</option>
+									<option value="M3" th:selected="${co?.coFg == 'M3'}">중소기업</option>
+									<option value="M2" th:selected="${co?.coFg == 'M2'}">중견기업</option>
+									<option value="M1" th:selected="${co?.coFg == 'M1'}">대기업</option>
+								</select>
+							</div>
+
+							<label class="col-sm col-form-label">산업</label>
+							<div class="col-sm-4">
+								<select class="form-select" name="idst"
+									aria-label="Default select example">
+									<option value="" selected>선택</option>
+									<option value="W1" th:selected="${co?.idst == 'W1'}">소프트웨어
+										개발 및 공급업</option>
+									<option value="W2" th:selected="${co?.idst == 'W2'}">컴퓨터
+										프로그래밍, 시스템 통합 및 관리업</option>
+									<option value="W3" th:selected="${co?.idst == 'W3'}">자료처리,
+										호스팅, 포털 및 기타 인터넷 정보매개서비스업</option>
+									<option value="W4" th:selected="${co?.idst == 'W4'}">기타
+										정보 서비스업</option>
+								</select>
+							</div>
 						</div>
-					</div>
 
-						
 
-					<div class="row mb-4 d-flex justify-content-center">
-						<label for="inputText" class="col-sm-1 col-form-label">주소</label>
-						<div class="col-sm-4">
-							<input type="text" name="addr" th:value="${co?.addr}" value=""
-								class="form-control">
+
+						<div class="row mb-4 d-flex justify-content-center">
+							<label class="col-sm col-form-label">매출액</label>
+							<div class="col-sm-4">
+								<select class="form-select" name="sale"
+									aria-label="Default select example">
+									<option value="" selected>선택</option>
+									<option value="V1" th:selected="${co?.sale == 'V1'}">400억
+										이하</option>
+									<option value="V2" th:selected="${co?.sale == 'V2'}">600억
+										이하</option>
+									<option value="V3" th:selected="${co?.sale == 'V3'}">800억
+										이하</option>
+									<option value="V4" th:selected="${co?.sale == 'V4'}">1000억
+										이하</option>
+									<option value="V5" th:selected="${co?.sale == 'V5'}">1500억
+										이하</option>
+									<option value="V6" th:selected="${co?.sale == 'V6'}">1500억
+										초과</option>
+								</select>
+							</div>
+
+							<label class="col-sm col-form-label">자본금</label>
+							<div class="col-sm-4">
+								<select class="form-select" name="cptl"
+									aria-label="Default select example">
+									<option value="" selected>선택</option>
+									<option value="a1" th:selected="${co?.cptl == 'a1'}">5000만원
+										이하</option>
+									<option value="a2" th:selected="${co?.cptl == 'a2'}">1억
+										이하</option>
+									<option value="a3" th:selected="${co?.cptl == 'a3'}">5억
+										이하</option>
+									<option value="a4" th:selected="${co?.cptl == 'a4'}">10억
+										이하</option>
+									<option value="a5" th:selected="${co?.cptl == 'a5'}">50억
+										이하</option>
+									<option value="a6" th:selected="${co?.cptl == 'a6'}">50억
+										초과</option>
+								</select>
+							</div>
 						</div>
-						
-						<label for="inputText" class="col-sm-1 col-form-label">사이트</label>
-						<div class="col-sm-4">
-							<input type="text" name="homePage" th:value="${co?.homePage}" value=""
-								class="form-control">
+
+
+
+						<div class="row mb-4 d-flex justify-content-center">
+							<label for="inputText" class="col-sm col-form-label">사원수</label>
+							<div class="col-sm-4">
+								<input type="text" name="empTtl" th:value="${co?.empTtl}"
+									value="" class="form-control">
+							</div>
+
+							<label for="inputDate" class="col-sm col-form-label">설립일</label>
+							<div class="col-sm-4">
+								<input type="date" name="fondtDt" th:value="${co?.fondtDt}"
+									value="" class="form-control">
+							</div>
 						</div>
-					</div>
 
-					<div class="row mb-4">
-						<div class="col-12 d-flex justify-content-center" >
-							<a href="coMypage" class="btn btn-primary">취소</a>
-							<button type="submit" class="btn btn-primary">저장</button>
+
+
+						<div class="row mb-4 d-flex justify-content-center">
+							<label for="inputText" class="col-sm col-form-label">주소</label>
+							<div class="col-sm-4">
+								<input type="text" name="addr" th:value="${co?.addr}" value=""
+									class="form-control">
+							</div>
+
+							<label for="inputText" class="col-sm col-form-label">사이트</label>
+							<div class="col-sm-4">
+								<input type="text" name="homePage" th:value="${co?.homePage}"
+									value="" class="form-control">
+							</div>
 						</div>
-					</div>
 
-				</form>
-				<!-- End General Form Elements -->
+						<div class="row mb-4">
+							<div class="col-12 d-flex justify-content-center">
+								<a href="coMypage" class="btn btn-primary">취소</a>
+								<button type="submit" class="btn btn-primary">저장</button>
+							</div>
+						</div>
 
+					</form>
+					<!-- End General Form Elements -->
+
+				</div>
 			</div>
 		</div>
+
+		<!-- html모달창 -->
+		<!-- 비밀번호 변경  -->
+		<div class="modal fade" id="updatePw" tabindex="-1"
+			aria-labelledby="exampleModalCenterTitle" style="display: none;"
+			aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalCenterTitle">비밀번호 변경</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<div class="row d-flex justify-content-center">
+							<div class="row d-flex justify-content-center mb-2">
+								<label class="col-4">현재 비밀번호</label> <input class="col-6" name="pw" placeholder="비밀번호 입력" oninput="checkPw()">
+								<div class="row"><span class="col-5"></span><small id="incPw" class="col-5 text-danger" style="display:none;">현재 비밀번호가 다릅니다.</small></div>
+							</div>
+							<div class="row d-flex justify-content-center mb-2">
+								<label class="col-4">새 비밀번호</label> <input class="col-6" name="newPw" placeholder="새 비밀번호 입력" >
+							</div>
+							<div class="row d-flex justify-content-center">
+								<label class="col-4">비밀번호 확인</label> <input class="col-6" name="newPwCheck" placeholder="새 비밀번호 다시 입력" oninput="checkNewPw()">
+								<div class="row"><span class="col-5"></span><small id="incNewPw" class="col-6 text-danger" style="display:none;">비밀번호가 일치하지 않습니다.</small></div>
+							</div>
+						</div>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" onclick="close()" id="closeBtn" data-bs-dismiss="modal"
+							aria-label="Close" class="btn btn-secondary"
+							 >Close</button>
+						<button type="button" class="btn btn-primary">Save
+							changes</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		                                                  
+
+		<div class="modal fade" id="updatePh" tabindex="-1"
+			aria-labelledby="exampleModalCenterTitle" style="display: none;"
+			aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalCenterTitle">Modal
+							title</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<p>Thitest.</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary">Save
+							changes</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="updateEmail" tabindex="-1"
+			aria-labelledby="exampleModalCenterTitle" style="display: none;"
+			aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalCenterTitle">Modal
+							title</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<p>Thitest.</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary">Save
+							changes</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+		//현재비밀번호 일치확인
+		function checkPw(){
+			let pw = $('[name=pw]').val()
+			 $.ajax({
+				url : "/checkPw",
+				method : "POST",
+				data : {pw:pw},
+				success : function(res) {
+					console.log(res)
+					if(res || pw == ''){
+						incPw.style.display = "none";	
+					}else {
+						incPw.style.display = "block";	
+					}
+				},
+				error : function(jqXHR, textStatus, errorThrown) {
+					console.error(textStatus, errorThrown);
+				},
+			});	
+		}
+		//변경비밀번호 일치확인
+		function checkNewPw(){
+			let newPw = $('input[name=newPw]').val();		
+			let newCheckPw = $('input[name=newPwCheck]').val();	
+			if(newPw == newCheckPw || newPw == ''){
+				incNewPw.style.display = "none";	
+			}else{
+				incNewPw.style.display = "block";
+			}
+		} 
+
+		 $('#closeBtn').on("click",function(){
+			let modals = document.querySelectorAll('.modal')
+				for(let i=0;i<modals.length;i++){
+					console.log('test')
+				} 
+		}) 
 		
+		function close(){
+			let modals = document.querySelecotorAll('.modal')
+			for(let i=0;i<modals.length;i++){
+				console.log('test')
+			} 
+			console.log('test');
+		}
+			
+
+		</script>
 	</div>
 </body>
 </html>
