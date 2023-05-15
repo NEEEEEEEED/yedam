@@ -33,25 +33,25 @@ public interface MemMapper {
 	public MemInfoVO getMemInfo(MemVO vo);
 //	스킬번호 생성하고 내용 입력
 	public String getSkillNo();
-	public int insertSkill(SkillVO vo);
+	public boolean insertSkill(SkillVO vo);
 //	자격증 번호 생성하고 내용 입력
 	public String getLicnNo();
-	public int insertLicence(LicnVO vo);
+	public boolean insertLicence(LicnVO vo);
 //	수상 입력하고 내용입력
 	public String getArdNo();
 	public int insertAward(ArdVO vo);
 //	학력번호 생성하고 내용 입력
 	public String getSchNo();
-	public int insertSchool(ShcrVO vo);
+	public boolean insertSchool(ShcrVO vo);
 //	경력번호 생성하고 내용입력
 	public String getCarrNo();
-	public int insertCarrer(CarrVO vo);
+	public boolean insertCarrer(CarrVO vo);
 //	교육번호 생성하고 내용 입력
 	public String getEduNo();
-	public int insertEducate(EduVO vo);
+	public boolean insertEducate(EduVO vo);
 //	자소서 번호 생성하고 내용 입력
 	public String getIntroNo();
-	public int insertIntro(IntroVO vo);
+	public boolean insertIntro(IntroVO vo);
 //	개인정보 입력(수정)
 	public int insertMem(MemInfoVO vo);
 //	이력서 번호 생성 입력

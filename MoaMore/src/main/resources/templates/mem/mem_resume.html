@@ -84,7 +84,7 @@
               </li>
               <li
                 name="introduce"
-                class="list-group-item d-flex justify-content-between c"ursor bt"
+                class="list-group-item d-flex justify-content-between cuursor bt"
               >
                 <div>
                   <h4 class="my-2">자기소개서</h4>
@@ -312,7 +312,7 @@
                       </div>
                       <div class="col-md-2">
                         <label class="w-100"
-                          >입학 년월
+                          >졸업 년월
                           <input
                             type="month"
                             class="form-control"
@@ -495,7 +495,7 @@
                           <span>상태</span>
                         </button>
                         <ul class="dropdown-menu" style="border-radius: 0.5rem">
-                          <li th:each="st:${list.B}">
+                          <li th:each="st:${list.A}">
                             <button
                               type="button"
                               class="dropdown-item"
@@ -612,7 +612,7 @@
                           <input
                             type="month"
                             class="form-control"
-                            name="issuNm"
+                            name="issuMm"
                           />
                         </label>
                       </div>
@@ -834,6 +834,12 @@
         </div>
       </div>
       <script>
+        var replaceNotInt = /[^0-9]/gi;
+        // 특수문자 정규식 변수(공백 미포함)
+        var replaceChar = /[~!@\#$%^&*\()\-=+_'\;<>0-9\/.\`:\"\\,\[\]?|{}]/gi;
+        // 완성형 아닌 한글 정규식
+        var replaceNotFullKorean = /[ㄱ-ㅎㅏ-ㅣ]/gi;
+
         $(document).ready(function () {
           let sch = [];
           let ard = [];
@@ -844,46 +850,80 @@
           let skill = [];
           let memInfo = [];
           let ttl = null;
+          //           숫자제한
+          $("#inputPhone")
+            .on("focusout", function () {
+              var x = $(this).val();
+              if (x.length > 0) {
+                if (x.match(replaceNotInt)) {
+                  x = x.replace(replaceNotInt, "");
+                }
+                $(this).val(x);
+              }
+            })
+            .on("keyup", function () {
+              $(this).val($(this).val().replace(replaceNotInt, ""));
+            });
+          //           숫자,특수문자,불완전 한글 제한
+
+          $("#inputName")
+            .on("focusout", function () {
+              var x = $(this).val();
+              if (x.length > 0) {
+                if (x.match(replaceChar) || x.match(replaceNotFullKorean)) {
+                  x = x
+                    .replace(replaceChar, "")
+                    .replace(replaceNotFullKorean, "");
+                }
+                $(this).val(x);
+              }
+            })
+            .on("keyup", function () {
+              $(this).val($(this).val().replace(replaceChar, ""));
+            });
 
           //           주소 입력
           $("#addr").on("click", sample6_execDaumPostcode);
           // 저장
           $("#saveResume").on("click", function () {
-            // console.log($("#school").children());
+            // //console.log($("#school").children());
             ttl = $("#ttl").val();
-            // console.log($("#school").children()[0]);
-            // console.log(sch);
+            // //console.log($("#school").children()[0]);
+            // //console.log(sch);
             let data = getAllData();
-            console.log(data);
-            // console.log($("#job").children().length);
-            // console.log($("#school").children().length);
-            // console.log($("#skill").children().length);
-            // console.log($("#job").children().length);
-            // console.log($("#educate").children().length);
-            // console.log($("#award").children().length);
-            // console.log($("#licence").children().length);
-            // console.log($("#resumeText").children().length);
-            // console.log($("div.formId").children().length);
-
-            $.ajax({
-              url: "/insertResume",
-              method: "POST",
-              dataType: "json",
-              contentType: "application/json; charset=utf-8",
-              data: JSON.stringify(data),
-              success: function (result) {
-                console.log(result);
-              },
-              error: function (err) {
-                console.log(err);
-              },
-            });
+            //console.log(data);
+            // //console.log($("#job").children().length);
+            // //console.log($("#school").children().length);
+            // //console.log($("#skill").children().length);
+            // //console.log($("#job").children().length);
+            // //console.log($("#educate").children().length);
+            // //console.log($("#award").children().length);
+            // //console.log($("#licence").children().length);
+            // //console.log($("#resumeText").children().length);
+            // //console.log($("div.formId").children().length);
+            if (data == false) {
+              return;
+            } else {
+              $.ajax({
+                url: "/insertResume",
+                method: "POST",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(data),
+                success: function (result) {
+                  console.log(result);
+                },
+                error: function (err) {
+                  console.log(err);
+                },
+              });
+            }
           });
 
           // 스킬 클릭 이동
 
           $("button[name=skillBtn]").on("click", function (ev) {
-            console.log($(this).parent());
+            //console.log($(this).parent());
             let cop = $(this).parent();
             if ($(this).parent().parent().attr("name") == "cardForAddSkill") {
               $("div[name=cardForViewSkill]").append(cop);
@@ -893,14 +933,14 @@
           });
           // 노드 복사
           $("i.bi.bi-plus-circle-fill").on("click", copy);
-          // 드롭다운 메뉴
 
+          // 드롭다운 메뉴
           $(document).on("click", "button.dropdown-item", function () {
             let selected = $(this).val();
             let selectedText = $(this)[0].children[0].innerText;
 
-            // console.log(selected);
-            // console.log(selectedText);
+            // //console.log(selected);
+            // //console.log(selectedText);
 
             $(this).closest(".dropdown")[0].firstElementChild.innerText =
               selectedText;
@@ -921,10 +961,10 @@
 
           //           메뉴 버튼
           $(".bt").on("click", function () {
-            //             console.log($(this)[0].getAttribute("name"));
+            //             //console.log($(this)[0].getAttribute("name"));
             let bname = $(this)[0].getAttribute("name");
             let element = $("#" + bname);
-            console.log(element);
+            //console.log(element);
             element.css("display", "block");
             $(element).find("i.bi.bi-plus-circle-fill").click();
           });
@@ -954,9 +994,9 @@
           }
           // 포트폴리오 등록 ajax호출 함수
           function pofolReg() {
-            console.log($("#pofolRegForm"));
+            //console.log($("#pofolRegForm"));
             let formData = new FormData($("#pofolRegForm")[0]); // 폼데이터
-            console.log(formData);
+            //console.log(formData);
             $.ajax({
               url: "/resumePofol",
               type: "POST",
@@ -966,7 +1006,7 @@
               processData: false, //프로세스 데이터 설정 : false 값을 해야 form data로 인식합니다
               contentType: false, //헤더의 Content-Type을 설정 : false 값을 해야 form data로 인식합니다
               success: function (result) {
-                console.log(result);
+                //console.log(result);
                 pofolRows.innerHTML = ""; // 초기화
 
                 let pofolHtml = "";
@@ -977,7 +1017,7 @@
                 pofolRows.innerHTML = pofolHtml;
               },
               error: function (reject) {
-                console.log(reject);
+                //console.log(reject);
               },
             });
           }
@@ -1014,14 +1054,14 @@
           // 포트폴리오 리스트에서 닫기 버튼 클릭시 발생하는 함수
           function deletePofol(deleteItem) {
             let prtflNo = deleteItem.dataset.no; // data - 속성 이용해서 값가져옴
-            console.log(prtflNo);
+            //console.log(prtflNo);
 
             $.ajax({
               url: "",
               type: "post",
               data: { fileNo: deleteItem.id, prtflNo: prtflNo },
               success: function (result) {
-                console.log("삭제성공");
+                //console.log("삭제성공");
                 pofolRows.innerHTML = ""; // 초기화
 
                 let pofolHtml = "";
@@ -1038,10 +1078,11 @@
                 }
               },
               error: function (reject) {
-                console.log(reject);
+                //console.log(reject);
               },
             });
           }
+          //           빈칸 체크 함수
           function checkArr(arr, target) {
             let emptyIndexes = arr
               .map(function (obj, index) {
@@ -1057,11 +1098,12 @@
 
             if (emptyIndexes.length === 0) {
               // 빈 값이 없는 경우
-              console.log("객체 배열에 빈 값이 없습니다.");
+              //console.log("객체 배열에 빈 값이 없습니다.");
             } else {
               // 빈 값이 있는 경우
-              console.log("빈 값을 가진 객체의 인덱스:", emptyIndexes);
+              //console.log("빈 값을 가진 객체의 인덱스:", emptyIndexes);
               alertBin(emptyIndexes, target);
+              return false;
             }
           }
           //입력 값 받는 함수 (학력)
@@ -1078,10 +1120,10 @@
                   ttScore: $(shl).find("input[name=ttScore]").val(),
                   fg: $(shl).find("input[name=fg]").val(),
                 };
-                console.log(obj);
+                //console.log(obj);
                 return obj;
               });
-              checkArr(sch, $("#school").children());
+              return checkArr(sch, $("#school").children());
             }
           }
           //입력 값 받는 함수 (기술 역량)
@@ -1093,10 +1135,10 @@
                   skillNo: $(shl).find("input[name=skillNo]").val(),
                 };
 
-                console.log(obj);
+                //console.log(obj);
                 return obj;
               });
-              checkArr(skill, $("#skill").children());
+              return checkArr(skill, $("#skill").children());
             }
           }
           //입력 값 받는 함수 (경력)
@@ -1114,10 +1156,10 @@
                   co: $(shl).find("input[name=co]").val(),
                 };
 
-                console.log(obj);
+                //console.log(obj);
                 return obj;
               });
-              checkArr(carr, $("#job").children());
+              return checkArr(carr, $("#job").children());
             }
           }
           //입력 값 받는 함수 (교육))
@@ -1132,10 +1174,10 @@
                   eduNm: $(shl).find("input[name=eduNm]").val(),
                 };
 
-                console.log(obj);
+                //console.log(obj);
                 return obj;
               });
-              checkArr(edu, $("#educate").children());
+              return checkArr(edu, $("#educate").children());
             }
           }
           //입력 값 받는 함수 (수상)
@@ -1149,10 +1191,10 @@
                   breu: $(shl).find("input[name=breu]").val(),
                 };
 
-                console.log(obj);
+                //console.log(obj);
                 return obj;
               });
-              checkArr(ard, $("#award").children());
+              return checkArr(ard, $("#award").children());
             }
           }
           //입력 값 받는 함수 (자격증)
@@ -1161,14 +1203,14 @@
               licn = $.map($("#licence").children(), function (shl) {
                 let obj = {
                   breu: $(shl).find("input[name=breu]").val(),
-                  issuNm: $(shl).find("input[name=issuNm]").val(),
+                  issuMm: $(shl).find("input[name=issuMm]").val(),
                   licnNm: $(shl).find("input[name=licnNm]").val(),
                 };
 
-                console.log(obj);
+                //console.log(obj);
                 return obj;
               });
-              checkArr(licn, $("#licence").children());
+              return checkArr(licn, $("#licence").children());
             }
           }
           //입력 값 받는 함수 (자기소개)
@@ -1180,10 +1222,10 @@
                   ttl: $(shl).find("input[name=ttl]").val(),
                 };
 
-                console.log(obj);
+                //console.log(obj);
                 return obj;
               });
-              checkArr(intro, $("#resumeText").children());
+              return checkArr(intro, $("#resumeText").children());
             }
           }
           //입력 값 받는 함수 (개인정보)
@@ -1201,27 +1243,38 @@
                   gen: $(shl).find("input[name=gen]").val(),
                 };
 
-                console.log(obj);
+                //console.log(obj);
                 return obj;
               });
-              checkArr(memInfo, $("div.formId").children());
+              return checkArr(memInfo, $("div.formId").children());
             }
           }
           //화면 데이터 저장
           function getAllData() {
-            mkSchool(), mkJob(), mkEducate(), mkLicence();
-            mkAward(), mkSkill(), mkResumeText(), mkMemInfo();
-            return {
-              ttl: ttl,
-              sch: sch,
-              carr: carr,
-              edu: edu,
-              ard: ard,
-              licn: licn,
-              skill: skill,
-              intro: intro,
-              memInfo: memInfo,
-            };
+            if (
+              mkSchool() == false ||
+              mkJob() == false ||
+              mkEducate() == false ||
+              mkLicence() == false ||
+              mkAward() == false ||
+              mkSkill() == false ||
+              mkResumeText() == false ||
+              mkMemInfo() == false
+            ) {
+              return false;
+            } else {
+              return {
+                ttl: ttl,
+                sch: sch,
+                carr: carr,
+                edu: edu,
+                ard: ard,
+                licn: licn,
+                skill: skill,
+                intro: intro,
+                memInfo: memInfo,
+              };
+            }
           }
         });
         //빈칸 알람
@@ -1249,7 +1302,7 @@
         function sample6_execDaumPostcode() {
           new daum.Postcode({
             oncomplete: function (data) {
-              console.log(1, data);
+              //console.log(1, data);
               // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 
               // 각 주소의 노출 규칙에 따라 주소를 조합한다.
@@ -1266,7 +1319,7 @@
                 addr = data.jibunAddress;
               }
 
-              console.log(2, addr);
+              //console.log(2, addr);
               // 우편번호와 주소 정보를 해당 필드에 넣는다.
               $("#addr").val(addr);
               $("#post").val(data.zonecode);
