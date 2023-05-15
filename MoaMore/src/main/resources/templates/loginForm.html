@@ -31,7 +31,10 @@
 <body>
 	<main style="background-color: #0A2640">
 		<div class="row">
-			<div class="col-md-6" style="text-align:center;vertical-align:middle; "><span style="color:#65E4A3;">MoaMore</span></div>
+			<div class="col-md-6"
+				style="text-align: center; vertical-align: middle;">
+				<span style="color: #65E4A3;">MoaMore</span>
+			</div>
 			<div class="col-md-6">
 				<div class="container" style="background-color: white;">
 					<section
@@ -103,29 +106,26 @@
 														<div class="col-12">
 															<button class="btn btn-primary w-100" type="submit">Login</button>
 														</div>
-														<div class="row mt-2">
-															<div class="col-md-6">
-																<a sec:authorize="isAnonymous()"
-																	href="/oauth2/authorization/naver" role="button"> <img
-																	class="w-75" src="images/btnG_축약형.png">
-																</a>
-															</div>
-															<div class="col-md-6">
-																<a sec:authorize="isAnonymous()"
-																	href="/oauth2/authorization/kakao" role="button"><img
-																	src="images/kakao_login_medium.png"></a>
-															</div>
+														<div class="col-6 pt-2" style="margin-top: 0px">
+															<a sec:authorize="isAnonymous()"
+																href="/oauth2/authorization/naver" role="button"> <img
+																class="w-100 h-100" src="images/btnG_축약형.png">
+															</a>
 														</div>
-														<div class="row"></div>
+														<div class="col-6 pt-2" style="margin-top: 0px">
+															<a sec:authorize="isAnonymous()"
+																href="/oauth2/authorization/kakao" role="button"><img
+																class="w-100 h-100" src="images/kakao_login_medium.png"></a>
+														</div>
 														<div class="col-6">
 															<span class="small mb-0"> <a
 																href="pages-register.html">회원가입</a>
 															</span>
 														</div>
 														<div class="col-6" style="text-align: right">
-															<span class="small mb-0"> <a
-																data-bs-toggle="modal" data-bs-target="#exampleModal">아이디/비밀번호
-																	찾기</a>
+															<span class="small mb-0"> <a class="pe-auto"
+																data-bs-toggle="modal" data-bs-target="#userModal">아이디
+																	찾기/비밀번호 찾기</a>
 															</span>
 														</div>
 													</form>
@@ -178,8 +178,10 @@
 															</span>
 														</div>
 														<div class="col-6" style="text-align: right">
-															<span class="small mb-0"> <a
-																href="pages-register.html">아이디/비밀번호 찾기</a>
+															<span class="small mb-0"> <a class="pe-auto"
+																data-bs-toggle="modal" data-bs-target="#coModal">아이디
+																	찾기/비밀번호 찾기</a>
+
 															</span>
 														</div>
 													</form>
@@ -200,40 +202,59 @@
 			</div>
 		</div>
 		<!-- 모달창 -->
-		<div class="modal" id="exampleModal" tabindex="-1"
+		<div class="modal" id="userModal" tabindex="-1"
 			aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-lg modal-dialog-centered">
 				<div class="modal-content">
 					<div class="modal-body">
-						<div class="card-body">
+						<div class="card-body" style="padding-bottom: 0px">
 							<!-- Bordered Tabs Justified -->
 							<ul class="nav nav-tabs nav-tabs-bordered d-flex"
 								id="borderedTabJustified" role="tablist">
 								<li class="nav-item flex-fill" role="presentation">
 									<button class="nav-link w-100 active" id="home-tab"
 										data-bs-toggle="tab" data-bs-target="#userFind" type="button"
-										role="tab" aria-controls="home" aria-selected="true">일반회원</button>
+										role="tab" aria-controls="home" aria-selected="true">아이디
+										찾기</button>
 								</li>
 								<li class="nav-item flex-fill" role="presentation">
 									<button class="nav-link w-100" id="profile-tab"
 										data-bs-toggle="tab" data-bs-target="#coFind" type="button"
 										role="tab" aria-controls="profile" aria-selected="false"
-										tabindex="-1">기업회원</button>
+										tabindex="-1">비밀번호 찾기</button>
 								</li>
 							</ul>
 							<div class="tab-content pt-2" id="borderedTabJustifiedContent">
 								<div class="tab-pane fade show active" id="userFind"
-									role="tabpanel" aria-labelledby="home-tab">Sunt est
-									soluta temporibus accusantium neque nam maiores cumque
-									temporibus. Tempora libero non est unde veniam est qui dolor.
-									Ut sunt iure rerum quae quisquam autem eveniet perspiciatis
-									odit. Fuga sequi sed ea saepe at unde.</div>
+									role="tabpanel" aria-labelledby="home-tab">
+									<div class="row">
+										<div class="col-md-2"></div>
+										<div class="col-md-8">
+											<form>
+												<div class="row mb-3">
+													<label for="inputEmail3" class="col-sm-2 col-form-label">이름</label>
+													<div class="col-sm-10">
+														<input type="text" class="form-control" id="inputText">
+													</div>
+												</div>
+												<div class="row mb-3">
+													<label for="inputEmail3" class="col-sm-2 col-form-label">전화번호</label>
+													<div class="col-sm-10">
+														<input type="text" oninput="autoHyphen(this)"
+															maxlength="13" class="form-control" id="inputEmail">
+													</div>
+												</div>
+												<div>
+													<button type="submit" class="btn btn-primary">Submit</button>
+												</div>
+											</form>
+										</div>
+										<div class="col-md-2"></div>
+									</div>
+
+								</div>
 								<div class="tab-pane fade" id="coFind" role="tabpanel"
-									aria-labelledby="profile-tab">Nesciunt totam et.
-									Consequuntur magnam aliquid eos nulla dolor iure eos quia.
-									Accusantium distinctio omnis et atque fugiat. Itaque doloremque
-									aliquid sint quasi quia distinctio similique. Voluptate nihil
-									recusandae mollitia dolores. Ut laboriosam voluptatum dicta.</div>
+									aria-labelledby="profile-tab"></div>
 							</div>
 							<!-- End Bordered Tabs Justified -->
 
@@ -242,8 +263,6 @@
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary"
 							data-bs-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary">Save
-							changes</button>
 					</div>
 				</div>
 			</div>
@@ -254,5 +273,13 @@
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
 		crossorigin="anonymous"></script>
+
+	<script>
+	const autoHyphen = (target) => {
+		 target.value = target.value
+		   .replace(/[^0-9]/g, '')
+		  .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
+		}
+	</script>
 </body>
 </html>
