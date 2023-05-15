@@ -8,4 +8,6 @@ import com.yedam.moa.member.service.MemberVO;
 public interface MemberMapper {
 
 	MemberVO getMember(String id);
+
+	MemberVO getCoMember(String id);
 }

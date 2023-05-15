@@ -9,6 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
@@ -29,7 +30,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class MemberServiceImpl implements OAuth2UserService<OAuth2UserRequest, OAuth2User> , UserDetailsService   {
+public class MemberServiceImpl implements MemberService, OAuth2UserService<OAuth2UserRequest, OAuth2User> , UserDetailsService   {
 	
     private final UserRepository userRepository;
 
@@ -74,5 +75,43 @@ public class MemberServiceImpl implements OAuth2UserService<OAuth2UserRequest, O
 		} 
 		return memberVO;
 	}
+
+	//로그인 성공 실패
+	@Override
+	public boolean authenticate(String id, String pw) {
+		MemberVO member = memberMapper.getMember(id);
+        if (member == null) {
+            return false;
+        }
+        if (new BCryptPasswordEncoder().matches(pw, member.getPw())) {
+            // 로그인 성공
+            return true;
+        } else {
+            // 로그인 실패
+            return false;
+        }
+	}
+	
+	@Override
+	public boolean authenticateCo(String id, String pw) {
+		MemberVO member = memberMapper.getCoMember(id);
+        if (member == null) {
+            return false;
+        }
+        if (new BCryptPasswordEncoder().matches(pw, member.getPw())) {
+            // 로그인 성공
+            return true;
+        } else {
+            // 로그인 실패
+            return false;
+        }
+	}
+
+	@Override
+	public MemberVO getMember(String id) {
+		
+		return memberMapper.getMember(id);
+	}
+
 
 }
