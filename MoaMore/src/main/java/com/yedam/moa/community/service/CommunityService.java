@@ -3,6 +3,7 @@ package com.yedam.moa.community.service;
 import java.util.List;
 
 import com.yedam.moa.community.CommunityVO;
+import com.yedam.moa.community.IntrvVO;
 
 public interface CommunityService {
 
@@ -23,5 +24,8 @@ public interface CommunityService {
 	
 	// 취업 Q&A 삭제기능
 	public int jobQnaDelete(String qaNotiwrNo);
+	
+	// 면접후기 등록 기능
+	public int jobInterviewInsert(IntrvVO intrvVO);
 	
 }

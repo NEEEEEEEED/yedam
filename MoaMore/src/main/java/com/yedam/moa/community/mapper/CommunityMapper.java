@@ -3,6 +3,7 @@ package com.yedam.moa.community.mapper;
 import java.util.List;
 
 import com.yedam.moa.community.CommunityVO;
+import com.yedam.moa.community.IntrvVO;
 
 public interface CommunityMapper {
 
@@ -26,5 +27,8 @@ public interface CommunityMapper {
 	
 	// 취업 Q&A 조회수 기능
 	public int jobQnaView(String qaNotiwrNo);
+	
+	// 면접후기 등록 기능
+	public int jobInterviewInsert(IntrvVO intrvVO);
 	
 }

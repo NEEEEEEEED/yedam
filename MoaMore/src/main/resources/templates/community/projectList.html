@@ -22,7 +22,7 @@
 					      <li class="mx-6"><a href="/jobInterview">면접후기</a></li>
 					      <li class="mx-6"><a href="/projectList" style="color:red">프로젝트모집</a></li>
 				      	  <li class="mx-6"><a href="/studyList">스터디모집</a></li>
-					      <li class="mx-6" sec:authorize="hasRole('ROLE_USER')">
+					      <li class="mx-6" sec:authorize="hasRole('ROLE_MEM')">
 						      <button id="jobWriteForm" type="button" onclick="location.href='/jobQnAWrite'" class="btn btn-outline-danger radius nav-button">게시글작성</button>
 					      </li>
 					    </ul>

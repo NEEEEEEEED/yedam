@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.yedam.moa.comm.service.Impl.CommServiceImpl;
 import com.yedam.moa.community.CommunityVO;
+import com.yedam.moa.community.IntrvVO;
 import com.yedam.moa.community.service.Impl.CommunityServiceImpl;
 
 @Controller
@@ -26,7 +28,10 @@ public class CommunityController {
 	String uploadPath;
 	
 	@Autowired 
-	CommunityServiceImpl commuServiceImpl; 
+	CommunityServiceImpl commuServiceImpl; // 커뮤니티
+	
+	@Autowired
+	CommServiceImpl commServiceImpl;	// 공통코드
 	
 	
 	// 취업 Q&A 게시글 목록 페이지
@@ -39,8 +44,10 @@ public class CommunityController {
 	// 취업 Q&A 게시글 작성 페이지
 	@GetMapping("/jobQnAWrite")
 	public String jobQnAWrite(Model model, Principal pr) {
+		// 카테고리, 직무, 경력, 평가, 난이도, 합격여부, 면접유형, 면접인원
+		model.addAttribute("commList", commServiceImpl.getCodes("f", "N", "O", "P", "Q", "T", "R","S"));  
 		model.addAttribute("logId",pr.getName());
-		return "community/jobQnAWriteForm";
+		return "community/communityWrite";
 	}
 	
 	// 취업Q&A Ckeditor 이미지를 올렸을때 처리
@@ -145,6 +152,41 @@ public class CommunityController {
 		return "community/jobInterviewList";
 	}
 	
+	// 면접후기 등록
+	@PostMapping("/jobInterviewAdd")
+	public Map<String, Object> jobInterviewAdd(IntrvVO intrvVO) throws IllegalStateException, IOException {
+		
+		Map<String, Object> result = new HashMap<>();
+		
+		String fileName = null; 		// 원본파일명
+		String uploadFileName = null;	// UUID적용한 파일명
+		
+		if(intrvVO.getUpload() !=null && !intrvVO.getUpload().isEmpty() && intrvVO.getUpload().getSize()>0) {
+			fileName = intrvVO.getUpload().getOriginalFilename(); // 원본파일명
+			
+			// 동일 파일명 처리 UUID 사용
+			UUID uuid = UUID.randomUUID();
+			uploadFileName = uuid.toString() + "_" + fileName;
+			
+			intrvVO.getUpload().transferTo(new File(uploadPath,uploadFileName)); // 파일업로드
+
+		}
+		
+		intrvVO.setIntrvImg(uploadFileName);
+		
+		int r = 0;
+		
+		r = commuServiceImpl.jobInterviewInsert(intrvVO);
+		
+		if(r > 0) { // 등록 성공시
+			result.put("result", "Success");
+			return result;
+		}else {
+			result.put("result", "Fail");
+			return result;
+		}
+	}
+	
 	// 스터디 모집 리스트
 	@GetMapping("/studyList")
 	public String studyList() {
@@ -169,5 +211,6 @@ public class CommunityController {
 		return "community/studyDetail";
 	}
 	
+
 	
 }
