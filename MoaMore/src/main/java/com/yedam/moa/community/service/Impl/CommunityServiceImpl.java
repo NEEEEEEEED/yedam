@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yedam.moa.community.CommunityVO;
+import com.yedam.moa.community.IntrvVO;
 import com.yedam.moa.community.mapper.CommunityMapper;
 import com.yedam.moa.community.service.CommunityService;
 
@@ -50,6 +51,11 @@ public class CommunityServiceImpl implements CommunityService{
 	@Override
 	public int jobQnaDelete(String qaNotiwrNo) {
 		return commuMapper.jobQnaDelete(qaNotiwrNo);
+	}
+
+	@Override
+	public int jobInterviewInsert(IntrvVO intrvVO) {
+		return commuMapper.jobInterviewInsert(intrvVO);
 	}
 	
 	

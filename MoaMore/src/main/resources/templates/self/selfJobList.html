@@ -17,8 +17,8 @@
 		<input id="logId" name="id" type="hidden" th:value="${#authentication.principal.username}">
 		
 		<!-- 현재로그인된 유저가 가진 권한 -->
-		<div sec:authorize="hasRole('ROLE_USER')" style="display:none;">
-			<input id="ROLE_USER" value="ROLE_USER"> 
+		<div sec:authorize="hasRole('ROLE_MEM')" style="display:none;">
+			<input id="ROLE_MEM" value="ROLE_MEM"> 
 		</div>
 		<div sec:authorize="hasRole('ROLE_CO')" style="display:none;">
 			<input id="ROLE_CO" value="ROLE_CO"> 
@@ -52,7 +52,7 @@
 						</div>
 			
 						<!-- 유저일때만 보이는곳 -->
-						<div sec:authorize="hasRole('ROLE_USER')">
+						<div sec:authorize="hasRole('ROLE_MEM')">
 							<div class="ms-5">
 								<button id="myProfile" type="button" class="btn btn-outline-danger btn-sm radius fs-1">
 									셀프구직 등록
@@ -71,7 +71,7 @@
 			<div class="col-md-2" style="margin : 10px;">
 			
 			<!-- 유저라면 보이는곳 -->
-				<div sec:authorize="hasRole('ROLE_USER')">
+				<div sec:authorize="hasRole('ROLE_MEM')">
 					<div style="padding:18px; text-align : center;">
 						<h4>셀프구직[일반]</h4>
 						<hr>
@@ -146,7 +146,7 @@ $(document).ready(function() {
 	skill = $('#skill').val(); // 기술 스택
 	
 	
-	if($('#ROLE_USER').val()){ // 유저일때
+	if($('#ROLE_MEM').val()){ // 유저일때
 		console.log('유저입니다 - ROLE_MEM 일때 수정해야할 부분 -');
 		auth = 'user';
 		
@@ -196,7 +196,7 @@ function interest(interestBtn){
 	event.stopPropagation(); // 이벤트 전파 막음
 	let jobSearchNo = interestBtn.dataset.id; // data - 속성 이용해서 값가져옴
 	
-	if($('#ROLE_USER').val()){ // 유저일때
+	if($('#ROLE_MEM').val()){ // 유저일때
 		console.log('유저입니다 - ROLE_MEM 일때 수정해야할 부분 -');
 		Swal.fire({
 			  icon: 'error',
@@ -469,7 +469,7 @@ function selfJobListPrint(result={}){
 // 셀프구직 등록 버튼 클릭시 이력가 있는지 체크하는 함수
 $('#myProfile').on('click', function(){
 	
-	if($('#ROLE_USER').val()){ // 유저일때
+	if($('#ROLE_MEM').val()){ // 유저일때
 		$.ajax({
 			  url: 'selfJobCheck',
 			  type: 'post',

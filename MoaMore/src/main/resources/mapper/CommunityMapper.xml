@@ -63,4 +63,10 @@
 		   SET INQ_CNT = INQ_CNT + 1
 		 WHERE QA_NOTIWR_NO = #{qaNotiwrNo}
 	</update>
+	
+	<insert id="jobInterviewInsert" parameterType="IntrvVO">
+		INSERT INTO INTRV_SCRN(intrv_no, co_nm, duty, carr, appr, dif, intrv_typ, intrv_rcnt, spc_ctnt, pass_yn, reg_dt, accp_yn, id, intrv_img, qst_cntn)
+		VALUES (#{intrvNo}, #{coNm}, #{duty}, #{carr}, #{appr}, #{dif}, #{intrvTyp}, #{intrvRcnt}, #{spcCtnt}, #{passYn}, #{regDt}, #{accpYn}, #{id}, #{intrvImg}, #{qstCntn)})
+	</insert>
+	
 </mapper>
