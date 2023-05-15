@@ -11,6 +11,18 @@
 				authr
 		 FROM MEMBER
 		 WHERE ID = #{id}
+		   AND authr = 'ROLE_MEM'
+	<!-- #{ } : PreparedStatement 0 -> 0, Kang -> 'Kang'
+		 ${ } : 0 -> 0, Kang -> Kang -->
+	</select>
+	
+	<select id="getCoMember" resultType="MemberVO">
+		SELECT  ID,
+				PW,
+				authr
+		 FROM MEMBER
+		 WHERE ID = #{id}
+		   AND authr = 'ROLE_CO'
 	<!-- #{ } : PreparedStatement 0 -> 0, Kang -> 'Kang'
 		 ${ } : 0 -> 0, Kang -> Kang -->
 	</select>

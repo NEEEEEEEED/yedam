@@ -81,7 +81,6 @@ public class MemController {
 	@PostMapping("/insertResume")
 	@ResponseBody
 	public String insertRes(@RequestBody ResumeVO vo, Principal pr) {
-		
 		System.out.println(vo);
 		vo.setId(pr.getName());
 		 return mem.insertResume(vo);
