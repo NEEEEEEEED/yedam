@@ -164,10 +164,12 @@ public class HireController {
 	// 구인공고 이미지 등록	
 	@PostMapping("/hireImgInsert")
 	@ResponseBody
-	public String hireImgInsert(HireVO hireVO, Principal pr) {
-		hireVO.setId(pr.getName());
+	public String hireImgInsert(@RequestParam("pofolImg") MultipartFile thumbnailImg,
+	   		 					@RequestParam("pofolFile") MultipartFile detailImg ) {
 		return null;
 	}
+	
+	
 
 	// 구인공고 수정 페이지
 	@GetMapping("/hireMod")

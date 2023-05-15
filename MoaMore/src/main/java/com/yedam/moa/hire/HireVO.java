@@ -21,7 +21,7 @@ public class HireVO {
 	private String exprDt; // 마갈일
 	private String wksite; // 근무지역
 	private String coIntro; // 기업 소개
-	private String coImg; // 기업 대표 이미지
+	private String coImg; // 기업 대표 이미지 썸네일
 	private String accpDt; // 승인날짜
 	private String imgNo; // 이미지 그룹번호
 	private String job; // 직군
@@ -40,4 +40,5 @@ public class HireVO {
 	private String idMem; // 팔로우 하는 회원
 	private String scrapNo; // 스크랩 번호
 	private String skillNo; // 스킬 번호
+	
 }
