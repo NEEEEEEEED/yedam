@@ -155,9 +155,13 @@
 								</td>
 							</tr>
 							<tr>
+								<th>면접일자</th>
+								<td>
+									<input id="intrvDt" name="intrvDt" class="inputStyle" type="date" >
+								</td>
 								<th>면접증빙서류</th>
-								<td colspan="3">
-									<input id="intrvImg" name="intrvImg" type="file" >
+								<td>
+									<input id="upload" name="upload" type="file" >
 								</td>
 							</tr>
 						</tbody>
@@ -187,7 +191,7 @@
 					  			</div>
 					  		</div>
 					  		<div class="col-md-9">
-					  			<textarea id="spcCntn" name="spcCntn" class="form-control radius fullWidth" placeholder="사람들이 알면 좋은 면접Tip 및 특이사항 작성해주세요" style="height: 200px; resize: none; border:none;"></textarea>
+					  			<textarea id="spcCtnt" name="spcCtnt" class="form-control radius fullWidth" placeholder="사람들이 알면 좋은 면접Tip 및 특이사항 작성해주세요" style="height: 200px; resize: none; border:none;"></textarea>
 					  		</div>
 					  	</div>
 					  </div>
@@ -206,7 +210,7 @@
 					<!-- 제목 -->
 					<div class="mb-5">
 						<label class="form-label fs-1">◈ 프로젝트 제목</label>
-						<input id="title" name="ttl" type="text" class="form-control" placeholder="제목을 입력하여 주세요">
+						<input id="projectTitle" name="ttl" type="text" class="form-control" placeholder="제목을 입력하여 주세요">
 					</div>
 					
 					<table class="table mb-5 border">
@@ -214,46 +218,57 @@
 							<tr>
 								<th>모집직무</th>
 								<td>
-								  <select id="city"  class="inputStyle">
+								  <select id="collPosi" name="collPosi" class="inputStyle">
 								  	<option value="" selected>직무선택</option>
-								    <option>직무</option>
+								    <option th:each="collPosi : ${commList.N}" th:text="${collPosi.desct}" th:value="${collPosi.prov}">직무</option>
 								  </select>
 								</td>
 								<th>모집인원</th>
-								<td><input id="title" class="inputStyle" type="text" placeholder="모집인원을 입력하세요"></td>
+								<td><input id="collRcnt" name="collRcnt" class="inputStyle" type="text" placeholder="모집인원을 입력하세요"></td>
 							</tr>
 							<tr class="align-middle">
 								<th>진행방식</th>
 								<td>
-									<div class="text-center">
-										<label class="ms-1"><input name="carr" type="radio" value="신입"> 온라인 </label>
-										<label class="ms-5"><input name="carr" type="radio" value="경력"> 오프라인 </label>
+									<div class="d-flex justify-content-center">
+										<label th:each="progMthd : ${commList.j}" class="mx-3">
+											<input name="progMthd" type="radio"  th:text="${progMthd.desct}" th:value="${progMthd.prov}"> 
+										</label>
 									</div>
 								</td>
 								<th>요구기술</th>
-								<td><input id="title" class="inputStyle" type="text" placeholder="요구기술을 입력하세요"></td>
-							</tr>
-							<tr>
-								<th>진행기간</th>
-								<td>
-								  <select id="city"  class="inputStyle">
-								  	<option value="" selected>진행기간</option>
-								    <option>직무</option>
-								  </select>
-								</td>
-								<th>연락방법</th>
-								<td>
-								  <select id="city"  class="inputStyle">
-								  	<option value="" selected>연락방법</option>
-								    <option>직무</option>
-								  </select>
-								</td>
+								<td><input id="skill" name="skill" class="inputStyle" type="text" placeholder="요구기술을 입력하세요"></td>
 							</tr>
 							<tr>
 								<th>시작예정</th>
-								<td><input id="title" class="inputStyle" type="date"></td>
+								<td><input id="expcDt" name="expcDt" class="inputStyle" type="date"></td>
+								<th>진행기간</th>
+								<td>
+								  <select id="progTerm"  name="progTerm" class="inputStyle">
+								  	<option value="" selected>진행기간 선택</option>
+								    <option th:each="progTerm : ${commList.g}" th:text="${progTerm.desct}" th:value="${progTerm.prov}">진행기간</option>
+								  </select>
+								</td>
+							</tr>
+							<tr>
+								<th>연락방법</th>
+								<td>
+								  <select id="coctMthd" name="coctMthd" class="inputStyle" onchange="updatePlaceholder()">
+								  	<option value="" selected>연락방법 선택</option>
+								    <option th:each="coctMthd : ${commList.i}" th:text="${coctMthd.desct}" th:value="${coctMthd.prov}">연락방법</option>
+								  </select>
+								</td>
+								<th>연락</th>
+								<td><input id="contact" name="contact" class="inputStyle" placeholder="연락정보를 남겨주세요" type="text"></td>
+							</tr>
+							<tr>
 								<th>모집마감일</th>
-								<td><input id="title" class="inputStyle" type="date"></td>
+								<td><input id="clsDt" name="clsDt" class="inputStyle" type="date"></td>
+								<th>모집상태</th>
+								<td>
+								  <select id="collSt" name="collSt" class="inputStyle">
+								  	<option value="h1" selected>모집중</option>
+								  </select>
+								</td>
 							</tr>
 						</tbody>
 					</table>
@@ -346,7 +361,6 @@
 				</form>	<!-- 프로젝트모집 form 닫기 -->
 				
 				
-
 				<!-- 등록버튼 -->
                 <div class="text-end">
                 	<button id="cancleBtn" onclick="history.back()" type="button" class="btn btn-light radius mx-2">취소</button>
@@ -357,7 +371,25 @@
 		 </div>
 		 
 <script>
- 
+
+// select(연락방법)가 변경될시 input(연락)의 placeholder 변경
+function updatePlaceholder() {
+	  let selectElement = document.getElementById("coctMthd");
+	  let selectedValue = selectElement.value;
+	  let inputElement = document.getElementById("contact");
+	
+	  if (selectedValue === "i1") {
+	    inputElement.placeholder = "오픈 카톡방 링크";
+	  } else if (selectedValue === "i2") {
+	    inputElement.placeholder = "이메일 주소";
+	  } else if (selectedValue === "i3") {
+	    inputElement.placeholder = "구글 폼 주소";
+	  } else {
+	    inputElement.placeholder = "연락방법을 선택하세요";
+	  }
+}
+	
+	
 	let newEditor;
 	
 	// 취업 Q&A Editor
@@ -365,7 +397,7 @@
     DecoupledEditor
       .create( document.querySelector('#editor') ,{
       	language: "ko", // 한글버전으로 사용하기 위해 필요한 코드 위에 script 추가해야함
-          ckfinder: { 
+         ckfinder: { 
           	uploadUrl: 'jobQnAImg' // 내가 지정한 업로드 url (post로 요청감)
       	}// ckupload 사용해야함 
       })
@@ -576,10 +608,8 @@
  	        enctype: "multipart/form-data", //form data 설정
  	        processData: false, //프로세스 데이터 설정 : false 값을 해야 form data로 인식합니다
  	        contentType: false, //헤더의 Content-Type을 설정 : false 값을 해야 form data로 인식합니다
- 			success: function (result) {
- 				//console.log(result);
- 				
- 				let res = JSON.parse(result); // 파싱
+ 			success: function (res) {
+ 
 				if(res.result == 'Success'){
 					Swal.fire({
 					  icon: 'success',
@@ -588,7 +618,7 @@
 					  confirmButtonText: '확인'
 					}).then((result) => {
 					  if (result.isConfirmed) {
-						location.href="/jobQnA";
+						location.href="/jobInterview";
 					  }
 					});
 					
@@ -603,10 +633,71 @@
  	    		console.log(reject);
  			}
  		});
+ 	}
+ 	
+ 	// 프로젝트모집 등록
+ 	function projectInsert(){
  		
+ 		if($("#projectTitle").val() == "") { // 제목이 비어있으면
+			Swal.fire({
+				  icon: 'error',
+				  title: '제목을 입력해주세요'
+			})
+			return;
+		 }
+	   	
+     	// 에디터에 들어있는 HTML태그를 포함한 내용
+		const editorData = projectNewEditor.getData(); 
+     	
+     	// 정규표현식을 사용하여 에디터에 들어있는 HTML 태그를 "제외한" 에디터 내용
+		const editorText = projectNewEditor.getData().replace(/(<([^>]+)>)/gi, "").replace(/&nbsp;/g, ""); 
+		
+	   	if(editorData == "") { // 내용이 비어있으면
+	   		Swal.fire({
+				  icon: 'error',
+				  title: '내용을 입력해주세요'
+			})
+	   		return;
+	   	}
+	   	
+ 		let formData = new FormData($('#projectForm')[0]); // 폼데이터
+		formData.append("id", $('#logId').val());
+ 		formData.append("cntn", editorData);
+ 	
  		
- 		
- 		
+ 		$.ajax({
+ 			url: 'projectInsert',
+ 			type: 'post',
+ 			data: formData,
+ 			async: true, //비동기 여부
+ 	        enctype: "multipart/form-data", //form data 설정
+ 	        processData: false, //프로세스 데이터 설정 : false 값을 해야 form data로 인식합니다
+ 	        contentType: false, //헤더의 Content-Type을 설정 : false 값을 해야 form data로 인식합니다
+ 			success: function (res) {
+ 
+				if(res.result == 'Success'){
+					Swal.fire({
+					  icon: 'success',
+					  title: '프로젝트 모집 게시글 등록성공!',
+					  showCancelButton: false,
+					  confirmButtonText: '확인'
+					}).then((result) => {
+					  if (result.isConfirmed) {
+						location.href="/projectList";
+					  }
+					});
+					
+				}else{
+					Swal.fire({
+						  icon: 'error',
+						  title: '게시글 등록실패!'
+					});
+				}
+ 			},
+ 	 		error: function (reject) {	   
+ 	    		console.log(reject);
+ 			}
+ 		});	
  	}
  	
  	
@@ -617,17 +708,14 @@
     	let topic = $('#topic').val(); // 선택한 topic
     	switch(topic){
 	        case "f1" :
-	        			jobQnAInsert();
-			           	console.log("취업Q&A");
+	        			jobQnAInsert();		// 취업 Q&A
 			        	break;
 	        case "f2" :
-	        			jobReviewInsert();
-			        	console.log("면접후기");
+	        			jobReviewInsert();	// 면접후기
 			        	break;
 			        	
 	        case "f3" :
-	        	
-			        	console.log("프로젝트모집");
+	        			projectInsert();	// 프로젝트 모집
 			        	break;
 	        case "f4" :
 	        		
