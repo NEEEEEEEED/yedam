@@ -30,7 +30,9 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+
 public class MemberServiceImpl implements MemberService, OAuth2UserService<OAuth2UserRequest, OAuth2User> , UserDetailsService   {
+
 	
     private final UserRepository userRepository;
 
@@ -76,6 +78,7 @@ public class MemberServiceImpl implements MemberService, OAuth2UserService<OAuth
 		return memberVO;
 	}
 
+
 	//로그인 성공 실패
 	@Override
 	public boolean authenticate(String id, String pw) {
@@ -112,6 +115,7 @@ public class MemberServiceImpl implements MemberService, OAuth2UserService<OAuth
 		
 		return memberMapper.getMember(id);
 	}
+
 
 
 }

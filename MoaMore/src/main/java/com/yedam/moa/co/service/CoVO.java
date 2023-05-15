@@ -6,6 +6,7 @@ import lombok.Data;
 public class CoVO {
 	//기업정보
 	private String id;
+	private String pw;
 	private String rpstr; //대표자
 	private String sale; //매출액
 	private String coFg; //기업구분
