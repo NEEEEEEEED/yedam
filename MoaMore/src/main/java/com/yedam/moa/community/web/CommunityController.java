@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.yedam.moa.comm.service.Impl.CommServiceImpl;
 import com.yedam.moa.community.CommunityVO;
 import com.yedam.moa.community.IntrvVO;
+import com.yedam.moa.community.PrjtVO;
 import com.yedam.moa.community.service.Impl.CommunityServiceImpl;
 
 @Controller
@@ -44,8 +45,8 @@ public class CommunityController {
 	// 취업 Q&A 게시글 작성 페이지
 	@GetMapping("/jobQnAWrite")
 	public String jobQnAWrite(Model model, Principal pr) {
-		// 카테고리, 직무, 경력, 평가, 난이도, 합격여부, 면접유형, 면접인원
-		model.addAttribute("commList", commServiceImpl.getCodes("f", "N", "O", "P", "Q", "T", "R","S"));  
+		// 카테고리, 직무, 경력, 평가, 난이도, 합격여부, 면접유형, 면접인원, 진행방식, 진행기간, 연락방법
+		model.addAttribute("commList", commServiceImpl.getCodes("f", "N", "O", "P", "Q", "T", "R","S","j","g", "i"));  
 		model.addAttribute("logId",pr.getName());
 		return "community/communityWrite";
 	}
@@ -148,12 +149,14 @@ public class CommunityController {
 	
 	// 면접후기 리스트
 	@GetMapping("/jobInterview")
-	public String jobInterview() {
+	public String jobInterview(Model model) {
+		model.addAttribute("jobInterviewList", commuServiceImpl.jobInterviewList());
 		return "community/jobInterviewList";
 	}
 	
 	// 면접후기 등록
 	@PostMapping("/jobInterviewAdd")
+	@ResponseBody
 	public Map<String, Object> jobInterviewAdd(IntrvVO intrvVO) throws IllegalStateException, IOException {
 		
 		Map<String, Object> result = new HashMap<>();
@@ -172,11 +175,11 @@ public class CommunityController {
 
 		}
 		
-		intrvVO.setIntrvImg(uploadFileName);
+		intrvVO.setIntrvImg(uploadFileName); // 이미지 파일명
 		
 		int r = 0;
 		
-		r = commuServiceImpl.jobInterviewInsert(intrvVO);
+		r = commuServiceImpl.jobInterviewInsert(intrvVO); // 면접후기 등록
 		
 		if(r > 0) { // 등록 성공시
 			result.put("result", "Success");
@@ -187,17 +190,41 @@ public class CommunityController {
 		}
 	}
 	
-	// 스터디 모집 리스트
-	@GetMapping("/studyList")
-	public String studyList() {
-		return "community/studyList";
-	}
 	
 	// 프로젝트 모집 리스트
 	@GetMapping("/projectList")
 	public String projectList() {
 		return "community/projectList";
 	}
+	
+	// 프로젝트 등록
+	@PostMapping("/projectInsert")
+	@ResponseBody
+	public Map<String, Object> projectInsert(PrjtVO prjtVO){
+		
+		Map<String, Object> result = new HashMap<>();
+		
+		int r = 0;
+		r = commuServiceImpl.projectInsert(prjtVO);
+		
+		if(r > 0) { // 등록 성공시
+			result.put("result", "Success");
+			return result;
+		}else {
+			result.put("result", "Fail");
+			return result;
+		}
+		
+	}
+	
+	
+	// 스터디 모집 리스트
+	@GetMapping("/studyList")
+	public String studyList() {
+		return "community/studyList";
+	}
+	
+	
 	
 	// 프로젝트 모집 상세페이지
 	@GetMapping("/projectDetail")
