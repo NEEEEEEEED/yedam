@@ -29,7 +29,6 @@ body {
 	<h1>
 		공고등록 페이지
 	</h1>
-	<div>${test}</div>
 	
 	<article>
 		<div role="main">
@@ -135,7 +134,7 @@ body {
 				
 				<div class="mb-3">
 					<label for="tag">마감일</label><span id="star">*</span>
-					<input id="ecprDt" type="date" class="form-control" name="exprDt" placeholder="태그를 입력해 주세요">
+					<input id="exprDt" type="date" class="form-control" name="exprDt" placeholder="태그를 입력해 주세요">
 				</div>
 				
 				<div class="mb-3">
@@ -210,7 +209,7 @@ let pref = $('#pref').val(); // 우대사항
 let welf = $('#welf').val(); // 복지
 let carr = $('#carr').val(); // 경력
 let shcr = $('#shcr').val(); // 학력
-let accpDt = $('#accpDt').val(); // 마감일
+let exprDt = $('#exprDt').val(); // 마감일
 let wksite = $('#wksite').val(); // 지역
 
 // let formData = new FormData($('#coImg')[0]); // 폼데이터 썸네일
@@ -235,7 +234,7 @@ let wksite = $('#wksite').val(); // 지역
 		let welf = $('#welf').val(); // 복지
 		let carr = $('#carr').val(); // 경력
 		let shcr = $('#shcr').val(); // 학력
-		let accpDt = $('#accpDt').val(); // 마감일
+		let exprDt = $('#exprDt').val(); // 마감일
 		let wksite = $('#wksite').val(); // 지역
 		let intro=editor2.getHTML(); // 서비스
 		let data = {
@@ -243,17 +242,18 @@ let wksite = $('#wksite').val(); // 지역
 				"coNm" : coNm,
 				"skill" : skill,
 				"job" : job,
-				"qual" : qual,
-				"pref" : pref,
+				"maBuss" : maBuss,
+				"qualCond" : qual,
+				"prefCond" : pref,
 				"welf" : welf,
 				"carr" : carr,
 				"shcr" : shcr,
-				"accpDt" : accpDt,
+				"exprDt" : exprDt,
 				"wksite" : wksite,
-				"intro" : intro
+				"coIntro" : intro
 		}
 		recruitInsert(data);
-		//location.href="/hirePage";
+		location.href="/hirePage";
 	});
 	
 	// 이미지 등록 버튼 클릭시
@@ -265,7 +265,6 @@ let wksite = $('#wksite').val(); // 지역
 	
 	
 	//에디터 정의
-	 let imgAddSave = '';
     const editor2 = new toastui.Editor({  
               el: document.querySelector('#editor2'),
               previewStyle: 'vertical',
@@ -279,39 +278,13 @@ let wksite = $('#wksite').val(); // 지역
                      // blob : Java Script 파일 객체
                      //console.log(blob);
 
-                     const formData = new FormData();
-                     formData.append("image", blob);
-
-                     let url = "/moamoreImg/";
-                     $.ajax({
-                       type: "POST",
-                       enctype: "multipart/form-data",
-                       url: "/test",
-                       data: formData,
-                       /* beforeSend: function (xhr) {
-                         /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다
-                         xhr.setRequestHeader(header, token);
-                       }, */
-                       //dataType: "json",
-                       processData: false,
-                       contentType: false,
-                       cache: false,
-                       success: function (data) {
-                         data = JSON.parse(data);
-        
-                         url += data.filename;
-                         callback(url, "");
-                       },
-                       error: function (e) {
-                         callback("image_load_fail", "사진 대체 텍스트 입력");
-                       },
-                     });
                    },
                  },
             });
+    
 		    
     			let skill_value = []; // select 태그 value 배열
-    			let skill_text = []; // seelct 태그 text 배열
+    			let skill_text = []; // select 태그 text 배열
     
 		 // 기술스택 값 변경시 실행되는 함수
 		    $('#skill').on('change', function(){
@@ -329,26 +302,27 @@ let wksite = $('#wksite').val(); // 지역
 		    	$('#skill').val(skill_value_value);
 		    	
 		    });
-    
+    		
+		 // 공고 데이터 등록(이미지 제외)
+			function recruitInsert(data){
+				$.ajax({
+					url: 'hireDataInsert',
+					type: 'post',
+					data: data,
+					success: function (result){
+						Swal.fire({
+							icon: 'success',
+							title: '구인공고를 등록했습니다.'
+						});
+					},
+					error: function(reject){
+						console.log(reject);
+					}
+				})
+			}
  
 	
-	// 공고 데이터 등록(이미지 제외)
-	function recruitInsert(data){
-		$.ajax({
-			url: 'hireDataInsert',
-			type: 'post',
-			data: data,
-			success: function (result){
-				Swal.fire({
-					icon: 'success',
-					title: '구인공고를 등록했습니다.'
-				});
-			},
-			error: function(reject){
-				console.log(reject);
-			}
-		})
-	}
+
 </script>
 	</div>
 </body>

@@ -58,7 +58,7 @@
 								
 			<div id="hireButtons">
 			<!-- 현재로그인된 유저가 가진 권한 -->
-	        	<div sec:authorize="hasRole('ROLE_USER')">
+	        	<div sec:authorize="hasRole('ROLE_MEM')">
 					<button type="button" class="btn btn-outline-dark" id="scrapList">스크랩 정렬</button>
 				</div>
 				<div sec:authorize="hasRole('ROLE_CO')" >

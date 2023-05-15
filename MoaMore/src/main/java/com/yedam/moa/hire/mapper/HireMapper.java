@@ -22,5 +22,7 @@ public interface HireMapper {
 	public String recruitNo(); // 공고번호 
 	public String skillNo(); // 스킬번호
 	public int hireDataInsert(HireVO vo); // 공고 데이터 등록 
-	public int skillInsert (String str); // 공고 스킬 등록
+	public int skillInsert(HireVO vo); // 공고 스킬 등록
+	public int thumbnailImg(HireVO hireVO); // 공고 썸네일 이미지등록
+	public int detailImges(HireVO hireVO); // 공고 상세 이미지들 등록
 }
