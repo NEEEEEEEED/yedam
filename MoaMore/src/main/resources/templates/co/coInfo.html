@@ -66,13 +66,12 @@ section {
 							<div class="row d-flex justify-content-center">
 								<div class="col-lg-4">아이디</div>
 
-								<div class="col-lg-4">wndks8564</div>
+								<div class="col-lg-4">[[${member.id}]]</div>
 								<div class="col-lg-2"></div>
 							</div>
 							<hr style="color: #e3e5e5">
 							<div class="row d-flex justify-content-center"
-								data-bs-toggle="modal" data-bs-target="#updatePw"
-								>
+								data-bs-toggle="modal" data-bs-target="#updatePw">
 								<div class="col-lg-4">비밀번호</div>
 
 								<div class="col-lg-4 gray">*********</div>
@@ -82,11 +81,10 @@ section {
 							</div>
 							<hr style="color: #e3e5e5">
 							<div class="row d-flex justify-content-center"
-								data-bs-toggle="modal" data-bs-target="#updatePh"
-								>
+								data-bs-toggle="modal" data-bs-target="#updatePh">
 								<div class="col-lg-4">전화번호</div>
 
-								<div class="col-lg-4 gray">wndks8564</div>
+								<div class="col-lg-4 gray">[[${member.ph}]]</div>
 								<div class="col-lg-2">
 									<i class="bi bi-chevron-compact-right"></i>
 								</div>
@@ -97,7 +95,7 @@ section {
 								onclick="updateEmail()">
 								<div class="col-lg-4 ">이메일</div>
 
-								<div class="col-lg-4 gray">wndks8564</div>
+								<div class="col-lg-4 gray">[[${member.email}]]</div>
 								<div class="col-lg-2">
 									<i class="bi bi-chevron-compact-right"></i>
 								</div>
@@ -267,30 +265,42 @@ section {
 					<div class="modal-body">
 						<div class="row d-flex justify-content-center">
 							<div class="row d-flex justify-content-center mb-2">
-								<label class="col-4">현재 비밀번호</label> <input class="col-6" name="pw" placeholder="비밀번호 입력" oninput="checkPw()">
-								<div class="row"><span class="col-5"></span><small id="incPw" class="col-5 text-danger" style="display:none;">현재 비밀번호가 다릅니다.</small></div>
+								<label class="col-4">현재 비밀번호</label> <input class="col-6"
+									name="pw" placeholder="비밀번호 입력" oninput="checkPw()">
+								<div class="row">
+									<span class="col-5"></span><small id="incPw"
+										class="col-5 text-danger pwWarn" style="display: none;">현재
+										비밀번호가 다릅니다.</small>
+								</div>
 							</div>
 							<div class="row d-flex justify-content-center mb-2">
-								<label class="col-4">새 비밀번호</label> <input class="col-6" name="newPw" placeholder="새 비밀번호 입력" >
+								<label class="col-4">새 비밀번호</label> <input class="col-6"
+									name="newPw" placeholder="새 비밀번호 입력" oninput="checkNewPw()">
 							</div>
 							<div class="row d-flex justify-content-center">
-								<label class="col-4">비밀번호 확인</label> <input class="col-6" name="newPwCheck" placeholder="새 비밀번호 다시 입력" oninput="checkNewPw()">
-								<div class="row"><span class="col-5"></span><small id="incNewPw" class="col-6 text-danger" style="display:none;">비밀번호가 일치하지 않습니다.</small></div>
+								<label class="col-4">비밀번호 확인</label> <input class="col-6"
+									name="newPwCheck" placeholder="새 비밀번호 다시 입력"
+									oninput="checkNewPw()">
+								<div class="row">
+									<span class="col-5"></span><small id="incNewPw"
+										class="col-6 text-danger pwWarn" style="display: none;">비밀번호가
+										일치하지 않습니다.</small>
+								</div>
 							</div>
 						</div>
 
 					</div>
 					<div class="modal-footer">
-						<button type="button" onclick="close()" id="closeBtn" data-bs-dismiss="modal"
-							aria-label="Close" class="btn btn-secondary"
-							 >Close</button>
-						<button type="button" class="btn btn-primary">Save
+						<button type="button" onclick="close()" id="closeBtn"
+							data-bs-dismiss="modal" aria-label="Close"
+							class="btn btn-secondary">Close</button>
+						<button type="button" onclick="updatePw()" class="btn btn-primary">Save
 							changes</button>
 					</div>
 				</div>
 			</div>
 		</div>
-		                                                  
+
 
 		<div class="modal fade" id="updatePh" tabindex="-1"
 			aria-labelledby="exampleModalCenterTitle" style="display: none;"
@@ -340,53 +350,112 @@ section {
 			</div>
 		</div>
 		<script>
-		//현재비밀번호 일치확인
-		function checkPw(){
-			let pw = $('[name=pw]').val()
-			 $.ajax({
-				url : "/checkPw",
-				method : "POST",
-				data : {pw:pw},
-				success : function(res) {
-					console.log(res)
-					if(res || pw == ''){
-						incPw.style.display = "none";	
-					}else {
-						incPw.style.display = "block";	
-					}
-				},
-				error : function(jqXHR, textStatus, errorThrown) {
-					console.error(textStatus, errorThrown);
-				},
-			});	
-		}
-		//변경비밀번호 일치확인
-		function checkNewPw(){
-			let newPw = $('input[name=newPw]').val();		
-			let newCheckPw = $('input[name=newPwCheck]').val();	
-			if(newPw == newCheckPw || newPw == ''){
-				incNewPw.style.display = "none";	
-			}else{
-				incNewPw.style.display = "block";
+			//비밀번호 변경
+			function updatePw(){
+				if(pwNullCheck()){
+					let id = "[[${member.id}]]";
+					let pw =  $('[name="newPw"]').val();
+					$.ajax({
+						url : "/updatePw",
+						method : "POST",
+						data : JSON.stringify({
+							id : id,
+							pw : pw
+						}),
+						contentType : "application/json",//보내는타입
+						success : function(res) {
+							console.log(res);
+							
+						},
+						error : function(res) {
+							console.log(res);
+						},
+					});		
+				}else alert("빈칸체크");
 			}
-		} 
-
-		 $('#closeBtn').on("click",function(){
-			let modals = document.querySelectorAll('.modal')
-				for(let i=0;i<modals.length;i++){
-					console.log('test')
-				} 
-		}) 
-		
-		function close(){
-			let modals = document.querySelecotorAll('.modal')
-			for(let i=0;i<modals.length;i++){
-				console.log('onclick')
-			} 
-			console.log('onclick');
-		}
+			//비밀번호 빈칸체크
+			function pwNullCheck(){
+				let inputs = document.querySelector('#updatePw').querySelectorAll('input')
+				let nullCheck = 0;
+				let warnCheck = document.querySelectorAll('.pwWarn')
+				for(let i=0;i<inputs.length;i++){
+					if(inputs[i].value == ''){
+						nullCheck += 1;
+					}
+				}
+				for(let j=0; j<warnCheck.length;j++){
+					if(warnCheck[j].style.display == 'block'){
+						nullCheck += 1;
+					}	
+				}
+				
+				if(nullCheck > 0){
+					return false
+				}else return true;
+			}
 			
+			//현재비밀번호 일치확인
+			function alwaysNone() {
+				let pw = $('[name=pw]').val()
+				let newPw = $('input[name=newPw]').val();
+				let newCheckPw = $('input[name=newPwCheck]').val();
+				incPw.style.display = "none";
+				incNewPw.style.display = "none";
+			}
+			
+			function checkPw() {
+				let pw = $('[name=pw]').val()
+				$.ajax({
+					url : "/checkPw",
+					method : "POST",
+					data : {
+						pw : pw
+					},
+					success : function(res) {
+						console.log(res)
+						if (res || pw == '') {
+							incPw.style.display = "none";
+						} else {
+							incPw.style.display = "block";
+						}
+					},
+					error : function(jqXHR, textStatus, errorThrown) {
+						console.error(textStatus, errorThrown);
+					},
+				});
+			}
+			//변경비밀번호 일치확인
+			function checkNewPw() {
+				let newPw = $('input[name=newPw]').val();
+				let newCheckPw = $('input[name=newPwCheck]').val();
+				if (newPw == newCheckPw || newPw == '') {
+					incNewPw.style.display = "none";
+				} else {
+					incNewPw.style.display = "block";
+				}
+			}
 
+			$('#closeBtn').on("click", function() {
+				closeModal();
+				alwaysNone();
+			}) 
+
+			function closeModal() {
+				let modals = document.querySelectorAll('.modal')
+				for (let i = 0; i < modals.length; i++) {
+					let inputs = modals[i].querySelectorAll('input')
+					for (let j = 0; j < inputs.length; j++) {
+						inputs[j].value = '';
+					}
+				}
+			}
+
+			function close() {
+				let modals = document.querySelecotorAll('.modal')
+				for (let i = 0; i < modals.length; i++) {
+					console.log('onclick')
+				}
+			}
 		</script>
 	</div>
 </body>

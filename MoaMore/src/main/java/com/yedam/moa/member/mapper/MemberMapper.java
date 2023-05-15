@@ -10,4 +10,6 @@ public interface MemberMapper {
 	MemberVO getMember(String id);
 
 	MemberVO getCoMember(String id);
+
+	int updateMember(MemberVO vo);
 }
