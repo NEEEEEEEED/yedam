@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.yedam.moa.community.CommunityVO;
 import com.yedam.moa.community.IntrvVO;
+import com.yedam.moa.community.PrjtVO;
 import com.yedam.moa.community.mapper.CommunityMapper;
 import com.yedam.moa.community.service.CommunityService;
 
@@ -47,15 +48,32 @@ public class CommunityServiceImpl implements CommunityService{
 	public int jobQnaModFn(CommunityVO communityVO) {
 		return commuMapper.jobQnaModFn(communityVO);
 	}
-
+	
+	// 취업 Q&A 삭제기능
 	@Override
 	public int jobQnaDelete(String qaNotiwrNo) {
 		return commuMapper.jobQnaDelete(qaNotiwrNo);
 	}
 
+	// 면접후기 등록
 	@Override
 	public int jobInterviewInsert(IntrvVO intrvVO) {
 		return commuMapper.jobInterviewInsert(intrvVO);
+	}
+
+	// 면접후기 리스트 출력
+	@Override
+	public List<IntrvVO> jobInterviewList() {
+
+		return commuMapper.jobInterviewList();
+	}
+
+	// 프로젝트 리스트 출력
+	
+	// 프로젝트 등록 기능
+	@Override
+	public int projectInsert(PrjtVO prjtVO) {
+		return commuMapper.projectInsert(prjtVO);
 	}
 	
 	

@@ -26,7 +26,7 @@
 				      <li class="mx-6"><a href="/projectList">프로젝트모집</a></li>
 				      <li class="mx-6"><a href="/studyList">스터디모집</a></li>
 				      <li class="mx-6" sec:authorize="hasRole('ROLE_MEM')">
-					      <button type="button" class="btn btn-outline-danger radius nav-button">게시글작성</button>
+					      <button type="button" class="btn btn-outline-danger radius nav-button" onclick="location.href='/jobQnAWrite'">게시글작성</button>
 				      </li>
 				    </ul>
 				  </nav>
@@ -66,107 +66,69 @@
 	<div class="row mb-5">
 		<div class="col-md-2"></div>
 		<div class="col-md-8">
-			<!-- 반복 -->
-			<div id="change_id01" class="accordion accordion-flush">
+			<!-- 반복 --> 
+			<div th:each="jobInterview : ${jobInterviewList}" id="change_id01" class="accordion accordion-flush">
 				<div class="accordion-item"></div>
 				<h2 id="srgdgfdgdgg45" class="accordion-header border-bottom">
-					<button class="accordion-button text-black collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#change_id02" aria-expanded="false" aria-controls="srgdgfdgdgg45">
+					<button class="accordion-button text-black collapsed" type="button" data-bs-toggle="collapse" th:data-bs-target="|#${jobInterview.intrvNo}|" aria-expanded="false" aria-controls="srgdgfdgdgg45">
 						<div style="display:flex; flex-direction: column;">
 							<div style="display:flex; align-items: center;">
-								<h2 class="pe-3">회사명</h2>
-								<span>입사지원현황(면접합격,서류합격 등)</span>
+								<h3 class="pe-3" th:text="${jobInterview.coNm}">회사명</h3>
+								
+								<th:block th:switch="${jobInterview.passYn}">
+									<span th:case="합격" th:text="${jobInterview.passYn}" class="badge bg-secondary radius">합격</span>
+									<span th:case="대기중" th:text="${jobInterview.passYn}" class="badge bg-dark radius">대기중</span>
+									<span th:case="불합격" th:text="${jobInterview.passYn}" class="badge bg-danger radius">불합격</span>
+								</th:block>
+								
 							</div>
 							<br>
 							<div>
-								<span>지원직무 | </span> 
-								<span>[신입/경력]</span>
-								<span class="ms-1">2023/05/13</span>
+								<span class="fw-bold" th:text="|${jobInterview.duty}|">지원직무</span> |
+								<span th:text="|[${jobInterview.carr}]|">[신입/경력]</span> |
+								<span th:text="|면접일자 : ${jobInterview.intrvDt}|" class="ms-1">2023/05/13</span>
 							</div>
 						</div>
 					</button>
 				</h2>
-			  	<div id="change_id02" style="background-color:#f9f9f9; border:1px solid #ddd;" class="accordion-collapse collapse" aria-labelledby="srgdgfdgdgg45" data-bs-parent="#change_id01" >
+			  	<div th:id="${jobInterview.intrvNo}" style="background-color:#f9f9f9; border:1px solid #ddd;" class="accordion-collapse collapse" aria-labelledby="srgdgfdgdgg45" data-bs-parent="#change_id01" >
 				    <div class="accordion-body mx-2 p-4">
 				    	<div class="fs-1 mb-3">
-				    		<span>[전반적인평가] </span><span style="color:blue">상</span><span> / </span>
-				    		<span>[난이도] </span><span style="color:blue">상</span><span> / </span>
-				    		<span>[결과] </span><span style="color:blue">합격</span>
+				    		<span>[전반적인평가] </span><span class="fw-bold" th:text="${jobInterview.appr}">보통</span><span> / </span>
+				    		<span>[난이도] </span><span class="fw-bold"  th:text="${jobInterview.dif}">어려움</span><span> / </span>
+				    		<span>[결과] </span>
+				    		<th:block th:switch="${jobInterview.passYn}">			
+				    				<span th:case="합격" th:text="${jobInterview.passYn}" class="fw-bold" style="color:blue;" >합격</span>
+									<span th:case="대기중" th:text="${jobInterview.passYn}" class="fw-bold" style="color:black;">대기중</span>
+									<span th:case="불합격" th:text="${jobInterview.passYn}" class="fw-bold" style="color:red;">불합격</span>
+								</th:block>
 				     	</div>		
 				     	
-				     	<div class="row mb-1">
-						    <div class="col-md-2 fw-bold">[면접유형]</div>
-						    <div class="col-md-9">인적성검사</div>
+				     	<div class="row mb-2">
+						    <div class="col-md-2">[면접유형]</div>
+						    <div class="col-md-9" th:text="${jobInterview.intrvTyp}">인적성검사</div>
 						 </div>
-						<div class="row mb-1">
-						    <div class="col-md-2 fw-bold">[면접인원]</div>
-						    <div class="col-md-9">지원자 1명, 면접관 다수</div>
+						<div class="row mb-2">
+						    <div class="col-md-2">[면접인원]</div>
+						    <div class="col-md-9" th:text="${jobInterview.intrvRcnt}">지원자 1명, 면접관 다수</div>
 						</div>
-						<div class="row mb-1">
-						    <div class="col-md-2 fw-bold">[면접진행방식]</div>
-						    <div class="col-md-9">1차면접은면접관2명이고기술력에대한질문과답변을하였습니다</div>
+						<div class="row mb-2">
+						    <div class="col-md-2">[면접질문]</div>
+						    <div class="col-md-9">
+						    	<textarea class="ps-0" style="background-color:#f9f9f9; width:100%; resize: none; border:none;"  readonly th:text="${jobInterview.qstCntn}"></textarea>
+						    </div>
+						</div>
+						<div class="row mb-2">
+						    <div class="col-md-2">[Tip 및 특이사항]</div>
+						    <div class="col-md-9" th:text="${jobInterview.spcCtnt}">없음</div>
 						 </div>
-						 <div class="row mb-1">
-						    <div class="col-md-2 fw-bold">[면접질문]</div>
-						    <div class="col-md-9">건축업무중자신감있는분야에대해얘기하세요신한에대해아는대로얘기하</div>
-						 </div>
-						 <div class="row mb-1">
-						    <div class="col-md-2 fw-bold">[Tip 및 특이사항]</div>
-						    <div class="col-md-9">없음</div>
+						 <div class="row mb-2">
+						    <div class="col-md-2">[등록일자]</div>
+						    <div class="col-md-9" th:text="${jobInterview.regDt}">2023/05/15</div>
 						 </div>
 				    </div>
 				</div>
 			</div>
-			
-			<!-- 반복 -->
-			<div id="change_id03" class="accordion accordion-flush">
-				<div class="accordion-item"></div>
-				<h2 id="srgdgfdgdgg45" class="accordion-header border-bottom">
-					<button class="accordion-button text-black collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#change_id04" aria-expanded="false" aria-controls="srgdgfdgdgg45">
-						<div style="display:flex; flex-direction: column;">
-							<div style="display:flex; align-items: center;">
-								<h2 class="pe-3">회사명</h2>
-								<span>입사지원현황(면접합격,서류합격 등)</span>
-							</div>
-							<br>
-							<div>
-								<span>지원직무 | </span> 
-								<span>[신입/경력]</span>
-								<span class="ms-1">2023/05/13</span>
-							</div>
-						</div>
-					</button>
-				</h2>
-			  	<div id="change_id04" style="background-color:#f9f9f9; border:1px solid #ddd;" class="accordion-collapse collapse" aria-labelledby="srgdgfdgdgg45" data-bs-parent="#change_id03" >
-				    <div class="accordion-body mx-2 p-4">
-				    	<div class="fs-1 mb-3">
-				    		<span>[전반적인평가] </span><span style="color:blue">cxcczcz</span><span> / </span>
-				    		<span>[난이도] </span><span style="color:blue">상</span><span> / </span>
-				    		<span>[결과] </span><span style="color:blue">합격</span>
-				     	</div>		
-				     	
-				     	<div class="row mb-1">
-						    <div class="col-md-2 fw-bold">[면접유형]</div>
-						    <div class="col-md-9">인적성검사</div>
-						 </div>
-						<div class="row mb-1">
-						    <div class="col-md-2 fw-bold">[면접인원]</div>
-						    <div class="col-md-9">지원자 1명, 면접관 다수</div>
-						</div>
-						<div class="row mb-1">
-						    <div class="col-md-2 fw-bold">[면접진행방식]</div>
-						    <div class="col-md-9">1차면접은면접관2명이고기술력에대한질문과답변을하였습니다</div>
-						 </div>
-						 <div class="row mb-1">
-						    <div class="col-md-2 fw-bold">[면접질문]</div>
-						    <div class="col-md-9">건축업무중자신감있는분야에대해얘기하세요신한에대해아는대로얘기하</div>
-						 </div>
-						 <div class="row mb-1">
-						    <div class="col-md-2 fw-bold">[Tip 및 특이사항]</div>
-						    <div class="col-md-9">없음</div>
-						 </div>
-				    </div>
-				</div>
-			</div>	
 		</div>
 		<div class="col-md-2"></div>
 	</div>

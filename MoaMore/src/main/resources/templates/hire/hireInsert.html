@@ -255,15 +255,7 @@ let wksite = $('#wksite').val(); // 지역
 		recruitInsert(data);
 		location.href="/hirePage";
 	});
-	
-	// 이미지 등록 버튼 클릭시
-	$('#imgUp').on('click',function(){
-		// 모달창 open
-		$('#imgUpModal').modal('show');
-	});
-	
-	
-	
+
 	//에디터 정의
     const editor2 = new toastui.Editor({  
               el: document.querySelector('#editor2'),
@@ -282,7 +274,6 @@ let wksite = $('#wksite').val(); // 지역
                  },
             });
     
-		    
     			let skill_value = []; // select 태그 value 배열
     			let skill_text = []; // select 태그 text 배열
     
@@ -321,8 +312,44 @@ let wksite = $('#wksite').val(); // 지역
 				})
 			}
  
-	
+			
+			// 이미지 등록 버튼 클릭시
+			$('#imgUp').on('click',function(){
+				// 모달창 open
+				$('#imgUpModal').modal('show');
+			});
+			
+			// 이미지 등록 ajax호출 함수
+			function pofolReg(){
+				
+				let formData = new FormData($('#imgUpForm')[0]); // 폼데이터
 
+				$.ajax({
+					url: 'hireImgInsert',
+					type: 'post',
+					data: formData,
+					async: true, //비동기 여부
+			        enctype: "multipart/form-data", //form data 설정
+			        processData: false, //프로세스 데이터 설정 : false 값을 해야 form data로 인식합니다
+			        contentType: false, //헤더의 Content-Type을 설정 : false 값을 해야 form data로 인식합니다
+					success: function (result) {
+						console.log(result);
+// 						pofolRows.innerHTML = ''; // 초기화
+						
+// 						let pofolHtml = '';
+// 						for(let i = 0 ; i < result.length; i++){
+// 							pofolHtml += pofolListPrint(result[i]);
+// 						}		
+						
+// 						pofolRows.innerHTML= pofolHtml;			
+						
+					},
+			 		error: function (reject) {	   
+			    		console.log(reject);
+					}
+				});
+			}
+			
 </script>
 	</div>
 </body>
