@@ -19,10 +19,11 @@ public interface HireMapper {
 	public List<HireVO> recImg(HireVO hireVO); // 공고상세 페이지 이미지 조회
 	public List<HireVO> selectRecommend(HireVO hireVO); // 공고상세 추천공고 조회
 	public HireVO recruitInsertSelect(HireVO hireVO); // 공고등록 페이지 기업이름 조회
-	public String recruitNo(); // 공고번호 
 	public String skillNo(); // 스킬번호
+	public String recruitNo(); // 공고번호
+	public String recruitImgNo(); // 공고 상세 이미지 번호
 	public int hireDataInsert(HireVO vo); // 공고 데이터 등록 
 	public int skillInsert(HireVO vo); // 공고 스킬 등록
-	public int thumbnailImg(HireVO hireVO); // 공고 썸네일 이미지등록
 	public int detailImges(HireVO hireVO); // 공고 상세 이미지들 등록
+	public List<HireVO> detailImgesList(HireVO hireVO); // 공고 상세 이미지 조회
 }

@@ -68,12 +68,22 @@ public class CommunityServiceImpl implements CommunityService{
 		return commuMapper.jobInterviewList();
 	}
 
-	// 프로젝트 리스트 출력
-	
 	// 프로젝트 등록 기능
 	@Override
 	public int projectInsert(PrjtVO prjtVO) {
 		return commuMapper.projectInsert(prjtVO);
+	}
+
+	// 프로젝트 리스트 출력
+	@Override
+	public List<PrjtVO> projectList() {
+		return commuMapper.projectList();
+	}
+
+	// 프로젝트 상세 출력
+	@Override
+	public PrjtVO projectDetail(String prjtNo) {
+		return commuMapper.projectDetail(prjtNo);
 	}
 	
 	

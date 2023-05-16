@@ -11,7 +11,6 @@ public interface MemberService {
 	int updateMember(MemberVO vo); 
 
 
-    
 
       
 }

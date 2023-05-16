@@ -107,15 +107,25 @@
 	
 <!-- 	개인정보 조회 -->
 	<select id="getMemInfo" resultType="MemInfoVO">
-	select name,
-		   ph,
-		   ph_cl,
-		   email,
-		   blog,
-		   post,
-		   gen,
-		   birth,
-		   addr
+	select id,
+			name,
+			pw,
+			ph,
+			ph_cl,
+			email,
+			blog,
+			post,
+			authr,
+			clsf,
+			log_cnt,
+			ltst_tm,
+			gen,
+			birth,
+			addr,
+			join_dt,
+			age,
+			api,
+			nickname
 	  from member
 	 where id = #{id}
 	</select>

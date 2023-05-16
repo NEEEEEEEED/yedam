@@ -174,20 +174,25 @@
 		DELETE FROM RECRUIT_SCRAP WHERE RECRUIT_NO = #{recruitNo} AND ID = #{id}
 	</delete>
 	
-	<!-- 공고등록 페이지 회사이름 조회 -->
-	<select id="recruitInsertSelect" resultType="HireVO">
-		SELECT CO_NM FROM CO WHERE ID = #{id}
-	</select>
-	
-	<!-- 공고 등록 키 -->
+		<!-- 공고 등록 키 -->
 	<select id="recruitNo" resultType="String">
 		SELECT 'REA' || RECRUIT_ANUN_SEQ.NEXTVAL AS RECRUIT_NO FROM DUAL 
 	</select>
 	
-	<!-- 공고 등록(이미지 제외) -->
+	<!-- 공고등록 페이지 회사이름 조회 -->
+	<select id="recruitInsertSelect" resultType="HireVO">
+		SELECT C.CO_NM,
+			   R.RECRUIT_NO
+		FROM CO C
+		JOIN RECRUIT_ANUN R
+		ON C.ID = R.ID
+		WHERE ID = #{id}
+	</select>
+	
+	<!-- 공고 등록 -->
 	<insert id="hireDataInsert" parameterType="HireVO">
-		INSERT INTO RECRUIT_ANUN(RECRUIT_NO, ID, TTL, SHCR, CARR, MA_BUSS, QUAL_COND, PREF_COND, WELF, EXPR_DT, WKSITE, REG_DT, JOB, CO_INTRO)
-						 VALUES (#{recruitNo}, #{id}, #{ttl}, #{shcr}, #{carr}, #{maBuss}, #{qualCond}, #{prefCond}, #{welf}, #{exprDt}, #{wksite}, TO_CHAR(SYSDATE,'yyyy-MM-dd'), #{job}, #{coIntro})  
+		INSERT INTO RECRUIT_ANUN(RECRUIT_NO, ID, TTL, SHCR, CARR, MA_BUSS, QUAL_COND, PREF_COND, WELF, EXPR_DT, WKSITE, REG_DT, JOB, CO_INTRO, CO_IMG)
+						 VALUES (#{recruitNo}, #{id}, #{ttl}, #{shcr}, #{carr}, #{maBuss}, #{qualCond}, #{prefCond}, #{welf}, #{exprDt}, #{wksite}, TO_CHAR(SYSDATE,'yyyy-MM-dd'), #{job}, #{coIntro}, #{coImg})  
 	</insert>
 	
 	<!-- 공고 스킬 번호 -->
@@ -201,12 +206,13 @@
                    VALUES(#{skillNo}, #{recruitNo}, #{skill}, #{id})
 	</insert>
 	
-	<!-- 공고 썸네일 이미지 등록 -->
-	<insert id="thumbnailImg" parameterType="HireVO">
-		
-	</insert>
+	<!-- 공고 상세 이미지 번호 -->
+	<select id="recruitImgNo" resultType="HireVO">
+		SELECT 'RIMG' || RECRUIT_IMAGES_SEQ.NEXTVAL AS RECRUIT_IMG_NO FROM DUAL
+	</select>
 	<!-- 공고 상세 이미지들 등록 -->
 	<insert id="detailImges" parameterType="HireVO">
-	
+		INSERT INTO RECRUIT_IMAGES(RECRUIT_IMG_NO, RECRUIT_NO, RECRUIT_IMG)
+		VALUES (#{recruitImgNo}, #{recruitNo}, #{recrintImgDetail})
 	</insert>
 </mapper>

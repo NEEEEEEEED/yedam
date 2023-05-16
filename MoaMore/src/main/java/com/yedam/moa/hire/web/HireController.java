@@ -1,12 +1,11 @@
 package com.yedam.moa.hire.web;
 
 import java.io.File;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,10 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.yedam.moa.FileNameModel;
 import com.yedam.moa.comm.service.CommService;
 import com.yedam.moa.hire.HireVO;
 import com.yedam.moa.hire.service.HireService;
+import com.yedam.moa.hire.service.Impl.HireServiceImpl;
 
 // 권수민 개발날짜 23.04.28
 // 구인광고 관리
@@ -33,6 +32,9 @@ public class HireController {
 	
 	@Autowired
 	HireService hireService;
+	
+	@Autowired
+	HireServiceImpl hireServiceImpl;
 
 	@Autowired
 	CommService com;
@@ -158,18 +160,67 @@ public class HireController {
 	@PostMapping("/hireDataInsert")
 	@ResponseBody
 	public String hireDataInsert(HireVO vo, Principal pr) {
+		// 썸네일 이미지 등록 가능하도록 추가
 		return hireService.hireDataInsert(vo, pr);
 	}
 	
-	// 구인공고 이미지 등록	
-	@PostMapping("/hireImgInsert")
-	@ResponseBody
-	public String hireImgInsert(@RequestParam("pofolImg") MultipartFile thumbnailImg,
-	   		 					@RequestParam("pofolFile") MultipartFile detailImg ) {
-		return null;
+	
+		// 구인공고 상세 이미지들 등록 - 첨부파일 업로드 처리 // 피드백 : 받오는값을 커멘트 객체 형식으로 VO에 한꺼번에 받아도됨(대신 이름이 일치해야함)
+		@PostMapping("/hireImgInsert")
+		@ResponseBody
+		public List<HireVO> hireImgInsert(@RequestParam("thumnailImg") MultipartFile uploadthumnailImg,
+										  @RequestParam("recruitImg") MultipartFile[] uploadrecruitImg,
+								   		  HireVO hireVO,
+								   		  Principal pr) throws IllegalStateException, IOException {
+
+		// 구인공고 썸네일 업로드
+		String fileNameThumnailImg= null; // 원본파일명
+		String uploadFileNameThumnailImg = null;   // UUID적용한 파일명(중복 없는 파일명)
+			
+		// 구인공고 상세 이미지들 업로드
+		String[] fileNameRecruitImg= null; // 원본파일명
+		String[] uploadFileNameRecruitImg = null;   // UUID적용한 파일명(중복 없는 파일명)
+		
+		int r = 0; // sql문 결과
+		// 동일 파일명 처리 UUID 사용
+		UUID uuid = UUID.randomUUID();
+		if(uploadthumnailImg !=null && !uploadthumnailImg.isEmpty() && uploadthumnailImg.getSize()>0
+		   && uploadrecruitImg !=null && uploadrecruitImg.length != 0 && uploadrecruitImg.length>0) {
+			
+			// 썸네일 이미지
+			fileNameThumnailImg = uploadthumnailImg.getOriginalFilename(); // 원본 이미지 파일명
+			
+			fileNameThumnailImg = uuid.toString() + "_" + fileNameThumnailImg; // 이미지 UUID 적용한 파일명
+			uploadthumnailImg.transferTo(new File(uploadPath,fileNameThumnailImg)); // 이미지 파일
+			
+			 for (int i = 0; i < uploadrecruitImg.length; i++) {
+			
+			// 구인공고 상세 이미지들
+				 fileNameRecruitImg[i] = uploadrecruitImg[i].getOriginalFilename();
+			// 파일 UUID 적용한 파일명 
+				 uploadFileNameRecruitImg[i] = uuid.toString() + "_" + fileNameRecruitImg[i]; 
+				 uploadrecruitImg[i].transferTo(new File(uploadPath,uploadFileNameRecruitImg[i])); // 이미지 파일
+			 
+				 System.out.println("파일이름: " + fileNameRecruitImg[i]);
+			 
+			 }
+			 
+			//첨부파일명 VO에 지정
+			System.out.println("파일이름: " + fileNameRecruitImg);
+			System.out.println("파일이름: " + fileNameThumnailImg);
+			
+			hireVO.setId(pr.getName());
+			hireVO.setRecruitImg(uploadFileNameRecruitImg); 
+			hireVO.setCoImg(uploadFileNameThumnailImg);
+
+			r =  hireServiceImpl.hireImgInsert(hireVO, pr);
+		}
+		if(r > 0) {
+			return hireServiceImpl.hireImgInsertList(hireVO);
+		}else {			
+			return null;
+		}
 	}
-	
-	
 
 	// 구인공고 수정 페이지
 	@GetMapping("/hireMod")

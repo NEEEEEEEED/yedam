@@ -25,7 +25,8 @@ public class HireVO {
 	private String accpDt; // 승인날짜
 	private String imgNo; // 이미지 그룹번호
 	private String job; // 직군
-	private String recruitImg; // 기업이미지들
+	private String[] recruitImg; // 기업이미지들
+	private String recrintImgDetail; // 상세이미지
 	
 	private String coNm; // 기업이름
 	private String addr; // 기업주소
@@ -40,5 +41,6 @@ public class HireVO {
 	private String idMem; // 팔로우 하는 회원
 	private String scrapNo; // 스크랩 번호
 	private String skillNo; // 스킬 번호
+	private String recruitImgNo; // 공고 상세 이미지 번호
 	
 }

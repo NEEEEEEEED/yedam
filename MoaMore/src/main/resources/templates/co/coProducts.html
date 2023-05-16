@@ -20,44 +20,30 @@
 	<div class="container" layout:fragment="content">
 		<span class="fw-bold fs-3" style="color: #0a2640;">나의 보유 아이템 목록</span>
 		<p>
-			 [[${products}]]
 		<div class="row  border-bottom p-4 fw-bold fs-2">
-			<div class="col-sm-2 text-b">아이템정보</div>
-			<div class="col-sm-4 text-b">적용공고</div>
-			<div class="col-sm-2 text-b">주문일자</div>
+			<div class="col-sm-2 text-b">적용공고</div>
+			<div class="col-sm-4 text-b">적용일자</div>
+			<div class="col-sm-2 text-b">구매일자</div>
 			<div class="col-sm-2 text-b">주문번호</div>
 			<div class="col-sm-2 text-b">주문금액</div>
 		</div>
-		<div th:each="product : ${products}" class="row align-items-center border-bottom p-4 mb-2 hoverRow">
+		<div th:each="product : ${products}"
+			class="row align-items-center border-bottom p-4 mb-2 hoverRow">
 			<div class="col-sm-2 text-b">
 				<label class="fs-1"></label>
-				<p class="fs-1 mt-2">적용공고제목</p>
+				<p class="fs-1 mt-2">[[${product.ttl}]]</p>
 			</div>
-			<div class="col-sm-4 text-b">
-				<input readonly class="form-control" id="datePick" style="background-color:white;"/>
-			</div>
+			<div class="col-sm-4 text-b"><span th:each="date:${product.arrDate}">[[${date}]], </span></div>
 			<div class="col-sm-2 text-b">[[${product.sttlDt}]]</div>
-			<div class="col-sm-2 text-b">[[${product.orderNo}]]</div>
-			<div class="col-sm-2 text-b">[[${product.totalPrice}]]</div>
+			<div class="col-sm-2 text-b">[[${product.prdtNm}]]<br>[[${product.orderNo}]]</div>
+			<div class="col-sm-2 text-b">[[${product.totalPrice}]] 원</div>
 		</div>
-		
+
 		<script>
-			$(function() {
-				var disabledDates = [];
-				$('#datePick').multiDatesPicker(
-						{
-							dateFormat : 'yy-mm-dd',
-							maxPicks : 3,
-							beforeShowDay : function(date) {
-								if (disabledDates.includes($.datepicker
-										.formatDate('yy-mm-dd', date))) {
-									return [ false ];
-								} else {
-									return [ true ];
-								}
-							}
-						});
-			});
+		function test(){
+			return "test";
+		}
+		
 		</script>
 	</div>
 </body>
