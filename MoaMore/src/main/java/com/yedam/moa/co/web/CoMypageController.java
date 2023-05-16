@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -17,6 +18,7 @@ import com.yedam.moa.co.service.CoVO;
 import com.yedam.moa.comm.service.CommService;
 import com.yedam.moa.hire.HireVO;
 import com.yedam.moa.member.service.MemberService;
+import com.yedam.moa.member.service.MemberVO;
 import com.yedam.moa.products.service.ProductService;
 import com.yedam.moa.self.SelfVO;
 
@@ -52,7 +54,9 @@ public class CoMypageController {
 	@GetMapping("/coInfoPage") // 기업아이디 들고 들어가서 해당 아이디에 해당하는 기업정보 있다면 model에 service담아서 미리출력
 	public String coInfoPage(Model model, Principal principal, CoVO vo) {
 		vo.setId(principal.getName());
+		String id = principal.getName();
 		model.addAttribute("co", service.selectCo(vo));
+		model.addAttribute("member", mservice.getMember(id));
 		return "co/coInfo";
 	}
 
@@ -127,11 +131,22 @@ public class CoMypageController {
 	// 기업정보등록/수정
 	@PostMapping("/saveCoInfo")
 	public String saveCoInfo(Principal principal, CoVO vo) {
-		System.out.println(vo);
 		vo.setId(principal.getName());
 
 		service.saveCoInfo(vo);
 		return "redirect:coInfoPage";
+	}
+	
+	//비밀번호 수정
+	@PostMapping("/updatePw")
+	@ResponseBody
+	public String updatePw(@RequestBody MemberVO vo) {
+		String pw = passwordEncoder.encode(vo.getPw());
+		vo.setPw(pw);
+		if(mservice.updateMember(vo)>0) {
+			return "업데이트성공";
+		}else return "업데이트실패";
+		
 	}
 
 	// 기업보유상품페이지

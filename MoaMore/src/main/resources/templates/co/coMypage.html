@@ -564,10 +564,10 @@ i {
 			/* $.ajax({
 				url : "server.php",
 				method : "POST",
-				data : {
+				data : JSON.stringify({
 					name : "John",
 					age : 30
-				},
+				}),
 				dataType : "json",//받는타입
 				contentType : "application/json",//보내는타입
 				success : function(res) {

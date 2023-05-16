@@ -17,6 +17,23 @@ public class MemberVO implements UserDetails {
 	String id;
 	String pw;
 	String authr;
+	String name;
+	String ph;
+	String ph_cl;
+	String email;
+	String blog;
+	String post;
+	String clsf;
+	String log_cnt;
+	String ltst_tm;
+	String gen;
+	String birth;
+	String addr;
+	String join_dt;
+	String age;
+	String api;
+	String nickname;
+	
 	
 	// 권한 체크 => 시큐리티가 return값으로 권한 체크를함
 	@Override
