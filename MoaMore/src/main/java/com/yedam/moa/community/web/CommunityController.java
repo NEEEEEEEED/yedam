@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -190,12 +191,26 @@ public class CommunityController {
 		}
 	}
 	
-	
 	// 프로젝트 모집 리스트
 	@GetMapping("/projectList")
-	public String projectList() {
-		return "community/projectList";
+	public String projectListPage() {
+		return "community/projectListVue";
 	}
+	
+	// 프로젝트 모집 리스트 axios 호출
+	@GetMapping("/projectBoards")
+	@ResponseBody
+	public List<PrjtVO> projectBoards(){
+		return commuServiceImpl.projectList();
+	}
+	
+	// 프로젝트 모집 상세페이지
+	@GetMapping("/projectDetail")
+	public String projectDetail(Model model, String prjtNo) {
+		model.addAttribute("projectInfo", commuServiceImpl.projectDetail(prjtNo));
+		return "community/projectDetailVue";
+	}
+	
 	
 	// 프로젝트 등록
 	@PostMapping("/projectInsert")
@@ -224,13 +239,6 @@ public class CommunityController {
 		return "community/studyList";
 	}
 	
-	
-	
-	// 프로젝트 모집 상세페이지
-	@GetMapping("/projectDetail")
-	public String projectDetail() {
-		return "community/projectDetail";
-	}
 	
 	// 스터디 모집 상세페이지
 	@GetMapping("/studyDetail")
