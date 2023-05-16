@@ -6,6 +6,7 @@ import lombok.Data;
 public class MemInfoVO {
 	
 	private String id;
+	private String pw;
 	private String name;	//이름
 	private String birth;	//생일
 	private String email;	//이메일

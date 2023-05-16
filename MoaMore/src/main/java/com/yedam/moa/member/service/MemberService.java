@@ -11,8 +11,5 @@ public interface MemberService {
 	int updateMember(MemberVO vo); 
 
 
-    
-    MemberVO getCoMember(String id); 
-
       
 }

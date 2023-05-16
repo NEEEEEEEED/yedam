@@ -33,6 +33,9 @@ notice += `<span><i id="heartIcon"
 i {
 	color: red;
 }
+.center-input {
+  padding-top : 13px;
+}
 </style>
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
@@ -45,15 +48,15 @@ i {
 			<div class="col-lg-3 text-center">
 				<div class="card">
 					<div class="card-body">
-						<h4 th:text="${id.id}"></h4>
+						<h4 th:text="${co.coNm}"></h4>
 						<a id="insertInfo" type="button" class="btn btn-light"
-							href="coInfoPage">기업정보등록</a>
+							href="coInfoPage">기업정보관리</a>
 						<hr />
 						<div  class="mb-0"><a>받은 관심</a><i class="bi bi-suit-heart-fill"></i><small
 							th:text="${followers}"></small></div><br /><p> <span class="mb-2"><a href="/coRecruit"  >나의
 							공고목록 </a></span><br /> <a href="/coProducts" class="">아이템 / 결제내역</a>
 						<hr />
-						<a href="">개인정보 수정</a>
+						
 					</div>
 				</div>
 			</div>
@@ -133,106 +136,97 @@ i {
 			</div>
 		</div>
 
-		<!-- html모달창 -->
+		<!-- html모달창 제안모달 -->
 		<div class="modal fade " id="exampleModalLg" tabindex="-1"
 			aria-labelledby="exampleModalLgLabel" style="display: none;"
 			aria-hidden="true">
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h1 class="modal-title fs-4" id="exampleModalLgLabel">Large
-							modal</h1>
+						<h1 class="modal-title fs-4" id="exampleModalLgLabel">구직 제안</h1>
 						<button type="button" class="btn-close" data-bs-dismiss="modal"
 							aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
 						<form id="offerForm" action="/offerSelf" method="POST">
-							<div class="mb-3 row">
-								<label for="inputPassword" class="col-sm-3 col-form-label  fs-2">●
+							<div class="mb-1 row ">
+								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
 									회사명</label>
-								<div class="col-sm-9">
-									<input type="text" name="coNm" class="form-control" id="">
+								<div class="col-sm-4 center-input">
+									<input type="text" name="coNm" class="form-control form-control-sm " id="">
+								</div>
+								
+								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+									복지</label>
+								<div class="col-sm-4 center-input">
+									<input type="text" name="bnft" class="form-control form-control-sm" id="">
 								</div>
 							</div>
 
-							<div class="mb-3 row">
-								<label for="inputPassword" class="col-sm-3 col-form-label  fs-2">●
+							<div class="mb-1 row ">
+								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
 									근무지 주소</label>
-								<div class="col-sm-9">
-									<input type="text" name="wksite" class="form-control" id="">
+								<div class="col-sm-4 center-input">
+									<input type="text" name="wksite" class="form-control form-control-sm " id="">
+								</div>
+								
+								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+									급여</label>
+								<div class="col-sm-4 center-input">
+									<input type="text" name="saly" class="form-control form-control-sm" id="">
 								</div>
 							</div>
 
-							<div class="mb-3 row">
-								<label for="inputPassword" class="col-sm-3 col-form-label  fs-2">●
+							<div class="mb-1 row ">
+								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
 									프로젝트 명</label>
-								<div class="col-sm-9">
-									<input type="text" name="projectNm" class="form-control" id="">
+								<div class="col-sm-4 center-input">
+									<input type="text" name="projectNm" class="form-control form-control-sm" id="">
+								</div>
+								
+								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+									업무 시작일</label>
+								<div class="col-sm-4 center-input">
+									<input type="date" name="bussStartDt" class="form-control form-control-sm"
+										id="">
 								</div>
 							</div>
 
-							<div class="mb-3 row">
-								<label for="inputPassword" class="col-sm-3 col-form-label  fs-2">●
+							<div class="mb-1 row ">
+								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
 									기술 스택</label>
-								<div class="col-sm-9">
-									<select id="tech" name="tech" class="form-select">
+								<div class="col-sm-4 center-input">
+									<select id="tech" name="tech" class="form-select form-select-sm">
+										<option value="selectedOpt" id="selectedOpt" style="display:none;"></option>
 										<option value="" selected>기술선택(다중선택가능)</option>
 										<option th:each="tech : ${commList.Z}" th:text="${tech.desct}"
 											th:value="${tech.prov}">기술스택</option>
 									</select>
 								</div>
-							</div>
-
-							<div class="mb-3 row">
-								<label for="inputPassword" class="col-sm-3 col-form-label  fs-2">●
-									주요 업무</label>
-								<div class="col-sm-9">
-									<input type="text" name="maBuss" class="form-control" id="">
-								</div>
-							</div>
-
-							<div class="mb-3 row">
-								<label for="inputPassword" class="col-sm-3 col-form-label  fs-2">●
-									복지 및 혜택</label>
-								<div class="col-sm-9">
-									<input type="text" name="bnft" class="form-control" id="">
-								</div>
-							</div>
-
-							<div class="mb-3 row">
-								<label for="inputPassword" class="col-sm-3 col-form-label  fs-2">●
-									급여</label>
-								<div class="col-sm-9">
-									<input type="text" name="saly" class="form-control" id="">
-								</div>
-							</div>
-
-							<div class="mb-3 row">
-								<label for="inputPassword" class="col-sm-3 col-form-label  fs-2">●
-									업무 시작일</label>
-								<div class="col-sm-9">
-									<input type="date" name="bussStartDt" class="form-control"
-										id="">
-								</div>
-							</div>
-
-							<div class="mb-3 row">
-								<label for="inputPassword" class="col-sm-3 col-form-label  fs-2">●
+								
+								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
 									제안 마감일</label>
-								<div class="col-sm-9">
-									<input type="date" name="clsDt" class="form-control" id="">
+								<div class="col-sm-4 center-input">
+									<input type="date" name="clsDt" class="form-control form-control-sm" id="">
 								</div>
 							</div>
 
-							<div class="mb-3 row">
-								<label for="inputPassword" class="col-sm-3 col-form-label  fs-2">●
+							<div class="mb-1 row ">
+								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+									주요 업무</label>
+								<div class="col-sm-4 center-input">
+									<input type="text" name="maBuss" class="form-control form-control-sm" id="">
+								</div>
+								
+								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
 									구인공고</label>
-								<div class="col-sm-9">
-									<select name="ttl" class="form-select" id="">
+								<div class="col-sm-4 center-input">
+									<select name="ttl" class="form-select form-select-sm" id="">
 										<option value='' selected>선택</option>
 									</select>
 								</div>
 							</div>
+
 							<!-- 함께보낼데이타 -->
 							<input type="hidden" name="id" th:value="${id.id}"> <input
 								type="hidden" name="jobSearchNo">
@@ -385,7 +379,7 @@ i {
 								<p class="mb-0">`+res[i].acceptStatus+`</p>`
 							}else {
 								notice += `<button type="button" btn="offerBtn" onclick="insertJobSearchNo(\'`+res[i].jobSearchNo+`\')"
-								class="btn btn-outline-info btn-sm listBtn" data-bs-toggle="modal" data-bs-target="#exampleModalLg">제안</button>`
+								class="btn btn-outline-info btn-sm listBtn" data-bs-toggle="modal" data-bs-target="#exampleModalLg">제안하기</button>`
 							}
 						notice += `</div>
 					</div>`; 
@@ -414,8 +408,10 @@ i {
 			//제안완료모달에 제안이력 넣기
 			function insertOffer(res){
 				$('[name="coNm"]').val(res.coNm);	
-				$('[name="wksite"]').val(res.wksite);	
-				$('[name="tech"]').val(res.tech);	
+				$('[name="wksite"]').val(res.wksite);
+				selectedOpt.innerText = res.tech
+				tech.value = 'selectedOpt'
+				selectedOpt.style.display = 'block';
 				$('[name="maBuss"]').val(res.maBuss);	
 				$('[name="bnft"]').val(res.bnft);	
 				$('[name="saly"]').val(res.saly);	
@@ -429,6 +425,8 @@ i {
 			//모달취소클릭
 			function closeModal(){
 				offerBtn.removeAttribute("hidden");
+				selectedOpt.style.display = 'none';
+			
 				$('[name="coNm"]').val('');	
 				$('[name="wksite"]').val('');	
 				$('[name="tech"]').val('');	
@@ -442,7 +440,7 @@ i {
 			}			
 			//관심 페이징버튼 만들기
 			function paging(){
-				let pageSu = Math.ceil(totalInter/5); //ceil 올림
+				let pageSu = Math.ceil(totalInter/4); //ceil 올림
 				console.log(pageSu)
 				let paging = `<nav aria-label="Page navigation example">
 					  <ul class="pagination d-flex justify-content-center">
