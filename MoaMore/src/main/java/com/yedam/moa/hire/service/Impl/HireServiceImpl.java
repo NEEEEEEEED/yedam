@@ -63,12 +63,13 @@ public class HireServiceImpl implements HireService{
 		return message;
 	}
 	
-	// 스크랩 조회
+	// 공고 등록 페이지 조회
 	@Override
 	public HireVO recruitInsertSelect(HireVO hireVO) {
+		hireVO.setRecruitNo(hireMapper.recruitNo());
 		return hireMapper.recruitInsertSelect(hireVO);
 	}
-	// 스그랩 등록
+	// 스크랩 등록
 	@Override
 	public String recruitScrapInsert(HireVO hireVO) {
 		String message = null;
@@ -99,23 +100,20 @@ public class HireServiceImpl implements HireService{
 		return hireMapper.recImg(hireVO);
 	}
 	
-	// 구인공고 등록(이미지 제외)
+	// 구인공고 등록(썸네일만)
 	@Override
 	public String hireDataInsert(HireVO vo, Principal pr ) {
 		
-		
-		String recruitNo = hireMapper.recruitNo();
 		String message = null;
 		
 		int result= 0;
 		
-		
-		vo.setRecruitNo(recruitNo);
 		vo.setId(pr.getName());
+		
 		result = hireMapper.hireDataInsert(vo);
 		
-		String [] skillArray = vo.getSkill().split(",");
-		
+		String[] skillArray = vo.getSkill().split(",");
+
 		for(String str : skillArray) {
 			String skillNo = hireMapper.skillNo();
 			vo.setSkillNo(skillNo);
@@ -138,12 +136,31 @@ public class HireServiceImpl implements HireService{
 		return hireMapper.selectRecommend(hireVO);
 	}
 	
-	// 공고 이미지 등록
+	// 공고 이미지 업로드
 	@Override
-	public String hireImgInsert(HireVO vo, Principal pr) {
-		// TODO Auto-generated method stub
-		return null;
+	public int hireImgInsert(HireVO vo, Principal pr) {
+		vo.setRecruitNo(hireMapper.recruitNo());
+	
+		int result= 0;
+		
+		for(String Istr : vo.getRecruitImg()) {
+			String recuritImgNo = hireMapper.recruitImgNo();
+			vo.setRecruitImgNo(recuritImgNo);
+			vo.setRecrintImgDetail(Istr);
+			result += hireMapper.detailImges(vo);
+		}
+		
+		return result;
 	}
+	
+	// 공고 이미지 조회
+	@Override
+	public List<HireVO> hireImgInsertList(HireVO vo) {
+		return hireMapper.detailImgesList(vo);
+	}
+	
+	
+	
 }
 
 	
