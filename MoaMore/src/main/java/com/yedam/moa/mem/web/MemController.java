@@ -70,11 +70,8 @@ public class MemController {
 	public String createResume(Principal principal, Model model, MemVO vo, ResumeVO rvo) {
 		vo.setId(principal.getName());
 		rvo=mem.lastRe(vo);
-		if(rvo.getResumeNo()!=null) {
-			System.out.println(rvo);
 			model.addAttribute("resume", rvo);
-		}
-		System.out.println(rvo);
+		
 		model.addAttribute("list", com.getCodes("Z", "D", "E", "B", "d", "N", "A"));
 		model.addAttribute("info", mem.getMemInfo(vo));
 		;

@@ -84,7 +84,7 @@
               </li>
               <li
                 name="introduce"
-                class="list-group-item d-flex justify-content-between cuursor bt"
+                class="list-group-item d-flex justify-content-between cursor bt"
               >
                 <div>
                   <h4 class="my-2">자기소개서</h4>
@@ -259,11 +259,11 @@
             </div>
           </div>
 
-          <!---------------------- 학력 -------------------------------------------------------->
+          <!------------------ 최신 이력서학력 시작---------------------------------------------------->
           <div
             id="scholar"
             style="display: block"
-            th:if="${resume.shcrNo != null}"
+            th:if="${resume!=null&&resume.shcrNo!=null}"
           >
             <div class="col-md-12 col-lg-12">
               <h4 class="mb-3">학력</h4>
@@ -393,13 +393,9 @@
                     </div>
                   </div>
                 </div>
-                <!----------------------- 최신 이력서 학력 시작------------------------>
-                <div
-                  id="school"
-                  th:if="${resume.shcrNo != null}"
-                  th:each="sc:${resume.sch}"
-                >
-                  <div style="display: block">
+                <!----------------------- 최신 이력서 학력 반복 시작------------------------>
+                <div id="school" th:if="${resume.shcrNo!=null}">
+                  <div style="display: block" th:each="sc:${resume.sch}">
                     <div class="row gy-3 mb-4 mt-2">
                       <div><i class="bi bi-x-lg"></i></div>
                       <div class="dropdown col-md-2 pt-3">
@@ -438,7 +434,7 @@
                             type="text"
                             class="form-control reg"
                             name="breu"
-                            th:value="sc.breu"
+                            th:value="${sc.breu}"
                           />
                         </label>
                       </div>
@@ -449,7 +445,7 @@
                             type="text"
                             class="form-control reg"
                             name="mj"
-                            th:value="sc.mj"
+                            th:value="${sc.mj}"
                           />
                         </label>
                       </div>
@@ -460,6 +456,7 @@
                             type="month"
                             class="form-control"
                             name="joinYy"
+                            th:value="${sc.joinYy}"
                           />
                         </label>
                       </div>
@@ -470,6 +467,7 @@
                             type="month"
                             class="form-control"
                             name="retiYy"
+                            th:value="${sc.retiYy}"
                           />
                         </label>
                       </div>
@@ -480,7 +478,7 @@
                             type="text"
                             class="form-control"
                             name="pnt"
-                            th:value="sc.pnt"
+                            th:value="${sc.pnt}"
                           />
                         </label>
                       </div>
@@ -492,7 +490,7 @@
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
                         >
-                          <span th:value="sc.ttCo">총 점</span>
+                          <span th:value="${sc.ttCo}">총 점</span>
                         </button>
                         <ul class="dropdown-menu" style="border-radius: 0.5rem">
                           <li th:each="tt:${list.E}">
@@ -510,7 +508,7 @@
                       <input
                         type="hidden"
                         name="ttScore"
-                        th:value="sc.ttScore"
+                        th:value="${sc.ttScore}"
                         value
                       />
                       <div class="dropdown col-md-2 pt-3">
@@ -521,7 +519,7 @@
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
                         >
-                          <span th:value="sc.shcrStCo">졸업 여부</span>
+                          <span th:value="${sc.shcrStCo}">졸업 여부</span>
                         </button>
                         <ul class="dropdown-menu" style="border-radius: 0.5rem">
                           <li th:each="st:${list.B}">
@@ -539,25 +537,25 @@
                       <input
                         type="hidden"
                         name="shcrSt"
-                        th:value="shcrSt"
+                        th:value="${sc.shcrSt}"
                         value
                       />
                     </div>
                   </div>
                 </div>
-                <!-- 최신 이력서 학력 끝---------------------------------------------->
-                <div id="school" th:if="${resume.shcrNo = null}"></div>
                 <div class="fs-4 md-3">
                   <i class="bi bi-plus-circle-fill"></i>
                 </div>
               </div>
             </div>
           </div>
+          <!-- 최신 이력서 학력 끝---------------------------------------------->
+
           <!-------------신규 학력------------------------------------------------------------>
           <div
             id="scholar"
             style="display: block"
-            th:if="${resume.shcrNo = null}"
+            th:if="${resume!=null&&resume.shcrNo = null}"
           >
             <div class="col-md-12 col-lg-12">
               <h4 class="mb-3">학력</h4>
@@ -695,11 +693,12 @@
               </div>
             </div>
           </div>
-          <!-- -------------------------------경력------------------------------- -->
+          <!---------------------------------신규학력 끝------------------------------------------->
+          <!-- -------------------------------최신 이력서 경력 시작------------------------------- -->
           <div
             id="carrer"
             style="display: block"
-            th:if="${resume.carrNo != null}"
+            th:if="${resume!=null&&resume.carrNo!=null}"
           >
             <div class="col-md-12 col-lg-12">
               <h4 class="mb-3">경력</h4>
@@ -830,13 +829,9 @@
                     </div>
                   </div>
                 </div>
-                <!--최신 이력서 경력 시작--------------------------------------------->
-                <div
-                  id="job"
-                  th:if="${resume.carrNo != null}"
-                  th:each="ca:${resume.carr}"
-                >
-                  <div style="display: block">
+                <!--최신 이력서 경력 반복 시작--------------------------------------------->
+                <div id="job" th:if="${resume.carrNo != null}">
+                  <div style="display: block" th:each="ca:${resume.carr}">
                     <div class="row gy-3 mb-4 mt-2">
                       <div><i class="bi bi-x-lg"></i></div>
                       <div class="dropdown col-md-2 pt-3">
@@ -847,7 +842,7 @@
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
                         >
-                          <span th:value="ca.wkdtyCo">직책</span>
+                          <span th:value="${ca.wkdtyCo}">직책</span>
                         </button>
                         <ul class="dropdown-menu" style="border-radius: 0.5rem">
                           <li th:each="cl:${list.d}">
@@ -865,7 +860,7 @@
                       <input
                         type="hidden"
                         name="wkdty"
-                        th:value="ca.wkdty"
+                        th:value="${ca.wkdty}"
                         value
                       />
                       <div class="col-md-4">
@@ -875,7 +870,7 @@
                             type="text"
                             class="form-control"
                             name="co"
-                            th:value="ca.co"
+                            th:value="${ca.co}"
                           />
                         </label>
                       </div>
@@ -886,7 +881,7 @@
                             type="text"
                             class="form-control reg"
                             name="depart"
-                            th:value="ca.depart"
+                            th:value="${ca.depart}"
                           />
                         </label>
                       </div>
@@ -898,7 +893,7 @@
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
                         >
-                          <span th:value="ca.dutyCo">직무</span>
+                          <span th:value="${ca.dutyCo}">직무</span>
                         </button>
                         <ul class="dropdown-menu" style="border-radius: 0.5rem">
                           <li th:each="clc:${list.N}">
@@ -916,7 +911,7 @@
                       <input
                         type="hidden"
                         name="duty"
-                        th:value="ca.duty"
+                        th:value="${ca.duty}"
                         value
                       />
                       <div class="col-md-2">
@@ -926,6 +921,7 @@
                             type="month"
                             class="form-control"
                             name="joinYy"
+                            th:value="${ca.joinYy}"
                           />
                         </label>
                       </div>
@@ -936,6 +932,7 @@
                             type="month"
                             class="form-control"
                             name="retiYy"
+                            th:value="${ca.retiYy}"
                           />
                         </label>
                       </div>
@@ -946,7 +943,7 @@
                             type="text"
                             class="form-control reg"
                             name="buss"
-                            th:value="ca.buss"
+                            th:value="${ca.buss}"
                           />
                         </label>
                       </div>
@@ -959,7 +956,7 @@
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
                         >
-                          <span th:value="ca.carrStCo">상태</span>
+                          <span th:value="${ca.carrStCo}">상태</span>
                         </button>
                         <ul class="dropdown-menu" style="border-radius: 0.5rem">
                           <li th:each="st:${list.A}">
@@ -977,20 +974,20 @@
                       <input
                         type="hidden"
                         name="carrSt"
-                        th:value="ca.carrSt"
+                        th:value="${ca.carrSt}"
                         value
                       />
                     </div>
                   </div>
                 </div>
-                <!--최신 이력서 경력 끝-------------------------------------->
-                <div id="job" th:if="${resume.carrNo = null}"></div>
                 <div class="fs-4 md-3">
                   <i class="bi bi-plus-circle-fill"></i>
                 </div>
               </div>
             </div>
           </div>
+          <!--최신 이력서 경력 끝-------------------------------------->
+
           <!----------------신규 경력---------------------------------------->
           <div
             id="carrer"
@@ -1134,8 +1131,8 @@
               </div>
             </div>
           </div>
-          <!-- -----------교육--------------------------- -->
-          <div id="ed" style="display: none" th:if="${resume.eduNo != null}">
+          <!-- -----------최신 교육--------------------------- -->
+          <div id="ed" style="display: block" th:if="${resume.eduNo != null}">
             <div class="col-md-12 col-lg-12">
               <h4 class="mb-3">교육</h4>
               <div class="forCarr my-3 card ps-4 p-3">
@@ -1189,14 +1186,10 @@
                     </div>
                   </div>
                 </div>
-                <!--최신 이력서 교육 시작-------------------------------------->
+                <!--최신 이력서 교육 반복문 시작-------------------------------------->
 
-                <div
-                  id="educate"
-                  th:if="${resume.eduNo != null}"
-                  th:each="edu:${resume.edu}"
-                >
-                  <div style="display: none">
+                <div id="educate" th:if="${resume.eduNo != null}">
+                  <div style="display: block" th:each="edu:${resume.edu}">
                     <div class="row gy-3 mb-4 mt-2">
                       <div><i class="bi bi-x-lg"></i></div>
                       <div class="col-md-5">
@@ -1206,7 +1199,7 @@
                             type="text"
                             class="form-control reg"
                             name="eduNm"
-                            th:value="edu.eduNm"
+                            th:value="${edu.eduNm}"
                           />
                         </label>
                       </div>
@@ -1217,7 +1210,7 @@
                             type="text"
                             class="form-control"
                             name="breu"
-                            th:value="edu.breu"
+                            th:value="${edu.breu}"
                           />
                         </label>
                       </div>
@@ -1229,6 +1222,7 @@
                             type="month"
                             class="form-control"
                             name="joinYy"
+                            th:value="${edu.joinYy}"
                           />
                         </label>
                       </div>
@@ -1239,6 +1233,7 @@
                             type="month"
                             class="form-control"
                             name="retiYy"
+                            th:value="${edu.retiYy}"
                           />
                         </label>
                       </div>
@@ -1250,22 +1245,21 @@
                             type="text"
                             class="form-control"
                             name="cntn"
-                            th:value="edu.cntn"
+                            th:value="${edu.cntn}"
                           />
                         </label>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div id="educate" th:if="${resume.eduNo = null}"></div>
-                <!--최신 이력서 교육 끝-------------------------------------->
-
                 <div class="fs-4 md-3">
                   <i class="bi bi-plus-circle-fill"></i>
                 </div>
               </div>
             </div>
           </div>
+          <!-------------------------최신 이력서 교육 끝-------------------------------------->
+
           <!------------------------신규 교유----------------------------------------------->
           <div id="ed" style="display: none" th:if="${resume.eduNo = null}">
             <div class="col-md-12 col-lg-12">
@@ -1321,23 +1315,15 @@
                     </div>
                   </div>
                 </div>
-                <!--최신 이력서 교육 시작-------------------------------------->
-
                 <div id="educate"></div>
-                <!--최신 이력서 교육 끝-------------------------------------->
-
                 <div class="fs-4 md-3">
                   <i class="bi bi-plus-circle-fill"></i>
                 </div>
               </div>
             </div>
           </div>
-          <!-----------자격증------------------------------>
-          <div
-            id="licen"
-            style="display: none"
-            th:if="${resume.licnNo != null}"
-          >
+          <!-----------------------최신 자격증 시작------------------------------------>
+          <div id="licen" style="display: block" th:if="${resume.licnNo!=null}">
             <div class="col-md-12 col-lg-12">
               <h4 class="mb-3">자격증</h4>
               <div class="forCarr my-3 card ps-4 p-3">
@@ -1375,13 +1361,9 @@
                     </div>
                   </div>
                 </div>
-                <!--최신 이력서 자격증 시작------------------------------------->
-                <div
-                  id="licence"
-                  th:if="${resume.licnNo != null}"
-                  th:each="licn:${resume.licn}"
-                >
-                  <div style="display: block">
+                <!--최신 이력서 자격증 반복문 시작--------------------------------------------------->
+                <div id="licence" th:if="${resume!=null}">
+                  <div style="display: block" th:each="licn:${resume.licn}">
                     <div class="row gy-3 mb-4 mt-2">
                       <div><i class="bi bi-x-lg"></i></div>
                       <div class="col-md-4">
@@ -1391,7 +1373,7 @@
                             type="text"
                             class="form-control"
                             name="licnNm"
-                            th:value="licn.licnNm"
+                            th:value="${licn.licnNm}"
                           />
                         </label>
                       </div>
@@ -1403,7 +1385,7 @@
                             type="text"
                             class="form-control"
                             name="breu"
-                            th:value="licn.breu"
+                            th:value="${licn.breu}"
                           />
                         </label>
                       </div>
@@ -1415,13 +1397,13 @@
                             type="month"
                             class="form-control"
                             name="issuMm"
+                            th:value="${licn.issuMm}"
                           />
                         </label>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div id="licence" th:if="${resume.licnNo != null}"></div>
 
                 <div class="fs-4 md-3">
                   <i class="bi bi-plus-circle-fill"></i>
@@ -1429,12 +1411,9 @@
               </div>
             </div>
           </div>
+          <!----------------------------최신자격증 끝----------------------------------------->
           <!-------------------------신규 자격증--------------------------------------------->
-          <div
-            id="licen"
-            style="display: block"
-            th:if="${resume.licnNo = null}"
-          >
+          <div id="licen" style="display: none" th:if="${resume.licnNo = null}">
             <div class="col-md-12 col-lg-12">
               <h4 class="mb-3">자격증</h4>
               <div class="forCarr my-3 card ps-4 p-3">
@@ -1526,12 +1505,8 @@
                     </div>
                   </div>
                 </div>
-                <div
-                  id="award"
-                  th:if="${resume.ardNo!=null}"
-                  th:each="ard:${resume.ard}"
-                >
-                  <div style="display: none">
+                <div id="award" th:if="${resume.ardNo!=null}">
+                  <div style="display: block" th:each="ard:${resume.ard}">
                     <div class="row gy-3 mb-4 mt-2">
                       <div><i class="bi bi-x-lg"></i></div>
                       <div class="col-md-4">
@@ -1582,7 +1557,7 @@
                     </div>
                   </div>
                 </div>
-                <div id="award" th:if="${resume.ardNo=null}"></div>
+
                 <div class="fs-4 md-3">
                   <i class="bi bi-plus-circle-fill"></i>
                 </div>
@@ -1646,7 +1621,7 @@
           <div
             id="introduce"
             style="display: block"
-            th:if="#{resume.introNo!=null}"
+            th:if="${resume.introNo!=null}"
           >
             <div class="col-md-12 col-lg-12">
               <h4 class="mb-3">자기소개서</h4>
@@ -1675,7 +1650,7 @@
                     </div>
                   </div>
                 </div>
-                <div id="resumeText" th:if="#{resume.introNo!=null}">
+                <div id="resumeText" th:if="${resume.introNo!=null}">
                   <div style="display: block" th:each="intro:${resume.intro}">
                     <div class="row gy-3 mb-4 mt-2">
                       <div><i class="bi bi-x-lg"></i></div>
@@ -1715,7 +1690,7 @@
           <div
             id="introduce"
             style="display: none"
-            th:if="#{resume.introNo=null}"
+            th:if="${resume.introNo=null}"
           >
             <div class="col-md-12 col-lg-12">
               <h4 class="mb-3">자기소개서</h4>
@@ -2082,8 +2057,11 @@
           });
           //+버튼 클릭시 노드 복사 함수
           function copy(ev) {
+            console.log(ev);
             let tar = $(this).parents()[1].children[1];
+            console.log(tar);
             let newNode = $(this).parents()[1].children[0].children[0];
+            console.log(newNode);
             let cop = newNode.cloneNode(true);
             cop.style.display = "block";
             tar.append(cop);
