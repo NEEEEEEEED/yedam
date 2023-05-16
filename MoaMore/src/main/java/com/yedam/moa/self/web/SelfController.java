@@ -58,6 +58,7 @@ public class SelfController {
 		
 		map.put("selfJobList", selfServiceImpl.selfJobList(selfVO)); // 셀프구직 목록 리스트
 		map.put("selfJobInterest", selfServiceImpl.selfJobInterestList(selfVO.getId())); // 관심 리스트
+		//map.put("selfJobOffered", selfServiceImpl.selfJobOfferedList(selfVO.getId())); // 제안완료 리스트
 		map.put("totalListNum", selfServiceImpl.totalListNum(selfVO));
 		return map;
 	}
