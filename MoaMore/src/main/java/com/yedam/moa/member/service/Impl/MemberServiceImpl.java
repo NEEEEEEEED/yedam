@@ -132,6 +132,11 @@ public class MemberServiceImpl implements MemberService, OAuth2UserService<OAuth
 		return memberMapper.updateMember(vo);
 	}
 
+	@Override
+	public MemberVO getCoMember(String id) {
+		return memberMapper.getCoMember(id);
+	}
+
 
 
 }
