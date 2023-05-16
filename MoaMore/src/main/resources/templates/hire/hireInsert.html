@@ -42,7 +42,7 @@ body {
 				<div class="mb-3" >
 					<label for="reg_id">회사이름</label><span id="star">*</span>
 					<input id="coNm" type="text" class="form-control" name="coNm" th:value="${recruitInsert.coNm}" readonly>
-					<input id="recruitNo" type="text" class="form-control" name="recruitNo" th:value="${recruitInsert.recruitNo}" readonly>
+					<input id="recruitNo" type="hidden" class="form-control" name="recruitNo" th:value="${recruitInsert.recruitNo}" readonly>
 				</div>
 				
 				<div class="mb-3">
@@ -180,12 +180,12 @@ body {
 								<tbody class="trColor">
 									<tr>
 										<th>썸네일</th>
-										<td><input id="thumbnailImg" name="thumbnailImg" type="file"></td>
+										<td><input id="thumnailImg" name="thumnailImg" type="file"></td>
 									</tr>
 									<tr>
 										<th>상세 이미지</th>
 										<!-- 다중임으로 배열형식으로 받아오기 detailImg[] -->
-										<td><input id="detailImg" name="detailImg" type="file"></td>
+										<td><input id="recrintImgDetail" name="recrintImgDetail" type="file" multiple></td>
 									</tr>
 								</tbody>
 							</table>
@@ -258,7 +258,7 @@ let wksite = $('#wksite').val(); // 지역
 				"exprDt" : exprDt,
 				"wksite" : wksite,
 				"coIntro" : intro,
-				"coImg" = coImg;
+				"coImg" : coImg
 		}
 		thumnailInsert();
 		location.href="/hirePage";
@@ -354,6 +354,10 @@ let wksite = $('#wksite').val(); // 지역
 				// 모달창 open
 				$('#imgUpModal').modal('show');
 			});
+			
+			$('#imgUpBtn').on('click',function(){
+				pofolReg();
+			})
 
 			// 이미지 등록 ajax호출 함수
 			function pofolReg(){
@@ -400,7 +404,7 @@ let wksite = $('#wksite').val(); // 지역
 								      <button id="`+result.fileNo+`" data-no="`+result.jobSearchNo+`" onclick="deletePofol(this)" type="button" style="margin-left : 20px; padding:15px;" class="btn-close" aria-label="Close"></button>
 								  </div>             
 								</div>`;
-				}
+				});
 				return iamgeHtml;
 				
 			}
