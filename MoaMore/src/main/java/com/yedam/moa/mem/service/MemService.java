@@ -22,8 +22,11 @@ public interface MemService {
 //	이력서 폼 
 	public MemInfoVO getMemInfo(MemVO vo);
 	
+	public ResumeVO lastRe(MemVO vo);
+	
 	public String insertResume(ResumeVO vo);
 	
 //	디비에 포폴 입력하고 생성된 번호로 입력한 포폴 리스트 가져오기
 	public List<PrtflVO> insGetPofl(PrtflVO vo);
+	
 }

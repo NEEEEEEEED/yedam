@@ -12,7 +12,6 @@ public interface MemberService {
 
 
     
-    MemberVO getCoMember(String id); 
 
       
 }
