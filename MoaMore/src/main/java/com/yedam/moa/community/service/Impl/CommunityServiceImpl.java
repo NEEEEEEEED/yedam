@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.yedam.moa.community.CommunityVO;
 import com.yedam.moa.community.IntrvVO;
 import com.yedam.moa.community.PrjtVO;
+import com.yedam.moa.community.StudyVO;
 import com.yedam.moa.community.mapper.CommunityMapper;
 import com.yedam.moa.community.service.CommunityService;
 
@@ -84,6 +85,24 @@ public class CommunityServiceImpl implements CommunityService{
 	@Override
 	public PrjtVO projectDetail(String prjtNo) {
 		return commuMapper.projectDetail(prjtNo);
+	}
+
+	// 프로젝트 모집 수정
+	@Override
+	public int projectModFn(PrjtVO prjtVO) {
+		return commuMapper.projectModFn(prjtVO);
+	}
+
+	// 프로젝트 모집 삭제
+	@Override
+	public int projectDelFn(String prjtNo) {
+		return commuMapper.projectDelFn(prjtNo);
+	}
+
+	// 스터디 모집 등록
+	@Override
+	public int studyInsert(StudyVO studyVO) {
+		return commuMapper.studyInsert(studyVO);
 	}
 	
 	

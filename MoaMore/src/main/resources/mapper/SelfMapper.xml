@@ -294,14 +294,8 @@
 	<update id="myProfileMod" parameterType="SelfVO">
 		UPDATE job_search_notiwr
 		<set> 
-			<if test="jobSearchNo != null and !jobSearchNo.equals('')">
-				JOB_SEARCH_NO = #{jobSearchNo},
-			</if>
 			<if test="resumeNo != null and !resumeNo.equals('')">
 		    	RESUME_NO = #{resumeNo},
-		    </if>
-		    <if test="id != null and !id.equals('')">
-		    	ID = #{id},
 		    </if>
 		    <if test="ttl != null and !ttl.equals('')">
 		    	TTL = #{ttl},
