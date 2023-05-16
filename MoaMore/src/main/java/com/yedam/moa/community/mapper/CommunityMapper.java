@@ -36,9 +36,13 @@ public interface CommunityMapper {
 	public int jobInterviewInsert(IntrvVO intrvVO);
 	
 	// 프로젝트 리스트 출력
+	public List<PrjtVO> projectList();
 	
 	// 프로젝트 등록 기능
 	public int projectInsert(PrjtVO prjtVO);
+	
+	// 프로젝트 모집 상세
+	public PrjtVO projectDetail(String prjtNo);
 	
 	
 }
