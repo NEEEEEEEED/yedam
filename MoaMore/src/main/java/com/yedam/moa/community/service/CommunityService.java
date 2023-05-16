@@ -5,6 +5,7 @@ import java.util.List;
 import com.yedam.moa.community.CommunityVO;
 import com.yedam.moa.community.IntrvVO;
 import com.yedam.moa.community.PrjtVO;
+import com.yedam.moa.community.StudyVO;
 
 public interface CommunityService {
 
@@ -40,6 +41,15 @@ public interface CommunityService {
 	
 	// 프로젝트 모집 상세
 	public PrjtVO projectDetail(String prjtNo);
+	
+	// 프로젝트 모집 수정
+	public int projectModFn(PrjtVO prjtVO);
+	
+	// 프로젝트 모집 삭제
+	public int projectDelFn(String prjtNo);
+	
+	// 스터디 모집 등록
+	public int studyInsert(StudyVO studyVO);
 	
 	
 }

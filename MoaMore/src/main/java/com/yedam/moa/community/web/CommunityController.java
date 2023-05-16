@@ -21,6 +21,7 @@ import com.yedam.moa.comm.service.Impl.CommServiceImpl;
 import com.yedam.moa.community.CommunityVO;
 import com.yedam.moa.community.IntrvVO;
 import com.yedam.moa.community.PrjtVO;
+import com.yedam.moa.community.StudyVO;
 import com.yedam.moa.community.service.Impl.CommunityServiceImpl;
 
 @Controller
@@ -46,8 +47,8 @@ public class CommunityController {
 	// 취업 Q&A 게시글 작성 페이지
 	@GetMapping("/jobQnAWrite")
 	public String jobQnAWrite(Model model, Principal pr) {
-		// 카테고리, 직무, 경력, 평가, 난이도, 합격여부, 면접유형, 면접인원, 진행방식, 진행기간, 연락방법
-		model.addAttribute("commList", commServiceImpl.getCodes("f", "N", "O", "P", "Q", "T", "R","S","j","g", "i"));  
+		// 카테고리, 직무, 경력, 평가, 난이도, 합격여부, 면접유형, 면접인원, 진행방식, 진행기간, 연락방법, 스터디 구분
+		model.addAttribute("commList", commServiceImpl.getCodes("f", "N", "O", "P", "Q", "T", "R","S","j","g", "i", "k"));  
 		model.addAttribute("logId",pr.getName());
 		return "community/communityWrite";
 	}
@@ -232,11 +233,81 @@ public class CommunityController {
 		
 	}
 	
+	// 프로젝트 모집 수정 페이지
+	@GetMapping("/projectMod")
+	public String projectMod (Model model, Principal pr, String prjtNo) {
+		model.addAttribute("logId",pr.getName());
+		// 직무, 진행방식, 진행기간, 연락방법, 모집상태
+		model.addAttribute("commList", commServiceImpl.getCodes("N","j","g","i","h"));
+		model.addAttribute("projectInfo", commuServiceImpl.projectDetail(prjtNo));
+		return "community/projectDetailMod";
+	}
+	
+	// 프로젝트 모집 수정 기능
+	@PostMapping("/projectMod")
+	@ResponseBody
+	public Map<String, Object> projectModFn(PrjtVO prjtVO){
+		
+		Map<String, Object> result = new HashMap<>();
+		
+		int r = 0;
+		r = commuServiceImpl.projectModFn(prjtVO);
+		
+		if(r > 0) { // 수정 성공시
+			result.put("result", "Success");
+			return result;
+		}else {
+			result.put("result", "Fail");
+			return result;
+		}
+		
+	}
+	
+	// 프로젝트 모집 삭제 기능
+	@PostMapping("/projectDel")
+	@ResponseBody
+	public Map<String, Object> projectDelFn(String prjtNo) {
+		
+		Map<String, Object> result = new HashMap<>();
+		
+		int r = 0;
+		r = commuServiceImpl.projectDelFn(prjtNo);
+		
+		if(r > 0) { // 삭제 성공시
+			result.put("result", "Success");
+			return result;
+		}else {
+			result.put("result", "Fail");
+			return result;
+		}
+		
+	}
+	
 	
 	// 스터디 모집 리스트
 	@GetMapping("/studyList")
 	public String studyList() {
 		return "community/studyList";
+	}
+	
+	// 스터디 등록
+	@PostMapping("/studyInsert")
+	@ResponseBody
+	public Map<String, Object> studyInsert(StudyVO studyVO){
+		
+		Map<String, Object> result = new HashMap<>();
+		
+		int r = 0;
+		r = commuServiceImpl.studyInsert(studyVO);
+		
+		if(r > 0) { // 등록 성공시
+			result.put("result", "Success");
+			return result;
+		}else {
+			result.put("result", "Fail");
+			return result;
+		}
+		
 	}
 	
 	

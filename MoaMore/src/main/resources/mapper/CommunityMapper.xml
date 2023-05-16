@@ -181,4 +181,95 @@
 		WHERE prjt_no = #{prjtNo}
 	</select>
 	
+	<!-- 프로젝트 모집 수정 -->
+	<update id="projectModFn" parameterType="PrjtVO">
+		UPDATE PRJT
+		  <set> 
+		  	   <if test="progMthd != null and !progMthd.equals('')">
+		   	   		PROG_MTHD = #{progMthd}, 
+		   	   </if>
+		   	   <if test="collRcnt != null and !collRcnt.equals('')">
+		       		COLL_RCNT = #{collRcnt},
+		       </if>
+		       <if test="progTerm != null and !progTerm.equals('')">
+		       		PROG_TERM = #{progTerm},
+		       </if>
+		       <if test="skill != null and !skill.equals('')">
+		       		SKILL = #{skill},
+		       </if>
+		       <if test="collPosi != null and !collPosi.equals('')">
+		       		COLL_POSI = #{collPosi},
+		       </if>
+		       <if test="coctMthd != null and !coctMthd.equals('')">
+		      		COCT_MTHD = #{coctMthd},
+		       </if>
+		       <if test="contact != null and !contact.equals('')">
+		       		CONTACT = #{contact},
+		       </if>
+		       <if test="ttl != null and !ttl.equals('')">
+		       		TTL = #{ttl},
+		       </if>
+		       <if test="cntn != null and !cntn.equals('')">
+		       		CNTN = #{cntn},
+		       </if>
+		       <if test="expcDt != null and !expcDt.equals('')">
+		       		EXPC_DT = #{expcDt},
+		       </if>
+		       <if test="collSt != null and !collSt.equals('')">
+		       		COLL_ST = #{collSt},
+		       </if>
+		       <if test="clsDt != null and !clsDt.equals('')">
+		      		CLS_DT = #{clsDt}
+		       </if>
+		  </set>
+		 WHERE PRJT_NO = #{prjtNo}
+	</update>
+	
+	<!-- 프로젝트 모집 삭제 -->
+	<delete id="projectDelFn" parameterType="String">
+		DELETE
+		  FROM PRJT
+		 WHERE PRJT_NO = #{prjtNo}
+	</delete>
+	
+	<!-- 스터디 모집 등록 -->
+	<insert id="studyInsert" parameterType="StudyVO">
+		<selectKey keyProperty="studyNo" resultType="String" order="BEFORE">
+		 	SELECT 'STD'|| STUDY_SEQ.NEXTVAL as studyNo
+			FROM DUAL
+		</selectKey>
+		
+		INSERT INTO STUDY( STUDY_NO
+						  , ID
+						  , STUDY_FG
+						  , TTL
+						  , CNTN
+						  , STUDY_SJT
+						  , PROG_MTHD
+						  , COLL_RCNT
+						  , COCT_MTHD
+						  , CONTACT
+						  , EXPC_DT
+						  , PROG_TERM
+						  , CLS_DT
+						  , COLL_ST)
+		VALUES (  #{studyNo}
+				, #{id}
+				, #{studyFg}
+				, #{ttl}
+				, #{cntn}
+				, #{studySjt}
+				, #{progMthd}
+				, #{collRcnt}
+				, #{coctMthd}
+				, #{contact}
+				, #{expcDt}
+				, #{progTerm}
+				, #{clsDt}
+				, #{collSt})
+
+	</insert>
+	
+	
+	
 </mapper>
