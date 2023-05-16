@@ -14,8 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import com.yedam.moa.custom.WebAuthenticationDetailsSource;
 import com.yedam.moa.member.service.Impl.MemberServiceImpl;
-import com.yedam.moa.test.WebAuthenticationDetailsSource;
 
 import lombok.RequiredArgsConstructor;
 
