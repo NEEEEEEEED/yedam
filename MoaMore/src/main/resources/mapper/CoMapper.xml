@@ -80,24 +80,22 @@
 		
 	<!-- 구인공고목록 -->
 	<select id="selectRec" parameterType="HireVO" resultType="HireVO">
-		SELECT recruit_no,
-				id,
-				ttl,
-				shcr,
-				carr,
-				ma_buss,
-				qual_cond,
-				pref_cond,
-				welf,
-				expr_dt,
-				wksite,
-				co_img,
-				accp_dt,
-				img_no,
-				reg_dt,
-				job
-		FROM recruit_anun
-		WHERE id = #{id}	
+		SELECT  R.TTL,
+		       K.SKILL,
+		       C.CO_NM,
+		       get_common(WKSITE) AS WKSITE,
+               R.EXPR_DT,
+               R.CO_IMG,
+               R.RECRUIT_NO         
+		FROM RECRUIT_ANUN R
+		JOIN CO C
+		  ON R.ID = C.ID
+		
+		JOIN (SELECT recruit_no , LISTAGG(get_common(SKILL), ',') WITHIN GROUP (ORDER BY SKILL_NO) as SKILL
+              FROM RECRUIT_SKILL
+              GROUP BY recruit_no) K
+		  ON R.RECRUIT_NO = K.RECRUIT_NO		
+		WHERE r.id = #{id}      	
 	</select>
 	
 	<!-- 관심 게시글 수 -->
@@ -139,7 +137,7 @@
                                     						  FROM inter_job_search
                                     						 WHERE id = #{id}
                                 						   )   
-		ORDER BY job_search_no ) a  ) WHERE rn > (#{pageNum}-1) * 5 AND rn <= #{pageNum} * 5
+		ORDER BY job_search_no ) a  ) WHERE rn > (#{pageNum}-1) * 4 AND rn <= #{pageNum} * 4
     ]]>
 </select>
 	<!-- 셀프구직게시글 관심해제 -->
@@ -184,7 +182,15 @@
 		SELECT  offer_cd,
 				co_nm,
 				wksite,
-				tech,
+				
+				(select listagg(get_common(tech),',') within group (order by offer_cd) from 
+                offer_skill 
+                where offer_cd = (select offer_cd 
+		                     from job_search_st 
+		                    where id = #{id} 
+		                      and job_search_no = #{jobSearchNo})
+                group by offer_cd) as tech,
+                
 				ma_buss,
 				bnft,
 				saly,
@@ -203,32 +209,35 @@
 	<selectKey keyProperty="offerCd" resultType="String" order="BEFORE">
 		SELECT 'OFFER'||nvl((SUBSTR(MAX(offer_cd),6,5))+1,10001) FROM offer
 	</selectKey>
-	BEGIN	
-		INSERT INTO offer 
-		           (offer_cd,
-					co_nm,
-					wksite,
-					tech,
-					ma_buss,
-					bnft,
-					saly,
-					buss_start_dt,
-					cls_dt,
-					project_nm,
-					ttL)
-			values (#{offerCd},
-      				#{coNm},
-      				#{wksite},
-      				#{tech},
-      				#{maBuss},
-      				#{bnft},
-      				#{saly},
-      				#{bussStartDt},
-      				#{clsDt},
-      				#{projectNm},
-      				#{ttl});
+	DECLARE
+  		v_offer_cd VARCHAR2(100) := #{offerCd};
+  		v_tech VARCHAR2(100) := #{tech};
+		BEGIN	
+			INSERT INTO offer 
+		           	   (offer_cd,
+						co_nm,
+						wksite,
+						tech,
+						ma_buss,
+						bnft,
+						saly,
+						buss_start_dt,
+						cls_dt,
+						project_nm,
+						ttL)
+			    VALUES (#{offerCd},
+	      				#{coNm},
+	      				#{wksite},
+	      				#{tech},
+	      				#{maBuss},
+	      				#{bnft},
+	      				#{saly},
+	      				#{bussStartDt},
+	      				#{clsDt},
+	      				#{projectNm},
+	      				#{ttl});
       					
-      	INSERT INTO job_search_st (offer_cd,
+      		INSERT INTO job_search_st (offer_cd,
 									id,
 									job_search_no,
 									accept_status
@@ -238,10 +247,17 @@
 									#{jobSearchNo},
 									'e1'
 									);	
-									
-		UPDATE job_search_notiwr
-		   SET prop = prop + 1
-		 WHERE job_search_no = #{jobSearchNo};												
+						
+			UPDATE job_search_notiwr
+		       SET prop = prop + 1
+		 	 WHERE job_search_no = #{jobSearchNo};	
+		 
+		 	FOR i IN (SELECT regexp_substr(v_tech, '[^,]+', 1, level) AS tech
+            		 	FROM dual
+               	  CONNECT BY regexp_substr(v_tech, '[^,]+', 1, level) IS NOT NULL) 
+        	LOOP
+    			INSERT INTO OFFER_SKILL (OFFER_CD, TECH) VALUES (v_offer_cd, i.tech);
+  			END LOOP;											
 	END;
 	</insert>
 	
