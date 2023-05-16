@@ -18,7 +18,9 @@ import com.yedam.moa.co.service.CoVO;
 import com.yedam.moa.comm.service.CommService;
 import com.yedam.moa.hire.HireVO;
 import com.yedam.moa.mem.MemVO;
+
 import com.yedam.moa.mem.service.MemService;
+
 import com.yedam.moa.member.service.MemberService;
 import com.yedam.moa.member.service.MemberVO;
 import com.yedam.moa.products.service.ProductService;
@@ -146,7 +148,7 @@ public class CoMypageController {
 	//비밀번호 수정
 	@PostMapping("/updatePw")
 	@ResponseBody
-	public String updatePw(@RequestBody MemberVO vo) {
+	public String updatePw(@RequestBody MemVO vo) {
 		String pw = passwordEncoder.encode(vo.getPw());
 		vo.setPw(pw);
 		if(memberservice.updateMember(vo)>0) {

@@ -18,6 +18,9 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import com.yedam.moa.co.service.CoVO;
+import com.yedam.moa.custom.RegisterMail;
+import com.yedam.moa.mem.MemVO;
 import com.yedam.moa.member.UserRepository;
 import com.yedam.moa.member.mapper.MemberMapper;
 import com.yedam.moa.member.service.Member;
@@ -37,6 +40,9 @@ public class MemberServiceImpl implements MemberService, OAuth2UserService<OAuth
     private final UserRepository userRepository;
 
     private final HttpSession httpSession;
+	
+	@Autowired
+	RegisterMail registerMail;
 
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -122,9 +128,62 @@ public class MemberServiceImpl implements MemberService, OAuth2UserService<OAuth
      } 
 
 
+
 	@Override
-	public int updateMember(MemberVO vo) {
+	public int updateMember(MemVO vo) {
 		return memberMapper.updateMember(vo);
+	}
+
+
+	@Override
+	public String findId(MemVO vo) {
+		return memberMapper.findId(vo);
+	}
+
+
+	@Override
+	public String findpw(MemVO vo) throws Exception {
+		int result = memberMapper.findPw(vo);
+		if(result > 0) {
+			String email = vo.getEmail();
+	    	String code = registerMail.sendSimpleMessage(email);
+			BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+			String password = bcrypt.encode(code);
+			vo.setPw(password);
+			if(memberMapper.updateMember(vo)>0) {
+				return "updateSuccess";
+			} else {
+				return "updateFail";
+			}
+		} else {
+			return "noUser";
+		}
+		
+	}
+
+	@Override
+	public String findCoId(CoVO vo) {
+		return memberMapper.findCoId(vo);
+	}
+
+	@Override
+	public String findCoPw(CoVO vo) throws Exception {
+		MemVO mvo = memberMapper.findCoPw(vo);
+		if(mvo.getId() == null || mvo.getId().isEmpty() ) {
+			String email = vo.getEmail();
+	    	String code = registerMail.sendSimpleMessage(email);
+			BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+			String password = bcrypt.encode(code);
+			vo.setPw(password);
+			if(memberMapper.updateMember(mvo)>0) {
+				return "updateSuccess";
+			} else {
+				return "updateFail";
+			}
+		} else {
+			return "noCoUser";
+		}
+		
 	}
 
 

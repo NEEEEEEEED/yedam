@@ -7,27 +7,11 @@
 	<!-- 단건조회 -->
 	<select id="getMember" resultType="MemberVO">
 		SELECT  id,
-				name,
 				pw,
-				ph,
-				ph_cl,
-				email,
-				blog,
-				post,
-				authr,
-				clsf,
-				log_cnt,
-				ltst_tm,
-				gen,
-				birth,
-				addr,
-				join_dt,
-				age,
-				api,
-				nickname
+				authr
 		 FROM MEMBER
 		 WHERE ID = #{id}
-		   AND authr = 'ROLE_MEM'
+		   AND authr IN ('ROLE_MEM','ROLE_ADMIN')
 	<!-- #{ } : PreparedStatement 0 -> 0, Kang -> 'Kang'
 		 ${ } : 0 -> 0, Kang -> Kang -->
 	</select>
@@ -43,10 +27,47 @@
 		 ${ } : 0 -> 0, Kang -> Kang -->
 	</select>
 	
-	<update id="updateMember">
+	<update id="updateMember" parameterType="MemVO">
 		UPDATE member
 		   SET pw = #{pw}
-		 WHERE id = #{id}
+		 <where>
+	 		<if test="id != null">
+				id = #{id}
+	 		</if>
+	 		<if test="email != null">
+			 	email = #{email}
+	 		</if>
+	 	 </where>
 	</update>
 	
+	<select id="findId" resultType="String">
+		SELECT id
+		FROM member
+		WHERE name=#{name}
+		  AND ph_cl=#{phCl}
+	</select>
+	
+	<select id="findPw" resultType="int">
+			SELECT count(email)
+			FROM member
+			WHERE name=#{name}
+			  AND email=#{email} 
+			  AND ph_cl=#{phCl}
+			  AND api IS NULL
+	</select>
+	
+	<select id="findCoId" resultType="String">
+		SELECT id
+		FROM member
+		WHERE bizno=#{bizno}
+		  AND rpstr=#{rpstr}
+	</select>
+	
+	<select id="findCoPw" resultType="MemVO">
+			SELECT m.id
+			FROM member m, co c
+			WHERE m.id = c.id
+			  AND c.bizno=#{bizno}
+			  AND c.rpstr=#{rpstr}
+	</select>
 </mapper>
