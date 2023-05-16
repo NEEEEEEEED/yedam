@@ -209,6 +209,7 @@ public class MemServiceImpl implements MemService {
 	
 		
 		rvo = mem.lastRe(vo);
+		System.out.println(rvo);
 		if(rvo != null) {
 		if(rvo.getArdNo()!=null) {
 			rvo.setArd(mem.getArd(rvo));
@@ -232,7 +233,7 @@ public class MemServiceImpl implements MemService {
 			rvo.setSkill(mem.getSkill(rvo));
 		}
 		
-		}
+		}else {rvo.setResumeNo("none");}
 		return rvo;
 		
 	}

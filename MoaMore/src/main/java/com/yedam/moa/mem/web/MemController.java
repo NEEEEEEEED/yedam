@@ -70,6 +70,28 @@ public class MemController {
 	public String createResume(Principal principal, Model model, MemVO vo, ResumeVO rvo) {
 		vo.setId(principal.getName());
 		rvo=mem.lastRe(vo);
+		if(rvo.getResumeNo() == null) {
+		rvo.setResumeNo("none");
+		};
+			model.addAttribute("resume", rvo);
+		System.out.println(rvo);
+		model.addAttribute("list", com.getCodes("Z", "D", "E", "B", "d", "N", "A"));
+		model.addAttribute("info", mem.getMemInfo(vo));
+		;
+
+		return "mem/mem_resumeSec";
+	}
+	
+	
+//	이력서 폼 접속
+	@GetMapping("mem/mkResumeTest")
+	public String tesResume(Principal principal, Model model, MemVO vo, ResumeVO rvo) {
+		vo.setId(principal.getName());
+		rvo=mem.lastRe(vo);
+		if(rvo.getResumeNo() == null) {
+//			rvo.setResumeNo("none");
+		};
+		
 			model.addAttribute("resume", rvo);
 		
 		model.addAttribute("list", com.getCodes("Z", "D", "E", "B", "d", "N", "A"));

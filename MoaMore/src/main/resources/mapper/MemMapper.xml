@@ -141,7 +141,7 @@
 				skill_no, 
 				img_no
 		  from 	resume
-		  where resume_no ='RESUME10009' and id=#{id}	
+		  where resume_no =(select max(resume_no) from resume) and id=#{id}	
 </select>
 <select id="getArd" resultType = "ArdVO">
 	select 	cntn,	
