@@ -52,7 +52,7 @@
 				s.reser_dts,
                 p.prdt_nm,
                 r.ttl,
-                p.total_price,
+                SUBSTR(total_price, 1, LENGTH(total_price) - 3)||','||SUBSTR(total_price,-3) total_price,
                 p.svc_cnt
   		  FROM  sttl s join prdt p 
   		    ON  s.prdt_cd = p.prdt_cd   

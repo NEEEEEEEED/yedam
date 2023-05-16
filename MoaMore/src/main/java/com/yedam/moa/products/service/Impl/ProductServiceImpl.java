@@ -37,7 +37,18 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public List<ProductVO> selectCoProducts(CoVO vo) {
-		return mapper.selectCoProducts(vo);
+		
+		List<ProductVO> list = mapper.selectCoProducts(vo);
+		for(ProductVO pvo : list) {
+			String[] dts = pvo.getReserDts().split(", ");//['2023-05-16','2023-05-17']
+			String[] formatted = new String[dts.length];
+			for(int i=0;i<dts.length;i++) {
+				formatted[i] = dts[i].substring(2).replace("-", "/");
+			}
+			pvo.setArrDate(formatted);
+		}
+		
+		return list;
 	}
 
 }

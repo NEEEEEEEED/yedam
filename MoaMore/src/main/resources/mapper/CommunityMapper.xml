@@ -135,4 +135,50 @@
 				, #{clsDt})
 	</insert>
 	
+	<!-- 프로젝트 모집 리스트 -->
+	<select id="projectList" resultType="PrjtVO">
+		SELECT PRJT_NO
+		       , get_common(PROG_MTHD) as progMthd
+		       , COLL_RCNT
+		       , get_common(PROG_TERM) as progTerm
+		       , SKILL
+		       , get_common(COLL_POSI) as collPosi
+		       , get_common(COCT_MTHD) as coctMthd
+		       , TTL
+		       , CNTN
+		       , RPLY_CNT
+		       , INQ_CNT
+		       , EXPC_DT
+		       , get_common(COLL_ST) as collSt
+		       , CLS_DT
+		       , ID
+		       , REG_DT
+		       , CONTACT
+		FROM PRJT
+		ORDER BY PRJT_NO DESC
+	</select>
+	
+	<!-- 프로젝트 모집 상세 -->
+	<select id="projectDetail" resultType="PrjtVO">
+		SELECT PRJT_NO
+		       , get_common(PROG_MTHD) as progMthd
+		       , COLL_RCNT
+		       , get_common(PROG_TERM) as progTerm
+		       , SKILL
+		       , get_common(COLL_POSI) as collPosi
+		       , get_common(COCT_MTHD) as coctMthd
+		       , TTL
+		       , CNTN
+		       , RPLY_CNT
+		       , INQ_CNT
+		       , EXPC_DT
+		       , get_common(COLL_ST) as collSt
+		       , CLS_DT
+		       , ID
+		       , REG_DT
+		       , CONTACT
+		FROM PRJT
+		WHERE prjt_no = #{prjtNo}
+	</select>
+	
 </mapper>

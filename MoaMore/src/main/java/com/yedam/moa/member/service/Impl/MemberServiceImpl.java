@@ -128,15 +128,18 @@ public class MemberServiceImpl implements MemberService, OAuth2UserService<OAuth
      } 
 
 
+
 	@Override
 	public int updateMember(MemVO vo) {
 		return memberMapper.updateMember(vo);
 	}
 
+
 	@Override
 	public String findId(MemVO vo) {
 		return memberMapper.findId(vo);
 	}
+
 
 	@Override
 	public String findpw(MemVO vo) throws Exception {
@@ -182,6 +185,7 @@ public class MemberServiceImpl implements MemberService, OAuth2UserService<OAuth
 		}
 		
 	}
+
 
 
 

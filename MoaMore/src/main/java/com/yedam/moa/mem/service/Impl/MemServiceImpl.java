@@ -202,4 +202,37 @@ public class MemServiceImpl implements MemService {
 		}
 		
 	}
+
+	@Override
+	public ResumeVO lastRe(MemVO vo) {
+		ResumeVO rvo = new ResumeVO();
+	
+	
+		rvo = mem.lastRe(vo);
+		
+		System.out.println(rvo);
+		if(rvo.getArdNo()!=null) {
+			rvo.setArd(mem.getArd(rvo));
+		}
+		if(rvo.getCarrNo()!=null) {
+			rvo.setCarr(mem.getCarr(rvo));
+		}
+		if(rvo.getEduNo()!=null) {
+			rvo.setEdu(mem.getEdu(rvo));
+		}
+		if(rvo.getIntroNo()!=null) {
+			rvo.setIntro(mem.getIntro(rvo));
+		}
+		if(rvo.getLicnNo()!=null) {
+			rvo.setLicn(mem.getLicn(rvo));
+		}
+		if(rvo.getShcrNo()!=null) {
+			rvo.setSch(mem.getShcr(rvo));
+		}
+		if(rvo.getSkillNo()!=null) {
+			rvo.setSkill(mem.getSkill(rvo));
+		}
+		
+		return rvo;
+	}
 }

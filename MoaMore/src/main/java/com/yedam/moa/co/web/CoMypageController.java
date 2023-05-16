@@ -18,6 +18,9 @@ import com.yedam.moa.co.service.CoVO;
 import com.yedam.moa.comm.service.CommService;
 import com.yedam.moa.hire.HireVO;
 import com.yedam.moa.mem.MemVO;
+
+import com.yedam.moa.mem.service.MemService;
+
 import com.yedam.moa.member.service.MemberService;
 import com.yedam.moa.member.service.MemberVO;
 import com.yedam.moa.products.service.ProductService;
@@ -35,7 +38,10 @@ public class CoMypageController {
 	CommService commService;
 
 	@Autowired
-	MemberService mservice;
+	MemService mservice;
+	
+	@Autowired
+	MemberService memberservice;
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
@@ -46,6 +52,7 @@ public class CoMypageController {
 		vo.setId(principal.getName());
 		model.addAttribute("followers", service.selectFollowers(vo)); // 나를 관심가진 수 가져오기
 		model.addAttribute("id", vo); // user id 가져오기
+		model.addAttribute("co", service.selectCo(vo));//기업명 가져오기 용
 		model.addAttribute("totalInter", service.selectTotalInter(vo)); // 관심게시글 수 가져오기
 		model.addAttribute("commList", commService.getCodes("Z")); // 제안모달 기술스택가져오기
 		return "co/coMypage";
@@ -53,21 +60,21 @@ public class CoMypageController {
 
 	// 기업정보등록/수정 페이지
 	@GetMapping("/coInfoPage") // 기업아이디 들고 들어가서 해당 아이디에 해당하는 기업정보 있다면 model에 service담아서 미리출력
-	public String coInfoPage(Model model, Principal principal, CoVO vo) {
+	public String coInfoPage(Model model, Principal principal, MemVO mvo, CoVO vo) {
+		mvo.setId(principal.getName());
 		vo.setId(principal.getName());
-		String id = principal.getName();
 		model.addAttribute("co", service.selectCo(vo));
-		model.addAttribute("member", mservice.getMember(id));
+		model.addAttribute("member", mservice.getMemInfo(mvo));
 		return "co/coInfo";
 	}
 
 	// 기업정보수정 비밀번호
 	@PostMapping("/checkPw")
 	@ResponseBody
-	public boolean checkPw(Principal principal, @RequestParam String pw) {
-		String id = principal.getName();
+	public boolean checkPw(Principal principal, @RequestParam String pw, MemVO mvo) {
+		mvo.setId(principal.getName());
 		System.out.println(pw);
-		if (passwordEncoder.matches(pw, mservice.getMember(id).getPw())) {
+		if (passwordEncoder.matches(pw, mservice.getMemInfo(mvo).getPw())) {
 			return true;
 		} else
 			return false;
@@ -77,7 +84,7 @@ public class CoMypageController {
 	@GetMapping("/coRecruit")
 	public String coRecruitPage(Model model, Principal principal, HireVO vo) {
 		vo.setId(principal.getName());
-		model.addAttribute("rec", service.selectRec(vo));
+		model.addAttribute("recList", service.selectRec(vo));
 		return "co/coRecruit";
 	}
 
@@ -144,7 +151,7 @@ public class CoMypageController {
 	public String updatePw(@RequestBody MemVO vo) {
 		String pw = passwordEncoder.encode(vo.getPw());
 		vo.setPw(pw);
-		if(mservice.updateMember(vo)>0) {
+		if(memberservice.updateMember(vo)>0) {
 			return "업데이트성공";
 		}else return "업데이트실패";
 		

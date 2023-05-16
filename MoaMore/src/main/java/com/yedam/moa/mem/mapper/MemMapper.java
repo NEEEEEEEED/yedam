@@ -29,6 +29,14 @@ public interface MemMapper {
 	
 //	이력서 작성 폼
 	public List<MemVO> getCode(MemVO vo);
+	public ResumeVO lastRe(MemVO vo);
+	public List<ArdVO> getArd(ResumeVO vo);
+	public List<CarrVO> getCarr(ResumeVO vo);
+	public List<EduVO> getEdu(ResumeVO vo);
+	public List<IntroVO> getIntro(ResumeVO vo);
+	public List<ShcrVO> getShcr(ResumeVO vo);
+	public List<SkillVO> getSkill(ResumeVO vo);
+	public List<LicnVO> getLicn(ResumeVO vo);
 //	이력서 개인정보 불러오기
 	public MemInfoVO getMemInfo(MemVO vo);
 //	스킬번호 생성하고 내용 입력
