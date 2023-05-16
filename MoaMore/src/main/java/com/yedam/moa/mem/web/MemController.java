@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -68,8 +67,14 @@ public class MemController {
 //	이력서 시작
 //	이력서 폼 접속
 	@GetMapping("mem/mkResume")
-	public String createResume(Principal principal, Model model, MemVO vo) {
+	public String createResume(Principal principal, Model model, MemVO vo, ResumeVO rvo) {
 		vo.setId(principal.getName());
+		rvo=mem.lastRe(vo);
+		if(rvo.getResumeNo()!=null) {
+			System.out.println(rvo);
+			model.addAttribute("resume", rvo);
+		}
+		System.out.println(rvo);
 		model.addAttribute("list", com.getCodes("Z", "D", "E", "B", "d", "N", "A"));
 		model.addAttribute("info", mem.getMemInfo(vo));
 		;

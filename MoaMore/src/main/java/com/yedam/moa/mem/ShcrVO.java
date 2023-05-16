@@ -13,4 +13,7 @@ public class ShcrVO {
 	private String shcrSt;		//학력상태 (졸업,휴학..)
 	private String ttScore;		//총점 (4.5...)
 	private String fg;			//학교 구분 (고등 대학)
+	private String shcrStCo;			//학교 구분 (고등 대학)
+	private String ttCo;			//학교 구분 (고등 대학)
+	private String fgCo;			//학교 구분 (고등 대학)
 }

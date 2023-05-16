@@ -129,7 +129,86 @@
 	  from member
 	 where id = #{id}
 	</select>
-	
+<!-- 	최신 이력서 불러오기 -->
+<!-- 	select * from resume where resume_no = (select max(resume_no) from resume)  -->
+<select id="lastRe" resultType ="ResumeVO">
+		select 	resume_no,
+				carr_no, 
+				edu_no, 
+				licn_no, 
+				ard_no,
+				intro_no,
+				skill_no, 
+				img_no
+		  from 	resume
+		  where resume_no ='RESUME10009' and id=#{id}	
+</select>
+<select id="getArd" resultType = "ArdVO">
+	select 	cntn,	
+	 		issu_yy,	
+	 		ard_nm,
+	 		breu
+	 from	resume_ard
+	 where	ard_no = #{ardNo}
+</select>
+<select id="getCarr" resultType = "CarrVO">
+	select 	 wkdty,		
+			 depart,		
+			 duty,		
+			 join_yy,		
+			 reti_yy,		
+			 buss,		
+			 carr_st,		
+			 co,
+			 get_common(wkdty) wkdty_co,
+			 get_common(duty) duty_co,
+			 get_common(carr_st) carr_st_co
+	from	resume_carr
+	where carr_no = #{carrNo}	 		
+</select>
+<select id="getEdu" resultType = "EduVO">
+	select 	 breu,	
+			 join_yy,	
+			 reti_yy,	
+			 cntn,	
+			 edu_nm	
+	from	resume_edu
+	where edu_no = #{eduNo}	 		
+</select>
+<select id="getIntro" resultType = "IntroVO">
+	select 	cntn, 
+	  		ttl 
+	from	resume_intro
+	where intro_no = #{introNo}	 		
+</select>
+<select id="getShcr" resultType = "ShcrVO">
+	select	 breu,		
+			 mj,			
+			 join_yy,		
+			 reti_yy,		
+			 pnt,			
+			 shcr_st,		
+			 ttScore,		
+			 fg,
+			 get_common(fg) as 	fg_co,
+			 get_common(shcr_st) as shcr_st_co,
+			 get_common(tt_score) as tt_co
+	from	 resume_shcr
+	where 	 shcr_no = #{shcrNo}	 		
+</select>
+<select id="getSkill" resultType = "SkillVO">
+	select	 skill	
+	from	 resume_skills
+	where 	 skill_no = #{skillNo}	 		
+</select>
+<select id="getLicn" resultType = "LicnVO">
+	select	 breu,		
+			 issu_mm,		
+			 licn_nm,		
+	from	 resume_licn
+	where 	 licn_no = #{licnNo}	 		
+</select>
+<!-- 최신이력서 불러오기 끝 -->
 <!-- 	스킬 번호 생성 -->
 	<select id="getSkillNo" resultType="String">
 		 SELECT 'SKILL'|| TO_CHAR(skill_seq.NEXTVAL)
