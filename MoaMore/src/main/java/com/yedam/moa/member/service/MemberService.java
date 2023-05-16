@@ -1,5 +1,8 @@
 package com.yedam.moa.member.service;
 
+import com.yedam.moa.co.service.CoVO;
+import com.yedam.moa.mem.MemVO;
+
 public interface MemberService {
 
 	MemberVO getMember(String id);
@@ -8,11 +11,13 @@ public interface MemberService {
 
     boolean authenticateCo(String id, String pw);
     //정보수정
-	int updateMember(MemberVO vo); 
+	int updateMember(MemVO vo);
+	
+	String findId(MemVO vo);
+	String findpw(MemVO vo) throws Exception;
+	String findCoId(CoVO vo);
+	String findCoPw(CoVO vo) throws Exception; 
 
-
-    
-    MemberVO getCoMember(String id); 
 
       
 }

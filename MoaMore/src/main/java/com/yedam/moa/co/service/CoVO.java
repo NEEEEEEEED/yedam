@@ -35,4 +35,7 @@ public class CoVO {
 	private String jobSearchNo; //셀프구직게시글번호
 	private String acceptStatus; //제안수락상태
 	
+	//이메일
+	private String email;
+	
 }
