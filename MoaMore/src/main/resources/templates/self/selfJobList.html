@@ -126,6 +126,115 @@
 			<div class="col-md-1"></div>
 		</div>
 		
+		<!-- html모달창 제안모달 -->
+		<div class="modal fade " id="exampleModalLg" tabindex="-1"
+			aria-labelledby="exampleModalLgLabel" style="display: none;"
+			aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-4" id="exampleModalLgLabel">구직 제안</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-body d-flex justify-content-center">
+						<form class="col-lg-11 " id="offerForm" action="/offerSelf" method="POST">
+							<div class="mb-1 row ">
+								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+									회사명</label>
+								<div class="col-sm-4 center-input">
+									<input type="text" name="coNm" class="form-control form-control-sm " id="">
+								</div>
+								
+								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+									복지</label>
+								<div class="col-sm-4 center-input">
+									<input type="text" name="bnft" class="form-control form-control-sm" id="">
+								</div>
+							</div>
+
+							<div class="mb-1 row ">
+								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+									근무지 주소</label>
+								<div class="col-sm-4 center-input">
+									<input type="text" name="wksite" class="form-control form-control-sm " id="">
+								</div>
+								
+								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+									급여</label>
+								<div class="col-sm-4 center-input">
+									<input type="text" name="saly" class="form-control form-control-sm" id="">
+								</div>
+							</div>
+
+							<div class="mb-1 row ">
+								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+									프로젝트 명</label>
+								<div class="col-sm-4 center-input">
+									<input type="text" name="projectNm" class="form-control form-control-sm" id="">
+								</div>
+								
+								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+									업무 시작일</label>
+								<div class="col-sm-4 center-input">
+									<input type="date" name="bussStartDt" class="form-control form-control-sm"
+										id="">
+								</div>
+							</div>
+
+							<div class="mb-1 row ">
+								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+									기술 스택</label>
+								<div class="col-sm-4 center-input">
+									<select id="tech" name="tech" class="form-select form-select-sm">
+										<option value="selectedOpt" id="selectedOpt" style="display:none;"></option>
+										<option value="" selected>기술선택(다중선택가능)</option>
+										<!-- <option th:each="tech : ${commList.Z}" th:text="${tech.desct}"
+											th:value="${tech.prov}">기술스택</option> -->
+									</select>
+								</div>
+								
+								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+									제안 마감일</label>
+								<div class="col-sm-4 center-input">
+									<input type="date" name="clsDt" class="form-control form-control-sm" id="">
+								</div>
+							</div>
+
+							<div class="mb-1 row ">
+								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+									주요 업무</label>
+								<div class="col-sm-4 center-input">
+									<input type="text" name="maBuss" class="form-control form-control-sm" id="">
+								</div>
+								
+								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+									구인공고</label>
+								<div class="col-sm-4 center-input">
+									<select name="ttl" class="form-select form-select-sm" id="">
+										<option value='' selected>선택</option>
+									</select>
+								</div>
+							</div>
+
+							<!-- 함께보낼데이타 -->
+							<!-- <input type="hidden" name="id" th:value="${id.id}"> <input
+								type="hidden" name="jobSearchNo"> -->
+							<div class="row mb-4">
+								<div class="col-12 d-flex justify-content-center">
+									<button type="button" class="btn btn-secondary"
+										data-bs-dismiss="modal" onclick="closeModal()">취소</button>
+									<button id="offerBtn" type="button" class="btn btn-primary"
+										onclick="offerCheck()">제안</button>
+								</div>
+							</div>
+						</form>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 모달 끝 -->
 <script>
 
 let job = ''; // 검색조건 : 직무
@@ -323,7 +432,7 @@ function selfJobList(auth, id, job, carr, city, skill, currentPage){
 		let selfJobList = result.selfJobList; // 셀프구직 목록 리스트
 		let selfJobInterest = result.selfJobInterest; // 접속한 ID의 셀프구직 관심 리스트
 		let totalListNum = result.totalListNum; // 셀프구직 목록리스트 총갯수
-		
+		//let selfJobOffered = result.selfJobOffered; (selfController 60행에 제안완료목록 리스트 만들기)
 		selfList.innerHTML = ''; // 초기화
 		
 		if(selfJobList.length == 0){
@@ -338,6 +447,14 @@ function selfJobList(auth, id, job, carr, city, skill, currentPage){
 					}
 				}
 			}
+			
+			/* for(let k = 0; k < selfJobOffered.length ; k++){
+				for(let l = 0; l < selfJobList.length; l++){
+					if(selfJobOffered[k].jobSearchNo == selfJobList[l].jobSearchNo){
+						selfJobOffered[i].offerdYn = 'Y';	// 제안완료에만 'Y'
+					}
+				}
+			} */
 			
 			let selfJobListHtml = '';
 			
@@ -429,7 +546,8 @@ function selfJobListPrint(result={}){
 	      <div class="col-md-2" style="display: flex; align-items: center; flex-direction : column;" >
 	      	
 		      <button  data-id="`+result.jobSearchNo+`" onclick="interest(this)" type="button" class="btn btn-danger btn-sm listBtn">관심해제</button>
-		      <button  data-id="`+result.jobSearchNo+`" type="button" class="btn btn-outline-info btn-sm listBtn">제안</button>
+		    	/* if로 offerdYn == Y 유무로 버튼 다르게 */
+		      <button  data-id="`+result.jobSearchNo+`" onclick="offerModal(this)" type="button" class="btn btn-outline-info btn-sm listBtn" data-bs-toggle="modal" data-bs-target="#exampleModalLg">제안</button>
 		  </div>
 	    </div>`;
 	}else{
@@ -456,7 +574,8 @@ function selfJobListPrint(result={}){
 	      <div class="col-md-2" style="display: flex; align-items: center; flex-direction : column;" >
 	      	  
 	      	  <button  data-id="`+result.jobSearchNo+`" onclick="interest(this)" type="button" class="btn btn-outline-danger btn-sm listBtn">관심</button>
-		      <button  data-id="`+result.jobSearchNo+`" type="button" class="btn btn-outline-info btn-sm listBtn">제안</button>
+	      	  //if로 offerdYn == Y 유무로 버튼 다르게
+		      <button  data-id="`+result.jobSearchNo+`" onclick="offerModal(this)" type="button" class="btn btn-outline-info btn-sm listBtn" data-bs-toggle="modal" data-bs-target="#exampleModalLg">제안</button>
 		  </div>
 	    </div>`;
 	}
