@@ -174,18 +174,15 @@
 		DELETE FROM RECRUIT_SCRAP WHERE RECRUIT_NO = #{recruitNo} AND ID = #{id}
 	</delete>
 	
-		<!-- 공고 등록 키 -->
+	<!-- 공고 등록 키 -->
 	<select id="recruitNo" resultType="String">
 		SELECT 'REA' || RECRUIT_ANUN_SEQ.NEXTVAL AS RECRUIT_NO FROM DUAL 
 	</select>
 	
 	<!-- 공고등록 페이지 회사이름 조회 -->
 	<select id="recruitInsertSelect" resultType="HireVO">
-		SELECT C.CO_NM,
-			   R.RECRUIT_NO
-		FROM CO C
-		JOIN RECRUIT_ANUN R
-		ON C.ID = R.ID
+		SELECT CO_NM
+		FROM CO 
 		WHERE ID = #{id}
 	</select>
 	

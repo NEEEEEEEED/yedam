@@ -66,7 +66,6 @@ public class HireServiceImpl implements HireService{
 	// 공고 등록 페이지 조회
 	@Override
 	public HireVO recruitInsertSelect(HireVO hireVO) {
-		hireVO.setRecruitNo(hireMapper.recruitNo());
 		return hireMapper.recruitInsertSelect(hireVO);
 	}
 	// 스크랩 등록
@@ -157,6 +156,12 @@ public class HireServiceImpl implements HireService{
 	@Override
 	public List<HireVO> hireImgInsertList(HireVO vo) {
 		return hireMapper.detailImgesList(vo);
+	}
+	
+	// 공고번호
+	@Override
+	public String recruitNo() {
+		return hireMapper.recruitNo();
 	}
 	
 	
