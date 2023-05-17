@@ -60,7 +60,7 @@
 	<!-- 취업 Q&A 조회수 기능 -->
 	<update id="jobQnaView" parameterType="String">
 		UPDATE EMPL_QST
-		   SET INQ_CNT = INQ_CNT + 1
+		   SET INQ_CNT = TO_NUMBER(INQ_CNT) + 1
 		 WHERE QA_NOTIWR_NO = #{qaNotiwrNo}
 	</update>
 	
@@ -155,7 +155,7 @@
 		       , REG_DT
 		       , CONTACT
 		FROM PRJT
-		ORDER BY PRJT_NO DESC
+		ORDER BY COLL_ST ASC , PRJT_NO DESC
 	</select>
 	
 	<!-- 프로젝트 모집 상세 -->
@@ -180,6 +180,14 @@
 		FROM PRJT
 		WHERE prjt_no = #{prjtNo}
 	</select>
+	
+	<!-- 프로젝트 모집 조회수 기능 -->
+	<update id="projectView" parameterType="String">
+		UPDATE PRJT
+		   SET INQ_CNT = TO_NUMBER(INQ_CNT) + 1
+		 WHERE PRJT_NO = #{prjtNo}
+	</update>
+	
 	
 	<!-- 프로젝트 모집 수정 -->
 	<update id="projectModFn" parameterType="PrjtVO">
@@ -238,7 +246,6 @@
 		 	SELECT 'STD'|| STUDY_SEQ.NEXTVAL as studyNo
 			FROM DUAL
 		</selectKey>
-		
 		INSERT INTO STUDY( STUDY_NO
 						  , ID
 						  , STUDY_FG
@@ -267,9 +274,111 @@
 				, #{progTerm}
 				, #{clsDt}
 				, #{collSt})
-
 	</insert>
 	
+	<!-- 스터디 목록 리스트 -->
+	<select id="studyList" resultType="StudyVO">
+		SELECT STUDY_NO
+		       , get_common(study_fg) as studyFg
+		       , get_common(prog_mthd) as progMthd
+		       , ttl
+		       , cntn
+		       , get_common(coct_mthd) as coctMthd
+		       , coll_rcnt
+		       , rply_cnt
+		       , inq_cnt
+		       , expc_dt
+		       , get_common(coll_st) as collSt
+		       , cls_dt
+		       , id
+		       , reg_dt
+		       , study_sjt
+		       , contact
+		       , get_common(prog_term) as progTerm
+		  FROM STUDY
+	  ORDER BY COLL_ST ASC, STUDY_NO DESC
+	</select>
+	
+	<!-- 스터디 모집 상세 -->
+	<select id="studyDetail" resultType="StudyVO">
+		SELECT STUDY_NO
+		       , get_common(study_fg) as studyFg
+		       , get_common(prog_mthd) as progMthd
+		       , ttl
+		       , cntn
+		       , get_common(coct_mthd) as coctMthd
+		       , coll_rcnt
+		       , rply_cnt
+		       , inq_cnt
+		       , expc_dt
+		       , get_common(coll_st) as collSt
+		       , cls_dt
+		       , id
+		       , reg_dt
+		       , study_sjt
+		       , contact
+		       , get_common(prog_term) as progTerm
+		FROM study
+		WHERE STUDY_NO = #{studyNo}
+	</select>
+	
+	<!-- 스터디 모집 조회수 기능 -->
+	<update id="studyView" parameterType="String">
+		UPDATE STUDY
+		   SET INQ_CNT = TO_NUMBER(INQ_CNT) + 1
+		 WHERE STUDY_NO = #{studyNo}
+	</update>
+	
+	<!-- 스터디 모집 수정 기능 -->
+	<update id="studyModFn" parameterType="StudyVO">
+		UPDATE STUDY
+		   <set> 
+		   	   <if test="studyFg != null and !studyFg.equals('')">
+		   			STUDY_FG = #{studyFg},
+		   	   </if>
+		   	   <if test="ttl != null and !ttl.equals('')">
+		       		TTL = #{ttl},
+		       </if>
+		       <if test="cntn != null and !cntn.equals('')">
+		       		CNTN = #{cntn},
+		       </if>
+		       <if test="studySjt != null and !studySjt.equals('')">
+		       		STUDY_SJT = #{studySjt},
+		       </if>
+		       <if test="progMthd != null and !progMthd.equals('')">
+		       		PROG_MTHD = #{progMthd},
+		       </if>
+		       <if test="collRcnt != null and !collRcnt.equals('')">
+		       		COLL_RCNT = #{collRcnt},
+		       </if>
+		       <if test="coctMthd != null and !coctMthd.equals('')">
+		       		COCT_MTHD = #{coctMthd},
+		       </if>
+		       <if test="contact != null and !contact.equals('')">
+		       		CONTACT = #{contact},
+		       </if>
+		       <if test="expcDt != null and !expcDt.equals('')">
+		       		EXPC_DT = #{expcDt},
+		       </if>
+		       <if test="progTerm != null and !progTerm.equals('')">
+		       		PROG_TERM = #{progTerm},
+		       </if>
+		       <if test="clsDt != null and !clsDt.equals('')">
+		       		CLS_DT = #{clsDt},
+		       </if>
+		       <if test="collSt != null and !collSt.equals('')">
+		       		COLL_ST = #{collSt}
+		       </if>
+		  </set>
+		 WHERE STUDY_NO = #{studyNo}
+	</update>
+	
+	<!-- 스터디 모집 삭제 기능 -->
+	<delete id="studyDelFn" parameterType="String">
+		DELETE
+		  FROM STUDY
+		 WHERE STUDY_NO = #{studyNo}
+	</delete>
 	
 	
 </mapper>

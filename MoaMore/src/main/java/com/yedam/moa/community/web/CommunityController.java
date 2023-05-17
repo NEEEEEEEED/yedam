@@ -283,13 +283,6 @@ public class CommunityController {
 		
 	}
 	
-	
-	// 스터디 모집 리스트
-	@GetMapping("/studyList")
-	public String studyList() {
-		return "community/studyList";
-	}
-	
 	// 스터디 등록
 	@PostMapping("/studyInsert")
 	@ResponseBody
@@ -307,14 +300,77 @@ public class CommunityController {
 			result.put("result", "Fail");
 			return result;
 		}
-		
+	}
+	
+	// 스터디 모집 목록 페이지
+	@GetMapping("/studyList")
+	public String studyList() {
+		return "community/studyListVue";
+	}
+	
+	// 스터디 모집 리스트
+	@GetMapping("/studyBoards")
+	@ResponseBody
+	public List<StudyVO> studyBoards(){
+		return commuServiceImpl.studyList();
 	}
 	
 	
 	// 스터디 모집 상세페이지
 	@GetMapping("/studyDetail")
-	public String studyDetail() {
-		return "community/studyDetail";
+	public String studyDetail(Model model, String studyNo) {
+		model.addAttribute("studyDetailInfo", commuServiceImpl.studyDetail(studyNo));
+		return "community/studyDetailVue";
+	}
+	
+	
+	// 스터디 모집 수정 페이지
+	@GetMapping("/studyMod")
+	public String studyMod (Model model, Principal pr, String studyNo) {
+		model.addAttribute("logId",pr.getName());
+		// 스터디 구분 , 진행방식, 진행기간, 연락방법, 모집상태
+		model.addAttribute("commList", commServiceImpl.getCodes("k", "j", "g", "i", "h"));
+		model.addAttribute("studyDetailInfo", commuServiceImpl.studyDetail(studyNo));
+		return "community/studyDetailMod";
+	}
+	
+	// 스터디 모집 수정 기능
+	@PostMapping("/studyModFn")
+	@ResponseBody
+	public Map<String, Object> studyModFn(StudyVO studyVO){
+		
+		Map<String, Object> result = new HashMap<>();
+		
+		int r = 0;
+		r = commuServiceImpl.studyModFn(studyVO);
+		
+		if(r > 0) { // 수정 성공시
+			result.put("result", "Success");
+			return result;
+		}else {
+			result.put("result", "Fail");
+			return result;
+		}
+	}
+	
+	// 스터디 모집 삭제 기능 
+	@PostMapping("/studyDelFn")
+	@ResponseBody
+	public Map<String, Object> studyDelFn(String studyNo) {
+		
+		Map<String, Object> result = new HashMap<>();
+		
+		int r = 0;
+		r = commuServiceImpl.studyDelFn(studyNo);
+		
+		if(r > 0) { // 삭제 성공시
+			result.put("result", "Success");
+			return result;
+		}else {
+			result.put("result", "Fail");
+			return result;
+		}
+		
 	}
 	
 

@@ -65,7 +65,6 @@ public class CommunityServiceImpl implements CommunityService{
 	// 면접후기 리스트 출력
 	@Override
 	public List<IntrvVO> jobInterviewList() {
-
 		return commuMapper.jobInterviewList();
 	}
 
@@ -84,6 +83,7 @@ public class CommunityServiceImpl implements CommunityService{
 	// 프로젝트 상세 출력
 	@Override
 	public PrjtVO projectDetail(String prjtNo) {
+		commuMapper.projectView(prjtNo); // 조회수 증가
 		return commuMapper.projectDetail(prjtNo);
 	}
 
@@ -103,6 +103,31 @@ public class CommunityServiceImpl implements CommunityService{
 	@Override
 	public int studyInsert(StudyVO studyVO) {
 		return commuMapper.studyInsert(studyVO);
+	}
+
+	// 스터디 목록
+	@Override
+	public List<StudyVO> studyList() {
+		return commuMapper.studyList();
+	}
+
+	// 스터디 모집 상세
+	@Override
+	public StudyVO studyDetail(String studyNo) {
+		commuMapper.studyView(studyNo); // 조회수 증가
+		return commuMapper.studyDetail(studyNo);
+	}
+
+	// 스터디 모집 수정
+	@Override
+	public int studyModFn(StudyVO studyVO) {
+		return commuMapper.studyModFn(studyVO);
+	}
+
+	// 스터디 모집 삭제
+	@Override
+	public int studyDelFn(String studyNo) {
+		return commuMapper.studyDelFn(studyNo);
 	}
 	
 	

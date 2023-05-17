@@ -7,7 +7,8 @@
           <span class="fs--1">마감일 | </span><span class="fs--1">{{project.clsDt}}</span>
         </div>
         <div class="text-end" style="position:relative; left:30px; bottom:55px;">
-          <span class="badge bg-dark radius">{{project.collSt}}</span>
+          <span v-if="project.collSt === '모집중'" class="badge bg-secondary radius">{{project.collSt}}</span>
+          <span v-else="project.collSt === '모집완료'" class="badge bg-dark radius">{{project.collSt}}</span>
         </div>
         <div>
           <h5 class="text-center">{{project.ttl}}</h5>
@@ -29,7 +30,7 @@
           </div>
           <div style="margin-left:auto">
             <i class="fa-regular fa-eye fa-sm"></i>
-            <span>{{project.inqCnt}}</span>
+            <span>&nbsp{{project.inqCnt}}</span>
           </div>
         </div>
       </div>

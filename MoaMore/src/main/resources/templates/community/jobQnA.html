@@ -35,22 +35,28 @@
 		
 		<div class="row" style="margin-top : 30px;">
 			<div class="col-md-1"></div>
-			<div class="col-md-2" style="margin : 10px;">
-				<div>
-					<p style="text-align : center;">Top Writer</p>
-					<hr>
-					<ul>
-						<li>1등</li>
-						<li>2등</li>
-						<li>3등</li>
-					</ul>
-				</div>	
+			<div class="col-md-2">
+				<div class="me-6" style="position: sticky; top:150px;">
+					<div>
+						<div id="topMenu" class="text-center">
+							<h4><i class="fa-sharp fa-solid fa-ranking-star"></i> Top Writer</h4>
+							<hr>
+							<ul class="decoUl fs-1 ms-3">
+								<li><i class="fa-solid fa-medal fa-lg"></i>&nbsp&nbsp박선아</li>
+								<li><i class="fa-solid fa-medal fa-lg"></i>&nbsp&nbsp권수민</li>
+								<li><i class="fa-solid fa-star"></i>&nbsp&nbsp임성욱</li>
+								<li><i class="fa-solid fa-star"></i>&nbsp&nbsp박주안</li>
+								<li><i class="fa-solid fa-star"></i>&nbsp&nbsp류효상</li>
+							</ul>
+						</div>
+					</div>
+				</div>
 			</div>
 			<div class="col-md-7">
 				<!-- 반복 -->
 				<div th:each="jobQna : ${jobQnaList}" class="hoverRow listRow row cursor" th:onclick="|location.href='@{/jobQnaDetail(qaNotiwrNo=${jobQna.qaNotiwrNo})}'|">
 					<div class="col-md-10">
-					 	<h5 class="mt-2" th:text="${jobQna.ttl}">게시글제목</h5>
+					 	<h4 class="mt-2" th:text="${jobQna.ttl}">게시글제목</h4>
 					 	<p class="fs--1 ellipsis" th:text="${jobQna.cntn}">Some text..Some text..</p>
 					 	<img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
 					 	<span th:text="${jobQna.id}">아이디</span>
@@ -71,6 +77,46 @@
 			</div>
 			<div class="col-md-1"></div>
 		</div>
+<script>
+
+
+//페이징 버튼만들기
+function pagingBtnPrint(totalListNum){
+	
+	console.log('페이지수 : ' + totalListNum );
+	let totalPageNum = Math.ceil(totalListNum/5); // 총페이지 = 총 게시글수 / 5 
+	
+	let pagingBtn = `<nav aria-label="Page navigation example">
+					  <ul class="pagination  d-flx justify-content-center">
+					    <li class="page-item">
+					      <a class="page-link" href="#" aria-label="Previous">
+					        <span aria-hidden="true">&laquo;</span>
+					      </a>
+					    </li>`;
+						
+					    // 페이지 버튼수
+					    for(let i = 1; i <= totalPageNum; i++){
+					    	if(currentPage == i){ // 현재 페이지에 active
+		 						pagingBtn += `<li class="page-item active"><a class="page-link" href="#" onclick="clickPage(`+i+`)">`+i+`</a></li>`;	
+					    	}else{
+					    		pagingBtn += `<li class="page-item"><a class="page-link" href="#" onclick="clickPage(`+i+`)">`+i+`</a></li>`;
+					    	}
+						}			    
+		  
+		pagingBtn += `<li class="page-item">
+					      <a class="page-link" href="#" aria-label="Next">
+					        <span aria-hidden="true">&raquo;</span>
+					      </a>
+				      </li>
+				  	</ul>
+				  </nav>`;
+					
+	return pagingBtn;
+}
+
+
+
+</script>
 	</div>
 </body>
 </html>

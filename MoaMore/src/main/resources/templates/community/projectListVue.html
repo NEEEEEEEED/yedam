@@ -68,24 +68,13 @@
 	const{createApp} = Vue;
 	createApp({
 	  data(){ 
-		  return {
-			  
-		  }
+		  return {}
 	  },
-	  
-	  mounted(){
-		  
-	  },
-	 
-	  methods:{
-		  
-	  },
-	  
+	  mounted(){},
+	  methods:{},
 	  components: {
-         'project-component': Vue.defineAsyncComponent(() => loadModule('community/projectListComponent.vue', options))
+      'project-component': Vue.defineAsyncComponent(() => loadModule('community/projectListComponent.vue', options))
 	  }
-	  
-	  
 	}).mount('#app')
 
 </script>	

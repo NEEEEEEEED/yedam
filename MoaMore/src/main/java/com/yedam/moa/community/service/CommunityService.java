@@ -51,5 +51,17 @@ public interface CommunityService {
 	// 스터디 모집 등록
 	public int studyInsert(StudyVO studyVO);
 	
+	// 스터디 모집 리스트
+	public List<StudyVO> studyList();
+	
+	// 스터디 모집 상세
+	public StudyVO studyDetail(String studyNo);
+	
+	// 스터디 모집 수정
+	public int studyModFn(StudyVO studyVO);
+	
+	// 스터디 모집 삭제
+	public int studyDelFn(String studyNo);
+	
 	
 }
