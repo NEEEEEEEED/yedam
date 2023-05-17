@@ -42,7 +42,6 @@ body {
 				<div class="mb-3" >
 					<label for="reg_id">회사이름</label><span id="star">*</span>
 					<input id="coNm" type="text" class="form-control" name="coNm" th:value="${recruitInsert.coNm}" readonly>
-					<input id="recruitNo" type="hidden" class="form-control" name="recruitNo" th:value="${recruitInsert.recruitNo}" readonly>
 				</div>
 				
 				<div class="mb-3">
@@ -150,8 +149,9 @@ body {
 						<label for="tag">기업 / 서비스 소개</label><span id="star">*</span>
 						<button type="button" id="imgUp" class="btn btn btn-outline-dark btn-sm radius" style="height:40px;">이미지 업로드</button>
 					</div>
-					<div id="imageRows" class="col-md-10">
-						<div style="background-color : pink; text-align:center;">이미지가 비었습니다. 이미지를 업로드 해주세요.</div>
+					<br>
+					<div id="imageRows" class="col-md-12">
+						<div style="background-color : plum; text-align:center; color:white; flex" id="selectImages">이미지가 비었습니다. 이미지를 업로드 해주세요.</div>
 					</div>
 					<br>
 					<div id="editor2"></div>
@@ -174,8 +174,7 @@ body {
 						<form id="imgUpForm" encType="multipart/form-data">
 						
 							<!-- 현재 작성 구인공고 기본키값 -->
-							<!-- <input id="recruitKey" name="recruitNo" type="hidden" th:value="${.recruitNo}"> -->
-
+							<input id="recruitNo" type="text" class="form-control" name="recruitNo" th:value="${recruitInsert.recruitNo}" readonly>
 							<table class="table">
 								<tbody class="trColor">
 									<tr>
@@ -193,7 +192,7 @@ body {
 					  </div>
 				      <div class="modal-footer">
 				        <button type="button" class="btn btn-secondary radius" style="background-color:gray; border : none;" data-bs-dismiss="modal">닫기</button>
-				        <button id="imgUpBtn" type="button" class="btn btn-dark radius">등록</button>
+				        <button id="imgUpBtn" type="button" class="btn btn-dark radius" data-bs-dismiss="modal">등록</button>
 				      </div>
 				    </div>
 				  </div>
@@ -216,9 +215,6 @@ let carr = $('#carr').val(); // 경력
 let shcr = $('#shcr').val(); // 학력
 let exprDt = $('#exprDt').val(); // 마감일
 let wksite = $('#wksite').val(); // 지역
-
-// let formData = new FormData($('#coImg')[0]); // 폼데이터 썸네일
-// let formData = new FormData($('#recruitImg')[i]); // 상세 이미지(여러장 배열) 
 
 	// 공고목록으로 이동
 	$(document).on('click', '#btnList', function(e){
@@ -243,8 +239,8 @@ let wksite = $('#wksite').val(); // 지역
 		let exprDt = $('#exprDt').val(); // 마감일
 		let wksite = $('#wksite').val(); // 지역
 		let intro=editor2.getHTML(); // 서비스
-		let coImg = imgName; // 썸네일 이미지 파일명
 		let data = {
+				"recruitNo" : recruitNo,
 				"ttl" : ttl,
 				"coNm" : coNm,
 				"skill" : skill,
@@ -257,11 +253,10 @@ let wksite = $('#wksite').val(); // 지역
 				"shcr" : shcr,
 				"exprDt" : exprDt,
 				"wksite" : wksite,
-				"coIntro" : intro,
-				"coImg" : coImg
+				"coIntro" : intro
 		}
-		thumnailInsert();
-		location.href="/hirePage";
+		recruitInsert(data);
+		
 	});
 	
 	//에디터 정의
@@ -275,9 +270,6 @@ let wksite = $('#wksite').val(); // 지역
                    addImageBlobHook: (blob, callback) => {
                      var token = $("meta[name='_csrf']").attr("content");
                      var header = $("meta[name='_csrf_header']").attr("content");
-                     // blob : Java Script 파일 객체
-                     //console.log(blob);
-
                    },
                  },
             });
@@ -303,31 +295,8 @@ let wksite = $('#wksite').val(); // 지역
 		    	
 		    });
     		
-    	// 썸네일 이미지 등록
-    		function thumnailInsert(){
-    			let formData = new FormData();
     			
-    			$.ajax({
-    				url: 'hrieThumnailInsert',
-    				type: 'post',
-    				data: formData,
-    				async: true, //비동기 여부
-    		        enctype: "multipart/form-data", //form data 설정
-    		        processData: false, //프로세스 데이터 설정 : false 값을 해야 form data로 인식함
-    		        contentType: false, //헤더의 Content-Type을 설정 : false 값을 해야 form data로 인식함
-    				success: function (result) {
-    					let img = JSON.parse(result); // 파싱
-    					let imgName = img.file; // 이미지 파일명
-    					recruitInsert(imgName); // my프로필 등록 함수
-    				},
-    		 		error: function (reject) {	   
-    		    		console.log(reject);
-    				}
-    			});
-
-    		}
-    			
-		 // 공고 데이터 등록(이미지 제외)
+		 // 공고 데이터 등록
 			function recruitInsert(data){
 				$.ajax({
 					url: 'hireDataInsert',
@@ -338,6 +307,7 @@ let wksite = $('#wksite').val(); // 지역
 							icon: 'success',
 							title: '구인공고를 등록했습니다.'
 						});
+						location.href="/hirePage";
 					},
 					error: function(reject){
 						console.log(reject);
@@ -351,6 +321,8 @@ let wksite = $('#wksite').val(); // 지역
 		 
 			// 이미지 등록 버튼 클릭시
 			$('#imgUp').on('click',function(){
+				$('#thumnailImg').val(''); // 초기화
+				$('#recrintImgDetail').val(''); // 초기화
 				// 모달창 open
 				$('#imgUpModal').modal('show');
 			});
@@ -373,7 +345,6 @@ let wksite = $('#wksite').val(); // 지역
 			        processData: false, //프로세스 데이터 설정 : false 값을 해야 form data로 인식합니다
 			        contentType: false, //헤더의 Content-Type을 설정 : false 값을 해야 form data로 인식합니다
 					success: function (result) {
-						console.log(result);
 						imageRows.innerHTML = ''; // 초기화
 						
 						let iamgeHtml = '';
@@ -382,7 +353,7 @@ let wksite = $('#wksite').val(); // 지역
 						}		
 						
 						imageRows.innerHTML= iamgeHtml;			
-						
+						console.log(imageRows.innerHTML);
 					},
 			 		error: function (reject) {	   
 			    		console.log(reject);
@@ -390,23 +361,26 @@ let wksite = $('#wksite').val(); // 지역
 				});
 			}
 
-			// 포트폴리오 목록 그리는 함수
+			// 등록하는 이미지 목록 그리는 함수
 			function imageListPrint(result={}){
 				
-				$.each(result, function(index, item) {
-				
-				let iamgeHtml = `<div class="row align-items-center border-bottom hoverRow mb-3">
+				let imageHtml = `<div class="row align-items-center border-bottom hoverRow mb-3">
 							        <div class="col-md-3">
-							      	<img class="img-fluid imgSize" src="/moamoreImg/`+item.coImg+`" alt="이미지없음">
-							      	<img class="img-fluid imgSize" src="/moamoreImg/`+item.recruitImg+`" alt="이미지없음">
+							        <div>
+								        <span>썸네일 : </span>
+								      	<img class="img-fluid imgSize" src="/moamoreImg/`+result.coImg+`" alt="이미지없음">
+							      	<div>
+			 						<div>
+				 						<span>상세이미지 : </span>
+								      	<img class="img-fluid imgSize" src="/moamoreImg/`+result.recruitImg+`" alt="이미지없음">
 							      </div>
-							      <div class="col-md-2" >
-								      <button id="`+result.fileNo+`" data-no="`+result.jobSearchNo+`" onclick="deletePofol(this)" type="button" style="margin-left : 20px; padding:15px;" class="btn-close" aria-label="Close"></button>
-								  </div>             
-								</div>`;
-				});
-				return iamgeHtml;
-				
+								 </div>
+							     <div class="col-md-2" >
+								     <button id="`+result.recruitImgNo+`" data-no="`+result.recruitImgNo+`" onclick="deletePofol(this)" type="button" style="margin-left : 20px; padding:15px;" class="btn-close" aria-label="Close"></button>
+								 </div>             
+							</div>`;
+								
+				$('#selectImages').html(imageHtml);
 			}
 
 

@@ -19,7 +19,7 @@ public interface HireService {
 	public HireVO recruitInsertSelect(HireVO hireVO); // 공고등록 페이지 기업이름 조회
 	public String recruitNo(); // 공고번호
 	public String hireDataInsert(HireVO vo,Principal pr); //  공고 데이터 등록
-	public int hireImgInsert(HireVO vo, Principal pr); // 공고 이미지만 등록
+	public int hireImgInsert(HireVO vo); // 공고 이미지만 등록
 	public List<HireVO> hireImgInsertList(HireVO vo); // 공고 이미지 조회
 			
 }

@@ -165,58 +165,59 @@ public class HireController {
 		return hireService.hireDataInsert(vo, pr);
 	}
 	
-	
 	// 구인공고 상세 이미지들 등록 - 첨부파일 업로드 처리 // 피드백 : 받오는값을 커멘트 객체 형식으로 VO에 한꺼번에 받아도됨(대신 이름이 일치해야함)
 	@PostMapping("/hireImgInsert")
 	@ResponseBody
 	public List<HireVO> hireImgInsert(@RequestParam("thumnailImg") MultipartFile uploadthumnailImg,
-									  @RequestParam("recrintImgDetail") MultipartFile[] uploadrecruitImg,
+									  MultipartFile[] recrintImgDetail,
 							   		  HireVO hireVO,
 							   		  Principal pr) throws IllegalStateException, IOException {
 
 	// 구인공고 썸네일 업로드
-	String fileNameThumnailImg= null; // 원본파일명
-	String uploadFileNameThumnailImg = null;   // UUID적용한 파일명(중복 없는 파일명)
+	String fileNameThumnailImg= null; // 단건
+	String uploadFileNameThumnailImg = null;   // 다건
 		
-	// 구인공고 상세 이미지들 업로드
-	String[] fileNameRecruitImg= null; // 원본파일명
-	String[] uploadFileNameRecruitImg = null;   // UUID적용한 파일명(중복 없는 파일명)
+
 	
 	int r = 0; // sql문 결과
 	// 동일 파일명 처리 UUID 사용
 	UUID uuid = UUID.randomUUID();
-	if(uploadthumnailImg !=null && !uploadthumnailImg.isEmpty() && uploadthumnailImg.getSize()>0
-	   && uploadrecruitImg !=null && uploadrecruitImg.length != 0 && uploadrecruitImg.length>0) {
-		
-		// 썸네일 이미지
-		fileNameThumnailImg = uploadthumnailImg.getOriginalFilename(); // 원본 이미지 파일명
-		
-		fileNameThumnailImg = uuid.toString() + "_" + fileNameThumnailImg; // 이미지 UUID 적용한 파일명
-		uploadthumnailImg.transferTo(new File(uploadPath,fileNameThumnailImg)); // 이미지 파일
-		
-		 for (int i = 0; i < uploadrecruitImg.length; i++) {
-		
-		// 구인공고 상세 이미지들
-			 fileNameRecruitImg[i] = uploadrecruitImg[i].getOriginalFilename();
-		// 파일 UUID 적용한 파일명 
-			 uploadFileNameRecruitImg[i] = uuid.toString() + "_" + fileNameRecruitImg[i]; 
-			 uploadrecruitImg[i].transferTo(new File(uploadPath,uploadFileNameRecruitImg[i])); // 이미지 파일
-		 
-			 System.out.println("파일이름: " + fileNameRecruitImg[i]);
-		 
+	
+		 if(uploadthumnailImg !=null && !uploadthumnailImg.isEmpty() && uploadthumnailImg.getSize()>0) {
+			// 썸네일 이미지
+			fileNameThumnailImg = uploadthumnailImg.getOriginalFilename(); // 원본 이미지 파일명
+			
+			fileNameThumnailImg = uuid.toString() + "_" + fileNameThumnailImg; // 이미지 UUID 적용한 파일명
+			uploadthumnailImg.transferTo(new File(uploadPath,fileNameThumnailImg)); // 이미지 파일
+			hireVO.setCoImg(fileNameThumnailImg);
 		 }
 		 
-		//첨부파일명 VO에 지정
-		System.out.println("파일이름: " + fileNameRecruitImg);
-		System.out.println("파일이름: " + fileNameThumnailImg);
+		 for (int i = 0; i < recrintImgDetail.length; i++) {
 		
+			 if(recrintImgDetail[i] !=null && !recrintImgDetail[i].isEmpty() && recrintImgDetail[i].getSize()>0 ) { 
+		    
+				 // 썸네일 이미지
+				 fileNameThumnailImg = recrintImgDetail[i].getOriginalFilename(); // 원본 이미지 파일명
+				 
+				 // 파일 UUID 적용한 파일명 
+				 fileNameThumnailImg = uuid.toString() + "_" + fileNameThumnailImg; 
+				 recrintImgDetail[i].transferTo(new File(uploadPath,fileNameThumnailImg)); // 이미지 파일
+			 
+				 hireVO.getRecruitImgList().add(fileNameThumnailImg); 
+				 
+				 
+			 }
+		 }
+			 
+		
+		 
+		//첨부파일명 VO에 지정
 		hireVO.setId(pr.getName());
-		hireVO.setRecruitImg(uploadFileNameRecruitImg); 
-		hireVO.setCoImg(uploadFileNameThumnailImg);
 
-		r =  hireServiceImpl.hireImgInsert(hireVO, pr);
-	}
+		r =  hireServiceImpl.hireImgInsert(hireVO);
+	
 	if(r > 0) {
+		System.out.println(hireVO);
 		return hireServiceImpl.hireImgInsertList(hireVO);
 	}else {			
 		return null;
@@ -225,7 +226,12 @@ public class HireController {
 
 	// 구인공고 수정 페이지
 	@GetMapping("/hireMod")
-	public String hireMod() {
+	public String hireMod(Model model, Principal pr) {
+		HireVO hireVO = new HireVO();
+		hireVO.setId(pr.getName());
+		
+		model.addAttribute("list", com.getCodes("Z","X","N","Y","D"));
+		
 		return "hire/hireMod";
 	}
 

@@ -10,7 +10,7 @@
 		       C.CO_NM,
 		       get_common(WKSITE) AS WKSITE,
                R.EXPR_DT,
-               R.CO_IMG,
+               I.CO_IMG,
                R.RECRUIT_NO,
                (SELECT S.RECRUIT_NO FROM RECRUIT_SCRAP S WHERE R.RECRUIT_NO = S.RECRUIT_NO AND ID = #{id}) AS scrapYn,
                F.ID_CO AS followYn
@@ -19,13 +19,18 @@
 		JOIN CO C
 		  ON R.ID = C.ID
 		
-		JOIN (SELECT recruit_no , LISTAGG(get_common(SKILL), ',') WITHIN GROUP (ORDER BY SKILL_NO) as SKILL
+		JOIN (SELECT RECRUIT_NO , LISTAGG(get_common(SKILL), ',') WITHIN GROUP (ORDER BY SKILL_NO) as SKILL
               FROM RECRUIT_SKILL
               GROUP BY recruit_no) K
 		  ON R.RECRUIT_NO = K.RECRUIT_NO
 		
-		LEFT JOIN (SELECT ID_CO FROM FOLLOWING WHERE ID_MEM = #{id}) F
+		LEFT JOIN (SELECT ID_CO FROM FOLLOWING WHERE ID_MEM = 'user') F
           ON R.ID = F.ID_CO
+		
+		JOIN (SELECT RECRUIT_IMG_NO, RECRUIT_NO, LISTAGG(CO_IMG, ',') WITHIN GROUP (ORDER BY RECRUIT_IMG_NO) as CO_IMG
+              FROM RECRUIT_IMAGES
+              GROUP BY RECRUIT_IMG_NO,RECRUIT_NO) I
+		ON R.RECRUIT_NO = I.RECRUIT_NO
 		
 		WHERE 1=1
 		<!-- 스크랩 정렬용 -->
@@ -59,7 +64,7 @@
 		       C.CO_NM,
 		       get_common(WKSITE) AS WKSITE,
 		       R.EXPR_DT,
-		       R.CO_IMG,
+		       I.CO_IMG,
 		       S.RECRUIT_NO,
 		       <if test="id != null and id != ''">
               	 (SELECT S.RECRUIT_NO FROM RECRUIT_SCRAP S WHERE R.RECRUIT_NO = S.RECRUIT_NO AND ID = #{id}) AS scrapYn
@@ -75,6 +80,8 @@
               FROM RECRUIT_SKILL
               GROUP BY recruit_no) K
 			ON R.RECRUIT_NO = K.RECRUIT_NO
+		JOIN RECRUIT_IMAGES I
+		ON R.RECRUIT_NO = I.RECRUIT_NO
 		WHERE S.RECRUIT_NO IS NOT NULL
         AND M.ID = #{id}
         ORDER BY RECRUIT_NO DESC 
@@ -86,7 +93,7 @@
 		       C.CO_NM,
 		       get_common(WKSITE) AS WKSITE,
                R.EXPR_DT,
-               R.CO_IMG,
+               I.CO_IMG,
                R.RECRUIT_NO,
               	 (SELECT S.RECRUIT_NO FROM RECRUIT_SCRAP S WHERE R.RECRUIT_NO = S.RECRUIT_NO AND ID = #{id}) AS scrapYn,
                  (SELECT F.ID_CO FROM FOLLOWING F WHERE R.ID = F.ID_CO AND F.ID_MEM = #{id}) AS followYn,
@@ -106,6 +113,8 @@
               FROM RECRUIT_SKILL
               GROUP BY recruit_no) K
 			ON R.RECRUIT_NO = K.RECRUIT_NO
+		JOIN RECRUIT_IMAGES I
+		ON R.RECRUIT_NO = I.RECRUIT_NO
 		WHERE R.RECRUIT_NO = #{recruitNo}
 		<if test="scrapYn != null and scrapYn != ''">
 			AND EXISTS (SELECT S.RECRUIT_NO FROM RECRUIT_SCRAP S WHERE R.RECRUIT_NO = S.RECRUIT_NO AND ID = #{id})
@@ -126,14 +135,16 @@
 		       LISTAGG(get_common(SKILL), ',') WITHIN GROUP (ORDER BY SKILL_NO) as SKILL,
 		       R.ACCP_DT,
 		       C.CO_NM,
-		       R.CO_IMG
+		       I.CO_IMG
 		FROM RECRUIT_SKILL K
 		JOIN RECRUIT_ANUN R 
 		ON K.RECRUIT_NO = R.RECRUIT_NO
 		JOIN CO C
 		ON C.ID = R.ID
+		JOIN RECRUIT_IMAGES I
+		ON R.RECRUIT_NO = I.RECRUIT_NO
 		WHERE get_common(SKILL) = #{skill}
-		GROUP BY K.RECRUIT_NO, R.TTL, CARR, JOB, R.ACCP_DT, C.CO_NM, R.CO_IMG
+		GROUP BY K.RECRUIT_NO, R.TTL, CARR, JOB, R.ACCP_DT, C.CO_NM, I.CO_IMG
 		ORDER BY K.RECRUIT_NO
 	</select>
 	<!-- 이력서 조회 -->
@@ -188,8 +199,8 @@
 	
 	<!-- 공고 등록 -->
 	<insert id="hireDataInsert" parameterType="HireVO">
-		INSERT INTO RECRUIT_ANUN(RECRUIT_NO, ID, TTL, SHCR, CARR, MA_BUSS, QUAL_COND, PREF_COND, WELF, EXPR_DT, WKSITE, REG_DT, JOB, CO_INTRO, CO_IMG)
-						 VALUES (#{recruitNo}, #{id}, #{ttl}, #{shcr}, #{carr}, #{maBuss}, #{qualCond}, #{prefCond}, #{welf}, #{exprDt}, #{wksite}, TO_CHAR(SYSDATE,'yyyy-MM-dd'), #{job}, #{coIntro}, #{coImg})  
+		INSERT INTO RECRUIT_ANUN(RECRUIT_NO, ID, TTL, SHCR, CARR, MA_BUSS, QUAL_COND, PREF_COND, WELF, EXPR_DT, WKSITE, REG_DT, JOB, CO_INTRO)
+						 VALUES (#{recruitNo}, #{id}, #{ttl}, #{shcr}, #{carr}, #{maBuss}, #{qualCond}, #{prefCond}, #{welf}, #{exprDt}, #{wksite}, TO_CHAR(SYSDATE,'yyyy-MM-dd'), #{job}, #{coIntro})  
 	</insert>
 	
 	<!-- 공고 스킬 번호 -->
@@ -204,12 +215,20 @@
 	</insert>
 	
 	<!-- 공고 상세 이미지 번호 -->
-	<select id="recruitImgNo" resultType="HireVO">
+	<select id="recruitImgNo" resultType="String">
 		SELECT 'RIMG' || RECRUIT_IMAGES_SEQ.NEXTVAL AS RECRUIT_IMG_NO FROM DUAL
 	</select>
 	<!-- 공고 상세 이미지들 등록 -->
 	<insert id="detailImges" parameterType="HireVO">
-		INSERT INTO RECRUIT_IMAGES(RECRUIT_IMG_NO, RECRUIT_NO, RECRUIT_IMG)
-		VALUES (#{recruitImgNo}, #{recruitNo}, #{recrintImgDetail})
+		INSERT INTO RECRUIT_IMAGES(RECRUIT_IMG_NO, RECRUIT_NO, RECRUIT_IMG, CO_IMG)
+		VALUES (#{recruitImgNo}, #{recruitNo}, #{recruitImg}, #{coImg})
 	</insert>
+	
+	<!-- 공고 이미지들 조회 -->
+	<select id="detailImgesList" resultType="HireVO">
+		SELECT CO_IMG,
+		       RECRUIT_IMG
+		FROM RECRUIT_IMAGES  
+		WHERE RECRUIT_NO = #{recruitNo}
+	</select>
 </mapper>
