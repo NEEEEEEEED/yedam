@@ -36,7 +36,9 @@ public interface MemMapper {
 	public List<IntroVO> getIntro(ResumeVO vo);
 	public List<ShcrVO> getShcr(ResumeVO vo);
 	public List<SkillVO> getSkill(ResumeVO vo);
+	public List<SkillVO> getUnSkill(ResumeVO vo);
 	public List<LicnVO> getLicn(ResumeVO vo);
+	public int getCountRe(MemVO vo);
 //	이력서 개인정보 불러오기
 	public MemInfoVO getMemInfo(MemVO vo);
 //	스킬번호 생성하고 내용 입력

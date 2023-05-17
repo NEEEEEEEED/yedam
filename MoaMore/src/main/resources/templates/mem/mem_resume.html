@@ -1974,6 +1974,8 @@
               });
             }
           });
+          
+          
           $("#backToBefore").on("click", function () {
             Swal.fire({
               title: "취소?ㄹㅇ?",
@@ -2196,7 +2198,7 @@
                   ttScore: $(shl).find("input[name=ttScore]").val(),
                   fg: $(shl).find("input[name=fg]").val(),
                 };
-                //console.log(obj);
+                console.log(obj);
                 return obj;
               });
               return checkArr(sch, $("#school").children());

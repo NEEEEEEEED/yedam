@@ -28,6 +28,7 @@ public class ResumeVO {
 	private List<LicnVO> licn;
 	private List<PrtflVO> prtfl;
 	private List<SkillVO> skill; 
+	private List<SkillVO> unSkill; //이력서에 기록되지 않은 스킬 받아오기
 	private List<MemInfoVO> memInfo;
 	
 }
