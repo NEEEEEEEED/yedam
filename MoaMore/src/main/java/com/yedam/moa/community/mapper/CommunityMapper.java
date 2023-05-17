@@ -45,6 +45,9 @@ public interface CommunityMapper {
 	// 프로젝트 모집 상세
 	public PrjtVO projectDetail(String prjtNo);
 	
+	// 프로젝트 모집 조회수 기능
+	public int projectView(String prjtNo);
+	
 	// 프로젝트 모집 수정
 	public int projectModFn(PrjtVO prjtVO);
 	
@@ -53,5 +56,21 @@ public interface CommunityMapper {
 	
 	// 스터디 모집 등록
 	public int studyInsert(StudyVO studyVO);
+
+	// 스터디 모집 리스트
+	public List<StudyVO> studyList();
+	
+	// 스터디 모집 상세
+	public StudyVO studyDetail(String studyNo);
+	
+	// 스터디 모집 조회수 기능
+	public int studyView(String studyNo);
+	
+	// 스터디 모집 수정
+	public int studyModFn(StudyVO studyVO);
+	
+	// 스터디 모집 삭제
+	public int studyDelFn(String studyNo);
+	
 	
 }

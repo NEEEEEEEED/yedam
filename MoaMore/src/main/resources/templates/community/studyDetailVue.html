@@ -6,13 +6,15 @@
 <head>
 <meta charset="UTF-8">
 <title>모아모아/커뮤니티(뷰적용)</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
 
 </head>
 <body>
 	<div layout:fragment="content">
-		
-		<!-- projectDetail.CSS -->
-		<link href="community/projectDetail.css" rel="stylesheet">
+	
+		<!-- studyDetail.CSS -->
+		<link href="community/studyDetail.css" rel="stylesheet">
 		
 		<!-- layout:fragment 아래에 있어야 인식함 -->
 		<!-- Vue 3버전 -->
@@ -28,8 +30,7 @@
 		
 		<!-- 폰트어썸 -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-
-
+	
 		<div class="row">
 			<div class="col-md-2 mx-6 p-4">
 				<div style="position: sticky; top:150px;">
@@ -40,8 +41,8 @@
 							<ul class="decoUl">
 								<li><a href="/jobQnA">ㆍ취업Q&A</a></li>
 								<li><a href="/jobInterview">ㆍ면접후기</a></li>
-								<li><a href="/projectList" style="color:red">ㆍ프로젝트모집</a></li>
-								<li><a href="/studyList">ㆍ스터디모집</a></li>
+								<li><a href="/projectList">ㆍ프로젝트모집</a></li>
+								<li><a href="/studyList" style="color:red">ㆍ스터디모집</a></li>
 							</ul>
 						</div>
 					</div>
@@ -50,7 +51,7 @@
 			
 			<div class="col-md-8">
 				<div class="line mt-3 mb-5">
-					<span>커뮤니티 /&nbsp</span><span style="color:red">프로젝트모집</span>
+					<span>커뮤니티 /&nbsp</span><span style="color:red">스터디모집</span>
 				</div>
 				<div class="mb-4">
 				  <div class="card col-lg-12">
@@ -58,22 +59,22 @@
 				    
 				    	<!-- 버전1 -->
 					    <div class="card-title mb-1" style="display:flex">
-					    	<h3 class="fw-bold" th:text="|${projectInfo.ttl}&nbsp&nbsp|">제목</h3>
-					    	<p th:if="${projectInfo.collSt == '모집중'}" class="badge bg-secondary radius" th:text="${projectInfo.collSt}">모집중</p>
-          					<p th:unless="${projectInfo.collSt == '모집중'}" class="badge bg-dark radius" th:text="${projectInfo.collSt}">모집완료</p>
+					    	<h3 class="fw-bold" th:text="|${studyDetailInfo.ttl}&nbsp&nbsp|">제목</h3>
+					    	<p th:if="${studyDetailInfo.collSt == '모집중'}" class="badge bg-secondary radius" th:text="${studyDetailInfo.collSt}">모집중</p>
+          					<p th:unless="${studyDetailInfo.collSt == '모집중'}" class="badge bg-dark radius" th:text="${studyDetailInfo.collSt}">모집완료</p>
 					    	
 					    	<div style="margin-left: auto;">
 						    	<div class="d-flex">
 						    		<div class="ms-3">
 					    				<i class="fa-regular fa-eye fa-sm"></i>
-					    				<span th:text="${projectInfo.inqCnt}">0</span>
+					    				<span th:text="${studyDetailInfo.inqCnt}">0</span>
 					    			</div>
 						    		<div class="ms-3">
 					    				<i class="fa-regular fa-comment-dots fa-sm"></i>
-					    				<span th:text="${projectInfo.rplyCnt}">0</span>
+					    				<span th:text="${studyDetailInfo.rplyCnt}">0</span>
 					    			</div>
 					    			<div class="ms-3">
-						    			<p th:text="${projectInfo.regDt}">등록일자</p>
+						    			<p th:text="${studyDetailInfo.regDt}">등록일자</p>
 						    		</div>
 					    			<div class="ms-3 cursor">
 						   				<i class="fa-solid fa-land-mine-on"></i>
@@ -83,29 +84,28 @@
 					   		</div>
 					    </div>
 					    
-					    
 				    	<div class="mb-5">
 				    		<img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
-				    		<span class="ms-1" th:text="${projectInfo.id}">작성자</span>
+				    		<span class="ms-1" th:text="${studyDetailInfo.id}">작성자</span>
 				    		<!-- <hr class="mt-4" style="color:#ddd"> -->
 				    	</div>
 				    	
-				    	<p class="mb-4 fs-1">◈ 요구사항</p>
+				    	<p class="mb-4">◈ 스터디진행</p>
 				    	<div class="card mb-4">
 				    		<div class="card-body ms-9 p-4">
 						    	<div>
 							    	<div class="row">
 										<div class="col-md-2">
-											<span class="fw-bold">모집직무</span>
+											<span class="fw-bold">스터디구분</span>
 										</div>
 										<div class="col-md-3">
-											<span th:text="${projectInfo.collPosi}">백엔드개발자</span>
+											<span th:text="${studyDetailInfo.studyFg}">코딩테스트대비</span>
 										</div>
 										<div class="col-md-2">
 											<span class="fw-bold">모집인원</span>
 										</div>
 										<div class="col-md-3">
-											<span th:text="${projectInfo.collRcnt}">1</span>
+											<span th:text="${studyDetailInfo.collRcnt}">5</span>
 										</div>
 									</div>
 									<div class="row">
@@ -113,13 +113,13 @@
 											<span class="fw-bold">진행방식</span>
 										</div>
 										<div class="col-md-3">
-											<span th:text="${projectInfo.progMthd}">오프라인</span>
+											<span th:text="${studyDetailInfo.progMthd}">온라인</span>
 										</div>
 										<div class="col-md-2">
-											<span class="fw-bold ">요구기술</span>
+											<span class="fw-bold">스터디과목</span>
 										</div>
 										<div class="col-md-3">
-											<span th:text="${projectInfo.skill}">자바,스프링</span>
+											<span th:text="${studyDetailInfo.studySjt}">자바,스프링</span>
 										</div>
 									</div>
 									<div class="row">
@@ -127,14 +127,14 @@
 											<span class="fw-bold ">진행기간</span>
 										</div>
 										<div class="col-md-3">
-											<span th:text="${projectInfo.progTerm}">2개월</span>
+											<span th:text="${studyDetailInfo.progTerm}">2개월</span>
 										</div>
 										<div class="col-md-2">
 											<span class="fw-bold">연락방법</span>
 										</div>
 										<div class="col-md-3">
-											<span th:text="${projectInfo.coctMthd}">연락방법중하나</span>
-											<a style="color:blue; text-decoration : underline !important;" th:href="${projectInfo.contact}" th:text="${projectInfo.contact}">연락처</a>
+											<span th:text="${studyDetailInfo.coctMthd}">카카오</span>
+											<a style="color:blue; text-decoration : underline !important;" th:href="${studyDetailInfo.contact}" th:text="${studyDetailInfo.contact}">연락처</a>
 										</div>
 									</div>
 									<div class="row">
@@ -142,13 +142,13 @@
 											<span class="fw-bold">시작예정</span>
 										</div>
 										<div class="col-md-3">
-											<span th:text="${projectInfo.expcDt}">시작예정일날짜</span>
+											<span th:text="${studyDetailInfo.expcDt}">2023/05/14</span>
 										</div>
 										<div class="col-md-2">
-											<span class="fw-bold ">마감일</span>
+											<span class="fw-bold">마감일</span>
 										</div>
 										<div class="col-md-3">
-											<span th:text="${projectInfo.clsDt}">마감일날짜</span>
+											<span th:text="${studyDetailInfo.clsDt}">2023/05/17</span>
 										</div>
 									</div>
 								</div>	
@@ -156,8 +156,8 @@
 						</div>
 				    	
 				    	<div>
-					    	<p class="fs-1 mb-3">◈ 프로젝트소개</p>
-					    	<div class="ms-4" th:utext="${projectInfo.cntn}"></div>
+					    	<p class="fs-1 mb-3">◈ 스터디소개</p>
+					    	<div class="ms-4" th:utext="${studyDetailInfo.cntn}"></div>
 					    </div>
 				    </div>
 				  </div>
@@ -169,17 +169,16 @@
 				</div>
 
 				<div id="app">
-				    <project-component></project-component>
+				    <study-component></study-component>
 				</div>
-
-
+				
 				<div class="mt-5 mb-5" style="text-align:right;">
 					<!-- 로그인된 사용자가 자기가 작성한 게시물이라면 나타나는 버튼 -->
-					<th:block th:if="${projectInfo.id}==${#authentication.principal.username}">
-						<button type="button" class="btn btn-outline-secondary radius mx-1 px-5"  style="height:50px;" th:onclick="|location.href='@{/projectMod(prjtNo=${projectInfo.prjtNo})}'|">수정</button>
-						<button type="button" class="btn btn-outline-danger radius mx-1 px-5" style="height:50px; text-align:center;" id="projectDelBtn" th:data-no="${projectInfo.prjtNo}">삭제</button>
+					<th:block th:if="${studyDetailInfo.id}==${#authentication.principal.username}">
+						<button type="button" class="btn btn-outline-secondary radius mx-1 px-5"  style="height:50px;" th:onclick="|location.href='@{/studyMod(studyNo=${studyDetailInfo.studyNo})}'|">수정</button>
+						<button type="button" class="btn btn-outline-danger radius mx-1 px-5" style="height:50px; text-align:center;" id="studyDelBtn" th:data-no="${studyDetailInfo.studyNo}">삭제</button>
 					</th:block>
-					<button type="button" class="btn btn-dark radius mx-1 px-5" style="background-color: #536779; color:white; border-color: #536779; height:50px;" onclick="location.href='/projectList'">목록</button>
+					<button type="button" class="btn btn-dark radius mx-1 px-5" style="background-color: #536779; color:white; border-color: #536779; height:50px;" onclick="location.href='/studyList'">목록</button>
 				</div>
 			</div>
 			<div class="col-md-1"></div>
@@ -187,8 +186,7 @@
 	
 		
 <script>
-
-// Vue
+//Vue
 const { createApp } = Vue;
 createApp({
 	data() {
@@ -197,12 +195,12 @@ createApp({
 	mounted() {},
 	methods: {},
 	components: {
-		'project-component': Vue.defineAsyncComponent(() => loadModule('community/projectDetailComponent.vue', options))
+		'study-component': Vue.defineAsyncComponent(() => loadModule('community/studyDetailComponent.vue', options))
 	}
 }).mount('#app')
 
-//삭제버튼 클릭시 실행하는 함수
-$('#projectDelBtn').on('click', function(){
+// 삭제버튼 클릭시 실행하는 함수
+$('#studyDelBtn').on('click', function(){
 	Swal.fire({
 	  icon: 'warning',
 	  title: '해당 게시글을 \n정말 삭제하시겠습니까?',
@@ -216,23 +214,23 @@ $('#projectDelBtn').on('click', function(){
 	}).then((result) => {
 	  if (result.isConfirmed) {
 		  
-		  let prjtNo = $('#projectDelBtn').data('no');
+		  let studyNo = $('#studyDelBtn').data('no');
 		  
 		  $.ajax({
-			url: 'projectDel',
+			url: 'studyDelFn',
 			type: 'post',
-			data: {prjtNo : prjtNo},
+			data: {studyNo : studyNo},
 			success: function (result) {
 				
 				if(result.result == 'Success'){
 					Swal.fire({
 					  icon: 'success',
-					  title: '삭제완료!',
+					  title: '게시글 삭제완료!',
 					  showCancelButton: false,
 					  confirmButtonText: '확인'
 					}).then((result) => {
 					  if (result.isConfirmed) {
-						location.href="/projectList";
+						location.href="/studyList";
 					  }
 					});
 				}else{
