@@ -88,7 +88,7 @@
 						<h4>셀프구직[기업]</h4>
 						<hr>
 						<ul class="listStyle">
-							<li class="fs-1"><a href="#">관심게시글</a></li>
+							<li class="fs-1"><a href="/coMypage?interest=t">관심게시글</a></li>
 							<li class="fs-1"><a href="#">보낸제안</a></li>
 						</ul>
 					</div>
@@ -138,7 +138,7 @@
 							aria-label="Close"></button>
 					</div>
 					<div class="modal-body d-flex justify-content-center">
-						<form class="col-lg-11 " id="offerForm" action="/offerSelf" method="POST">
+						<form class="col-lg-11 " id="offerForm" action="/offerSubmit" method="POST">
 							<div class="mb-1 row ">
 								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
 									회사명</label>
@@ -186,11 +186,11 @@
 								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
 									기술 스택</label>
 								<div class="col-sm-4 center-input">
-									<select id="tech" name="tech" class="form-select form-select-sm">
+									<select id="tech" name="tech" class="form-select form-select-sm" style="padding-right:0;">
 										<option value="selectedOpt" id="selectedOpt" style="display:none;"></option>
 										<option value="" selected>기술선택(다중선택가능)</option>
-										<!-- <option th:each="tech : ${commList.Z}" th:text="${tech.desct}"
-											th:value="${tech.prov}">기술스택</option> -->
+										 <option th:each="tech : ${commList.Z}" th:text="${tech.desct}"
+											th:value="${tech.prov}">기술스택</option>
 									</select>
 								</div>
 								
@@ -213,16 +213,17 @@
 								<div class="col-sm-4 center-input">
 									<select name="ttl" class="form-select form-select-sm" id="">
 										<option value='' selected>선택</option>
+										<option th:each="rec : ${recList}" th:text="${rec.ttl}"
+											th:value="${rec.recruitNo}">구인공고제목</option>
 									</select>
 								</div>
 							</div>
 
 							<!-- 함께보낼데이타 -->
-							<!-- <input type="hidden" name="id" th:value="${id.id}"> <input
-								type="hidden" name="jobSearchNo"> -->
+							<input type="hidden" name="jobSearchNo">
 							<div class="row mb-4">
 								<div class="col-12 d-flex justify-content-center">
-									<button type="button" class="btn btn-secondary"
+									<button id="modalCloseBtn" type="button" class="btn btn-secondary"
 										data-bs-dismiss="modal" onclick="closeModal()">취소</button>
 									<button id="offerBtn" type="button" class="btn btn-primary"
 										onclick="offerCheck()">제안</button>
@@ -298,7 +299,6 @@ $('#skillBtn').on('click', function(){
 	currentPage = 1;
 	selfJobList(auth, id, job, carr, city, skill, currentPage); // 셀프 구직 목록 리스트
 });
-
 
 // 관심버튼을 눌렀을때
 function interest(interestBtn){
@@ -409,6 +409,81 @@ function interestDelete(jobSearchNo){
 	
 }
 
+// 제안클릭 모달창열기
+function offerModal(t){
+	event.stopPropagation();
+	
+	if($('#ROLE_MEM').val()){ // 유저일때
+		console.log('유저입니다 - ROLE_MEM 일때 수정해야할 부분 -');
+		Swal.fire({
+			  icon: 'error',
+			  title: '기업만 제안이 가능합니다.'
+		});
+		
+		return;
+		
+	}else if($('#ROLE_ADMIN').val()){ // 관리자일때
+		console.log('관리자입니다.');
+
+		Swal.fire({
+			  icon: 'error',
+			  title: '기업만 관심등록이 가능합니다.'
+		});
+		
+		return;
+		
+	} else{ // 기업일때
+		if(t.innerText == '제안'){ // 제안 전일 때만 모달창 열기
+			$('#exampleModalLg').modal('show')
+			let jobSearchNo = t.getAttribute("data-id"); // 모달창 열릴 때 해당공고번호 가지고 들어감
+			$('input[name="jobSearchNo"]').val(jobSearchNo);
+		} 
+	}
+}
+
+// 모달취소클릭 모달창 닫으면 input 초기화
+function closeModal(){
+	$('[name="coNm"]').val('');	
+	$('[name="wksite"]').val('');	
+	$('[name="tech"]').val('');	
+	$('[name="maBuss"]').val('');	
+	$('[name="bnft"]').val('');	
+	$('[name="saly"]').val('');	
+	$('[name="bussStartDt"]').val('');	
+	$('[name="clsDt"]').val('');	
+	$('[name="projectNm"]').val('');	
+	$('[name="ttl"]').val('');	
+} 
+
+// 제안클릭 제안제출
+function offerCheck(){
+	let formData = $('#offerForm').serialize(); 
+	let jobSearchNo = $('input[name="jobSearchNo"]').val();
+	
+	  $.ajax({
+	   url: 'offerSubmit',
+	   type: 'post',
+	   data: formData,
+	   success: function(res){
+		   // 제안버튼 제안완료버튼으로 바꾸기
+		   let button = $('button[data-id="' + jobSearchNo + '"]');
+		   button.text('제안완료');
+		   button.removeClass("btn btn-outline-info btn-sm listBtn"); // 빈 버튼 클래스 지우고
+		   button.addClass("btn btn-info btn-sm listBtn"); // 꽉찬 버튼 클래스 추가
+		   button.removeAttr("data-bs-toggle");
+		   
+		   modalCloseBtn.click(); //모달창 닫기
+		   
+		   Swal.fire({
+				icon: 'success',
+				title: '제안이 완료되었습니다.'
+		   });
+	   },
+	   error: function (reject) {	   
+	   	  	console.log(reject);
+		  }
+	})  
+}
 
 // 셀프구직 리스트 호출하는 ajax
 function selfJobList(auth, id, job, carr, city, skill, currentPage){
@@ -431,8 +506,8 @@ function selfJobList(auth, id, job, carr, city, skill, currentPage){
 		  
 		let selfJobList = result.selfJobList; // 셀프구직 목록 리스트
 		let selfJobInterest = result.selfJobInterest; // 접속한 ID의 셀프구직 관심 리스트
+		let selfJobOffered = result.selfJobOffered; // 접속한 ID의 제안완료 목록 리스트
 		let totalListNum = result.totalListNum; // 셀프구직 목록리스트 총갯수
-		//let selfJobOffered = result.selfJobOffered; (selfController 60행에 제안완료목록 리스트 만들기)
 		selfList.innerHTML = ''; // 초기화
 		
 		if(selfJobList.length == 0){
@@ -448,13 +523,13 @@ function selfJobList(auth, id, job, carr, city, skill, currentPage){
 				}
 			}
 			
-			/* for(let k = 0; k < selfJobOffered.length ; k++){
-				for(let l = 0; l < selfJobList.length; l++){
-					if(selfJobOffered[k].jobSearchNo == selfJobList[l].jobSearchNo){
-						selfJobOffered[i].offerdYn = 'Y';	// 제안완료에만 'Y'
+			 for(let k = 0; k < selfJobOffered.length ; k++){
+				 for(let l = 0; l < selfJobList.length; l++){
+					 if(selfJobOffered[k].jobSearchNo == selfJobList[l].jobSearchNo){
+						selfJobList[l].offeredYn = 'Y';	// 제안완료에만 'Y'
 					}
 				}
-			} */
+			} 
 			
 			let selfJobListHtml = '';
 			
@@ -545,11 +620,15 @@ function selfJobListPrint(result={}){
 	      </div>
 	      <div class="col-md-2" style="display: flex; align-items: center; flex-direction : column;" >
 	      	
-		      <button  data-id="`+result.jobSearchNo+`" onclick="interest(this)" type="button" class="btn btn-danger btn-sm listBtn">관심해제</button>
-		    	/* if로 offerdYn == Y 유무로 버튼 다르게 */
-		      <button  data-id="`+result.jobSearchNo+`" onclick="offerModal(this)" type="button" class="btn btn-outline-info btn-sm listBtn" data-bs-toggle="modal" data-bs-target="#exampleModalLg">제안</button>
-		  </div>
-	    </div>`;
+		      <button  data-id="`+result.jobSearchNo+`" onclick="interest(this)" type="button" class="btn btn-danger btn-sm listBtn">관심해제</button>`;
+		    	
+		      if(result.offeredYn == 'Y'){ //제안완료 게시글이라면
+	      		html += `<button  data-id="`+result.jobSearchNo+`" onclick="offerModal(this)" type="button" class="btn btn-info btn-sm listBtn">제안완료</button>`;	
+	      	}else{
+	      		html += `<button  data-id="`+result.jobSearchNo+`" onclick="offerModal(this)" type="button" class="btn btn-outline-info btn-sm listBtn">제안</button>`;
+	      	}
+		html +=  `</div>
+	    	</div>`;
 	}else{
 		html = `<div class="row align-items-center border-bottom p-4 mb-3 hoverRow" style="cursor:pointer;" onclick="location.href='/selfJobDetail?jobSearchNo=`+result.jobSearchNo+`&resumeNo=`+result.resumeNo+`'">
 	        <div class="col-md-3 text-center">
@@ -572,12 +651,15 @@ function selfJobListPrint(result={}){
 	        </div>
 	      </div>
 	      <div class="col-md-2" style="display: flex; align-items: center; flex-direction : column;" >
-	      	  
-	      	  <button  data-id="`+result.jobSearchNo+`" onclick="interest(this)" type="button" class="btn btn-outline-danger btn-sm listBtn">관심</button>
-	      	  //if로 offerdYn == Y 유무로 버튼 다르게
-		      <button  data-id="`+result.jobSearchNo+`" onclick="offerModal(this)" type="button" class="btn btn-outline-info btn-sm listBtn" data-bs-toggle="modal" data-bs-target="#exampleModalLg">제안</button>
-		  </div>
-	    </div>`;
+	      	  <button  data-id="`+result.jobSearchNo+`" onclick="interest(this)" type="button" class="btn btn-outline-danger btn-sm listBtn">관심</button>`;
+	      	if(result.offeredYn == 'Y'){ //제안완료 게시글이라면
+	      		html += `<button  data-id="`+result.jobSearchNo+`" onclick="offerModal(this)" type="button" class="btn btn-info btn-sm listBtn">제안완료</button>`;	
+	      	}else{
+	      		html += `<button  data-id="`+result.jobSearchNo+`" onclick="offerModal(this)" type="button" class="btn btn-outline-info btn-sm listBtn">제안</button>`;
+	      	}
+		      
+		html += `</div>
+	    	</div>`;
 	}
 	
 	return html;

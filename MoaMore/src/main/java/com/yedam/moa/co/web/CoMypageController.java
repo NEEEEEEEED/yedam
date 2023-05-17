@@ -93,7 +93,6 @@ public class CoMypageController {
 	@ResponseBody
 	public List<HireVO> getOfferModalData(HireVO vo) {
 		return service.selectRec(vo);// 구인공고목록
-
 	}
 
 	// 관심셀프구직게시글목록

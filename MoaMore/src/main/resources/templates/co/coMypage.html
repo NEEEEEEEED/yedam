@@ -70,7 +70,7 @@ i {
 								onclick="changeTable('second',this)"
 								class="col text-center border-start"><span
 								class="fw-bold fs-7">0</span> <br /> <span class="fw-bold fs-1">처리된
-									지원</span> </a> <a onclick="changeTable('third',this)"
+									지원</span> </a> <a id="interMenu" onclick="changeTable('third',this)"
 								class="col text-center border-start"><span
 								class="fw-bold fs-7 " th:text="${totalInter.totalInter}" ></span> <br /> <span class="fw-bold fs-1">관심
 									구직글</span> </a>
@@ -128,8 +128,6 @@ i {
 						</h5>
 
 						<div id="selfList" class="col-md-12"></div>
-						<!-- 제안구직글목록 뿌리기 -->
-						<!-- 제안구직글목록 뿌리기 끝 -->
 					</div>
 					<!-- tableMenu갈아끼우기 끝 -->
 				</div>
@@ -196,7 +194,7 @@ i {
 								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
 									기술 스택</label>
 								<div class="col-sm-4 center-input">
-									<select id="tech" name="tech" class="form-select form-select-sm">
+									<select id="tech" name="tech" class="form-select form-select-sm" style="padding-right:0;">
 										<option value="selectedOpt" id="selectedOpt" style="display:none;"></option>
 										<option value="" selected>기술선택(다중선택가능)</option>
 										<option th:each="tech : ${commList.Z}" th:text="${tech.desct}"
@@ -553,6 +551,17 @@ i {
 					}
 				});
 			}
+			
+			//셀프구직에서 관심구직글클릭
+			 // URL에서 매개변수 읽기
+  			const params = new URLSearchParams(window.location.search);
+  			const autoclick = params.get('interest');
+
+  			// 매개변수 값이 "t"일 경우 관심구직 클릭
+  			if (autoclick === 't') {
+   			 	document.getElementById('interMenu').click();
+  			}
+			
 			function test(t) {
 				console.log(t);
 			}
