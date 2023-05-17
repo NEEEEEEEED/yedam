@@ -99,7 +99,7 @@ public class HireServiceImpl implements HireService{
 		return hireMapper.recImg(hireVO);
 	}
 	
-	// 구인공고 등록(썸네일만)
+	// 구인공고 등록
 	@Override
 	public String hireDataInsert(HireVO vo, Principal pr ) {
 		
@@ -137,15 +137,15 @@ public class HireServiceImpl implements HireService{
 	
 	// 공고 이미지 업로드
 	@Override
-	public int hireImgInsert(HireVO vo, Principal pr) {
-		vo.setRecruitNo(hireMapper.recruitNo());
-	
+	public int hireImgInsert(HireVO vo) {
+//		vo.setRecruitNo(hireMapper.recruitNo());
+		
 		int result= 0;
 		
-		for(String Istr : vo.getRecruitImg()) {
+		for(String istr : vo.getRecruitImgList()) {
 			String recuritImgNo = hireMapper.recruitImgNo();
 			vo.setRecruitImgNo(recuritImgNo);
-			vo.setRecrintImgDetail(Istr);
+			vo.setRecruitImg(istr);
 			result += hireMapper.detailImges(vo);
 		}
 		
@@ -155,6 +155,7 @@ public class HireServiceImpl implements HireService{
 	// 공고 이미지 조회
 	@Override
 	public List<HireVO> hireImgInsertList(HireVO vo) {
+		System.out.println(vo);
 		return hireMapper.detailImgesList(vo);
 	}
 	

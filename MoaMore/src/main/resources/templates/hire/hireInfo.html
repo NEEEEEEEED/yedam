@@ -207,7 +207,7 @@ body {
 							</form>
 							<div><!-- 공고수정은 본인만 가능하도록 -->
 								<th:block th:if="${hireVO.idCo}==${#authentication.principal.username}" >
-									<button type="button" class="btn btn-outline-dark" id="hireMod">공고수정</button>
+									<button type="button" class="btn btn-outline-dark" id="hireMod" onclick="location/href='/hireMod?recruitNo=${hireVO.recruitNo}'">공고수정</button>
 								</th:block>
 									<button type="button" class="btn btn-outline-dark" id="btnList">목록</button>
 							</div>
@@ -298,6 +298,12 @@ body {
 		scrollX: false,
 		scrollY: true,
 		rowHeaders: ['checkbox'],
+		bodyHeight: 300,
+		pageOptions: {
+		  useClient: true,
+		  type: 'scroll',
+		  perPage: 50
+		},
 		columns: [
 			{ header: '이력서번호',
 			  name: 'resumeNo',
@@ -512,11 +518,11 @@ body {
 	}
 	
 	// 공고수정으로 이동
-	$(document).on('click', '#hireMod', function(e){
-		e.preventDefault();
+// 	$(document).on('click', '#hireMod', function(e){
+// 		e.preventDefault();
 
-		location.href="/hireMod";
-	});
+// 		location.href="/hireMod";
+// 	});
 	
 	
 	// 이력서수정으로 이동
