@@ -9,8 +9,6 @@
 				r.ttl,
 				r.expr_dt,
 				r.recruit_no,
-				r.co_img,
-				c.co_nm,
 				m.email
 		 FROM co c 
 		 join recruit_anun r
@@ -129,10 +127,16 @@
 	  from member
 	 where id = #{id}
 	</select>
+	<select id="getCountRe" resultType="Integer">
+		SELECT  COUNT(resume_no)
+		FROM	resume
+		WHERE	id = #{id}
+	</select>
 <!-- 	최신 이력서 불러오기 -->
-<!-- 	select * from resume where resume_no = (select max(resume_no) from resume)  -->
 <select id="lastRe" resultType ="ResumeVO">
-		select 	resume_no,
+		select 	ttl,		
+				resume_no,
+				shcr_no,
 				carr_no, 
 				edu_no, 
 				licn_no, 
@@ -144,7 +148,8 @@
 		  where resume_no =(select max(resume_no) from resume) and id=#{id}	
 </select>
 <select id="getArd" resultType = "ArdVO">
-	select 	cntn,	
+	select 	ard_no,
+		    cntn,	
 	 		issu_yy,	
 	 		ard_nm,
 	 		breu
@@ -152,7 +157,9 @@
 	 where	ard_no = #{ardNo}
 </select>
 <select id="getCarr" resultType = "CarrVO">
-	select 	 wkdty,		
+	select 	 
+			 carr_no,
+			 wkdty,		
 			 depart,		
 			 duty,		
 			 join_yy,		
@@ -167,7 +174,8 @@
 	where carr_no = #{carrNo}	 		
 </select>
 <select id="getEdu" resultType = "EduVO">
-	select 	 breu,	
+	select 	 edu_no,
+			 breu,	
 			 join_yy,	
 			 reti_yy,	
 			 cntn,	
@@ -176,19 +184,21 @@
 	where edu_no = #{eduNo}	 		
 </select>
 <select id="getIntro" resultType = "IntroVO">
-	select 	cntn, 
+	select 	intro_no,
+			cntn, 
 	  		ttl 
 	from	resume_intro
 	where intro_no = #{introNo}	 		
 </select>
 <select id="getShcr" resultType = "ShcrVO">
-	select	 breu,		
+	select	 shcr_no,
+			 breu,		
 			 mj,			
 			 join_yy,		
 			 reti_yy,		
 			 pnt,			
 			 shcr_st,		
-			 ttScore,		
+			 tt_score,		
 			 fg,
 			 get_common(fg) as 	fg_co,
 			 get_common(shcr_st) as shcr_st_co,
@@ -197,14 +207,27 @@
 	where 	 shcr_no = #{shcrNo}	 		
 </select>
 <select id="getSkill" resultType = "SkillVO">
-	select	 skill	
+	select	 skill_no,
+			 skill,
+			 get_common(skill) as skillNm	
 	from	 resume_skills
 	where 	 skill_no = #{skillNo}	 		
 </select>
+<select id="getUnSkill" resultType = "SkillVO">
+	select	 
+			 prov as skill,
+			 desct as skillNm
+	from	 cmmn_dt
+	where 	 comm_cd = 'Z' and prov NOT IN  <foreach collection="skill" item="arr" open="(" close=")" separator=",">
+										        	#{arr.skill}
+										        </foreach>
+		 		
+</select>
 <select id="getLicn" resultType = "LicnVO">
-	select	 breu,		
+	select	 licn_no,
+			 breu,		
 			 issu_mm,		
-			 licn_nm,		
+			 licn_nm		
 	from	 resume_licn
 	where 	 licn_no = #{licnNo}	 		
 </select>
@@ -326,14 +349,14 @@
  	 <insert id="insertCarrer" parameterType="CarrVO" statementType="CALLABLE" >
      call insert_carr (
         #{carrNo, mode=INOUT, jdbcType=VARCHAR},
-        #{co},
         #{wkdty},
         #{depart},
         #{duty},
         #{joinYy},
         #{retiYy},
         #{buss},
-        #{carrSt}
+        #{carrSt},
+        #{co}
       )
  	 </insert>
 <!--  	 개인정보 입력(업데이트) -->

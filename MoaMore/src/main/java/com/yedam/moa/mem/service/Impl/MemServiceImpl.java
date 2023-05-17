@@ -70,8 +70,8 @@ public class MemServiceImpl implements MemService {
 
 	@Override
 	public String insertResume(ResumeVO vo) {
-		int count = 0;
-		int compare = 0;
+		int count = 0; //입력 프로 시져 실행 횟 수
+		int compare = 0; //count와 비교하기 위해 배열의 크기
 		String no = null;
 
 //		스킬 번호 생성 입력
@@ -195,6 +195,8 @@ public class MemServiceImpl implements MemService {
 		 compare ++;
 		 System.out.println(count);
 		 System.out.println(compare);
+		 
+//		 compare(배열의 크기)와 count(입력 횟수)를 비교해서 메소드의 성공여부 확인
 		if(count == compare) {
 			return "{\"result\": \"Success\"}";
 		}else {
@@ -206,34 +208,45 @@ public class MemServiceImpl implements MemService {
 	@Override
 	public ResumeVO lastRe(MemVO vo) {
 		ResumeVO rvo = new ResumeVO();
+			System.out.println(rvo);
+			//이력서 개수가 0보다 크면
+			if(mem.getCountRe(vo)>0) {
+//			이력서 기본 정보 가져오기
+			rvo = mem.lastRe(vo);
+			System.out.println(rvo);
+//			기본정보에서 수상번호 있을경우 수상 정보 가져오기
+			if(rvo.getArdNo()!=null) {
+				rvo.setArd(mem.getArd(rvo));
+			}
+//			커리어번호 있을경우 커리어 정보 가져오기
+			if(rvo.getCarrNo()!=null) {
+				rvo.setCarr(mem.getCarr(rvo));
+			}
+//			교육번호 있을경우 교육 정보 가져오기
+			if(rvo.getEduNo()!=null) {
+				rvo.setEdu(mem.getEdu(rvo));
+			}
+//			자소서번호 있을경우 자소서 정보 가져오기
+			if(rvo.getIntroNo()!=null) {
+				rvo.setIntro(mem.getIntro(rvo));
+			}
+//			자격증번호 있을경우 자격증 정보 가져오기
+			if(rvo.getLicnNo()!=null) {
+				rvo.setLicn(mem.getLicn(rvo));
+			}
+//			학력번호 있을경우 학력 정보 가져오기
+			if(rvo.getShcrNo()!=null) {
+				rvo.setSch(mem.getShcr(rvo));
+			}
+//			기술번호 있을경우 기술 정보 가져오기
+			if(rvo.getSkillNo()!=null) {
+				rvo.setSkill(mem.getSkill(rvo));
+				System.out.println(rvo.getSkill());
+				rvo.setUnSkill(mem.getUnSkill(rvo));
+			}
+			
+			}
 	
-		
-		rvo = mem.lastRe(vo);
-		System.out.println(rvo);
-		if(rvo != null) {
-		if(rvo.getArdNo()!=null) {
-			rvo.setArd(mem.getArd(rvo));
-		}
-		if(rvo.getCarrNo()!=null) {
-			rvo.setCarr(mem.getCarr(rvo));
-		}
-		if(rvo.getEduNo()!=null) {
-			rvo.setEdu(mem.getEdu(rvo));
-		}
-		if(rvo.getIntroNo()!=null) {
-			rvo.setIntro(mem.getIntro(rvo));
-		}
-		if(rvo.getLicnNo()!=null) {
-			rvo.setLicn(mem.getLicn(rvo));
-		}
-		if(rvo.getShcrNo()!=null) {
-			rvo.setSch(mem.getShcr(rvo));
-		}
-		if(rvo.getSkillNo()!=null) {
-			rvo.setSkill(mem.getSkill(rvo));
-		}
-		
-		}else {rvo.setResumeNo("none");}
 		return rvo;
 		
 	}

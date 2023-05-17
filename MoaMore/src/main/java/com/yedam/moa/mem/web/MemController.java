@@ -73,7 +73,8 @@ public class MemController {
 		if(rvo.getResumeNo() == null) {
 		rvo.setResumeNo("none");
 		};
-			model.addAttribute("resume", rvo);
+		System.out.println(rvo);
+		model.addAttribute("resume", rvo);
 		System.out.println(rvo);
 		model.addAttribute("list", com.getCodes("Z", "D", "E", "B", "d", "N", "A"));
 		model.addAttribute("info", mem.getMemInfo(vo));
@@ -87,18 +88,19 @@ public class MemController {
 	@GetMapping("mem/mkResumeTest")
 	public String tesResume(Principal principal, Model model, MemVO vo, ResumeVO rvo) {
 		vo.setId(principal.getName());
-		rvo=mem.lastRe(vo);
-		if(rvo.getResumeNo() == null) {
-//			rvo.setResumeNo("none");
-		};
+			rvo=mem.lastRe(vo);
+		if(rvo.getResumeNo()==null) {
+			rvo.setResumeNo("none");
+//			rvo.setShcrNo("dummy");
+			};
+			System.out.println(rvo);
 		
-			model.addAttribute("resume", rvo);
-		
+		model.addAttribute("resume", rvo);
 		model.addAttribute("list", com.getCodes("Z", "D", "E", "B", "d", "N", "A"));
 		model.addAttribute("info", mem.getMemInfo(vo));
 		;
 
-		return "mem/mem_resume";
+		return "mem/mem_resumeThird";
 	}
 
 //	이력서 데이터 입력
