@@ -4,53 +4,120 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.moa.admin.mapper.AdminMapper">
 	<select id="selectUserInfo" resultType="MemVO">
-		SELECT 	id,
-        		name,
-        		clsf,
-        		ph_cl,
-        		join_dt
+		SELECT 	ID
+				,NAME
+				,PW
+				,PH
+				,PH_CL
+				,EMAIL
+				,BLOG
+				,POST
+				,AUTHR
+				,CLSF
+				,LOG_CNT
+				,LTST_TM
+				,get_common(gen) as gen
+				,BIRTH
+				,ADDR
+				,JOIN_DT
+				,AGE
+				,API
+				,NICKNAME
+				,get_common(clsf) as "clsfname"
        	FROM member
+       	ORDER BY join_dt DESC
 	</select>
 	
-	<select id="selectStudyPost" resultType="PostListVO">
+	<select id="selectStudyPost" resultType="StudyVO">
 		select  reg_dt,
 		        ttl,
 		        inq_cnt,
-		        '스터디모집' as "postType"
-		FROM member m, study s
-		WHERE m.id = s.id
-		  AND m.id = #{id}
+		        '스터디모집' as "postType",
+		        study_no as "no",
+		        id
+		FROM study s
 		ORDER BY reg_dt DESC
 	</select>
-	<select id="selectPRJTPost" resultType="PostListVO">
+	<select id="selectPRJTPost" resultType="PrjtVO">
 		select  reg_dt,
 		        ttl,
 		        inq_cnt,
-		        '프로젝트모집게시판' as "postType"
-		FROM member m, prjt p
-		WHERE m.id = p.id
-		  AND m.id = #{id}
+		        '프로젝트모집게시판' as "postType",
+		        prjt_no as "no",
+		        id
+		FROM prjt p
 		ORDER BY reg_dt DESC
 	</select>
- 	<select id="selectINTRVPost" resultType="PostListVO">
+ 	<select id="selectINTRVPost" resultType="IntrvVO">
 		select  reg_dt,
 				CO_NM,
-				'면접후기게시판' as "postType"
-		FROM member m, intrv_scrn i
-		WHERE m.id = i.id
-		  AND m.id = #{id}
+				'면접후기게시판' as "postType",
+				intrv_no as "no",
+				id
+		FROM intrv_scrn i
 		ORDER BY reg_dt DESC
 	</select> 
 	
-	<select id="selectQSTPost" resultType="PostListVO">
+	<select id="selectQSTPost" resultType="CommunityVO">
 		select  reg_dt,
 		        ttl,
 		        inq_cnt,
-		        <![CDATA['취업Q&A게시판']]> as "postType"
-		FROM member m, empl_qst e
-		WHERE m.id = e.id
-		  AND m.id = #{id}
+		        qa_notiwr_no as "no",
+		        <![CDATA['취업Q&A게시판']]> as "postType",
+		        id
+		FROM empl_qst e, rprt_list r
+		WHERE r.NOTIWR_NO = e.qa_notiwr_no
 		ORDER BY reg_dt DESC
+	</select>
+	<select id="selectSearchUser" resultType="MemVO">
+		SELECT 	ID
+				,NAME
+				,PW
+				,PH
+				,PH_CL
+				,EMAIL
+				,BLOG
+				,POST
+				,AUTHR
+				,CLSF
+				,LOG_CNT
+				,LTST_TM
+				,GEN
+				,BIRTH
+				,ADDR
+				,JOIN_DT
+				,AGE
+				,API
+				,NICKNAME
+				,get_common(clsf) as "clsfname"
+		FROM 	member
+		<where>
+			<if test="id!=null and !id.equals('')">
+				id = #{id}
+			</if>
+			<if test="name!=null and !id.equals('')">
+				name = #{name}
+			</if>
+			<if test="startDate!=null and !startDate.equals('')">
+				<![CDATA[join_dt >= #{startDate}]]>
+			</if>
+			<if test="lastDate!=null and !lastDate.equals('')">
+				<![CDATA[join_dt <= #{lastDate}]]>
+			</if>
+			<if test="server!=null and !server.equals('')">
+				email LIKE '%'||'@'||#{server}||'%'
+			</if>
+			<if test="userName!=null and !userName.equals('')">
+				email LIKE '%'||#{userName}||'%'
+			</if>
+			<if test="commds!=null">
+			 clsf IN
+			 <foreach collection='commds' item='clsf' open='(' close=')' separator=','>
+			 	#{clsf}
+			 </foreach>	
+			</if>
+		</where> 	
+		ORDER BY join_dt DESC 
 	</select>
 
 </mapper>

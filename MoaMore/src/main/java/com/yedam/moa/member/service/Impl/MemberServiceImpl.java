@@ -39,7 +39,7 @@ public class MemberServiceImpl implements MemberService, OAuth2UserService<OAuth
 	
     private final UserRepository userRepository;
 
-    private final HttpSession httpSession;
+    //private final HttpSession httpSession;
 	
 	@Autowired
 	RegisterMail registerMail;
@@ -55,7 +55,7 @@ public class MemberServiceImpl implements MemberService, OAuth2UserService<OAuth
 		// naver, kakao 로그인 구분
         OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
         Member Member = saveOrUpdate(attributes);
-        httpSession.setAttribute("user", new SessionUser(Member));
+        //httpSession.setAttribute("user", new SessionUser(Member));
 
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority(Member.getRoleKey())),
