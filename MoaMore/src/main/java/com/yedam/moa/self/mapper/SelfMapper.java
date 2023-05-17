@@ -18,6 +18,9 @@ public interface SelfMapper {
 	// 관심 등록 리스트
 	public List<SelfVO> selfJobInterestList(String id);
 	
+	// 제안완료 목록 리스트
+	public List<SelfVO> selfJobOfferedList(String id);
+	
 	// 관심 등록 해제
 	public int selfJobInterestDelete(SelfVO interestVO);
 	
@@ -82,5 +85,6 @@ public interface SelfMapper {
 	
 	// 셀프구직 리스트 총 갯수
 	public int totalListNum(SelfVO selfVO);
+	
 	
 }

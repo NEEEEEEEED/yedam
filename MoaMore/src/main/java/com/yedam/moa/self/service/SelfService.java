@@ -18,6 +18,9 @@ public interface SelfService {
 	// 관심 목록 리스트
 	public List<SelfVO> selfJobInterestList(String id);
 	
+	// 제안 완료 목록 리스트
+	public List<SelfVO> selfJobOfferedList(String id);
+	
 	// 관심 등록 해제
 	public int selfJobInterestDelete(SelfVO interestVO);
 	

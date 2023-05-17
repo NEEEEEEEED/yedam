@@ -2,6 +2,7 @@ package com.yedam.moa.self.web;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.yedam.moa.comm.CommVO;
+import com.yedam.moa.co.service.CoService;
+import com.yedam.moa.co.service.CoVO;
 import com.yedam.moa.comm.service.Impl.CommServiceImpl;
+import com.yedam.moa.hire.HireVO;
 import com.yedam.moa.self.SelfVO;
 import com.yedam.moa.self.service.Impl.SelfServiceImpl;
 /*작성자 작성일자 컨트롤 내용*/
@@ -32,6 +35,9 @@ public class SelfController {
 	@Autowired
 	CommServiceImpl commServiceImpl;
 	
+	@Autowired
+	CoService coService;
+	
 	@Value("${site.upload}")
 	String uploadPath;
 	
@@ -40,9 +46,15 @@ public class SelfController {
 	
 	// 셀프구직 목록 페이지
 	@GetMapping("/selfJobList")
-	public String selfJobList(Model model) {
+	public String selfJobList(Model model, Principal principal) {
 		// 공통코드 리스트
-		model.addAttribute("commList", commServiceImpl.getCodes("N","Y","X")); // 직무, 경력, 지역 리스트
+		model.addAttribute("commList", commServiceImpl.getCodes("N","Y","X","Z")); // 직무, 경력, 지역, 기술 리스트
+		
+		// 기업 모달창 오픈시 필요한 구인공고 리스트
+		HireVO hvo = new HireVO();
+		hvo.setId(principal.getName());
+		model.addAttribute("recList", coService.selectRec(hvo));
+		
 		return "self/selfJobList";
 	}
 	
@@ -58,7 +70,7 @@ public class SelfController {
 		
 		map.put("selfJobList", selfServiceImpl.selfJobList(selfVO)); // 셀프구직 목록 리스트
 		map.put("selfJobInterest", selfServiceImpl.selfJobInterestList(selfVO.getId())); // 관심 리스트
-		//map.put("selfJobOffered", selfServiceImpl.selfJobOfferedList(selfVO.getId())); // 제안완료 리스트
+		map.put("selfJobOffered", selfServiceImpl.selfJobOfferedList(selfVO.getId())); // 제안완료 리스트
 		map.put("totalListNum", selfServiceImpl.totalListNum(selfVO));
 		return map;
 	}
@@ -83,6 +95,20 @@ public class SelfController {
 	public int selfJobInterestDelete(SelfVO interestVO) {
 		return selfServiceImpl.selfJobInterestDelete(interestVO);
 	}
+	
+	// 제안 영역-------------------------------------------------------------
+	
+	// 제안등록
+	@PostMapping("/offerSubmit")
+	@ResponseBody
+	public String offerSubmit(CoVO cvo, Principal principal) {
+		cvo.setId(principal.getName());
+		System.out.println("cvo=="+cvo);
+		coService.afterOffer(cvo);
+		return "success";
+	}
+	 
+	
 	
 	// 셀프구직 등록 페이지 영역-------------------------------------------------
 	

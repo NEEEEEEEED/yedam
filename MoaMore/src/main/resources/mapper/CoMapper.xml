@@ -85,7 +85,6 @@
 		       C.CO_NM,
 		       get_common(WKSITE) AS WKSITE,
                R.EXPR_DT,
-               R.CO_IMG,
                R.RECRUIT_NO         
 		FROM RECRUIT_ANUN R
 		JOIN CO C
@@ -205,6 +204,7 @@
 		                      and job_search_no = #{jobSearchNo})
 	</select>
 	
+	<!-- 제안 등록 -->
 	<insert id="afterOffer" parameterType="CoVO">
 	<selectKey keyProperty="offerCd" resultType="String" order="BEFORE">
 		SELECT 'OFFER'||nvl((SUBSTR(MAX(offer_cd),6,5))+1,10001) FROM offer

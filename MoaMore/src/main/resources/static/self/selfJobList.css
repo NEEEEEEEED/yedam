@@ -95,3 +95,7 @@ select::-ms-expand {
 	background-color : #0A2640;
 	border-color : #0A2640;
 }
+
+.center-input {
+  padding-top : 13px;
+}

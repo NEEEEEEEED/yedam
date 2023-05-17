@@ -111,6 +111,12 @@ public class SelfServiceImpl implements SelfService{
 	public List<SelfVO> selfJobInterestList(String id) {
 		return selfMapper.selfJobInterestList(id);
 	}
+	
+	// 제안완료 목록 리스트
+	@Override
+	public List<SelfVO> selfJobOfferedList(String id) {
+		return selfMapper.selfJobOfferedList(id);
+	}
 
 	// 관심 등록 해제
 	@Override
@@ -184,6 +190,8 @@ public class SelfServiceImpl implements SelfService{
 	public int totalListNum(SelfVO selfVO) {
 		return selfMapper.totalListNum(selfVO);
 	}
+	
+	
 	
 	
 }
