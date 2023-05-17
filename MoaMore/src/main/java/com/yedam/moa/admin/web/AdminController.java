@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,7 @@ import com.yedam.moa.admin.service.PostListVO;
 import com.yedam.moa.admin.service.UserSearchVO;
 import com.yedam.moa.comm.CommVO;
 import com.yedam.moa.comm.service.Impl.CommServiceImpl;
+import com.yedam.moa.community.service.Impl.CommunityServiceImpl;
 import com.yedam.moa.mem.MemVO;
 
 @Controller
@@ -94,4 +96,25 @@ public class AdminController {
 		System.out.println(vo);
 		return adminService.getSearchUser(vo);
 	}
+	@Autowired 
+	CommunityServiceImpl commuServiceImpl;
+	// 취업 Q&A 상세페이지
+	@GetMapping("/adminQnaDetail")
+	public String jobQnaDetail(Model model, String qaNotiwrNo) {
+		model.addAttribute("jobQnaDetail", commuServiceImpl.jobQnaDetail(qaNotiwrNo));
+		return "admin/qnaDetail";
+	}
+	// 취업 Q&A 수정페이지
+	@GetMapping("/adminQnaMod")
+	public String jobQnaDetailMod(Model model,String qaNotiwrNo) {
+		model.addAttribute("jobQnaDetail", commuServiceImpl.jobQnaDetail(qaNotiwrNo));
+		return "admin/jobQnADetailMod";
+	}
+	// 면접 후기 상세페이지
+	
+	// 프로젝트 상세페이지
+	
+	// 스터디 상세페이지
+	
+	
 }

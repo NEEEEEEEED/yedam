@@ -14,60 +14,44 @@
       <div class="card-body">
         <p class="card-title">검색조건</p>
         <form class="row g-3">
-          <div class="row" style="margin-bottom: 10px">
-            <span class="col-sm-1 col-form-label">분류</span>
-            <div class="col-md-5" style="padding-top: 7px">
-              <div class="form-check form-check-inline">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="gridRadios"
-                  id="gridRadios1"
-                  value="option1"
-                  checked=""
-                  @click="active = 0"
-                  v-model="activeIndex"
-                />
-                <label class="form-check-label" for="gridRadios1">
-                  게시글 목록
-                </label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="gridRadios"
-                  id="gridRadios2"
-                  value="option2"
-                  @click="active = 1"
-                  v-model="activeIndex"
-                />
-                <label class="form-check-label" for="gridRadios2">
-                  공고 목록
-                </label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="gridRadios"
-                  id="gridRadios3"
-                  value="option3"
-                  @click="active = 2"
-                  v-model="activeIndex"
-                />
-                <label class="form-check-label" for="gridRadios3">
-                  댓글목록
-                </label>
-              </div>
+          <span class="col-sm-1 col-form-label">분류</span>
+          <div class="col-md-5" style="padding-top: 7px">
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="gridRadios"
+                id="gridRadios1"
+                value="option1"
+                checked=""
+                @click="active = 0"
+                v-model="activeIndex"
+              />
+              <label class="form-check-label" for="gridRadios1">
+                게시글 목록
+              </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="gridRadios"
+                id="gridRadios3"
+                value="option3"
+                @click="active = 2"
+                v-model="activeIndex"
+              />
+              <label class="form-check-label" for="gridRadios3">
+                댓글목록
+              </label>
             </div>
           </div>
           <div v-if="active === 0">
             <board-search-form1 />
           </div>
-          <div v-if="active === 1">
+          <!-- <div v-if="active === 1">
             <board-search-form2 />
-          </div>
+          </div> -->
           <div v-if="active === 2">
             <board-search-form3 />
           </div>
@@ -177,21 +161,24 @@
                   ></Column>
                   <Column field="no" sortable header="글번호"></Column>
                   <Column field="postType" sortable header="분류"></Column>
-                  <Column field="ttl" header="제목"></Column>
+                  <Column
+                    field="ttl"
+                    header="제목"
+                    :body-style="descriptionColumnStyle"
+                  ></Column>
                   <Column field="cntn" header="  본문/신고내용">
-                    <template #body="">
+                    <template #body="rowData">
                       <div class="g-3" style="text-align: center">
                         <Button
-                          @click="cntnToggle = 1"
                           icon="pi pi-search"
-                          severity="secondary"
-                          aria-label="search"
+                          @click="getDetail(rowData)"
                         />
                         <Button
                           class="ms-2"
                           icon="pi pi-search"
                           severity="danger"
                           aria-label="Cancel"
+                          @click="showProducts"
                         />
                       </div>
                     </template>
@@ -212,7 +199,7 @@
                   <Column field="dispoDt" sortable header="처리일자"></Column>
                 </DataTable>
               </TabPanel>
-              <TabPanel header="공고목록">
+              <!-- <TabPanel header="공고목록">
                 <DataTable
                   style="clear: both"
                   ref="dataTable"
@@ -242,7 +229,7 @@
                   <Column field="rprtSt" header="처리결과"></Column>
                   <Column field="dispoDt" header="처리일자"></Column>
                 </DataTable>
-              </TabPanel>
+              </TabPanel> -->
               <TabPanel header="댓글목록">
                 <DataTable
                   style="clear: both"
@@ -276,17 +263,14 @@
         </div>
       </div>
     </div>
+    <DynamicDialog />
     <toast />
-    <div v-if="cntnToggle === 1">
-      <cntn-modal v-model:cntnToggle="cntnToggle" />
-    </div>
   </section>
 </template>
 <script>
 import BoardSearchForm1 from "@/components/searchForm/BoardSearchForm1.vue";
-import BoardSearchForm2 from "@/components/searchForm/BoardSearchForm2.vue";
+// import BoardSearchForm2 from "@/components/searchForm/BoardSearchForm2.vue";
 import BoardSearchForm3 from "@/components/searchForm/BoardSearchForm3.vue";
-import cntnModal from "@/components/modal/cntnModal.vue";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import Toast from "primevue/toast";
@@ -295,6 +279,14 @@ import TabPanel from "primevue/tabpanel";
 import { boardList } from "@/service/boardList.js";
 import Button from "primevue/button";
 import "primeicons/primeicons.css";
+import DynamicDialog from "primevue/dynamicdialog";
+import { markRaw, defineAsyncComponent } from "vue";
+const ProductListDemo = defineAsyncComponent(() =>
+  import("../components/modal/ProductListDemo.vue")
+);
+const FooterDemo = defineAsyncComponent(() =>
+  import("../components/modal/FooterDemo.vue")
+);
 
 export default {
   components: {
@@ -304,14 +296,13 @@ export default {
     TabView,
     TabPanel,
     BoardSearchForm1,
-    BoardSearchForm2,
+    // BoardSearchForm2,
     BoardSearchForm3,
-    cntnModal,
     Button,
+    DynamicDialog,
   },
   data() {
     return {
-      cntnToggle: 0,
       activeIndex: 0, //탭=>라디오
       active: 0, //라디오=>탭
       searchCondition: {},
@@ -334,6 +325,13 @@ export default {
         prcsResult: [],
         prcsStart: "",
         prcsEnd: "",
+      },
+      descriptionColumnStyle: {
+        width: "200px",
+        overflow: "hidden",
+        "text-overflow": "ellipsis",
+        "white-space": "nowrap",
+        "max-width": "200px",
       },
     };
   },
@@ -368,7 +366,81 @@ export default {
       // editableField 변수에 해당 ref 할당
       this.editableField = this.$refs[refName];
     },
-    // 유저 정보 삭제
+    //모달창 시작
+    showProducts() {
+      this.$dialog.open(ProductListDemo, {
+        props: {
+          header: "본문 내용",
+          style: {
+            width: "50vw",
+          },
+          breakpoints: {
+            "960px": "75vw",
+            "640px": "90vw",
+          },
+          modal: true,
+        },
+        templates: {
+          footer: markRaw(FooterDemo),
+        },
+        onClose: (options) => {
+          const data = options.data;
+
+          if (data) {
+            const buttonType = data.buttonType;
+            const summary_and_detail = buttonType
+              ? {
+                  summary: "No Product Selected",
+                  detail: `Pressed '${buttonType}' button`,
+                }
+              : { summary: "Product Selected", detail: data.name };
+
+            this.$toast.add({
+              severity: "info",
+              ...summary_and_detail,
+              life: 3000,
+            });
+          }
+        },
+      });
+    },
+    getDetail(rowData) {
+      // 선택된 행의 데이터 가져오기
+      const selectedRow = [rowData];
+      console.log(selectedRow[0]);
+      if (selectedRow && selectedRow.length > 0) {
+        const selectedNo = selectedRow[0].data.no; // 선택된 행의 'no' 컬럼 값 가져오기
+        const width = 800;
+        const height = 700;
+        const left = (window.innerWidth - width) / 2;
+        const top = (window.innerHeight - height) / 2;
+        if (selectedNo.substr(0, 3) == "STD") {
+          window.open(
+            "http://localhost:8000/adminStudyDetial?=" + selectedNo,
+            "popupWindow",
+            `width=${width}, height=${height}, left=${left}, top=${top} location=no`
+          );
+        } else if (selectedNo.substr(0, 3) == "PRJ") {
+          window.open(
+            "http://localhost:8000/adminProjectDetail?=" + selectedNo,
+            "popupWindow",
+            `width=${width}, height=${height}, left=${left}, top=${top} location=no`
+          );
+        } else if (selectedNo.substr(0, 3) == "ITV") {
+          window.open(
+            "http://localhost:8000/adminQnaDetail?=" + selectedNo,
+            "popupWindow",
+            `width=${width}, height=${height}, left=${left}, top=${top} location=no`
+          );
+        } else {
+          window.open(
+            "http://localhost:8000/adminQnaDetail?qaNotiwrNo=" + selectedNo,
+            "popupWindow",
+            `width=${width}, height=${height}, left=${left}, top=${top} location=no`
+          );
+        }
+      }
+    },
   },
 
   computed: {

@@ -22,6 +22,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 	@Override
 	public PostListVO getBoardData() {
+		//adminMapper.getBoardRprtList();
 		PostListVO vo = new PostListVO();
 		//스터디모집
 		vo.setStudyVO(adminMapper.selectStudyPost());
