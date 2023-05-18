@@ -19,6 +19,6 @@ public interface AdminService {
 
 	public List<MemVO> getSearchUser(UserSearchVO vo);
 
-	public List<ReportVO> getReportData(String notiwrNo);
+	public Map<String,Object> getReportData(String notiwrNo);
 
 }

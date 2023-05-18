@@ -127,7 +127,7 @@ public class AdminController {
 	//신고 조회
 	@PostMapping("/getReportData")
 	@ResponseBody
-	public List<ReportVO> getReportData(@RequestBody String notiwrNo) {
+	public Map<String,Object> getReportData(@RequestBody String notiwrNo) {
 		System.out.println("+++++++++++++++++++여기에요여기"+notiwrNo.replace("=", ""));
 		return adminService.getReportData(notiwrNo.replace("=", ""));
 	}

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.yedam.moa.admin.service.ReportVO;
 import com.yedam.moa.admin.service.UserSearchVO;
+import com.yedam.moa.admin.service.rprtStatusVO;
 import com.yedam.moa.community.CommunityVO;
 import com.yedam.moa.community.IntrvVO;
 import com.yedam.moa.community.PrjtVO;
@@ -31,5 +32,7 @@ public interface AdminMapper {
 	public List<MemVO> selectSearchUser(UserSearchVO vo);
 
 	public List<ReportVO> selectReportData(String notiwrNo);
+
+	public List<rprtStatusVO> selectrprtSt();
 
 }
