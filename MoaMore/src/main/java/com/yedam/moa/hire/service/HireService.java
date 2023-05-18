@@ -21,5 +21,7 @@ public interface HireService {
 	public String hireDataInsert(HireVO vo,Principal pr); //  공고 데이터 등록
 	public int hireImgInsert(HireVO vo); // 공고 이미지만 등록
 	public List<HireVO> hireImgInsertList(HireVO vo); // 공고 이미지 조회
+	public int hireModify(HireVO vo); // 공고 수정 기능
+	public int hireImgModify(HireVO vo); // 공고 이미지 수정
 			
 }

@@ -1,9 +1,13 @@
 package com.yedam.moa.co.web;
 
+import java.io.File;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.yedam.moa.co.service.CoService;
 import com.yedam.moa.co.service.CoVO;
@@ -45,6 +50,9 @@ public class CoMypageController {
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
+	
+	@Value("${site.upload}")
+	String uploadPath;
 
 	// 기업마이페이지
 	@GetMapping("/coMypage")
@@ -135,6 +143,8 @@ public class CoMypageController {
 		return service.selectOfferNoti(vo);
 	}
 
+	// 개인정보 관리-----------------------------------------------------------
+	
 	// 기업정보등록/수정
 	@PostMapping("/saveCoInfo")
 	public String saveCoInfo(Principal principal, CoVO vo) {
@@ -142,6 +152,38 @@ public class CoMypageController {
 
 		service.saveCoInfo(vo);
 		return "redirect:coInfoPage";
+	}
+	
+	// 프로필 이미지 등록
+	@PostMapping("/uploadProfileImg")
+	@ResponseBody
+	public String imgUpload(@RequestParam(value="profileImage", required = false) MultipartFile uploadFile, Principal principal) throws IllegalStateException, IOException {
+			
+		System.out.println("uploadFile : " + uploadFile);
+		//System.out.println("성공");
+
+		//첨부파일 업로드 처리
+		MultipartFile upload = uploadFile;
+		String fileName = null; 		// 원본파일명
+		String uploadFileName = null;	// UUID적용한 파일명
+			
+		if(upload !=null && !upload.isEmpty() && upload.getSize()>0) {
+			fileName = upload.getOriginalFilename(); // 원본파일명
+				
+			// 동일 파일명 처리 UUID 사용
+			UUID uuid = UUID.randomUUID();
+			uploadFileName = uuid.toString() + "_" + fileName;
+				
+			upload.transferTo(new File(uploadPath,uploadFileName)); // 파일업로드 uploadPath = c:moaImg 에 저장
+			
+			//member table에 img 이름(uploadFileName) 넣기
+			CoVO vo = new CoVO();
+			vo.setId(principal.getName());
+			vo.setProfileImg(uploadFileName);
+			service.uploadProfileImg(vo);
+		}
+			
+		return "{\"file\": \"" + uploadFileName + "\"}";
 	}
 	
 	//비밀번호 수정

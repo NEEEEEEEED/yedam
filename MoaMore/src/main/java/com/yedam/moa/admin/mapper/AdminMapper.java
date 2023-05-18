@@ -2,6 +2,7 @@ package com.yedam.moa.admin.mapper;
 
 import java.util.List;
 
+import com.yedam.moa.admin.service.ReportVO;
 import com.yedam.moa.admin.service.UserSearchVO;
 import com.yedam.moa.community.CommunityVO;
 import com.yedam.moa.community.IntrvVO;
@@ -28,5 +29,7 @@ public interface AdminMapper {
 	public int deleteUser(String email);
 
 	public List<MemVO> selectSearchUser(UserSearchVO vo);
+
+	public List<ReportVO> selectReportData(String notiwrNo);
 
 }

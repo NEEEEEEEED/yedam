@@ -24,9 +24,9 @@ public class PrjtVO {
 	
 	private String postType;
 
-	private String rprtCnt="0"; //신고건수
-	private String rprtSt; //처리결과
-	private String dispoDt="-"; //처리일자
+	private String rprtCnt="0"; //총신고건수
+	private String noneCnt="0"; 	//미처리 신고수
+	
 	
 	private String no;
 }

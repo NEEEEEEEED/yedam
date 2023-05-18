@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -105,7 +107,6 @@ public class SelfController {
 	@ResponseBody
 	public String offerSubmit(CoVO cvo, Principal principal) {
 		cvo.setId(principal.getName());
-		System.out.println("cvo=="+cvo);
 		coService.afterOffer(cvo);
 		return "success";
 	}
@@ -161,12 +162,12 @@ public class SelfController {
 	// 셀프구직 이미지 등록
 	@PostMapping("/myProfileImg")
 	@ResponseBody
-	public String imgUpload(@RequestParam(value="profileImage", required = false) MultipartFile uploadFile) throws IllegalStateException, IOException {
+	public String imgUpload(@RequestParam(value="profileImage", required = false) MultipartFile uploadFile,@RequestParam(value="reqLoc", required = false) String st ) throws IllegalStateException, IOException {
 		
 		//System.out.println("uploadFile : " + uploadFile);
 		//System.out.println("성공");
-
 		
+		System.out.println(st);
 		//첨부파일 업로드 처리
 		MultipartFile upload = uploadFile;
 		String fileName = null; 		// 원본파일명
@@ -183,8 +184,13 @@ public class SelfController {
 			
 			//System.out.println("파일이름: " + uploadFileName);
 		}
-		
+		System.out.println(uploadFileName);
+		if(st.matches("resume")) 
+		{return uploadFileName;}
+		else 
+			
 		return "{\"file\": \"" + uploadFileName + "\"}";
+		
 	}
 	
 	

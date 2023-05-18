@@ -25,19 +25,6 @@ section {
 	href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
 	rel="stylesheet">
 
-<!-- Vendor CSS Files -->
-<!-- <link href="adminAssets/vendor/bootstrap/css/bootstrap.min.css"
-	rel="stylesheet">
-<link href="adminAssets/vendor/bootstrap-icons/bootstrap-icons.css"
-	rel="stylesheet">
-<link href="adminAssets/vendor/boxicons/css/boxicons.min.css"
-	rel="stylesheet">
-<link href="adminAssets/vendor/quill/quill.snow.css" rel="stylesheet">
-<link href="adminAssets/vendor/quill/quill.bubble.css" rel="stylesheet">
-<link href="adminAssets/vendor/remixicon/remixicon.css" rel="stylesheet"> -->
-<!-- <link href="adminAssets/vendor/simple-datatables/style.css"
-	rel="stylesheet"> -->
-
 <!-- Template Main CSS File -->
 <link href="adminAssets/css/style.css" rel="stylesheet">
 <meta charset="UTF-8">
@@ -46,70 +33,79 @@ section {
 .gray {
 	color: #76979e;
 }
+
+.circleImg {
+	border-radius: 50%;
+	width: 120px;
+	height: 120px;
+}
+
+.pointer {
+	cursor : pointer;
+}
 </style>
 </head>
 <body id="body">
 	<div class="container d-flex justify-content-center"
 		layout:fragment="content">
 
+		<div class="col-lg-9 text-center">
+		<div class="" >
+		<img onclick="openImg()" src="self/profile.JPG" onerror="this.src='self/profile.JPG'" id="myImg" class="circleImg mb-4 pointer">
+		<h3>test님, 환영합니다</h3>
+		</div>
+		<input type="file" id="imgFileUploader" onchange="readURL(this)" style="display:block;">			
+			<div class="card">
+				<div class="card-body text-center" style="padding: 30px">
+					<div class="">
+						<h3>계정관리</h3>
+						<h5 class="text-muted mb-5">서비스에서 사용하는 내 계정 정보를 관리할 수 있습니다.</h5>
+						<div></div>
+						<div class="row d-flex justify-content-center">
+							<div class="col-lg-4">아이디</div>
 
+							<div class="col-lg-4">[[${member.id}]]</div>
+							<div class="col-lg-2"></div>
+						</div>
+						<hr style="color: #e3e5e5">
+						<div class="row d-flex justify-content-center"
+							data-bs-toggle="modal" data-bs-target="#updatePw">
+							<div class="col-lg-4">비밀번호</div>
 
-
-		<div class="col-lg-9">
-			<div class="">
-				<div class="card">
-					<div class="card-body text-center" style="padding: 30px">
-						<div class="">
-							<h3>계정관리</h3>
-							<h5 class="text-muted mb-5">서비스에서 사용하는 내 계정 정보를 관리할 수 있습니다.</h5>
-							<div></div>
-							<div class="row d-flex justify-content-center">
-								<div class="col-lg-4">아이디</div>
-
-								<div class="col-lg-4">[[${member.id}]]</div>
-								<div class="col-lg-2"></div>
+							<div class="col-lg-4 gray">*********</div>
+							<div class="col-lg-2">
+								<i class="bi bi-chevron-compact-right"></i>
 							</div>
-							<hr style="color: #e3e5e5">
-							<div class="row d-flex justify-content-center"
-								data-bs-toggle="modal" data-bs-target="#updatePw">
-								<div class="col-lg-4">비밀번호</div>
+						</div>
+						<hr style="color: #e3e5e5">
+						<div class="row d-flex justify-content-center"
+							data-bs-toggle="modal" data-bs-target="#updatePh">
+							<div class="col-lg-4">전화번호</div>
 
-								<div class="col-lg-4 gray">*********</div>
-								<div class="col-lg-2">
-									<i class="bi bi-chevron-compact-right"></i>
-								</div>
+							<div class="col-lg-4 gray">[[${member.ph}]]</div>
+							<div class="col-lg-2">
+								<i class="bi bi-chevron-compact-right"></i>
 							</div>
-							<hr style="color: #e3e5e5">
-							<div class="row d-flex justify-content-center"
-								data-bs-toggle="modal" data-bs-target="#updatePh">
-								<div class="col-lg-4">전화번호</div>
+						</div>
+						<hr style="color: #e3e5e5">
+						<div class="row d-flex justify-content-center"
+							data-bs-toggle="modal" data-bs-target="#updateEmail"
+							onclick="updateEmail()">
+							<div class="col-lg-4 ">주소</div>
 
-								<div class="col-lg-4 gray">[[${member.ph}]]</div>
-								<div class="col-lg-2">
-									<i class="bi bi-chevron-compact-right"></i>
-								</div>
+							<div class="col-lg-4 gray">[[${member.addr}]]</div>
+							<div class="col-lg-2">
+								<i class="bi bi-chevron-compact-right"></i>
 							</div>
-							<hr style="color: #e3e5e5">
-							<div class="row d-flex justify-content-center"
-								data-bs-toggle="modal" data-bs-target="#updateEmail"
-								onclick="updateEmail()">
-								<div class="col-lg-4 ">주소</div>
+						</div>
+						<hr style="color: #e3e5e5">
+						<div class="row d-flex justify-content-center mb-5"
+							onclick="location.href='/withdraw'">
+							<div class="col-lg-4 ">회원탈퇴</div>
 
-								<div class="col-lg-4 gray">[[${member.addr}]]</div>
-								<div class="col-lg-2">
-									<i class="bi bi-chevron-compact-right"></i>
-								</div>
-							</div>
-							<hr style="color: #e3e5e5">
-							<div class="row d-flex justify-content-center mb-5"
-								data-bs-toggle="modal" data-bs-target="#withdrawModal"
-								onclick="">
-								<div class="col-lg-4 ">회원탈퇴</div>
-
-								<div class="col-lg-4 gray"></div>
-								<div class="col-lg-2">
-									<i class="bi bi-chevron-compact-right"></i>
-								</div>
+							<div class="col-lg-4 gray"></div>
+							<div class="col-lg-2">
+								<i class="bi bi-chevron-compact-right"></i>
 							</div>
 						</div>
 					</div>
@@ -359,12 +355,13 @@ section {
 				</div>
 			</div>
 		</div>
+
 		<script>
 			//비밀번호 변경
-			function updatePw(){
-				if(pwNullCheck()){
+			function updatePw() {
+				if (pwNullCheck()) {
 					let id = "[[${member.id}]]";
-					let pw =  $('[name="newPw"]').val();
+					let pw = $('[name="newPw"]').val();
 					$.ajax({
 						url : "/updatePw",
 						method : "POST",
@@ -374,37 +371,43 @@ section {
 						}),
 						contentType : "application/json",//보내는타입
 						success : function(res) {
-							console.log(res);
 							$('#closePwModal').click();
-							
+							Swal.fire({
+								icon : 'success',
+								title : '비밀번호가 변경되었습니다.'
+							});
+
 						},
 						error : function(res) {
 							console.log(res);
 						},
-					});		
-				}else alert("빈칸체크");
+					});
+				} else
+					alert("빈칸체크");
 			}
 			//비밀번호 빈칸체크
-			function pwNullCheck(){
-				let inputs = document.querySelector('#updatePw').querySelectorAll('input')
+			function pwNullCheck() {
+				let inputs = document.querySelector('#updatePw')
+						.querySelectorAll('input')
 				let nullCheck = 0;
 				let warnCheck = document.querySelectorAll('.pwWarn')
-				for(let i=0;i<inputs.length;i++){
-					if(inputs[i].value == ''){
+				for (let i = 0; i < inputs.length; i++) {
+					if (inputs[i].value == '') {
 						nullCheck += 1;
 					}
 				}
-				for(let j=0; j<warnCheck.length;j++){
-					if(warnCheck[j].style.display == 'block'){
+				for (let j = 0; j < warnCheck.length; j++) {
+					if (warnCheck[j].style.display == 'block') {
 						nullCheck += 1;
-					}	
+					}
 				}
-				
-				if(nullCheck > 0){
+
+				if (nullCheck > 0) {
 					return false
-				}else return true;
+				} else
+					return true;
 			}
-			
+
 			//현재비밀번호 일치확인
 			function alwaysNone() {
 				let pw = $('[name=pw]').val()
@@ -413,7 +416,7 @@ section {
 				incPw.style.display = "none";
 				incNewPw.style.display = "none";
 			}
-			
+
 			function checkPw() {
 				let pw = $('[name=pw]').val()
 				$.ajax({
@@ -458,8 +461,55 @@ section {
 
 			function closePwModal() {
 				closeModal();
-				alwaysNone();	
+				alwaysNone();
 			}
+			
+		// 프로필 이미지 --------------------------------------------------------------------
+		
+			//프로필 이미지클릭
+			function openImg(){
+				$('#imgFileUploader').click();		
+			}
+			
+			// 프로필변환 이미지 미리보기 , 이미지파일이 변경되면 실행 됨 // 출처: 박선아 selfJobProfile.html
+			function readURL(input) {
+			  if (input.files && input.files[0]) {
+			    var reader = new FileReader();
+			    reader.onload = function(e) {
+			    	console.log(e);
+			      document.getElementById('myImg').src = e.target.result;
+			    };
+			    reader.readAsDataURL(input.files[0]);
+			  } else {
+			    document.getElementById('myImg').src = "";
+			  }
+			  
+			  //이미지 바뀜과 동시에 이미지 저장
+			  myImgReg();
+			}
+			
+			// 프로필 이미지 등록함수 c:moaImg 에 저장
+			function myImgReg(){
+				let formData = new FormData();
+				formData.append("profileImage", imgFileUploader.files[0]);
+				
+				$.ajax({
+					url: 'uploadProfileImg',
+					type: 'post',
+					data: formData,
+					async: true, //비동기 여부
+			        enctype: "multipart/form-data", //form data 설정
+			        processData: false, //프로세스 데이터 설정 : false 값을 해야 form data로 인식함
+			        contentType: false, //헤더의 Content-Type을 설정 : false 값을 해야 form data로 인식함
+					success: function (result) {
+						console.log(result)
+					},
+			 		error: function (reject) {	   
+			    		console.log(reject);
+					}
+				});
+
+			} 
 		</script>
 	</div>
 </body>

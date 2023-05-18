@@ -366,14 +366,15 @@
 			 ph=#{ph},
 			 ph_cl=#{phCl},
 			 addr=#{addr},
-			 post=#{post} 
+			 post=#{post}
 		where id = #{id}
 		</update>
 		
 	<insert id="insertResume" parameterType="ResumeVO">
 		insert into resume (resume_no, 
 							id, 
-							ttl, 
+							ttl,
+							img_no, 
 							carr_no,
 							edu_no,
 							licn_no,
@@ -385,6 +386,7 @@
 		values(#{resumeNo},
 			   #{id},
 			   #{ttl},
+			   #{imgNo},
 			   #{carrNo},
 			   #{eduNo},
 			   #{licnNo},
@@ -394,6 +396,19 @@
 			   #{skillNo},
 			   to_char(sysdate,'yyyy-MM-dd'))
 	</insert>
+
+<!-- 회원탈퇴 -->
+	<delete id="withdraw" parameterType="String">
+		BEGIN
+			DELETE
+			  FROM member
+			 WHERE id = #{id};
+			 
+			DELETE
+			  FROM co
+			 WHERE id = #{id}; 
+		END;	 
+	</delete>	
  	 
 
 </mapper>

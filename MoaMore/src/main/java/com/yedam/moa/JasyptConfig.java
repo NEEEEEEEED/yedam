@@ -9,15 +9,24 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class JasyptConfig {
+	
+	@Value("${jasyptkey}")
+	String jasyptkey;
 
 	@Value("${jasyptkey}")
 	String jasyptkey;
 
+	@Value("${jasyptkey}")
+	String jasyptkey;
+	
 	@Bean(name = "jasyptStringEncryptor")
 	public StringEncryptor stringEncryptor() {
-		//String jasyptkey = System.getenv("jasyptkey");
-		System.out.println(jasyptkey);
-		String key = jasyptkey;
+
+//		String jasyptkey = System.getenv("jasyptkey");
+//		System.out.println(jasyptkey);
+		
+		final String key = jasyptkey;
+
 		PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
 		SimpleStringPBEConfig config = new SimpleStringPBEConfig();
 		config.setPassword(key); // 암호화할 때 사용하는 키

@@ -18,7 +18,7 @@ public class CommunityVO {
 	private String postType;
 	//신고
 	private String rprtCnt="0"; //신고건수
-	private String rprtSt; //처리결과
+	private String noneCnt="0"; //처리결과
 	private String dispoDt="-"; //처리일자
 	
 	private String no;

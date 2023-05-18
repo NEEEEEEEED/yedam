@@ -1,22 +1,11 @@
 <template>
   <div>
-    <DataTable :value="products">
-      <Column field="code" header="Code"></Column>
-      <Column field="name" header="Name"></Column>
-      <Column header="Image">
-        <template #body="slotProps">
-          <img
-            :src="
-              'https://primefaces.org/cdn/primevue/images/product/' +
-              slotProps.data.image
-            "
-            :alt="slotProps.data.name"
-            class="shadow-2 w-4rem"
-          />
-        </template>
-      </Column>
-      <Column field="category" header="Category"></Column>
-      <Column field="quantity" header="Quantity"></Column>
+    <DataTable :value="rprtList">
+      <Column field="notiwrNo" header="게시글번호"></Column>
+      <Column field="rprter" header="신고자"></Column>
+      <Column field="rprtResn" header="신고사유"></Column>
+      <Column field="rprtTm" header="신고날짜"></Column>
+      <Column field="rprtSt" header="처리상태"></Column>
       <Column style="width: 5rem">
         <template #body="slotProps">
           <Button
@@ -33,44 +22,30 @@
 </template>
 
 <script>
-import { ProductService } from "@/service/ProductService";
-import InfoDemo from "./InfoDemo.vue";
 import Button from "primevue/button";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
-
+import { reportList } from "@/service/ReportService.js";
 export default {
   inject: ["dialogRef"],
+  props: ["No"],
   components: {
     Button,
     DataTable,
     Column,
   },
   data() {
-    return {
-      products: null,
-    };
+    return { rprtList: [] };
   },
   mounted() {
-    ProductService.getProductsSmall().then(
-      (data) => (this.products = data.slice(0, 5))
-    );
+    console.log(this.$props.No);
+    reportList
+      .getReportData(this.$props.No)
+      .then((data) => (this.rprtList = data));
   },
   methods: {
     selectProduct(data) {
       this.dialogRef.close(data);
-    },
-    showInfo() {
-      this.$dialog.open(InfoDemo, {
-        props: {
-          header: "Information",
-          modal: true,
-          dismissableMask: true,
-        },
-        data: {
-          totalProducts: this.products ? this.products.length : 0,
-        },
-      });
     },
   },
 };
