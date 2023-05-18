@@ -14,15 +14,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.yedam.moa.comm.service.Impl.CommServiceImpl;
+import com.yedam.moa.comm.service.CommService;
 import com.yedam.moa.community.CommunityVO;
 import com.yedam.moa.community.IntrvVO;
 import com.yedam.moa.community.PrjtVO;
+import com.yedam.moa.community.ReplyVO;
 import com.yedam.moa.community.StudyVO;
-import com.yedam.moa.community.service.Impl.CommunityServiceImpl;
+import com.yedam.moa.community.service.CommunityService;
+
+
+/* 박선아 2023-05-17 커뮤니티  CommunityServiceImpl을 CommunityService로 변경 */
 
 @Controller
 public class CommunityController {
@@ -31,16 +36,16 @@ public class CommunityController {
 	String uploadPath;
 	
 	@Autowired 
-	CommunityServiceImpl commuServiceImpl; // 커뮤니티
+	CommunityService commuService; // 커뮤니티
 	
 	@Autowired
-	CommServiceImpl commServiceImpl;	// 공통코드
+	CommService commonService;	// 공통코드
 	
 	
 	// 취업 Q&A 게시글 목록 페이지
 	@GetMapping("/jobQnA") 
 	public String jobQnaList(Model model) { 
-		model.addAttribute("jobQnaList", commuServiceImpl.jobQnaList());
+		model.addAttribute("jobQnaList", commuService.jobQnaList());
 		return "community/jobQnA"; 
 	}
 	
@@ -48,7 +53,7 @@ public class CommunityController {
 	@GetMapping("/jobQnAWrite")
 	public String jobQnAWrite(Model model, Principal pr) {
 		// 카테고리, 직무, 경력, 평가, 난이도, 합격여부, 면접유형, 면접인원, 진행방식, 진행기간, 연락방법, 스터디 구분
-		model.addAttribute("commList", commServiceImpl.getCodes("f", "N", "O", "P", "Q", "T", "R","S","j","g", "i", "k"));  
+		model.addAttribute("commList", commonService.getCodes("f", "N", "O", "P", "Q", "T", "R","S","j","g", "i", "k"));  
 		model.addAttribute("logId",pr.getName());
 		return "community/communityWrite";
 	}
@@ -87,7 +92,7 @@ public class CommunityController {
 	public String jobQnaInsert(CommunityVO communityVO) {
 		int r = 0;
 		
-		r = commuServiceImpl.jobQnaInsert(communityVO);
+		r = commuService.jobQnaInsert(communityVO);
 		
 		if(r > 0) {
 			return "{\"result\": \"Success\"}";
@@ -100,14 +105,14 @@ public class CommunityController {
 	// 취업 Q&A 상세페이지
 	@GetMapping("/jobQnaDetail")
 	public String jobQnaDetail(Model model, String qaNotiwrNo) {
-		model.addAttribute("jobQnaDetail", commuServiceImpl.jobQnaDetail(qaNotiwrNo));
-		return "community/jobQnADetail";
+		model.addAttribute("jobQnaDetail", commuService.jobQnaDetail(qaNotiwrNo));
+		return "community/jobQnADetailVue";
 	}
 	
 	// 취업 Q&A 수정 페이지
 	@GetMapping("/jobQnaMod")
 	public String jobQnaDetailMod(Model model,String qaNotiwrNo) {
-		model.addAttribute("jobQnaDetail", commuServiceImpl.jobQnaDetail(qaNotiwrNo));
+		model.addAttribute("jobQnaDetail", commuService.jobQnaDetail(qaNotiwrNo));
 		return "community/jobQnADetailMod";
 	}
 	
@@ -119,7 +124,7 @@ public class CommunityController {
 		Map<String, Object> result = new HashMap<>();
 		
 		int r = 0;
-		r = commuServiceImpl.jobQnaModFn(communityVO);
+		r = commuService.jobQnaModFn(communityVO);
 		
 		if(r > 0) { // 수정 성공시
 			result.put("result", "Success");
@@ -138,7 +143,7 @@ public class CommunityController {
 		Map<String, Object> result = new HashMap<>();
 		
 		int r = 0;
-		r = commuServiceImpl.jobQnaDelete(qaNotiwrNo);
+		r = commuService.jobQnaDelete(qaNotiwrNo);
 		
 		if(r > 0) { // 삭제 성공시
 			result.put("result", "Success");
@@ -149,10 +154,36 @@ public class CommunityController {
 		}
 	}
 	
+	// 취업 Q&A 댓글 등록
+	@PostMapping("/qnaReplyAdd")
+	@ResponseBody
+	public Map<String, Object> qnaReplyAdd(ReplyVO replyVO){
+		Map<String, Object> result = new HashMap<>();
+		
+		int r = 0;
+		r = commuService.qnaReplyAdd(replyVO);
+		
+		if(r > 0) { // 삭제 성공시
+			result.put("result", "Success");
+			return result;
+		}else {
+			result.put("result", "Fail");
+			return result;
+		}
+	}
+	
+	// 취업 Q&A 댓글 목록(모댓글) 리스트
+	@PostMapping("/qnaReplyList")
+	@ResponseBody
+	public List<ReplyVO> qnaReplyList(@RequestBody ReplyVO replyVO){
+		System.out.println("qaNotiwrNo : " + replyVO);
+		return commuService.qnaReplyList(replyVO);
+	}
+	
 	// 면접후기 리스트
 	@GetMapping("/jobInterview")
 	public String jobInterview(Model model) {
-		model.addAttribute("jobInterviewList", commuServiceImpl.jobInterviewList());
+		model.addAttribute("jobInterviewList", commuService.jobInterviewList());
 		return "community/jobInterviewList";
 	}
 	
@@ -181,7 +212,7 @@ public class CommunityController {
 		
 		int r = 0;
 		
-		r = commuServiceImpl.jobInterviewInsert(intrvVO); // 면접후기 등록
+		r = commuService.jobInterviewInsert(intrvVO); // 면접후기 등록
 		
 		if(r > 0) { // 등록 성공시
 			result.put("result", "Success");
@@ -202,13 +233,13 @@ public class CommunityController {
 	@GetMapping("/projectBoards")
 	@ResponseBody
 	public List<PrjtVO> projectBoards(){
-		return commuServiceImpl.projectList();
+		return commuService.projectList();
 	}
 	
 	// 프로젝트 모집 상세페이지
 	@GetMapping("/projectDetail")
 	public String projectDetail(Model model, String prjtNo) {
-		model.addAttribute("projectInfo", commuServiceImpl.projectDetail(prjtNo));
+		model.addAttribute("projectInfo", commuService.projectDetail(prjtNo));
 		return "community/projectDetailVue";
 	}
 	
@@ -221,7 +252,7 @@ public class CommunityController {
 		Map<String, Object> result = new HashMap<>();
 		
 		int r = 0;
-		r = commuServiceImpl.projectInsert(prjtVO);
+		r = commuService.projectInsert(prjtVO);
 		
 		if(r > 0) { // 등록 성공시
 			result.put("result", "Success");
@@ -238,8 +269,8 @@ public class CommunityController {
 	public String projectMod (Model model, Principal pr, String prjtNo) {
 		model.addAttribute("logId",pr.getName());
 		// 직무, 진행방식, 진행기간, 연락방법, 모집상태
-		model.addAttribute("commList", commServiceImpl.getCodes("N","j","g","i","h"));
-		model.addAttribute("projectInfo", commuServiceImpl.projectDetail(prjtNo));
+		model.addAttribute("commList", commonService.getCodes("N","j","g","i","h"));
+		model.addAttribute("projectInfo", commuService.projectDetail(prjtNo));
 		return "community/projectDetailMod";
 	}
 	
@@ -251,7 +282,7 @@ public class CommunityController {
 		Map<String, Object> result = new HashMap<>();
 		
 		int r = 0;
-		r = commuServiceImpl.projectModFn(prjtVO);
+		r = commuService.projectModFn(prjtVO);
 		
 		if(r > 0) { // 수정 성공시
 			result.put("result", "Success");
@@ -271,7 +302,7 @@ public class CommunityController {
 		Map<String, Object> result = new HashMap<>();
 		
 		int r = 0;
-		r = commuServiceImpl.projectDelFn(prjtNo);
+		r = commuService.projectDelFn(prjtNo);
 		
 		if(r > 0) { // 삭제 성공시
 			result.put("result", "Success");
@@ -291,7 +322,7 @@ public class CommunityController {
 		Map<String, Object> result = new HashMap<>();
 		
 		int r = 0;
-		r = commuServiceImpl.studyInsert(studyVO);
+		r = commuService.studyInsert(studyVO);
 		
 		if(r > 0) { // 등록 성공시
 			result.put("result", "Success");
@@ -312,14 +343,14 @@ public class CommunityController {
 	@GetMapping("/studyBoards")
 	@ResponseBody
 	public List<StudyVO> studyBoards(){
-		return commuServiceImpl.studyList();
+		return commuService.studyList();
 	}
 	
 	
 	// 스터디 모집 상세페이지
 	@GetMapping("/studyDetail")
 	public String studyDetail(Model model, String studyNo) {
-		model.addAttribute("studyDetailInfo", commuServiceImpl.studyDetail(studyNo));
+		model.addAttribute("studyDetailInfo", commuService.studyDetail(studyNo));
 		return "community/studyDetailVue";
 	}
 	
@@ -329,8 +360,8 @@ public class CommunityController {
 	public String studyMod (Model model, Principal pr, String studyNo) {
 		model.addAttribute("logId",pr.getName());
 		// 스터디 구분 , 진행방식, 진행기간, 연락방법, 모집상태
-		model.addAttribute("commList", commServiceImpl.getCodes("k", "j", "g", "i", "h"));
-		model.addAttribute("studyDetailInfo", commuServiceImpl.studyDetail(studyNo));
+		model.addAttribute("commList", commonService.getCodes("k", "j", "g", "i", "h"));
+		model.addAttribute("studyDetailInfo", commuService.studyDetail(studyNo));
 		return "community/studyDetailMod";
 	}
 	
@@ -342,7 +373,7 @@ public class CommunityController {
 		Map<String, Object> result = new HashMap<>();
 		
 		int r = 0;
-		r = commuServiceImpl.studyModFn(studyVO);
+		r = commuService.studyModFn(studyVO);
 		
 		if(r > 0) { // 수정 성공시
 			result.put("result", "Success");
@@ -361,7 +392,7 @@ public class CommunityController {
 		Map<String, Object> result = new HashMap<>();
 		
 		int r = 0;
-		r = commuServiceImpl.studyDelFn(studyNo);
+		r = commuService.studyDelFn(studyNo);
 		
 		if(r > 0) { // 삭제 성공시
 			result.put("result", "Success");
@@ -372,6 +403,8 @@ public class CommunityController {
 		}
 		
 	}
+	
+	
 	
 
 	

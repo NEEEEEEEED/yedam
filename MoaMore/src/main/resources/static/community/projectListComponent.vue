@@ -59,7 +59,7 @@
         },
       projectDetail(prjtNo){
         location.href = "/projectDetail?prjtNo=" + prjtNo;
-        }
+      }
     }
   }
 </script>

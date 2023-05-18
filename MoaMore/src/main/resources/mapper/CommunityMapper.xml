@@ -64,6 +64,36 @@
 		 WHERE QA_NOTIWR_NO = #{qaNotiwrNo}
 	</update>
 	
+	<!-- 취업 Q&A 댓글 등록 -->
+	<insert id="qnaReplyAdd" parameterType="StudyVO">
+		<selectKey keyProperty="rplyNo" resultType="String" order="BEFORE">
+		 	SELECT 'EQR'|| EMPL_RPLY_SEQ.NEXTVAL as rplyNo
+			FROM DUAL
+		</selectKey>
+		
+		INSERT INTO EMPL_RPLY(  RPLY_NO
+							  , QA_NOTIWR_NO
+							  , ID
+							  , RPLY_CNTN
+							  , RPLY_GROUP )
+			 VALUES (  #{rplyNo}
+			 		 , #{qaNotiwrNo}
+			 		 , #{id}
+			 		 , #{rplyCntn}
+			 		 , #{rplyNo}
+			 		)
+	</insert>
+	
+	<!-- 취업 Q&A 모댓글 리스트 출력 -->
+	<select id="qnaReplyList" resultType="ReplyVO">
+		SELECT RPLY_NO, QA_NOTIWR_NO, ID, RPLY_CNTN, REG_DT, RPLY_DEPTH, RPLY_GROUP, RPLY_YN 
+		  FROM EMPL_RPLY
+		 WHERE QA_NOTIWR_NO = #{qaNotiwrNo} 
+		   AND RPLY_DEPTH = #{rplyDepth}
+		 ORDER BY REG_DT DESC
+	</select>
+	
+	
 	<!-- 면접 후기 등록 -->
 	<insert id="jobInterviewInsert" parameterType="IntrvVO">
 		<selectKey keyProperty="intrvNo" resultType="String" order="BEFORE">

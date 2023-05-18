@@ -21,22 +21,24 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.yedam.moa.co.service.CoService;
 import com.yedam.moa.co.service.CoVO;
-import com.yedam.moa.comm.service.Impl.CommServiceImpl;
+import com.yedam.moa.comm.service.CommService;
 import com.yedam.moa.hire.HireVO;
 import com.yedam.moa.self.SelfVO;
-import com.yedam.moa.self.service.Impl.SelfServiceImpl;
-/*작성자 작성일자 컨트롤 내용*/
+import com.yedam.moa.self.service.SelfService;
+
+/* 박선아 2023-05-17 셀프구직 셀프구직 SelfServiceImpl을 service로 변경 */
+
 @Controller
 public class SelfController {
 
 	@Autowired 
-	SelfServiceImpl selfServiceImpl; 
+	SelfService selfService; // 셀프구직
 	
 	@Autowired
-	CommServiceImpl commServiceImpl;
+	CommService commonService; // 공통코드
 	
 	@Autowired
-	CoService coService;
+	CoService coService;	// 기업
 	
 	@Value("${site.upload}")
 	String uploadPath;
@@ -48,7 +50,7 @@ public class SelfController {
 	@GetMapping("/selfJobList")
 	public String selfJobList(Model model, Principal principal) {
 		// 공통코드 리스트
-		model.addAttribute("commList", commServiceImpl.getCodes("N","Y","X","Z")); // 직무, 경력, 지역, 기술 리스트
+		model.addAttribute("commList", commonService.getCodes("N","Y","X","Z")); // 직무, 경력, 지역, 기술 리스트
 		
 		// 기업 모달창 오픈시 필요한 구인공고 리스트
 		HireVO hvo = new HireVO();
@@ -68,10 +70,10 @@ public class SelfController {
 		int pageNum = Integer.parseInt(selfVO.getCurrentPage());
 		selfVO.setPageNum(pageNum); // 현재페이지
 		
-		map.put("selfJobList", selfServiceImpl.selfJobList(selfVO)); // 셀프구직 목록 리스트
-		map.put("selfJobInterest", selfServiceImpl.selfJobInterestList(selfVO.getId())); // 관심 리스트
-		map.put("selfJobOffered", selfServiceImpl.selfJobOfferedList(selfVO.getId())); // 제안완료 리스트
-		map.put("totalListNum", selfServiceImpl.totalListNum(selfVO));
+		map.put("selfJobList", selfService.selfJobList(selfVO)); // 셀프구직 목록 리스트
+		map.put("selfJobInterest", selfService.selfJobInterestList(selfVO.getId())); // 관심 리스트
+		map.put("selfJobOffered", selfService.selfJobOfferedList(selfVO.getId())); // 제안완료 리스트
+		map.put("totalListNum", selfService.totalListNum(selfVO));
 		return map;
 	}
 	
@@ -79,21 +81,21 @@ public class SelfController {
 	@PostMapping("/selfJobCheck")
 	@ResponseBody
 	public int checkResume(@RequestParam String id) {
-		return selfServiceImpl.checkResume(id);
+		return selfService.checkResume(id);
 	} 
 	
 	// 관심 등록
 	@PostMapping("/selfJobInterestAdd")
 	@ResponseBody
 	public int selfJobInterestAdd(SelfVO interestVO) {
-		return selfServiceImpl.selfJobInterestAdd(interestVO);
+		return selfService.selfJobInterestAdd(interestVO);
 	}
 	
 	// 관심등록 해제
 	@PostMapping("/selfJobInterestDelete")
 	@ResponseBody
 	public int selfJobInterestDelete(SelfVO interestVO) {
-		return selfServiceImpl.selfJobInterestDelete(interestVO);
+		return selfService.selfJobInterestDelete(interestVO);
 	}
 	
 	// 제안 영역-------------------------------------------------------------
@@ -116,8 +118,8 @@ public class SelfController {
 	@GetMapping("/selfJobProfile")
 	public String selfJobProfile(Model model) {
 		// 공통코드 리스트
-		model.addAttribute("commList", commServiceImpl.getCodes("N","Y","X","Z","c")); // 직무, 경력, 지역, 기술스택, 보기권한 리스트
-		model.addAttribute("selfJobKey", selfServiceImpl.selfJobKey()); // 셀프구직 게시글 기본키
+		model.addAttribute("commList", commonService.getCodes("N","Y","X","Z","c")); // 직무, 경력, 지역, 기술스택, 보기권한 리스트
+		model.addAttribute("selfJobKey", selfService.selfJobKey()); // 셀프구직 게시글 기본키
 		return "self/selfJobProfile";
 	}
 	
@@ -125,21 +127,21 @@ public class SelfController {
 	@PostMapping("/resumeHeaderList")
 	@ResponseBody
 	public List<SelfVO> resumeHeaderList(@RequestParam String id){
-		return selfServiceImpl.resumeHeaderList(id);
+		return selfService.resumeHeaderList(id);
 	}
 	
 	// 경력사항 리스트
 	@PostMapping("/careerList")
 	@ResponseBody
 	public List<SelfVO> careerList(@RequestParam String carrNo){
-		return selfServiceImpl.careerList(carrNo);
+		return selfService.careerList(carrNo);
 	}
 	
 	// 학력사항 리스트
 	@PostMapping("/schoolList")
 	@ResponseBody
 	public List<SelfVO> schoolList(@RequestParam String shcrNo){
-		return selfServiceImpl.schoolList(shcrNo);
+		return selfService.schoolList(shcrNo);
 	}
 	
 	// 셀프구직 등록
@@ -147,7 +149,7 @@ public class SelfController {
 	@ResponseBody
 	public String myProfileAdd(@RequestBody SelfVO myProfile){
 		
-		int r = selfServiceImpl.myProfileAdd(myProfile);
+		int r = selfService.myProfileAdd(myProfile);
 		
 		if(r > 0) {
 			return "{\"result\": \"Success\"}";
@@ -234,10 +236,10 @@ public class SelfController {
 			pofol.setPofolFile(fileNamePofolFile);
 			pofol.setPofolUuidFile(uploadFileNamePofolFile);
 
-			r = selfServiceImpl.selfJobPofolAdd(pofol);	
+			r = selfService.selfJobPofolAdd(pofol);	
 		}
 		if(r > 0) {
-			return selfServiceImpl.selfJobpofolList(jobSearchNo);
+			return selfService.selfJobpofolList(jobSearchNo);
 		}else {			
 			return null;
 		}
@@ -247,9 +249,9 @@ public class SelfController {
 	@PostMapping("/pofolDelete")
 	@ResponseBody
 	public List<SelfVO> pofolDelete(@RequestParam String fileNo, @RequestParam String jobSearchNo){
-		int r = selfServiceImpl.pofolDelete(fileNo);
+		int r = selfService.pofolDelete(fileNo);
 		if(r > 0) {
-			return selfServiceImpl.selfJobpofolList(jobSearchNo);
+			return selfService.selfJobpofolList(jobSearchNo);
 		}else {
 			return null;
 		}
@@ -258,18 +260,18 @@ public class SelfController {
 	// 셀프구직 상세페이지
 	@GetMapping("/selfJobDetail")
 	public String selfJobDetail(Model model, String jobSearchNo, String resumeNo) {
-		String carrNo = selfServiceImpl.resumeKeys(resumeNo).getCarrNo(); // 해당 이력서의 경력번호
-		String shcrNo = selfServiceImpl.resumeKeys(resumeNo).getShcrNo(); // 해당 이력서의 학력번호
+		String carrNo = selfService.resumeKeys(resumeNo).getCarrNo(); // 해당 이력서의 경력번호
+		String shcrNo = selfService.resumeKeys(resumeNo).getShcrNo(); // 해당 이력서의 학력번호
 		
 		//System.out.println("경력번호 : " + carrNo);
 		//System.out.println("학력번호 : " + shcrNo);
 		
-		model.addAttribute("selfJobInfo", selfServiceImpl.selfJobDetailInfo(jobSearchNo)); // 셀프구직 기본정보
-		model.addAttribute("pofolList", selfServiceImpl.selfJobDetailPofol(jobSearchNo)); // 셀프구직 포트폴리오
-		model.addAttribute("skillList", selfServiceImpl.selfJobDetailSkill(jobSearchNo)); // 셀프구직 스킬
+		model.addAttribute("selfJobInfo", selfService.selfJobDetailInfo(jobSearchNo)); // 셀프구직 기본정보
+		model.addAttribute("pofolList", selfService.selfJobDetailPofol(jobSearchNo)); // 셀프구직 포트폴리오
+		model.addAttribute("skillList", selfService.selfJobDetailSkill(jobSearchNo)); // 셀프구직 스킬
 		
-		model.addAttribute("carrList", selfServiceImpl.careerList(carrNo)); // 경력 리스트
-		model.addAttribute("schoolList", selfServiceImpl.schoolList(shcrNo)); // 학력 리스트
+		model.addAttribute("carrList", selfService.careerList(carrNo)); // 경력 리스트
+		model.addAttribute("schoolList", selfService.schoolList(shcrNo)); // 학력 리스트
 		
 		return "self/selfJobDetail";
 	}
@@ -277,18 +279,18 @@ public class SelfController {
 	// 셀프구직 수정 페이지
 	@GetMapping("/selfJobMod")
 	public String selfJobModify(Model model, String jobSearchNo, String resumeNo) {
-		String carrNo = selfServiceImpl.resumeKeys(resumeNo).getCarrNo(); // 해당 이력서의 경력번호
-		String shcrNo = selfServiceImpl.resumeKeys(resumeNo).getShcrNo(); // 해당 이력서의 학력번호
+		String carrNo = selfService.resumeKeys(resumeNo).getCarrNo(); // 해당 이력서의 경력번호
+		String shcrNo = selfService.resumeKeys(resumeNo).getShcrNo(); // 해당 이력서의 학력번호
 		
 	
-		model.addAttribute("commList", commServiceImpl.getCodes("N","Y","X","Z","c")); // 직무, 경력, 지역, 기술스택, 보기권한 리스트
-		model.addAttribute("selfJobInfo", selfServiceImpl.selfJobDetailInfo(jobSearchNo)); // 셀프구직 기본정보
-		//model.addAttribute("pofolList", selfServiceImpl.selfJobDetailPofol(jobSearchNo)); // 셀프구직 포트폴리오
-		model.addAttribute("carrList", selfServiceImpl.careerList(carrNo)); // 경력 리스트
-		model.addAttribute("schoolList", selfServiceImpl.schoolList(shcrNo)); // 학력 리스트
+		model.addAttribute("commList", commonService.getCodes("N","Y","X","Z","c")); // 직무, 경력, 지역, 기술스택, 보기권한 리스트
+		model.addAttribute("selfJobInfo", selfService.selfJobDetailInfo(jobSearchNo)); // 셀프구직 기본정보
+		//model.addAttribute("pofolList", selfService.selfJobDetailPofol(jobSearchNo)); // 셀프구직 포트폴리오
+		model.addAttribute("carrList", selfService.careerList(carrNo)); // 경력 리스트
+		model.addAttribute("schoolList", selfService.schoolList(shcrNo)); // 학력 리스트
 		
-		model.addAttribute("carrNo", selfServiceImpl.resumeKeys(resumeNo).getCarrNo()); // 경력 리스트
-		model.addAttribute("shcrNo", selfServiceImpl.resumeKeys(resumeNo).getShcrNo()); // 학력 리스트
+		model.addAttribute("carrNo", selfService.resumeKeys(resumeNo).getCarrNo()); // 경력 리스트
+		model.addAttribute("shcrNo", selfService.resumeKeys(resumeNo).getShcrNo()); // 학력 리스트
 		
 		
 		return "self/selfJobDetailMod";
@@ -298,14 +300,14 @@ public class SelfController {
 	@PostMapping("/selfJobpofolList")
 	@ResponseBody
 	public List<SelfVO> selfJobpofolList(String jobSearchNo){
-		return selfServiceImpl.selfJobpofolList(jobSearchNo);
+		return selfService.selfJobpofolList(jobSearchNo);
 	}
 	
 	// 셀프구직 수정기능
 	@PostMapping("/selfJobModifyFn")
 	@ResponseBody
 	public String selfJobModifyFn(@RequestBody SelfVO selfVO) {
-		int r = selfServiceImpl.myProfileMod(selfVO);
+		int r = selfService.myProfileMod(selfVO);
 		if(r > 0) {
 			return "{\"result\": \"Success\"}";
 		}else {
@@ -316,7 +318,7 @@ public class SelfController {
 	@PostMapping("/selfJobDelete")
 	@ResponseBody
 	public int selfJobDelete(String jobSearchNo) {
-		return selfServiceImpl.myProfileDel(jobSearchNo);
+		return selfService.myProfileDel(jobSearchNo);
 	}
 	
 	

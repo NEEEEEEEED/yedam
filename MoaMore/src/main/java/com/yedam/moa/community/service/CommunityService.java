@@ -5,6 +5,7 @@ import java.util.List;
 import com.yedam.moa.community.CommunityVO;
 import com.yedam.moa.community.IntrvVO;
 import com.yedam.moa.community.PrjtVO;
+import com.yedam.moa.community.ReplyVO;
 import com.yedam.moa.community.StudyVO;
 
 public interface CommunityService {
@@ -26,6 +27,12 @@ public interface CommunityService {
 	
 	// 취업 Q&A 삭제기능
 	public int jobQnaDelete(String qaNotiwrNo);
+	
+	// 취업 Q&A 댓글 등록
+	public int qnaReplyAdd(ReplyVO replyVO);
+	
+	// 취업 Q&A 댓글 목록(모댓글) 리스트
+	public List<ReplyVO> qnaReplyList(ReplyVO replyVO);
 	
 	// 면접후기 리스트 출력
 	List<IntrvVO> jobInterviewList();
