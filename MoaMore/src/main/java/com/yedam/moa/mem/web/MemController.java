@@ -112,6 +112,7 @@ public class MemController {
 		 return mem.insertResume(vo);
 	}
 
+
 //  회원탈퇴 기능
 	@PostMapping("/withdraw")
 	public String withdraw(Principal pr) {
@@ -130,4 +131,69 @@ public class MemController {
 	}
 	
 
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

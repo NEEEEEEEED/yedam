@@ -134,7 +134,7 @@
 					    							<div class="d-flex justify-content-between flex-column h-100">
 					    						
 					                				<div class="image">
-														<img class="w-75 w-md-100 rounded-2 " src="/moamoreImg/`+item.coImg+`" alt="" />
+														<img class="w-75 w-md-100 rounded-2 " src="/moamoreImg/`+item.coImg+`" alt="" style="width: 100px; height: 200px;" />
 														<i class="bi bi-bookmark-heart-fill fs-5 btn1 text-danger" ></i>
 													</div>`;
 		                	} else{
@@ -142,7 +142,7 @@
 					    							<div class="d-flex justify-content-between flex-column h-100">
 					                				
 					    							<div class="image">
-														<img class="w-75 w-md-100 rounded-2 " src="/moamoreImg/`+item.coImg+`" alt="" />
+														<img class="w-75 w-md-100 rounded-2 " src="/moamoreImg/`+item.coImg+`" alt="" style="width: 100px; height: 200px;" />
 														<i class="bi bi-bookmark-heart-fill fs-5 btn1" ></i>
 													</div>`;
 		                	}
@@ -158,16 +158,15 @@
 												<p class="mb-0" >`+item.wksite+`</p>
 												
 												<div class="d-flex align-items-center justify-content-center justify-content-md-start gap-3">
-													<img class="img-fluid" src="assets/img/blog/profile1.png" alt="" />
 														`;
 				    		if(item.followYn != null){	
-				    			str3 = `<span class="mb-0 text-danger" >`+item.coNm+`</span>
+				    			str3 = `<h4 class="mb-0 text-danger" >`+item.coNm+`</h4>
 												</div>
 											</div>
 										</a>
 						    		</div>`;
 				    		}else {
-				    			str3 = `<span class="mb-0 text-gray" >`+item.coNm+`</span>
+				    			str3 = `<h4 class="mb-0 text-gray" >`+item.coNm+`</h4>
 											</div>
 										</div>
 									</a>
