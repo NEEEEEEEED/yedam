@@ -13,6 +13,8 @@ public class JasyptConfig {
 	@Value("${jasyptkey}")
 	String jasyptkey;
 
+	@Value("${jasyptkey}")
+	String jasyptkey;
 
 	@Value("${jasyptkey}")
 	String jasyptkey;
@@ -22,11 +24,8 @@ public class JasyptConfig {
 
 //		String jasyptkey = System.getenv("jasyptkey");
 //		System.out.println(jasyptkey);
-	
-
 		
 		final String key = jasyptkey;
-
 
 		PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
 		SimpleStringPBEConfig config = new SimpleStringPBEConfig();

@@ -8,16 +8,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.nimbusds.jose.shaded.json.JSONObject;
 import com.yedam.moa.comm.service.CommService;
 import com.yedam.moa.community.CommunityVO;
 import com.yedam.moa.community.IntrvVO;
@@ -25,6 +32,7 @@ import com.yedam.moa.community.PrjtVO;
 import com.yedam.moa.community.ReplyVO;
 import com.yedam.moa.community.StudyVO;
 import com.yedam.moa.community.service.CommunityService;
+import com.yedam.moa.member.service.SessionUser;
 
 
 /* 박선아 2023-05-17 커뮤니티  CommunityServiceImpl을 CommunityService로 변경 */
@@ -157,10 +165,13 @@ public class CommunityController {
 	// 취업 Q&A 댓글 등록
 	@PostMapping("/qnaReplyAdd")
 	@ResponseBody
-	public Map<String, Object> qnaReplyAdd(ReplyVO replyVO){
+	public Map<String, Object> qnaReplyAdd(ReplyVO replyVO, Principal pr){
 		Map<String, Object> result = new HashMap<>();
 		
 		int r = 0;
+		
+		replyVO.setId(pr.getName());
+		
 		r = commuService.qnaReplyAdd(replyVO);
 		
 		if(r > 0) { // 삭제 성공시
@@ -179,6 +190,14 @@ public class CommunityController {
 		System.out.println("qaNotiwrNo : " + replyVO);
 		return commuService.qnaReplyList(replyVO);
 	}
+	
+
+	@GetMapping("/userId")
+	@ResponseBody
+	public String userId(Principal pr) {
+		return pr.getName();
+	}
+	
 	
 	// 면접후기 리스트
 	@GetMapping("/jobInterview")
