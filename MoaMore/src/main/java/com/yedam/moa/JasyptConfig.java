@@ -13,10 +13,12 @@ public class JasyptConfig {
 	@Value("${jasyptkey}")
 	String jasyptkey;
 
+
 	@Bean(name = "jasyptStringEncryptor")
 	public StringEncryptor stringEncryptor() {
 		
 		final String key = jasyptkey;
+
 		PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
 		SimpleStringPBEConfig config = new SimpleStringPBEConfig();
 		config.setPassword(key); // 암호화할 때 사용하는 키

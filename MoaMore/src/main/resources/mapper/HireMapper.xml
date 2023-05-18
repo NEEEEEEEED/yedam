@@ -24,7 +24,7 @@
               GROUP BY recruit_no) K
 		  ON R.RECRUIT_NO = K.RECRUIT_NO
 		
-		LEFT JOIN (SELECT ID_CO FROM FOLLOWING WHERE ID_MEM = 'user') F
+		LEFT JOIN (SELECT ID_CO FROM FOLLOWING WHERE ID_MEM = #{id}) F
           ON R.ID = F.ID_CO
 		
 		JOIN (SELECT DISTINCT RECRUIT_NO, CO_IMG FROM RECRUIT_IMAGES) I
@@ -95,7 +95,8 @@
                R.RECRUIT_NO,
               	 (SELECT S.RECRUIT_NO FROM RECRUIT_SCRAP S WHERE R.RECRUIT_NO = S.RECRUIT_NO AND ID = #{id}) AS scrapYn,
                  (SELECT F.ID_CO FROM FOLLOWING F WHERE R.ID = F.ID_CO AND F.ID_MEM = #{id}) AS followYn,
-               get_common(MA_BUSS)AS MA_BUSS,
+               get_common(JOB)AS JOB,
+               R.MA_BUSS,
                R.QUAL_COND,
                R.PREF_COND,
                R.WELF,
@@ -112,8 +113,8 @@
               GROUP BY recruit_no) K
 			ON R.RECRUIT_NO = K.RECRUIT_NO
 		JOIN (SELECT recruit_no , LISTAGG(RECRUIT_IMG, ',') WITHIN GROUP (ORDER BY RECRUIT_IMG_NO) as RECRUIT_IMG 
-			 	   FROM RECRUIT_IMAGES 
-			 	   GROUP BY recruit_no) I 
+		 	  FROM RECRUIT_IMAGES 
+		 	  GROUP BY recruit_no) I 
 		ON R.RECRUIT_NO = I.RECRUIT_NO
 		WHERE R.RECRUIT_NO = #{recruitNo}
 		<if test="scrapYn != null and scrapYn != ''">
@@ -142,6 +143,8 @@
 		JOIN CO C
 		ON C.ID = R.ID
 		JOIN RECRUIT_IMAGES I
+		ON R.RECRUIT_NO = I.RECRUIT_NO
+		JOIN (SELECT DISTINCT RECRUIT_NO, CO_IMG FROM RECRUIT_IMAGES) I
 		ON R.RECRUIT_NO = I.RECRUIT_NO
 		WHERE get_common(SKILL) = #{skill}
 		GROUP BY K.RECRUIT_NO, R.TTL, CARR, JOB, R.ACCP_DT, C.CO_NM, I.CO_IMG
@@ -231,4 +234,22 @@
 		FROM RECRUIT_IMAGES  
 		WHERE RECRUIT_NO = #{recruitNo}
 	</select>
+	
+	<!-- 공고 수정 기능 -->
+	<update id="hireModify" parameterType="HireVO">
+		UPDATE RECRUIT_ANUN SET RECRUIT_NO = #{recruitNo}, ID = #{id}, TTL = #{ttl}, SHCR = #{shcr}, CARR = #{carr}, MA_BUSS = #{maBuss}, QUAL_COND = #{qualCond}, PREF_COND = #{prefCond}, WELF = #{welf}, EXPR_DT = #{ecprDt}, WKSITE = #{wksite}, JOB = #{job}, CO_INTRO = #{coIntro}
+		WHERE RECRUIT_NO = #{recruitNo}
+	</update>
+	<!-- 공고 스킬 수정 -->
+	<update id="hireSkillModify" parameterType="HireVO">
+		UPDATE RECRUIT_SKILL SET SKILL_NO = #{skillNo}, RECRUIT_NO = #{recruitNo}, SKILL = #{skill}, ID= #{id}
+		WHERE SKILL_NO = #{skillNo}
+		AND RECRUIT_NO = #{recruitNo}
+	</update>
+	<!-- 공고 이미지 수정 -->
+	<update id="hireImgModify" parameterType="HireVO">
+		UPDATE RECRUIT_IMAGES SET RECRUIT_IMG_NO = #{recruitImgNo}, RECRUIT_NO = #{recruitNo}, RECRUIT_IMG = #{recruitImg}, CO_IMG = #{coImg}
+		WHERE RECRUIT_NO = #{recruitNo}
+		AND RECRUIT_IMG_NO = #{recruitImgNo}
+	</update>
 </mapper>
