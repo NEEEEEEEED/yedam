@@ -138,7 +138,6 @@ public class HireServiceImpl implements HireService{
 	// 공고 이미지 업로드
 	@Override
 	public int hireImgInsert(HireVO vo) {
-//		vo.setRecruitNo(hireMapper.recruitNo());
 		
 		int result= 0;
 		
@@ -163,6 +162,31 @@ public class HireServiceImpl implements HireService{
 	@Override
 	public String recruitNo() {
 		return hireMapper.recruitNo();
+	}
+	
+	// 공고 수정 기능
+	@Override
+	public int hireModify(HireVO vo) {
+		int result = hireMapper.hireModify(vo);
+		
+		if(result > 0) {
+			return 1;
+		}else {
+			return 0;
+		}
+		
+	}
+	
+	// 공고 이미지 수정
+	@Override
+	public int hireImgModify(HireVO vo) {
+		int result= 0;
+		
+		for(String istr : vo.getRecruitImgList()) {
+			vo.setRecruitImg(istr);
+			result += hireMapper.detailImges(vo);
+		}
+		return result;
 	}
 	
 	

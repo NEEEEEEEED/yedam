@@ -232,17 +232,77 @@ public class HireController {
 		HireVO hireVO = new HireVO();
 		hireVO.setRecruitNo(recruitNo);
 		hireVO.setId(pr.getName());
-		
-		
 
 		List<HireVO> hireInfo = hireService.hireInfo(hireVO);
-		
 		
 		model.addAttribute("list", com.getCodes("Z","X","N","Y","D"));
 		model.addAttribute("hireInfo", hireInfo);
 		
 		return "hire/hireMod";
 	}
-
-
+	
+	// 구인공고 수정 기능
+	@PostMapping("/hireModify")
+	@ResponseBody
+	public int hireModify(HireVO vo) {
+		return hireService.hireModify(vo);
+	}
+	
+	// 구인공고 이미지 수정
+	@PostMapping("/hireImgModify")
+	@ResponseBody
+		public List<HireVO> hireImgModify(@RequestParam("thumnailImg") MultipartFile uploadthumnailImg,
+				  							MultipartFile[] recrintImgDetail,
+				  							HireVO hireVO,
+				  							Principal pr) throws IllegalStateException, IOException {
+	
+	// 구인공고 썸네일 업로드
+	String fileNameThumnailImg= null; // 단건
+	String uploadFileNameThumnailImg = null;   // 다건
+	
+	
+	
+	int r = 0; // sql문 결과
+	// 동일 파일명 처리 UUID 사용
+	UUID uuid = UUID.randomUUID();
+	
+	if(uploadthumnailImg !=null && !uploadthumnailImg.isEmpty() && uploadthumnailImg.getSize()>0) {
+	// 썸네일 이미지
+	fileNameThumnailImg = uploadthumnailImg.getOriginalFilename(); // 원본 이미지 파일명
+	
+	fileNameThumnailImg = uuid.toString() + "_" + fileNameThumnailImg; // 이미지 UUID 적용한 파일명
+	uploadthumnailImg.transferTo(new File(uploadPath,fileNameThumnailImg)); // 이미지 파일
+	hireVO.setCoImg(fileNameThumnailImg);
+	}
+	
+	for (int i = 0; i < recrintImgDetail.length; i++) {
+	
+	if(recrintImgDetail[i] !=null && !recrintImgDetail[i].isEmpty() && recrintImgDetail[i].getSize()>0 ) { 
+	
+	// 썸네일 이미지
+	fileNameThumnailImg = recrintImgDetail[i].getOriginalFilename(); // 원본 이미지 파일명
+	
+	// 파일 UUID 적용한 파일명 
+	fileNameThumnailImg = uuid.toString() + "_" + fileNameThumnailImg; 
+	recrintImgDetail[i].transferTo(new File(uploadPath,fileNameThumnailImg)); // 이미지 파일
+	
+	hireVO.getRecruitImgList().add(fileNameThumnailImg); 
+	
+	
+	}
 }
+	//첨부파일명 VO에 지정
+			hireVO.setId(pr.getName());
+
+			//r =  hireServiceImpl.hireImgInsert(hireVO); // 이미지 업로드
+		
+		if(r > 0) {
+			return hireServiceImpl.hireImgInsertList(hireVO); // 이미지 업로드 후 미리보기 조회
+		}else {			
+			return null;
+		}
+	}
+}
+	
+	
+	
