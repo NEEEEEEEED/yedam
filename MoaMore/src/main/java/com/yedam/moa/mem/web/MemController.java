@@ -113,6 +113,25 @@ public class MemController {
 	}
 
 
+//  회원탈퇴 기능
+	@PostMapping("/withdraw")
+	public String withdraw(Principal pr) {
+		String id = pr.getName();
+		mem.withdraw(id);
+		
+		return "redirect:logout";
+	}
+	
+//  회원탈퇴 페이지
+	@GetMapping("/withdraw")
+	public String withdrawPage(Principal pr, Model model) {
+		model.addAttribute("id",pr.getName());
+		
+		return "mem/withdraw";
+	}
+	
+
+
 	
 	
 	

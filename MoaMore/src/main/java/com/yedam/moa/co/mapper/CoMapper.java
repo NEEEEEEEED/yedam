@@ -33,4 +33,6 @@ public interface CoMapper {
 	
 	//제안조회
 	public CoVO selectOffer(CoVO vo);
+
+	public int uploadProfileImg(CoVO vo);
 }

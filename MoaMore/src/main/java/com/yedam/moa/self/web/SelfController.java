@@ -107,7 +107,6 @@ public class SelfController {
 	@ResponseBody
 	public String offerSubmit(CoVO cvo, Principal principal) {
 		cvo.setId(principal.getName());
-		System.out.println("cvo=="+cvo);
 		coService.afterOffer(cvo);
 		return "success";
 	}

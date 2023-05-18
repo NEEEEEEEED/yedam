@@ -18,6 +18,7 @@ public class CoVO {
 	private String homePage; //홈페이지
 	private String bizno; //사업자등록번호
 	private String coNm; //기업명
+	private String profileImg; //프로필이미지 member
 	
 	//셀프구직 제안 양식
 	private String offerCd; //채용제안코드

@@ -1,6 +1,5 @@
 package com.yedam.moa.co.service.impl;
 
-import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +61,11 @@ public class CoServiceImpl implements CoService{
 	@Override
 	public CoVO selectOffer(CoVO vo) {
 		return mapper.selectOffer(vo);
+	}
+
+	@Override
+	public int uploadProfileImg(CoVO vo) {
+		return mapper.uploadProfileImg(vo);
 	}
 	
 	
