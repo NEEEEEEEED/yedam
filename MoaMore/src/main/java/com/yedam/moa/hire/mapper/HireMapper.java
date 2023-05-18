@@ -26,4 +26,7 @@ public interface HireMapper {
 	public int skillInsert(HireVO vo); // 공고 스킬 등록
 	public int detailImges(HireVO hireVO); // 공고 상세 이미지들 등록
 	public List<HireVO> detailImgesList(HireVO hireVO); // 공고 상세 이미지 조회
+	public int hireModify (HireVO vo); // 공고 수정 기능
+	public int hireSkillModify(HireVO vo); // 공고 스킬 수정
+	public int hireImgModify(HireVO vo); // 공고 이미지 수정
 }

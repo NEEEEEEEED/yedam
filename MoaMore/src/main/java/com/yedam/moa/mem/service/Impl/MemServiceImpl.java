@@ -250,4 +250,9 @@ public class MemServiceImpl implements MemService {
 		return rvo;
 		
 	}
+
+	@Override
+	public int withdraw(String id) {
+		return mem.withdraw(id);
+	}
 }
