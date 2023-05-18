@@ -19,4 +19,6 @@ public interface AdminService {
 
 	public List<MemVO> getSearchUser(UserSearchVO vo);
 
+	public List<ReportVO> getReportData(String notiwrNo);
+
 }

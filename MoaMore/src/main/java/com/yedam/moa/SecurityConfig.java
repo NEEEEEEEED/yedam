@@ -60,9 +60,9 @@ public class SecurityConfig {
 			if (roles.contains("ROLE_ADMIN")) {
 				response.sendRedirect("/admin");
 			} else if (roles.contains("ROLE_MEM")) {
-				response.sendRedirect("/main");
+				response.sendRedirect("/mem/mypage");
 			} else {
-				response.sendRedirect("/main");
+				response.sendRedirect("/coMypage");
 			}
 		};
 	}

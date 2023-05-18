@@ -49,9 +49,6 @@
           <div v-if="active === 0">
             <board-search-form1 />
           </div>
-          <!-- <div v-if="active === 1">
-            <board-search-form2 />
-          </div> -->
           <div v-if="active === 2">
             <board-search-form3 />
           </div>
@@ -178,25 +175,19 @@
                           icon="pi pi-search"
                           severity="danger"
                           aria-label="Cancel"
-                          @click="showProducts"
+                          @click="showProducts(rowData)"
                         />
                       </div>
                     </template>
                   </Column>
                   <Column field="id" header="작성자"></Column>
                   <Column field="regDt" sortable header="작성일자"></Column>
-                  <Column field="rprtCnt" sortable header="신고수"></Column>
-                  <Column field="rprtSt" sortable header="처리결과">
-                    <template #body="rowData">
-                      <select class="form-select" v-model="rowData.dispoCntn">
-                        <option value="G4">미처리</option>
-                        <option value="G3">수정처리</option>
-                        <option value="G2">삭제처리</option>
-                        <option value="G1">강제탈퇴</option>
-                      </select>
-                    </template>
-                  </Column>
-                  <Column field="dispoDt" sortable header="처리일자"></Column>
+                  <Column field="rprtCnt" sortable header="총신고수"></Column>
+                  <Column
+                    field="noneCnt"
+                    sortable
+                    header="미처리 신고수"
+                  ></Column>
                 </DataTable>
               </TabPanel>
               <!-- <TabPanel header="공고목록">
@@ -314,7 +305,6 @@ export default {
         cursor: "not-allowed",
       },
       boardList: [],
-      notiList: [],
       replList: [],
       boardCondi: {
         title: "",
@@ -327,11 +317,11 @@ export default {
         prcsEnd: "",
       },
       descriptionColumnStyle: {
-        width: "200px",
+        width: "400px",
         overflow: "hidden",
         "text-overflow": "ellipsis",
         "white-space": "nowrap",
-        "max-width": "200px",
+        "max-width": "400px",
       },
     };
   },
@@ -341,7 +331,7 @@ export default {
       //배열합치기 spread operator
       this.boardList = [
         ...data.commVO,
-        ...data.intrvVO,
+        //...data.intrvVO,
         ...data.prjtVO,
         ...data.studyVO,
       ];
@@ -367,7 +357,10 @@ export default {
       this.editableField = this.$refs[refName];
     },
     //모달창 시작
-    showProducts() {
+    showProducts(rowData) {
+      const selectedRow = [rowData];
+      const selectedNo = selectedRow[0].data.no;
+
       this.$dialog.open(ProductListDemo, {
         props: {
           header: "본문 내용",
@@ -379,6 +372,7 @@ export default {
             "640px": "90vw",
           },
           modal: true,
+          No: selectedNo,
         },
         templates: {
           footer: markRaw(FooterDemo),
@@ -416,19 +410,13 @@ export default {
         const top = (window.innerHeight - height) / 2;
         if (selectedNo.substr(0, 3) == "STD") {
           window.open(
-            "http://localhost:8000/adminStudyDetial?=" + selectedNo,
+            "http://localhost:8000/adminStudyDetial?studyNo=" + selectedNo,
             "popupWindow",
             `width=${width}, height=${height}, left=${left}, top=${top} location=no`
           );
         } else if (selectedNo.substr(0, 3) == "PRJ") {
           window.open(
-            "http://localhost:8000/adminProjectDetail?=" + selectedNo,
-            "popupWindow",
-            `width=${width}, height=${height}, left=${left}, top=${top} location=no`
-          );
-        } else if (selectedNo.substr(0, 3) == "ITV") {
-          window.open(
-            "http://localhost:8000/adminQnaDetail?=" + selectedNo,
+            "http://localhost:8000/adminProjectDetail?prjtNo=" + selectedNo,
             "popupWindow",
             `width=${width}, height=${height}, left=${left}, top=${top} location=no`
           );

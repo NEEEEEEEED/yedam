@@ -11,10 +11,13 @@ import org.springframework.context.annotation.Configuration;
 public class JasyptConfig {
 
 
+	@Value("${jasyptkey}")
+	String jasyptkey;
+	
 	@Bean(name = "jasyptStringEncryptor")
 	public StringEncryptor stringEncryptor() {
-		String jasyptkey = System.getenv("jasyptkey");
-		System.out.println(jasyptkey);
+//		String jasyptkey = System.getenv("jasyptkey");
+//		System.out.println(jasyptkey);
 		String key = jasyptkey;
 		PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
 		SimpleStringPBEConfig config = new SimpleStringPBEConfig();
