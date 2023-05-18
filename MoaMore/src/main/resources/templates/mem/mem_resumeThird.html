@@ -112,6 +112,15 @@
         </div>
         <!-- 			sidebar end -->
         <div class="col-md-9 col-lg-9">
+          <div class="col-md-12 col-lg-12">
+           <div class="col-md-3" style="text-align:center;">
+				<form id="profileImgForm" action="/myProfileAdd" method="post" encType="multipart/form-data" onsubmit="return false">
+					<img src="self/profile.JPG" id="preview" class="circleImg">
+					<input id="inputImg" type="file"  onchange="readURL(this);" style="display:none;"><br>
+					<button id="changeImg" type="button" class="btn btn-outline-success btn-sm mt-2">이미지등록</button>
+				</form>
+			</div>
+          <div class="col-md-9 col-lg-9">	
           <label for="ttl" style="width: 100%; font-size: larger">
             <h4>이력서 제목</h4>
             <input
@@ -122,6 +131,8 @@
               th:value="${resume.ttl}"
               placeholder="제목"
           /></label>
+          	</div>	
+          </div>
           <!-- 				main -->
           <div class="col-md-12 col-lg-12">
             <h4 class="mb-3">개인정보</h4>
