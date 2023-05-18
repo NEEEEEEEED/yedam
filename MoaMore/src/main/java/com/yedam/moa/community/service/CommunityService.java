@@ -34,6 +34,12 @@ public interface CommunityService {
 	// 취업 Q&A 댓글 목록(모댓글) 리스트
 	public List<ReplyVO> qnaReplyList(ReplyVO replyVO);
 	
+	// 취업 Q&A 댓글 수정 기능
+	public int qnaReplyMod(ReplyVO replyVO);
+	
+	// 취업 Q&A 댓글 삭제 기능
+	public int qnaReplyDelete(ReplyVO replyVO);
+	
 	// 면접후기 리스트 출력
 	List<IntrvVO> jobInterviewList();
 	
