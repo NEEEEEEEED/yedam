@@ -28,7 +28,7 @@ import Column from "primevue/column";
 import { reportList } from "@/service/ReportService.js";
 export default {
   inject: ["dialogRef"],
-  props: ["No"],
+  props: ["no"],
   components: {
     Button,
     DataTable,
@@ -38,9 +38,9 @@ export default {
     return { rprtList: [] };
   },
   mounted() {
-    console.log(this.$props.No);
+    console.log(this.dialogRef.data.no);
     reportList
-      .getReportData(this.$props.No)
+      .getReportData(this.dialogRef.data.no)
       .then((data) => (this.rprtList = data));
   },
   methods: {

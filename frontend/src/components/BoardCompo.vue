@@ -372,7 +372,9 @@ export default {
             "640px": "90vw",
           },
           modal: true,
-          No: selectedNo,
+        },
+        data: {
+          no: selectedNo,
         },
         templates: {
           footer: markRaw(FooterDemo),
