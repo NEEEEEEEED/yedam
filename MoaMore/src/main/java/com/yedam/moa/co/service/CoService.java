@@ -36,5 +36,8 @@ public interface CoService {
 	// 제안조회
 	public CoVO selectOffer(CoVO vo);
 	
+	//프로필 이미지이름 디비에넣기
+	public int uploadProfileImg(CoVO vo);
+	
 
 }

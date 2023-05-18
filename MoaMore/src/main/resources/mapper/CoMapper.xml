@@ -11,20 +11,22 @@
   	</select>
   	<!-- 기업정보 조회 -->
 	<select id="selectCo" resultType="CoVO">
-		SELECT id,
-			   rpstr,
-			   sale,
-			   co_fg,
-			   emp_ttl,
-			   fondt_dt,
-			   idst,
-			   addr,
-			   cptl,
-			   home_page,
-			   bizno,
-			   co_nm
-		FROM co
-		WHERE id = #{id}
+		SELECT c.id,
+			   c.rpstr,
+			   c.sale,
+			   c.co_fg,
+			   c.emp_ttl,
+			   c.fondt_dt,
+			   c.idst,
+			   c.addr,
+			   c.cptl,
+			   c.home_page,
+			   c.bizno,
+			   c.co_nm,
+			   m.profile_img
+		FROM co c JOIN member m
+		  ON c.id = m.id
+		WHERE c.id = #{id}
 	</select>
 	<!-- 기업정보 등록/수정 -->
 	<update id="saveCoInfo">
@@ -77,6 +79,13 @@
 		END;
 	</update>
 	
+	<!-- 프로필이미지이름 저장 -->
+	<update id="uploadProfileImg" parameterType="CoVO">
+		UPDATE member
+		   SET profile_img = #{profileImg}
+		 WHERE id = #{id} 
+		
+	</update>
 		
 	<!-- 구인공고목록 -->
 	<select id="selectRec" parameterType="HireVO" resultType="HireVO">

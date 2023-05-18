@@ -70,4 +70,7 @@ public interface MemMapper {
 	
 //	이력서 포폴 입력
 	public String insertPrtfl(PrtflVO vo);
+
+//  회원탈퇴
+	public int withdraw(String id);
 }

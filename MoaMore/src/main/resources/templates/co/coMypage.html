@@ -36,6 +36,16 @@ i {
 .center-input {
   padding-top : 13px;
 }
+
+.circleImg {
+  border-radius: 50%;
+  width : 120px;
+  height : 120px;
+}
+
+.pointer {
+	cursor : pointer;
+}
 </style>
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
@@ -48,15 +58,19 @@ i {
 			<div class="col-lg-3 text-center">
 				<div class="card">
 					<div class="card-body">
+						<div>
+						<img th:src="@{'moamoreImg/' + ${co.profileImg}}" onerror="this.src='self/profile.JPG'" id="myImg" class="circleImg mb-4 pointer"
+						onclick="updateImgPage()">
 						<h4 th:text="${co.coNm}"></h4>
 						<a id="insertInfo" type="button" class="btn btn-light"
 							href="coInfoPage">기업정보관리</a>
+							</div>
 						<hr />
 						<div  class="mb-0"><a>받은 관심</a><i class="bi bi-suit-heart-fill"></i><small
 							th:text="${followers}"></small></div><br /><p> <span class="mb-2"><a href="/coRecruit"  >나의
 							공고목록 </a></span><br /> <a href="/coProducts" class="">아이템 / 결제내역</a>
 						<hr />
-						
+						<a href="/withdraw">회원탈퇴</a>
 					</div>
 				</div>
 			</div>
@@ -245,6 +259,11 @@ i {
 
 
 		<script>
+		//이미지클릭 
+		function updateImgPage(){//기업정보등록페이지 이미지변경화면으로 이동
+			location.href="/coInfoPage?updateImg=t"	
+		}
+		
 			const tableMenu = document.querySelector('#tableMenu');
 			//상단메뉴클릭
 			function changeTable(no, t) {

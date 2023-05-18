@@ -112,67 +112,22 @@ public class MemController {
 		 return mem.insertResume(vo);
 	}
 
-//	포폴 업로드
-	@PostMapping("/resumePofol")
-	@ResponseBody
-	public List<PrtflVO> pofolUpload(
-//			@RequestParam("prtflNo") String prtflNo, 
-//									 @RequestParam("id") String id,
-									 @RequestParam("ttl") String ttl,
-									 @RequestParam("pofolImg") MultipartFile uploadPofolImg,
-									 @RequestParam("prtflFile") MultipartFile uploadPofolFile) throws IllegalStateException, IOException {
-//		System.out.println(prtflNo);
-//		System.out.println(id);
-		System.out.println(ttl);
-		System.out.println(uploadPofolImg);
-		System.out.println(uploadPofolFile);
-//		
-//		// 포트폴리오 이미지
-//		String fileNamePofolImg = null; // 원본파일명
-//		String uploadFileNamePofolImg = null;   // UUID적용한 파일명(중복 없는 파일명)
-//		
-//		// 포트폴리오 파일
-//		String fileNamePofolFile = null; // 원본파일명
-//		String uploadFileNamePofolFile = null;   // UUID적용한 파일명(중복 없는 파일명)
-//		
-//		int r = 0; // sql문 결과
-//		
-//		if(vo.getUploadPofolImg() !=null && !vo.getUploadPofolImg().isEmpty() && vo.getUploadPofolImg().getSize()>0
-//		&& vo.getUploadPofolFile() !=null && !vo.getUploadPofolFile().isEmpty() && vo.getUploadPofolFile().getSize()>0) {
-//			
-//			// 포트폴리오 이미지
-//			fileNamePofolImg = vo.getUploadPofolImg().getOriginalFilename(); // 원본 이미지 파일명
-//			
-//			// 포트폴리오 파일
-//			fileNamePofolFile = vo.getUploadPofolFile().getOriginalFilename(); // 원본 포트폴리오 파일명
-//			
-//			// 동일 파일명 처리 UUID 사용
-//			UUID uuid = UUID.randomUUID();
-//			uploadFileNamePofolImg = uuid.toString() + "_" + fileNamePofolImg; // 이미지 UUID 적용한 파일명
-//			uploadFileNamePofolFile = uuid.toString() + "_" + fileNamePofolFile; // 파일 UUID 적용한 파일명
-//			
-//			vo.getUploadPofolImg().transferTo(new File(uploadPath+'/'+uploadFileNamePofolImg)); // 이미지 파일
-//			vo.getUploadPofolFile().transferTo(new File(uploadPath+'/'+uploadFileNamePofolFile)); // 이미지 파일
-//			
-//			//첨부파일명 VO에 지정
-//			System.out.println("파일이름: " + fileNamePofolImg);
-//			System.out.println("파일이름: " + fileNamePofolFile);
-//			
-////			PrtflVO pofol = new PrtflVO();
-////			pofol.setPrtflNo(vo.getPrtflNo());
-////			pofol.setId(id);
-////			pofol.setttl(ttl);
-////			pofol.setPofolImg(uploadFileNamePofolImg);
-////			pofol.setPofolFile(fileNamePofolFile);
-////			pofol.setPofolUuidFile(uploadFileNamePofolFile);
-////			r = selfServiceImpl.selfJobPofolAdd(vo);	
-//			
-//			vo.setPrtfImg(uploadFileNamePofolFile);
-//			vo.setPrtflFile(uploadFileNamePofolFile);
-//		
-//		}
-//		mem.insGetPofl(vo);
-		return null;
+//  회원탈퇴 기능
+	@PostMapping("/withdraw")
+	public String withdraw(Principal pr) {
+		String id = pr.getName();
+		mem.withdraw(id);
+		
+		return "redirect:logout";
 	}
+	
+//  회원탈퇴 페이지
+	@GetMapping("/withdraw")
+	public String withdrawPage(Principal pr, Model model) {
+		model.addAttribute("id",pr.getName());
+		
+		return "mem/withdraw";
+	}
+	
 
 }
