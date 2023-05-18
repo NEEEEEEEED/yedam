@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<title>모아모아/커뮤니티(뷰적용)</title>
+<!-- JQuery -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<!-- editor -->
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.css" />
+	<!-- DatePicker -->
+	<link rel="stylesheet"
+		href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
+	<script
+		src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.js"></script>
+	<!-- grid -->
+	<link rel="stylesheet"
+		href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
+	<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
+	<!-- SweetAlert -->
+	<link rel="stylesheet"
+		href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+	<script
+		src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+<!-- 		icon-cdn for Bootstrap -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+    <!-- ===============================================-->
+    <!--    Document Title-->
+    <!-- ===============================================-->
+    <title>Blogs | Boldo Agency Template</title>
+
+
+    <!-- ===============================================-->
+    <!--    Favicons-->
+    <!-- ===============================================-->
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicons/favicon.ico">
+    <link rel="manifest" href="/assets/img/favicons/manifest.json">
+    <meta name="msapplication-TileImage" content="/assets/img/favicons/mstile-150x150.png">
+    <meta name="theme-color" content="#ffffff">
+
+
+    <!-- ===============================================-->
+    <!--    Stylesheets-->
+    <!-- ===============================================-->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700&amp;display=swap" rel="stylesheet">
+
+    <link href="/vendors/prism/prism.css" rel="stylesheet">
+    <link href="/vendors/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <link href="/assets/css/theme.css" rel="stylesheet" />
+<!--     <link href="/assets/css/user.css" rel="stylesheet" /> -->
+    
+    <!-- ===============================================-->
+    <!--    JavaScripts-->
+    <!-- ===============================================-->
+    <script src="/vendors/popper/popper.min.js"></script>
+    <script src="/vendors/bootstrap/bootstrap.min.js"></script>
+    <script src="/vendors/anchorjs/anchor.min.js"></script>
+    <script src="/vendors/is/is.min.js"></script>
+    <script src="/vendors/fontawesome/all.min.js"></script>
+    <script src="/vendors/lodash/lodash.min.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
+    <script src="/vendors/prism/prism.js"></script>
+    <script src="/vendors/swiper/swiper-bundle.min.js"></script>
+    <script src="/assets/js/theme.js"></script>
+    <script src="/t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+     
+     
+     
+	<style>
+	#blank{
+		margin-bottom:1.5em;
+		
+	}
+	</style>
+</head>
+<body>
+	<div>
+		
+		<!-- projectDetail.CSS -->
+		<link href="community/projectDetail.css" rel="stylesheet">
+		
+		<!-- layout:fragment 아래에 있어야 인식함 -->
+		<!-- Vue 3버전 -->
+		<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+		<script src="https://unpkg.com/vue-router@4"></script> <!-- 뷰3 라우터4-->
+		<script src="https://cdn.jsdelivr.net/npm/vue3-sfc-loader/dist/vue3-sfc-loader.js"></script>
+		
+		<!-- 뷰에서 컴포넌트 하기위해 필요한 js파일 -->
+		<script src="community/vue_common.js"></script>
+		
+		<!-- axios CDN -->
+		<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+		
+		<!-- 폰트어썸 -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+
+		<div class="row">
+			
+			<div class="col-md-1"></div>
+			<div class="col-md-10">
+				<div class="line mt-3 mb-5">
+					<span>커뮤니티 /&nbsp</span><span style="color:red">프로젝트모집</span>
+				</div>
+				<div class="mb-4">
+				  <div class="card col-lg-12">
+				    <div class="card-body">
+				    
+				    	<!-- 버전1 -->
+					    <div class="card-title mb-1" style="display:flex">
+					    	<h3 class="fw-bold" th:text="|${projectInfo.ttl}&nbsp&nbsp|">제목</h3>
+					    	<p th:if="${projectInfo.collSt == '모집중'}" class="badge bg-secondary radius" th:text="${projectInfo.collSt}">모집중</p>
+          					<p th:unless="${projectInfo.collSt == '모집중'}" class="badge bg-dark radius" th:text="${projectInfo.collSt}">모집완료</p>
+					    	
+					    	<div style="margin-left: auto;">
+						    	<div class="d-flex">
+						    		<div class="ms-3">
+					    				<i class="fa-regular fa-eye fa-sm"></i>
+					    				<span th:text="${projectInfo.inqCnt}">0</span>
+					    			</div>
+						    		<div class="ms-3">
+					    				<i class="fa-regular fa-comment-dots fa-sm"></i>
+					    				<span th:text="${projectInfo.rplyCnt}">0</span>
+					    			</div>
+					    			<div class="ms-3">
+						    			<p th:text="${projectInfo.regDt}">등록일자</p>
+						    		</div>
+					    			<div class="ms-3 cursor">
+						   				<i class="fa-solid fa-land-mine-on"></i>
+						   				<span class="fs--1">신고하기</span>
+						   			</div>
+						   		</div>
+					   		</div>
+					    </div>
+					    
+					    
+				    	<div class="mb-5">
+				    		<img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
+				    		<span class="ms-1" th:text="${projectInfo.id}">작성자</span>
+				    		<!-- <hr class="mt-4" style="color:#ddd"> -->
+				    	</div>
+				    	
+				    	<p class="mb-4 fs-1">◈ 요구사항</p>
+				    	<div class="card mb-4">
+				    		<div class="card-body ms-2 p-4">
+						    	<div>
+							    	<div class="row">
+										<div class="col-md-2">
+											<span class="fw-bold">모집직무</span>
+										</div>
+										<div class="col-md-3">
+											<span th:text="${projectInfo.collPosi}">백엔드개발자</span>
+										</div>
+										<div class="col-md-2">
+											<span class="fw-bold">모집인원</span>
+										</div>
+										<div class="col-md-3">
+											<span th:text="${projectInfo.collRcnt}">1</span>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-2">
+											<span class="fw-bold">진행방식</span>
+										</div>
+										<div class="col-md-3">
+											<span th:text="${projectInfo.progMthd}">오프라인</span>
+										</div>
+										<div class="col-md-2">
+											<span class="fw-bold ">요구기술</span>
+										</div>
+										<div class="col-md-3">
+											<span th:text="${projectInfo.skill}">자바,스프링</span>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-2">
+											<span class="fw-bold ">진행기간</span>
+										</div>
+										<div class="col-md-3">
+											<span th:text="${projectInfo.progTerm}">2개월</span>
+										</div>
+										<div class="col-md-2">
+											<span class="fw-bold">연락방법</span>
+										</div>
+										<div class="col-md-3">
+											<span th:text="${projectInfo.coctMthd}">연락방법중하나</span>
+											<a style="color:blue; text-decoration : underline !important;" th:href="${projectInfo.contact}" th:text="${projectInfo.contact}">연락처</a>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-2">
+											<span class="fw-bold">시작예정</span>
+										</div>
+										<div class="col-md-3">
+											<span th:text="${projectInfo.expcDt}">시작예정일날짜</span>
+										</div>
+										<div class="col-md-2">
+											<span class="fw-bold ">마감일</span>
+										</div>
+										<div class="col-md-3">
+											<span th:text="${projectInfo.clsDt}">마감일날짜</span>
+										</div>
+									</div>
+								</div>	
+							</div>
+						</div>
+				    	
+				    	<div>
+					    	<p class="fs-1 mb-3">◈ 프로젝트소개</p>
+					    	<div class="ms-4" th:utext="${projectInfo.cntn}"></div>
+					    </div>
+				    </div>
+				  </div>
+				</div>
+				
+				<div class="input-group mb-4">
+				  <textarea class="form-control radius" style="resize: none; height: 50px;" placeholder="댓글을 작성해주세요" ></textarea>
+				  <button class="btn btn-dark radius" type="button" id="button-addon2">댓글등록</button>
+				</div>
+
+				<div id="app">
+				    <project-component></project-component>
+				</div>
+
+
+				<div class="mt-5 mb-5" style="text-align:right;">
+					<!-- 로그인된 사용자가 자기가 작성한 게시물이라면 나타나는 버튼 -->
+					<th:block th:if="${projectInfo.id}==${#authentication.principal.username}">
+						<button type="button" class="btn btn-outline-secondary radius mx-1 px-5"  style="height:50px;" th:onclick="|location.href='@{/projectMod(prjtNo=${projectInfo.prjtNo})}'|">수정</button>
+						<button type="button" class="btn btn-outline-danger radius mx-1 px-5" style="height:50px; text-align:center;" id="projectDelBtn" th:data-no="${projectInfo.prjtNo}">삭제</button>
+					</th:block>
+					<button type="button" class="btn btn-dark radius mx-1 px-5" style="background-color: #536779; color:white; border-color: #536779; height:50px;" onclick="location.href='/projectList'">목록</button>
+				</div>
+			</div>
+			<div class="col-md-1"></div>
+		</div>
+	
+		
+<script>
+
+// Vue
+const { createApp } = Vue;
+createApp({
+	data() {
+		return {}
+	},
+	mounted() {},
+	methods: {},
+	components: {
+		'project-component': Vue.defineAsyncComponent(() => loadModule('community/projectDetailComponent.vue', options))
+	}
+}).mount('#app')
+
+//삭제버튼 클릭시 실행하는 함수
+$('#projectDelBtn').on('click', function(){
+	Swal.fire({
+	  icon: 'warning',
+	  title: '해당 게시글을 \n정말 삭제하시겠습니까?',
+	  showCancelButton: true,
+	  confirmButtonColor: '#d33',
+	  cancelButtonColor: '#3085d6',
+	  confirmButtonText: '삭제',
+	  cancelButtonText: '취소',
+	  buttonsStyling: true,
+	  reverseButtons: true
+	}).then((result) => {
+	  if (result.isConfirmed) {
+		  
+		  let prjtNo = $('#projectDelBtn').data('no');
+		  
+		  $.ajax({
+			url: 'projectDel',
+			type: 'post',
+			data: {prjtNo : prjtNo},
+			success: function (result) {
+				
+				if(result.result == 'Success'){
+					Swal.fire({
+					  icon: 'success',
+					  title: '삭제완료!',
+					  showCancelButton: false,
+					  confirmButtonText: '확인'
+					}).then((result) => {
+					  if (result.isConfirmed) {
+						location.href="/projectList";
+					  }
+					});
+				}else{
+					Swal.fire({
+						  icon: 'error',
+						  title: '게시글 삭제실패!'
+					});
+				}
+				
+			},
+	 		error: function (reject) {	   
+	    		console.log(reject);
+			}
+		});
+	  } // if끝
+	});
+});
+
+</script>
+	</div>
+</body>
+</html>

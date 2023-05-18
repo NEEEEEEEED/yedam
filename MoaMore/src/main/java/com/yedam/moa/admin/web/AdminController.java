@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.moa.admin.service.AdminService;
 import com.yedam.moa.admin.service.PostListVO;
+import com.yedam.moa.admin.service.ReportVO;
 import com.yedam.moa.admin.service.UserSearchVO;
 import com.yedam.moa.comm.CommVO;
 import com.yedam.moa.comm.service.Impl.CommServiceImpl;
-import com.yedam.moa.community.service.Impl.CommunityServiceImpl;
+import com.yedam.moa.community.service.CommunityService;
 import com.yedam.moa.mem.MemVO;
 
 @Controller
@@ -54,7 +54,7 @@ public class AdminController {
 	public List<MemVO> getUserInfo() {
 		return adminService.getUserInfo();
 	}
-
+	
 	@PostMapping("/getUserDetail")
 	@ResponseBody
 	public MemVO getUserDetails(@RequestBody String email) {
@@ -68,7 +68,7 @@ public class AdminController {
 		}
 		return adminService.getUserDetails(decoded);
 	}
-	
+	//유저 수정
 	@PostMapping("/modifyUser")
 	@ResponseBody
 	public String modifyUser(@RequestBody MemVO[] memVo) {
@@ -76,20 +76,20 @@ public class AdminController {
 		System.out.println(memVo);
 		return adminService.modifyUser(memVo);
 	}
-
+	//게시글 전체 조회
 	@GetMapping("/getBoardData")
 	@ResponseBody
 	public PostListVO getBoardData() {
 		return adminService.getBoardData();
 	}
-	
+	//유저 삭제
 	@PostMapping("/deleteUsers")
 	@ResponseBody
 	public String removeUsers(@RequestBody String[] emails) {
 		System.out.println(emails);
 		return adminService.removeUsers(emails);
 	}
-	
+	// 유저 검색
 	@PostMapping("/getSearchUser")
 	@ResponseBody
 	public List<MemVO> getSearchUser(@RequestBody UserSearchVO vo) {
@@ -97,24 +97,39 @@ public class AdminController {
 		return adminService.getSearchUser(vo);
 	}
 	@Autowired 
-	CommunityServiceImpl commuServiceImpl;
+	CommunityService commuService;
 	// 취업 Q&A 상세페이지
 	@GetMapping("/adminQnaDetail")
 	public String jobQnaDetail(Model model, String qaNotiwrNo) {
-		model.addAttribute("jobQnaDetail", commuServiceImpl.jobQnaDetail(qaNotiwrNo));
+		model.addAttribute("jobQnaDetail", commuService.jobQnaDetail(qaNotiwrNo));
 		return "admin/qnaDetail";
 	}
 	// 취업 Q&A 수정페이지
 	@GetMapping("/adminQnaMod")
 	public String jobQnaDetailMod(Model model,String qaNotiwrNo) {
-		model.addAttribute("jobQnaDetail", commuServiceImpl.jobQnaDetail(qaNotiwrNo));
+		model.addAttribute("jobQnaDetail", commuService.jobQnaDetail(qaNotiwrNo));
 		return "admin/jobQnADetailMod";
 	}
 	// 면접 후기 상세페이지
 	
 	// 프로젝트 상세페이지
-	
+	@GetMapping("/adminProjectDetail")
+	public String adminProjectDetail(Model model, String prjtNo) {
+		model.addAttribute("projectInfo", commuService.projectDetail(prjtNo));
+		return "admin/projectDetailVue";
+	}
 	// 스터디 상세페이지
-	
+	@GetMapping("/adminStudyDetial")
+	public String adminStudyDetial(Model model, String studyNo) {
+		model.addAttribute("studyDetailInfo", commuService.studyDetail(studyNo));
+		return "admin/studyDetailVue";
+	}
+	//신고 조회
+	@PostMapping("/getReportData")
+	@ResponseBody
+	public List<ReportVO> getReportData(@RequestBody String notiwrNo) {
+		System.out.println("+++++++++++++++++++여기에요여기"+notiwrNo.replace("=", ""));
+		return adminService.getReportData(notiwrNo.replace("=", ""));
+	}
 	
 }

@@ -14,10 +14,19 @@ public class JasyptConfig {
 	String jasyptkey;
 
 
+	@Value("${jasyptkey}")
+	String jasyptkey;
+	
 	@Bean(name = "jasyptStringEncryptor")
 	public StringEncryptor stringEncryptor() {
+
+//		String jasyptkey = System.getenv("jasyptkey");
+//		System.out.println(jasyptkey);
+	
+
 		
 		final String key = jasyptkey;
+
 
 		PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
 		SimpleStringPBEConfig config = new SimpleStringPBEConfig();

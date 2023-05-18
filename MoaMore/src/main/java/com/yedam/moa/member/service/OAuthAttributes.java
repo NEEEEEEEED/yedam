@@ -50,7 +50,7 @@ public class OAuthAttributes {
         } else if(gender == "F") {
         	gender="U2";
         } else {
-        	gender="unknown";
+        	gender="U3";
         }
         return OAuthAttributes.builder()
                 .name((String) response.get("name"))

@@ -29,7 +29,7 @@ export const userList = {
   deleteUsers(emails) {
     console.log(emails);
     return axios
-      .post("/api/deleteUsers", { emails })
+      .post("/api/deleteUsers", emails)
       .then((response) => {
         console.log(response.data);
         return response.data;
