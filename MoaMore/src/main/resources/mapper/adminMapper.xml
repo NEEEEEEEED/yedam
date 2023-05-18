@@ -119,5 +119,34 @@
 		</where> 	
 		ORDER BY join_dt DESC 
 	</select>
+		<update id="updateUser" parameterType="MemVO">
+		UPDATE member
+		   <set>
+		   	<if test="phCl!=null and !phCl.equals('')">
+				PH_CL = #{phCl},
+			</if>
+			<if test="email!=null and !email.equals('')">
+				EMAIL = #{email},
+			</if>
+			<if test="blog!=null and !blog.equals('')">
+				BLOG = #{blog},
+			</if>
+			<if test="clsf!=null and !clsf.equals('')">
+				CLSF = #{clsf},
+			</if>
+			<if test="ph!=null and !ph.equals('')">
+				PH = #{ph},
+			</if>
+			<if test="name!=null and !name.equals('')">
+				name = #{name}
+			</if>
+		   </set> 
+		WHERE id = #{id}
+	</update>
+
+	<delete id="deleteUser" parameterType="String">
+		DELETE FROM member
+		WHERE email=#{email}
+	</delete>
 
 </mapper>
