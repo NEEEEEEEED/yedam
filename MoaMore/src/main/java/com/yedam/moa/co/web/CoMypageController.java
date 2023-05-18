@@ -88,7 +88,7 @@ public class CoMypageController {
 			return false;
 	}
 
-	// 구인공고목록
+	// 기업나의구인공고목록
 	@GetMapping("/coRecruit")
 	public String coRecruitPage(Model model, Principal principal, HireVO vo) {
 		vo.setId(principal.getName());

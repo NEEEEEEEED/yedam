@@ -16,6 +16,10 @@ section {
 #body {
 	background: #fff;
 }
+
+.pointer {
+	cursor : pointer;
+}
 </style>
 <!-- Google Fonts -->
 <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -55,45 +59,45 @@ section {
 <body id="body">
 	<div class="container d-flex justify-content-center"
 		layout:fragment="content">
-		<div class="card col-lg-7 ">
+		<div class="card col-lg-6">
 			<div class="card-body ">
-				<h3 class="card-title fw-bold" style="color:#0a2640;">프리미엄-광고 결제</h3>
+				<h4 class="card-title fw-bold" style="color:#0a2640;">프리미엄-광고 결제</h4>
 				<br>
 				<!-- Horizontal Form -->
 				<form>
 					<div class="row mb-3">
-						<p class="col-sm-4 text-end fs-4 fw-normal text-black">상품명</p>
+						<p class="col-sm-4 text-end fs-3 fw-normal text-black">상품명</p>
 						<div class="col-sm-7 text-end">
-							<p class="fs-4 fw-normal text-black" th:text="'광고 '+${product.prdtNm}"></p>
+							<p class="fs-3 fw-normal text-black" th:text="'광고 '+${product.prdtNm}"></p>
 						</div>
 						
 					</div>
 					<div class="row mb-3">
-						<p class="col-sm-4 text-end fs-4 fw-normal text-black">상품가격</p>
+						<p class="col-sm-4 text-end fs-3 fw-normal text-black">상품가격</p>
 						<div class="col-sm-7 text-end">
-							<p class="fs-4 fw-normal text-black">[[${product.prdtPrc}]] 원</p>
+							<p class="fs-3 fw-normal text-black">[[${product.prdtPrc}]] 원</p>
 						</div>
 					</div> 
 					<div class="row mb-3">
-						<p class="col-sm-4 text-end fs-4 fw-normal text-black">할인가</p>
+						<p class="col-sm-4 text-end fs-3 fw-normal text-black">할인가</p>
 						<div class="col-sm-7 text-end">
-								<p class="fs-4 fw-normal text-black">-[[${product.discount}]] 원</p>
-								<p class="fw-bold text-danger fs-2 text-black">[[${product.discRate}]] 할인</p>
+								<p class="fs-3 fw-normal text-black">-[[${product.discount}]] 원</p>
+								<p class="fw-bold text-danger fs-2 text-danger">[[${product.discRate}]] 할인</p>
 						</div>
 					</div>
 					<hr>
 					<div class="row mb-3">
-						<p class="col-sm-4 text-end fs-4 fw-normal text-black">결제금액</p>
+						<p class="col-sm-4 text-end fs-3 fw-normal text-black">결제금액</p>
 						<div class="col-sm-7 text-end">
-								<p class="fs-5 fw-bold text-success ">[[${product.totalPrice}]] 원</p>
+								<p class="fs-4 fw-bold text-success ">[[${product.totalPrice}]] 원</p>
 							
 						</div>
 					</div>
 					<hr>
 					<div class="row mb-3">
-						<p class="col-sm-4 text-end fs-4 fw-normal text-black">적용공고</p>
+						<p class="col-sm-4 text-end fs-3 fw-normal text-black">적용공고</p>
 						<div class="col-sm-7 text-end">
-							<select id="gonggo" class="form-select">
+							<select id="gonggo" class="form-select pointer">
 								<option value='' selected>선택</option>
 								<option th:each=" item : ${RecList}" th:text="${item.ttl}"
 									th:value="${item.recruitNo}"></option>
@@ -101,10 +105,10 @@ section {
 						</div>
 					</div>
 					<div class="row mb-3">
-						<p class="col-sm-4 text-end fs-4 fw-normal text-black">날짜선택</p>
+						<p class="col-sm-4 text-end fs-3 fw-normal text-black">날짜선택</p>
 						<div class="col-sm-7 text-end">
 							<input th:placeholder="${product.svcCnt}+'개의 날짜를 선택해 주세요 click!'" readonly style="background-color: white;"
-								class="form-control" id="datePick" /></input>
+								class="form-control pointer" id="datePick" onclick="toggleDate()"/></input>
 						</div>
 					</div>
 					<hr>
@@ -131,7 +135,7 @@ section {
 
 					<div class="row mb-12">
 						<div class="col-sm-12 offset-sm-12 d-flex justify-content-center">
-							<div class="form-check">
+							<div class="form-check pointer" onclick="doCheck(this)">
 								<input class="form-check-input" type="checkbox" id="gridCheck1">
 								<p class="form-check-p text-black" for="gridCheck1">위의 결제정보를 확인하였으며 이에
 									동의합니다.</p>
@@ -205,18 +209,21 @@ section {
 				var uid = makeUid();
 				if(agreeCheck() == false){
 					return;
-				};
-				IMP.request_pay({
-					pg : "TC0ONETIME",
-					pay_method : "card",
-					merchant_uid : uid, // 주문번호
-					name : name,
-					amount : amount, // 숫자 타입
-					buyer_name : "홍길동",
-					buyer_postcode : "01181"
-				}, function(rsp) { // callback
-					afterPay(uid);
-				});
+				}else{
+					IMP.request_pay({
+						pg : "TC0ONETIME",
+						pay_method : "card",
+						merchant_uid : uid, // 주문번호
+						name : name,
+						amount : amount, // 숫자 타입
+						buyer_name : "홍길동",
+						buyer_postcode : "01181"
+					}, function(rsp) { // callback
+						if(rsp.success != false){ //결제 취소하면 안 들어가게
+							afterPay(uid);	
+						}
+					});	
+				}
 			}
 			//결제 성공 시
 			function afterPay(muid){
@@ -238,7 +245,6 @@ section {
 						dataType : "json",//받는타입
 						contentType : "application/json; charset=utf-8",//보내는타입
 						success : function(res) {
-							console.log(res);
 							alert("결제완료!")
 						},
 						error : function(reject) {
@@ -247,6 +253,21 @@ section {
 					});  
 				
 				 
+			}
+			
+			// 동의 글자클릭도 되게
+			function doCheck(t){
+				let box = t.querySelector('input[type="checkbox"]');
+				box.checked = !box.checked;
+			}
+			
+			// datepicker input클릭으로 닫히게
+			function toggleDate(){
+				let calendar = document.querySelector('#ui-datepicker-div');
+				if(calendar.style.display == 'none'){
+					calendar.style.display = 'block';	
+				}else calendar.style.display = 'none'
+				
 			}
 		</script>
 	</div>
