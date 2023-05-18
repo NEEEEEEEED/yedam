@@ -674,6 +674,7 @@ $('#myProfileBtn').on('click', function(){
 function myImgReg(){
 	let formData = new FormData();
 	formData.append("profileImage", inputImg.files[0]);
+	formData.append("reqLoc", "self");
 	
 	$.ajax({
 		url: 'myProfileImg',

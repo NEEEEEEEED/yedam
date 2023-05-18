@@ -10,6 +10,7 @@ public class ResumeVO {
 	private String resumeNo;	//이력서 헤더 번호
 	private String id;			//아이디
 	private String ttl;			//이력서 제목
+	private String imgNo;		//사진
 	private String carrNo;		//경력 번호
 	private String eduNo;		//교육 번호
 	private String licnNo;		//자격증 번호
