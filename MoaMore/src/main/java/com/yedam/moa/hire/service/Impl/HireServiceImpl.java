@@ -167,7 +167,19 @@ public class HireServiceImpl implements HireService{
 	// 공고 수정 기능
 	@Override
 	public int hireModify(HireVO vo) {
-		int result = hireMapper.hireModify(vo);
+		int result = hireMapper.hireSkillDelete(vo);
+		result = hireMapper.hireModify(vo);
+		
+		
+		String[] skillArray = vo.getSkill().split(",");
+
+		for(String str : skillArray) {
+			String skillNo = hireMapper.skillNo();
+			vo.setSkillNo(skillNo);
+			vo.setSkill(str);
+			result += hireMapper.skillInsert(vo);
+		}
+		
 		
 		if(result > 0) {
 			return 1;

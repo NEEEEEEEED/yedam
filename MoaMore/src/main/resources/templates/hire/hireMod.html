@@ -45,7 +45,7 @@ body {
 				
 				<div class="mb-3">
 					<label for="reg_id">기술스텍</label><span id="star">*</span>
-					<select id = "skl" class = "selectStyle">
+					<select id = "skill" class = "selectStyle">
 						<option selected th:text="${hireInfo[0].skill}"></option>
 						<option th:each="list : ${list.Z}" th:text="${list.desct}" th:attr="value=${list.prov}">기술</option>
 						<option value = 'Z18'>JPA</option>
@@ -122,7 +122,7 @@ body {
 				
 				<div class="mb-3">
 					<label for="tag">마감일</label><span id="star">*</span>
-					<input type="date" class="form-control" name="exprDt" id="tag" placeholder="태그를 입력해 주세요" th:value="${hireInfo[0].exprDt}"> 
+					<input type="date" class="form-control" name="exprDt" id="exprDt" placeholder="태그를 입력해 주세요" th:value="${hireInfo[0].exprDt}"> 
 				</div>
 				
 				<div class="mb-3">
@@ -191,14 +191,7 @@ body {
 		</div>
 	<br>
 <script>
-//수정 저장
-$(document).on('click', '#btnSave', function(e){
-	e.preventDefault();
-	
-	recruitModify(data);
-
-});
-// 저장	
+// 수정 저장	
 	$(document).on('click', '#btnSave', function(e){
 		e.preventDefault();
 		let recruitNo = $('#recruitNo').val(); // 새 구인공고 번호
@@ -231,7 +224,7 @@ $(document).on('click', '#btnSave', function(e){
 				"wksite" : wksite,
 				"coIntro" : intro
 		}
-		recruitInsert(data);
+		recruitModify(data);
 		
 		});
 	//에디터 정의
@@ -289,6 +282,29 @@ $(document).on('click', '#btnSave', function(e){
 		pofolReg();
 	})
 	
+  // 공고 데이터 수정 
+			function recruitModify(data){
+				$.ajax({
+					url: 'hireModify',
+					type: 'post',
+					data: data,
+					success: function (result){
+						Swal.fire({
+							icon: 'success',
+							title: '구인공고를 수정했습니다.'
+						});
+						location.href="/hirePage";
+					},
+					error: function(reject){
+						console.log(reject);
+						Swal.fire({
+							  icon: 'error',
+							  title: '구인공고 수정을 실패했습니다.'
+						});
+					}
+				})
+			}
+	
 	// 이미지 등록 ajax호출 함수
 // 	function pofolReg(){
 		
@@ -340,29 +356,6 @@ $(document).on('click', '#btnSave', function(e){
 						
 // 		$('#selectImages').html(imageHtml);
 // 	}
-	
-  // 공고 데이터 수정 등록
-			function recruitModify(data){
-				$.ajax({
-					url: 'recruitModify',
-					type: 'post',
-					data: data,
-					success: function (result){
-						Swal.fire({
-							icon: 'success',
-							title: '구인공고를 등록했습니다.'
-						});
-						location.href="/hirePage";
-					},
-					error: function(reject){
-						console.log(reject);
-						Swal.fire({
-							  icon: 'error',
-							  title: '구인공고 등록을 실패했습니다.'
-						});
-					}
-				})
-			}
     
 </script>
 	</div>

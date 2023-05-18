@@ -164,11 +164,10 @@ public class HireController {
 	@PostMapping("/hireDataInsert")
 	@ResponseBody
 	public String hireDataInsert(HireVO vo, Principal pr) {
-		// 썸네일 이미지 등록 가능하도록 추가
 		return hireService.hireDataInsert(vo, pr);
 	}
 	
-	// 구인공고 상세 이미지들 등록 - 첨부파일 업로드 처리 // 피드백 : 받오는값을 커멘트 객체 형식으로 VO에 한꺼번에 받아도됨(대신 이름이 일치해야함)
+	// 구인공고 상세 이미지들, 썸네일 등록 - 첨부파일 업로드 처리 // 피드백 : 받오는값을 커멘트 객체 형식으로 VO에 한꺼번에 받아도됨(대신 이름이 일치해야함)
 	@PostMapping("/hireImgInsert")
 	@ResponseBody
 	public List<HireVO> hireImgInsert(@RequestParam("thumnailImg") MultipartFile uploadthumnailImg,
@@ -244,7 +243,8 @@ public class HireController {
 	// 구인공고 수정 기능
 	@PostMapping("/hireModify")
 	@ResponseBody
-	public int hireModify(HireVO vo) {
+	public int hireModify(HireVO vo, Principal pr) {
+		vo.setId(pr.getName());
 		return hireService.hireModify(vo);
 	}
 	
