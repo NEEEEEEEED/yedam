@@ -1,8 +1,10 @@
 package com.yedam.moa.mem.web;
 
+import java.io.File;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,6 +23,9 @@ import com.yedam.moa.mem.PrtflVO;
 import com.yedam.moa.mem.ResumeVO;
 import com.yedam.moa.mem.SearchVO;
 import com.yedam.moa.mem.service.MemService;
+import com.yedam.moa.self.SelfVO;
+import com.yedam.moa.self.mapper.SelfMapper;
+import com.yedam.moa.self.service.SelfService;
 
 @Controller
 public class MemController {
@@ -30,7 +35,7 @@ public class MemController {
 
 	@Autowired
 	CommService com;
-
+	
 	@Value("${site.upload}")
 	String uploadPath;
 
@@ -130,70 +135,97 @@ public class MemController {
 		return "mem/withdraw";
 	}
 	
+	//  포트폴리오 등록 - 첨부파일 업로드 처리 // 피드백 : 받오는값을 커멘트 객체 형식으로 VO에 한꺼번에 받아도됨(대신 이름이 일치해야함)
+		@PostMapping("/insertPofol")
+		@ResponseBody
+		public List<PrtflVO> pofolUpload(PrtflVO vo	   
+								   		 ) throws IllegalStateException, IOException {
+			System.out.println(vo);
+			
+			ResumeVO rvo = new ResumeVO();
+			if(vo.getUuidImg() !=null && !vo.getUuidImg().isEmpty() && vo.getUuidImg().getSize()>0
+			&& vo.getUuid() !=null && !vo.getUuid().isEmpty() && vo.getUuid().getSize()>0) {
+
+//				// 동일 파일명 처리 UUID 사용
+				UUID uuid = UUID.randomUUID();
+				vo.setPrtflFile(uuid.toString()+"_"+vo.getUuid().getOriginalFilename());  // uuid 적용한 파일 이름
+				vo.setPrtflImg(uuid.toString()+"_"+vo.getUuidImg().getOriginalFilename()); // uuid 적용한 파일 이름
+				 
+				
+
+//				
+				vo.getUuid().transferTo(new File(uploadPofolPath,vo.getPrtflFile())); //파일 업로드 
+				vo.getUuidImg().transferTo(new File(uploadPath,vo.getPrtflImg()));		//이미지 업로드
+				
+				rvo.setPrtflNo(mem.insertPofl(vo).getPrtflNo());
+				
 
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+			}   
+			return  mem.getPrtfl(rvo);
+          }
 }
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+

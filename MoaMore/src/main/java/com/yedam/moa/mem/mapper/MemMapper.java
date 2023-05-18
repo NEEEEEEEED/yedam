@@ -69,7 +69,9 @@ public interface MemMapper {
 	public int insertResume(ResumeVO vo);
 	
 //	이력서 포폴 입력
-	public String insertPrtfl(PrtflVO vo);
+	public boolean insertPrtfl(PrtflVO vo);
+//	이력서 포폴 조회
+	public List<PrtflVO> getPrtfl(ResumeVO vo);
 
 //  회원탈퇴
 	public int withdraw(String id);

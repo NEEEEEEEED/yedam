@@ -1841,6 +1841,8 @@
           </div>
         </div>
       </div>
+      <!-- 포트폴리오 불러오기 버튼 모달창 -->
+      <!-- Modal -->
       <div
         class="modal fade"
         id="pofolModal"
@@ -1861,16 +1863,17 @@
             </div>
             <div class="modal-body">
               <form id="pofolRegForm" enctype="multipart/form-data">
-                현재로그인된 유저정보
-               <input
+                <!-- 현재로그인된 유저정보 -->
+                <input
                   id="logId"
                   name="id"
                   type="hidden"
                   th:value="${#authentication.principal.username}"
-                /> 
-                불러온 이력서 번호
-                <input id="resumeNo" name="resumeNo" type="hidden" />
-                현재 작성 게시글 기본키값
+                />
+                <!-- 불러온 이력서 번호 -->
+                <!-- <input id="resumeNo" name="resumeNo" type="hidden" /> -->
+                <!-- 현재 작성 게시글 기본키값 -->
+                <!-- <input id="selfJobKey" name="jobSearchNo" type="hidden" /> -->
 
                 <table class="table">
                   <tbody class="trColor">
@@ -1889,13 +1892,13 @@
                     <tr>
                       <th>이미지파일</th>
                       <td>
-                        <input id="pofolImg" name="pofolImg" type="file" />
+                        <input id="pofolImg" name="uuidImg" type="file" />
                       </td>
                     </tr>
                     <tr>
                       <th>포트폴리오 파일</th>
                       <td>
-                        <input id="pofolFile" name="pofolFile" type="file" />
+                        <input id="pofolFile" name="uuid" type="file" />
                       </td>
                     </tr>
                   </tbody>
@@ -2333,7 +2336,7 @@
             let formData = new FormData($("#pofolRegForm")[0]); // 폼데이터
 
             $.ajax({
-              url: "pofolAdd",
+              url: "/insertPofol",
               type: "post",
               data: formData,
               async: true, //비동기 여부
@@ -2363,24 +2366,24 @@
               `<div class="row align-items-center border-bottom hoverRow mb-3">
 				        <div class="col-md-3">
 				      	<img class="img-fluid imgSize" src="/moamorePofol/` +
-              result.pofolImg +
+              result.prtflImg +
               `" alt="이미지없음">
 				      </div>
 				      <div class="col-md-7" style="color:black;">
 				      		<p class="mb-0">[제목] ` +
-              result.title +
+              result.ttl +
               `</p>
 				        	<p class="mb-0">[파일명] <a style="color:blue; text-decoration:underline !important;" target="_blank" href="/moamorePofol/` +
-              result.pofolUuidFile +
+              result.prtflFile +
               `">` +
-              result.pofolFile +
+              result.prtflFile +
               `</a></p>
 				      </div>
 				      <div class="col-md-2" >
 					      <button id="` +
-              result.fileNo +
+              result.prtflNo +
               `" data-no="` +
-              result.jobSearchNo +
+              result.prtflNo +
               `" onclick="deletePofol(this)" type="button" style="margin-left : 20px; padding:15px;" class="btn-close" aria-label="Close"></button>
 					  </div>             
 					</div>`;

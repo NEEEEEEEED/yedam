@@ -231,6 +231,17 @@
 	from	 resume_licn
 	where 	 licn_no = #{licnNo}	 		
 </select>
+
+<select id="getPrtfl" resultType = "PrtflVO">
+	select  PRTFL_NO,
+			PRTFL_FILE,
+			ID,
+			TTL,
+			PRTFL_IMG		
+	from	resume_prtfl
+	where 	PRTFL_NO = #{prtflNo}	 		
+</select>
+
 <!-- 최신이력서 불러오기 끝 -->
 <!-- 	스킬 번호 생성 -->
 	<select id="getSkillNo" resultType="String">
@@ -273,6 +284,20 @@
 		 SELECT 'INTRO'|| TO_CHAR(intro_seq.NEXTVAL)
         FROM dual
 	</select>
+	<insert id="insertPrtfl" parameterType="PrtflVO" statementType="CALLABLE"  >
+     call insert_prtfl (
+       #{prtflNo, mode=INOUT, jdbcType=VARCHAR}, 
+       #{id}, 
+       #{ttl}, 
+       #{prtflFile},
+       #{prtflImg} 
+      )
+ 	 </insert>
+	
+	
+	
+	
+	
 <!-- 	이력서 번호 생성 -->
 	<select id="getResumeNo" resultType="String">
 	 SELECT 'RESUME'|| TO_CHAR(resume_seq.NEXTVAL)
