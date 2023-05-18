@@ -65,14 +65,17 @@ public class HireController {
 		hireVO.setRecruitNo(recruitNo);
 		hireVO.setSkill(skill);
 		hireVO.setId(pr.getName());
+		
+		
 
 		List<HireVO> hireInfo = hireService.hireInfo(hireVO);
 		
+		String[] array = hireInfo.get(0).getRecruitImg().split(","); 
+		
 		model.addAttribute("recommend", hireService.selectRecommend(hireVO));
-		model.addAttribute("recImg", hireService.recImg(hireVO));
+		model.addAttribute("imgArray",array);
 		model.addAttribute("hireInfo", hireInfo);
 		
-		System.out.println(model);
 		return "hire/hireInfo";
 	}
 
@@ -217,7 +220,6 @@ public class HireController {
 		r =  hireServiceImpl.hireImgInsert(hireVO);
 	
 	if(r > 0) {
-		System.out.println(hireVO);
 		return hireServiceImpl.hireImgInsertList(hireVO);
 	}else {			
 		return null;
@@ -226,11 +228,18 @@ public class HireController {
 
 	// 구인공고 수정 페이지
 	@GetMapping("/hireMod")
-	public String hireMod(Model model, Principal pr) {
+	public String hireMod(@RequestParam("recruitNo") String recruitNo, Model model, Principal pr) {
 		HireVO hireVO = new HireVO();
+		hireVO.setRecruitNo(recruitNo);
 		hireVO.setId(pr.getName());
 		
+		
+
+		List<HireVO> hireInfo = hireService.hireInfo(hireVO);
+		
+		
 		model.addAttribute("list", com.getCodes("Z","X","N","Y","D"));
+		model.addAttribute("hireInfo", hireInfo);
 		
 		return "hire/hireMod";
 	}

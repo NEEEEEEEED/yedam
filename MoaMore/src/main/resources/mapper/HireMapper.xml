@@ -27,9 +27,7 @@
 		LEFT JOIN (SELECT ID_CO FROM FOLLOWING WHERE ID_MEM = 'user') F
           ON R.ID = F.ID_CO
 		
-		JOIN (SELECT RECRUIT_IMG_NO, RECRUIT_NO, LISTAGG(CO_IMG, ',') WITHIN GROUP (ORDER BY RECRUIT_IMG_NO) as CO_IMG
-              FROM RECRUIT_IMAGES
-              GROUP BY RECRUIT_IMG_NO,RECRUIT_NO) I
+		JOIN (SELECT DISTINCT RECRUIT_NO, CO_IMG FROM RECRUIT_IMAGES) I
 		ON R.RECRUIT_NO = I.RECRUIT_NO
 		
 		WHERE 1=1
@@ -93,7 +91,7 @@
 		       C.CO_NM,
 		       get_common(WKSITE) AS WKSITE,
                R.EXPR_DT,
-               I.CO_IMG,
+               I.RECRUIT_IMG,
                R.RECRUIT_NO,
               	 (SELECT S.RECRUIT_NO FROM RECRUIT_SCRAP S WHERE R.RECRUIT_NO = S.RECRUIT_NO AND ID = #{id}) AS scrapYn,
                  (SELECT F.ID_CO FROM FOLLOWING F WHERE R.ID = F.ID_CO AND F.ID_MEM = #{id}) AS followYn,
@@ -113,7 +111,9 @@
               FROM RECRUIT_SKILL
               GROUP BY recruit_no) K
 			ON R.RECRUIT_NO = K.RECRUIT_NO
-		JOIN RECRUIT_IMAGES I
+		JOIN (SELECT recruit_no , LISTAGG(RECRUIT_IMG, ',') WITHIN GROUP (ORDER BY RECRUIT_IMG_NO) as RECRUIT_IMG 
+			 	   FROM RECRUIT_IMAGES 
+			 	   GROUP BY recruit_no) I 
 		ON R.RECRUIT_NO = I.RECRUIT_NO
 		WHERE R.RECRUIT_NO = #{recruitNo}
 		<if test="scrapYn != null and scrapYn != ''">
