@@ -1863,6 +1863,7 @@
           let skill = [];
           let memInfo = [];
           let ttl = null;
+          let imgNo = null;
           let today = new Date();
           let year = today.getFullYear();
           let month = ("0" + (today.getMonth() + 1)).slice(-2);
@@ -1953,7 +1954,7 @@
           // 저장
           $("#saveResume").on("click", function () {
             ttl = $("#ttl").val();
-
+			imgNo = 
             let data = getAllData();
 
             if (data == false) {
