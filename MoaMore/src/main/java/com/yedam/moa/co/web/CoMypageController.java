@@ -60,7 +60,7 @@ public class CoMypageController {
 		vo.setId(principal.getName());
 		model.addAttribute("followers", service.selectFollowers(vo)); // 나를 관심가진 수 가져오기
 		model.addAttribute("id", vo); // user id 가져오기
-		model.addAttribute("co", service.selectCo(vo));//기업명 가져오기 용
+		model.addAttribute("co", service.selectCo(vo));//기업정보 가져오기 용
 		model.addAttribute("totalInter", service.selectTotalInter(vo)); // 관심게시글 수 가져오기
 		model.addAttribute("commList", commService.getCodes("Z")); // 제안모달 기술스택가져오기
 		return "co/coMypage";

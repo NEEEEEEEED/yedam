@@ -12,12 +12,6 @@ public class JasyptConfig {
 	
 	@Value("${jasyptkey}")
 	String jasyptkey;
-
-	@Value("${jasyptkey}")
-	String jasyptkey;
-
-	@Value("${jasyptkey}")
-	String jasyptkey;
 	
 	@Bean(name = "jasyptStringEncryptor")
 	public StringEncryptor stringEncryptor() {
