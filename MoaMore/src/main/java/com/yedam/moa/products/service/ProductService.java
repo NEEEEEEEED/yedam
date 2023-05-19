@@ -15,6 +15,9 @@ public interface ProductService {
 	public ProductVO getProduct(String prdtCd);
 	//결제이후
 	public int afterPay(ProductVO vo);
+	//기업 보유상품정보
 	public List<ProductVO> selectCoProducts(CoVO vo);
+	//광고 적용할 공고의 이전 예약일자들
+	public List<ProductVO> addDisabledDates(ProductVO vo);
 
 }
