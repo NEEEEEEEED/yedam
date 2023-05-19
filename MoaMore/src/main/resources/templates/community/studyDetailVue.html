@@ -177,6 +177,11 @@
 						<button type="button" class="btn btn-outline-secondary radius mx-1 px-5"  style="height:50px;" th:onclick="|location.href='@{/studyMod(studyNo=${studyDetailInfo.studyNo})}'|">수정</button>
 						<button type="button" class="btn btn-outline-danger radius mx-1 px-5" style="height:50px; text-align:center;" id="studyDelBtn" th:data-no="${studyDetailInfo.studyNo}">삭제</button>
 					</th:block>
+					<!-- 로그인된 사용자가 관리자일때 나타나는 버튼 -->
+					<th:block sec:authorize="hasRole('ROLE_ADMIN')">
+						<button type="button" class="btn btn-outline-secondary radius mx-1 px-5"  style="height:50px;" th:onclick="|location.href='@{/studyMod(studyNo=${studyDetailInfo.studyNo})}'|">수정</button>
+						<button type="button" class="btn btn-outline-danger radius mx-1 px-5" style="height:50px; text-align:center;" id="studyDelBtn" th:data-no="${studyDetailInfo.studyNo}">삭제</button>
+					</th:block>
 					<button type="button" class="btn btn-dark radius mx-1 px-5" style="background-color: #536779; color:white; border-color: #536779; height:50px;" onclick="location.href='/studyList'">목록</button>
 				</div>
 			</div>
