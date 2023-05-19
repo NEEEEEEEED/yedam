@@ -13,10 +13,10 @@
 
     <div class="card">
       <div class="card-body">
-        <p class="card-title">검색조건</p>
+        <p class="card-title">검색</p>
         <form class="row g-3">
           <div class="row" style="margin-bottom: 10px">
-            <span class="col-sm-1 col-form-label">회원분류</span>
+            <span class="col-sm-1 col-form-label">회원</span>
             <div class="col-md-5">
               <div
                 class="form-check form-check-inline"
@@ -50,7 +50,7 @@
             </div>
           </div>
           <div class="row" style="margin-bottom: 10px">
-            <span class="col-sm-1 col-form-label">회원명</span>
+            <span class="col-sm-1 col-form-label">회원명부</span>
             <div class="col-md-4">
               <input type="text" class="form-control" v-model="name" />
             </div>
@@ -147,24 +147,9 @@
                   class="p-ink"
                   role="presentation"
                   aria-hidden="true"
-                ></span></button
-              ><button
-                class="p-button p-component"
-                type="button"
-                aria-label="Cancel"
-                data-v-d3f5b421=""
-                @click="cancelBtn"
-              >
-                <!----><span
-                  class="pi pi-times p-button-icon p-button-icon-left"
-                ></span
-                ><span class="p-button-label">Cancel</span
-                ><!----><span
-                  class="p-ink"
-                  role="presentation"
-                  aria-hidden="true"
-                ></span></button
-            ></span>
+                ></span>
+              </button>
+            </span>
             <DataTable
               style="clear: both"
               ref="dataTable"
@@ -386,7 +371,14 @@ export default {
     },
     //유저 정보 수정
     submitUserForm() {
-      console.log(this.selectedUser);
+      if (this.selectedUser == null) {
+        this.$toast.add({
+          severity: "info",
+          summary: "수정할 유저정보를 선택하세요.",
+          life: 2000,
+        });
+        return;
+      }
       userList.modifyUser(this.selectedUser).then((data) => {
         const names = this.selectedUser.map((item) => item.name);
         if (data == "success") {
@@ -421,6 +413,14 @@ export default {
     // 유저 정보 삭제
     deleteUser() {
       //선택된 행의 이메일 값을 가져와 배열로 변환
+      if (this.selectedUser == null) {
+        this.$toast.add({
+          severity: "info",
+          summary: "삭제할 유저정보를 선택하세요.",
+          life: 2000,
+        });
+        return;
+      }
       const emails = this.selectedUser.map((item) => item.email);
       userList
         .deleteUsers(emails)

@@ -21,4 +21,8 @@ public interface AdminService {
 
 	public Map<String,Object> getReportData(String notiwrNo);
 
+	public String modifyRprt(List<ReportVO> vo);
+
+	public String removeBoard(String[] nos);
+
 }

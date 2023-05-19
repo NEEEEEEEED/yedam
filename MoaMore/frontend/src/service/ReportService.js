@@ -13,4 +13,15 @@ export const reportList = {
         console.log(error);
       });
   },
+  modifyRprt(vo) {
+    return axios
+      .post("/api/modifyRprt", vo)
+      .then((response) => {
+        console.log(response.data);
+        return response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
 };

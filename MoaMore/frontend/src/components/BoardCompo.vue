@@ -81,59 +81,20 @@
       <div class="col-md-12 grid-margin stretch-card">
         <div class="card" style="min-height: 100%">
           <div class="card-body">
-            <span
-              class="p-buttonset"
-              data-v-d3f5b421=""
-              style="float: right; margin-top: 3px"
-              ><button
-                class="p-button p-component"
-                type="button"
-                aria-label="Save"
-                data-v-d3f5b421=""
-                @click="submitUserForm"
-              >
-                <!----><span
-                  class="pi pi-check p-button-icon p-button-icon-left"
-                ></span
-                ><span class="p-button-label">Save</span
-                ><!----><span
-                  class="p-ink"
-                  role="presentation"
-                  aria-hidden="true"
-                ></span></button
-              ><button
+            <div
+              class="mt-1"
+              style="float: right; position: relative; z-index: 2"
+            >
+              <button
                 class="p-button p-component"
                 type="button"
                 aria-label="Delete"
                 data-v-d3f5b421=""
-                @click="deleteUser"
+                @click="deleteList"
               >
-                <!----><span
-                  class="pi pi-trash p-button-icon p-button-icon-left"
-                ></span
-                ><span class="p-button-label">Delete</span
-                ><!----><span
-                  class="p-ink"
-                  role="presentation"
-                  aria-hidden="true"
-                ></span></button
-              ><button
-                class="p-button p-component"
-                type="button"
-                aria-label="Cancel"
-                data-v-d3f5b421=""
-                @click="cancelBtn"
-              >
-                <!----><span
-                  class="pi pi-times p-button-icon p-button-icon-left"
-                ></span
-                ><span class="p-button-label">Cancel</span
-                ><!----><span
-                  class="p-ink"
-                  role="presentation"
-                  aria-hidden="true"
-                ></span></button
-            ></span>
+                Delete
+              </button>
+            </div>
             <TabView :activeIndex="active">
               <TabPanel header="게시글목록">
                 <DataTable
@@ -149,7 +110,7 @@
                   :rows="10"
                   :rowsPerPageOptions="[5, 10, 20]"
                   tableStyle="min-width: 100%"
-                  v-model:selection="selectedUser"
+                  v-model:selection="selectedBoard"
                   selectionMode="sigle"
                 >
                   <Column
@@ -260,7 +221,6 @@
 </template>
 <script>
 import BoardSearchForm1 from "@/components/searchForm/BoardSearchForm1.vue";
-// import BoardSearchForm2 from "@/components/searchForm/BoardSearchForm2.vue";
 import BoardSearchForm3 from "@/components/searchForm/BoardSearchForm3.vue";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
@@ -271,12 +231,9 @@ import { boardList } from "@/service/boardList.js";
 import Button from "primevue/button";
 import "primeicons/primeicons.css";
 import DynamicDialog from "primevue/dynamicdialog";
-import { markRaw, defineAsyncComponent } from "vue";
+import { defineAsyncComponent } from "vue";
 const ReportModal = defineAsyncComponent(() =>
   import("../components/modal/ReportModal.vue")
-);
-const FooterDemo = defineAsyncComponent(() =>
-  import("../components/modal/FooterDemo.vue")
 );
 
 export default {
@@ -287,7 +244,6 @@ export default {
     TabView,
     TabPanel,
     BoardSearchForm1,
-    // BoardSearchForm2,
     BoardSearchForm3,
     Button,
     DynamicDialog,
@@ -297,7 +253,7 @@ export default {
       activeIndex: 0, //탭=>라디오
       active: 0, //라디오=>탭
       searchCondition: {},
-      selectedUser: null,
+      selectedBoard: null,
       metaKey: true,
       editableField: null,
       readonlyStyle: {
@@ -317,11 +273,11 @@ export default {
         prcsEnd: "",
       },
       descriptionColumnStyle: {
-        width: "400px",
+        width: "200px",
         overflow: "hidden",
         "text-overflow": "ellipsis",
         "white-space": "nowrap",
-        "max-width": "400px",
+        "max-width": "200px",
       },
     };
   },
@@ -345,17 +301,6 @@ export default {
       console.log(this.boardCondi);
       // boardList.getSearchUser();
     },
-    // 더블클릭시 input 열리기
-    onInputDoubleClick(refName) {
-      // 해당 ref를 가진 input 요소의 readonly 속성 제거
-      this.$refs[refName].removeAttribute("readonly");
-
-      // 해당 ref를 가진 input 요소에 스타일 적용
-      this.$refs[refName].style.backgroundColor = "yellow";
-
-      // editableField 변수에 해당 ref 할당
-      this.editableField = this.$refs[refName];
-    },
     //모달창 시작
     showProducts(rowData) {
       const selectedRow = [rowData];
@@ -376,27 +321,20 @@ export default {
         data: {
           no: selectedNo,
         },
-        templates: {
-          footer: markRaw(FooterDemo),
-        },
         onClose: (options) => {
           const data = options.data;
-
-          if (data) {
-            const buttonType = data.buttonType;
-            const summary_and_detail = buttonType
-              ? {
-                  summary: "No Product Selected",
-                  detail: `Pressed '${buttonType}' button`,
-                }
-              : { summary: "Product Selected", detail: data.name };
-
-            this.$toast.add({
-              severity: "info",
-              ...summary_and_detail,
-              life: 3000,
-            });
+          if (data == null) {
+            return;
           }
+          this.$toast.add({
+            severity: "info",
+            summary: "신고처리수정에 성공했습니다.",
+            detail: data,
+            life: 3000,
+          });
+          this.getBoardData().then((data) => {
+            this.boardList = [...data.commVO, ...data.prjtVO, ...data.studyVO];
+          });
         },
       });
     },
@@ -431,11 +369,35 @@ export default {
         }
       }
     },
-  },
-
-  computed: {
-    readonlyInputs() {
-      return this.$el.querySelectorAll("input[readonly]");
+    deleteList() {
+      if (this.selectedBoard == null) {
+        this.$toast.add({
+          severity: "info",
+          summary: "삭제할 유저정보를 선택하세요.",
+          life: 2000,
+        });
+        return;
+      }
+      const nos = this.selectedBoard.map((item) => item.no);
+      console.log(nos);
+      boardList.removeBoard(nos).then((data) => {
+        console.log(data);
+        this.$toast.add({
+          severity: "success",
+          summary: "삭제 완료",
+          detail: data + "의 정보가 삭제되었습니다.",
+          life: 3000,
+        });
+        this.getBoardData().then((data) => {
+          //배열합치기 spread operator
+          this.boardList = [
+            ...data.commVO,
+            //...data.intrvVO,
+            ...data.prjtVO,
+            ...data.studyVO,
+          ];
+        });
+      });
     },
   },
 };

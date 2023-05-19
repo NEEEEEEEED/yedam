@@ -14,10 +14,10 @@
         <router-link class="nav-link" to="/user">일반회원관리</router-link>
       </li>
       <li class="nav-item">
-        <router-link class="nav-link" to="/board">게시글관리</router-link>
+        <router-link class="nav-link" to="/board">게시물/댓글관리</router-link>
       </li>
       <li class="nav-item">
-        <router-link class="nav-link" to="/">고객센터관리</router-link>
+        <router-link class="nav-link" to="/approve">승인게시물관리</router-link>
       </li>
       <li class="nav-item">
         <router-link class="nav-link" to="/">매출관리</router-link>

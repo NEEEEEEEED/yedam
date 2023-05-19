@@ -35,4 +35,6 @@ public interface AdminMapper {
 
 	public List<rprtStatusVO> selectrprtSt();
 
+	public int updateRprt(ReportVO vo);
+
 }
