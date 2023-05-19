@@ -155,7 +155,7 @@ public class MemController {
 
 //				
 				vo.getUuid().transferTo(new File(uploadPofolPath,vo.getPrtflFile())); //파일 업로드 
-				vo.getUuidImg().transferTo(new File(uploadPath,vo.getPrtflImg()));		//이미지 업로드
+				vo.getUuidImg().transferTo(new File(uploadPofolPath,vo.getPrtflImg()));		//이미지 업로드
 				
 				rvo.setPrtflNo(mem.insertPofl(vo).getPrtflNo());
 				

@@ -2384,7 +2384,7 @@
               result.prtflNo +
               `" data-no="` +
               result.prtflNo +
-              `" onclick="deletePofol(this)" type="button" style="margin-left : 20px; padding:15px;" class="btn-close" aria-label="Close"></button>
+              `" onclick="delPofol(this)" type="button" style="margin-left : 20px; padding:15px;" class="btn-close" aria-label="Close"></button>
 					  </div>             
 					</div>`;
             return pofolHtml;
@@ -2505,6 +2505,37 @@
             },
           });
         }
+        function delPofol(deleteItem){
+        	
+//         	let jobSearchNo = deleteItem.dataset.no; // data - 속성 이용해서 값가져옴
+        	console.log(deleteItem.dataset);
+        	console.log($(this))
+//         	$.ajax({
+//         		url: 'delPofol',
+//         		type: 'post',
+//         		data: {fileNo : deleteItem.id, jobSearchNo : jobSearchNo},
+//         		success: function (result) {
+//         			console.log('삭제성공');
+//         			pofolRows.innerHTML = ''; // 초기화
+        			
+//         			let pofolHtml = '';
+//         			if(result.length == 0){ // 포트폴리오 리스트 항목이 0개라면
+//         				pofolHtml = `<div style="background-color : pink; text-align:center;">포트폴리오 항목이 비어있습니다. 추가를 눌러 채워 주세요</div>`;
+//         				pofolRows.innerHTML= pofolHtml;
+//         			}else{
+//         				for(let i = 0 ; i < result.length; i++){
+//         					pofolHtml += pofolListPrint(result[i]); // 화면에 뿌려주는 태그들
+//         				}
+        				
+//         				pofolRows.innerHTML= pofolHtml;			
+//         			}
+//         		},
+//          		error: function (reject) {	   
+//             		console.log(reject);
+//         		}
+//         	});	
+        }
+
       </script>
     </div>
   </body>
