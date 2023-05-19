@@ -466,7 +466,7 @@ function offerCheck(){
 	   data: formData,
 	   success: function(res){
 		   // 제안버튼 제안완료버튼으로 바꾸기
-		   let button = $('button[data-id="' + jobSearchNo + '"]');
+		   let button = $('button[data-id="' + jobSearchNo + '"]').eq(1);; //0번 째 버튼은 관심버튼
 		   button.text('제안완료');
 		   button.removeClass("btn btn-outline-info btn-sm listBtn"); // 빈 버튼 클래스 지우고
 		   button.addClass("btn btn-info btn-sm listBtn"); // 꽉찬 버튼 클래스 추가
