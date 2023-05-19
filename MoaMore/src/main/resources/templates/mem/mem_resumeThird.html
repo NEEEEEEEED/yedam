@@ -38,6 +38,10 @@
       .reTlCn {
         position: relative;
       }
+      /*       #pofolBtn{ */
+      /*        height: 40px; */
+      /*        float: right; */
+      /*       } */
     </style>
   </head>
   <body>
@@ -122,6 +126,13 @@
               <button id="backToBefore" class="btn btn-outline-danger px-2 m-2">
                 취소
               </button>
+            </div>
+            <div class="d-flex justify-content-center md-12 lg-12 p-2">
+              <button
+                class="btn btn-outline-secondary"
+                type="button"
+                onclick="location.href='/mem/mkResume'"
+              >새 이력서</button>
             </div>
           </div>
         </div>
@@ -1804,7 +1815,7 @@
           <!-- -===================자소서 끝=============================== -->
 
           <!-- 본문 : 포트폴리오 -->
-          <div id="pofol" style="display: none">
+          <div id="pofol" style="display: none" th:if="${resume.prtflNo}==null">
             <div class="col-md-12 col-lg-12">
               <h4 class="mb-3"><b>포트폴리오 </b></h4>
               <div class="forCarr my-3 card ps-4 p-3">
@@ -1816,20 +1827,91 @@
                           id="pofolBtn"
                           type="button"
                           class="btn btn btn-outline-dark btn-sm radius"
-                          style="height: 40px"
+                          style="height: 40px; float: right"
                         >
                           추가
                         </button>
                       </p>
                       <br />
                       <div class="row">
-                        <div class="col-md-2" style="text-align: center"></div>
                         <div id="pofolRows" class="col-md-10">
                           <div
                             style="background-color: pink; text-align: center"
                           >
                             포트폴리오 항목이 비어있습니다. 추가를 눌러 채워
                             주세요
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!----------------------포폴 있는 이력서--------------------------------------->
+          <div
+            id="pofol"
+            style="display: block"
+            th:if="${resume.prtflNo}!=null"
+          >
+            <div class="col-md-12 col-lg-12">
+              <h4 class="mb-3"><b>포트폴리오 </b></h4>
+              <div class="forCarr my-3 card ps-4 p-3">
+                <div class="whrPst" name="whrPst">
+                  <div style="display: block">
+                    <div class="mb-5">
+                      <p class="fs-1">
+                        <button
+                          id="pofolBtn"
+                          type="button"
+                          class="btn btn btn-outline-dark btn-sm radius"
+                          style="height: 40px; float: right"
+                        >
+                          추가
+                        </button>
+                      </p>
+                      <br />
+                      <div class="row">
+                        <div id="pofolRows" class="col-md-10">
+                          <div
+                            class="row align-items-center border-bottom hoverRow mb-3"
+                            th:each="pr:${resume.prtfl}"
+                          >
+                            <div class="col-md-3">
+                              <img
+                                class="img-fluid imgSize"
+                                th:src="|/moamorePofol/${pr.prtflImg}|"
+                                alt="이미지없음"
+                              />
+                            </div>
+                            <div class="col-md-7" style="color: black">
+                              <p class="mb-0">[제목] [[${pr.ttl}]]</p>
+                              <p class="mb-0">
+                                [파일명]
+                                <a
+                                  style="
+                                    color: blue;
+                                    text-decoration: underline !important;
+                                  "
+                                  target="_blank"
+                                  th:href="|/moamorePofol/${pr.prtflFile}|"
+                                >
+                                  [[${pr.prtflFile}]]
+                                </a>
+                              </p>
+                            </div>
+                            <div class="col-md-1">
+                              <button
+                                th:id="${pr.prtflNo}"
+                                th:attr="data-prtflNo=${pr.prtflNo}, data-no=${pr.no}"
+                                onclick="delPofol(this)"
+                                type="button"
+                                style="margin-left: 20px; padding: 15px"
+                                class="btn-close"
+                                aria-label="Close"
+                              ></button>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -1871,7 +1953,7 @@
                   th:value="${#authentication.principal.username}"
                 />
                 <!-- 불러온 이력서 번호 -->
-                <!-- <input id="resumeNo" name="resumeNo" type="hidden" /> -->
+
                 <!-- 현재 작성 게시글 기본키값 -->
                 <!-- <input id="selfJobKey" name="jobSearchNo" type="hidden" /> -->
 
@@ -1903,6 +1985,17 @@
                     </tr>
                   </tbody>
                 </table>
+                <input
+                  name="prtflNo"
+                  type="hidden"
+                  th:if="${resume.prtflNo}!=null"
+                  th:value="${resume.prtflNo}"
+                />
+                <input
+                  type="hidden"
+                  name="prtflNo"
+                  th:if="${resume.prtflNo}==null"
+                />
               </form>
             </div>
             <div class="modal-footer">
@@ -1941,6 +2034,7 @@
           let licn = [];
           let skill = [];
           let memInfo = [];
+          let prtflNo = null;
           let ttl = null;
           let today = new Date();
           let year = today.getFullYear();
@@ -2017,6 +2111,7 @@
             ttl = $("#ttl").val();
             console.log($("#inputImg").attr("value"));
             imgNo = $("#inputImg").attr("value");
+            prtflNo = $("input[name = prtflNo]").attr("value");
             let data = getAllData();
             console.log(data);
             if (data == false) {
@@ -2084,7 +2179,7 @@
             $(this).closest(".dropdown")[0].nextElementSibling.value = selected;
           });
 
-          //삭제
+          //x버튼 삭제
 
           $(document).on("click", "i.bi.bi-x-lg", function () {
             let count = $(this).parents()[3].children.length;
@@ -2305,6 +2400,7 @@
             } else {
               return {
                 ttl: ttl,
+                prtflNo: prtflNo,
                 imgNo: imgNo,
                 sch: sch,
                 carr: carr,
@@ -2346,7 +2442,7 @@
               success: function (result) {
                 console.log(result);
                 pofolRows.innerHTML = ""; // 초기화
-
+                $("input[name = prtflNo]").attr("value", result[0].prtflNo);
                 let pofolHtml = "";
                 for (let i = 0; i < result.length; i++) {
                   pofolHtml += pofolListPrint(result[i]);
@@ -2359,37 +2455,38 @@
               },
             });
           }
-
-          // 포트폴리오 목록 그리는 함수
-          function pofolListPrint(result = {}) {
-            let pofolHtml =
-              `<div class="row align-items-center border-bottom hoverRow mb-3">
+        });
+        // 포트폴리오 목록 그리는 함수
+        function pofolListPrint(result = {}) {
+          let pofolHtml =
+            `<div class="row align-items-center border-bottom hoverRow mb-3">
 				        <div class="col-md-3">
 				      	<img class="img-fluid imgSize" src="/moamorePofol/` +
-              result.prtflImg +
-              `" alt="이미지없음">
+            result.prtflImg +
+            `" alt="이미지없음">
 				      </div>
 				      <div class="col-md-7" style="color:black;">
 				      		<p class="mb-0">[제목] ` +
-              result.ttl +
-              `</p>
+            result.ttl +
+            `</p>
 				        	<p class="mb-0">[파일명] <a style="color:blue; text-decoration:underline !important;" target="_blank" href="/moamorePofol/` +
-              result.prtflFile +
-              `">` +
-              result.prtflFile +
-              `</a></p>
+            result.prtflFile +
+            `">` +
+            result.prtflFile +
+            `</a></p>
 				      </div>
-				      <div class="col-md-2" >
+				      <div class="col-md-1" >
 					      <button id="` +
-              result.prtflNo +
-              `" data-no="` +
-              result.prtflNo +
-              `" onclick="delPofol(this)" type="button" style="margin-left : 20px; padding:15px;" class="btn-close" aria-label="Close"></button>
+            result.prtflNo +
+            `"data-prtflNo="` +
+            result.prtflNo +
+            `"data-no="` +
+            result.no +
+            `" onclick="delPofol(this)" type="button" style="margin-left : 20px; padding:15px;" class="btn-close" aria-label="Close"></button>
 					  </div>             
 					</div>`;
-            return pofolHtml;
-          }
-        });
+          return pofolHtml;
+        }
         //빈칸 알람
         function alertBin(num, loca) {
           Swal.fire({
@@ -2449,8 +2546,33 @@
           }).open();
         }
         function goBack() {
-          window.history.back();
+          console.log(
+            $("#pofolRows")
+              .children()[0]
+              .children[2].children[0].getAttribute("id")
+          );
+          if ($("#pofolRows").children().length > 0) {
+            let data = $("#pofolRows")
+              .children()[0]
+              .children[2].children[0].getAttribute("id");
+            $.ajax({
+              url: "/delPofol",
+              type: "post",
+              data: data,
+              success: function (result) {
+                console.log("삭제성공");
+                pofolRows.innerHTML = ""; // 초기화
+                console.log(result);
+              },
+              error: function (reject) {
+                console.log(reject);
+              },
+            });
+          }
+
+          //           window.history.back();
         }
+        //         정규식 확인 알람
         function chkReg(data, loc) {
           let value = $(loc).val();
           console.log(value);
@@ -2505,37 +2627,44 @@
             },
           });
         }
-        function delPofol(deleteItem){
-        	
-//         	let jobSearchNo = deleteItem.dataset.no; // data - 속성 이용해서 값가져옴
-        	console.log(deleteItem.dataset);
-        	console.log($(this))
-//         	$.ajax({
-//         		url: 'delPofol',
-//         		type: 'post',
-//         		data: {fileNo : deleteItem.id, jobSearchNo : jobSearchNo},
-//         		success: function (result) {
-//         			console.log('삭제성공');
-//         			pofolRows.innerHTML = ''; // 초기화
-        			
-//         			let pofolHtml = '';
-//         			if(result.length == 0){ // 포트폴리오 리스트 항목이 0개라면
-//         				pofolHtml = `<div style="background-color : pink; text-align:center;">포트폴리오 항목이 비어있습니다. 추가를 눌러 채워 주세요</div>`;
-//         				pofolRows.innerHTML= pofolHtml;
-//         			}else{
-//         				for(let i = 0 ; i < result.length; i++){
-//         					pofolHtml += pofolListPrint(result[i]); // 화면에 뿌려주는 태그들
-//         				}
-        				
-//         				pofolRows.innerHTML= pofolHtml;			
-//         			}
-//         		},
-//          		error: function (reject) {	   
-//             		console.log(reject);
-//         		}
-//         	});	
-        }
+        //         포폴 삭제 버튼 함수
+        function delPofol(deleteItem) {
+          console.log($(deleteItem));
+          console.log($(deleteItem).data("no"));
+          console.log($(deleteItem).data("prtflNo"));
+          console.log($(deleteItem).data("prtflno"));
+          let data = new Object();
+          data.no = $(deleteItem).data("no");
+          data.prtflNo = $(deleteItem).data("prtflno");
+          console.log(data);
 
+          $.ajax({
+            url: "/delPofol",
+            type: "post",
+            data: data,
+            success: function (result) {
+              console.log("삭제성공");
+              pofolRows.innerHTML = ""; // 초기화
+              console.log(result);
+              let pofolHtml = "";
+              if (result.length == 0) {
+                // 포트폴리오 리스트 항목이 0개라면
+                pofolHtml = `<div style="background-color : pink; text-align:center;">포트폴리오 항목이 비어있습니다. 추가를 눌러 채워 주세요</div>`;
+                $("input[name = prtflNo]").attr("value", "");
+                pofolRows.innerHTML = pofolHtml;
+              } else {
+                for (let i = 0; i < result.length; i++) {
+                  pofolHtml += pofolListPrint(result[i]); // 화면에 뿌려주는 태그들
+                }
+
+                pofolRows.innerHTML = pofolHtml;
+              }
+            },
+            error: function (reject) {
+              console.log(reject);
+            },
+          });
+        }
       </script>
     </div>
   </body>

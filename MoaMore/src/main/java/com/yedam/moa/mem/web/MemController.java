@@ -72,20 +72,14 @@ public class MemController {
 //	이력서 시작
 //	이력서 폼 접속
 	@GetMapping("mem/mkResume")
-	public String createResume(Principal principal, Model model, MemVO vo, ResumeVO rvo) {
+	public String createResume(Principal principal, Model model, MemVO vo) {
+		
 		vo.setId(principal.getName());
-		rvo=mem.lastRe(vo);
-		if(rvo.getResumeNo() == null) {
-		rvo.setResumeNo("none");
-		};
-		System.out.println(rvo);
-		model.addAttribute("resume", rvo);
-		System.out.println(rvo);
 		model.addAttribute("list", com.getCodes("Z", "D", "E", "B", "d", "N", "A"));
 		model.addAttribute("info", mem.getMemInfo(vo));
 		;
 
-		return "mem/mem_resumeSec";
+		return "mem/mem_resume";
 	}
 	
 	
@@ -96,7 +90,6 @@ public class MemController {
 			rvo=mem.lastRe(vo);
 		if(rvo.getResumeNo()==null) {
 			rvo.setResumeNo("none");
-//			rvo.setShcrNo("dummy");
 			};
 			System.out.println(rvo);
 		
@@ -164,6 +157,27 @@ public class MemController {
 			}   
 			return  mem.getPrtfl(rvo);
           }
+	@PostMapping("/delPofol")
+	@ResponseBody
+	public List<PrtflVO> delPofol (PrtflVO vo) {
+		System.out.println(vo);
+		ResumeVO rvo = new ResumeVO();
+		if(mem.delPofol(vo)>0) {
+		rvo.setPrtflNo(vo.getPrtflNo());
+		return mem.getPrtfl(rvo);	
+		}else {
+			return null;
+		}
+	}
+	@GetMapping("mem/viewResume")
+	public String getVueRe(Principal principal, Model model, MemVO vo) {
+//		vo.setId(principal.getName());
+//		model.addAttribute("list", mem.openSesame(vo));
+//		model.addAttribute("count", mem.getCount(vo));
+		return "mem/resume_vue";
+	}
+	
+		
 }
 	
 	

@@ -33,4 +33,6 @@ public interface MemService {
 
 	public int withdraw(String id);
 	
+	public int delPofol(PrtflVO vo);
+	
 }

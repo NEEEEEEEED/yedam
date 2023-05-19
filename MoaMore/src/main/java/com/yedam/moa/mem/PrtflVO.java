@@ -14,6 +14,7 @@ public class PrtflVO {
 	private String prtflFile;	  //UUID 파일명
 	private String ttl;		  //포폴 제목
 	private String id;
+	private String no;
 	private MultipartFile uuidImg;
 	private MultipartFile uuid;
 }

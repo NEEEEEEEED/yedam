@@ -265,4 +265,10 @@ public class MemServiceImpl implements MemService {
 	public List<PrtflVO>  getPrtfl(ResumeVO vo) {
 		return mem.getPrtfl(vo);
 	}
+
+	@Override
+	public int delPofol(PrtflVO vo) {
+		System.out.println(vo);
+		return mem.delPofol(vo);
+	}
 }

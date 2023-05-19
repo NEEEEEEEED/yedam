@@ -714,7 +714,7 @@ $('#pofolRegBtn').on('click', function(){
 function pofolReg(){
 	
 	let formData = new FormData($('#pofolRegForm')[0]); // 폼데이터
-
+	
 	$.ajax({
 		url: 'pofolAdd',
 		type: 'post',
@@ -758,7 +758,7 @@ $('#myProfileBtn').on('click', function(){
 function myImgReg(){
 	let formData = new FormData();
 	formData.append("profileImage", inputImg.files[0]);
-	
+	formData.append("reqLoc", "self");
 	$.ajax({
 		url: 'myProfileImg',
 		type: 'post',

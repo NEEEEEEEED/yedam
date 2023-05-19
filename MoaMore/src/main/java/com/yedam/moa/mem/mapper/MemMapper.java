@@ -75,4 +75,7 @@ public interface MemMapper {
 
 //  회원탈퇴
 	public int withdraw(String id);
+	
+	
+	public int delPofol(PrtflVO vo);
 }
