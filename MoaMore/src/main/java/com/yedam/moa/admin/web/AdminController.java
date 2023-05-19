@@ -2,6 +2,7 @@ package com.yedam.moa.admin.web;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +20,7 @@ import com.yedam.moa.admin.service.PostListVO;
 import com.yedam.moa.admin.service.ReportVO;
 import com.yedam.moa.admin.service.UserSearchVO;
 import com.yedam.moa.comm.CommVO;
+import com.yedam.moa.comm.service.CommService;
 import com.yedam.moa.comm.service.Impl.CommServiceImpl;
 import com.yedam.moa.community.service.CommunityService;
 import com.yedam.moa.mem.MemVO;
@@ -33,6 +35,9 @@ public class AdminController {
 	@Autowired
 	CommServiceImpl comm;
 
+	@Autowired
+	CommService commonService;
+	
 	@GetMapping("/getCommonCode")
 	@ResponseBody
 	public Map<String, List<CommVO>> getCommonCode() {
@@ -86,16 +91,28 @@ public class AdminController {
 	@PostMapping("/deleteUsers")
 	@ResponseBody
 	public String removeUsers(@RequestBody String[] emails) {
-		System.out.println(emails);
 		return adminService.removeUsers(emails);
 	}
 	// 유저 검색
 	@PostMapping("/getSearchUser")
 	@ResponseBody
 	public List<MemVO> getSearchUser(@RequestBody UserSearchVO vo) {
-		System.out.println(vo);
 		return adminService.getSearchUser(vo);
 	}
+	@PostMapping("/modifyRprt")
+	@ResponseBody
+	public String modifyRprt(@RequestBody List<ReportVO> vo) {
+		return adminService.modifyRprt(vo);
+	}
+	@PostMapping("/removeBoard")
+	@ResponseBody
+	public String removeBoard(@RequestBody String[] nos) {
+		return adminService.removeBoard(nos);
+	}
+	
+	
+	
+	
 	@Autowired 
 	CommunityService commuService;
 	// 취업 Q&A 상세페이지
@@ -118,11 +135,30 @@ public class AdminController {
 		model.addAttribute("projectInfo", commuService.projectDetail(prjtNo));
 		return "admin/projectDetailVue";
 	}
+	// 프로젝트 수정페이지
+	@GetMapping("/adminProjectMod")
+	public String adminProjectMod (Model model, Principal pr, String prjtNo) {
+		model.addAttribute("logId",pr.getName());
+		// 직무, 진행방식, 진행기간, 연락방법, 모집상태
+		model.addAttribute("commList", commonService.getCodes("N","j","g","i","h"));
+		model.addAttribute("projectInfo", commuService.projectDetail(prjtNo));
+		return "admin/projectDetailMod";
+	}
+	
 	// 스터디 상세페이지
 	@GetMapping("/adminStudyDetial")
 	public String adminStudyDetial(Model model, String studyNo) {
 		model.addAttribute("studyDetailInfo", commuService.studyDetail(studyNo));
 		return "admin/studyDetailVue";
+	}
+	// 스터디 수정페이지
+	@GetMapping("/adminStudyMod")
+	public String adminStudyMod (Model model, Principal pr, String studyNo) {
+		model.addAttribute("logId",pr.getName());
+		// 스터디 구분 , 진행방식, 진행기간, 연락방법, 모집상태
+		model.addAttribute("commList", commonService.getCodes("k", "j", "g", "i", "h"));
+		model.addAttribute("studyDetailInfo", commuService.studyDetail(studyNo));
+		return "admin/studyDetailMod";
 	}
 	//신고 조회
 	@PostMapping("/getReportData")

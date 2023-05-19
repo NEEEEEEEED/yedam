@@ -265,6 +265,11 @@
 		SELECT prov as "code", get_common(prov) as "name"
 		FROM cmmn_dt
 		where comm_cd = 'G'
-		  and prov != 'G4'
 	</select>
+	
+	<update id="updateRprt" parameterType="ReportVO">
+		UPDATE 	rprt_list
+		SET 	rprt_st = #{rprtSt}
+		WHERE   rprt_no = #{rprtNo}
+	</update>
 </mapper>

@@ -12,6 +12,7 @@ import com.yedam.moa.admin.service.AdminService;
 import com.yedam.moa.admin.service.PostListVO;
 import com.yedam.moa.admin.service.ReportVO;
 import com.yedam.moa.admin.service.UserSearchVO;
+import com.yedam.moa.community.mapper.CommunityMapper;
 import com.yedam.moa.mem.MemVO;
 
 @Service
@@ -19,6 +20,9 @@ public class AdminServiceImpl implements AdminService {
 
 	@Autowired
 	AdminMapper adminMapper;
+	@Autowired
+	CommunityMapper commuMapper;
+	
 	@Override
 	public List<MemVO> getUserInfo() {
 		return adminMapper.selectUserInfo();
@@ -80,6 +84,40 @@ public class AdminServiceImpl implements AdminService {
 		map.put("list",adminMapper.selectReportData(notiwrNo));
 		map.put("rprt",adminMapper.selectrprtSt());
 		return map;
+	}
+	@Override
+	public String modifyRprt(List<ReportVO> vo) {
+		String message = ""	;
+		for(ReportVO rvo : vo) {
+			if(adminMapper.updateRprt(rvo)>0) {
+				message = message + rvo.getRprtNo() +",";
+			} else {
+				message = message + rvo.getRprtNo() +",";
+			}
+		}
+		return message;
+	}
+
+	
+	@Override
+	public String removeBoard(String[] nos) {
+		String message = "";
+		for(String str : nos) {
+			String substr = str.substring(0,3);
+			System.out.println(substr);
+			if(substr.equals("STD")) {
+				commuMapper.studyDelFn(str);
+				message = message + str +",";
+			} else if(substr.equals("PRJ")) {
+				commuMapper.projectDelFn(str);
+				message = message + str +",";
+			} else {
+				commuMapper.jobQnaDelete(str);
+				message = message + str +",";
+			}
+		}
+		return message;
+		
 	}
 
 
