@@ -1,6 +1,8 @@
 package com.yedam.moa.admin.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -73,8 +75,11 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<ReportVO> getReportData(String notiwrNo) {
-		return adminMapper.selectReportData(notiwrNo);
+	public Map<String,Object> getReportData(String notiwrNo) {
+		Map<String,Object> map = new HashMap<>();
+		map.put("list",adminMapper.selectReportData(notiwrNo));
+		map.put("rprt",adminMapper.selectrprtSt());
+		return map;
 	}
 
 

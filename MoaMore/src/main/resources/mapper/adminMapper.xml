@@ -249,9 +249,22 @@
 	</delete>
 	
 	<select id="selectReportData" resultType="ReportVO">
-		SELECT *
+		SELECT  RPRT_NO
+				,RPRTER
+				,get_common(RPRT_RESN) as "rprtResn"
+				,DISPO_CNTN
+				,DISPO_DT
+				,NOTIWR_NO
+				,RPRT_TM
+				,get_common(RPRT_ST) as "rprtSt"
 		FROM rprt_list
 		WHERE notiwr_no = #{notiwrNo}
 	</select>
-
+	
+	<select id="selectrprtSt" resultType="rprtStatusVO">
+		SELECT prov as "code", get_common(prov) as "name"
+		FROM cmmn_dt
+		where comm_cd = 'G'
+		  and prov != 'G4'
+	</select>
 </mapper>

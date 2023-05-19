@@ -65,7 +65,7 @@
 	</update>
 	
 	<!-- 취업 Q&A 댓글 등록 -->
-	<insert id="qnaReplyAdd" parameterType="StudyVO">
+	<insert id="qnaReplyAdd" parameterType="ReplyVO">
 		<selectKey keyProperty="rplyNo" resultType="String" order="BEFORE">
 		 	SELECT 'EQR'|| EMPL_RPLY_SEQ.NEXTVAL as rplyNo
 			FROM DUAL
@@ -86,12 +86,46 @@
 	
 	<!-- 취업 Q&A 모댓글 리스트 출력 -->
 	<select id="qnaReplyList" resultType="ReplyVO">
-		SELECT RPLY_NO, QA_NOTIWR_NO, ID, RPLY_CNTN, REG_DT, RPLY_DEPTH, RPLY_GROUP, RPLY_YN 
+		SELECT   RPLY_NO
+			   , QA_NOTIWR_NO
+			   , ID, RPLY_CNTN
+			   , REG_DT
+			   , RPLY_DEPTH
+			   , RPLY_GROUP
+			   , RPLY_DEL_YN 
 		  FROM EMPL_RPLY
 		 WHERE QA_NOTIWR_NO = #{qaNotiwrNo} 
 		   AND RPLY_DEPTH = #{rplyDepth}
 		 ORDER BY REG_DT DESC
 	</select>
+	
+	<!-- 모댓글에 대한 자식 댓글들 리스트 -->
+	<select id="childReplyList" resultType="ReplyVO">
+		SELECT   RPLY_NO
+		        , QA_NOTIWR_NO
+		        , ID, RPLY_CNTN
+		        , REG_DT
+		        , RPLY_DEPTH
+		        , RPLY_GROUP
+		        , RPLY_DEL_YN 
+		 FROM EMPL_RPLY
+		WHERE RPLY_DEPTH = #{rplyDepth}
+		  AND RPLY_GROUP = #{rplyGroup}
+	</select>
+	
+	<!-- 취업 Q&A 댓글 수정 -->
+	<update id="qnaReplyMod" parameterType="ReplyVO">
+		UPDATE EMPL_RPLY
+		   SET RPLY_CNTN = #{rplyCntn}
+		 WHERE RPLY_NO = #{rplyNo}
+	</update>
+	
+	<!-- 취업 Q&A 댓글 삭제 -->
+	<update id="qnaReplyDelete" parameterType="ReplyVO">
+		UPDATE EMPL_RPLY
+		   SET RPLY_DEL_YN = 'Y'
+		 WHERE RPLY_NO = #{rplyNo}
+	</update>
 	
 	
 	<!-- 면접 후기 등록 -->

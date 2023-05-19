@@ -272,8 +272,8 @@ import Button from "primevue/button";
 import "primeicons/primeicons.css";
 import DynamicDialog from "primevue/dynamicdialog";
 import { markRaw, defineAsyncComponent } from "vue";
-const ProductListDemo = defineAsyncComponent(() =>
-  import("../components/modal/ProductListDemo.vue")
+const ReportModal = defineAsyncComponent(() =>
+  import("../components/modal/ReportModal.vue")
 );
 const FooterDemo = defineAsyncComponent(() =>
   import("../components/modal/FooterDemo.vue")
@@ -361,7 +361,7 @@ export default {
       const selectedRow = [rowData];
       const selectedNo = selectedRow[0].data.no;
 
-      this.$dialog.open(ProductListDemo, {
+      this.$dialog.open(ReportModal, {
         props: {
           header: "본문 내용",
           style: {
@@ -372,7 +372,9 @@ export default {
             "640px": "90vw",
           },
           modal: true,
-          No: selectedNo,
+        },
+        data: {
+          no: selectedNo,
         },
         templates: {
           footer: markRaw(FooterDemo),
