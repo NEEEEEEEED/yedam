@@ -59,6 +59,22 @@ body {
 						<option th:each="list : ${list.N}" th:text="${list.desct}" th:attr="value=${list.prov}">직무</option>
 					</select>
 				</div>
+				
+				<div class="divStyle mb-3">
+							  <div class="form-floating border fullWidth">
+							  	<div class="row">
+							  		<div class="col-md-3">
+							  			<div style="padding : 16px;">
+							  				<label for="floatingTextarea">주요업무</label><span id="star">*</span>
+							  			</div>
+							  		</div>
+							  		<div class="col-md-9">
+							  			<textarea id="maBuss" class="form-control radius fullWidth" placeholder="자격요건을 작성해주세요" style="height: 200px; resize: none; border:none;" th:text="${hireInfo[0].maBuss}" ></textarea>
+							  		</div>
+							  	</div>
+							  </div>
+							</div>
+							
 			<div class="divStyle mb-3">
 							  <div class="form-floating border fullWidth">
 							  	<div class="row">
@@ -68,7 +84,7 @@ body {
 							  			</div>
 							  		</div>
 							  		<div class="col-md-9">
-							  			<textarea id="qualCond" class="form-control radius fullWidth" placeholder="자격요건을 작성해주세요" style="height: 200px; resize: none; border:none;" th:text="${hireInfo[0].qualCond}" ></textarea>
+							  			<textarea id="qual" class="form-control radius fullWidth" placeholder="자격요건을 작성해주세요" style="height: 200px; resize: none; border:none;" th:text="${hireInfo[0].qualCond}" ></textarea>
 							  		</div>
 							  	</div>
 							  </div>
@@ -83,7 +99,7 @@ body {
 							  			</div>
 							  		</div>
 							  		<div class="col-md-9">
-							  			<textarea id="prefCond" class="form-control radius fullWidth" placeholder="우대사항을 작성해주세요" style="height: 200px; resize: none; border:none;" th:text="${hireInfo[0].prefCond}"></textarea>
+							  			<textarea id="pref" class="form-control radius fullWidth" placeholder="우대사항을 작성해주세요" style="height: 200px; resize: none; border:none;" th:text="${hireInfo[0].prefCond}"></textarea>
 							  		</div>
 							  	</div>
 							  </div>
