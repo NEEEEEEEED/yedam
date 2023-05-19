@@ -136,6 +136,7 @@
 <select id="lastRe" resultType ="ResumeVO">
 		select 	ttl,		
 				resume_no,
+				prtfl_no,
 				shcr_no,
 				carr_no, 
 				edu_no, 
@@ -237,7 +238,8 @@
 			PRTFL_FILE,
 			ID,
 			TTL,
-			PRTFL_IMG		
+			PRTFL_IMG,
+			NO		
 	from	resume_prtfl
 	where 	PRTFL_NO = #{prtflNo}	 		
 </select>
@@ -399,6 +401,7 @@
 		insert into resume (resume_no, 
 							id, 
 							ttl,
+							prtfl_no,
 							img_no, 
 							carr_no,
 							edu_no,
@@ -411,6 +414,7 @@
 		values(#{resumeNo},
 			   #{id},
 			   #{ttl},
+			   #{prtflNo},
 			   #{imgNo},
 			   #{carrNo},
 			   #{eduNo},
@@ -435,5 +439,14 @@
 		END;	 
 	</delete>	
  	 
+ 	<delete id="delPofol" parameterType="PrtflVO">
+		delete 
+		from resume_prtfl 
+		where prtfl_no = #{prtflNo}
+		<if test="no!=null">
+		and no = #{no}
+		</if> 
+		
+	</delete>	
 
 </mapper>
