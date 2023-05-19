@@ -13,7 +13,8 @@
                I.CO_IMG,
                R.RECRUIT_NO,
                (SELECT S.RECRUIT_NO FROM RECRUIT_SCRAP S WHERE R.RECRUIT_NO = S.RECRUIT_NO AND ID = #{id}) AS scrapYn,
-               F.ID_CO AS followYn
+               F.ID_CO AS followYn,
+               R.ACCP_DT
 		
 		FROM RECRUIT_ANUN R
 		JOIN CO C
@@ -51,7 +52,7 @@
        		<if test="skill != null and skill != ''">
        			AND K.SKILL LIKE '%' || get_common(#{skill}) || '%'
        		</if>
-		
+	   AND TO_DATE(R.ACCP_DT, 'YYYY-MM-DD') BETWEEN TO_DATE(#{accpDt}, 'YYYY-MM-DD') AND TO_DATE(#{exprDt}, 'YYYY-MM-DD')
        ORDER BY RECRUIT_NO DESC
                
 	</select>
@@ -132,7 +133,8 @@
 	<!-- 공고 상세 추천공고(기술로 추천) 조회 -->
 	<select id="selectRecommend" resultType="HireVO">
 		SELECT K.RECRUIT_NO, 
-		       R.TTL, get_common(CARR) AS CARR, 
+		       R.TTL, 
+		       get_common(CARR) AS CARR, 
 		       get_common(JOB) AS JOB,
 		       LISTAGG(get_common(SKILL), ',') WITHIN GROUP (ORDER BY SKILL_NO) as SKILL,
 		       R.ACCP_DT,
@@ -238,7 +240,48 @@
 	
 	<!-- 공고 수정 기능 -->
 	<update id="hireModify" parameterType="HireVO">
-		UPDATE RECRUIT_ANUN SET RECRUIT_NO = #{recruitNo}, ID = #{id}, TTL = #{ttl}, SHCR = #{shcr}, CARR = #{carr}, MA_BUSS = #{maBuss}, QUAL_COND = #{qualCond}, PREF_COND = #{prefCond}, WELF = #{welf}, EXPR_DT = #{exprDt}, WKSITE = #{wksite}, JOB = #{job}, CO_INTRO = #{coIntro}
+		UPDATE RECRUIT_ANUN 
+			<set>
+				<if test='recruitNo != null and !"".equals(recruitNo)'>
+					RECRUIT_NO = #{recruitNo},
+				</if>
+				<if test='id != null and !"".equals(id)'>
+					ID = #{id},
+				</if>
+				<if test='ttl != null and !"".equals(ttl)'>
+					TTL = #{ttl},
+				</if>
+				<if test='shcr != null and !"".equals(shcr)'>
+					SHCR = #{shcr},
+				</if>
+				<if test='carr != null and !"".equals(carr)'>
+					CARR = #{carr},
+				</if>
+				<if test='maBuss != null and !"".equals(maBuss)'>
+					MA_BUSS = #{maBuss},	
+				</if>
+				<if test='qualCond != null and !"".equals(qualCond)'>
+					QUAL_COND = #{qualCond},
+				</if>
+				<if test='prefCond != null and !"".equals(prefCond)'>
+					PREF_COND = #{prefCond},
+				</if>
+				<if test='welf != null and !"".equals(welf)'>
+					WELF = #{welf},
+				</if>
+				<if test='exprDt != null and !"".equals(exprDt)'>
+					EXPR_DT = #{exprDt},
+				</if>
+				<if test='wksite != null and !"".equals(wksite)'>
+					WKSITE = #{wksite},
+				</if>
+				<if test='job != null and !"".equals(job)'>
+					JOB = #{job},
+				</if>
+				<if test='coIntro!= null and !"".equals(coIntro)'>
+					CO_INTRO = #{coIntro}
+				</if>
+			  </set> 
 		WHERE RECRUIT_NO = #{recruitNo}
 	</update>
 	<!-- 공고 스킬 삭제 -->
@@ -249,4 +292,30 @@
 	<delete id="hireImgDelete" parameterType="HireVO">
 		DELETE FROM RECRUIT_IMAGES WHERE RECRUIT_NO = #{recruitNo}
 	</delete>
+	<!-- 메인 페이지 -->
+	<!-- 유료 공고 -->
+	<select id="prdtSelect" resultType="HireVO">
+		SELECT DISTINCT R.TTL,
+		       get_common(CARR) AS CARR,
+		       get_common(JOB) AS JOB,
+		       C.CO_NM,
+		       R.EXPR_DT,
+		       I.CO_IMG
+		FROM RECRUIT_ANUN R
+		JOIN CO C
+		    ON R.ID = C.ID
+		JOIN RECRUIT_IMAGES I
+		    ON R.RECRUIT_NO = I.RECRUIT_NO
+		JOIN REC_RESER S
+		    ON R.RECRUIT_NO = S.RECRUIT_NO
+		WHERE S.RESER_DT = TO_CHAR(SYSDATE, 'yyyy-MM-dd')
+	</select>
+	<!-- 최신 공고 -->
+	<select id="newSelect" resultType="HireVO">
+	  
+	</select>
+	<!-- 인기 공고 -->
+	<select id="popSelect" resultType="HireVO">
+	
+	</select>
 </mapper>

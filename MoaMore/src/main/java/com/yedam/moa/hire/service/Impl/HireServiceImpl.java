@@ -154,7 +154,6 @@ public class HireServiceImpl implements HireService{
 	// 공고 이미지 조회
 	@Override
 	public List<HireVO> hireImgInsertList(HireVO vo) {
-		System.out.println(vo);
 		return hireMapper.detailImgesList(vo);
 	}
 	
@@ -169,7 +168,6 @@ public class HireServiceImpl implements HireService{
 	public int hireModify(HireVO vo) {
 		int result = hireMapper.hireSkillDelete(vo);
 		result = hireMapper.hireModify(vo);
-		
 		
 		String[] skillArray = vo.getSkill().split(",");
 
@@ -192,13 +190,20 @@ public class HireServiceImpl implements HireService{
 	// 공고 이미지 수정
 	@Override
 	public int hireImgModify(HireVO vo) {
-		int result= 0;
+		int result= hireMapper.hireImgDelete(vo);
 		
 		for(String istr : vo.getRecruitImgList()) {
+			String recuritImgNo = hireMapper.recruitImgNo();
+			vo.setRecruitImgNo(recuritImgNo);
 			vo.setRecruitImg(istr);
 			result += hireMapper.detailImges(vo);
 		}
-		return result;
+		 if(result > 0) {
+			return 1;
+		}else {
+			return 0;
+		}
+			
 	}
 	
 	

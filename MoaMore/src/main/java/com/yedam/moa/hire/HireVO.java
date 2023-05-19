@@ -44,5 +44,6 @@ public class HireVO {
 	private String scrapNo; // 스크랩 번호
 	private String skillNo; // 스킬 번호
 	private String recruitImgNo; // 공고 상세 이미지 번호
+	private String reserDt; // 결제날짜
 	
 }
