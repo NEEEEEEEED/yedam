@@ -1,7 +1,6 @@
 <template>
 <div>
 
- 
   <!-- 댓글 영역 -->
   <form id="replyForm">
     <input id="qaNotiwrNo" v-model="qaNotiwrNo" name="qaNotiwrNo" type="hidden"/>
@@ -13,96 +12,162 @@
 
     <hr style="color:#ddd;">
 
-    <!-- 반복 -->
+    <!-- 댓글 리스트 반복 -->
     <div v-for="(reply, index) in qnaReplyList" :key="reply.rplyNo" class="mb-2 p-3">
-      <div class="mb-2" style="display:flex">
-        <div>
-          <img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
-          <span>{{reply.id}}</span>
+      <!-- 삭제 되지 않은 댓글일때 -->
+      <div v-if="reply.rplyDelYn === 'N'">
+        <div class="mb-2" style="display:flex">
+          <div>
+            <img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
+            <span>{{reply.id}}</span>
+          </div>
+          <div style="margin-left:auto;">
+            <div class="d-flex">
+              <!-- 해당 댓글의 수정 폼이 나타났을때 사라지는 부분 -->
+              <div class="ms-1" v-if="!reply.modFormVisible">
+                  <!-- 현재 로그인한 유저 아이디와 댓글을단 아이디가 동일하다면 나타나는 수정 버튼 -->
+                  <button v-if="userId === reply.id" type="button" @click="replyModForm(index)" class="btn btn-secondary radius btn-sm">수정</button>
+              </div>
+              <!-- 해당 댓글의 수정 폼이 나타났을때 사라지는 부분 -->
+              <div class="mx-3" v-if="!reply.modFormVisible">
+                  <!-- 현재 로그인한 유저 아이디와 댓글을단 아이디가 동일하다면 나타나는 삭제 버튼 -->
+                  <button v-if="userId === reply.id" type="button" @click="replyDelete(index)" class="btn btn-danger radius btn-sm">삭제</button>
+              </div>
+              <div>
+                  <p>{{reply.regDt}}</p>
+              </div>
+              <div class="cursor ms-3">
+                  <i class="fa-solid fa-land-mine-on"></i>
+                  <span class="fs--1">신고하기</span>
+                </div>
+              </div>
+          </div>
         </div>
-        <div style="margin-left:auto;">
-          <div class="d-flex">
-            <div class="ms-1" v-if="!reply.modFormVisible">
-                <button v-if="userId === reply.id" type="button" @click="replyMod(index, reply.rplyNo)" class="btn btn-secondary radius btn-sm">수정</button>
-            </div>
-            <div class="mx-3" v-if="!reply.modFormVisible">
-                <button v-if="userId === reply.id" type="button" class="btn btn-danger radius btn-sm" >삭제</button>
-            </div>
+        <!-- 해당 댓글의 수정버튼을 클릭했을때 나타나는 수정폼 -->
+        <form v-if="reply.modFormVisible" class="m-3">
+            <!-- 기존 댓글의 내용부분 가져옴 -->
+            <input name="rplyCntn" v-model="reply.modifyRplyCntn" type="text" class="border-bottom" style="width:60%; border : none;">
+            <button type="button" @click="replyModifyFn(index)" class="btn btn-secondary radius btn-sm">수정</button>
+            <button type="button" @click="replyModForm(index)" class="btn btn-dark radius btn-sm">취소</button>
+        </form>
+        <!-- 해당 댓글의 내용부분 출력 = 수정버튼을 클릭하기전 출력되는 화면-->
+        <p v-if="!reply.modFormVisible">{{reply.rplyCntn}}</p>
+        <span class="fw-bold" style="color:blue; cursor:pointer" @click="commentsList(index)">댓글 {{reply.childCount}}</span>
+        
+        
+        <!-- 답글버튼 눌렀을때 보이는 영역 -->
+        <div v-if="reply.isVisible" class="mt-2 p-4" style="background-color:#f9f9f9">
+          <!-- 반복 -->
+          <div v-for="(chreply, index) in reply.chreplyList" :key="chreply.rplyNo">
+          <div class="mb-2" style="display:flex">
             <div>
-                <p>{{reply.regDt}}</p>
+              <img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
+              <span>{{chreply.id}}</span>
             </div>
-            <div class="cursor ms-3">
-                <i class="fa-solid fa-land-mine-on"></i>
-                <span class="fs--1">신고하기</span>
-              </div>
+            <div style="margin-left:auto;">
+              <div class="d-flex">
+                <div>
+                    <p>{{chreply.regDt}}</p>
+                  </div>
+                <div class="cursor ms-3">
+                    <i class="fa-solid fa-land-mine-on"></i>
+                    <span class="fs--1">신고하기</span>
+                  </div>
+                </div>
             </div>
-        </div>
-      </div>
-      <form v-if="reply.modFormVisible" id="replyModForm" class="m-3">
-        <div>
-          <input type="text" class="border-bottom"  style="width:50%; border : none;" name="rplyCntn" v-model="reply.rplyCntn">
-          <button type="button" class="btn btn-danger radius btn-sm">수정</button>
-          <button type="button" class="btn btn-dark radius btn-sm">취소</button>
-        </div>
-      </form>
-      <p v-if="!reply.modFormVisible">{{reply.rplyCntn}}</p>
-      <span class="fw-bold" style="color:blue; cursor:pointer" @click="commentsList(index)">답글 N</span>
-      
-      
-      <!-- 답글버튼 눌렀을때 보이는 영역 -->
-      <div v-if="reply.isVisible" class="mt-2 p-4" style="background-color:#f9f9f9">
-        <div class="mb-2" style="display:flex">
-          <div>
-            <img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
-            <span>아이디</span>
           </div>
-          <div style="margin-left:auto;">
-            <div class="d-flex">
-              <div>
-                  <p>2023/05/13</p>
-                </div>
-              <div class="cursor ms-3">
-                  <i class="fa-solid fa-land-mine-on"></i>
-                  <span class="fs--1">신고하기</span>
-                </div>
-              </div>
-          </div>
-        </div>
-        <p>대댓글 아직 안됐음 가짜임2</p>
-        
-        <hr class="mb-4" style="color:#ddd;">
-        
-        
-        <div class="mb-2" style="display:flex">
-          <div>
-            <img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
-            <span>아이디</span>
-          </div>
-          <div style="margin-left:auto;">
-            <div class="d-flex">
-              <div>
-                  <p>2023/05/13</p>
-                </div>
-              <div class="cursor ms-3">
-                  <i class="fa-solid fa-land-mine-on"></i>
-                  <span class="fs--1">신고하기</span>
-                </div>
-              </div>
-          </div>
-        </div>
-        <p>대댓글 아직 안됐음 가짜임3</p>
-        
-        <hr class="mb-4" style="color:#ddd;">
-        
-        <div class="input-group my-2">
-          <input class="form-control radius" style="height:50px;" placeholder="답글을 작성해주세요" >
-            <button class="btn btn-dark radius btn-sm" type="button" id="button-addon2">답글등록</button>
-          </div>
-      </div><!-- 답글버튼 눌렀을때 보이는 영역 -->
-    
-    <hr style="color:#ddd;">
+          <p>{{chreply.rplyCntn}}</p>
+          
+          <hr class="mb-4" style="color:#ddd;">
 
-    </div>
+        </div>
+        <!--
+          <div class="mb-2" style="display:flex">
+            <div>
+              <img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
+              <span>아이디</span>
+            </div>
+            <div style="margin-left:auto;">
+              <div class="d-flex">
+                <div>
+                    <p>2023/05/13</p>
+                  </div>
+                <div class="cursor ms-3">
+                    <i class="fa-solid fa-land-mine-on"></i>
+                    <span class="fs--1">신고하기</span>
+                  </div>
+                </div>
+            </div>
+          </div>
+          <p>대댓글 아직 안됐음 가짜임3</p>
+          
+          <hr class="mb-4" style="color:#ddd;">-->
+          
+          <div class="input-group my-2">
+            <input class="form-control radius" style="height:50px;" placeholder="댓글을 작성해주세요" >
+              <button class="btn btn-dark radius btn-sm" type="button" id="button-addon2">댓글등록</button>
+            </div>
+        </div><!-- 답글버튼 눌렀을때 보이는 영역 -->
+      
+      <hr style="color:#ddd;">
+    </div> <!-- v-if="reply.rplyDelYn==='N'" div 닫기-->
+
+    <!-- 삭제된 댓글 일때 -->
+    <div v-else>
+        <div class="mb-2" style="display:flex">
+          <div>
+            <img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
+            <span>{{reply.id}}</span>
+          </div>
+          <div style="margin-left:auto;">
+            <div class="d-flex">
+              <div>
+                  <p>{{reply.regDt}}</p>
+              </div>
+              <div class="cursor ms-3">
+                  <i class="fa-solid fa-land-mine-on"></i>
+                  <span class="fs--1">신고하기</span>
+                </div>
+              </div>
+          </div>
+        </div>
+        <p style="font-style: italic;">삭제된 댓글입니다.</p>
+        <span class="fw-bold" style="color:blue; cursor:pointer" @click="commentsList(index)">댓글 {{reply.childCount}}</span>
+        
+        <!-- 답글버튼 눌렀을때 보이는 영역 -->
+        <div v-if="reply.isVisible" class="mt-2 p-4" style="background-color:#f9f9f9">
+          <div v-for="(chreply, index) in reply.chreplyList" :key="chreply.rplyNo">
+            <div class="mb-2" style="display:flex">
+              <div>
+                <img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
+                <span>{{chreply.id}}</span>
+              </div>
+              <div style="margin-left:auto;">
+                <div class="d-flex">
+                  <div>
+                      <p>{{chreply.regDt}}</p>
+                    </div>
+                  <div class="cursor ms-3">
+                      <i class="fa-solid fa-land-mine-on"></i>
+                      <span class="fs--1">신고하기</span>
+                    </div>
+                  </div>
+              </div>
+            </div>
+            <p>{{chreply.rplyCntn}}</p>
+            
+            <hr class="mb-4" style="color:#ddd;">
+          </div>
+   
+          <div class="input-group my-2">
+            <input class="form-control radius" style="height:50px;" readonly placeholder="댓글이 삭제되어 더이상 작성하실수없습니다." >
+            
+          </div>
+        </div><!-- 답글버튼 눌렀을때 보이는 영역 -->
+      
+      <hr style="color:#ddd;">
+    </div><!-- 삭제된 댓글일때 div 닫기-->
+  </div>
 </div>
 </template>
 
@@ -110,18 +175,17 @@
   module.exports = {
     data() {
       return {
-        qnaReplyList : [],
-        qaNotiwrNo : '',
-        isVisible : false,
-        rplyCntn: '',
-        userId : '',
-        modFormVisible : false,
+        qnaReplyList : [], // 댓글 리스트
+        qaNotiwrNo : '',  // 게시글 번호
+        rplyCntn: '',     // 댓글 내용
+        userId : '',      // 로그인한 아이디
       };
     },
     mounted(){
-      
+
       this.getQaNotiwrNo();  // 댓글 리스트
-      this.getLoginUserId(); // 로그인한 userid
+      this.getLoginUserId(); // 현재 로그인한 userid
+
     },
     methods: {
 
@@ -131,10 +195,11 @@
 
         // 쿼리스트링 값을 파싱하여 객체로 변환
         const params = new URLSearchParams(queryString);
-        const value = params.get('qaNotiwrNo');
+        const value = params.get('qaNotiwrNo'); // 게시글 번호
+        
         this.qaNotiwrNo = value;
-        console.log(this.qaNotiwrNo); // 쿼리스트링의 값 출력
-        this.ReplyList(this.qaNotiwrNo);
+
+        this.ReplyList(this.qaNotiwrNo); // 해당 게시글의 댓글 출력
 
       },
       // 댓글 리스트 출력 
@@ -142,24 +207,26 @@
         axios.post('/qnaReplyList', {qaNotiwrNo : qaNotiwrNo})
           .then(res => {
             
-            this.qnaReplyList = res.data;
-            console.log(this.qnaReplyList);
+            this.qnaReplyList = res.data; // 해당 게시글의 댓글 리스트
+            //console.log(this.qnaReplyList);
 
             for(let i = 0; i <this.qnaReplyList.length; i++){
-              this.qnaReplyList[i].isVisible = false;
-              this.qnaReplyList[i].modFormVisible = false;
+
+              this.qnaReplyList[i].isVisible = false; // 해당 댓글의 댓글 부분 보이게하는 값 초기화
+              this.qnaReplyList[i].modFormVisible = false; // 해당 댓글의 수정폼 부분 보이게하는 값 초기화
+
             }
 
           }).catch(function(error){
               console.log(error)
           })
         },
-
+      // 해당 댓글의 댓글 리스트 보이게 하는 토굴함수
       commentsList(index){
         this.qnaReplyList[index].isVisible = !this.qnaReplyList[index].isVisible;
       },
 
-      // 댓글 등록
+      // 댓글 등록버튼 클릭시 실행하는 함수
       replyAdd(){
 
         let formData = new FormData($('#replyForm')[0]); // 폼데이터
@@ -173,8 +240,8 @@
 
           if(res.data.result === 'Success'){
             //console.log('댓글등록 성공');
-            this.rplyCntn = ''; // 초기화
-            this.ReplyList(this.qaNotiwrNo); // 추가된 댓글리스트 출력
+            this.rplyCntn = ''; // 댓글 작성 input칸 초기화
+            this.ReplyList(this.qaNotiwrNo); // 댓글리스트 화면에서 재출력(insert한 댓글 나옴)
 
           }else{
             Swal.fire({
@@ -182,44 +249,70 @@
                 title: '댓글 등록실패!'
             });
           }
+
         })
         .catch(function(error){
               console.log(error)
         })    
       },
-      // 로그인한 유저 ID
+
+      // 로그인한 유저 ID 받아오는 함수
       getLoginUserId(){
         axios.get('/userId')
           .then(response => {
 
-            this.userId = response.data;
+            this.userId = response.data; // 현재 로그인한 유저ID
 
-            // 사용자 ID 사용
-            // 예: this.userId = userId;
-            //console.log(response.data);
-            //console.log('유저아이디', this.userId);
           })
           .catch(error => {
             console.error(error);
           });
       },
-      // 수정 버튼 클릭시
-      replyMod(index, rplyNo){
 
+      // (수정,삭제 버튼에서) 수정 버튼을 클릭하였을때 해당 댓글의 수정폼 토굴 함수
+      replyModForm(index){
+        this.qnaReplyList[index].modifyRplyCntn = this.qnaReplyList[index].rplyCntn; // 기존 댓글 내용
         this.qnaReplyList[index].modFormVisible = !this.qnaReplyList[index].modFormVisible;
-     /*   axios.post('/qnaReplyList', {rplyNo : rplyNo})
+      },
+
+      // 댓글 수정 기능이 일어나는 함수
+      replyModifyFn(index){
+        let rplyCntn = this.qnaReplyList[index].modifyRplyCntn; // 댓글 수정 내용 부분
+        let rplyNo = this.qnaReplyList[index].rplyNo; // 수정할 댓글번호
+        //console.log('rplyCntn : ', rplyCntn );
+        //console.log('rplyNo : ' ,rplyNo);
+        axios.post('/qnaReplyMod', {rplyNo : rplyNo, rplyCntn : rplyCntn})
           .then(res => {
-            
-            this.qnaReplyList = res.data;
-            console.log(this.qnaReplyList);
-
-            for(let i = 0; i <this.qnaReplyList.length; i++){
-              this.qnaReplyList[i].isVisible = false;
+            // 수정 성공시
+            if(res.data.result === 'Success'){
+              this.ReplyList(this.qaNotiwrNo); // 댓글리스트 화면에서 재출력
+            }else{
+              Swal.fire({
+                  icon: 'error',
+                  title: '댓글 수정실패!'
+              });
             }
-
           }).catch(function(error){
               console.log(error)
-          }) */
+          })
+      },
+      // 댓글 삭제 기능이 일어나는 함수
+      replyDelete(index){
+        let rplyNo = this.qnaReplyList[index].rplyNo; // 삭제할 댓글번호
+        axios.post('/qnaReplyDelete', {rplyNo : rplyNo})
+          .then(res => {
+            // 삭제 성공시
+            if(res.data.result === 'Success'){
+              this.ReplyList(this.qaNotiwrNo); // 댓글리스트 화면에서 재출력
+            }else{
+              Swal.fire({
+                  icon: 'error',
+                  title: '댓글 삭제실패!'
+              });
+            }
+          }).catch(function(error){
+              console.log(error)
+          })
       }
     }
   }

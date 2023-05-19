@@ -140,9 +140,39 @@ public class CommunityServiceImpl implements CommunityService{
 	// 취업 Q&A 댓글 목록(모댓글) 리스트
 	@Override
 	public List<ReplyVO> qnaReplyList(ReplyVO replyVO) {
-		replyVO.setRplyDepth(0);
-		return commuMapper.qnaReplyList(replyVO);
+		
+		replyVO.setRplyDepth(0); // 깊이 0 = 부모 댓글
+		
+		List<ReplyVO> parentReplyList = commuMapper.qnaReplyList(replyVO); // 부모댓글리스트
+		
+		for(int i = 0; i < parentReplyList.size(); i++) {
+			ReplyVO childInfo = new ReplyVO(); 
+			childInfo.setRplyDepth(1); // 깊이 1 = 자식 댓글
+			childInfo.setRplyGroup(parentReplyList.get(i).getRplyNo()); // 자식댓글 그룹 ID
+			
+			List<ReplyVO> childReplyList = commuMapper.childReplyList(childInfo); // 자식 댓글 리스트
+			
+			parentReplyList.get(i).setChreplyList(childReplyList); // 부모댓글에 대한 자식 댓글들
+			parentReplyList.get(i).setChildCount(childReplyList.size()); // 부모 댓글에 대한 자식 댓글 총갯수
+			
+		}
+		
+		return parentReplyList;
+		
 	}
+	
+	// 취업 Q&A 댓글 수정 기능
+	@Override
+	public int qnaReplyMod(ReplyVO replyVO) {
+		return commuMapper.qnaReplyMod(replyVO);
+	}
+
+	// 취업 Q&A 댓글 삭제 기능
+	@Override
+	public int qnaReplyDelete(ReplyVO replyVO) {
+		return commuMapper.qnaReplyDelete(replyVO);
+	}
+
 	
 	
 }

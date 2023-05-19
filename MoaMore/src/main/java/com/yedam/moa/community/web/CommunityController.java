@@ -187,15 +187,53 @@ public class CommunityController {
 	@PostMapping("/qnaReplyList")
 	@ResponseBody
 	public List<ReplyVO> qnaReplyList(@RequestBody ReplyVO replyVO){
-		System.out.println("qaNotiwrNo : " + replyVO);
+		//System.out.println("qaNotiwrNo : " + replyVO);
 		return commuService.qnaReplyList(replyVO);
 	}
 	
-
+	// 현재 로그인되어있는 유저 ID
 	@GetMapping("/userId")
 	@ResponseBody
 	public String userId(Principal pr) {
 		return pr.getName();
+	}
+	
+	// 취업Q&A 댓글 수정 기능
+	@PostMapping("/qnaReplyMod")
+	@ResponseBody
+	public Map<String, Object> qnaReplyMod(@RequestBody ReplyVO replyVO){
+		Map<String, Object> result = new HashMap<>();
+		
+		int r = 0;
+		
+		r = commuService.qnaReplyMod(replyVO);
+		
+		if(r > 0) { // 수정 성공시
+			result.put("result", "Success");
+			return result;
+		}else {
+			result.put("result", "Fail");
+			return result;
+		}
+	}
+	
+	// 취업 Q&A 댓글 삭제 기능
+	@PostMapping("/qnaReplyDelete")
+	@ResponseBody
+	public Map<String, Object> qnaReplyDelete(@RequestBody ReplyVO replyVO){
+		Map<String, Object> result = new HashMap<>();
+		
+		int r = 0;
+		
+		r = commuService.qnaReplyDelete(replyVO);
+		
+		if(r > 0) { // 삭제 성공시
+			result.put("result", "Success");
+			return result;
+		}else {
+			result.put("result", "Fail");
+			return result;
+		}
 	}
 	
 	
