@@ -1,7 +1,8 @@
 const { defineConfig } = require("@vue/cli-service");
 module.exports = defineConfig({
   transpileDependencies: true,
-  outputDir: "../MoaMore/src/main/resources/static", // Build Directory
+  //outputDir: "../MoaMore/src/main/resources/static", // Build Directory
+  indexPath: "admin.html",
   devServer: {
     proxy: {
       "/api": {
