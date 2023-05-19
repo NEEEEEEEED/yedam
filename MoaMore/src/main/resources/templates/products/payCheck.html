@@ -100,7 +100,7 @@ section {
 							<select id="gonggo" class="form-select pointer" onchange="getDisabledDates(this)">
 								<option value='' selected>선택</option>
 								<option th:each=" item : ${RecList}" th:text="${item.ttl}"
-									th:value="${item.recruitNo}" ></option>
+									th:value="${item.recruitNo}" th:if="${item.accpDt}"></option>
 							</select>
 						</div>
 					</div>
