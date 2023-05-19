@@ -60,13 +60,7 @@ public class MemServiceImpl implements MemService {
 		return mem.getMemInfo(vo);
 	}
 
-//	디비에 포폴 입력하고 생성된 번호로 입력한 포폴 리스트 가져오기
-	@Override
-	public List<PrtflVO> insGetPofl(PrtflVO vo) {
-		
-		
-		return null;
-	}
+
 
 	@Override
 	public String insertResume(ResumeVO vo) {
@@ -238,6 +232,9 @@ public class MemServiceImpl implements MemService {
 			if(rvo.getShcrNo()!=null) {
 				rvo.setSch(mem.getShcr(rvo));
 			}
+			if(rvo.getPrtflNo()!=null) {
+				rvo.setPrtfl(mem.getPrtfl(rvo));
+			}
 //			기술번호 있을경우 기술 정보 가져오기
 			if(rvo.getSkillNo()!=null) {
 				rvo.setSkill(mem.getSkill(rvo));
@@ -254,5 +251,18 @@ public class MemServiceImpl implements MemService {
 	@Override
 	public int withdraw(String id) {
 		return mem.withdraw(id);
+	}
+
+	
+	//포트폴리오 입력 생성된 prtflno반환
+	@Override
+	public PrtflVO insertPofl(PrtflVO vo) {
+		mem.insertPrtfl(vo);
+		return vo ;
+	}
+	//입력으로 발생한 prtflno로 입력 포폴 조회(포폴 입력후 화면에 뿌려주기 위한것) => 최신이력서 불러 올때 쓰기 위해서 ResumeVO로 반환
+	@Override
+	public List<PrtflVO>  getPrtfl(ResumeVO vo) {
+		return mem.getPrtfl(vo);
 	}
 }

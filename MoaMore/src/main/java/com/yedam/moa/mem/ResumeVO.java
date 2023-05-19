@@ -18,7 +18,9 @@ public class ResumeVO {
 	private String introNo;		//자소서 번호
 	private String shcrNo;		//학력 번호
 	private String skillNo;		//기술 번호
+	private String prtflNo;		//포폴 번호
 	private String regDt;		//등록일자
+	
 	
 	
 	private List<ShcrVO> sch ;
