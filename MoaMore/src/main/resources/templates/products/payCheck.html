@@ -97,18 +97,18 @@ section {
 					<div class="row mb-3">
 						<p class="col-sm-4 text-end fs-3 fw-normal text-black">적용공고</p>
 						<div class="col-sm-7 text-end">
-							<select id="gonggo" class="form-select pointer">
+							<select id="gonggo" class="form-select pointer" onchange="getDisabledDates(this)">
 								<option value='' selected>선택</option>
 								<option th:each=" item : ${RecList}" th:text="${item.ttl}"
-									th:value="${item.recruitNo}"></option>
+									th:value="${item.recruitNo}" ></option>
 							</select>
 						</div>
 					</div>
 					<div class="row mb-3">
-						<p class="col-sm-4 text-end fs-3 fw-normal text-black">날짜선택</p>
+						<p id="forToggle" class="col-sm-4 text-end fs-3 fw-normal text-black">날짜선택</p>
 						<div class="col-sm-7 text-end">
 							<input th:placeholder="${product.svcCnt}+'개의 날짜를 선택해 주세요 click!'" readonly style="background-color: white;"
-								class="form-control pointer" id="datePick" onclick="toggleDate()"/></input>
+								class="form-control pointer" id="datePick" onclick="toggleDate(event)"/></input>
 						</div>
 					</div>
 					<hr>
@@ -135,9 +135,9 @@ section {
 
 					<div class="row mb-12">
 						<div class="col-sm-12 offset-sm-12 d-flex justify-content-center">
-							<div class="form-check pointer" onclick="doCheck(this)">
-								<input class="form-check-input" type="checkbox" id="gridCheck1">
-								<p class="form-check-p text-black" for="gridCheck1">위의 결제정보를 확인하였으며 이에
+							<div class="form-check pointer" >
+								<input class="form-check-input" type="checkbox" >
+								<p class="form-check-p text-black" onclick="doCheck(this)">위의 결제정보를 확인하였으며 이에
 									동의합니다.</p>
 							</div>
 						</div>
@@ -151,29 +151,75 @@ section {
 			</div>
 		</div>
 		<script th:inline="javascript">
-		//5꽉 날짜 막기
-			var disabledDates = [];	
+		
+		// 공고가 바뀔때마다 해당 공고가 이전에 예약한 날짜를 추가로 가져오는 함수
+		var disabledDates = [];
+		function getDisabledDates(t){ 
 			
-			document.addEventListener("DOMContentLoaded", function() {
-				let dates = [[${disabledDates}]] 
-				for(let i=0;i<dates.length;i++){
-					disabledDates.push(dates[i].reserDt);
-				}
-		      });
 			
+			disabledDates = []; // 막을날짜 새로 비우고
+			let dates = [[${disabledDates}]] 
+			
+			for(let i=0;i<dates.length;i++){
+				disabledDates.push(dates[i].reserDt); // 5일 꽉 날짜들 다시 넣기
+			}
+			
+			
+			// 추가로 막을 날짜를 가져오는 ajax 호출
+			let recuritNo = t.value;
+			let addDates = [];
+			$.ajax({
+				url : "/addDisabledDates",
+				method : "get",
+				data : {
+					recruitNo : recuritNo
+				},
+				dataType : "json",//받는타입
+				contentType : "application/json; charset=utf-8",//보내는타입
+				success : function(res) {
+					//기존 5꽉과 새로 가져온 날짜를 비교해서 중복이 안되면 막을 날짜에 추가
+					for(let i=0;i<res.length;i++){
+						let dup = 0;
+						for(let j=0;j<disabledDates.length;j++){
+							if(res[i].reserDt == disabledDates[j]){
+								dup += 1;
+							}
+							if(dup == 0){
+								addDates.push(res[i].reserDt);	
+							}
+						}
+					}
+					for(let k=0;k<addDates.length;k++){
+						disabledDates.push(addDates[k])
+					}
+					console.log(disabledDates);
+					console.log(addDates);
+				},
+				error : function(reject) {
+					console.log(reject);
+				},
+			});  
+		}
+		
+		// datePicker 달력 날짜 막기
+		
 			$(function() {
 				$('#datePick').multiDatesPicker({
 					dateFormat: 'yy-mm-dd',
 					maxPicks : [[${product.svcCnt}]],
-					 beforeShowDay: function(date) {
+					beforeShowDay: function(date) {
 				            if (disabledDates.includes($.datepicker.formatDate('yy-mm-dd', date))) {
 				                return [false];
 				            } else {
 				                return [true];
 				            }
-				        }
+				        },
+				    showAnim :'slideDown',
+				    minDate : 0
 				});
 			});
+			
+		
 			//주문번호 만들기용 현재 날짜 230508144425
 			function makeUid(){
 				const now = new Date();
@@ -245,7 +291,13 @@ section {
 						dataType : "json",//받는타입
 						contentType : "application/json; charset=utf-8",//보내는타입
 						success : function(res) {
-							alert("결제완료!")
+							Swal.fire({
+								icon : 'success',
+								title : '결제 성공!'
+							}).then(function(){
+								location.href="/coProducts";                   
+							})
+							
 						},
 						error : function(reject) {
 							console.log(reject);
@@ -257,18 +309,25 @@ section {
 			
 			// 동의 글자클릭도 되게
 			function doCheck(t){
-				let box = t.querySelector('input[type="checkbox"]');
+				let box = t.closest('div').querySelector('input[type="checkbox"]');
 				box.checked = !box.checked;
 			}
 			
-			// datepicker input클릭으로 닫히게
-			function toggleDate(){
+			//
+			function toggleDate(e){
 				let calendar = document.querySelector('#ui-datepicker-div');
-				if(calendar.style.display == 'none'){
-					calendar.style.display = 'block';	
-				}else calendar.style.display = 'none'
-				
+				if(gonggo.value == ''){ // 공고를 선택하지 않은 경우
+					  Swal.fire({
+						icon : 'warning',
+						title : '공고를 먼저 선택해주세요.'
+					}) 
+				    return;
+				}
 			}
+			
+		
+					
+			
 		</script>
 	</div>
 

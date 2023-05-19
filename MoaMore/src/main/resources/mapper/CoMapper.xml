@@ -87,23 +87,28 @@
 		
 	</update>
 		
-	<!-- 구인공고목록 -->
+	<!-- 기업본인구인공고목록 -->
 	<select id="selectRec" parameterType="HireVO" resultType="HireVO">
 		SELECT  R.TTL,
-		       K.SKILL,
-		       C.CO_NM,
-		       get_common(WKSITE) AS WKSITE,
-               R.EXPR_DT,
-               R.RECRUIT_NO         
-		FROM RECRUIT_ANUN R
-		JOIN CO C
-		  ON R.ID = C.ID
+		        K.SKILL,
+		        C.CO_NM,
+		        get_common(WKSITE) AS WKSITE,
+                R.EXPR_DT,
+                R.ACCP_DT,
+                I.CO_IMG,
+                R.RECRUIT_NO         
+		 FROM RECRUIT_ANUN R
+		 JOIN CO C
+		   ON R.ID = C.ID
 		
-		JOIN (SELECT recruit_no , LISTAGG(get_common(SKILL), ',') WITHIN GROUP (ORDER BY SKILL_NO) as SKILL
-              FROM RECRUIT_SKILL
-              GROUP BY recruit_no) K
-		  ON R.RECRUIT_NO = K.RECRUIT_NO		
-		WHERE r.id = #{id}      	
+		 JOIN (SELECT recruit_no , LISTAGG(get_common(SKILL), ',') WITHIN GROUP (ORDER BY SKILL_NO) as SKILL
+                 FROM RECRUIT_SKILL
+             GROUP BY recruit_no) K
+		  ON R.RECRUIT_NO = K.RECRUIT_NO	
+		  
+		JOIN (SELECT DISTINCT RECRUIT_NO, CO_IMG FROM RECRUIT_IMAGES) I
+		  ON R.RECRUIT_NO = I.RECRUIT_NO	
+	   WHERE r.id = #{id}      	
 	</select>
 	
 	<!-- 관심 게시글 수 -->

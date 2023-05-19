@@ -19,4 +19,6 @@ public interface ProductMapper {
 	public int afterPay(ProductVO vo);
 
 	public List<ProductVO> selectCoProducts(CoVO vo);
+
+	public List<ProductVO> addDisabledDates(ProductVO vo);
 }

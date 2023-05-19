@@ -51,4 +51,9 @@ public class ProductServiceImpl implements ProductService {
 		return list;
 	}
 
+	@Override
+	public List<ProductVO> addDisabledDates(ProductVO vo) {
+		return mapper.addDisabledDates(vo);
+	}
+
 }

@@ -3,10 +3,20 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.yedam.moa.products.mapper.ProductMapper">
+  	<!-- 이미 5번의 예약이 꽉 찬 날짜들 -->
   	<select id="disabledDates" resultType="ProductVO">
-  		SELECT reser_dt 
-		  FROM reser_precon
-		 WHERE reser_cnt = 5	
+  		SELECT reser_dt
+		  FROM(
+				SELECT COUNT(recruit_no) AS count ,reser_dt
+				  FROM rec_reser GROUP BY reser_dt)
+		 WHERE count = 5	
+  	</select>
+  	
+  	<!-- 선택한 공고의 이전예약일자들 -->
+  	<select id="addDisabledDates" parameterType="ProductVO" resultType="ProductVO">
+  		SELECT reser_dt
+  		  FROM rec_reser 
+  		 WHERE recruit_no = #{recruitNo}
   	</select>
   	
   	<select id="selectProducts" resultType="ProductVO">

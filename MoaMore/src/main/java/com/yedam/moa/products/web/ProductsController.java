@@ -1,6 +1,7 @@
 package com.yedam.moa.products.web;
 
 import java.security.Principal;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,12 +40,20 @@ public class ProductsController {
 		vo.setId(principal.getName()); 
 		
 		model.addAttribute("id", principal.getName());
-		model.addAttribute("RecList", coservice.selectRec(vo));
-		model.addAttribute("disabledDates", pservice.disabledDates());
+		model.addAttribute("RecList", coservice.selectRec(vo)); // 광고 적용할 공고 목록 가져오기
+		model.addAttribute("disabledDates", pservice.disabledDates()); // 5일 꽉 날짜들 가져오기
 		model.addAttribute("product",pservice.getProduct(prdtCd));
 		
 		return "products/payCheck";
 	}
+	
+	// 광고 적용 공고 선택 시 추가로 막을 날짜(이미 해당날짜에 광고를 결제한경우) 가져오기
+	@GetMapping("/addDisabledDates")
+	@ResponseBody
+	public List<ProductVO> addDisabledDates(ProductVO vo) {
+		return pservice.addDisabledDates(vo);
+	}
+	
 	//결제완료 이후
 	@PostMapping("/afterPay")
 	@ResponseBody
