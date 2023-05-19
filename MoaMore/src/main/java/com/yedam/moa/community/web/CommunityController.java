@@ -162,19 +162,17 @@ public class CommunityController {
 		}
 	}
 	
-	// 취업 Q&A 댓글 등록
+	// 취업 Q&A 부모 댓글 등록
 	@PostMapping("/qnaReplyAdd")
 	@ResponseBody
-	public Map<String, Object> qnaReplyAdd(ReplyVO replyVO, Principal pr){
+	public Map<String, Object> qnaReplyAdd(ReplyVO replyVO){
 		Map<String, Object> result = new HashMap<>();
 		
 		int r = 0;
-		
-		replyVO.setId(pr.getName());
-		
+
 		r = commuService.qnaReplyAdd(replyVO);
 		
-		if(r > 0) { // 삭제 성공시
+		if(r > 0) { // 등록 성공시
 			result.put("result", "Success");
 			return result;
 		}else {
@@ -182,6 +180,7 @@ public class CommunityController {
 			return result;
 		}
 	}
+	
 	
 	// 취업 Q&A 댓글 목록(모댓글) 리스트
 	@PostMapping("/qnaReplyList")
@@ -198,7 +197,7 @@ public class CommunityController {
 		return pr.getName();
 	}
 	
-	// 취업Q&A 댓글 수정 기능
+	// 취업Q&A 댓글 수정 기능 , 대댓글 수정 기능
 	@PostMapping("/qnaReplyMod")
 	@ResponseBody
 	public Map<String, Object> qnaReplyMod(@RequestBody ReplyVO replyVO){
@@ -235,6 +234,26 @@ public class CommunityController {
 			return result;
 		}
 	}
+	
+	// 취업 Q&A 자식 댓글(대댓글) 등록
+	@PostMapping("/chQnaReplyAdd")
+	@ResponseBody
+	public Map<String, Object> chQnaReplyAdd(ReplyVO replyVO){
+		Map<String, Object> result = new HashMap<>();
+		
+		int r = 0;
+
+		r = commuService.chQnaReplyAdd(replyVO);
+		
+		if(r > 0) { // 대댓글 등록 성공시
+			result.put("result", "Success");
+			return result;
+		}else {
+			result.put("result", "Fail");
+			return result;
+		}
+	}
+	
 	
 	
 	// 면접후기 리스트

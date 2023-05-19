@@ -4,6 +4,7 @@
   <!-- 댓글 영역 -->
   <form id="replyForm">
     <input id="qaNotiwrNo" v-model="qaNotiwrNo" name="qaNotiwrNo" type="hidden"/>
+    <input v-model="userId" name="id" type="hidden"/>
     <div class="input-group mb-4">
       <textarea id="rplyCntn" v-model="rplyCntn" name="rplyCntn" class="form-control radius" style="resize: none; height: 50px;" placeholder="댓글을 작성해주세요" ></textarea>
       <button id="replyBtn" @click="replyAdd()" class="btn btn-dark radius" type="button">댓글등록</button>
@@ -58,56 +59,87 @@
         <!-- 답글버튼 눌렀을때 보이는 영역 -->
         <div v-if="reply.isVisible" class="mt-2 p-4" style="background-color:#f9f9f9">
           <!-- 반복 -->
-          <div v-for="(chreply, index) in reply.chreplyList" :key="chreply.rplyNo">
-          <div class="mb-2" style="display:flex">
-            <div>
-              <img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
-              <span>{{chreply.id}}</span>
-            </div>
-            <div style="margin-left:auto;">
-              <div class="d-flex">
+          <div v-for="(chreply, chIndex) in reply.chreplyList" :key="chreply.rplyNo">
+            <!-- 삭제 되지 않은 대댓글일때 -->
+            <div v-if="chreply.rplyDelYn === 'N'">
+              <div class="mb-2" style="display:flex">
                 <div>
-                    <p>{{chreply.regDt}}</p>
-                  </div>
-                <div class="cursor ms-3">
-                    <i class="fa-solid fa-land-mine-on"></i>
-                    <span class="fs--1">신고하기</span>
-                  </div>
+                  <img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
+                  <span>{{chreply.id}}</span>
                 </div>
-            </div>
-          </div>
-          <p>{{chreply.rplyCntn}}</p>
-          
-          <hr class="mb-4" style="color:#ddd;">
+                <div style="margin-left:auto;">
+                  <div class="d-flex">
 
-        </div>
-        <!--
-          <div class="mb-2" style="display:flex">
-            <div>
-              <img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
-              <span>아이디</span>
-            </div>
-            <div style="margin-left:auto;">
-              <div class="d-flex">
-                <div>
-                    <p>2023/05/13</p>
-                  </div>
-                <div class="cursor ms-3">
-                    <i class="fa-solid fa-land-mine-on"></i>
-                    <span class="fs--1">신고하기</span>
+                    <!-- 해당 대댓글의 수정 폼이 나타났을때 사라지는 부분 -->
+                    <div class="ms-1" v-if="!chreply.chModFormVisible">
+                        <!-- 현재 로그인한 유저 아이디와 댓글을단 아이디가 동일하다면 나타나는 수정 버튼 -->
+                        <button v-if="userId === chreply.id" type="button" @click="chReplyModForm(index, chIndex)" class="btn btn-secondary radius btn-sm">수정</button>
+                    </div>
+                    <!-- 해당 댓글의 수정 폼이 나타났을때 사라지는 부분 -->
+                    <div class="mx-3" v-if="!chreply.chModFormVisible">
+                        <!-- 현재 로그인한 유저 아이디와 댓글을단 아이디가 동일하다면 나타나는 삭제 버튼 -->
+                        <button v-if="userId === chreply.id" type="button" @click="chReplyDelete(index, chIndex)" class="btn btn-danger radius btn-sm">삭제</button>
+                    </div>
+
+                    <div>
+                        <p>{{chreply.regDt}}</p>
+                    </div>
+                    <div class="cursor ms-3">
+                        <i class="fa-solid fa-land-mine-on"></i>
+                        <span class="fs--1">신고하기</span>
+                      </div>
                   </div>
                 </div>
+              </div>
+
+              <!-- 해당 대댓글의 수정버튼을 클릭했을때 나타나는 수정폼 -->
+              <form v-if="chreply.chModFormVisible" class="m-3">
+                  <!-- 기존 대댓글의 내용부분 가져옴 -->
+                  <input name="rplyCntn" v-model="chreply.modifyRplyCntn" type="text" class="border-bottom" style="width:60%; border : none; background-color:#f9f9f9">
+                  <button type="button" @click="chReplyModifyFn(index, chIndex)" class="btn btn-secondary radius btn-sm">수정</button>
+                  <button type="button" @click="chReplyModForm(index, chIndex)" class="btn btn-dark radius btn-sm">취소</button>
+              </form>
+              <!-- 해당 대댓글의 내용부분 출력 = 수정버튼을 클릭하기전 출력되는 화면-->
+              <p v-if="!chreply.chModFormVisible">{{chreply.rplyCntn}}</p>
+              
+              <hr class="mb-4" style="color:#ddd;">
+          </div> <!-- 삭제되지 않은 대댓글 닫는 태그 -->
+
+          <!-- 삭제된 대댓글일때 -->
+          <div v-else>
+            <div class="mb-2" style="display:flex">
+              <div>
+                <img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
+                <span>{{chreply.id}}</span>
+              </div>
+              <div style="margin-left:auto;">
+                <div class="d-flex">
+                  <div>
+                      <p>{{chreply.regDt}}</p>
+                  </div>
+                  <div class="cursor ms-3">
+                      <i class="fa-solid fa-land-mine-on"></i>
+                      <span class="fs--1">신고하기</span>
+                    </div>
+                </div>
+              </div>
             </div>
-          </div>
-          <p>대댓글 아직 안됐음 가짜임3</p>
-          
-          <hr class="mb-4" style="color:#ddd;">-->
-          
+            <p style="font-style: italic;">삭제된 댓글입니다.</p>
+            <hr class="mb-4" style="color:#ddd;">
+        </div> <!-- 삭제된 대댓글 닫는 태그 -->
+
+        </div> <!-- 대댓글 반복부분 닫는 태그 -->
+        
+        <form id="chReplyForm">
+          <input v-model="qaNotiwrNo" name="qaNotiwrNo" type="hidden"/> <!-- 게시글 번호 -->
+          <input v-model="userId" name="id" type="hidden"/> <!-- 로그인한 유저 아이디 -->
+          <input v-model="reply.rplyNo" name="rplyGroup" type="hidden"/> <!-- 그룹 번호 = 부모 댓글 번호 -->
           <div class="input-group my-2">
-            <input class="form-control radius" style="height:50px;" placeholder="댓글을 작성해주세요" >
-              <button class="btn btn-dark radius btn-sm" type="button" id="button-addon2">댓글등록</button>
-            </div>
-        </div><!-- 답글버튼 눌렀을때 보이는 영역 -->
+            <input class="form-control radius" v-model="reply.chRplyCntn" name="rplyCntn" style="height:50px;" placeholder="댓글을 작성해주세요" >
+            <button class="btn btn-dark radius btn-sm" @click="chReplyAdd(index, chIndex)" type="button" id="button-addon2">댓글등록</button>
+          </div>
+        </form>
+      </div><!-- 답글버튼 눌렀을때 보이는 영역 닫기-->
       
       <hr style="color:#ddd;">
     </div> <!-- v-if="reply.rplyDelYn==='N'" div 닫기-->
@@ -136,7 +168,7 @@
         
         <!-- 답글버튼 눌렀을때 보이는 영역 -->
         <div v-if="reply.isVisible" class="mt-2 p-4" style="background-color:#f9f9f9">
-          <div v-for="(chreply, index) in reply.chreplyList" :key="chreply.rplyNo">
+          <div v-for="(chreply, chIndex) in reply.chreplyList" :key="chreply.rplyNo">
             <div class="mb-2" style="display:flex">
               <div>
                 <img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
@@ -158,14 +190,14 @@
             
             <hr class="mb-4" style="color:#ddd;">
           </div>
-   
+
           <div class="input-group my-2">
-            <input class="form-control radius" style="height:50px;" readonly placeholder="댓글이 삭제되어 더이상 작성하실수없습니다." >
-            
+            <input class="form-control radius" style="height:50px;" readonly placeholder="원댓글이 삭제되어 더이상 댓글을 작성 하실 수 없습니다." >
           </div>
         </div><!-- 답글버튼 눌렀을때 보이는 영역 -->
-      
+    
       <hr style="color:#ddd;">
+
     </div><!-- 삭제된 댓글일때 div 닫기-->
   </div>
 </div>
@@ -179,6 +211,7 @@
         qaNotiwrNo : '',  // 게시글 번호
         rplyCntn: '',     // 댓글 내용
         userId : '',      // 로그인한 아이디
+        //chreplyList : [], // 대댓글
       };
     },
     mounted(){
@@ -208,22 +241,21 @@
           .then(res => {
             
             this.qnaReplyList = res.data; // 해당 게시글의 댓글 리스트
-            //console.log(this.qnaReplyList);
 
-            for(let i = 0; i <this.qnaReplyList.length; i++){
-
+          for(let i = 0; i <this.qnaReplyList.length; i++){
               this.qnaReplyList[i].isVisible = false; // 해당 댓글의 댓글 부분 보이게하는 값 초기화
               this.qnaReplyList[i].modFormVisible = false; // 해당 댓글의 수정폼 부분 보이게하는 값 초기화
-
-            }
-
+          }
+            
           }).catch(function(error){
               console.log(error)
           })
         },
       // 해당 댓글의 댓글 리스트 보이게 하는 토굴함수
       commentsList(index){
+
         this.qnaReplyList[index].isVisible = !this.qnaReplyList[index].isVisible;
+        
       },
 
       // 댓글 등록버튼 클릭시 실행하는 함수
@@ -296,6 +328,7 @@
               console.log(error)
           })
       },
+
       // 댓글 삭제 기능이 일어나는 함수
       replyDelete(index){
         let rplyNo = this.qnaReplyList[index].rplyNo; // 삭제할 댓글번호
@@ -313,7 +346,114 @@
           }).catch(function(error){
               console.log(error)
           })
+      },
+
+      // 대댓글 등록 함수
+      chReplyAdd(index){
+
+        let formData = new FormData($('#chReplyForm')[0]); // 폼데이터
+
+        axios.post('/chQnaReplyAdd', formData , {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+        })
+        .then(res => {
+
+          if(res.data.result === 'Success'){
+            //console.log('대댓글등록 성공');
+            this.qnaReplyList[index].chRplyCntn = ''; // 댓글 작성 input칸 초기화
+
+            this.ReplyList(this.qaNotiwrNo); // 댓글리스트 화면에서 재출력 => 비동기라서 응답이 언제 올지 모름
+            // 1. 따라서 setTimeout으로 시간을 지연시켜주거나 2. 동기식으로 바꿔줘야함
+
+            // window.setTimeout이라 그안의 function에서의 this는 안먹음 따라서 밖에서 this를 따로 하나줌
+            var temp = this; 
+
+            // 비동기라 시간을 지연시킴
+            window.setTimeout(function(){
+              temp.commentsList(index); // temp = 바깥의 this  // 해당 댓글의 대댓글 리스트 출력하는 토굴함수
+            },100);
+
+          }else{
+            Swal.fire({
+                icon: 'error',
+                title: '대댓글 등록실패!'
+            });
+          }
+        })
+        .catch(function(error){
+              console.log(error)
+        })   
+      },
+
+      // 대댓글 수정 버튼 클릭시 실행하는함수
+      chReplyModForm(index, chIndex){
+        this.qnaReplyList[index].chreplyList[chIndex].modifyRplyCntn = this.qnaReplyList[index].chreplyList[chIndex].rplyCntn; // 기존 대댓글 내용
+        this.qnaReplyList[index].chreplyList[chIndex].chModFormVisible = !this.qnaReplyList[index].chreplyList[chIndex].chModFormVisible;
+      },
+
+       // 대댓글 수정 기능이 일어나는 함수
+      chReplyModifyFn(index, chIndex){
+
+        let rplyCntn = this.qnaReplyList[index].chreplyList[chIndex].modifyRplyCntn; // 대댓글 수정할 내용 부분
+        let rplyNo = this.qnaReplyList[index].chreplyList[chIndex].rplyNo; // 수정할 대댓글번호
+  
+        axios.post('/qnaReplyMod', {rplyNo : rplyNo, rplyCntn : rplyCntn})
+          .then(res => {
+            // 수정 성공시
+            if(res.data.result === 'Success'){
+
+              this.ReplyList(this.qaNotiwrNo); // 댓글리스트 화면에서 재출력
+              // window.setTimeout이라 그안의 function에서의 this는 안먹음 따라서 밖에서 this를 따로 하나줌
+              var temp = this; 
+
+              // 비동기라 시간을 지연시킴
+              window.setTimeout(function(){
+                temp.commentsList(index); // temp = 바깥의 this  // 해당 댓글의 대댓글 리스트 출력하는 토굴함수
+              },100);
+
+            }else{
+              Swal.fire({
+                  icon: 'error',
+                  title: '대댓글 수정실패!'
+              });
+            }
+          }).catch(function(error){
+              console.log(error)
+          })
+      },
+
+      // 대댓글 삭제 기능이 일어나는 함수
+      chReplyDelete(index, chIndex){
+
+        let rplyNo = this.qnaReplyList[index].chreplyList[chIndex].rplyNo; // 삭제할 대댓글번호
+
+        axios.post('/qnaReplyDelete', {rplyNo : rplyNo})
+          .then(res => {
+            // 삭제 성공시
+            if(res.data.result === 'Success'){
+
+              this.ReplyList(this.qaNotiwrNo); // 댓글리스트 화면에서 재출력
+              // window.setTimeout이라 그안의 function에서의 this는 안먹음 따라서 밖에서 this를 따로 하나줌
+              var temp = this; 
+
+              // 비동기라 시간을 지연시킴
+              window.setTimeout(function(){
+                temp.commentsList(index); // temp = 바깥의 this  // 해당 댓글의 대댓글 리스트 출력하는 토굴함수
+              },100);
+
+            }else{
+              Swal.fire({
+                  icon: 'error',
+                  title: '대댓글 삭제실패!'
+              });
+            }
+          }).catch(function(error){
+              console.log(error)
+          })
       }
+
     }
   }
 </script>

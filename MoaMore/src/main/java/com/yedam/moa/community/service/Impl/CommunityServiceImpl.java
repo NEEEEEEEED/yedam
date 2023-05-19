@@ -173,6 +173,13 @@ public class CommunityServiceImpl implements CommunityService{
 		return commuMapper.qnaReplyDelete(replyVO);
 	}
 
+	// 취업 Q&A 대댓글(자식) 등록
+	@Override
+	public int chQnaReplyAdd(ReplyVO replyVO) {
+		replyVO.setRplyDepth(1); // 댓글 깊이 1 = 자식 댓글(대댓글)
+		return commuMapper.chQnaReplyAdd(replyVO);
+	}
+
 	
 	
 }

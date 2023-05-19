@@ -19,4 +19,6 @@ public class ReplyVO {
 	
 	private List<ReplyVO> chreplyList;	// 해당 댓글(모댓글)의 자식 대댓글 리스트
 	
+	private String prReplyNo;			// 부모 댓글 번호
+	
 }
