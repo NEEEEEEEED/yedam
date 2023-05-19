@@ -1,5 +1,7 @@
 package com.yedam.moa.admin.service;
 
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -15,4 +17,8 @@ public class ReportVO {
 	private String rprtSt;
 	
 	private int rprtCnt;
+	
+	
 }
+
+

@@ -8,13 +8,20 @@
       <Column field="rprtSt" header="처리상태"></Column>
       <Column style="width: 5rem">
         <template #body="slotProps">
-          <Button
-            type="button"
-            icon="pi pi-plus"
-            text
-            rounded
-            @click="selectProduct(slotProps.data)"
-          ></Button>
+          <div
+            v-if="slotProps.data.rprtSt === '미처리'"
+            class="card flex justify-content-center"
+            style="margin: 0px"
+          >
+            <Dropdown
+              v-model="selectedSt"
+              editable
+              :options="status"
+              optionLabel="name"
+              placeholder="Select a City"
+              class="w-full md:w-14rem"
+            />
+          </div>
         </template>
       </Column>
     </DataTable>
@@ -22,26 +29,33 @@
 </template>
 
 <script>
-import Button from "primevue/button";
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 import { reportList } from "@/service/ReportService.js";
+import "primeicons/primeicons.css";
+import Dropdown from "primevue/dropdown";
+
 export default {
   inject: ["dialogRef"],
-  props: ["No"],
+  props: ["no"],
   components: {
-    Button,
+    Dropdown,
     DataTable,
     Column,
   },
   data() {
-    return { rprtList: [] };
+    return {
+      rprtList: [],
+      selectedSt: null,
+      status: [],
+    };
   },
-  mounted() {
-    console.log(this.$props.No);
-    reportList
-      .getReportData(this.$props.No)
-      .then((data) => (this.rprtList = data));
+  async mounted() {
+    console.log(this.dialogRef.data.no);
+    reportList.getReportData(this.dialogRef.data.no).then((data) => {
+      this.rprtList = data.list;
+      this.status = data.rprt;
+    });
   },
   methods: {
     selectProduct(data) {

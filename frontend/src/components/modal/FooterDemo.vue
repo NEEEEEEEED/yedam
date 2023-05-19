@@ -1,14 +1,14 @@
 <template>
   <Button
     type="button"
-    label="No"
+    label="Cancel"
     icon="pi pi-times"
     @click="closeDialog({ buttonType: 'No' })"
     text
   ></Button>
   <Button
     type="button"
-    label="Yes"
+    label="Save"
     icon="pi pi-check"
     @click="closeDialog({ buttonType: 'Yes' })"
     autofocus
@@ -17,6 +17,7 @@
 
 <script>
 import Button from "primevue/button";
+
 export default {
   components: {
     Button,
