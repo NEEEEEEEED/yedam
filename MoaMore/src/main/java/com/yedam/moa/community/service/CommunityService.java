@@ -40,6 +40,9 @@ public interface CommunityService {
 	// 취업 Q&A 댓글 삭제 기능
 	public int qnaReplyDelete(ReplyVO replyVO);
 	
+	// 취업 Q&A 대댓글(자식) 등록
+	public int chQnaReplyAdd(ReplyVO replyVO);
+	
 	// 면접후기 리스트 출력
 	List<IntrvVO> jobInterviewList();
 	

@@ -14,21 +14,6 @@
 </head>
 <body>
 	<div layout:fragment="content">
-		<!--  <div class="row mt-2 mb-5">
-			<div class="col-md-2"></div>
-			<div class="col-md-8">
-				<nav style="background-color: white; border-bottom : 1px solid #ddd;">
-					<ul class="listStyle d-flex justify-content-evenly">
-						<li><a href="/jobQnA">취업Q&A</a></li>
-						<li><a href="#">면접후기</a></li>
-						<li><a href="#">프로젝트모집</a></li>
-						<li><a href="#">스터디모집</a></li>
-					</ul>
-				</nav>
-			</div>
-			<div class="col-md-2"></div>
-		</div>-->
-	
 		<div class="row">
 			<div class="col-md-2 mx-6 p-4">
 				<div style="position: sticky; top:150px;">
@@ -79,29 +64,6 @@
 					   		</div>
 					    </div>
 					    
-					    <!-- 버전2 -->
-					    <!-- <div class="card-title mb-1">
-					    	<div class="row">
-					    		<div class="col-md-8">
-					    			<h3 class="fw-bold" th:text="${jobQnaDetail.ttl}">제목</h3>
-					    		</div>
-					    		<div class="col-md-4" style="display:flex;">
-						   			<div class="mx-3">
-					    				<i class="fa-regular fa-comment-dots"></i>
-					    				<span th:text="${jobQnaDetail.inqCnt}">조회수</span>
-					    			</div>
-					    			<div class="mx-3">
-						   				<i class="fa-regular fa-comment-dots"></i>
-						   				<span th:text="${jobQnaDetail.rplyCnt}">댓글수</span>
-						   			</div>
-					    			<div class="mx-3">
-						   				<i class="fa-solid fa-land-mine-on"></i>
-						   				<span class="fs--1">신고하기</span>
-						   			</div>
-					    		</div>
-					   		</div>	
-					    </div> -->
-					    
 				    	<div class="mb-5">
 				    		<img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
 				    		<span class="ms-1" th:text="${jobQnaDetail.id}">작성자</span>
@@ -113,96 +75,18 @@
 				  </div>
 				</div>
 				
-				<div class="input-group mb-4">
-				  <textarea class="form-control radius" style="resize: none; height: 50px;" placeholder="댓글을 작성해주세요" ></textarea>
-				  <button id="replyBtn" class="btn btn-dark radius" type="button">댓글등록</button>
-				</div>
-
-				<hr style="color:#ddd;">
 				
-				<div class="mb-2 p-2">
-					<div class="mb-2" style="display:flex">
-						<div>
-							<img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
-							<span>아이디</span>
-						</div>
-						<div style="margin-left:auto;">
-							<div class="d-flex">
-								<div>
-					    			<p>2023/05/13</p>
-					    		</div>
-								<div class="ms-3">
-				    				<i class="fa-regular fa-comment-dots fa-sm"></i>
-				    				<span>0</span>
-				    			</div>
-								<div class="cursor ms-3">
-					   				<i class="fa-solid fa-land-mine-on"></i>
-					   				<span class="fs--1">신고하기</span>
-					   			</div>
-				   			</div>
-						</div>
-					</div>
-					<p>대댓글 아직 안됐음 가짜임</p>
-					<span class="fw-bold" style="color:blue; cursor:pointer">답글 N</span>
-					
-					
-					<!-- 답글버튼 눌렀을때 보이는 영역 -->
-					<div class="mt-2 p-4" style="background-color:#f9f9f9">
-						<div class="mb-2" style="display:flex">
-							<div>
-								<img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
-								<span>아이디</span>
-							</div>
-							<div style="margin-left:auto;">
-								<div class="d-flex">
-									<div>
-						    			<p>2023/05/13</p>
-						    		</div>
-									<div class="cursor ms-3">
-						   				<i class="fa-solid fa-land-mine-on"></i>
-						   				<span class="fs--1">신고하기</span>
-						   			</div>
-					   			</div>
-							</div>
-						</div>
-						<p>대댓글 아직 안됐음 가짜임2</p>
-						
-						<hr class="mb-4" style="color:#ddd;">
-						
-						
-						<div class="mb-2" style="display:flex">
-							<div>
-								<img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
-								<span>아이디</span>
-							</div>
-							<div style="margin-left:auto;">
-								<div class="d-flex">
-									<div>
-						    			<p>2023/05/13</p>
-						    		</div>
-									<div class="cursor ms-3">
-						   				<i class="fa-solid fa-land-mine-on"></i>
-						   				<span class="fs--1">신고하기</span>
-						   			</div>
-					   			</div>
-							</div>
-						</div>
-						<p>대댓글 아직 안됐음 가짜임3</p>
-						
-						<hr class="mb-4" style="color:#ddd;">
-						
-						<div class="input-group my-2">
-				 	 		<input class="form-control radius" style="height:50px;" placeholder="답글을 작성해주세요" >
-				  			<button class="btn btn-dark radius btn-sm" type="button" id="button-addon2">답글등록</button>
-				  		</div>
-					</div>
-				</div>	
 
 				<hr style="color:#ddd;">
 
 				<div class="mt-4 mb-5" style="text-align:right;">
 					<!-- 로그인된 사용자가 자기가 작성한 게시물이라면 나타나는 버튼 -->
 					<th:block th:if="${jobQnaDetail.id}==${#authentication.principal.username}" >
+						<button type="button" class="btn btn-outline-secondary radius mx-1 px-5"  style="height:50px;" th:onclick="|location.href='@{/jobQnaMod(qaNotiwrNo=${jobQnaDetail.qaNotiwrNo})}'|">수정</button>
+						<button type="button" class="btn btn-outline-danger radius mx-1 px-5" style="height:50px; text-align:center;" id="jobQnaDelete" th:data-no="${jobQnaDetail.qaNotiwrNo}">삭제</button>
+					</th:block>
+					<!-- 로그인된 사용자가 관리자일때 나타나는 버튼 -->
+					<th:block sec:authorize="hasRole('ROLE_ADMIN')">
 						<button type="button" class="btn btn-outline-secondary radius mx-1 px-5"  style="height:50px;" th:onclick="|location.href='@{/jobQnaMod(qaNotiwrNo=${jobQnaDetail.qaNotiwrNo})}'|">수정</button>
 						<button type="button" class="btn btn-outline-danger radius mx-1 px-5" style="height:50px; text-align:center;" id="jobQnaDelete" th:data-no="${jobQnaDetail.qaNotiwrNo}">삭제</button>
 					</th:block>
