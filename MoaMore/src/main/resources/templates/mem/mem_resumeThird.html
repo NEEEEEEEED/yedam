@@ -1841,6 +1841,8 @@
           </div>
         </div>
       </div>
+      <!-- 포트폴리오 불러오기 버튼 모달창 -->
+      <!-- Modal -->
       <div
         class="modal fade"
         id="pofolModal"
@@ -1862,15 +1864,16 @@
             <div class="modal-body">
               <form id="pofolRegForm" enctype="multipart/form-data">
                 <!-- 현재로그인된 유저정보 -->
-                <!-- <input
+                <input
                   id="logId"
                   name="id"
                   type="hidden"
                   th:value="${#authentication.principal.username}"
-                /> -->
+                />
                 <!-- 불러온 이력서 번호 -->
                 <!-- <input id="resumeNo" name="resumeNo" type="hidden" /> -->
                 <!-- 현재 작성 게시글 기본키값 -->
+                <!-- <input id="selfJobKey" name="jobSearchNo" type="hidden" /> -->
 
                 <table class="table">
                   <tbody class="trColor">
@@ -1889,13 +1892,13 @@
                     <tr>
                       <th>이미지파일</th>
                       <td>
-                        <input id="pofolImg" name="pofolImg" type="file" />
+                        <input id="pofolImg" name="uuidImg" type="file" />
                       </td>
                     </tr>
                     <tr>
                       <th>포트폴리오 파일</th>
                       <td>
-                        <input id="pofolFile" name="pofolFile" type="file" />
+                        <input id="pofolFile" name="uuid" type="file" />
                       </td>
                     </tr>
                   </tbody>
@@ -2314,6 +2317,78 @@
               };
             }
           }
+          // 포트폴리오 추가 버튼 클릭시
+          $("#pofolBtn").on("click", function () {
+            $("#pofolTitle").val(""); // 초기화
+            $("#pofolImg").val(""); // 초기화
+            $("#pofolFile").val(""); // 초기화
+            $("#pofolModal").modal("show");
+          });
+
+          // 포트폴리오 등록버튼 클릭시
+          $("#pofolRegBtn").on("click", function () {
+            pofolReg(); // 포트폴리오 등록 ajax호출 함수
+            $("#pofolModal").modal("hide");
+          });
+
+          // 포트폴리오 등록 ajax호출 함수
+          function pofolReg() {
+            let formData = new FormData($("#pofolRegForm")[0]); // 폼데이터
+
+            $.ajax({
+              url: "/insertPofol",
+              type: "post",
+              data: formData,
+              async: true, //비동기 여부
+              enctype: "multipart/form-data", //form data 설정
+              processData: false, //프로세스 데이터 설정 : false 값을 해야 form data로 인식합니다
+              contentType: false, //헤더의 Content-Type을 설정 : false 값을 해야 form data로 인식합니다
+              success: function (result) {
+                console.log(result);
+                pofolRows.innerHTML = ""; // 초기화
+
+                let pofolHtml = "";
+                for (let i = 0; i < result.length; i++) {
+                  pofolHtml += pofolListPrint(result[i]);
+                }
+
+                pofolRows.innerHTML = pofolHtml;
+              },
+              error: function (reject) {
+                console.log(reject);
+              },
+            });
+          }
+
+          // 포트폴리오 목록 그리는 함수
+          function pofolListPrint(result = {}) {
+            let pofolHtml =
+              `<div class="row align-items-center border-bottom hoverRow mb-3">
+				        <div class="col-md-3">
+				      	<img class="img-fluid imgSize" src="/moamorePofol/` +
+              result.prtflImg +
+              `" alt="이미지없음">
+				      </div>
+				      <div class="col-md-7" style="color:black;">
+				      		<p class="mb-0">[제목] ` +
+              result.ttl +
+              `</p>
+				        	<p class="mb-0">[파일명] <a style="color:blue; text-decoration:underline !important;" target="_blank" href="/moamorePofol/` +
+              result.prtflFile +
+              `">` +
+              result.prtflFile +
+              `</a></p>
+				      </div>
+				      <div class="col-md-2" >
+					      <button id="` +
+              result.prtflNo +
+              `" data-no="` +
+              result.prtflNo +
+              `" onclick="delPofol(this)" type="button" style="margin-left : 20px; padding:15px;" class="btn-close" aria-label="Close"></button>
+					  </div>             
+					</div>`;
+            return pofolHtml;
+          }
         });
         //빈칸 알람
         function alertBin(num, loca) {
@@ -2430,6 +2505,37 @@
             },
           });
         }
+        function delPofol(deleteItem){
+        	
+//         	let jobSearchNo = deleteItem.dataset.no; // data - 속성 이용해서 값가져옴
+        	console.log(deleteItem.dataset);
+        	console.log($(this))
+//         	$.ajax({
+//         		url: 'delPofol',
+//         		type: 'post',
+//         		data: {fileNo : deleteItem.id, jobSearchNo : jobSearchNo},
+//         		success: function (result) {
+//         			console.log('삭제성공');
+//         			pofolRows.innerHTML = ''; // 초기화
+        			
+//         			let pofolHtml = '';
+//         			if(result.length == 0){ // 포트폴리오 리스트 항목이 0개라면
+//         				pofolHtml = `<div style="background-color : pink; text-align:center;">포트폴리오 항목이 비어있습니다. 추가를 눌러 채워 주세요</div>`;
+//         				pofolRows.innerHTML= pofolHtml;
+//         			}else{
+//         				for(let i = 0 ; i < result.length; i++){
+//         					pofolHtml += pofolListPrint(result[i]); // 화면에 뿌려주는 태그들
+//         				}
+        				
+//         				pofolRows.innerHTML= pofolHtml;			
+//         			}
+//         		},
+//          		error: function (reject) {	   
+//             		console.log(reject);
+//         		}
+//         	});	
+        }
+
       </script>
     </div>
   </body>
