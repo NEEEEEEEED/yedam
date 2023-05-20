@@ -305,6 +305,13 @@ public class HireController {
 			return null;
 		}
 	}
+	
+	// 메인 페이지
+//	@GetMapping("/main")
+//	public String mainSelect(Model model){
+//		return "/main";
+//	}
+
 }
 	
 	

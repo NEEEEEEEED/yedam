@@ -63,6 +63,7 @@
 		       C.CO_NM,
 		       get_common(WKSITE) AS WKSITE,
 		       R.EXPR_DT,
+		       R.ACCP_DT,
 		       I.CO_IMG,
 		       S.RECRUIT_NO,
 		       <if test="id != null and id != ''">
@@ -83,6 +84,7 @@
 		ON R.RECRUIT_NO = I.RECRUIT_NO
 		WHERE S.RECRUIT_NO IS NOT NULL
         AND M.ID = #{id}
+        AND TO_DATE(R.ACCP_DT, 'YYYY-MM-DD') BETWEEN TO_DATE(#{accpDt}, 'YYYY-MM-DD') AND TO_DATE(#{exprDt}, 'YYYY-MM-DD')
         ORDER BY RECRUIT_NO DESC 
 	</select>
 	<!-- 상세조회 -->
@@ -109,15 +111,17 @@
 		FROM RECRUIT_ANUN R
 		JOIN CO C ON R.ID = C.ID
 		JOIN (
-		  SELECT RECRUIT_NO, LISTAGG(get_common(SKILL), ',') WITHIN GROUP (ORDER BY SKILL_NO) AS SKILL
-		  FROM RECRUIT_SKILL
-		  GROUP BY RECRUIT_NO
-		) K ON R.RECRUIT_NO = K.RECRUIT_NO
+			  SELECT RECRUIT_NO, LISTAGG(get_common(SKILL), ',') WITHIN GROUP (ORDER BY SKILL_NO) AS SKILL
+			  FROM RECRUIT_SKILL
+			  GROUP BY RECRUIT_NO
+			) K 
+			ON R.RECRUIT_NO = K.RECRUIT_NO
 		JOIN (
-		  SELECT RECRUIT_NO, LISTAGG(RECRUIT_IMG, ',') WITHIN GROUP (ORDER BY RECRUIT_IMG_NO) AS RECRUIT_IMG 
-		  FROM RECRUIT_IMAGES 
-		  GROUP BY RECRUIT_NO
-		) I ON R.RECRUIT_NO = I.RECRUIT_NO
+			  SELECT RECRUIT_NO, LISTAGG(RECRUIT_IMG, ',') WITHIN GROUP (ORDER BY RECRUIT_IMG_NO) AS RECRUIT_IMG 
+			  FROM RECRUIT_IMAGES 
+			  GROUP BY RECRUIT_NO
+			) I 
+			ON R.RECRUIT_NO = I.RECRUIT_NO
 		WHERE R.RECRUIT_NO = #{recruitNo}
 		<if test="scrapYn != null and scrapYn != ''">
 			AND EXISTS (SELECT S.RECRUIT_NO FROM RECRUIT_SCRAP S WHERE R.RECRUIT_NO = S.RECRUIT_NO AND ID = #{id})
@@ -161,6 +165,16 @@
 		       REG_DT
 		FROM RESUME
 		WHERE ID = #{id}
+	</select>
+	<!-- 해당공고에 지원가능한지 확인 -->
+	<select id="checkResume" resultType="int">
+		SELECT RECRUIT_NO,
+		       RESUME_NO,
+		       COUNT(ID) AS ID
+		FROM RECRUIT_ANUM_ST
+		WHERE ID = #{id}
+		AND RECRUIT_NO = #{recruitNo}
+		GROUP BY RECRUIT_NO, RESUME_NO
 	</select>
 	<!-- 구인공고 지원 -->
 	<insert id="resumeInsert" parameterType="HireVO">
@@ -312,10 +326,20 @@
 	</select>
 	<!-- 최신 공고 -->
 	<select id="newSelect" resultType="HireVO">
-	  
+	   <!-- SELECT  R.TTL,
+		       C.CO_NM,
+               R.ACCP_DT
+		FROM RECRUIT_ANUN R
+		JOIN CO C
+			ON R.ID = C.ID
+		WHERE 1=1
+        AND ROWNUM < 3
+        AND TO_DATE(R.ACCP_DT, 'YYYY-MM-DD') BETWEEN TO_DATE(#{accpDt}, 'YYYY-MM-DD') AND TO_DATE(#{exprDt}, 'YYYY-MM-DD')
+        ORDER BY R.ACCP_DT  -->
 	</select>
 	<!-- 인기 공고 -->
 	<select id="popSelect" resultType="HireVO">
-	
+		
 	</select>
+	
 </mapper>
