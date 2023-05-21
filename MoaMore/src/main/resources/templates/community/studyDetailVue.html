@@ -91,62 +91,69 @@
 				    	
 				    	<p class="mb-4">◈ 스터디진행</p>
 				    	<div class="card mb-4">
-				    		<div class="card-body ms-9 p-4">
+				    		<div class="card-body p-4" style="margin-left : 110px;">
 						    	<div>
-							    	<div class="row">
-										<div class="col-md-2">
-											<span class="fw-bold">스터디구분</span>
+							    	<div class="row mb-2">
+										<div class="col-md-2 text-center" style="background-color:#EBECF0;">
+											<span class="fw-bold">구분</span>
 										</div>
-										<div class="col-md-3">
+										<div class="col-md-4">
 											<span th:text="${studyDetailInfo.studyFg}">코딩테스트대비</span>
 										</div>
-										<div class="col-md-2">
+										<div class="col-md-2 text-center" style="background-color:#EBECF0;">
 											<span class="fw-bold">모집인원</span>
 										</div>
-										<div class="col-md-3">
+										<div class="col-md-4">
 											<span th:text="${studyDetailInfo.collRcnt}">5</span>
 										</div>
 									</div>
-									<div class="row">
-										<div class="col-md-2">
+									<div class="row mb-2">
+										<div class="col-md-2 text-center" style="background-color:#EBECF0;">
 											<span class="fw-bold">진행방식</span>
 										</div>
-										<div class="col-md-3">
+										<div class="col-md-4">
 											<span th:text="${studyDetailInfo.progMthd}">온라인</span>
 										</div>
-										<div class="col-md-2">
-											<span class="fw-bold">스터디과목</span>
+										<div class="col-md-2 text-center" style="background-color:#EBECF0;">
+											<span class="fw-bold">과목</span>
 										</div>
-										<div class="col-md-3">
+										<div class="col-md-4">
 											<span th:text="${studyDetailInfo.studySjt}">자바,스프링</span>
 										</div>
 									</div>
-									<div class="row">
-										<div class="col-md-2">
+									<div class="row mb-2">
+										<div class="col-md-2 text-center" style="background-color:#EBECF0;">
+											<span class="fw-bold">시작예정</span>
+										</div>
+										<div class="col-md-4">
+											<span th:text="${studyDetailInfo.expcDt}">2023/05/14</span>
+										</div>
+										<div class="col-md-2 text-center" style="background-color:#EBECF0;">
 											<span class="fw-bold ">진행기간</span>
 										</div>
-										<div class="col-md-3">
+										<div class="col-md-4">
 											<span th:text="${studyDetailInfo.progTerm}">2개월</span>
 										</div>
-										<div class="col-md-2">
+									</div>
+									<div class="row mb-2">
+										<div class="col-md-2 text-center" style="background-color:#EBECF0;">
 											<span class="fw-bold">연락방법</span>
 										</div>
-										<div class="col-md-3">
+										<div class="col-md-4">
 											<span th:text="${studyDetailInfo.coctMthd}">카카오</span>
+										</div>
+										<div class="col-md-2 text-center" style="background-color:#EBECF0;">
+											<span class="fw-bold">연락주소</span>
+										</div>
+										<div class="col-md-4">
 											<a style="color:blue; text-decoration : underline !important;" th:href="${studyDetailInfo.contact}" th:text="${studyDetailInfo.contact}">연락처</a>
 										</div>
 									</div>
-									<div class="row">
-										<div class="col-md-2">
-											<span class="fw-bold">시작예정</span>
-										</div>
-										<div class="col-md-3">
-											<span th:text="${studyDetailInfo.expcDt}">2023/05/14</span>
-										</div>
-										<div class="col-md-2">
+									<div class="row mb-2">
+										<div class="col-md-2 text-center" style="background-color:#EBECF0;">
 											<span class="fw-bold">마감일</span>
 										</div>
-										<div class="col-md-3">
+										<div class="col-md-4">
 											<span th:text="${studyDetailInfo.clsDt}">2023/05/17</span>
 										</div>
 									</div>
@@ -162,14 +169,14 @@
 				  </div>
 				</div>
 				
-				<div class="input-group mb-4">
+				<!-- <div class="input-group mb-4">
 				  <textarea class="form-control radius" style="resize: none; height: 50px;" placeholder="댓글을 작성해주세요" ></textarea>
 				  <button class="btn btn-dark radius" type="button" id="button-addon2">댓글등록</button>
 				</div>
 
-				<div id="app">
+				 <div id="app">
 				    <study-component></study-component>
-				</div>
+				</div> -->
 				
 				<div class="mt-5 mb-5" style="text-align:right;">
 					<!-- 로그인된 사용자가 자기가 작성한 게시물이라면 나타나는 버튼 -->

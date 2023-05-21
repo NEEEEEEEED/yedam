@@ -34,3 +34,12 @@
 .cursor{
 	cursor:pointer;
 }
+
+
+.nav-pills .nav-link{
+	border-radius : 0px;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link{
+	background-color : #0A2640;
+}

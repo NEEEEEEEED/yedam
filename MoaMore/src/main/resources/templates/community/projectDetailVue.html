@@ -92,62 +92,69 @@
 				    	
 				    	<p class="mb-4 fs-1">◈ 요구사항</p>
 				    	<div class="card mb-4">
-				    		<div class="card-body ms-9 p-4">
+				    		<div class="card-body p-4" style="margin-left : 110px;">
 						    	<div>
-							    	<div class="row">
-										<div class="col-md-2">
+							    	<div class="row mb-2">
+										<div class="col-md-2 text-center" style="background-color:#EBECF0;">
 											<span class="fw-bold">모집직무</span>
 										</div>
-										<div class="col-md-3">
+										<div class="col-md-4">
 											<span th:text="${projectInfo.collPosi}">백엔드개발자</span>
 										</div>
-										<div class="col-md-2">
+										<div class="col-md-2 text-center" style="background-color:#EBECF0;">
 											<span class="fw-bold">모집인원</span>
 										</div>
-										<div class="col-md-3">
+										<div class="col-md-4">
 											<span th:text="${projectInfo.collRcnt}">1</span>
 										</div>
 									</div>
-									<div class="row">
-										<div class="col-md-2">
+									<div class="row mb-2">
+										<div class="col-md-2 text-center" style="background-color:#EBECF0;">
 											<span class="fw-bold">진행방식</span>
 										</div>
-										<div class="col-md-3">
+										<div class="col-md-4">
 											<span th:text="${projectInfo.progMthd}">오프라인</span>
 										</div>
-										<div class="col-md-2">
+										<div class="col-md-2 text-center" style="background-color:#EBECF0;">
 											<span class="fw-bold ">요구기술</span>
 										</div>
-										<div class="col-md-3">
+										<div class="col-md-4">
 											<span th:text="${projectInfo.skill}">자바,스프링</span>
 										</div>
 									</div>
-									<div class="row">
-										<div class="col-md-2">
+									<div class="row mb-2">
+										<div class="col-md-2 text-center" style="background-color:#EBECF0;">
+											<span class="fw-bold">시작예정</span>
+										</div>
+										<div class="col-md-4">
+											<span th:text="${projectInfo.expcDt}">시작예정일날짜</span>
+										</div>
+										<div class="col-md-2 text-center" style="background-color:#EBECF0;">
 											<span class="fw-bold ">진행기간</span>
 										</div>
-										<div class="col-md-3">
+										<div class="col-md-4">
 											<span th:text="${projectInfo.progTerm}">2개월</span>
 										</div>
-										<div class="col-md-2">
+									</div>
+									<div class="row mb-2">
+										<div class="col-md-2 text-center" style="background-color:#EBECF0;">
 											<span class="fw-bold">연락방법</span>
 										</div>
-										<div class="col-md-3">
+										<div class="col-md-4">
 											<span th:text="${projectInfo.coctMthd}">연락방법중하나</span>
+										</div>
+										<div class="col-md-2 text-center" style="background-color:#EBECF0;">
+											<span class="fw-bold">연락주소</span>
+										</div>
+										<div class="col-md-4">
 											<a style="color:blue; text-decoration : underline !important;" th:href="${projectInfo.contact}" th:text="${projectInfo.contact}">연락처</a>
 										</div>
 									</div>
-									<div class="row">
-										<div class="col-md-2">
-											<span class="fw-bold">시작예정</span>
-										</div>
-										<div class="col-md-3">
-											<span th:text="${projectInfo.expcDt}">시작예정일날짜</span>
-										</div>
-										<div class="col-md-2">
+									<div class="row mb-2">
+										<div class="col-md-2 text-center" style="background-color:#EBECF0;">
 											<span class="fw-bold ">마감일</span>
 										</div>
-										<div class="col-md-3">
+										<div class="col-md-4">
 											<span th:text="${projectInfo.clsDt}">마감일날짜</span>
 										</div>
 									</div>
@@ -163,14 +170,14 @@
 				  </div>
 				</div>
 				
-				<div class="input-group mb-4">
+				<!-- <div class="input-group mb-4">
 				  <textarea class="form-control radius" style="resize: none; height: 50px;" placeholder="댓글을 작성해주세요" ></textarea>
 				  <button class="btn btn-dark radius" type="button" id="button-addon2">댓글등록</button>
 				</div>
 
-				<div id="app">
+				 <div id="app">
 				    <project-component></project-component>
-				</div>
+				</div> -->
 
 
 				<div class="mt-5 mb-5" style="text-align:right;">

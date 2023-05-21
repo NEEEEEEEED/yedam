@@ -29,7 +29,6 @@
 		<!-- 폰트어썸 -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
-
 		<div class="row">
 			<div class="col-md-2 mx-6 p-4">
 				<div style="position: sticky; top:150px;">
@@ -55,7 +54,7 @@
 				<div class="mb-4">
 				  <div class="card col-lg-12">
 				    <div class="card-body">
-				    
+			
 				    	<!-- 버전1 -->
 					    <div class="card-title mb-1" style="display:flex">
 					    	<h3 class="fw-bold" th:text="${jobQnaDetail.ttl}">제목</h3>
@@ -86,7 +85,19 @@
 				    		<!-- <hr class="mt-4" style="color:#ddd"> -->
 				    	</div>
 				    
-				    	<div th:utext="|${jobQnaDetail.htmlCntn}|"></div>
+				    	<div class="mb-7" th:utext="|${jobQnaDetail.htmlCntn}|"></div>
+				    	
+				    	<div class="mb-3 text-center">
+				    		<span class="fs-1 p-3" style="border : 1px solid #ddd;">
+				    			<th:block th:if="${recoYn == 'N'}">
+				    				<span id="likeBtn" style="cursor : pointer;" th:data-no="${jobQnaDetail.qaNotiwrNo}"><i class="bi bi-hand-thumbs-up fa-xl"></i> 추천</span>
+				    			</th:block>
+				    			<th:block th:if="${recoYn == 'Y'}">
+				    				<span id="likeBtn" style="cursor : pointer;" th:data-no="${jobQnaDetail.qaNotiwrNo}"><i class="bi bi-hand-thumbs-up-fill text-secondary fa-xl"></i> 추천</span>
+				    			</th:block>
+				    			<span id="likeCount" th:text="${jobQnaDetail.recoCnt}">0</span>
+				    		</span>
+				    	</div>
 				    	
 				    </div>
 				  </div>
@@ -130,39 +141,50 @@ createApp({
 	}
 }).mount('#app')
 
-
-// 댓글 등록 버튼 클릭시 실행하는 함수
-$('#replyBtn').on('click', function(){
-
-	let formData = new FormData($('#replyForm')[0]); // 폼데이터
-		
-		$.ajax({
-			url: 'qnaReplyAdd',
-			type: 'post',
-			data: formData,
-			async: true, //비동기 여부
-	        enctype: "multipart/form-data", //form data 설정
-	        processData: false, //프로세스 데이터 설정 : false 값을 해야 form data로 인식합니다
-	        contentType: false, //헤더의 Content-Type을 설정 : false 값을 해야 form data로 인식합니다
-			success: function (res) {
-	
-				if(res.result == 'Success'){
-					console.log('댓글등록 성공');
-					let qaNotiwrNo = $('#qaNotiwrNo').val();
-					this.ReplyList(qaNotiwrNo);
-		
-				}else{
-					Swal.fire({
-						  icon: 'error',
-						  title: '댓글 등록실패!'
-					});
-				}
-			},
-	 		error: function (reject) {	   
-	    		console.log(reject);
+function RecoAdd(qaNotiwrNo){
+	$.ajax({
+		url: 'jobQnaRecoAdd',
+		type: 'post',
+		data: {qaNotiwrNo : qaNotiwrNo},
+		success: function (result) {
+			if(result.result == 'Success'){
+				console.log('추천완료');
+			}else{
+				Swal.fire({
+					  icon: 'error',
+					  title: '게시글 추천실패!'
+				});
 			}
+		},
+			error: function (reject) {	  
+	   		console.log(reject);
+		}
+	});
+}
+
+// 추천버튼 클릭시 실행하는 함수
+$('#likeBtn').on('click', function(){
+	
+	let like = $('#likeBtn').find('.bi-hand-thumbs-up');
+	
+	if(like.hasClass("bi-hand-thumbs-up")){ // 추천이 안되어있는 상태라면
+		
+		like.removeClass("bi-hand-thumbs-up"); // 추천이 안되어있는 상태 지우고
+		like.addClass("bi-hand-thumbs-up-fill"); // 추천 상태 추가
+		like.addClass("text-secondary");
+		$('#likeCount').text(parseInt($('#likeCount').text()) + 1);
+		
+		let qaNotiwrNo = $('#likeBtn').data('no');
+		RecoAdd(qaNotiwrNo); // 추천 등록 함수 호출
+		
+	}else{
+
+		Swal.fire({
+			  icon: 'error',
+			  title: '이미 추천한 게시글입니다.'
 		});
-})
+	}
+});
 
 
 //삭제버튼 클릭시 실행하는 함수
@@ -179,31 +201,27 @@ $('#jobQnaDelete').on('click', function(){
  	  reverseButtons: true
  	}).then((result) => {
  	  if (result.isConfirmed) {
+ 		  
  		  let qaNotiwrNo = $('#jobQnaDelete').data('no');
+ 		  
  		  $.ajax({
  			url: 'jobQnaDelete',
  			type: 'post',
  			data: {qaNotiwrNo : qaNotiwrNo},
  			success: function (result) {
-				
- 				if(result.result == 'Success'){
- 					Swal.fire({
-					  icon: 'success',
- 					  title: '삭제완료!',
- 					  showCancelButton: false,
- 					  confirmButtonText: '확인'
- 					}).then((result) => {
- 					  if (result.isConfirmed) {
-						location.href="/jobQnA";
- 					  }
- 					});
- 				}else{
- 					Swal.fire({
- 						  icon: 'error',
- 						  title: '게시글 삭제실패!'
- 					});
- 				}
-				
+		
+				Swal.fire({
+			 	  icon: 'success',
+				  title: '삭제완료!',
+				  showCancelButton: false,
+				  confirmButtonText: '확인'
+				})
+				.then((result) => {
+				  if (result.isConfirmed) {
+					location.href="/jobQnA";
+				  }
+				});
+ 					
  			},
  	 		error: function (reject) {	  
  	    		console.log(reject);
@@ -212,6 +230,8 @@ $('#jobQnaDelete').on('click', function(){
  	  } // if끝
  	});
  });
+ 
+ 
 
 </script>
 	</div>

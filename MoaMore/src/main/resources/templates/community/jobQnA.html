@@ -33,51 +33,103 @@
 			<div class="col-md-1"></div>
 		</div>
 		
-		<div class="row" style="margin-top : 30px;">
+		<div class="row mb-8" style="margin-top : 30px;">
 			<div class="col-md-1"></div>
 			<div class="col-md-2">
-				<div class="me-6" style="position: sticky; top:150px;">
+				<div style="position: sticky; top:150px;">
 					<div>
 						<div id="topMenu" class="text-center">
-							<h4><i class="fa-sharp fa-solid fa-ranking-star"></i> Top Writer</h4>
+							<h5><i class="fa-sharp fa-solid fa-ranking-star"></i> Best 5</h5>
 							<hr>
-							<ul class="decoUl fs-1 ms-3">
-								<li><i class="fa-solid fa-medal fa-lg"></i>&nbsp&nbsp박선아</li>
-								<li><i class="fa-solid fa-medal fa-lg"></i>&nbsp&nbsp권수민</li>
-								<li><i class="fa-solid fa-star"></i>&nbsp&nbsp임성욱</li>
-								<li><i class="fa-solid fa-star"></i>&nbsp&nbsp박주안</li>
-								<li><i class="fa-solid fa-star"></i>&nbsp&nbsp류효상</li>
+							<ul class="decoUl"> 
+								<li class="best" th:each="best : ${bestList}">
+									<i class="fa-solid fa-star" style="cursor:pointer"></i>&nbsp&nbsp
+									<a class="best bestCount" th:href="|@{/jobQnaDetail(qaNotiwrNo=${best.qaNotiwrNo})}|" th:text="${best.ttl}"></a> 
+									<span style="color:blue;" th:text="|[${best.rplyCnt}]|"></span>
+								</li>
+								<!-- <i class="fa-sharp fa-solid fa-ranking-star"></i>
+								<li><i class="fa-solid fa-medal fa-lg"></i><a>ddd</a></li>
+								<li><i class="fa-solid fa-star"></i><a>ddd</a></li>
+								<li><i class="fa-solid fa-star"></i><a>ddd</a></li>
+								<li><i class="fa-solid fa-star"></i><a>ddd</a></li> -->
 							</ul>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="col-md-7">
+			<div class="col-md-7 px-4">
 				<!-- 반복 -->
-				<div th:each="jobQna : ${jobQnaList}" class="hoverRow listRow row cursor" th:onclick="|location.href='@{/jobQnaDetail(qaNotiwrNo=${jobQna.qaNotiwrNo})}'|">
-					<div class="col-md-10">
+				<div th:each="jobQna : ${jobQnaList}" class="hoverRow listRow row cursor ms-4" th:onclick="|location.href='@{/jobQnaDetail(qaNotiwrNo=${jobQna.qaNotiwrNo})}'|">
+					<div class="col-md-9">
 					 	<h4 class="mt-2" th:text="${jobQna.ttl}">게시글제목</h4>
 					 	<p class="fs--1 ellipsis" th:text="${jobQna.cntn}">Some text..Some text..</p>
 					 	<img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
 					 	<span th:text="${jobQna.id}">아이디</span>
 				 	</div>
-				 	<div class="col-md-2" style="display: flex; align-items: center; flex-direction : column;" >
+				 	<div class="col-md-3" style="display: flex; align-items: center; flex-direction : column;" >
 				      <div style="border: 1px solid black; text-align: center; width: 60px; margin: auto; border-radius: 5px;  line-height: 15px; padding: 8px;">
 				        <small>
-				          <span>댓글수</span>
+				          <span>댓글</span>
 				          <br>
 				          <span th:text="${jobQna.rplyCnt}">1</span>
 				        </small>
 				      </div>
 				      <div class="fs--1">
-					  	<span>조회수</span><span th:text="${jobQna.inqCnt}">1</span>
+					  	조회 <span th:text="${jobQna.inqCnt}">1</span> /
+					  	추천 <i class="fas fa-thumbs-up"></i> <span th:text="${jobQna.recoCnt}">1</span>
 					  </div>
 				    </div>
 				</div>	
+				
+				<nav class="mt-5" aria-label="Page navigation example">
+				  <ul class="pagination d-flx justify-content-center">
+				  
+				    <li class="page-item">
+				      <a class="page-link" aria-label="Previous">
+				        <span aria-hidden="true">&laquo;</span>
+				      </a>
+				    </li>
+				    
+				    <li th:each="num : ${#numbers.sequence(paging.startPage, paging.endPage)}" class="page-item" th:classappend="${num} == ${paging.cri.page} ? 'active' : ''">
+				    	<a class="page-link" th:href="@{/jobQnA(page=${num})}" th:text="${num}">1</a>
+				    </li>
+				    
+				    <li class="page-item">
+				      <a class="page-link" aria-label="Next">
+				        <span aria-hidden="true">&raquo;</span>
+				      </a>
+				    </li>
+				  </ul>
+				</nav>
+				
+				
+				
+				<!-- <ul class="paging">
+				
+				    <li th:if="${paging.isPrev()}"><a th:href="@{/jobQnA(page=${paging.startPage-1})}">00</a></li>
+				    
+				    <li th:each="num : ${#numbers.sequence(paging.startPage, paging.endPage)}">
+					    <a th:href="@{/jobQnA(page=${num})}" th:text="${num}"></a>
+					</li>
+					
+				    <li th:if="${paging.isNext() && paging.endPage > 0}"><a th:href="@{/jobQnA(page=${paging.endPage+1)}">다음</a></li>
+				
+				</ul> -->
+				
 			</div>
 			<div class="col-md-1"></div>
 		</div>
 <script>
+
+
+const bestCountElements = document.querySelectorAll('.bestCount');
+
+bestCountElements.forEach(element => {
+  const text = element.textContent;
+  if (text.length > 10) {
+    element.textContent = text.substring(0, 10) + '..';
+  }
+});
 
 
 //페이징 버튼만들기
