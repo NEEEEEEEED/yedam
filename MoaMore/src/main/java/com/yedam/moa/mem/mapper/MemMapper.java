@@ -78,4 +78,8 @@ public interface MemMapper {
 	
 	
 	public int delPofol(PrtflVO vo);
+	
+	public ResumeVO getRe(ResumeVO rvo);
+	
+	public void delResume(ResumeVO rvo); 
 }

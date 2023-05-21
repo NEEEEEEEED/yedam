@@ -108,7 +108,7 @@ section {
 						<p id="forToggle" class="col-sm-4 text-end fs-3 fw-normal text-black">날짜선택</p>
 						<div class="col-sm-7 text-end">
 							<input th:placeholder="${product.svcCnt}+'개의 날짜를 선택해 주세요 click!'" readonly style="background-color: white;"
-								class="form-control pointer" id="datePick" onclick="toggleDate(event)"/></input>
+								class="form-control pointer" id="datePick" /></input>
 						</div>
 					</div>
 					<hr>
@@ -214,10 +214,37 @@ section {
 				                return [true];
 				            }
 				        },
+				       
+						  onClose: function(dateText, inst) { // 달력이 닫혀 있을 땐 
+						    datepickerVisible = false;
+						  },  
 				    showAnim :'slideDown',
 				    minDate : 0
 				});
 			});
+		
+			var datepickerVisible = false;
+
+			// input 클릭 시 datepicker 열기/닫기
+			document.getElementById("datePick").addEventListener("click", function() {
+				if (gonggo.value == '') {
+					  Swal.fire({
+					    icon: 'warning',
+					    title: '공고를 먼저 선택해주세요.',
+					  }).then(function() {
+					    $("#datePick").datepicker("hide");
+					  });
+				}else{
+				  if (datepickerVisible) {
+				    $("#datePick").datepicker("hide");
+				    datepickerVisible = false;
+				  } else {
+				    $("#datePick").datepicker("show");
+				    datepickerVisible = true;
+				  }
+				}
+			});
+			
 			
 		
 			//주문번호 만들기용 현재 날짜 230508144425
@@ -236,13 +263,22 @@ section {
 			//결제확인체크
 			function agreeCheck(){
 				if(gonggo.value == ''){
-					alert("공고를 선택해 주세요")
+					Swal.fire({
+					    icon: 'warning',
+					    title: '공고를 선택해주세요.',
+					  })
 					return false;
 				} else if(datePick.value.split(',').length < [[${product.svcCnt}]] ){
-					alert("날짜를 확인해 주세요")
+					Swal.fire({
+					    icon: 'warning',
+					    title: '날짜를 선택해주세요.',
+					  })
 					return false;
 				} else if(document.querySelector('input[type="checkbox"]').checked == false){
-					alert("결제정보에 동의해 주세요")
+					Swal.fire({
+					    icon: 'warning',
+					    title: '결제정보에 동의해 주세요.',
+					  })
 					return false;
 				}
 			}
@@ -313,17 +349,7 @@ section {
 				box.checked = !box.checked;
 			}
 			
-			//
-			function toggleDate(e){
-				let calendar = document.querySelector('#ui-datepicker-div');
-				if(gonggo.value == ''){ // 공고를 선택하지 않은 경우
-					  Swal.fire({
-						icon : 'warning',
-						title : '공고를 먼저 선택해주세요.'
-					}) 
-				    return;
-				}
-			}
+		
 			
 		
 					
