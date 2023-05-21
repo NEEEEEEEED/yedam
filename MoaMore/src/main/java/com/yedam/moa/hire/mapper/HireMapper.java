@@ -10,6 +10,7 @@ public interface HireMapper {
 	public List<HireVO> scrapHire(HireVO hireVO); // 스크랩한 구인공고 조회
 	public List<HireVO> searchInfo(HireVO hireVO); // 구인공고 상세 페이지
 	public List<HireVO> resumeList(String id); // 구인공고 페이지 이력서 조회
+	public int checkResume(HireVO hireVO); // 해당공고에 지원가능한지 확인
 	public int resumeInsert(HireVO hireVO); // 구인공고 지원
 	public int followInsert(HireVO hireVO); // 관심기업 등록
 	public int followDelete(HireVO hireVO); // 관심기업 취소
@@ -29,4 +30,9 @@ public interface HireMapper {
 	public int hireModify (HireVO vo); // 공고 수정 기능
 	public int hireSkillDelete(HireVO vo); // 공고 스킬 삭제
 	public int hireImgDelete(HireVO vo); // 공고 이미지 삭제
+	
+	// 메인 페이지
+	public List<HireVO> prdtSelect (HireVO hireVO); // 유료공고
+	public List<HireVO> newSelect (HireVO hireVO); // 최신공고
+	public List<HireVO> popSelect (HireVO hireVO); // 인기공고
 }

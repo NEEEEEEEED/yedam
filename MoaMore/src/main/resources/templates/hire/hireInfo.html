@@ -419,13 +419,17 @@ body {
 			type: 'post',
 			data: {resumeNo : resumeNo, id : id, recruitNo : recruitNo},
 			success: function (result) {
+				console.log(result);
 				Swal.fire({
 				  icon: 'success',
-				  title: '해당 공고에 지원하였습니다.'
+				  title: result
 				});
 			},
 			error: function (reject) {	   
-				console.log(reject);
+				Swal.fire({
+				  icon: 'error',
+				  title: result
+				});
 			}
 		});
 	}
