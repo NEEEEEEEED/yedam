@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
@@ -357,5 +358,11 @@
 		WHERE 1=1
 		<![CDATA[AND ROWNUM < 4]]>
 	</select>
-	
+  <!-- 구인 공고삭제 : 관리자 -->
+	<delete id="recruitDelFn" statementType="CALLABLE" parameterType="String">
+   		{ 
+      		call recruit_Delete(#{recruitNo})
+   		}
+	</delete>
+
 </mapper>

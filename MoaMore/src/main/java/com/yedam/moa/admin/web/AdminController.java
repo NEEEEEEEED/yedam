@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.moa.admin.service.AdminService;
+import com.yedam.moa.admin.service.ApprvListVO;
+import com.yedam.moa.admin.service.ApprvListVO;
 import com.yedam.moa.admin.service.PostListVO;
 import com.yedam.moa.admin.service.ReportVO;
 import com.yedam.moa.admin.service.UserSearchVO;
@@ -23,7 +26,11 @@ import com.yedam.moa.comm.CommVO;
 import com.yedam.moa.comm.service.CommService;
 import com.yedam.moa.comm.service.Impl.CommServiceImpl;
 import com.yedam.moa.community.service.CommunityService;
+import com.yedam.moa.hire.HireVO;
+import com.yedam.moa.hire.service.HireService;
+import com.yedam.moa.hire.service.Impl.HireServiceImpl;
 import com.yedam.moa.mem.MemVO;
+import com.yedam.moa.self.service.SelfService;
 
 @Controller
 @CrossOrigin(origins = "http://localhost:3000")
@@ -109,9 +116,16 @@ public class AdminController {
 	public String removeBoard(@RequestBody String[] nos) {
 		return adminService.removeBoard(nos);
 	}
-	
-	
-	
+	@GetMapping("/getApprvList")
+	@ResponseBody
+	public ApprvListVO getApprvList() {
+		return adminService.getApprvList();
+	}
+	@PostMapping("/approveBoard")
+	@ResponseBody
+	public String approveBoard(@RequestBody String[] nos) {
+		return adminService.approveBoard(nos);
+	}
 	
 	@Autowired 
 	CommunityService commuService;
@@ -126,9 +140,7 @@ public class AdminController {
 	public String jobQnaDetailMod(Model model,String qaNotiwrNo) {
 		model.addAttribute("jobQnaDetail", commuService.jobQnaDetail(qaNotiwrNo));
 		return "admin/jobQnADetailMod";
-	}
-	// 면접 후기 상세페이지
-	
+	}	
 	// 프로젝트 상세페이지
 	@GetMapping("/adminProjectDetail")
 	public String adminProjectDetail(Model model, String prjtNo) {
@@ -164,8 +176,52 @@ public class AdminController {
 	@PostMapping("/getReportData")
 	@ResponseBody
 	public Map<String,Object> getReportData(@RequestBody String notiwrNo) {
-		System.out.println("+++++++++++++++++++여기에요여기"+notiwrNo.replace("=", ""));
 		return adminService.getReportData(notiwrNo.replace("=", ""));
 	}
-	
+	@Autowired
+	HireService hireService;
+	// 구인공고 상세페이지
+	@GetMapping("/adminReaDetail")
+	public String adminReaDetail(String recruitNo, Model model, Principal pr) {
+		HireVO hireVO = new HireVO();
+		hireVO.setRecruitNo(recruitNo);
+		//hireVO.setSkill(skill);
+		hireVO.setId(pr.getName());
+
+		List<HireVO> hireInfo = hireService.hireInfo(hireVO);
+		
+		String[] array = hireInfo.get(0).getRecruitImg().split(","); 
+		
+		//model.addAttribute("recommend", hireService.selectRecommend(hireVO));
+		model.addAttribute("imgArray",array);
+		model.addAttribute("hireInfo", hireInfo);
+		
+		return "admin/hireDetail";
+	}
+	@Autowired 
+	SelfService selfService; // 셀프구직
+	// 구직공고 상세페이지
+	@GetMapping("/adminJSNDetail")
+	public String adminJSNDetail(Model model, String jobSearchNo, String resumeNo) {
+		String carrNo = selfService.resumeKeys(resumeNo).getCarrNo(); // 해당 이력서의 경력번호
+		String shcrNo = selfService.resumeKeys(resumeNo).getShcrNo(); // 해당 이력서의 학력번호
+		
+		//System.out.println("경력번호 : " + carrNo);
+		//System.out.println("학력번호 : " + shcrNo);
+		
+		model.addAttribute("selfJobInfo", selfService.selfJobDetailInfo(jobSearchNo)); // 셀프구직 기본정보
+		model.addAttribute("pofolList", selfService.selfJobDetailPofol(jobSearchNo)); // 셀프구직 포트폴리오
+		model.addAttribute("skillList", selfService.selfJobDetailSkill(jobSearchNo)); // 셀프구직 스킬
+		
+		model.addAttribute("carrList", selfService.careerList(carrNo)); // 경력 리스트
+		model.addAttribute("schoolList", selfService.schoolList(shcrNo)); // 학력 리스트
+		
+		return "admin/selfDetail";
+	}
+	// 면접 후기 상세페이지
+	@GetMapping("/adminITVDetail")
+	public String adminITVDetail(String intrvNo,Model model) {
+		model.addAttribute("jobInterviewList", commuService.jobInterviewDetail(intrvNo));
+		return "admin/jobITVDetail";
+	}
 }

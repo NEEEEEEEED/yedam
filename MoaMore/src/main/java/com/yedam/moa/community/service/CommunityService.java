@@ -79,5 +79,8 @@ public interface CommunityService {
 	// 스터디 모집 삭제
 	public int studyDelFn(String studyNo);
 	
+	// 면접후기 단건: 관리자
+	public IntrvVO jobInterviewDetail(String intrvNo);
+	
 	
 }

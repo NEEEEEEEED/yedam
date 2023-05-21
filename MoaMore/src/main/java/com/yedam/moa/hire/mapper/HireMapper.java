@@ -30,9 +30,13 @@ public interface HireMapper {
 	public int hireModify (HireVO vo); // 공고 수정 기능
 	public int hireSkillDelete(HireVO vo); // 공고 스킬 삭제
 	public int hireImgDelete(HireVO vo); // 공고 이미지 삭제
+
+	public int recruitDelFn(String recruitNo); // 공고 삭제 : 관리자
+
 	
 	// 메인 페이지
 	public List<HireVO> prdtSelect (HireVO hireVO); // 유료공고
 	public List<HireVO> newSelect (HireVO hireVO); // 최신공고
 	public List<HireVO> popSelect (HireVO hireVO); // 인기공고
+
 }
