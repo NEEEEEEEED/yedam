@@ -29,4 +29,5 @@ public interface HireMapper {
 	public int hireModify (HireVO vo); // 공고 수정 기능
 	public int hireSkillDelete(HireVO vo); // 공고 스킬 삭제
 	public int hireImgDelete(HireVO vo); // 공고 이미지 삭제
+	public int recruitDelFn(String recruitNo); // 공고 삭제 : 관리자
 }

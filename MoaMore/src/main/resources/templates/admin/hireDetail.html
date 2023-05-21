@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+<head>
+<meta charset="UTF-8">
+<title>hireInfo</title>
+<style>
+
+body {
+
+  padding-top: 70px;
+  padding-bottom: 30px;
+  font-family: Arial;
+  margin: 0;
+
+}
+#hireButtons{
+	float:right;
+}
+#searchBtn{
+	margin-left: 3px;
+}
+.modal-body{
+	text-align: center;
+}
+
+.imageSlide{
+	width: 110px;
+	height: 100px;	
+}
+#btnList{
+	float: right;
+}
+#searchBtn{
+	width: 100%;
+}
+#title{
+	font-size: 300%;
+	color: black;
+}
+.circleImg {
+  border-radius: 50%;
+  width : 100px;
+  height : 100px;
+}
+
+</style>
+</head>
+<body>
+	<div>
+   	<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
+   	<!-- 권한 -->
+	<!-- 사이드바 -->
+	<div class="row" style="margin-top : 30px; height: auto;"  th:each="hireVO:${hireInfo}">
+		<div class="col-md-1"></div>
+		<div class="col-md-2 border-end" style="margin:10px;">
+			<div style="position: sticky; top:150px;">	
+				<div sec:authorize="hasRole('ROLE_MEM')">
+				<hr>
+				<div style="display:flex; justify-content: center;">
+					<div style="display:flex; flex-direction: column;" id="hireButtons">
+						<div class="mb-2 cursor">
+							<button type="button" class="btn btn-outline-dark" id="recruitScrap">공고 스크랩</button>
+						</div>
+						<div class="mb-2 cursor">
+							<button type="button" class="btn btn-outline-dark" id="followCO">기업 팔로우</button>
+						</div>
+						<div class="mb-2 cursor">
+							<button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#exampleModal" id="searchBtn" name="searchBtn">
+								지원하기
+							</button>
+						</div>
+						<hr>
+					</div>	
+				</div>
+				</div>
+			</div>
+		</div>
+<!-- 	</div> -->
+		<!-- 이미지 슬라이드 시작 -->
+		<div class="col-md-5">
+			<div class="card" id="imageSlide">
+				<div class="card-body" id="imageBody">
+					<!-- Slides with indicators -->
+					  <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+					    <div class="carousel-indicators">
+					      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+					      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+					      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+					    </div>
+					    <div class="carousel-inner" >
+					      <div class="carousel-item " th:each="img, userStat : ${imgArray}" th:classappend="${userStat.index == 0} ? 'active' : ''">
+					        <img th:src="@{/moamoreImg/}+${img}" class="d-block" style="width: 700px; height: 500px;" alt="...">
+					      </div>
+					    </div>
+					
+					    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+					      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					      <span class="visually-hidden">Previous</span>
+					    </button>
+					    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+					      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+					      <span class="visually-hidden">Next</span>
+					    </button>
+					
+					  </div><!-- End Slides with indicators -->
+				</div>
+			</div>
+		<!-- 이미지 슬라이드 끝 -->
+		<br>
+		
+		<div class = "container">
+			<!-- Modal -->
+			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered modal-lg">
+					<!-- 모달창 화면 중앙에  modal-dialog-centered, 모달 사이즈 변경 직접 불가해서 modal-lg 추가 -->
+					<!-- 현재로그인된 유저정보 -->
+					<input id="logId" name="id" type="hidden" th:value="${#authentication.principal.username}">
+					<div class="modal-content">
+						<div class="modal-header">
+						</div>
+						<br>
+							<h4 style="text-align:center;">이력서를 하나 선택해주세요</h4>
+						<div class="modal-body">
+							<!-- 이력서 자동 조회 -->
+							<div id="resumeGrid"></div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-outline-dark" data-dismiss="modal" id="recruitMod">이력서 수정</button>
+							<button type="button" class="btn btn-outline-dark" data-dismiss="modal" id="recruitInsert">지원하기</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- ↑↑↑ 모달 -->
+		
+			<div class="row">
+				<input type="hidden" th:value="${hireVO.recruitNo}" id="nowRecruitNo" >
+				<div>
+					<span id="title" th:text="${hireVO.ttl}">제목</span> 
+					<span id = "scrapYn">
+						<!-- 스크랩 AJAX -->
+						<i class="bi bi-bookmark-heart-fill fs-5 btn1" th:classappend="${hireVO.scrapYn != null} ? 'text-danger' : ''"></i>
+					</span>
+				</div>	
+					<article>
+						<div role="main">
+							<form name="form" id="form" role="form" method="post" action="${pageContext.request.contextPath}/board/saveBoard">
+								<div class="mb-3">
+									<span>
+									<!-- 관심기업 AJAX -->
+										<span id="followingCo" th:text="${hireVO.coNm}" class="" th:classappend="${hireVO.followYn != null} ? 'text-danger' : ''"></span>
+									</span>
+									<input type="hidden" th:value="${hireVO.idCo}" id = "co"/>
+									<span> | </span> 
+									<span th:text="${hireVO.wksite}"></span>
+								</div>
+								
+								<div class="mb-3">
+									<h4>기업서비스 소개</h4>
+									<p th:utext="|${hireVO.coIntro}|" id="editor"></p>
+									<br>
+								</div>
+								
+								<div class="mb-3">
+									<h4>기술스텍</h4>
+									<p th:text="${hireVO.skill}" th:value="${hireVO.skill}" id="nowSkill"/>
+								</div>
+				
+								<div class="mb-3">
+									<h4>주요업무</h4>
+									<p th:text="${hireVO.maBuss}"/>
+								</div> 
+								
+								<div class="mb-3">
+									<h4>자격요건</h4>
+									<p th:text="${hireVO.qualCond}"/>
+								</div>
+								
+								<div class="mb-3">
+									<h4>우대사항</h4>
+									<p th:text="${hireVO.prefCond}"/>
+								</div>
+								
+								<div class="mb-3">
+									<h4>복지 및 혜택</h4>
+									<p th:text="${hireVO.welf}"/>
+								</div>
+								
+								<div class="mb-3">
+									<h4>경력</h4>
+									<p th:text="${hireVO.carr}"/>
+								</div>
+								
+								<div class="mb-3">
+									<h4>학력</h4>
+									<p th:text="${hireVO.shcr}"/>
+								</div>
+								
+								<div class="mb-3">
+									<h4>마감일</h4>
+									<p th:text="${hireVO.exprDt}"/>
+								</div>
+								
+							</form>
+							<div><!-- 공고수정은 본인만 가능하도록 -->
+								<th:block th:if="${hireVO.idCo}==${#authentication.principal.username}" >
+									<a class="btn btn-outline-dark" id="hireMod" th:href="@{/hireMod(recruitNo=${hireVO.recruitNo})}">공고수정</a>
+								</th:block>
+									<button type="button" class="btn btn-outline-dark" id="btnList">목록</button>
+							</div>
+						</div>
+					</article>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<br>
+	<!-- 추천공고 -->
+	<section class="bg-dark pt-6" >
+		<div class="container">
+			<div class="col-md-12">
+				<p class="text-white fs-lg-5 fs-md-3 fs-2">같은 기술을 원하는 공고 <span class="py-1 px-2 rounded-2 bg-success fw-bold text-dark ms-2">Recommend!</span></p>
+				<br>
+			</div>
+			<div class="swiper mt-7">
+				<div class="swiper-container swiper-theme" data-swiper='{"slidesPerView":1,"breakpoints":{"640":{"slidesPerView":1,"spaceBetween":10},"768":{"slidesPerView":2,"spaceBetween":20},"1025":{"slidesPerView":3,"spaceBetween":40}},"spaceBetween":10,"grabCursor":true,"pagination":{"el":".swiper-pagination","clickable":true},"navigation":{"nextEl":".swiper-button-next","prevEl":".swiper-button-prev"},"loop":true,"freeMode":true,"loopedSlides":3}'>
+					<div class="swiper-wrapper">
+						<div class="swiper-slide bg-white p-5 rounded-3 h-auto"  th:each="recommend:${recommend}">
+							<div class="d-flex flex-column justify-content-between h-100">
+								<h4 class="text-black" th:text="${recommend.ttl}">제목</h4>
+								<h5 class="text-black" th:text="${recommend.carr}">고용 형태</h5>
+								<h5 class="text-black" th:text="${recommend.job}">구인 분야</h5>
+								<div class="d-flex align-items-center gap-3 mt-5">
+									<img th:src="@{/moamoreImg/}+${recommend.coImg}" id="preview" class="circleImg"> 
+									<div class="text-black">
+										<p class="mb-0 fw-bold text-dark" th:text="${recommend.coNm}">기업이름</p><small th:text="${recommend.accpDt}">마감일</small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>   
+				<div class="swiper-button-next"><span class="fas fa-arrow-right fs-lg-3 fs-2"></span></div>
+				<div class="swiper-button-prev"><span class="fas fa-arrow-left fs-lg-3 fs-2"></span></div>
+			</div>
+		</div>
+	</section>
+    <!-- 추천공고 끝 -->
+	<script>
+	let id        = $('#logId').val(); // 로그인된 id
+	let resumeNo  = ''; // 넘길 지원서
+	let str       = ''; // 체크한 이력서
+	let recruitNo = $('#nowRecruitNo').val(); // 현재 보고있는 공고번호
+	let idCo      = $('#co').val(); // 보고있는 공고의 기업
+	let skill = $('#nowSkill').val(); // 보고있는 공고의 기술정보
+
+	// 공고목록으로 이동
+	$(document).on('click', '#btnList', function(e){
+		e.preventDefault();
+		location.href = "/hirePage";
+	});
+	
+	// 이력서 그리드 조회
+	// 이력서 불러오기 버튼 클릭시
+	$('#searchBtn').on('click',function(){
+		// 모달창 open
+		$('#exampleModal').modal('show');
+		let id = logId.value; // 로그인한 아이디
+		resumeList(id); // 이력서 목록 리스트
+	});
+
+	//이력서 리스트 호출
+	function resumeList(id){
+		$.ajax({
+			url: 'resumeList',
+			type: 'post',
+			data: {id : id},
+			success: function (result) {
+				setTimeout(function() {
+					grid.refreshLayout(); 
+				},300);
+				grid.resetData(result);
+			},
+			error: function (reject) {	   
+				console.log(reject);
+			}
+		});
+	}
+	
+	//그리드
+	const grid = new tui.Grid({
+		el: document.getElementById('resumeGrid'), // Container element
+		scrollX: false,
+		scrollY: true,
+		rowHeaders: ['checkbox'],
+		bodyHeight: 300,
+		pageOptions: {
+		  useClient: true,
+		  type: 'scroll',
+		  perPage: 50
+		},
+		columns: [
+			{ header: '이력서번호',
+			  name: 'resumeNo',
+			  align : 'center',
+			  hidden : true,
+			  sortable : true
+			},
+			{ header: '아이디',
+			  name: 'id',
+			  align : 'center',
+			  hidden : true,
+			  sortable : true
+			},
+			{ header: '이력서제목',
+			  name: 'ttl',
+			  align : 'center',
+			  sortable : true
+			},
+			{ header: '작성일자',
+			  name: 'regDt',
+			  align : 'center',
+			  sortingType: 'asc',
+			  sortable : true,
+			  editor: {             
+				type: 'datePicker',              
+				options: {                
+					format: 'yyyy-MM-dd',                
+					language: 'ko',     //한국기준               
+					date : getToday()              
+					}         
+				},         
+				formatter: function (data) {            
+					let dateVal = '';            
+					if(data.value != null ){              
+						dateVal = dateFormat(data.value);            
+					}else{               
+						dateVal = getToday();          
+					}            
+					data.value = dateVal;             
+					return dateVal;           
+				}
+			}
+		]
+	});
+
+	//날짜 변환
+	function dateFormat(date) {
+		let date1 = new Date(date);
+		let date2 = date1.getFullYear() + '-' 
+			+ ((date1.getMonth()<10)?'0'+(date1.getMonth()+1):(date1.getMonth()+1)) + '-'
+			+ ((date1.getDate()<10)?'0'+date1.getDate():date1.getDate());       
+		return date2;
+	}
+	
+	// 날짜변형
+	function dateChange(date) {
+	   let date1 = new Date(date);
+	   let date2 =
+		date1.getFullYear() + "-" + 
+		 (date1.getMonth() < 10 ? "0" + (date1.getMonth() + 1): date1.getMonth() + 1) +"-" +
+		 (date1.getDate() < 10 ? "0" + date1.getDate() : date1.getDate());
+	   return date2;
+	 };
+	
+	function getToday(){
+		const date = new Date();
+		const hours = String (date.getHours()).padStart(2,"0");
+		const minutes = String(date.getMinutes()).padStart(2,"0");
+		const seconds = String(date.getSeconds()).padStart(2,"0");
+		const years = date.getFullYear();
+		const month = String(date.getMonth()+1).padStart(2,"0");
+		const day = String(date.getDate()).padStart(2,"0");
+		return years + "-" + month + "-" + day;
+	}
+
+	// 이력서 수정 페이지 이동
+	$('#recruitMod').on('click',function(e){
+		e.preventDefault();
+
+		location.href="/";
+	});
+	
+	// 체크한것만 찾기
+	grid.on('check', (ev) => {
+		checkLen = grid.getCheckedRows().length;
+	});
+	
+   grid.on('checkAll', (ev) => {
+		checkLen = grid.getCheckedRows().length;
+	});   
+	
+   grid.on('unCheck', (ev) => {
+		checkLen = grid.getCheckedRows().length;
+	}); 
+	
+	// 지원하기 버튼을 눌렀을 때
+	$('#recruitInsert').on('click',function(){
+		for (let i = 0; i < checkLen; i++) {
+	        str += grid.getCheckedRows()[i].resumeNo;
+	    }
+		
+		let id = logId.value; // 로그인한 아이디
+		let recruitNo = nowRecruitNo.value; // 현재보고있는 공고
+		let resumeNo = str; // 체크한 이력서 번호
+		resumeInsert(resumeNo, id, recruitNo);
+		
+		$('#exampleModal').modal('hide');
+	    $('.modal-backdrop').remove();
+	});
+	// 공고 지원하기
+	function resumeInsert(resumeNo, id, recruitNo){
+		$.ajax({
+			url: 'resumeInsert',
+			type: 'post',
+			data: {resumeNo : resumeNo, id : id, recruitNo : recruitNo},
+			success: function (result) {
+				Swal.fire({
+				  icon: 'success',
+				  title: '해당 공고에 지원하였습니다.'
+				});
+			},
+			error: function (reject) {	   
+				console.log(reject);
+			}
+		});
+	}
+	
+	// 공고올린 기업을 관심기업으로 등록
+	$("#followCO").on("click", function(){
+		let idCo = co.value;
+		let data = {
+				"idCo" : idCo,
+    	    } 	
+		followingCo(data);
+		
+		
+	});
+	
+	// 관심기업 등록, 취소
+	function followingCo(data){
+		$.ajax({
+			url: "followingCo",
+			type: 'post',
+			data: data,
+			success: function (result){
+				Swal.fire({
+					icon: 'success',
+					title: result
+				});
+				let followIcon="";
+				if(result == "관심기업으로 등록했습니다."){
+					$("#followingCo").css('color', 'red');
+				}else{
+					$("#followingCo").css('color', 'gray');
+				}
+
+			},
+			error: function(reject){
+				console.log(reject);
+			}
+		});
+	}
+	
+
+	
+	// 보고있는 공고 스크랩(스크랩이 되어있으면 스크랩 풀기)
+	$("#recruitScrap").on("click", function(){
+		let recruitNo = nowRecruitNo.value;
+		let data = {
+				"recruitNo" : recruitNo // 스크랩 여부 값이 계속 바뀜으로 디비에서 바로 꺼내야한다.
+    	    } 	
+		recScrap(data);	
+	});
+	// 스크랩 여부 등록, 취소
+	function recScrap(data){
+		$.ajax({
+			url: "recScrap",
+			type: 'post',
+			data: data,
+			success: function(result){
+				Swal.fire({
+					icon: 'success',
+					title: result
+				});
+				selectScrap(data);
+			},
+			error: function(reject){
+				console.log(reject);
+			}
+		});
+	}
+	
+	// 스크랩 조회
+	function selectScrap(data){
+		$.ajax({
+			url: "selectScrap",
+			type: 'GET',
+			data: data,
+			success: function(result){
+				 let scrapIcon="";
+				if(result[0].scrapYn != null){
+					scrapIcon = `<i class="bi bi-bookmark-heart-fill fs-5 btn1 text-danger" ></i>`;
+				}else{
+					scrapIcon = `<i class="bi bi-bookmark-heart-fill fs-5 btn1" ></i>`;
+				}
+				$("#scrapYn").html(scrapIcon);  
+			},
+			error: function(reject){
+				console.log(reject);
+			}
+		});
+	}
+	
+	
+	// 이력서수정으로 이동
+	$(document).on('click', '#recruitMod', function(e){
+		e.preventDefault();
+
+		location.href="/";
+	});
+	
+</script>
+	</div>
+</body>
+</html>

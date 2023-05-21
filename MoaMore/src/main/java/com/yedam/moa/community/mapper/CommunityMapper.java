@@ -90,6 +90,12 @@ public interface CommunityMapper {
 	
 	// 스터디 모집 삭제
 	public int studyDelFn(String studyNo);
+
+	// 면접후기 단건: 관리자
+	public IntrvVO selectITVDetail(String intrvNo);
+	
+	// 면접후기 삭제: 관리자
+	public int interviewDelFn(String intrvNO);
 	
 	
 }

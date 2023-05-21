@@ -27,7 +27,7 @@ public class IntrvVO {
 	private MultipartFile upload;	// 이미지파일
 	
 	private String ttl;
-	private String postType;
+	private String postType = "면접후기게시판";
 	
 	private String rprtCnt="0"; //신고건수
 	private String rprtSt; //처리결과

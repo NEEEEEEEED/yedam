@@ -179,6 +179,12 @@ public class CommunityServiceImpl implements CommunityService{
 		replyVO.setRplyDepth(1); // 댓글 깊이 1 = 자식 댓글(대댓글)
 		return commuMapper.chQnaReplyAdd(replyVO);
 	}
+	
+	// 면접후기 단건: 관리자
+	@Override
+	public IntrvVO jobInterviewDetail(String intrvNo) {
+		return commuMapper.selectITVDetail(intrvNo);
+	}
 
 	
 	

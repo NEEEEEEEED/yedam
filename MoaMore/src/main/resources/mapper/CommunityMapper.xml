@@ -466,5 +466,34 @@
 		 WHERE STUDY_NO = #{studyNo}
 	</delete>
 	
+	<!-- 면접후기 단건: 관리자 -->
+	<select id="selectITVDetail" resultType="IntrvVO">
+		SELECT INTRV_NO
+		       , ID
+		       , CO_NM
+		       , get_common(DUTY) as duty
+		       , get_common(CARR) as carr
+		       , get_common(APPR) as appr
+		       , get_common(DIF)  as dif
+		       , get_common(INTRV_TYP) as intrvTyp
+		       , get_common(INTRV_RCNT) as intrvRcnt
+		       , get_common(PASS_YN) as passYn
+		       , INTRV_IMG
+		       , QST_CNTN
+		       , SPC_CTNT
+		       , REG_DT
+		       , ACCP_YN
+		       , INTRV_DT
+		FROM intrv_scrn
+		WHERE INTRV_NO = #{intrvNo}
+		ORDER BY REG_DT DESC, INTRV_DT DESC
+	</select>
 	
+	<!-- 면접 후기 삭제 기능 : 관리자 -->
+	<delete id="interviewDelFn" parameterType="String">
+		DELETE
+		  FROM intrv_scrn
+		 WHERE INTRV_NO = #{intrvNO}
+	</delete>
+
 </mapper>

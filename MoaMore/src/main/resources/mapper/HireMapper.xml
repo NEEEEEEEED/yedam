@@ -318,4 +318,11 @@
 	<select id="popSelect" resultType="HireVO">
 	
 	</select>
+	
+	<!-- 구인 공고삭제 : 관리자 -->
+	<delete id="recruitDelFn" statementType="CALLABLE" parameterType="String">
+   		{ 
+      		call recruit_Delete(#{recruitNo})
+   		}
+	</delete>
 </mapper>

@@ -25,4 +25,8 @@ public interface AdminService {
 
 	public String removeBoard(String[] nos);
 
+	public ApprvListVO getApprvList();
+
+	public String approveBoard(String[] nos);
+
 }

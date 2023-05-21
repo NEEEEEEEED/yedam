@@ -9,11 +9,14 @@ import org.springframework.stereotype.Service;
 
 import com.yedam.moa.admin.mapper.AdminMapper;
 import com.yedam.moa.admin.service.AdminService;
+import com.yedam.moa.admin.service.ApprvListVO;
 import com.yedam.moa.admin.service.PostListVO;
 import com.yedam.moa.admin.service.ReportVO;
 import com.yedam.moa.admin.service.UserSearchVO;
 import com.yedam.moa.community.mapper.CommunityMapper;
+import com.yedam.moa.hire.mapper.HireMapper;
 import com.yedam.moa.mem.MemVO;
+import com.yedam.moa.self.mapper.SelfMapper;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -98,7 +101,10 @@ public class AdminServiceImpl implements AdminService {
 		return message;
 	}
 
-	
+	@Autowired
+	SelfMapper selfMapper;
+	@Autowired 
+	HireMapper hireMapper;
 	@Override
 	public String removeBoard(String[] nos) {
 		String message = "";
@@ -111,6 +117,15 @@ public class AdminServiceImpl implements AdminService {
 			} else if(substr.equals("PRJ")) {
 				commuMapper.projectDelFn(str);
 				message = message + str +",";
+			} else if(substr.equals("REA")) {
+				hireMapper.recruitDelFn(str);
+				message = message + str +",";
+			} else if(substr.equals("JSN")) {
+				selfMapper.myProfileDel(str);
+				message = message + str +",";
+			} else if(substr.equals("ITV")) {
+				commuMapper.interviewDelFn(str);
+				message = message + str +",";
 			} else {
 				commuMapper.jobQnaDelete(str);
 				message = message + str +",";
@@ -118,6 +133,36 @@ public class AdminServiceImpl implements AdminService {
 		}
 		return message;
 		
+	}
+	@Override
+	public ApprvListVO getApprvList() {
+		ApprvListVO vo = new ApprvListVO();
+		//구인공고
+		vo.setHireVO(adminMapper.selectRecruitList());
+		//구직공고
+		vo.setSelfVO(adminMapper.selectSelfList());
+		//면접후기
+		vo.setIntrvVO(adminMapper.selectINTRVPost());
+		return vo;
+	}
+	@Override
+	public String approveBoard(String[] nos) {
+		String message = "";
+		for(String str : nos) {
+			String substr = str.substring(0,3);
+			System.out.println(substr);
+			if (substr.equals("REA")) {
+				adminMapper.approveREA(str);
+				message = message + str +",";
+			} else if(substr.equals("JSN")) {
+				adminMapper.approveJSN(str);
+				message = message + str +",";
+			} else  {
+				adminMapper.approveITV(str);
+				message = message + str +",";
+			} 
+		}
+		return message;
 	}
 
 

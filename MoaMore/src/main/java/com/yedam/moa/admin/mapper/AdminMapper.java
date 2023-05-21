@@ -9,7 +9,10 @@ import com.yedam.moa.community.CommunityVO;
 import com.yedam.moa.community.IntrvVO;
 import com.yedam.moa.community.PrjtVO;
 import com.yedam.moa.community.StudyVO;
+import com.yedam.moa.hire.HireVO;
 import com.yedam.moa.mem.MemVO;
+import com.yedam.moa.mem.ResumeVO;
+import com.yedam.moa.self.SelfVO;
 
 public interface AdminMapper {
 
@@ -36,5 +39,17 @@ public interface AdminMapper {
 	public List<rprtStatusVO> selectrprtSt();
 
 	public int updateRprt(ReportVO vo);
+
+	public List<HireVO> selectRecruitList();
+
+	public List<SelfVO> selectSelfList();
+
+	public int approveREA(String recruitNo);
+
+	public int approveJSN(String jobSearchNo);
+
+	public int approveITV(String intrvNo);
+
+
 
 }
