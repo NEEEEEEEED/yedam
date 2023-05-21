@@ -98,40 +98,6 @@
 		ORDER BY
 		    reg_dt DESC
 	</select>
- 	<select id="selectINTRVPost" resultType="IntrvVO">
-				SELECT
-		    reg_dt,
-				CO_NM,
-				'면접후기게시판' as "postType",
-				intrv_no as "no",
-				id,
-		    rprtCnt_r as "rprtCnt",
-		    rprtCnt_a as "noneCnt"
-		FROM
-		    intrv_scrn i
-		    left join (
-		        select
-		            notiwr_no,
-		            COUNT(notiwr_no) as rprtCnt_r
-		        from
-		            rprt_list
-		        group by
-		            notiwr_no
-		    ) r on i.intrv_no = r.notiwr_no
-		    left join (
-		        select
-		            notiwr_no,
-		            COUNT(notiwr_no) as rprtCnt_a
-		        from
-		            rprt_list
-		        where
-		            rprt_st = 'G4'
-		        group by
-		            notiwr_no
-		    ) a on i.intrv_no = a.notiwr_no
-		ORDER BY
-		    reg_dt DESC
-	</select> 
 	
 	<select id="selectQSTPost" resultType="CommunityVO">
 				SELECT
@@ -271,5 +237,83 @@
 		UPDATE 	rprt_list
 		SET 	rprt_st = #{rprtSt}
 		WHERE   rprt_no = #{rprtNo}
+	</update>
+	
+	<select id="selectRecruitList" resultType="HireVO">
+		SELECT 	RECRUIT_NO as "no"
+				,ID
+				,TTL
+				,SHCR
+				,CARR
+				,MA_BUSS
+				,QUAL_COND
+				,PREF_COND
+				,WELF
+				,EXPR_DT
+				,WKSITE
+				,ACCP_DT
+				,IMG_NO
+				,REG_DT
+				,JOB
+				,CO_INTRO
+		FROM recruit_anun
+	</select>
+	
+	<select id="selectSelfList" resultType="SelfVO">
+		SELECT 	JOB_SEARCH_NO as "no"
+				,RESUME_NO
+				,ID
+				,TTL
+				,HOPE_WKSITE
+				,DUTY_FLD
+				,POSIT
+				,PUBC_RANGE
+				,INTRO
+				,HOPE_SAL
+				,RESIDENCY
+				,MYIMG
+				,INTEREST
+				,PROP
+				,REG_DT
+				,CAREER
+		FROM job_search_notiwr
+	</select>
+	
+	<select id="selectINTRVPost" resultType="IntrvVO">
+		SELECT	INTRV_NO as "no"
+				,CO_NM
+				,DUTY
+				,CARR
+				,APPR
+				,DIF
+				,INTRV_TYP
+				,INTRV_RCNT
+				,SPC_CTNT
+				,PASS_YN
+				,REG_DT
+				,ACCP_YN
+				,ID
+				,INTRV_IMG
+				,QST_CNTN
+				,INTRV_DT
+				,ACCP_DT
+		FROM	intrv_scrn i
+		ORDER BY reg_dt DESC
+	</select> 
+	
+	<update id="approveREA" parameterType="String">
+		UPDATE 	recruit_anun
+		SET 	ACCP_DT = to_char(sysdate,'yyyy-MM-dd')
+		WHERE   RECRUIT_NO = #{recruitNo}
+	</update>
+	<update id="approveJSN" parameterType="String">
+		UPDATE 	job_search_notiwr
+		SET 	ACCP_DT = to_char(sysdate,'yyyy-MM-dd')
+		WHERE   JOB_SEARCH_NO = #{jobSearchNo}
+	</update>
+	<update id="approveITV" parameterType="String">
+		UPDATE 	intrv_scrn
+		SET 	ACCP_DT = to_char(sysdate,'yyyy-MM-dd')
+		WHERE   INTRV_NO = #{intrvNo}
 	</update>
 </mapper>

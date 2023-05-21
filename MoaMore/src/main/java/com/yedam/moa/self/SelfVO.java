@@ -89,4 +89,6 @@ public class SelfVO {
 	private int totalInter;
 	private String offerCd;
 	private String acceptStatus;
+	
+	private String postType="구직공고";
 }

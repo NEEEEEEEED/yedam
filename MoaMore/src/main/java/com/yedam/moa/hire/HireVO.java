@@ -46,4 +46,7 @@ public class HireVO {
 	private String recruitImgNo; // 공고 상세 이미지 번호
 	private String reserDt; // 결제날짜
 	
+	//효상 긴히 쓸일이 있어요
+	private String no; 	
+	private String postType="구인공고";
 }

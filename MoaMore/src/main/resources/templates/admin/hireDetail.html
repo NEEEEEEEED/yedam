@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-	  layout:decorate="~{template/layout}">
+>
 <head>
 <meta charset="UTF-8">
 <title>hireInfo</title>
@@ -49,7 +48,7 @@ body {
 </style>
 </head>
 <body>
-	<div layout:fragment="content">
+	<div>
    	<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
    	<!-- 권한 -->
 	<!-- 사이드바 -->
@@ -419,17 +418,13 @@ body {
 			type: 'post',
 			data: {resumeNo : resumeNo, id : id, recruitNo : recruitNo},
 			success: function (result) {
-				console.log(result);
 				Swal.fire({
 				  icon: 'success',
-				  title: result
+				  title: '해당 공고에 지원하였습니다.'
 				});
 			},
 			error: function (reject) {	   
-				Swal.fire({
-				  icon: 'error',
-				  title: result
-				});
+				console.log(reject);
 			}
 		});
 	}

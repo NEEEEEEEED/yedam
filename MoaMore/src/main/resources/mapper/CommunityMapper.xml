@@ -19,19 +19,74 @@
 
 	<!-- 취업Q&A 게시글 목록 조회 -->
 	<select id="jobQnaList" resultType="CommunityVO">
-		SELECT QA_NOTIWR_NO, TTL, ID, CNTN, HTML_CNTN, 
-			   INQ_CNT, RPLY_CNT, REG_DT 
+	
+	<![CDATA[	
+		SELECT * FROM (
+		     SELECT ROWNUM AS rnum, a.* FROM (
+		        SELECT QA_NOTIWR_NO
+		               , TTL
+		               , ID
+		               , CNTN
+		               , HTML_CNTN
+		               , INQ_CNT
+		               , RPLY_CNT
+		               , REG_DT
+		               , RECO_CNT
+		          FROM EMPL_QST
+		         ORDER BY QA_NOTIWR_NO DESC ) a WHERE rownum <= #{page}*#{perPageNum}
+			) WHERE RNUM > #{pageStart} ]]>
+	
+		<!-- SELECT QA_NOTIWR_NO, TTL, ID, CNTN, HTML_CNTN, 
+			   INQ_CNT, RPLY_CNT, REG_DT, RECO_CNT
 		FROM EMPL_QST
-		ORDER BY QA_NOTIWR_NO DESC
+		ORDER BY QA_NOTIWR_NO DESC -->
+	</select>
+	
+	<!-- 취업 Q&A 게시글 총 갯수 -->
+	<select id="jobQnaListCnt" resultType="int">
+		SELECT COUNT(*)
+		  FROM EMPL_QST
+	</select>
+	
+	<!-- 취업 Q&A 게시글 Best5 출력 추천, 댓글, 조회수순 -->
+	<select id="jobQnaBest" resultType="CommunityVO">
+		<![CDATA[ SELECT *
+				    FROM (
+					  SELECT QA_NOTIWR_NO, TTL, ID, CNTN, HTML_CNTN, INQ_CNT, RPLY_CNT, REG_DT, RECO_CNT
+					  FROM EMPL_QST
+					  ORDER BY RECO_CNT DESC, RPLY_CNT DESC, INQ_CNT DESC
+				    )
+				   WHERE ROWNUM <= 5 ]]>
 	</select>
 	
 	<!-- 취업Q&A 상세 페이지 조회 -->
 	<select id="jobQnaDetail" resultType="CommunityVO">
 		SELECT QA_NOTIWR_NO, TTL, ID, CNTN, HTML_CNTN, 
-	        	INQ_CNT, RPLY_CNT, REG_DT 
+	        	INQ_CNT, RPLY_CNT, REG_DT, RECO_CNT
 		FROM EMPL_QST
 		WHERE QA_NOTIWR_NO = #{qaNotiwrNo}
 	</select>
+	
+	<!-- 취업 Q&A 상세 페이지 추천등록 -->
+	<insert id="jobQnaRecoAdd" parameterType="CommunityVO">
+		INSERT INTO EMPL_RECO(QA_NOTIWR_NO, id)
+		VALUES(#{qaNotiwrNo}, #{id})
+	</insert>
+	
+	<!-- 취업 Q&A 상세 페이지 추천여부 0: 미추천 , 1 : 추천 -->
+	<select id="jobQnaReco" resultType="int">
+		SELECT COUNT(*)
+		  FROM EMPL_RECO
+		 WHERE QA_NOTIWR_NO = #{qaNotiwrNo} AND id = #{id}
+	</select>
+	
+	<!-- 취업 Q&A 조회수 기능 -->
+	<update id="jobQnaRecoCount" parameterType="String">
+		UPDATE EMPL_QST
+		   SET RECO_CNT = TO_NUMBER(RECO_CNT) + 1
+		 WHERE QA_NOTIWR_NO = #{qaNotiwrNo}
+	</update>
+	
 	
 	<!-- 취업 Q&A 수정 기능 -->
 	<update id="jobQnaModFn" parameterType="String">
@@ -50,12 +105,14 @@
 		WHERE QA_NOTIWR_NO = #{qaNotiwrNo}
 	</update>
 	
-	<!-- 취업 Q&A 삭제 기능 -->
-	<delete id="jobQnaDelete" parameterType="String">
-		DELETE 
-		  FROM empl_qst
-		 WHERE QA_NOTIWR_NO = #{qaNotiwrNo}
+	
+	<!-- 취업 Q&A 게시글 삭제 기능 : 프로시저 호출 -->
+	<delete id="jobQnaDelete" statementType="CALLABLE" parameterType="String">
+		{ 
+      		call EMPL_QST_Delete_PRO(#{qaNotiwrNo})
+   		}
 	</delete>
+	
 
 	<!-- 취업 Q&A 조회수 기능 -->
 	<update id="jobQnaView" parameterType="String">
@@ -83,6 +140,14 @@
 			 		 , #{rplyNo}
 			 		)
 	</insert>
+	
+	<!-- 취업 Q&A 댓글수 증가 기능 -->
+	<update id="jobQnaReplyCount" parameterType="String">
+		UPDATE EMPL_QST
+		   SET RPLY_CNT = TO_NUMBER(RPLY_CNT)+1
+		 WHERE QA_NOTIWR_NO = #{qaNotiwrNo}
+	</update>
+	
 	
 	<!-- 취업 Q&A 대댓글 등록 -->
 	<insert id="chQnaReplyAdd" parameterType="ReplyVO">
@@ -180,6 +245,15 @@
 		       , INTRV_DT
 		FROM intrv_scrn
 		WHERE ACCP_YN = 'Y'
+		<if test="duty != null and !duty.equals('')">
+	    	AND duty = #{duty}
+	    </if>
+	    <if test="carr != null and !carr.equals('')">
+	    	AND carr = #{carr}
+	    </if>
+	    <if test="coNm != null and !coNm.equals('')">
+	    	AND UPPER(CO_NM) LIKE '%' || UPPER(#{coNm}) || '%'
+	    </if>
 		ORDER BY REG_DT DESC, INTRV_DT DESC
 	</select>
 	
@@ -243,6 +317,13 @@
 		FROM PRJT
 		ORDER BY COLL_ST ASC , PRJT_NO DESC
 	</select>
+	
+	<!-- 프로젝트 모집 오늘날짜 오전 9시를 기준으로 모집 상태 update  -->
+	<update id="projectCollstUpdate" parameterType="String">
+		UPDATE PRJT
+		   SET COLL_ST = 'h2'
+		 WHERE PRJT_NO = #{prjtNo}
+	</update>
 	
 	<!-- 프로젝트 모집 상세 -->
 	<select id="projectDetail" resultType="PrjtVO">
@@ -385,6 +466,14 @@
 	  ORDER BY COLL_ST ASC, STUDY_NO DESC
 	</select>
 	
+	<!-- 스터디 모집 오늘날짜 오전 9시를 기준으로 모집 상태 update  -->
+	<update id="studyCollstUpdate" parameterType="String">
+		UPDATE STUDY
+		   SET COLL_ST = 'h2'
+		 WHERE STUDY_NO = #{studyNo}
+	</update>
+	
+	
 	<!-- 스터디 모집 상세 -->
 	<select id="studyDetail" resultType="StudyVO">
 		SELECT STUDY_NO
@@ -466,5 +555,34 @@
 		 WHERE STUDY_NO = #{studyNo}
 	</delete>
 	
+	<!-- 면접후기 단건: 관리자 -->
+	<select id="selectITVDetail" resultType="IntrvVO">
+		SELECT INTRV_NO
+		       , ID
+		       , CO_NM
+		       , get_common(DUTY) as duty
+		       , get_common(CARR) as carr
+		       , get_common(APPR) as appr
+		       , get_common(DIF)  as dif
+		       , get_common(INTRV_TYP) as intrvTyp
+		       , get_common(INTRV_RCNT) as intrvRcnt
+		       , get_common(PASS_YN) as passYn
+		       , INTRV_IMG
+		       , QST_CNTN
+		       , SPC_CTNT
+		       , REG_DT
+		       , ACCP_YN
+		       , INTRV_DT
+		FROM intrv_scrn
+		WHERE INTRV_NO = #{intrvNo}
+		ORDER BY REG_DT DESC, INTRV_DT DESC
+	</select>
 	
+	<!-- 면접 후기 삭제 기능 : 관리자 -->
+	<delete id="interviewDelFn" parameterType="String">
+		DELETE
+		  FROM intrv_scrn
+		 WHERE INTRV_NO = #{intrvNO}
+	</delete>
+
 </mapper>
