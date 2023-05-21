@@ -35,4 +35,8 @@ public interface MemService {
 	
 	public int delPofol(PrtflVO vo);
 	
+	public ResumeVO getRe(ResumeVO vo);
+	
+	public void updateRe(ResumeVO vo);
+	
 }

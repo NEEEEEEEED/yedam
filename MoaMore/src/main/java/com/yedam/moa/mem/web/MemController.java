@@ -143,25 +143,24 @@ public class MemController {
 				UUID uuid = UUID.randomUUID();
 				vo.setPrtflFile(uuid.toString()+"_"+vo.getUuid().getOriginalFilename());  // uuid 적용한 파일 이름
 				vo.setPrtflImg(uuid.toString()+"_"+vo.getUuidImg().getOriginalFilename()); // uuid 적용한 파일 이름
-				 
-				
 
-//				
 				vo.getUuid().transferTo(new File(uploadPofolPath,vo.getPrtflFile())); //파일 업로드 
 				vo.getUuidImg().transferTo(new File(uploadPofolPath,vo.getPrtflImg()));		//이미지 업로드
 				
 				rvo.setPrtflNo(mem.insertPofl(vo).getPrtflNo());
-				
-
 
 			}   
 			return  mem.getPrtfl(rvo);
           }
+		
+//		포트폴리오 삭제 
 	@PostMapping("/delPofol")
 	@ResponseBody
 	public List<PrtflVO> delPofol (PrtflVO vo) {
-		System.out.println(vo);
+		
+//		System.out.println(vo);
 		ResumeVO rvo = new ResumeVO();
+		
 		if(mem.delPofol(vo)>0) {
 		rvo.setPrtflNo(vo.getPrtflNo());
 		return mem.getPrtfl(rvo);	
@@ -169,15 +168,67 @@ public class MemController {
 			return null;
 		}
 	}
-	@GetMapping("mem/viewResume")
-	public String getVueRe(Principal principal, Model model, MemVO vo) {
-//		vo.setId(principal.getName());
-//		model.addAttribute("list", mem.openSesame(vo));
-//		model.addAttribute("count", mem.getCount(vo));
-		return "mem/resume_vue";
+//	@GetMapping("mem/viewResume")
+//	public String getVueRe(Principal principal, Model model, MemVO vo) {
+////		vo.setId(principal.getName());
+////		model.addAttribute("list", mem.openSesame(vo));
+////		model.addAttribute("count", mem.getCount(vo));
+//		return "mem/resume_vue";
+//	}
+	@GetMapping("/viewResume")
+	public String getVueResume(Principal principal, Model model, ResumeVO rvo) {
+		MemVO vo = new MemVO();
+		vo.setId(rvo.getId());
+//		rvo.setId(principal.getName());
+		
+		rvo=mem.getRe(rvo);
+		if(rvo.getResumeNo()==null) {
+		rvo.setResumeNo("none");
+		};
+		System.out.println(rvo);
+	
+	model.addAttribute("resume", rvo);
+	model.addAttribute("list", com.getCodes("Z", "D", "E", "B", "d", "N", "A"));
+	model.addAttribute("info", mem.getMemInfo(vo));
+		return "mem/resume_view";
 	}
 	
+	
+//	이력서 수정폼
+	@GetMapping("mem/modRe")
+	public String getResumeMod(Principal principal, Model model, ResumeVO rvo) {
+		MemVO vo = new MemVO();
+		vo.setId(rvo.getId());
+		rvo=mem.getRe(rvo);
+		if(rvo.getResumeNo()==null) {
+			rvo.setResumeNo("none");
+			};
+			System.out.println(rvo);
 		
+		model.addAttribute("resume", rvo);
+		model.addAttribute("list", com.getCodes("Z", "D", "E", "B", "d", "N", "A"));
+		model.addAttribute("info", mem.getMemInfo(vo));
+		;
+
+		return "mem/ModResume";
+	}
+	
+//	이력서 수정
+	@PostMapping("/ModResume")
+	@ResponseBody
+	public String ModRes(@RequestBody ResumeVO vo, Principal pr) {
+		System.out.println(vo);
+		vo.setId(pr.getName());
+		mem.updateRe(vo);
+		 return mem.insertResume(vo);
+	}
+	
+	@GetMapping("/resumeList")
+	public String getList(Model model,Principal pr) {
+	
+		
+		return null;
+	}
 }
 	
 	
