@@ -326,20 +326,36 @@
 	</select>
 	<!-- 최신 공고 -->
 	<select id="newSelect" resultType="HireVO">
-	   <!-- SELECT  R.TTL,
+	   SELECT  R.TTL,
 		       C.CO_NM,
-               R.ACCP_DT
+               R.ACCP_DT,
+               ROW_NUMBER() OVER (ORDER BY R.ACCP_DT DESC)
 		FROM RECRUIT_ANUN R
 		JOIN CO C
 			ON R.ID = C.ID
 		WHERE 1=1
-        AND ROWNUM < 3
+        <![CDATA[AND ROWNUM < 4]]>
         AND TO_DATE(R.ACCP_DT, 'YYYY-MM-DD') BETWEEN TO_DATE(#{accpDt}, 'YYYY-MM-DD') AND TO_DATE(#{exprDt}, 'YYYY-MM-DD')
-        ORDER BY R.ACCP_DT  -->
 	</select>
 	<!-- 인기 공고 -->
 	<select id="popSelect" resultType="HireVO">
-		
+		SELECT F.CNT, 
+		       F.RECRUIT_NO, 
+		       R.TTL,
+		       C.CO_NM
+		FROM (
+		    SELECT COUNT(RECRUIT_NO) AS CNT, 
+		           RECRUIT_NO
+		    FROM RECRUIT_SCRAP
+		    GROUP BY RECRUIT_NO
+		    ORDER BY CNT DESC
+		)F
+		JOIN RECRUIT_ANUN R
+		    ON R.RECRUIT_NO = F.RECRUIT_NO
+		JOIN CO C
+		    ON C.ID = R.ID
+		WHERE 1=1
+		<![CDATA[AND ROWNUM < 4]]>
 	</select>
 	
 </mapper>

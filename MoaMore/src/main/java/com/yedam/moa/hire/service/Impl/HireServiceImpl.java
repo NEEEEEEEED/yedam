@@ -41,8 +41,11 @@ public class HireServiceImpl implements HireService{
 	public String resumeInsert(HireVO hireVO) {
 		String message = null;
 		int resultcheck = hireMapper.checkResume(hireVO);
-		int result = hireMapper.resumeInsert(hireVO);
+		int result = 0;
 		if (resultcheck < 0) {
+			
+			result = hireMapper.resumeInsert(hireVO);
+			
 			if(result > 0) {
 				message = "해당 공고에 지원하였습니다.";
 			}
