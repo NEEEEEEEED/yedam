@@ -448,5 +448,25 @@
 		</if> 
 		
 	</delete>	
-
+	
+	<select id="getRe" resultType="ResumeVO">
+		SELECT 	ID,
+				RESUME_NO,
+				TTL,
+				CARR_NO,
+				EDU_NO,
+				LICN_NO,
+				ARD_NO,
+				INTRO_NO,
+				PRTFL_NO,
+				SHCR_NO,
+				SKILL_NO,
+				IMG_NO
+		FROM	resume
+		WHERE 	id = #{id} 
+		AND		resume_no = #{resumeNo}
+	</select>
+	<delete id="delResume" parameterType="ResumeVO" statementType="CALLABLE">
+		call delResume(#{resumeNo})
+	</delete>
 </mapper>

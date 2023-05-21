@@ -6,7 +6,7 @@
 >
   <head>
     <meta charset="UTF-8" />
-    <title>이력서 작성</title>
+    <title>수정</title>
     <style>
       input {
         height: 50px;
@@ -117,25 +117,18 @@
                 </div>
                 <i name="pofol" class="bi-plus-circle-fill fs-4 md-3"></i>
               </li>
+             
             </ul>
-
+			
             <div class="d-flex justify-content-center p-2">
               <button id="saveResume" class="btn btn-outline-primary px-2 m-2">
-                이력서 저장
+                이력서 수정
               </button>
               <button id="backToBefore" class="btn btn-outline-danger px-2 m-2">
                 취소
               </button>
             </div>
-            <div class="d-flex justify-content-center md-12 lg-12 p-2">
-              <button
-                class="btn btn-outline-secondary"
-                type="button"
-                onclick="location.href='/mem/mkResume'"
-              >
-                새 이력서
-              </button>
-            </div>
+            
           </div>
         </div>
         <!-- 			sidebar end -->
@@ -189,6 +182,7 @@
             <div class="col-md-9 col-lg-9 reTl px-0">
               <label for="ttl" style="width: 100%; font-size: larger">
                 <h4>이력서 제목</h4>
+                <input name="resumeNo" th:value="${resume.resumeNo}" type="hidden">	
                 <input
                   type="text"
                   id="ttl"
@@ -313,6 +307,7 @@
           </div>
           <!-------------- 스킬--------------------------------------------------------------------- -->
           <div th:if=" ${resume.skillNo}!=null">
+         
             <div class="col-md-12 col-lg-12">
               <h4 class="mb-3">기술 역량</h4>
               <div class="formSkill my-3 card ps-4 py-3">
@@ -2120,7 +2115,7 @@
               return;
             } else {
               $.ajax({
-                url: "/insertResume",
+                url: "/ModResume",
                 method: "POST",
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
@@ -2401,6 +2396,7 @@
               return false;
             } else {
               return {
+            	resumeNo : $("input[name=resumeNo]").val(),
                 ttl: ttl,
                 prtflNo: prtflNo,
                 imgNo: imgNo,
@@ -2548,29 +2544,7 @@
           }).open();
         }
         function goBack() {
-          console.log(
-            $("#pofolRows")
-              .children()[0]
-              .children[2].children[0].getAttribute("id")
-          );
-          if ($("#pofolRows").children().length > 0) {
-            let data = $("#pofolRows")
-              .children()[0]
-              .children[2].children[0].getAttribute("id");
-            $.ajax({
-              url: "/delPofol",
-              type: "post",
-              data: data,
-              success: function (result) {
-                console.log("삭제성공");
-                pofolRows.innerHTML = ""; // 초기화
-                console.log(result);
-              },
-              error: function (reject) {
-                console.log(reject);
-              },
-            });
-          }
+          
 
                     window.history.back();
         }

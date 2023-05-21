@@ -47,9 +47,9 @@
         <div class="col-xl-3 col-md-2 text-center">
           <div class="card">
             <div class="card-body">
-              <h4>000기업</h4>
+              <h4>[["${#authentication.principal.username}"]]</h4>
               <a id="insertInfo" type="button" class="btn btn-light" href=""
-                >기업정보등록</a
+                >정보등록</a
               >
               <div class="accordion" id="sideMenu">
                 <div class="accordion-item">
@@ -74,7 +74,7 @@
                       class="accordion-body d-flex flex-column align-items-center p-0"
                     >
                       <div class="mb-1">
-                        <a href="/mem/mkResume">이력서 등록</a>
+                        <a href="/mem/mkResumeTest">이력서 등록</a>
                       </div>
                       <div class="mb-1">
                         <a href="">이력서 관리</a>
@@ -172,9 +172,11 @@
                       <div
                         class="swiper-slide bg-white p-5 rounded-3 h-auto"
                         th:each="list:${list}"
+                        th:onclick="|location.href='@{/hireInfo(recruitNo=${list.recruitNo})}'|"
                       >
                         <div
                           class="d-flex flex-column justify-content-between h-100"
+                          
                         >
                           <h4 class="text-black">[[${list.ttl}]]</h4>
                           <input type="hidden" th:value="${list.recruitNo}" />

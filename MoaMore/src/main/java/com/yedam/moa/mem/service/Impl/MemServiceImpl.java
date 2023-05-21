@@ -271,4 +271,53 @@ public class MemServiceImpl implements MemService {
 		System.out.println(vo);
 		return mem.delPofol(vo);
 	}
+
+	@Override
+	public ResumeVO getRe(ResumeVO rvo) {
+//		이력서 기본 정보 가져오기
+		rvo = mem.getRe(rvo);
+		System.out.println(rvo);
+//		기본정보에서 수상번호 있을경우 수상 정보 가져오기
+		if(rvo.getArdNo()!=null) {
+			rvo.setArd(mem.getArd(rvo));
+		}
+//		커리어번호 있을경우 커리어 정보 가져오기
+		if(rvo.getCarrNo()!=null) {
+			rvo.setCarr(mem.getCarr(rvo));
+		}
+//		교육번호 있을경우 교육 정보 가져오기
+		if(rvo.getEduNo()!=null) {
+			rvo.setEdu(mem.getEdu(rvo));
+		}
+//		자소서번호 있을경우 자소서 정보 가져오기
+		if(rvo.getIntroNo()!=null) {
+			rvo.setIntro(mem.getIntro(rvo));
+		}
+//		자격증번호 있을경우 자격증 정보 가져오기
+		if(rvo.getLicnNo()!=null) {
+			rvo.setLicn(mem.getLicn(rvo));
+		}
+//		학력번호 있을경우 학력 정보 가져오기
+		if(rvo.getShcrNo()!=null) {
+			rvo.setSch(mem.getShcr(rvo));
+		}
+		if(rvo.getPrtflNo()!=null) {
+			rvo.setPrtfl(mem.getPrtfl(rvo));
+		}
+//		기술번호 있을경우 기술 정보 가져오기
+		if(rvo.getSkillNo()!=null) {
+			rvo.setSkill(mem.getSkill(rvo));
+			System.out.println(rvo.getSkill());
+			rvo.setUnSkill(mem.getUnSkill(rvo));
+		}
+		
+		
+
+	return rvo;
+	}
+
+	@Override
+	public void updateRe(ResumeVO vo) {
+		mem.delResume(vo);
+	}
 }

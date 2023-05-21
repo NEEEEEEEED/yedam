@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{template/layout}"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <title>이력서</title>
+    <style>
+      input {
+        height: 50px;
+        /* border-radius: 0.5rem; */
+      }
+      .btn-sm {
+        width: 70px;
+        height: 45px;
+        font-size: 4px;
+      }
+      .bi.bi-plus-circle-fill::before,
+      .bi.bi-x-lg::before {
+        float: right;
+        cursor: pointer;
+      }
+      .cursor {
+        cursor: pointer;
+      }
+      .circleImg {
+        border-radius: 10%;
+        width: 120px;
+        height: 120px;
+      }
+      .reTl {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+      }
+      .reTlCn {
+        position: relative;
+      }
+      /*       #pofolBtn{ */
+      /*        height: 40px; */
+      /*        float: right; */
+      /*       } */
+    </style>
+  </head>
+  <body>
+    <div class="container" layout:fragment="content">
+      <div class="row g-4 my-5">
+        <!-- 		sidebar -->
+
+        <!-- 			sidebar end -->
+        <div class="col-md-12 col-lg-12">
+          <div class="row col-md-12 col-lg-12 reTlCn my-4">
+            <div class="col-md-3" style="text-align: center">
+              <!-- 이력서 이미지 -->
+              <img
+                th:src="|/moamoreImg/${resume.imgNo}|"
+                id="preview"
+                class="circleImg"
+                th:if="${resume.imgNo}!=null"
+              />
+              <img
+                src="/self/profile.JPG"
+                id="preview"
+                class="circleImg"
+                th:if="${resume.imgNo}==null"
+              />
+            </div>
+            <!-- 이력서 제목  -->
+            <div class="col-md-9 col-lg-9 reTl px-0">
+              <div><h1>[[${resume.ttl}]]</h1></div>
+            </div>
+          </div>
+          <!-- 				main -->
+          <div class="col-md-12 col-lg-12">
+            <!-- <h4 class="mb-3">개인정보</h4> -->
+            <div class="formId my-3 p-2">
+              <div class="row gy-3">
+                <div class="col-md-3">
+                  <div>
+                    <small class="my-1"> 이름 </small>
+
+                    <div class="my-2">[[${info.name}]]</div>
+                  </div>
+                </div>
+
+                <div class="col-md-3">
+                  <div>
+                    <small class="my-1"> 생년월일 </small>
+
+                    <div class="my-2">[[${info.birth}]]</div>
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <div>
+                    <small class="my-1"> 이메일 </small>
+
+                    <div class="my-2">[[${info.email}]]</div>
+                  </div>
+                </div>
+
+                <div class="col-md-2">
+                  <div>
+                    <small class="my-1"> 성별 </small>
+
+                    <div class="my-2">[[${info.gen}]]</div>
+                  </div>
+                </div>
+              </div>
+              <!-- <hr /> -->
+
+              <div class="row gy-3 mt-3">
+                <div class="col-md-3 mt-0">
+                  <div>
+                    <small class="my-1"> 전화번호 </small>
+
+                    <div class="my-2">[[${info.ph}]]</div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 mt-0">
+                  <div>
+                    <small class="my-1"> 휴대폰 </small>
+
+                    <div class="my-2">[[${info.phCl}]]</div>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mt-0">
+                  <div>
+                    <small class="my-1"> 주소 </small>
+
+                    <div class="my-2">[[${info.addr}]]</div>
+                  </div>
+                </div>
+                <div class="col-md-2 mt-0">
+                  <div>
+                    <small class="my-1"> 우편 번호 </small>
+
+                    <div class="my-2">[[${info.post}]]</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-------------- 스킬--------------------------------------------------------------------- -->
+
+          <!-- ---------------↓↓↓↓↓↓선택 한 기술--------------------------- -->
+          <div th:if="${resume.skillNo}!=null">
+            <h4>보유 기술</h4>
+            <div class="col-md-12 col-lg-12">
+              <div class="row my-3 ps-4 py-3">
+                <div class="col-md-2">
+                  <div class="col-md-2 mx-2 px-0" th:each="ski:${resume.skill}">
+                    <div th:if="${skiStat.index}>=0 and ${skiStat.index}<=2">
+                      <div
+                        th:if="${skiStat.index}/3!=0"
+                        class="border-top mt-2"
+                      ></div>
+                      [[${ski.skillNm}]]
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="col-md-2 mx-2 px-0" th:each="ski:${resume.skill}">
+                    <div th:if="${skiStat.index}>=3 and ${skiStat.index}<=5">
+                      <div
+                        th:if="${skiStat.index}%3!=0"
+                        class="border-top mt-2"
+                      ></div>
+                      [[${ski.skillNm}]]
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="col-md-2 mx-2 px-0" th:each="ski:${resume.skill}">
+                    <div th:if="${skiStat.index}>=6 and ${skiStat.index}<=8">
+                      <div
+                        th:if="${skiStat.index}%3!=0"
+                        class="border-top mt-2"
+                      ></div>
+                      [[${ski.skillNm}]]
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-2">
+                  <div class="col-md-2 mx-2 px-0" th:each="ski:${resume.skill}">
+                    <div th:if="${skiStat.index}>=9 and ${skiStat.index}<=11">
+                      <div
+                        th:if="${skiStat.index}%3!=0"
+                        class="border-top mt-2"
+                      ></div>
+                      [[${ski.skillNm}]]
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="col-md-2 mx-2 px-0" th:each="ski:${resume.skill}">
+                    <div th:if="${skiStat.index}>=12 and ${skiStat.index}<=14">
+                      <div
+                        th:if="${skiStat.index}%3!=0"
+                        class="border-top mt-2"
+                      ></div>
+                      [[${ski.skillNm}]]
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="col-md-2 mx-2 px-0" th:each="ski:${resume.skill}">
+                    <div th:if="${skiStat.index}>=15 and ${skiStat.index}<=17">
+                      <div
+                        th:if="${skiStat.index}%3!=0"
+                        class="border-top mt-2"
+                      ></div>
+                      [[${ski.skillNm}]]
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ==================최신 이력서 기술 끝================================================ -->
+
+          <!---------------------- 학력 -------------------------------------------------------->
+          <div
+            id="scholar"
+            style="display: block"
+            th:if=" ${resume.shcrNo}!=null"
+          >
+            <div class="col-md-12 col-lg-12">
+              <h4 class="mb-3">학력</h4>
+              <div class="forSchr ps-4 px-3 mb-3">
+                <!-- ===================== 이력서에 학력 있으면 반복시작======================== -->
+                <div id="school" th:if="${resume.shcrNo}!=null">
+                  <div style="display: block; text-align: center">
+                    <div class="gy-3 mb-4 mt-2">
+                      <div class="row ms-1">
+                        <div
+                          class="row gy-3 col-md-6"
+                          th:each="sa:${resume.sch}"
+                        >
+                          <div
+                            class="border-top my-3"
+                            th:if="${saStat.index}>1"
+                          ></div>
+
+                          <div class="col-md-3">[[${sa.fgCo}]]</div>
+                          <div class="col-md-9">[[${sa.breu}]]</div>
+                          <div class="col-md-3">전공</div>
+                          <div class="col-md-9">[[${sa.mj}]]</div>
+                          <div class="col-md-3">학점</div>
+                          <div class="col-md-9">
+                            [[${sa.pnt}]] / [[${sa.ttCo}]]
+                          </div>
+                          <div class="col-md-3">기간</div>
+                          <div class="col-md-9">
+                            [[${sa.joinYy}]] ~ [[${sa.retiYy}]]
+                          </div>
+                          <div class="col-md-3">졸업 유무</div>
+                          <div class="col-md-9">[[${sa.shcrStCo}]]</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ============================학력끝============================================ -->
+          <!-- -------------------------------경력 시작------------------------------- -->
+          <div
+            id="carrer"
+            style="display: block"
+            th:if="${resume.carrNo}!=null"
+          >
+            <div class="col-md-12 col-lg-12">
+              <h4 class="mt-5">경력</h4>
+              <div class="forCarr mb-3 ps-4 pb-3">
+                <!-- <div class="forCarr my-3 card ps-4 p-3"> -->
+                <!--=======  경력 있으면 반복 시작=======================================-->
+                <div id="job" th:if="${resume.carrNo}!=null">
+                  <div style="display: block; text-align: center">
+                    <div class="row gy-3 mb-4 mt-2">
+                      <div class="row ms-1">
+                        <div
+                          class="row gy-3 col-md-6"
+                          th:each="car:${resume.carr}"
+                        >
+                          <div
+                            class="border-top my-3"
+                            th:if="${carStat.index}>1"
+                          ></div>
+
+                          <div class="col-md-3">회사명</div>
+                          <div class="col-md-9">[[${car.co}]]</div>
+                          <div class="col-md-3">직급</div>
+                          <div class="col-md-9">[[${car.wkdtyCo}]]</div>
+                          <div class="col-md-3">부서</div>
+                          <div class="col-md-9">[[${car.depart}]]</div>
+                          <div class="col-md-3">직무</div>
+                          <div class="col-md-9">[[${car.dutyCo}]]</div>
+                          <div class="col-md-3">업무</div>
+                          <div class="col-md-9">[[${car.buss}]]</div>
+                          <div class="col-md-3">기간</div>
+                          <div class="col-md-9">
+                            [[${car.joinYy}]] ~ [[${car.retiYy}]]
+                          </div>
+                          <div class="col-md-3">재직 유무</div>
+                          <div class="col-md-9">[[${car.carrStCo}]]</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div id="job" th:if="${resume.carrNo}==null"></div>
+              </div>
+            </div>
+          </div>
+          <!-- ==========경력 끝===================================== -->
+          <!-- -----------교육--------------------------- -->
+          <div id="ed" style="display: block" th:if="${resume.eduNo}!=null">
+            <div class="col-md-12 col-lg-12">
+              <h4 class="mb-3">교육</h4>
+              <div class="forCarr my-3 ps-4 p-3">
+                <!-- ============ 교육있으면 반복 시작====================================== -->
+                <div id="educate" th:if="${resume.eduNo}!=null">
+                  <div class="row gy-3 mb-4 mt-2">
+                    <div class="row ms-1" style="text-align: center">
+                      <div
+                        class="row gy-3 col-md-6"
+                        th:each="edus:${resume.edu}"
+                      >
+                        <div
+                          class="border-top my-3"
+                          th:if="${edusStat.index}>1"
+                        ></div>
+
+                        <div class="col-md-3 px-2">기관명</div>
+                        <div class="col-md-9">[[${edus.breu}]]</div>
+                        <div class="col-md-3 px-2">교육명</div>
+                        <div class="col-md-9">[[${edus.eduNm}]]</div>
+                        <div class="col-md-3 px-2">이수내용</div>
+                        <div class="col-md-9">[[${edus.cntn}]]</div>
+
+                        <div class="col-md-3">기간</div>
+                        <div class="col-md-9">
+                          [[${edus.joinYy}]] ~ [[${edus.retiYy}]]
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ============== 교육 끝=============================== -->
+
+          <!-----------자격증------------------------------>
+          <div id="licen" style="display: block" th:if="${resume.licnNo}!=null">
+            <div class="col-md-12 col-lg-12">
+              <h4 class="mb-1">자격증</h4>
+              <div class="mb-3 ps-4 pb-3">
+                <!-- ============= 자격증 있으면 반복============================= -->
+                <div id="licence" th:if="${resume.licnNo}!=null">
+                  <div class="row gy-3 mb-4 mt-2">
+                    <div class="row ms-1" style="text-align: center">
+                      <div
+                        class="row gy-3 col-md-6"
+                        th:each="lic:${resume.licn}"
+                      >
+                        <div
+                          class="border-top my-3"
+                          th:if="${licStat.index}>1"
+                        ></div>
+
+                        <div class="col-md-3 px-2">자격증명</div>
+                        <div class="col-md-9">[[${lic.licnNm}]]</div>
+                        <div class="col-md-3 px-2">발급기관</div>
+                        <div class="col-md-9">[[${lic.breu}]]</div>
+                        <div class="col-md-3">취득월</div>
+                        <div class="col-md-9">[[${lic.issuMm}]]</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- --=============자격증 끝============================ -->
+
+          <!--------------------------수상내역------------------------------->
+          <div id="won" style="display: block" th:if="${resume.ardNo}!=null">
+            <div class="col-md-12 col-lg-12">
+              <h4 class="mb-1">수상내역</h4>
+              <div class="mb-3 ps-4 pb-3">
+                <!-- ================수상 있으면 반복================================= -->
+                <div id="award" th:if="${resume.ardNo}!=null">
+                  <div class="row ms-1" style="text-align: center">
+                    <div class="row gy-3 col-md-6" th:each="ards:${resume.ard}">
+                      <div
+                        class="border-top my-3"
+                        th:if="${ardsStat.index}>1"
+                      ></div>
+
+                      <div class="col-md-3 px-2">수상명</div>
+                      <div class="col-md-9">[[${ards.ardNm}]]</div>
+                      <div class="col-md-3 px-2">수여기관</div>
+                      <div class="col-md-9">[[${ards.breu}]]</div>
+                      <div class="col-md-3">수상년도</div>
+                      <div class="col-md-9">[[${ards.issuYy}]]</div>
+                      <div class="col-md-3">수여내용</div>
+                      <div class="col-md-9">[[${ards.cntn}]]</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ===============최신 수상 끝=============================== -->
+
+          <!--------------------------자기소개서------------------------------->
+          <div
+            id="introduce"
+            style="display: block"
+            th:if="${resume.introNo}!=null"
+          >
+            <div class="col-md-12 col-lg-12 my-4">
+              <h4 class="mb-3">자기소개서</h4>
+              <div class="my-3 ps-4 p-3">
+                <!-- ================자소서 있으면 반복======================= -->
+                <div id="resumeText" th:if="${resume.introNo}!=null">
+                  <div style="display: block" th:each="intro:${resume.intro}">
+                    <div class="row gy-3 mb-4 mt-2">
+                      <p class="col-md-3">자기소개서 제목</p>
+                      <div class="col-md-3">[[${intro.ttl}]]</div>
+                      <div class="col-md-12">
+                        <p>내용</p>
+                        <textarea
+                          class="form-control"
+                          name="cntn"
+                          cols="30"
+                          rows="10"
+                          th:text="${intro.cntn}"
+                          style="
+                            border-style: none;
+                            background-color: aliceblue;
+                          "
+                          readonly
+                        ></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- -===================자소서 끝=============================== -->
+
+          <!-- 본문 : 포트폴리오 -->
+
+          <!----------------------포폴 --------------------------------------->
+          <div
+            id="pofol"
+            style="display: block"
+            th:if="${resume.prtflNo}!=null"
+          >
+            <div class="col-md-12 col-lg-12">
+              <h4 class="mb-3"><b>포트폴리오 </b></h4>
+              <div class="forCarr my-3 ps-4 p-3">
+                <div class="whrPst" name="whrPst">
+                  <div style="display: block">
+                    <div class="mb-5 align-items-center">
+                      <div id="pofolRows" class="col-md-12">
+                        <div
+                          class="row align-items-center hoverRow mb-3"
+                          th:each="pr:${resume.prtfl}"
+                        >
+                          <div
+                            class="border-top m-3"
+                            th:if="${prStat.index}>0"
+                          ></div>
+                          <div class="col-md-4 my-2">
+                            <img
+                              class="img-fluid imgSize"
+                              th:src="|/moamorePofol/${pr.prtflImg}|"
+                              alt="이미지없음"
+                            />
+                          </div>
+                          <div class="col-md-7" style="color: black">
+                            <p class="mb-0">[제목] [[${pr.ttl}]]</p>
+                            <p class="mb-0">
+                              [파일명]
+                              <a
+                                style="
+                                  color: blue;
+                                  text-decoration: underline !important;
+                                "
+                                target="_blank"
+                                th:href="|/moamorePofol/${pr.prtflFile}|"
+                              >
+                                [[${pr.prtflFile}]]
+                              </a>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="col-md-12 col-lg-12 order-md-last mb-5"
+            sec:authorize="hasRole('ROLE_MEM')"
+          >
+            <div style="position: sticky; top: 150px">
+              <div class="d-flex justify-content-center p-2">
+                <button
+                  id="saveResume"
+                  class="btn btn-outline-primary px-2 m-2"
+                  th:onclick="|location.href='@{/mem/modRe(resumeNo=${resume.resumeNo}, id=${resume.id})}'|"
+                >
+                  이력서 수정
+                </button>
+                <button
+                  id="backToBefore"
+                  class="btn btn-outline-danger px-2 m-2"
+                  
+                >
+                  돌아가기
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script>
+      $("#backToBefore").on("click",function(){
+    	   window.history.back();
+      })
+      </script>
+    </div>
+  </body>
+</html>

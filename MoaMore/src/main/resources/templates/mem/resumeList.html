@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{template/layout}">
+<head>
+<meta charset="UTF-8">
+<title>모아모아/셀프구직조회</title>
+<!-- selfJobList.CSS -->
+<link href="self/selfJobList.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+</head>
+<body>
+	<div layout:fragment="content">
+	
+		<!-- 현재로그인된 유저정보 -->
+		<input id="logId" name="id" type="hidden" th:value="${#authentication.principal.username}">
+		
+		<!-- 현재로그인된 유저가 가진 권한 -->
+		<div sec:authorize="hasRole('ROLE_MEM')" style="display:none;">
+			<input id="ROLE_MEM" value="ROLE_MEM"> 
+		</div>
+		<div sec:authorize="hasRole('ROLE_CO')" style="display:none;">
+			<input id="ROLE_CO" value="ROLE_CO"> 
+		</div>
+		
+		<!-- nav -->
+	
+		
+		<div class="row" style="margin-top : 30px;">
+	<div class="col-xl-3 col-md-2 text-center">
+          <div class="card">
+            <div class="card-body">
+              <h4>[["${#authentication.principal.username}"]]</h4>
+              <a id="insertInfo" type="button" class="btn btn-light" href=""
+                >정보등록</a
+              >
+              <div class="accordion" id="sideMenu">
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                    <button
+                      class="accordion-button collapsed p-1"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#panelsStayOpen-collapseOne"
+                      aria-expanded="false"
+                      aria-controls="panelsStayOpen-collapseOne"
+                    >
+                      이력서
+                    </button>
+                  </h2>
+                  <div
+                    id="panelsStayOpen-collapseOne"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="panelsStayOpen-headingOne"
+                  >
+                    <div
+                      class="accordion-body d-flex flex-column align-items-center p-0"
+                    >
+                      <div class="mb-1">
+                        <a href="/mem/mkResumeTest">이력서 등록</a>
+                      </div>
+                      <div class="mb-1">
+                        <a href="">이력서 관리</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                    <button
+                      class="accordion-button collapsed p-1"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#panelsStayOpen-collapseTwo"
+                      aria-expanded="false"
+                      aria-controls="panelsStayOpen-collapseTwo"
+                    >
+                      현황
+                    </button>
+                  </h2>
+                  <div
+                    id="panelsStayOpen-collapseTwo"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="panelsStayOpen-headingTwo"
+                  >
+                    <div
+                      class="accordion-body d-flex flex-column align-items-center p-0"
+                    >
+                      <div class="mb-1">
+                        <a href="">구직 현황</a>
+                      </div>
+                      <div class="mb-1">
+                        <a href="">관심기업</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr />
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                    <button
+                      class="accordion-button collapsed p-1"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#panelsStayOpen-collapseThree"
+                      aria-expanded="false"
+                      aria-controls="panelsStayOpen-collapseThree"
+                    >
+                      개인정보
+                    </button>
+                  </h2>
+                  <div
+                    id="panelsStayOpen-collapseThree"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="panelsStayOpen-headingThree"
+                  >
+                    <div
+                      class="accordion-body d-flex flex-column align-items-center p-0"
+                    >
+                      <div class="mb-1">
+                        <a href="">개인정보 수정</a>
+                      </div>
+                      <div class="mb-1">
+                        <a href="">작성글 목록</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+			<div id="selfList" class="col-md-7">
+			</div>
+				
+			<!-- <div class="row">
+				<div class="col-md-1"></div>
+				<div class="col-md-2"></div>
+				<div class="col-md-7">
+				  <nav aria-label="Page navigation example">
+					  <ul class="pagination  d-flx justify-content-center">
+					    <li class="page-item">
+					      <a class="page-link" href="#" aria-label="Previous">
+					        <span aria-hidden="true">&laquo;</span>
+					      </a>
+					    </li>
+					    <li class="page-item"><a class="page-link" href="#">1</a></li>
+					    <li class="page-item"><a class="page-link" href="#">2</a></li>
+					    <li class="page-item"><a class="page-link" href="#">3</a></li>
+					    <li class="page-item">
+					      <a class="page-link" href="#" aria-label="Next">
+					        <span aria-hidden="true">&raquo;</span>
+					      </a>
+					    </li>
+					  </ul>
+				 </nav>
+				</div>
+				<div class="col-md-1"></div>
+			</div> -->
+			
+			<div class="col-md-1"></div>
+		</div>
+		
+		
+<script>
+
+let id = '';
+let currentPage = 1; // 현재 페이지
+
+// 권한에 따른 셀프 구직 목록 리스트
+$(document).ready(function() {
+	
+	
+	
+});
+
+
+
+
+
+// 셀프구직 리스트 호출하는 ajax
+function selfJobList(auth, id, job, carr, city, skill, currentPage){
+	
+	let data = {
+			auth : auth, 
+			id : id, 
+			dutyFld : job, 
+			career : carr, 
+			hopeWksite : city, 
+			skill : skill , 
+			currentPage : currentPage
+	}
+	
+	$.ajax({
+	  url: 'selfJobList',
+	  type: 'post',
+	  data: data,
+	  success: function (result) {
+		  
+		let selfJobList = result.selfJobList; // 셀프구직 목록 리스트
+		let selfJobInterest = result.selfJobInterest; // 접속한 ID의 셀프구직 관심 리스트
+		let selfJobOffered = result.selfJobOffered; // 접속한 ID의 제안완료 목록 리스트
+		let totalListNum = result.totalListNum; // 셀프구직 목록리스트 총갯수
+		selfList.innerHTML = ''; // 초기화
+		
+		if(selfJobList.length == 0){
+			selfList.innerHTML = `<div class="fs-2 mt-5" style="text-align : center;">검색조건에 만족하는게 없습니다.</div>`;
+			return;
+		}else{
+		
+			for(let j = 0; j < selfJobInterest.length ; j++){
+				for(let i = 0; i < selfJobList.length; i++){
+					if(selfJobInterest[j].jobSearchNo == selfJobList[i].jobSearchNo){
+					 	 selfJobList[i].interestYn = 'Y';	// 관심글에만 'Y'
+					}
+				}
+			}
+			
+			 for(let k = 0; k < selfJobOffered.length ; k++){
+				 for(let l = 0; l < selfJobList.length; l++){
+					 if(selfJobOffered[k].jobSearchNo == selfJobList[l].jobSearchNo){
+						selfJobList[l].offeredYn = 'Y';	// 제안완료에만 'Y'
+					}
+				}
+			} 
+			
+			let selfJobListHtml = '';
+			
+			// 화면 리스트 출력
+			for(let i = 0; i < selfJobList.length; i++){
+				selfJobListHtml += selfJobListPrint(selfJobList[i]);
+			}
+			
+			// 페이징 버튼 만들기
+			selfJobListHtml += pagingBtnPrint(totalListNum); 
+			
+			selfList.innerHTML = selfJobListHtml;
+	 	 }
+	  },
+	  error: function (reject) {	   
+   	  	console.log(reject);
+	  }
+	});	
+}
+
+//페이징 버튼만들기
+function pagingBtnPrint(totalListNum){
+	console.log('페이지수 : ' + totalListNum );
+	let totalPageNum = Math.ceil(totalListNum/5); // 총페이지 = 총 게시글수 / 5 
+	
+	let pagingBtn = `<nav aria-label="Page navigation example">
+					  <ul class="pagination  d-flx justify-content-center">
+					    <li class="page-item">
+					      <a class="page-link" href="#" aria-label="Previous">
+					        <span aria-hidden="true">&laquo;</span>
+					      </a>
+					    </li>`;
+						
+					    // 페이지 버튼수
+					    for(let i = 1; i <= totalPageNum; i++){
+					    	if(currentPage == i){ // 현재 페이지에 active
+		 						pagingBtn += `<li class="page-item active"><a class="page-link" href="#" onclick="clickPage(`+i+`)">`+i+`</a></li>`;	
+					    	}else{
+					    		pagingBtn += `<li class="page-item"><a class="page-link" href="#" onclick="clickPage(`+i+`)">`+i+`</a></li>`;
+					    	}
+						}			    
+		  
+		pagingBtn += `<li class="page-item">
+					      <a class="page-link" href="#" aria-label="Next">
+					        <span aria-hidden="true">&raquo;</span>
+					      </a>
+				      </li>
+				  	</ul>
+				  </nav>`;
+					
+	return pagingBtn;
+}
+
+// 페이지 버튼 클릭시 발생하는 이벤트
+function clickPage(clickPageNum){
+	//console.log('클릭한 페이지 : ' + clickPageNum);
+	currentPage = clickPageNum;
+	selfJobList(auth, id, job, carr, city, skill, currentPage);
+}
+
+//화면 리스트 출력
+function selfJobListPrint(result={}){
+	
+	let html = '';
+	//console.log(result.interestYn == 'Y');
+	// interestYn : 해당 게시글에 관심 등록이 되어있는지 여부
+	if(result.interestYn == 'Y'){ // 관심글이라면 
+		html = `<div class="row align-items-center border-bottom p-4 mb-3 hoverRow" style="cursor:pointer;" onclick="location.href='/selfJobDetail?jobSearchNo=`+result.jobSearchNo+`&resumeNo=`+result.resumeNo+`'">
+	        <div class="col-md-3 text-center">
+	      	<a href="#">
+	      		<img class="img-fluid imgSize" src="/moamoreImg/`+result.myimg+`" onerror=this.src="self/profile.JPG" alt="이미지폴더에없음">
+	      		<p class="mb-0">`+result.pubcRange+`</p>
+	      	</a>
+	      </div>
+	      <div class="col-md-7 text-center text-lg-start">
+	        <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
+	          <p class="fw-bold mb-0 text-black">`+result.dutyFld+`</p>
+	          <p class="mb-0">`+result.hopeWksite+`</p>
+	          <p class="mb-0">`+result.regDt+`</p>
+	          <i data-id="`+result.jobSearchNo+`" class="bi bi-suit-heart-fill text-danger fa-lg heartIcon"><span class="interestNum" style="color:#5B7075; font-style: normal;">`+result.interest+`</span></i>
+	        </div>
+	        	<p class="fs-2 my-3">`+result.ttl+`</p>
+	        <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-2">
+	        	<img class="img-fluid" style="display:none;" src="assets/img/blog/profile1.png" alt="">
+	            <span class="mb-0">작성자: `+result.id+`</span>/<span>기술스택: `+result.skill+`</span>
+	            
+	        </div>
+	      </div>
+	      <div class="col-md-2" style="display: flex; align-items: center; flex-direction : column;" >
+	      	
+		      <button  data-id="`+result.jobSearchNo+`" onclick="interest(this)" type="button" class="btn btn-danger btn-sm listBtn">관심해제</button>`;
+		    	
+		      if(result.offeredYn == 'Y'){ //제안완료 게시글이라면
+	      		html += `<button  data-id="`+result.jobSearchNo+`" onclick="offerModal(this)" type="button" class="btn btn-info btn-sm listBtn">제안완료</button>`;	
+	      	}else{
+	      		html += `<button  data-id="`+result.jobSearchNo+`" onclick="offerModal(this)" type="button" class="btn btn-outline-info btn-sm listBtn">제안</button>`;
+	      	}
+		html +=  `</div>
+	    	</div>`;
+	}else{
+		html = `<div class="row align-items-center border-bottom p-4 mb-3 hoverRow" style="cursor:pointer;" onclick="location.href='/selfJobDetail?jobSearchNo=`+result.jobSearchNo+`&resumeNo=`+result.resumeNo+`'">
+	        <div class="col-md-3 text-center">
+	      	<a href="#">
+	      		<img class="img-fluid imgSize" src="/moamoreImg/`+result.myimg+`" onerror=this.src="self/profile.JPG" alt="이미지폴더에없음">
+	      		<p class="mb-0">`+result.pubcRange+`</p>
+	      	</a>
+	      </div>
+	      <div class="col-md-7 text-center text-lg-start">
+	        <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
+	          <p class="fw-bold mb-0 text-black">`+result.dutyFld+`</p>
+	          <p class="mb-0">`+result.hopeWksite+`</p>
+	          <p class="mb-0">`+result.regDt+`</p>
+	          <i data-id="`+result.jobSearchNo+`" class="bi bi-suit-heart text-danger fa-lg heartIcon"><span class="interestNum" style="color:#5B7075; font-style: normal;">`+result.interest+`</span></i>
+	        </div>
+	        	<p class="fs-2 my-3">`+result.ttl+`</p>
+	        <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-2">
+	        	<img class="img-fluid" src="assets/img/blog/profile1.png" style="display:none;" alt=""> 
+	            <span class="mb-0">작성자: `+result.id+`</span>/<span>기술스택: `+result.skill+`</span>
+	        </div>
+	      </div>
+	      <div class="col-md-2" style="display: flex; align-items: center; flex-direction : column;" >
+	      	  <button  data-id="`+result.jobSearchNo+`" onclick="interest(this)" type="button" class="btn btn-outline-danger btn-sm listBtn">관심</button>`;
+	      	if(result.offeredYn == 'Y'){ //제안완료 게시글이라면
+	      		html += `<button  data-id="`+result.jobSearchNo+`" onclick="offerModal(this)" type="button" class="btn btn-info btn-sm listBtn">제안완료</button>`;	
+	      	}else{
+	      		html += `<button  data-id="`+result.jobSearchNo+`" onclick="offerModal(this)" type="button" class="btn btn-outline-info btn-sm listBtn">제안</button>`;
+	      	}
+		      
+		html += `</div>
+	    	</div>`;
+	}
+	
+	return html;
+			    
+}
+
+
+// 셀프구직 등록 버튼 클릭시 이력가 있는지 체크하는 함수
+$('#myProfile').on('click', function(){
+	
+	if($('#ROLE_MEM').val()){ // 유저일때
+		$.ajax({
+			  url: 'selfJobCheck',
+			  type: 'post',
+			  data: {id : id},
+			  success: function (result) {
+				if(result == 0){
+					Swal.fire({
+						  icon: 'error',
+						  title: '작성된 이력서가 없습니다. \n이력서를 먼저 작성해주세요.'
+					});
+				}else{
+					location.href="/selfJobProfile";
+				}
+			  },
+			  error: function (reject) {	   
+		   	  	console.log(reject);
+			  }
+			});	
+	}else if($('#ROLE_CO').val()){ // 기업일때
+		
+		Swal.fire({
+			  icon: 'error',
+			  title: '기업은 셀프구직을 \n작성할 수 없습니다.'
+		});
+		
+	}else{ // 관리자일때
+		Swal.fire({
+			  icon: 'error',
+			  title: '관리자는 셀프구직을 \n작성할 수 없습니다.'
+		});
+	}
+});
+			
+</script>
+	</div>
+</body>
+</html>
