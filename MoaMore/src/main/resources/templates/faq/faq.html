@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{template/layout}">
+<head>
+<meta charset="UTF-8">
+<title>FAQ</title>
+<style>
+.accordion {
+	padding: 20px;
+	border-bottom: 1px solid gray;
+}
+</style>
+</head>
+<body>
+	<div class="container" layout:fragment="content">
+		<div class="card-body">
+			<h3 class="fw-normal mb-3">고객센터</h3>
+
+			<!-- Default Tabs -->
+			<ul class="nav nav-tabs d-flex" id="myTabjustified" role="tablist">
+				<li class="nav-item flex-fill" role="presentation">
+					<button class="nav-link w-100" id="home-tab" data-bs-toggle="tab"
+						data-bs-target="#memFaq" type="button" role="tab"
+						aria-controls="home" aria-selected="false" tabindex="-1">개인회원</button>
+				</li>
+				<li class="nav-item flex-fill" role="presentation">
+					<button class="nav-link w-100 active" id="profile-tab"
+						data-bs-toggle="tab" data-bs-target="#coFaq" type="button"
+						role="tab" aria-controls="profile" aria-selected="true">기업회원</button>
+				</li>
+			</ul>
+			<div class="tab-content pt-2" id="myTabjustifiedContent">
+				<div class="tab-pane fade" id="memFaq" role="tabpanel"
+					aria-labelledby="home-tab">
+					<!-- 첫번째 탭 내용 시작-->
+					<div th:each="theme : ${groupedData}" id="themeDiv">
+						<p class="fs-1 mt-5">
+							<span class="fw-bold">이력서 등록 / 관리</span> 자주 묻는 질문
+						</p>$
+						<p>[[${faqList.memList}]]</p>
+						<div class="accordion accordion-flush" id="accordionFlushExample">
+
+							<div class="accordion-item">
+								<h2 class="accordion-header" id="flush-headingTwo">
+									<button class="accordion-button collapsed accordion"
+										type="button" data-bs-toggle="collapse"
+										data-bs-target="#flush-collapseTwo" aria-expanded="false"
+										aria-controls="flush-collapseTwo">
+
+										<span class="col-lg-1 fw-bold fs-2">Q</span> <span
+											class="col-lg-7">[가이드] 이력서 등록 방법 Part2</span>
+
+									</button>
+								</h2>
+								<div id="flush-collapseTwo" class="accordion-collapse collapse"
+									aria-labelledby="flush-headingTwo"
+									data-bs-parent="#accordionFlushExample">
+									<div class="accordion-body accordion">
+										Placeholder content for this accordion, which is intended to
+										demonstrate the
+										<code>.accordion-flush</code>
+										class. This is the second item's accordion body. Let's imagine
+										this being filled with some actual content.
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 첫번째 탭 내용 끝 -->
+				</div>
+				<!-- 두번째 탭 내용 시작-->
+				<div class="tab-pane fade active show" id="coFaq" role="tabpanel"
+					aria-labelledby="profile-tab">Nesciunt totam et. Consequuntur
+					magnam aliquid eos nulla dolor iure eos quia. Accusantium
+					distinctio omnis et atque fugiat. Itaque doloremque aliquid sint
+					quasi quia distinctio similique. Voluptate nihil recusandae
+					mollitia dolores. Ut laboriosam voluptatum dicta.</div>
+				<!-- 두번째 탭 내용 끝-->	
+			</div>
+			<!-- End Default Tabs -->
+
+		</div>
+		<script th:inline="javascript">
+		$(document).ready(function () {
+			
+		  var memList = [[${faqList.memList}]];
+		  var groupedData = {}; // 객체 생성
+
+		  for (var i = 0; i < memList.length; i++) {
+		    var faq = memList[i];
+		    var boardTheme = faq.boardTheme;
+
+		    if (!groupedData[boardTheme]) {
+		      groupedData[boardTheme] = []; // boardTheme값을 키로하는 배열 생성
+		    }
+
+		    groupedData[boardTheme].push(faq);
+		  }		
+		  console.log(memList);
+		  console.log(groupedData);
+		  
+		})
+		
+			
+		</script>
+	</div>
+</body>
+</html>
