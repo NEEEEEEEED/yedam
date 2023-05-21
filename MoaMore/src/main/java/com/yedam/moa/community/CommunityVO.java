@@ -13,6 +13,8 @@ public class CommunityVO {
 	private String inqCnt;		// 조회수
 	private String rplyCnt;		// 댓글수
 	private String regDt;		// 등록일자
+	private String recoCnt;		// 추천수
+	private String recoYn;		// 개별적인 추천여부
 
   
 	private String postType;

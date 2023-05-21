@@ -1,11 +1,14 @@
 package com.yedam.moa.community.service.Impl;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yedam.moa.community.CommunityVO;
+import com.yedam.moa.community.Criteria;
 import com.yedam.moa.community.IntrvVO;
 import com.yedam.moa.community.PrjtVO;
 import com.yedam.moa.community.ReplyVO;
@@ -34,8 +37,8 @@ public class CommunityServiceImpl implements CommunityService{
 
 	// 취업 Q&A 리스트
 	@Override
-	public List<CommunityVO> jobQnaList() {
-		return commuMapper.jobQnaList();
+	public List<CommunityVO> jobQnaList(Criteria cri) {
+		return commuMapper.jobQnaList(cri);
 	}
 
 	// 취업 Q&A 상세 페이지
@@ -44,6 +47,7 @@ public class CommunityServiceImpl implements CommunityService{
 		commuMapper.jobQnaView(qaNotiwrNo); // 조회수 증가
 		return commuMapper.jobQnaDetail(qaNotiwrNo);
 	}
+	
 
 	// 취업 Q&A 수정기능
 	@Override
@@ -65,8 +69,8 @@ public class CommunityServiceImpl implements CommunityService{
 
 	// 면접후기 리스트 출력
 	@Override
-	public List<IntrvVO> jobInterviewList() {
-		return commuMapper.jobInterviewList();
+	public List<IntrvVO> jobInterviewList(IntrvVO intrvVO) {
+		return commuMapper.jobInterviewList(intrvVO);
 	}
 
 	// 프로젝트 등록 기능
@@ -134,6 +138,7 @@ public class CommunityServiceImpl implements CommunityService{
 	// 취업 Q&A 댓글 등록
 	@Override
 	public int qnaReplyAdd(ReplyVO replyVO) {
+		commuMapper.jobQnaReplyCount(replyVO.getQaNotiwrNo()); // 댓글수 증가
 		return commuMapper.qnaReplyAdd(replyVO);
 	}
 
@@ -180,6 +185,88 @@ public class CommunityServiceImpl implements CommunityService{
 		return commuMapper.chQnaReplyAdd(replyVO);
 	}
 
+	// 취업 Q&A 상세페이지 - 추천여부
+	@Override
+	public int jobQnaReco(CommunityVO communityVO) {
+		return commuMapper.jobQnaReco(communityVO);
+	}
+
 	
+	// 취업 Q&A 상세 페이지 - 추천 등록
+	@Override
+	public int jobQnaRecoAdd(CommunityVO communityVO) {
+		commuMapper.jobQnaRecoCount(communityVO.getQaNotiwrNo()); // 추천수 증가
+		return commuMapper.jobQnaRecoAdd(communityVO);
+	}
+
+	// 취업 Q&A Best리스트
+	@Override
+	public List<CommunityVO> jobQnaBest() {
+		return commuMapper.jobQnaBest();
+	}
+
+	
+	// 스케쥴러 - 프로젝트 모집 오늘날짜 오전 9시를 기준으로 모집 상태 update 
+	@Override
+	public void proCollstScheduler() {
+		
+		List<PrjtVO> list = commuMapper.projectList(); // 프로젝트 모집 게시글 리스트
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // 날짜 포맷
+		
+		LocalDate today = LocalDate.now();
+		
+		//System.out.println("오늘날짜 : " + today);
+		
+		for(PrjtVO project : list) {
+			
+			LocalDate clsDt = LocalDate.parse(project.getClsDt(), formatter);
+			
+			//System.out.println("마감일 : " + clsDt);
+
+			// 마감날짜가 오늘날짜 이후이고(마감날짜보다 오늘날짜가 미래일때 true) 모집중 상태라면
+			if(today.isAfter(clsDt) && project.getCollSt().equals("모집중")) {
+				//System.out.println(project.getPrjtNo()+" - 업데이트 :" + (today.isAfter(clsDt) && project.getCollSt().equals("모집중")));
+				
+				// 모집중 => 모집 마감 상태로 업데이트
+				commuMapper.projectCollstUpdate(project.getPrjtNo());
+			}
+		}
+	}
+	
+	// 스케쥴러 - 스터디 모집 오늘날짜 오전 9시를 기준으로 모집 상태 update 
+	@Override
+	public void studyCollstScheduler() {
+		
+		List<StudyVO> list = commuMapper.studyList(); // 스터디 모집 게시글 리스트
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // 날짜 포맷
+		
+		LocalDate today = LocalDate.now();
+		
+		//System.out.println("오늘날짜 : " + today);
+		
+		for(StudyVO study : list) {
+			
+			LocalDate clsDt = LocalDate.parse(study.getClsDt(), formatter);
+			
+			//System.out.println("마감일 : " + clsDt);
+
+			// 마감날짜가 오늘날짜 이후이고(마감날짜보다 오늘날짜가 미래일때 true) 모집중 상태라면
+			if(today.isAfter(clsDt) && study.getCollSt().equals("모집중")) {
+				
+				// 모집중 => 모집 마감 상태로 업데이트
+				commuMapper.studyCollstUpdate(study.getStudyNo());
+				
+			}
+		}
+	}
+
+	// 취업 Q&A 게시글 총갯수
+	@Override
+	public int jobQnaListCnt() {
+		return commuMapper.jobQnaListCnt();
+	}
+
 	
 }

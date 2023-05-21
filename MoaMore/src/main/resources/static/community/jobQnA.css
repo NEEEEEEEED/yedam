@@ -26,6 +26,17 @@
 	letter-spacing: -0.88px;
 }
 
+.best:hover {
+	color:red;
+}
+
+.bestCount {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 5ch; 
+}
+
 /* 글자수가 50이상 넘어가면 .. 로 처리 */
 .ellipsis {
   overflow: hidden;
@@ -73,3 +84,16 @@
 	margin: 10px;
 }
 
+.page-item:first-child .page-link {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+ }
+.page-item:last-child .page-link{
+ 	border-top-right-radius : 0px;
+ 	border-bottom-right-radius : 0px;
+ }
+
+.page-item.active .page-link{
+	background-color : #0A2640;
+	border-color : #0A2640;
+}

@@ -8,36 +8,33 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.nimbusds.jose.shaded.json.JSONObject;
 import com.yedam.moa.comm.service.CommService;
 import com.yedam.moa.community.CommunityVO;
+import com.yedam.moa.community.Criteria;
 import com.yedam.moa.community.IntrvVO;
+import com.yedam.moa.community.PagingVO;
 import com.yedam.moa.community.PrjtVO;
 import com.yedam.moa.community.ReplyVO;
 import com.yedam.moa.community.StudyVO;
 import com.yedam.moa.community.service.CommunityService;
-import com.yedam.moa.member.service.SessionUser;
 
 
 /* 박선아 2023-05-17 커뮤니티  CommunityServiceImpl을 CommunityService로 변경 */
 
 @Controller
+@Component
 public class CommunityController {
 
 	@Value("${site.upload}")
@@ -52,8 +49,26 @@ public class CommunityController {
 	
 	// 취업 Q&A 게시글 목록 페이지
 	@GetMapping("/jobQnA") 
-	public String jobQnaList(Model model) { 
-		model.addAttribute("jobQnaList", commuService.jobQnaList());
+	public String jobQnaList(Criteria cri, Model model) { 
+		
+		// 전체 글 개수
+        int jobQnaListCnt = commuService.jobQnaListCnt();
+        
+        // 페이징 객체
+        PagingVO paging = new PagingVO();
+        paging.setCri(cri);
+        paging.setTotalCount(jobQnaListCnt);    
+        
+        List<CommunityVO> list = commuService.jobQnaList(cri);
+        
+        model.addAttribute("jobQnaList", list);    
+        model.addAttribute("paging", paging);    
+		
+		System.out.println(paging.toString());
+		
+		//model.addAttribute("jobQnaList", commuService.jobQnaList());
+		model.addAttribute("bestList", commuService.jobQnaBest());
+		
 		return "community/jobQnA"; 
 	}
 	
@@ -112,9 +127,39 @@ public class CommunityController {
 	
 	// 취업 Q&A 상세페이지
 	@GetMapping("/jobQnaDetail")
-	public String jobQnaDetail(Model model, String qaNotiwrNo) {
+	public String jobQnaDetail(Model model, String qaNotiwrNo, Principal pr) {
+		
+		CommunityVO vo = new CommunityVO();
+		vo.setQaNotiwrNo(qaNotiwrNo);
+		vo.setId(pr.getName());
+
+		String recoYn = commuService.jobQnaReco(vo) == 0 ? "N" : "Y";
+		
+		model.addAttribute("recoYn", recoYn);
 		model.addAttribute("jobQnaDetail", commuService.jobQnaDetail(qaNotiwrNo));
 		return "community/jobQnADetailVue";
+	}
+	
+	// 취업 Q&A 게시글 추천 등록
+	@PostMapping("/jobQnaRecoAdd")
+	@ResponseBody
+	public Map<String,Object> jobQnaRecoAdd(CommunityVO communityVO, Principal pr){
+		
+		Map<String, Object> result = new HashMap<>();
+		
+		int r = 0;
+		
+		communityVO.setId(pr.getName());
+		
+		r = commuService.jobQnaRecoAdd(communityVO);
+		
+		if(r > 0) { // 등록 성공시
+			result.put("result", "Success");
+			return result;
+		}else {
+			result.put("result", "Fail");
+			return result;
+		}
 	}
 	
 	// 취업 Q&A 수정 페이지
@@ -146,20 +191,10 @@ public class CommunityController {
 	// 취업 Q&A 삭제 기능
 	@PostMapping("/jobQnaDelete")
 	@ResponseBody
-	public Map<String, Object> jobQnaDeleteFn(String qaNotiwrNo){
+	public int jobQnaDeleteFn(String qaNotiwrNo){
 		
-		Map<String, Object> result = new HashMap<>();
+		return commuService.jobQnaDelete(qaNotiwrNo);
 		
-		int r = 0;
-		r = commuService.jobQnaDelete(qaNotiwrNo);
-		
-		if(r > 0) { // 삭제 성공시
-			result.put("result", "Success");
-			return result;
-		}else {
-			result.put("result", "Fail");
-			return result;
-		}
 	}
 	
 	// 취업 Q&A 부모 댓글 등록
@@ -255,13 +290,21 @@ public class CommunityController {
 	}
 	
 	
-	
 	// 면접후기 리스트
 	@GetMapping("/jobInterview")
 	public String jobInterview(Model model) {
-		model.addAttribute("jobInterviewList", commuService.jobInterviewList());
+		model.addAttribute("commList", commonService.getCodes("N", "O"));  
+		//model.addAttribute("jobInterviewList", commuService.jobInterviewList());
 		return "community/jobInterviewList";
 	}
+	
+	// 검색조건(직무, 경력, 회사명)에 따른 면접후기 리스트
+	@PostMapping("/jobInterviewList")
+	@ResponseBody
+	public List<IntrvVO> jobInterviewList(IntrvVO intrvVO){
+		return commuService.jobInterviewList(intrvVO);
+	}
+	
 	
 	// 면접후기 등록
 	@PostMapping("/jobInterviewAdd")
@@ -311,6 +354,18 @@ public class CommunityController {
 	public List<PrjtVO> projectBoards(){
 		return commuService.projectList();
 	}
+
+	
+	// 스케쥴러
+	@Scheduled(cron = "0 0 9 * * *") // 매일 오전 9시에 실행
+	public void myMethod(){
+		// 프로젝트 모집 오늘날짜 오전 9시를 기준으로 모집 상태 update 
+		commuService.proCollstScheduler(); 
+		// 스터디 모집 오늘날짜 오전 9시를 기준으로 모집 상태 update 
+		commuService.studyCollstScheduler();
+		
+    }
+	
 	
 	// 프로젝트 모집 상세페이지
 	@GetMapping("/projectDetail")

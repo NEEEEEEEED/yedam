@@ -104,7 +104,7 @@
 										<th>보기권한설정</th>
 										<td>
 											<select id="auth" class="inputStyle" style="text-align:center;">
-											    <option selected>선택해주세요</option>
+											    <option value="" selected>선택해주세요</option>
 											    <option th:each="auth : ${commList.c}" th:text="${auth.desct}" th:attr="value=${auth.prov}">보기권한</option>
 											  </select>
 										</td>
@@ -231,7 +231,8 @@
 				<br>
 				<!-- 프로필 등록 버튼 -->
 				<div class="mb-5" style="text-align:right;">
-					<button id="myProfileBtn" type="button" class="btn btn-dark radius">프로필 등록</button>
+					<button id="cancleBtn" onclick="history.back()" type="button" class="btn btn-light radius m-2">취소</button>
+					<button id="myProfileBtn" type="button" class="btn btn-dark radius">등록</button>
 				</div>
 			</div>
 			<hr>
@@ -461,7 +462,7 @@ function careerList(carrNo){
 function careerPrint(carrArr = {}){
 	
 	let carrRows = document.getElementById('carrRows');
-	let carrerHTML = `<div class="hoverRow listRow row">
+	let carrerHTML = `<div class="listRow row">
 					 	<div class="col-md-10 text-center text-lg-start">
 				        	<div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
 				          		<p class="fw-bold mb-0 text-black">`+carrArr.duty+`</p>
@@ -511,7 +512,7 @@ function schoolPrint(schoolArr={}){
 	let schoolRows = document.getElementById('schoolRows');
 	let schoolHTML = '';
 	if(schoolArr.fg=='고졸'){
-		schoolHTML = `<div class="hoverRow listRow row">
+		schoolHTML = `<div class="listRow row">
 					 	<div class="col-md-10 text-center text-lg-start">
 						 		<span style="color:black;"><b>■ 고등학교</b></span> <hr>
 						 		<p class="mb-0">`+schoolArr.joinYy+` ~ `+schoolArr.retiYy+`</p>
@@ -523,7 +524,7 @@ function schoolPrint(schoolArr={}){
 						</div>`;
 				        	
 	}else if(schoolArr.fg=='대졸' || schoolArr.fg=='초대졸'){
-		schoolHTML = `<div class="hoverRow listRow row">
+		schoolHTML = `<div class="listRow row">
 					 	<div class="col-md-10 text-center text-lg-start">
 					 		<span style="color:black;"><b>■ 대학교</b></span><hr>
 					 		<p class="mb-0">`+schoolArr.joinYy+` ~ `+schoolArr.retiYy+`</p>
@@ -535,7 +536,7 @@ function schoolPrint(schoolArr={}){
 				      	</div>
 					</div>`;
 	}else{ // 대학원
-		schoolHTML = `<div class="hoverRow listRow row">
+		schoolHTML = `<div class="listRow row">
 					 	<div class="col-md-10 text-center text-lg-start">
 					 		<span style="color:black;"><b>■ 대학교</b></span><hr>
 					 		<p class="mb-0">`+schoolArr.joinYy+` ~ `+schoolArr.retiYy+`</p>
@@ -646,7 +647,7 @@ function pofolReg(){
 // 포트폴리오 목록 그리는 함수
 function pofolListPrint(result={}){
 	
-	let pofolHtml = `<div class="row align-items-center border-bottom hoverRow mb-3">
+	let pofolHtml = `<div class="row align-items-center border-bottom mb-3">
 				        <div class="col-md-3">
 				      	<img class="img-fluid imgSize" src="/moamorePofol/`+result.pofolImg+`" alt="이미지없음">
 				      </div>
@@ -666,6 +667,132 @@ function pofolListPrint(result={}){
 // 셀프구직 등록 버튼 클릭시
 $('#myProfileBtn').on('click', function(){
 	
+	// 예외처리
+	if($('#title').val() == '' ){ // 제목
+		
+		Swal.fire({
+			  icon: 'warning',
+			  title: '제목을 입력해주세요'
+		});
+	
+		//$('#title').focus();
+	
+		return;
+	
+	}
+	
+	if($('#city').val() == ''){  // 지역
+		
+		Swal.fire({
+			  icon: 'warning',
+			  title: '지역을 선택해주세요'
+		});
+		
+		//$('#city').focus();
+	
+		return;
+		
+	}
+	
+	if($('#carr').val() == ''){ // 경력
+		
+		Swal.fire({
+			  icon: 'warning',
+			  title: '경력을 선택해주세요'
+		});
+	
+		//$('#carr').focus();
+		
+		return;
+		
+	}
+	
+	if($('#job').val() == ''){  // 직무분야
+		
+		Swal.fire({
+			  icon: 'warning',
+			  title: '직무를 선택해주세요'
+		});
+	
+		//$('#job').focus();
+	
+		return;
+	
+	}
+	
+	if($('#tech').val() == ''){ // 기술스택
+		
+		Swal.fire({
+			  icon: 'warning',
+			  title: '기술스택을 선택해주세요'
+		});
+	
+		//$('#tech').focus();
+	
+		return;
+	
+	}
+	
+	if($('#auth').val() == ''){ // 보기권한
+		
+		Swal.fire({
+			  icon: 'warning',
+			  title: '보기권한을 선택해주세요'
+		});
+	
+		//$('#auth').focus();
+	
+		return;
+	
+	}
+	
+	if($('#intro').val() == ''){ // 자기소개서
+		
+		Swal.fire({
+			  icon: 'warning',
+			  title: '자기소개서를 입력해주세요'
+		});
+	
+		//$('#intro').focus();
+	
+		return;
+		
+	}
+	
+	if($('#resumeNo').val() == ''){ // 이력서번호
+			
+		Swal.fire({
+			  icon: 'warning',
+			  title: '불러온 이력서가 없습니다 \n이력서를 불러와주세요.'
+		});
+		
+		return;
+	}
+	
+	if($('#salary').val() == ''){ // 급여
+		
+		Swal.fire({
+			  icon: 'warning',
+			  title: '희망 급여를 입력해주세요'
+		});
+	
+		//$('#salary').focus();
+	
+		return;
+		
+	}
+	
+	if(!$('input[name="resident"]').is(':checked')){
+		Swal.fire({
+			  icon: 'warning',
+			  title: '상주가능 여부를 체크해주세요'
+		});
+		
+		//$('input[name="resident"]').focus();
+		
+		return;
+	}
+		
 	myImgReg(); // my프로필 이미지 등록함수
 	
 });
