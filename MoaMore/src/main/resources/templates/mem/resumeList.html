@@ -152,7 +152,7 @@
           <div
             th:each="list : ${resumeList}"
             class="hoverRow listRow row cursor ms-4"
-            id="goView"
+            name="goView"
           >
             <div class="col-md-8">
               <h4 class="mt-2" th:text="${list.ttl}">이력서제목</h4>
@@ -165,12 +165,12 @@
               <span th:text="${list.id}">아이디</span>
             </div>
             <div class="col-md-2 py-3">
-              <button class="btn-outline-info btn p-1" id="modResume">
+              <button class="btn-outline-info btn p-1" name="modResume">
                 수정
               </button>
             </div>
             <div class="col-md-2 py-3">
-              <button class="btn-outline-info btn p-1" id="delResume">
+              <button class="btn-outline-info btn p-1" name="delResume">
                 삭제
               </button>
             </div>
@@ -225,21 +225,21 @@
 
       <script>
         $(document).ready(function () {
-          let resumeNo = $("input[name=resumeNo]").val();
+          
           let id = $("input[name=id]").val();
-          $("#goView").on("click", function () {
-            window.location = "/viewResume?id="+id+"&resumeNo="+resumeNo;
-            console.log($(this));
+          $("div[name=goView]").on("click", function () {
+          
+            window.location = "/viewResume?id="+$(this).find("input[name=id]").val()+"&resumeNo="+$(this).find("input[name=resumeNo]").val();
           });
-          $("#delResume").on("click", function () {
+          $("button[name=delResume]").on("click", function () {
             console.log($(this));
 //             window.location = "/?id="+id+"&resumeNo="+resumeNo;
             event.preventDefault();
             event.stopPropagation();
           });
-          $("#modResume").on("click", function () {
+          $("button[name=modResume]").on("click", function () {
             console.log($(this));
-            window.location = "/mem/modRe?id="+id+"&resumeNo="+resumeNo;
+//             window.location = "/mem/modRe?id="+id+"&resumeNo="+resumeNo;
             event.preventDefault();
             event.stopPropagation();
           });
