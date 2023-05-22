@@ -53,6 +53,8 @@ public class HireController {
 	public List<HireVO> getData(HireVO hireVO, Principal pr) {
 		List<HireVO> hireList = new ArrayList<HireVO>();
 		hireVO.setId(pr.getName());
+		hireVO.getAccpDt();
+		hireVO.getExprDt();
 
 		hireList = hireService.hireList(hireVO);
 		return hireList;
@@ -306,11 +308,7 @@ public class HireController {
 		}
 	}
 	
-	// 메인 페이지
-//	@GetMapping("/main")
-//	public String mainSelect(Model model){
-//		return "/main";
-//	}
+
 
 }
 	

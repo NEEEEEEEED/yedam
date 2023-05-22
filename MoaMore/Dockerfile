@@ -6,3 +6,4 @@ ENV TZ=Asia/Seoul
 ENTRYPOINT ["java","-jar","-Djasyptkey=moamoreKey", "/app.jar"]
 
 
+
