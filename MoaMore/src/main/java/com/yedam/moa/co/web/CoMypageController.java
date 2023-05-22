@@ -65,6 +65,14 @@ public class CoMypageController {
 		model.addAttribute("commList", commService.getCodes("Z")); // 제안모달 기술스택가져오기
 		return "co/coMypage";
 	}
+	
+	// 공고의 새로운 지원목록
+	@GetMapping("selectNewApply")
+	@ResponseBody
+	public List<CoVO> selectNewApply(Principal principal) {
+		String id = principal.getName();
+		return service.selectNewApply(id);
+	}
 
 	// 기업정보등록/수정 페이지
 	@GetMapping("/coInfoPage") // 기업아이디 들고 들어가서 해당 아이디에 해당하는 기업정보 있다면 model에 service담아서 미리출력
