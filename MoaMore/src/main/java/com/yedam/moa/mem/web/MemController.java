@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.moa.comm.service.CommService;
+import com.yedam.moa.community.CommunityVO;
+import com.yedam.moa.community.Criteria;
+import com.yedam.moa.community.PagingVO;
 import com.yedam.moa.mem.MemInfoVO;
 import com.yedam.moa.mem.MemVO;
 import com.yedam.moa.mem.PrtflVO;
@@ -220,11 +223,55 @@ public class MemController {
 	}
 	
 	@GetMapping("/resumeList")
-	public String getList(Model model,Principal pr) {
-	
+	public String getList(Model model,Principal pr,Criteria cri) {
+		System.out.println(cri);
 		
-		return null;
+		// 전체 글 개수
+        int resumePageCnt = mem.getPageCnt(pr.getName());
+        System.out.println(resumePageCnt);
+        // 페이징 객체
+        PagingVO paging = new PagingVO();
+        paging.setCri(cri);
+        paging.setTotalCount(resumePageCnt);    
+        cri.setId(pr.getName());
+        List<ResumeVO> list = mem.resumeList(cri);
+        
+        model.addAttribute("resumeList", list);    
+        model.addAttribute("paging", paging);    
+		
+		System.out.println(paging.toString());
+		
+		
+		return "/mem/resumeList";
 	}
+	
+	@GetMapping("/delResume")
+	public String delResume(Model model,Principal pr,Criteria cri,ResumeVO rvo) {
+		rvo.setId(pr.getName());
+		int result = mem.delResume(rvo);
+		if(result==1) {
+		// 전체 글 개수
+        int resumePageCnt = mem.getPageCnt(pr.getName());
+        System.out.println(resumePageCnt);
+        // 페이징 객체
+        PagingVO paging = new PagingVO();
+        paging.setCri(cri);
+        paging.setTotalCount(resumePageCnt);    
+        cri.setId(pr.getName());
+        List<ResumeVO> list = mem.resumeList(cri);
+        
+        model.addAttribute("resumeList", list);    
+        model.addAttribute("paging", paging);    
+		
+		System.out.println(paging.toString());
+		
+		
+		return "/mem/resumeList";
+		}else {
+			return "redirect:/resumeList";
+		}
+	}
+	
 	
 	@GetMapping("/signUp")
 	public String signUpform() {
@@ -236,6 +283,7 @@ public class MemController {
 		
 		return mem.checkId(vo);
 	}
+	
 }
 	
 	

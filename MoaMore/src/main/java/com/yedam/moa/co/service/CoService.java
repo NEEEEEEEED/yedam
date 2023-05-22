@@ -39,9 +39,11 @@ public interface CoService {
 	//프로필 이미지이름 디비에넣기
 	public int uploadProfileImg(CoVO vo);
 	
-	
 	// 새로운지원 목록 조회
 	public List<CoVO> selectNewApply(String id);
+	
+	// 처리된지원 목록 조회
+	public List<CoVO> selectCompletedApply(String id);
 	
 
 }

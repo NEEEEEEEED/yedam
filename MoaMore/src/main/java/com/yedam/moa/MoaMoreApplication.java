@@ -39,10 +39,15 @@ public class MoaMoreApplication {
 		
 		model.addAttribute("prdtSelect",hireService.prdtSelect(hireVO)); // 유료공고
 		model.addAttribute("newSelect",hireService.newSelect(hireVO)); // 최신공고
+		System.out.println("최신"+hireService.newSelect(hireVO));
 		model.addAttribute("popSelect",hireService.popSelect(hireVO)); // 인기공고
+<<<<<<< HEAD
 		model.addAttribute("popSelf", hireService.popSelf(communityVO));// 셀프구직(관심순)
 		model.addAttribute("jobQnaBest", hireService.jobQnaBest(communityVO)); // 취업QnA 베스트3
 		
+=======
+		System.out.println("인기"+hireService.popSelect(hireVO));
+>>>>>>> branch 'main' of https://github.com/MoaMore/MoaMore.git
 		return "main";
 	}
 	@GetMapping("/vueAdmin")

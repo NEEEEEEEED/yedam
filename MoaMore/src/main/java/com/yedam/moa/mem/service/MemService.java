@@ -2,6 +2,7 @@ package com.yedam.moa.mem.service;
 
 import java.util.List;
 
+import com.yedam.moa.community.Criteria;
 import com.yedam.moa.mem.MemInfoVO;
 import com.yedam.moa.mem.MemVO;
 import com.yedam.moa.mem.PrtflVO;
@@ -40,5 +41,11 @@ public interface MemService {
 	public void updateRe(ResumeVO vo);
 	
 	public int checkId(MemInfoVO vo);
+	
+	public int getPageCnt(String id);
+	
+	public List<ResumeVO>resumeList(Criteria cri);
+	
+	public int delResume(ResumeVO rvo);
 	
 }

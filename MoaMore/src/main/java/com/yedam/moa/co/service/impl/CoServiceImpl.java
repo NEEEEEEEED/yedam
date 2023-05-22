@@ -1,5 +1,6 @@
 package com.yedam.moa.co.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +72,11 @@ public class CoServiceImpl implements CoService{
 	@Override
 	public List<CoVO> selectNewApply(String id) {
 		return mapper.selectNewApply(id);
+	}
+
+	@Override
+	public List<CoVO> selectCompletedApply(String id) {
+		return mapper.selectCompletedApply(id);
 	}
 	
 	
