@@ -29,7 +29,7 @@ public class MoaMoreApplication {
 	}
 	@GetMapping("/vueAdmin")
 	public String vueTest() {
-		return "admin.html";
+		return "admin";
 	}
 	
 	
