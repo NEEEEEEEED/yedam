@@ -82,4 +82,6 @@ public interface MemMapper {
 	public ResumeVO getRe(ResumeVO rvo);
 	
 	public void delResume(ResumeVO rvo); 
+	
+	public int checkId(MemInfoVO vo);
 }

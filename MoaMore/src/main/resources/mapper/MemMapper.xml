@@ -466,7 +466,15 @@
 		WHERE 	id = #{id} 
 		AND		resume_no = #{resumeNo}
 	</select>
+<!-- 	이력서 삭제 -->
 	<delete id="delResume" parameterType="ResumeVO" statementType="CALLABLE">
 		call delResume(#{resumeNo})
 	</delete>
+<!-- 	아이디체크 -->
+	<select id="checkId" resultType="Integer">
+	select count(id)
+      from MEMBER 
+     where id=#{id}
+	</select>
+	
 </mapper>
