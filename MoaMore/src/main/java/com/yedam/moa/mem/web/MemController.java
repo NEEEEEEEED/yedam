@@ -13,19 +13,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.yedam.moa.comm.service.CommService;
+import com.yedam.moa.mem.MemInfoVO;
 import com.yedam.moa.mem.MemVO;
 import com.yedam.moa.mem.PrtflVO;
 import com.yedam.moa.mem.ResumeVO;
 import com.yedam.moa.mem.SearchVO;
 import com.yedam.moa.mem.service.MemService;
-import com.yedam.moa.self.SelfVO;
-import com.yedam.moa.self.mapper.SelfMapper;
-import com.yedam.moa.self.service.SelfService;
 
 @Controller
 public class MemController {
@@ -228,6 +224,17 @@ public class MemController {
 	
 		
 		return null;
+	}
+	
+	@GetMapping("/signUp")
+	public String signUpform() {
+		
+		return "mem/signup";
+	}
+	@GetMapping("/checkId")
+	public int checkId(MemInfoVO vo) {
+		
+		return mem.checkId(vo);
 	}
 }
 	
