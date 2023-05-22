@@ -26,7 +26,7 @@ public class CoVO {
 	private String tech; //기술스택
 	private String maBuss; //주요업무
 	private String bnft; //복지 및 혜택
-	private String saly; //제안급여,연봉
+	private String saly; //제안급여;연봉
 	private String bussStartDt; //업무시작일
 	private String clsDt; //제안 마감일
 	private String projectNm; //프로젝트명
@@ -38,5 +38,17 @@ public class CoVO {
 	
 	//이메일
 	private String email;
+	
+	//구인공고에 대한 지원
+	private String recruitNo; // 구인공고번호
+	private String resumeNo; // 이력서 번호
+	private String aplySt; // 지원상태 b1지원완료 b2지원취소
+	private String aplyDt; // 지원일자
+	private String st; // 열람여부 0미열람 1열람
+	private String win; // 합격여부 T 합 대 불
+	private String attl;  // 구인공고 제목 
+	private String exprDt; // 구인공고 마감일
+	private String rttl; // 이력서 제목
+	
 	
 }

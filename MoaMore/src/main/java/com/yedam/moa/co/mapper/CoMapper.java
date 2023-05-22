@@ -35,4 +35,6 @@ public interface CoMapper {
 	public CoVO selectOffer(CoVO vo);
 
 	public int uploadProfileImg(CoVO vo);
+
+	public List<CoVO> selectNewApply(String id);
 }

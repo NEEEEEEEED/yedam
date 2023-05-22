@@ -101,31 +101,22 @@ i {
 					<div id="firstTop" class="card-body">
 						<h5 class="text-center mb-5">새로운 지원</h5>
 						<div class="row" >
-							<div class="col-lg-7 fs-1 lrpadding " >
+							<div class="col-lg-6 fs-1 lrpadding vr" >
 								<p class="fw-bold">구인공고 : 사람 구합니다.</p>
-								<p>이력서 제목 : 열심히 할게요d <small class="text-danger ml-2"> 미열람</small></p>
+								<p>이력서 제목 : 열심히 할게요d</p>
 								<p>지원자 : 박주안</p>
 							</div>
 							<div class="col-lg-3">
-								<p class="mt-5">합격여부 : 대기중</p>
+								<p class="">마감일자 : 23/05/22</p>
+								<p class="">합격여부 : 대기중</p>
 								<p >지원일자 23/05/20</p>
 							</div>
-							<hr>
-						</div>
-						<div class="row" >
-							<div class="col-lg-7 fs-1 lrpadding " >
-								<p><span class="fw-bold">구인공고 : 사람 구합니다.</span></p>
-								<p>이력서 제목 : 열심히 할게요d </p>
-								<p>지원자 : 박주안</p>
-							</div>
-							<div class="col-lg-3">
-								<p class="mt-8">지원일자 23/05/20</p>
-							</div>
-							<div class="col-lg-2">
-								<p class="mt-8">미열람</p>
+							<div class="col-lg-3 text-center">
+								<p class="mt-8 text-danger">미열람</p>
 							</div>
 							<hr>
 						</div>
+						
 					</div>
 
 					<!-- 밑은 tableMenu 갈아끼우기  -->
@@ -274,6 +265,49 @@ i {
 
 
 		<script>
+		$(document).ready(function () {
+			selectNewApply();	//화면 열자마자 새로운 지원 조회
+		});
+		
+		function selectNewApply(){
+			$.ajax({
+				url : "/selectNewApply",
+				method : "GET",
+				dataType : "json",
+				success : function(res) {
+					console.log(res);
+					makeNewApplyList(res); // 새로운 지원 그리기
+				},
+				error : function(jqXHR, textStatus, errorThrown) {
+					console.error(textStatus, errorThrown);
+				}
+			});	
+		}
+		
+		// 새로운 지원 그리는 함수
+		function makeNewApplyList(res){
+			let newApplyList = '';
+			for(let i=0;i<res.length;i++){
+				newApplyList += `<div class="row" onclick="location.href='/viewResume?id=`+res[i].id+`&resumeNo=`+res[i].resumeNo+`'"} >
+									<div class="col-lg-6 fs-1 lrpadding vr" >
+										<p class="fw-bold">구인공고 : `+res[i].attl+`</p>
+										<p>이력서 제목 : `+res[i].rttl+`</p>
+										<p>지원자 : `+res[i].id+`</p>
+									</div>
+									<div class="col-lg-3">
+										<p class="">마감일자 : `+res[i].exprDt+`</p>
+										<p class="">합격여부 : `+res[i].win+`</p>
+										<p >지원일자 23/05/20</p>
+									</div>
+									<div class="col-lg-3 text-center">
+										<p class="mt-8 text-danger"></p>
+									</div>
+									<hr>
+								</div>`
+			}
+			firstTop.innerHTML += newApplyList;
+		}
+		
 		//이미지클릭 
 		function updateImgPage(){//기업정보등록페이지 이미지변경화면으로 이동
 			location.href="/coInfoPage"	

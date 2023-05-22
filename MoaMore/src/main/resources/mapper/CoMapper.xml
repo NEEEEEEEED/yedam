@@ -275,4 +275,24 @@
 	END;
 	</insert>
 	
+	<!-- 지원관리 -->
+	<!-- 합격유무 없는 새로운 지원 조회 -->
+	<select id="selectNewApply" parameterType="String" resultType="CoVO">
+		SELECT  s.recruit_no,
+				s.resume_no,
+				s.id,
+				s.aply_st,
+				s.aply_dt,
+				s.st,
+				get_common(s.win) as win,
+				a.ttl as attl, 
+				a.expr_dt, 
+				r.ttl as rttl 
+		 FROM recruit_anum_st s JOIN recruit_anun a 
+		   ON s.recruit_no = a.recruit_no
+		 JOIN resume r 
+		   ON r.resume_no = s.resume_no
+		WHERE s.win = 'T2' AND a.id = #{id}
+	</select>
+	
 </mapper>

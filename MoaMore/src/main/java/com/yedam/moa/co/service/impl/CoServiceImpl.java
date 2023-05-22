@@ -67,6 +67,11 @@ public class CoServiceImpl implements CoService{
 	public int uploadProfileImg(CoVO vo) {
 		return mapper.uploadProfileImg(vo);
 	}
+
+	@Override
+	public List<CoVO> selectNewApply(String id) {
+		return mapper.selectNewApply(id);
+	}
 	
 	
 	
