@@ -212,6 +212,22 @@ public class HireServiceImpl implements HireService{
 		}
 			
 	}
+	// 메인 페이지
+	// 유료
+	@Override
+	public List<HireVO> prdtSelect(HireVO hireVO) {
+		return hireMapper.prdtSelect(hireVO);
+	}
+	// 인기
+	@Override
+	public List<HireVO> popSelect(HireVO hireVO) {
+		return hireMapper.popSelect(hireVO);
+	}
+	// 최신
+	@Override
+	public List<HireVO> newSelect(HireVO hireVO) {
+		return hireMapper.newSelect(hireVO);
+	}
 	
 	
 	

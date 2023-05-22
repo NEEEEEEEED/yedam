@@ -39,4 +39,6 @@ public interface MemService {
 	
 	public void updateRe(ResumeVO vo);
 	
+	public int checkId(MemInfoVO vo);
+	
 }

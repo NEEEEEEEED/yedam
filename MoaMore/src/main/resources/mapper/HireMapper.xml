@@ -52,7 +52,8 @@
        		<if test="skill != null and skill != ''">
        			AND K.SKILL LIKE '%' || get_common(#{skill}) || '%'
        		</if>
-	   AND TO_DATE(R.ACCP_DT, 'YYYY-MM-DD') BETWEEN TO_DATE(#{accpDt}, 'YYYY-MM-DD') AND TO_DATE(#{exprDt}, 'YYYY-MM-DD')
+	   <![CDATA[AND TO_DATE(sysdate, 'YYYY-MM-DD') < TO_DATE(EXPR_DT, 'YYYY-MM-DD')]]>
+	   AND R.ACCP_DT IS NOT NULL
        ORDER BY RECRUIT_NO DESC
                
 	</select>
@@ -84,7 +85,8 @@
 		ON R.RECRUIT_NO = I.RECRUIT_NO
 		WHERE S.RECRUIT_NO IS NOT NULL
         AND M.ID = #{id}
-        AND TO_DATE(R.ACCP_DT, 'YYYY-MM-DD') BETWEEN TO_DATE(#{accpDt}, 'YYYY-MM-DD') AND TO_DATE(#{exprDt}, 'YYYY-MM-DD')
+        <![CDATA[AND TO_DATE(sysdate, 'YYYY-MM-DD') < TO_DATE(EXPR_DT, 'YYYY-MM-DD')]]>
+	   	AND R.ACCP_DT IS NOT NULL
         ORDER BY RECRUIT_NO DESC 
 	</select>
 	<!-- 상세조회 -->
@@ -306,6 +308,8 @@
 	<delete id="hireImgDelete" parameterType="HireVO">
 		DELETE FROM RECRUIT_IMAGES WHERE RECRUIT_NO = #{recruitNo}
 	</delete>
+	
+	
 	<!-- 메인 페이지 -->
 	<!-- 유료 공고 -->
 	<select id="prdtSelect" resultType="HireVO">
@@ -313,8 +317,9 @@
 		       get_common(CARR) AS CARR,
 		       get_common(JOB) AS JOB,
 		       C.CO_NM,
-		       R.EXPR_DT,
-		       I.CO_IMG
+		       I.CO_IMG,
+		       R.RECRUIT_NO,
+		       K.SKILL
 		FROM RECRUIT_ANUN R
 		JOIN CO C
 		    ON R.ID = C.ID
@@ -322,27 +327,41 @@
 		    ON R.RECRUIT_NO = I.RECRUIT_NO
 		JOIN REC_RESER S
 		    ON R.RECRUIT_NO = S.RECRUIT_NO
+		    JOIN (SELECT recruit_no , LISTAGG(SKILL,',') WITHIN GROUP (ORDER BY SKILL_NO) as SKILL
+              FROM RECRUIT_SKILL
+              GROUP BY recruit_no) k
+        	ON R.RECRUIT_NO = K.RECRUIT_NO
 		WHERE S.RESER_DT = TO_CHAR(SYSDATE, 'yyyy-MM-dd')
+		<![CDATA[AND TO_DATE(sysdate, 'YYYY-MM-DD') < TO_DATE(EXPR_DT, 'YYYY-MM-DD')]]>
+	   	AND R.ACCP_DT IS NOT NULL
 	</select>
 	<!-- 최신 공고 -->
 	<select id="newSelect" resultType="HireVO">
-	   SELECT  R.TTL,
+	    SELECT R.TTL,
 		       C.CO_NM,
-               R.ACCP_DT,
-               ROW_NUMBER() OVER (ORDER BY R.ACCP_DT DESC)
+               ROW_NUMBER() OVER (ORDER BY R.ACCP_DT DESC),
+               R.RECRUIT_NO,
+               S.SKILL
 		FROM RECRUIT_ANUN R
 		JOIN CO C
 			ON R.ID = C.ID
+		JOIN (SELECT recruit_no , LISTAGG(SKILL,',') WITHIN GROUP (ORDER BY SKILL_NO) as SKILL
+              FROM RECRUIT_SKILL
+              GROUP BY recruit_no) S
+			ON S.RECRUIT_NO = R.RECRUIT_NO
 		WHERE 1=1
         <![CDATA[AND ROWNUM < 4]]>
-        AND TO_DATE(R.ACCP_DT, 'YYYY-MM-DD') BETWEEN TO_DATE(#{accpDt}, 'YYYY-MM-DD') AND TO_DATE(#{exprDt}, 'YYYY-MM-DD')
+        <![CDATA[AND TO_DATE(sysdate, 'YYYY-MM-DD') < TO_DATE(EXPR_DT, 'YYYY-MM-DD')]]>
+	   	AND R.ACCP_DT IS NOT NULL
 	</select>
 	<!-- 인기 공고 -->
 	<select id="popSelect" resultType="HireVO">
 		SELECT F.CNT, 
 		       F.RECRUIT_NO, 
 		       R.TTL,
-		       C.CO_NM
+		       C.CO_NM,
+		       R.RECRUIT_NO,
+		       S.SKILL
 		FROM (
 		    SELECT COUNT(RECRUIT_NO) AS CNT, 
 		           RECRUIT_NO
@@ -354,8 +373,14 @@
 		    ON R.RECRUIT_NO = F.RECRUIT_NO
 		JOIN CO C
 		    ON C.ID = R.ID
+		JOIN (SELECT recruit_no , LISTAGG(SKILL,',') WITHIN GROUP (ORDER BY SKILL_NO) as SKILL
+              FROM RECRUIT_SKILL
+              GROUP BY recruit_no) S
+			ON S.RECRUIT_NO = R.RECRUIT_NO
 		WHERE 1=1
 		<![CDATA[AND ROWNUM < 4]]>
+		<![CDATA[AND TO_DATE(sysdate, 'YYYY-MM-DD') < TO_DATE(EXPR_DT, 'YYYY-MM-DD')]]>
+	   	AND R.ACCP_DT IS NOT NULL
 	</select>
   <!-- 구인 공고삭제 : 관리자 -->
 	<delete id="recruitDelFn" statementType="CALLABLE" parameterType="String">

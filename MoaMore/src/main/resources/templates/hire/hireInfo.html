@@ -128,7 +128,7 @@ body {
 							<div id="resumeGrid"></div>
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-outline-dark" data-dismiss="modal" id="recruitMod">이력서 수정</button>
+							<button type="button" class="btn btn-outline-dark" data-dismiss="modal" id="resumeMod">이력서 수정</button>
 							<button type="button" class="btn btn-outline-dark" data-dismiss="modal" id="recruitInsert">지원하기</button>
 						</div>
 					</div>
@@ -378,13 +378,6 @@ body {
 		return years + "-" + month + "-" + day;
 	}
 
-	// 이력서 수정 페이지 이동
-	$('#recruitMod').on('click',function(e){
-		e.preventDefault();
-
-		location.href="/";
-	});
-	
 	// 체크한것만 찾기
 	grid.on('check', (ev) => {
 		checkLen = grid.getCheckedRows().length;
@@ -408,10 +401,25 @@ body {
 		let recruitNo = nowRecruitNo.value; // 현재보고있는 공고
 		let resumeNo = str; // 체크한 이력서 번호
 		resumeInsert(resumeNo, id, recruitNo);
+		resumeMod(e);
 		
 		$('#exampleModal').modal('hide');
 	    $('.modal-backdrop').remove();
 	});
+	
+	// 이력서수정으로 이동
+	$(document).on('click', '#resumeMod', function resumeMod(e){
+		for (let i = 0; i < checkLen; i++) {
+	        str += grid.getCheckedRows()[i].resumeNo;
+	    }
+		e.preventDefault();
+		let id = logId.value; // 로그인한 아이디
+		let resumeNo = str; // 체크한 이력서 번호
+		console.log(id);
+		console.log(resumeNo);
+ 		location.href="/mem/modRe?id="+id+"&resumeNo="+resumeNo;
+	});
+	
 	// 공고 지원하기
 	function resumeInsert(resumeNo, id, recruitNo){
 		$.ajax({
@@ -428,7 +436,7 @@ body {
 			error: function (reject) {	   
 				Swal.fire({
 				  icon: 'error',
-				  title: result
+				  title: reject
 				});
 			}
 		});
@@ -521,12 +529,6 @@ body {
 	}
 	
 	
-	// 이력서수정으로 이동
-	$(document).on('click', '#recruitMod', function(e){
-		e.preventDefault();
-
-		location.href="/";
-	});
 	
 </script>
 	</div>

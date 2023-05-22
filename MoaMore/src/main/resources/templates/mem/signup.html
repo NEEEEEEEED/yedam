@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- editor -->
+    <link
+      rel="stylesheet"
+      href="https://uicdn.toast.com/editor/latest/toastui-editor.css"
+    />
+    <!-- DatePicker -->
+    <link
+      rel="stylesheet"
+      href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css"
+    />
+    <script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.js"></script>
+    <!-- grid -->
+    <link
+      rel="stylesheet"
+      href="https://uicdn.toast.com/grid/latest/tui-grid.css"
+    />
+    <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
+    <!-- SweetAlert -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+    <!-- 		icon-cdn for Bootstrap -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css"
+    />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+
+    <link href="/vendors/prism/prism.css" rel="stylesheet" />
+    <link href="/vendors/swiper/swiper-bundle.min.css" rel="stylesheet" />
+    <link href="/assets/css/theme.css" rel="stylesheet" />
+    <!--     <link href="/assets/css/user.css" rel="stylesheet" /> -->
+
+    <!-- ===============================================-->
+    <!--    JavaScripts-->
+    <!-- ===============================================-->
+    <script src="/vendors/popper/popper.min.js"></script>
+    <script src="/vendors/bootstrap/bootstrap.min.js"></script>
+    <script src="/vendors/anchorjs/anchor.min.js"></script>
+    <script src="/vendors/is/is.min.js"></script>
+    <script src="/vendors/fontawesome/all.min.js"></script>
+    <script src="/vendors/lodash/lodash.min.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
+    <script src="/vendors/prism/prism.js"></script>
+    <script src="/vendors/swiper/swiper-bundle.min.js"></script>
+    <script src="/assets/js/theme.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <style>
+      .inpCon {
+        width: 700px;
+        height: fit-content;
+      }
+      .hit {
+        height: 1500px;
+      }
+    </style>
+    <title>Insert title here</title>
+  </head>
+  <body>
+    <div class="bg-light">
+      <div class="container d-flex justify-content-center">
+        <!--  <main>-->
+        <div class="row g-5 inpCon align-items-center">
+          <div class="col-md-7 col-lg-8 mx-auto">
+            <label>회원가입</label>
+            <form
+              class="needs-validation"
+              name="signUp"
+              action="signUp.do"
+              method="post"
+              onsubmit="return joinform_check()"
+            >
+              <div class="row g-3">
+                <div class="col-12">
+                  <label
+                    for="userid"
+                    class="form-label"
+                    style="width: 150px; text-align: left"
+                    ><b>아이디</b></label
+                  >
+                  <input
+                    type="text"
+                    class="form-control input_id"
+                    id="uid"
+                    placeholder="아이디를 입력해 주세요"
+                    name="suid"
+                    required
+                  />
+                  <font id="checkId" size="2"></font>
+                  <div class="invalid-feedback">아이디를 입력해 주세요</div>
+                </div>
+
+                <div class="col-12">
+                  <label
+                    for="password"
+                    class="form-label"
+                    style="width: 150px; text-align: left; text-align: left"
+                    ><b>비밀번호</b></label
+                  >
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="ups"
+                    placeholder="비밀번호를 입력해 주세요"
+                    name="supw"
+                    required
+                  />
+                  <div class="invalid-feedback">비밀번호 입력해 주세요</div>
+                </div>
+                <div class="col-12">
+                  <label
+                    for="passwordCheck"
+                    class="form-label"
+                    style="width: 150px; text-align: left"
+                    ><b>비밀번호 확인</b>
+                  </label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="pscheck"
+                    name="pscheck"
+                    placeholder="비밀번호 확인"
+                    required
+                  />
+                  <font id="checkUps" size="2"></font>
+                  <div class="invalid-feedback">
+                    비밀번호 확인 입력해 주세요
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <label
+                    for="username"
+                    class="form-label"
+                    style="width: 150px; text-align: left"
+                    ><b>이름</b></label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="uname"
+                    name="suname"
+                    placeholder="이름을 입력해 주세요"
+                    required
+                  />
+                  <div class="invalid-feedback">이름을 입력해 주세요</div>
+                </div>
+
+                <div class="col-12">
+                  <label
+                    for="email"
+                    class="form-label"
+                    style="width: 150px; text-align: left"
+                    >연락처</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="uphone"
+                    name="uphone"
+                    placeholder="01012341234 형식으로 입렵해주세요"
+                  />
+                  <div class="invalid-feedback">전화번호를 입력 해 주세요</div>
+                </div>
+              </div>
+
+              <hr class="my-4" />
+              <div class="d-flex">
+                <button class="w-50 btn btn-lg" id="btnSign">회원가입</button>
+                <button
+                  class="w-50 btn btn-lg"
+                  type="button"
+                  onclick="history.back()"
+                >
+                  취소
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <!-- </main>-->
+      </div>
+    </div>
+
+    <script>
+      $(document).ready(function () {
+        var regExp =
+          /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+
+        $(".input_id").focusout(function () {
+          let userId = $(".input_id").val().trim();
+          console.log(userId);
+          $.ajax({
+            url: "/checkId",
+            type: "GET",
+            data: { id: userId },
+            success: function (result) {
+              if (result.retCode == "Fail") {
+                $("#checkId").html("사용할 수 없는 아이디 입니다.");
+                $("#checkId").attr("color", "red");
+              } else if (
+                result.retCode == "Success" &&
+                $(".input_id").val() == ""
+              ) {
+                $("#checkId").html("아이디를 입력하세요");
+                $("#checkId").attr("color", "red");
+              } else {
+                $("#checkId").html("사용할 수 있는 아이디 입니다.");
+                $("#checkId").attr("color", "green");
+              }
+            },
+            error: function () {
+              alert("서버요청 실패");
+            },
+          });
+        });
+
+        $("#pscheck").focusout(function () {
+          let pscheck = $("#pscheck").val().trim();
+          let ps = $("#ups").val().trim();
+          console.log(pscheck);
+          if (pscheck == null || pscheck == "") {
+            $("#checkUps").html("");
+          } else if (ps != pscheck) {
+            $("#checkUps").html("비밀번호가 일치하지 않습니다.");
+            $("#checkUps").attr("color", "red");
+          } else {
+            $("#checkUps").html("비밀번호가 일치합니다.");
+            $("#checkUps").attr("color", "green");
+          }
+        });
+
+        //joinform_check 함수로 유효성 검사
+        function joinform_check() {
+          //변수에 담아주기
+          let uid = document.getElementById("uid");
+          let pwd = document.getElementById("ups");
+          let pscheck = document.getElementById("pscheck");
+          let repwd = document.getElementById("checkUps").getAttribute("color");
+          let uname = document.getElementById("uname");
+          let mobile = document.getElementById("uphone");
+          console.log(repwd);
+
+          if (uid.value == "") {
+            //해당 입력값이 없을 경우 같은말: if(!uid.value)
+            alert("아이디를 입력하세요.");
+            uid.focus(); //focus(): 커서가 깜빡이는 현상, blur(): 커서가 사라지는 현상
+            return false; //return: 반환하다 return false:  아무것도 반환하지 말아라 아래 코드부터 아무것도 진행하지 말것
+          }
+
+          if (pwd.value == "") {
+            alert("비밀번호를 입력하세요.");
+            pwd.focus();
+            return false;
+          }
+
+          //비밀번호 영문자+숫자+특수조합(8~25자리 입력) 정규식
+          let pwdCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
+
+          if (!pwdCheck.test(pwd.value)) {
+            alert(
+              "비밀번호는 영문자+숫자+특수문자 조합으로 8~25자리 사용해야 합니다."
+            );
+            pwd.focus();
+            return false;
+          }
+
+          if (repwd == "red") {
+            alert("비밀번호가 일치하지 않습니다.");
+            pscheck.focus();
+            return false;
+          }
+
+          if (uname.value == "") {
+            alert("이름을 입력하세요.");
+            uname.focus();
+            return false;
+          }
+
+          var reg = /^[0-9]+/g; //숫자만 입력하는 정규식
+
+          if (!reg.test(mobile.value)) {
+            alert("전화번호는 숫자만 입력할 수 있습니다.");
+            mobile.focus();
+            return false;
+          }
+
+          //입력 값 전송
+          document.signUp.submit(); //유효성 검사의 포인트
+        }
+      });
+    </script>
+  </body>
+</html>
