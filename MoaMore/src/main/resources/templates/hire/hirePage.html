@@ -96,7 +96,7 @@
 					"wksite" : $("#loc").val(), // 지역
 					"carr" : $("#cre").val(), // 경력
 					"skill" : $("#skl").val(), // 기술스펙
-					"scrapYn" : "Y" // 스크랩 여부
+					"scrapYn" : "Y" // 스크랩 여부,
 	    	    } 
 			
 			search(data);
@@ -151,11 +151,11 @@
 		                	str2 = `<div class="d-flex align-items-center justify-content-center justify-content-md-start gap-2 mt-3">
 		                				<a href="/hireInfo?recruitNo=`+item.recruitNo+`&skill=`+item.skill+`" style="text-decoration: none;">						
 		                							<p class="fw-bold mb-0 text-black" >`+item.skill+`</p>
-													<p class="mb-0"  >`+item.exprDt+`</p>
+													<p class="mb-0">`+item.exprDt+`</p>
 												</div>
 												
 												<h5 class="mt-1 mb-3 fs-0 fs-md-1" >`+item.ttl+`</h5>
-												<p class="mb-0" >`+item.wksite+`</p>
+												<p class="mb-0">`+item.wksite+`</p>
 												
 												<div class="d-flex align-items-center justify-content-center justify-content-md-start gap-3">
 														`;

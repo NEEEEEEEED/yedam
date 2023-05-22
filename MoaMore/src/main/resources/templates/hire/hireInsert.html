@@ -151,7 +151,7 @@ body {
 					</div>
 					<br>
 					<div id="imageRows" class="col-md-12">
-						<div style="background-color : plum; text-align:center; color:white; flex" id="selectImages">이미지가 비었습니다. 이미지를 업로드 해주세요.</div>
+						<div style="background-color : gray; text-align:center; color:white; flex" id="selectImages">이미지가 비었습니다. 이미지를 업로드 해주세요.</div>
 					</div>
 					<br>
 					<div id="editor2"></div>
@@ -344,15 +344,7 @@ let wksite = $('#wksite').val(); // 지역
 			        processData: false, //프로세스 데이터 설정 : false 값을 해야 form data로 인식합니다
 			        contentType: false, //헤더의 Content-Type을 설정 : false 값을 해야 form data로 인식합니다
 					success: function (result) {
-						imageRows.innerHTML = ''; // 초기화
-						
-						let iamgeHtml = '';
-						for(let i = 0 ; i < result.length; i++){
-							iamgeHtml += imageListPrint(result[i]);
-						}		
-						
-						imageRows.innerHTML= iamgeHtml;			
-						console.log(imageRows.innerHTML);
+						imageListPrint();
 					},
 			 		error: function (reject) {	   
 			    		console.log(reject);
@@ -361,22 +353,12 @@ let wksite = $('#wksite').val(); // 지역
 			}
 
 			// 등록하는 이미지 목록 그리는 함수
-			function imageListPrint(result={}){
+			function imageListPrint(){
 				
 				let imageHtml = `<div class="row align-items-center border-bottom hoverRow mb-3">
-							        <div class="col-md-3">
-							        <div>
-								        <span>썸네일 : </span>
-								      	<img class="img-fluid imgSize" src="/moamoreImg/`+result.coImg+`" alt="이미지없음">
-							      	<div>
-			 						<div>
-				 						<span>상세이미지 : </span>
-								      	<img class="img-fluid imgSize" src="/moamoreImg/`+result.recruitImg+`" alt="이미지없음">
-							      </div>
-								 </div>
-							     <div class="col-md-2" >
-								     <button id="`+result.recruitImgNo+`" data-no="`+result.recruitImgNo+`" onclick="deletePofol(this)" type="button" style="margin-left : 20px; padding:15px;" class="btn-close" aria-label="Close"></button>
-								 </div>             
+							        <div class="col-md-12">
+							        	<div style="background-color : plum; text-align:center; color:white; flex" id="selectImages">이미지 등록완료.</div>
+							        </div>            
 							</div>`;
 								
 				$('#selectImages').html(imageHtml);

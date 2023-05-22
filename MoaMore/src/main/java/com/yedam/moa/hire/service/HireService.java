@@ -23,5 +23,9 @@ public interface HireService {
 	public List<HireVO> hireImgInsertList(HireVO vo); // 공고 이미지 조회
 	public int hireModify(HireVO vo); // 공고 수정 기능
 	public int hireImgModify(HireVO vo); // 공고 이미지 수정
+	
+	public List<HireVO> prdtSelect(HireVO hireVO);// 메인페이지 - 유료
+	public List<HireVO> popSelect(HireVO hireVO);// 메인페이지 - 인기
+	public List<HireVO> newSelect(HireVO hireVO);// 메인페이지 - 최신
 			
 }
