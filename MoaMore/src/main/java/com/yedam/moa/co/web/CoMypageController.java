@@ -67,11 +67,27 @@ public class CoMypageController {
 	}
 	
 	// 공고의 새로운 지원목록
-	@GetMapping("selectNewApply")
+	@GetMapping("/selectNewApply")
 	@ResponseBody
 	public List<CoVO> selectNewApply(Principal principal) {
 		String id = principal.getName();
 		return service.selectNewApply(id);
+	}
+	
+	// 공고의 처리된 지원목록
+	@GetMapping("/selectCompletedApply")
+	@ResponseBody
+	public List<CoVO> selectCompletedApply(Principal principal) {
+		String id = principal.getName();
+		return service.selectCompletedApply(id);
+	}
+	
+	// 지원 합격 처리
+	@GetMapping("/acceptApply")
+	@ResponseBody
+	public String acceptApply(CoVO vo) {
+		System.out.println(vo);
+		return "test";
 	}
 
 	// 기업정보등록/수정 페이지
