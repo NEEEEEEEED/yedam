@@ -476,5 +476,21 @@
       from MEMBER 
      where id=#{id}
 	</select>
-	
+	<select id="getPageCnt" resultType="int">
+		SELECT  COUNT(*)
+		FROM	RESUME
+		where 	id=#{id}
+	</select>
+	<select id="resumeList" resultType="ResumeVO">
+	<![CDATA[SELECT * 
+	FROM   (
+			SELECT a.* ,rownum rn from 
+					(SELECT * 
+					 FROM resume
+					 WHERE id = #{id}
+					 ORDER BY resume_no desc ) a 
+			 WHERE rownum <= #{page}*#{perPageNum})
+	WHERE   rn > #{pageStart}]]>
+
+	</select>
 </mapper>

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.yedam.moa.community.Criteria;
 import com.yedam.moa.mem.MemInfoVO;
 import com.yedam.moa.mem.MemVO;
 import com.yedam.moa.mem.PrtflVO;
@@ -324,5 +325,27 @@ public class MemServiceImpl implements MemService {
 	@Override
 	public int checkId(MemInfoVO vo) {
 		return mem.checkId(vo);
+	}
+
+	@Override
+	public int getPageCnt(String id) {
+		return mem.getPageCnt(id);
+	}
+
+	@Override
+	public List<ResumeVO> resumeList(Criteria cri) {
+		return mem.resumeList(cri);
+	}
+
+	@Override
+	public int delResume(ResumeVO rvo) {
+		int count = mem.getPageCnt(rvo.getId());
+		 mem.delResume(rvo);
+		 int countAft = mem.getPageCnt(rvo.getId());
+		 if(count-countAft==1) {
+			 return 1;
+		 }else {
+			 return 0;
+		 }
 	}
 }
