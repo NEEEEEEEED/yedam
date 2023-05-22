@@ -51,9 +51,11 @@
 					<p style="text-align : center;">최신 공고</p>
 					<hr>
 					<ul th:each="newSelect:${newSelect}">
+							<li th:text="|${newSelect.ttl}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp${newSelect.coNm}|">
 						<a th:href="@{/hireInfo(recruitNo=${newSelect.recruitNo}&skill=${newSelect.skill})}">
-							<li th:text="|${newSelect.ttl}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp${newSelect.coNm}|"></li>
+							a태그
 						</a>
+							</li>
 					</ul>
 				</div>	
             </div>
@@ -68,9 +70,11 @@
 					<p style="text-align : center;">인기 공고</p>
 					<hr>
 					<ul th:each="popSelect:${popSelect}">
+							<li th:text="|${popSelect.ttl}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp${popSelect.coNm}|">
 						<a th:href="@{/hireInfo(recruitNo=${popSelect.recruitNo}&skill=${popSelect.skill})}">
-							<li th:text="|${popSelect.ttl}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp${popSelect.coNm}|"></li>
+								a태그
 						</a>
+							</li>
 					</ul>
 				</div>	
             </div>
