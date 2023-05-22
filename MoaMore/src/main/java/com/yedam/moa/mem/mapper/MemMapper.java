@@ -2,6 +2,7 @@ package com.yedam.moa.mem.mapper;
 
 import java.util.List;
 
+import com.yedam.moa.community.Criteria;
 import com.yedam.moa.mem.ArdVO;
 import com.yedam.moa.mem.CarrVO;
 import com.yedam.moa.mem.EduVO;
@@ -84,4 +85,8 @@ public interface MemMapper {
 	public void delResume(ResumeVO rvo); 
 	
 	public int checkId(MemInfoVO vo);
+	
+	public int getPageCnt(String id);
+	
+	public List<ResumeVO> resumeList(Criteria cri);
 }
