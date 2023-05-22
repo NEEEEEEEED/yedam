@@ -382,6 +382,25 @@
 		<![CDATA[AND TO_DATE(sysdate, 'YYYY-MM-DD') < TO_DATE(EXPR_DT, 'YYYY-MM-DD')]]>
 	   	AND R.ACCP_DT IS NOT NULL
 	</select>
+	<!-- 셀프구직(관심순) -->
+	<select id="popSelf" resultType="CommunityVO">
+		SELECT TTL,
+		       ID
+		FROM JOB_SEARCH_NOTIWR 
+		WHERE 1=1
+		<![CDATA[AND ROWNUM < 4]]>
+		ORDER BY INTEREST
+	</select>
+	<!-- 취업 Q&A 게시글 Best3 출력 추천, 댓글, 조회수순 -->
+	<select id="jobQnaBest" resultType="CommunityVO">
+		<![CDATA[ SELECT *
+				    FROM (
+					  SELECT QA_NOTIWR_NO, TTL, ID, CNTN, HTML_CNTN, INQ_CNT, RPLY_CNT, REG_DT, RECO_CNT
+					  FROM EMPL_QST
+					  ORDER BY RECO_CNT DESC, RPLY_CNT DESC, INQ_CNT DESC
+				    )
+				   WHERE ROWNUM <= 3 ]]>
+	</select>
   <!-- 구인 공고삭제 : 관리자 -->
 	<delete id="recruitDelFn" statementType="CALLABLE" parameterType="String">
    		{ 
