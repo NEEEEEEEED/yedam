@@ -26,7 +26,6 @@ public class MoaMoreApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MoaMoreApplication.class, args);
 	}
-	
 	@GetMapping("/login")
 	public String hello() {
 		return "loginForm";
@@ -38,7 +37,9 @@ public class MoaMoreApplication {
 		
 		model.addAttribute("prdtSelect",hireService.prdtSelect(hireVO)); // 유료공고
 		model.addAttribute("newSelect",hireService.newSelect(hireVO)); // 최신공고
+		System.out.println("최신"+hireService.newSelect(hireVO));
 		model.addAttribute("popSelect",hireService.popSelect(hireVO)); // 인기공고
+		System.out.println("인기"+hireService.popSelect(hireVO));
 		return "main";
 	}
 	@GetMapping("/vueAdmin")
