@@ -38,6 +38,10 @@
       .reTlCn {
         position: relative;
       }
+      .strong {
+        font-weight: 1000;
+        font-size: larger;
+      }
       /*       #pofolBtn{ */
       /*        height: 40px; */
       /*        float: right; */
@@ -79,7 +83,7 @@
               <div class="row gy-3">
                 <div class="col-md-3">
                   <div>
-                    <small class="my-1"> 이름 </small>
+                    <small class="my-1"><b>이름</b></small>
 
                     <div class="my-2">[[${info.name}]]</div>
                   </div>
@@ -87,7 +91,7 @@
 
                 <div class="col-md-3">
                   <div>
-                    <small class="my-1"> 생년월일 </small>
+                    <small class="my-1"><b>생년월일</b></small>
 
                     <div class="my-2">[[${info.birth}]]</div>
                   </div>
@@ -95,7 +99,7 @@
 
                 <div class="col-md-4">
                   <div>
-                    <small class="my-1"> 이메일 </small>
+                    <small class="my-1"><b> 이메일</b></small>
 
                     <div class="my-2">[[${info.email}]]</div>
                   </div>
@@ -103,7 +107,7 @@
 
                 <div class="col-md-2">
                   <div>
-                    <small class="my-1"> 성별 </small>
+                    <small class="my-1"><b> 성별</b></small>
 
                     <div class="my-2">[[${info.gen}]]</div>
                   </div>
@@ -114,7 +118,7 @@
               <div class="row gy-3 mt-3">
                 <div class="col-md-3 mt-0">
                   <div>
-                    <small class="my-1"> 전화번호 </small>
+                    <small class="my-1"><b> 전화번호</b></small>
 
                     <div class="my-2">[[${info.ph}]]</div>
                   </div>
@@ -122,7 +126,7 @@
 
                 <div class="col-md-3 mt-0">
                   <div>
-                    <small class="my-1"> 휴대폰 </small>
+                    <small class="my-1"><b>휴대폰</b></small>
 
                     <div class="my-2">[[${info.phCl}]]</div>
                   </div>
@@ -130,14 +134,14 @@
 
                 <div class="col-md-4 mt-0">
                   <div>
-                    <small class="my-1"> 주소 </small>
+                    <small class="my-1"><b>주소</b></small>
 
                     <div class="my-2">[[${info.addr}]]</div>
                   </div>
                 </div>
                 <div class="col-md-2 mt-0">
                   <div>
-                    <small class="my-1"> 우편 번호 </small>
+                    <small class="my-1"><b>우편 번호</b></small>
 
                     <div class="my-2">[[${info.post}]]</div>
                   </div>
@@ -247,19 +251,19 @@
                             th:if="${saStat.index}>1"
                           ></div>
 
-                          <div class="col-md-3">[[${sa.fgCo}]]</div>
+                          <div class="col-md-3 strong">[[${sa.fgCo}]]</div>
                           <div class="col-md-9">[[${sa.breu}]]</div>
-                          <div class="col-md-3">전공</div>
+                          <div class="col-md-3 strong">전공</div>
                           <div class="col-md-9">[[${sa.mj}]]</div>
-                          <div class="col-md-3">학점</div>
+                          <div class="col-md-3 strong">학점</div>
                           <div class="col-md-9">
                             [[${sa.pnt}]] / [[${sa.ttCo}]]
                           </div>
-                          <div class="col-md-3">기간</div>
+                          <div class="col-md-3 strong">기간</div>
                           <div class="col-md-9">
                             [[${sa.joinYy}]] ~ [[${sa.retiYy}]]
                           </div>
-                          <div class="col-md-3">졸업 유무</div>
+                          <div class="col-md-3 strong">졸업 유무</div>
                           <div class="col-md-9">[[${sa.shcrStCo}]]</div>
                         </div>
                       </div>
@@ -294,28 +298,27 @@
                             th:if="${carStat.index}>1"
                           ></div>
 
-                          <div class="col-md-3">회사명</div>
+                          <div class="col-md-3 strong">회사명</div>
                           <div class="col-md-9">[[${car.co}]]</div>
-                          <div class="col-md-3">직급</div>
+                          <div class="col-md-3 strong">직급</div>
                           <div class="col-md-9">[[${car.wkdtyCo}]]</div>
-                          <div class="col-md-3">부서</div>
+                          <div class="col-md-3 strong">부서</div>
                           <div class="col-md-9">[[${car.depart}]]</div>
-                          <div class="col-md-3">직무</div>
+                          <div class="col-md-3 strong">직무</div>
                           <div class="col-md-9">[[${car.dutyCo}]]</div>
-                          <div class="col-md-3">업무</div>
+                          <div class="col-md-3 strong">업무</div>
                           <div class="col-md-9">[[${car.buss}]]</div>
-                          <div class="col-md-3">기간</div>
+                          <div class="col-md-3 strong">기간</div>
                           <div class="col-md-9">
                             [[${car.joinYy}]] ~ [[${car.retiYy}]]
                           </div>
-                          <div class="col-md-3">재직 유무</div>
+                          <div class="col-md-3 strong">재직 유무</div>
                           <div class="col-md-9">[[${car.carrStCo}]]</div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div id="job" th:if="${resume.carrNo}==null"></div>
               </div>
             </div>
           </div>
@@ -338,14 +341,14 @@
                           th:if="${edusStat.index}>1"
                         ></div>
 
-                        <div class="col-md-3 px-2">기관명</div>
+                        <div class="col-md-3 px-2 strong">기관명</div>
                         <div class="col-md-9">[[${edus.breu}]]</div>
-                        <div class="col-md-3 px-2">교육명</div>
+                        <div class="col-md-3 px-2 strong">교육명</div>
                         <div class="col-md-9">[[${edus.eduNm}]]</div>
-                        <div class="col-md-3 px-2">이수내용</div>
+                        <div class="col-md-3 px-2 strong">이수내용</div>
                         <div class="col-md-9">[[${edus.cntn}]]</div>
 
-                        <div class="col-md-3">기간</div>
+                        <div class="col-md-3 strong">기간</div>
                         <div class="col-md-9">
                           [[${edus.joinYy}]] ~ [[${edus.retiYy}]]
                         </div>
@@ -376,11 +379,11 @@
                           th:if="${licStat.index}>1"
                         ></div>
 
-                        <div class="col-md-3 px-2">자격증명</div>
+                        <div class="col-md-3 px-2 strong">자격증명</div>
                         <div class="col-md-9">[[${lic.licnNm}]]</div>
-                        <div class="col-md-3 px-2">발급기관</div>
+                        <div class="col-md-3 px-2 strong">발급기관</div>
                         <div class="col-md-9">[[${lic.breu}]]</div>
-                        <div class="col-md-3">취득월</div>
+                        <div class="col-md-3 strong">취득월</div>
                         <div class="col-md-9">[[${lic.issuMm}]]</div>
                       </div>
                     </div>
@@ -406,13 +409,13 @@
                         th:if="${ardsStat.index}>1"
                       ></div>
 
-                      <div class="col-md-3 px-2">수상명</div>
+                      <div class="col-md-3 px-2 strong">수상명</div>
                       <div class="col-md-9">[[${ards.ardNm}]]</div>
-                      <div class="col-md-3 px-2">수여기관</div>
+                      <div class="col-md-3 px-2 strong">수여기관</div>
                       <div class="col-md-9">[[${ards.breu}]]</div>
-                      <div class="col-md-3">수상년도</div>
+                      <div class="col-md-3 strong">수상년도</div>
                       <div class="col-md-9">[[${ards.issuYy}]]</div>
-                      <div class="col-md-3">수여내용</div>
+                      <div class="col-md-3 strong">수여내용</div>
                       <div class="col-md-9">[[${ards.cntn}]]</div>
                     </div>
                   </div>
@@ -435,10 +438,10 @@
                 <div id="resumeText" th:if="${resume.introNo}!=null">
                   <div style="display: block" th:each="intro:${resume.intro}">
                     <div class="row gy-3 mb-4 mt-2">
-                      <p class="col-md-3">자기소개서 제목</p>
+                      <h4 class="col-md-3">자기소개서 제목</h4>
                       <div class="col-md-3">[[${intro.ttl}]]</div>
                       <div class="col-md-12">
-                        <p>내용</p>
+                        <h4>내용</h4>
                         <textarea
                           class="form-control"
                           name="cntn"
@@ -531,7 +534,6 @@
                 <button
                   id="backToBefore"
                   class="btn btn-outline-danger px-2 m-2"
-                  
                 >
                   돌아가기
                 </button>
@@ -542,9 +544,9 @@
       </div>
 
       <script>
-      $("#backToBefore").on("click",function(){
-    	   window.history.back();
-      })
+        $("#backToBefore").on("click", function () {
+          window.history.back();
+        });
       </script>
     </div>
   </body>

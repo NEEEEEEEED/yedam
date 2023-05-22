@@ -320,4 +320,9 @@ public class MemServiceImpl implements MemService {
 	public void updateRe(ResumeVO vo) {
 		mem.delResume(vo);
 	}
+
+	@Override
+	public int checkId(MemInfoVO vo) {
+		return mem.checkId(vo);
+	}
 }

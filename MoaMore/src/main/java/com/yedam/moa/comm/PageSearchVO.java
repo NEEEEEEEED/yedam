@@ -17,7 +17,9 @@ public class PageSearchVO {
         this.recordSize = 10;
         this.pageSize = 10;
     }
-	
+    public int getOffset() {
+        return (page - 1) * recordSize;
+    }  
 	
 	
 }
