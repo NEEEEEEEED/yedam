@@ -342,11 +342,13 @@ public class CommunityController {
 		}
 	}
 	
+	
 	// 프로젝트 모집 리스트
 	@GetMapping("/projectList")
 	public String projectListPage() {
 		return "community/projectListVue";
 	}
+	
 	
 	// 프로젝트 모집 리스트 axios 호출
 	@GetMapping("/projectBoards")
@@ -362,8 +364,7 @@ public class CommunityController {
 		// 프로젝트 모집 오늘날짜 오전 9시를 기준으로 모집 상태 update 
 		commuService.proCollstScheduler(); 
 		// 스터디 모집 오늘날짜 오전 9시를 기준으로 모집 상태 update 
-		commuService.studyCollstScheduler();
-		
+		commuService.studyCollstScheduler();	
     }
 	
 	
@@ -405,6 +406,7 @@ public class CommunityController {
 		return "community/projectDetailMod";
 	}
 	
+	
 	// 프로젝트 모집 수정 기능
 	@PostMapping("/projectMod")
 	@ResponseBody
@@ -422,18 +424,71 @@ public class CommunityController {
 			result.put("result", "Fail");
 			return result;
 		}
-		
 	}
 	
 	// 프로젝트 모집 삭제 기능
 	@PostMapping("/projectDel")
 	@ResponseBody
-	public Map<String, Object> projectDelFn(String prjtNo) {
+	public int projectDelFn(String prjtNo) {
 		
+		return commuService.projectDelFn(prjtNo);
+		
+	}
+	
+	// 프로젝트 모집 댓글 리스트
+	@PostMapping("/projectReplyList")
+	@ResponseBody
+	public List<ReplyVO> projectReplyList(@RequestBody ReplyVO replyVO){
+		return commuService.projectReplyList(replyVO);
+	}
+	
+	// 프로젝트 모집 댓글 등록
+	@PostMapping("/projectReplyAdd")
+	@ResponseBody
+	public Map<String, Object> projectReplyAdd(ReplyVO replyVO){
 		Map<String, Object> result = new HashMap<>();
 		
 		int r = 0;
-		r = commuService.projectDelFn(prjtNo);
+
+		r = commuService.projectReplyAdd(replyVO);
+		
+		if(r > 0) { // 등록 성공시
+			result.put("result", "Success");
+			return result;
+		}else {
+			result.put("result", "Fail");
+			return result;
+		}
+	}
+	
+	// 프로젝트 모집 댓글 수정 기능
+	@PostMapping("/projectReplyMod")
+	@ResponseBody
+	public Map<String, Object> projectReplyMod(@RequestBody ReplyVO replyVO){
+		Map<String, Object> result = new HashMap<>();
+		
+		int r = 0;
+		
+		r = commuService.projectReplyMod(replyVO);
+		
+		if(r > 0) { // 수정 성공시
+			result.put("result", "Success");
+			return result;
+		}else {
+			result.put("result", "Fail");
+			return result;
+		}
+	}
+	
+	// 프로젝트 모집 댓글 삭제 기능
+	@PostMapping("/projectReplyDelete")
+	@ResponseBody
+	public Map<String, Object> projectReplyDelete(@RequestBody ReplyVO replyVO){
+		Map<String, Object> result = new HashMap<>();
+		
+		int r = 0;
+		
+		r = commuService.projectReplyDelete(replyVO);
 		
 		if(r > 0) { // 삭제 성공시
 			result.put("result", "Success");
@@ -442,8 +497,8 @@ public class CommunityController {
 			result.put("result", "Fail");
 			return result;
 		}
-		
 	}
+	
 	
 	// 스터디 등록
 	@PostMapping("/studyInsert")
@@ -496,6 +551,7 @@ public class CommunityController {
 		return "community/studyDetailMod";
 	}
 	
+	
 	// 스터디 모집 수정 기능
 	@PostMapping("/studyModFn")
 	@ResponseBody
@@ -518,12 +574,67 @@ public class CommunityController {
 	// 스터디 모집 삭제 기능 
 	@PostMapping("/studyDelFn")
 	@ResponseBody
-	public Map<String, Object> studyDelFn(String studyNo) {
+	public int studyDelFn(String studyNo) {
 		
+		return commuService.studyDelFn(studyNo);
+		
+	}
+	
+	
+	// 스터디 모집 댓글 리스트
+	@PostMapping("/studyReplyList")
+	@ResponseBody
+	public List<ReplyVO> studyReplyList(@RequestBody ReplyVO replyVO){
+		return commuService.studyReplyList(replyVO);
+	}
+	
+	// 스터디 모집 댓글 등록
+	@PostMapping("/studyReplyAdd")
+	@ResponseBody
+	public Map<String, Object> studyReplyAdd(ReplyVO replyVO){
 		Map<String, Object> result = new HashMap<>();
 		
 		int r = 0;
-		r = commuService.studyDelFn(studyNo);
+
+		r = commuService.studyReplyAdd(replyVO);
+		
+		if(r > 0) { // 등록 성공시
+			result.put("result", "Success");
+			return result;
+		}else {
+			result.put("result", "Fail");
+			return result;
+		}
+	}
+	
+	// 스터디 모집 댓글 수정 기능
+	@PostMapping("/studyReplyMod")
+	@ResponseBody
+	public Map<String, Object> studyReplyMod(@RequestBody ReplyVO replyVO){
+		Map<String, Object> result = new HashMap<>();
+		
+		int r = 0;
+		
+		r = commuService.studyReplyMod(replyVO);
+		
+		if(r > 0) { // 수정 성공시
+			result.put("result", "Success");
+			return result;
+		}else {
+			result.put("result", "Fail");
+			return result;
+		}
+	}
+	
+	// 스터디 모집 댓글 삭제 기능
+	@PostMapping("/studyReplyDelete")
+	@ResponseBody
+	public Map<String, Object> studyReplyDelete(@RequestBody ReplyVO replyVO){
+		Map<String, Object> result = new HashMap<>();
+		
+		int r = 0;
+		
+		r = commuService.studyReplyDelete(replyVO);
 		
 		if(r > 0) { // 삭제 성공시
 			result.put("result", "Success");
@@ -532,11 +643,6 @@ public class CommunityController {
 			result.put("result", "Fail");
 			return result;
 		}
-		
 	}
-	
-	
-	
-
 	
 }
