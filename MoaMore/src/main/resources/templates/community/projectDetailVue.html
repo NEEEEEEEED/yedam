@@ -58,7 +58,7 @@
 				    
 				    	<!-- 버전1 -->
 					    <div class="card-title mb-1" style="display:flex">
-					    	<h3 class="fw-bold" th:text="|${projectInfo.ttl}&nbsp&nbsp|">제목</h3>
+					    	<h3 class="fw-bold" th:text="|${projectInfo.ttl}&nbsp&nbsp|" id="ttl">제목</h3>
 					    	<p th:if="${projectInfo.collSt == '모집중'}" class="badge bg-secondary radius" th:text="${projectInfo.collSt}">모집중</p>
           					<p th:unless="${projectInfo.collSt == '모집중'}" class="badge bg-dark radius" th:text="${projectInfo.collSt}">모집완료</p>
 					    	
@@ -75,7 +75,7 @@
 					    			<div class="ms-3">
 						    			<p th:text="${projectInfo.regDt}">등록일자</p>
 						    		</div>
-					    			<div class="ms-3 cursor">
+					    			<div class="ms-3 cursor" id="reportBtn">
 						   				<i class="fa-solid fa-land-mine-on"></i>
 						   				<span class="fs--1">신고하기</span>
 						   			</div>
@@ -261,6 +261,24 @@ $('#projectDelBtn').on('click', function(){
 		});
 	  } // if끝
 	});
+});
+
+$('#reportBtn').on('click', function(){
+	let no = $('#projectDelBtn').data('no');
+	let title = $('#ttl').text();
+
+	var url = '/reportForm?no='+no+"&title="+title;  
+    var windowName = '신고하기'; 
+    var windowWidth = 400; // 새 창의 너비
+    var windowHeight = 300; // 새 창의 높이   
+    var windowLeft = (window.innerWidth - windowWidth) / 2;
+    var windowTop = (window.innerHeight - windowHeight) / 2;
+    
+    var windowFeatures = 'width=' + windowWidth + ',height=' + windowHeight +
+        ',top=' + windowTop + ',left=' + windowLeft;
+    
+    window.open(url, windowName, windowFeatures);
+	
 });
 
 </script>

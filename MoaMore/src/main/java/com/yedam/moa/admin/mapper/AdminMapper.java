@@ -50,6 +50,16 @@ public interface AdminMapper {
 
 	public int approveITV(String intrvNo);
 
+	public int approveCancelREA(String recruitNo);
+
+	public int approveCancelJSN(String jobSearchNo);
+
+	public int approveCancelITV(String intrvNo);
+
+	public int getReport(ReportVO rvo);
+
+	public int insertReport(ReportVO rvo);
+
 
 
 }

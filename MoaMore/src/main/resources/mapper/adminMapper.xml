@@ -316,4 +316,45 @@
 		SET 	ACCP_DT = to_char(sysdate,'yyyy-MM-dd')
 		WHERE   INTRV_NO = #{intrvNo}
 	</update>
+	<update id="approveCancelREA" parameterType="String">
+		UPDATE 	recruit_anun
+		SET 	ACCP_DT = NULL
+		WHERE   RECRUIT_NO = #{recruitNo}
+	</update>
+	<update id="approveCancelJSN" parameterType="String">
+		UPDATE 	job_search_notiwr
+		SET 	ACCP_DT = NULL
+		WHERE   JOB_SEARCH_NO = #{jobSearchNo}
+	</update>
+	<update id="approveCancelITV" parameterType="String">
+		UPDATE 	intrv_scrn
+		SET 	ACCP_DT = NULL
+		WHERE   INTRV_NO = #{intrvNo}
+	</update>
+	
+	<!-- 신고조회 -->
+	<select id="getReport" resultType="int">
+		SELECT 	COUNT(rprt_no)
+		FROM 	rprt_list
+		WHERE	rprter = #{rprter}
+		  AND 	notiwr_no = #{notiwrNo}
+	</select>
+	
+	<!-- 신고등록 -->
+	<insert id="insertReport" parameterType="reportVO">
+		<selectKey keyProperty="rprtNo" resultType="String" order="BEFORE">
+		 	SELECT 'RPR'|| rprt_seq.NEXTVAL as rprtNo
+			FROM DUAL
+		</selectKey>
+		INSERT INTO rprt_list(	
+								RPRT_NO
+								,RPRTER
+								,RPRT_RESN
+								,NOTIWR_NO
+								,RPRT_TM
+								,RPRT_ST
+							  )
+				VALUES		 (#{rprtNo},#{rprter},#{rprtResn},#{notiwrNo},to_char(sysdate,'yyyy-MM-dd'),'G4')
+		
+	</insert>
 </mapper>

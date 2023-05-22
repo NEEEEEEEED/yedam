@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.moa.admin.service.AdminService;
@@ -24,17 +23,13 @@ import com.yedam.moa.admin.service.UserSearchVO;
 import com.yedam.moa.comm.CommVO;
 import com.yedam.moa.comm.service.CommService;
 import com.yedam.moa.comm.service.Impl.CommServiceImpl;
-import com.yedam.moa.community.CommunityVO;
 import com.yedam.moa.community.service.CommunityService;
 import com.yedam.moa.hire.HireVO;
 import com.yedam.moa.hire.service.HireService;
 import com.yedam.moa.mem.MemVO;
 import com.yedam.moa.self.service.SelfService;
 
-@Controller
-@CrossOrigin(origins = "http://localhost:3000")
-public class AdminController {
-
+public class TestAdminController {
 
 	@Autowired
 	AdminService adminService;
@@ -126,39 +121,12 @@ public class AdminController {
 	public String approveBoard(@RequestBody String[] nos) {
 		return adminService.approveBoard(nos);
 	}
-	@PostMapping("/approveCancelBoard")
-	@ResponseBody
-	public String approveCancelBoard(@RequestBody String[] nos) {
-		return adminService.approveCancelBoard(nos);
-	}
-	@GetMapping("/reportForm")
-	public String reportForm(Model model,@RequestParam String no,@RequestParam String title) {
-		model.addAttribute("Codes",comm.getCodes("l"));
-		model.addAttribute("no",no);
-		model.addAttribute("title",title);
-		return "reportForm";
-	}
-	@PostMapping("/addReport")
-	@ResponseBody
-	public String addReport(ReportVO rvo, Principal pr) {
-		System.out.println("rrrrrrrrrrrrrrrrrrrrrrrrrr"+rvo);
-		rvo.setRprter(pr.getName());
-		return adminService.addReport(rvo);
-	}
-	
 	
 	@Autowired 
 	CommunityService commuService;
 	// 취업 Q&A 상세페이지
 	@GetMapping("/adminQnaDetail")
-	public String jobQnaDetail(Model model, String qaNotiwrNo, Principal pr) {
-		CommunityVO vo = new CommunityVO();
-		vo.setQaNotiwrNo(qaNotiwrNo);
-		vo.setId(pr.getName());
-
-		String recoYn = commuService.jobQnaReco(vo) == 0 ? "N" : "Y";
-		
-		model.addAttribute("recoYn", recoYn);
+	public String jobQnaDetail(Model model, String qaNotiwrNo) {
 		model.addAttribute("jobQnaDetail", commuService.jobQnaDetail(qaNotiwrNo));
 		return "admin/qnaDetail";
 	}
@@ -251,5 +219,4 @@ public class AdminController {
 		model.addAttribute("jobInterviewList", commuService.jobInterviewDetail(intrvNo));
 		return "admin/jobITVDetail";
 	}
-
 }
