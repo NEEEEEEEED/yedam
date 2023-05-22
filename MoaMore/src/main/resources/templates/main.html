@@ -42,6 +42,7 @@
         </div>
       </section>
       <!-- 유료공고 끝 ============================-->
+      <div class="container">
 		<div class="row">
 	<!-- 최신공고 -->
         <div class="col-lg-6">
@@ -51,15 +52,14 @@
 					<p style="text-align : center;">최신 공고</p>
 					<hr>
 					<ul th:each="newSelect:${newSelect}">
-						<a th:href="@{/hireInfo(recruitNo=${newSelect.recruitNo}&skill=${newSelect.skill})}">
-							<li th:text="|${newSelect.ttl}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp${newSelect.coNm}|"></li>
-						</a>
+						<li th:text="|${newSelect.ttl}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp${newSelect.coNm}|">
+<!-- 						/*<a th:href="@{/hireInfo(recruitNo=${newSelect.recruitNo}&skill=${newSelect.skill})}">ㄴㄴㄴ</a>*/--></li> 
 					</ul>
 				</div>	
             </div>
           </div>
-	<!-- 최신공고 끝 ================================-->
         </div>
+	<!-- 최신공고 끝 ================================-->
     <!-- 인기공고 -->
         <div class="col-lg-6">
           <div class="card">
@@ -68,17 +68,51 @@
 					<p style="text-align : center;">인기 공고</p>
 					<hr>
 					<ul th:each="popSelect:${popSelect}">
-						<a th:href="@{/hireInfo(recruitNo=${popSelect.recruitNo}&skill=${popSelect.skill})}">
-							<li th:text="|${popSelect.ttl}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp${popSelect.coNm}|"></li>
-						</a>
+						<li th:text="|${popSelect.ttl}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp${popSelect.coNm}|">
+<!-- 						/*<a th:href="@{/hireInfo(recruitNo=${popSelect.recruitNo}&skill=${popSelect.skill})}">ㅁㅁㅁ</a>*/--></li> 
+					</ul>
+					
+				</div>	
+            </div>
+          </div>
+        </div>
+      </div>
+	<!-- 인기공고 끝 ================================-->
+	<div class="row">
+	<!-- 셀프구직(관심순) -->
+        <div class="col-lg-6">
+          <div class="card">
+            <div class="card-body">
+				<div>
+					<p style="text-align : center;">인기 셀프구직</p>
+					<hr>
+					<ul th:each="popSelf:${popSelf}">
+						<li th:text="|${popSelf.ttl}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp${popSelf.id}|">
+<!-- 						/*<a th:href="@{/hireInfo(recruitNo=${newSelect.recruitNo}&skill=${newSelect.skill})}">ㄴㄴㄴ</a>*/--></li> 
 					</ul>
 				</div>	
             </div>
           </div>
-
         </div>
-      </div>
-	<!-- 인기공고 끝 ================================-->
+	<!-- 셀프구직(관심순) 끝 ================================-->
+	<!-- 취업QnA -->
+        <div class="col-lg-6">
+          <div class="card">
+            <div class="card-body">
+				<div>
+					<p style="text-align : center;">취업QnA best3</p>
+					<hr>
+					<ul th:each="jobQnaBest:${jobQnaBest}">
+						<li th:text="|${jobQnaBest.ttl}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp${jobQnaBest.id}|">
+<!-- 						/*<a th:href="@{/hireInfo(recruitNo=${newSelect.recruitNo}&skill=${newSelect.skill})}">ㄴㄴㄴ</a> */--></li>
+					</ul>
+				</div>	
+            </div>
+          </div>
+        </div>
+       </div>
+	<!-- 취업QnA 끝 ================================-->
+	</div>
 	</div>
     </body>
 </html>

@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.yedam.moa.community.CommunityVO;
 import com.yedam.moa.hire.HireVO;
 import com.yedam.moa.hire.mapper.HireMapper;
 import com.yedam.moa.hire.service.HireService;
@@ -228,6 +229,17 @@ public class HireServiceImpl implements HireService{
 	public List<HireVO> newSelect(HireVO hireVO) {
 		return hireMapper.newSelect(hireVO);
 	}
+	// 셀프구직(관심순)
+	@Override
+	public List<CommunityVO> popSelf(CommunityVO communityVO) {
+		return hireMapper.popSelf(communityVO);
+	}
+	// 취업QnA 베스트3
+	@Override
+	public List<CommunityVO> jobQnaBest(CommunityVO communityVO) {
+		return hireMapper.jobQnaBest(communityVO);
+	}
+	
 	
 	
 	

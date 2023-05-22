@@ -291,7 +291,6 @@ let wksite = $('#wksite').val(); // 지역
 		    	// select에 값을 표시해줄땐 해당하는 option이 존재 해야 값을 나타내줄수있으므로 option태그를 생성하여 append 해줘야함
 		    	$('#skill').append(`<option hidden value="`+skill_value_value+`">`+skill_text_str+`</option>`);
 		    	$('#skill').val(skill_value_value);
-		    	
 		    });
     		
     			
@@ -303,10 +302,15 @@ let wksite = $('#wksite').val(); // 지역
 					data: data,
 					success: function (result){
 						Swal.fire({
-							icon: 'success',
-							title: '구인공고를 등록했습니다.'
-						});
-						location.href="/hirePage";
+						icon: 'success',
+						title: '구인공고를 등록했습니다.',
+                          showCancelButton: false,
+                          confirmButtonText: '확인'
+                        }).then((result) => {
+                          if (result.isConfirmed) {
+                        	  location.href="/hirePage";
+                          }
+                        })
 					},
 					error: function(reject){
 						console.log(reject);
