@@ -295,7 +295,7 @@
 		WHERE s.win = 'T2' AND a.id = #{id}
 	</select>
 	
-	<!-- (T1합격 또는 T3불합격)된 처리된 지원 조회 -->
+	<!-- (T1합격)된 처리된 지원 조회 -->
 	<select id="selectCompletedApply" parameterType="String" resultType="CoVO">
 		SELECT  s.recruit_no,
 				s.resume_no,
@@ -311,7 +311,7 @@
 		   ON s.recruit_no = a.recruit_no
 		 JOIN resume r 
 		   ON r.resume_no = s.resume_no
-		WHERE s.win = 'T1' OR s.win = 'T3' AND a.id = #{id}
+		WHERE s.win = 'T1' AND a.id = #{id}
 	</select>
 	
 	<!-- 지원 합격/불합격 처리 -->
