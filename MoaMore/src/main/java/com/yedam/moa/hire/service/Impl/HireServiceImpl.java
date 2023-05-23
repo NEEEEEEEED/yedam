@@ -183,8 +183,6 @@ public class HireServiceImpl implements HireService{
 			result += hireMapper.hireModify(vo);
 			
 			String[] skillArray = vo.getSkill().split(",");
-			
-		
 
 			for(String str : skillArray) {
 				String skillNo = hireMapper.skillNo();
@@ -241,7 +239,7 @@ public class HireServiceImpl implements HireService{
 	public List<SelfVO> popSelf(SelfVO selfVO) {
 		return hireMapper.popSelf(selfVO);
 	}
-	// 취업QnA 베스트3
+	// 취업QnA 
 	@Override
 	public List<CommunityVO> jobQnaBest(CommunityVO communityVO) {
 		return hireMapper.jobQnaBest(communityVO);

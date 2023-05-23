@@ -12,6 +12,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.moa.community.CommunityVO;
 import com.yedam.moa.hire.HireVO;
@@ -50,11 +51,14 @@ public class MoaMoreApplication {
 		
 		return "main";
 	}
+	
 	@GetMapping("/selfMain")
+	@ResponseBody
 	public List<SelfVO> selfMain(Principal pr, SelfVO selfVO) {
 		selfVO.setId(pr.getName());
 		return hireService.popSelf(selfVO);
 	}
+	
 	@GetMapping("/vueAdmin")
 	public String vueTest() {
 		return "admin";

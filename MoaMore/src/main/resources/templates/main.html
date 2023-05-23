@@ -88,8 +88,18 @@
 	<!-- 인기공고 끝 ================================-->
 	<div class="row">
 	<!-- 셀프구직(관심순) -->
-        <div class="col-lg-6" id="selfList">
-          <!-- 셀프구직 ajax들어가는 부분 -->
+       <div class="col-lg-6" >
+        <div class="card">
+                <div class="card-body">
+				<div>
+					<p style="text-align : center;">인기 셀프구직</p>
+					<hr>
+					<ul id="selfList">
+						<!-- 셀프구직 ajax들어가는 부분 -->
+					</ul>
+				</div>	
+            </div>
+          </div>
         </div>
 	<!-- 셀프구직(관심순) 끝 ================================-->
 	<!-- 취업QnA -->
@@ -111,41 +121,40 @@
 	<!-- 취업QnA 끝 ================================-->
 	</div>
 	<script>
-		let auth = ''; // 현재접속한 사람의 권한
-		// 셀프구직이 권한별로 보이도록
-		function selfList(){
-			let data = {
-					auth : auth, 
-			}
+		let auth = ""; // 현재접속한 사람의 권한
+		let str = '';
 		
+		$(document).ready(function () {
+			
+			if($('#ROLE_MEM').val()){ // 유저일때
+				auth = 'user';
+				
+			}else if($('#ROLE_CO').val()){ // 기업일때
+				auth = 'co';
+				
+			}
+			
+			selfListA(auth);
+		});
+		// 셀프구직이 권한별로 보이도록
+		function selfListA(auth){
+			
 			  $.ajax({
 		            url: "/selfMain",
 		            type: "GET",
-		            data: data,
-		            dataType: "json",
-		            success: function(data) {
+		            data: {auth : auth},
+		            success: function(result) {
 		            	$("#selfList").empty();
 		            	
-		            	$.each(data, function(index, item) {
-		            		let str = '';
+		            	$.each(result, function(index, item) {
 		            		
-		            		str = `<div class="card">
-		                        <div class="card-body">
-		        				<div>
-		        					<p style="text-align : center;">인기 셀프구직</p>
-		        					<hr>
-		        					<ul>
-		        						<li> `+item.ttl+`              `+item.id+`
-		        <!-- 						/*<a th:href="@{/hireInfo(recruitNo=${newSelect.recruitNo}&skill=${newSelect.skill})}">ㄴㄴㄴ</a>*/--></li> 
-		        					</ul>
-		        				</div>	
-		                    </div>
-		                  </div>`;
+		            		str += `<li> `+item.ttl+``+item.id+`
+								   </li>`
 		            	})
-		            	$("#selfList").HTML(str);
+		            	$("#selfList").append(str);
 		            },
 			  error: function(reject){
-				  conosle.log(reject);
+				  console.log(reject);
 			  }
 			  })
 		}

@@ -298,11 +298,6 @@ body {
 		scrollY: true,
 		rowHeaders: ['checkbox'],
 		bodyHeight: 300,
-		pageOptions: {
-		  useClient: true,
-		  type: 'scroll',
-		  perPage: 50
-		},
 		columns: [
 			{ header: '이력서번호',
 			  name: 'resumeNo',
@@ -403,8 +398,6 @@ body {
 		resumeInsert(resumeNo, id, recruitNo);
 		resumeMod(e);
 		
-		$('#exampleModal').modal('hide');
-	    $('.modal-backdrop').remove();
 	});
 	
 	// 이력서수정으로 이동
@@ -432,6 +425,8 @@ body {
 				  icon: 'success',
 				  title: result
 				});
+				$('#exampleModal').modal('hide');
+			    $('.modal-backdrop').remove();
 			},
 			error: function (reject) {	   
 				console.log(reject);
