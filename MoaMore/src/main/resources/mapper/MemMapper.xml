@@ -35,7 +35,7 @@
 				(SELECT
 				COUNT(st) AS count_st
 				FROM recruit_anum_st
-				WHERE st ='1') as count_st
+				WHERE st ='m2') as count_st
 		  FROM dual
 	</select>
 

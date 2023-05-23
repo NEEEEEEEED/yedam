@@ -68,6 +68,12 @@
       .ali {
         text-align: center;
       }
+      #forUser {
+        cursor: pointer;
+      }
+      #forCo {
+        cursor: pointer;
+      }
     </style>
     <title>Insert title here</title>
   </head>
@@ -79,101 +85,14 @@
           <div class="col-md-7 col-lg-8 mx-auto">
             <div class="ali"><h3>회원가입</h3></div>
             <div class="row">
-              <div class="col-6 ali" id="forUser">일반회원</div>
-              <div class="col-6 ali" id="forCo">기업회원</div>
+              <div class="col-6 ali mt-3" id="forUser">일반회원</div>
+              <div class="col-6 ali mt-3" id="forCo">기업회원</div>
+
+              <!-- -------------------일반시작------------------------------------- -->
               <div class="row g-3" id="userForm" style="display: block">
                 <div class="col-12">
                   <label
-                    for="userid"
-                    class="form-label"
-                    style="width: 150px; text-align: left"
-                    ><b>아이디</b></label
-                  >
-                  <input
-                    type="text"
-                    class="form-control input_id"
-                    id="uid"
-                    placeholder="아이디를 입력해 주세요"
-                    name="suid"
-                    required
-                  />
-                  <font id="checkId" size="2"></font>
-                </div>
-
-                <div class="col-12">
-                  <label
-                    for="password"
-                    class="form-label"
-                    style="width: 150px; text-align: left; text-align: left"
-                    ><b>비밀번호</b></label
-                  >
-                  <input
-                    type="password"
-                    class="form-control"
-                    placeholder="비밀번호를 입력해 주세요"
-                    name="supw"
-                    required
-                  />
-                </div>
-                <div class="col-12">
-                  <label
-                    for="passwordCheck"
-                    class="form-label"
-                    style="width: 150px; text-align: left"
-                    ><b>비밀번호 확인</b>
-                  </label>
-                  <input
-                    type="password"
-                    class="form-control"
-                    name="pscheck"
-                    placeholder="비밀번호 확인"
-                    required
-                  />
-                  <font id="checkUps" size="2"></font>
-                </div>
-
-                <div class="col-12">
-                  <label
-                    for="username"
-                    class="form-label"
-                    style="width: 150px; text-align: left"
-                    ><b>이름</b></label
-                  >
-                  <input
-                    type="text"
-                    class="form-control"
-                    name="uname"
-                    placeholder="이름을 입력해 주세요"
-                    required
-                  />
-                </div>
-
-                <div class="col-9 me-0">
-                  <label
-                    for="email"
-                    class="form-label"
-                    style="width: 150px; text-align: left"
-                    >연락처</label
-                  >
-                  <input
-                    type="text"
-                    class="form-control"
-                    name="uphone"
-                    placeholder="휴대전화번호를 입력해주세요"
-                    oninput="phTemp(this)"
-                    maxlength="13"
-                  />
-                  <div class="invalid-feedback">전화번호를 입력 해 주세요</div>
-                </div>
-                <div class="col-3 mt-5">
-                  <button id="phCheck">인증번호 발송</button>
-                </div>
-              </div>
-              <!-------------------------------------------------------------------------------------->
-              <div class="row g-3" id="coForm" style="display: none">
-                <div class="col-12">
-                  <label
-                    for="userid"
+                    for="id"
                     class="form-label"
                     style="width: 150px; text-align: left"
                     ><b>아이디</b></label
@@ -199,7 +118,7 @@
                     type="password"
                     class="form-control"
                     placeholder="비밀번호를 입력해 주세요"
-                    name="supw"
+                    name="pw"
                     required
                   />
                 </div>
@@ -236,6 +155,94 @@
                   />
                 </div>
 
+                <div class="col-9 me-0">
+                  <label
+                    for="email"
+                    class="form-label"
+                    style="width: 150px; text-align: left"
+                    >연락처</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="ph"
+                    placeholder="휴대전화번호를 입력해주세요"
+                    oninput="phTemp(this)"
+                    maxlength="13"
+                  />
+                  <div class="invalid-feedback">전화번호를 입력 해 주세요</div>
+                </div>
+                <div class="col-3 mt-5">
+                  <button id="phCheck">인증번호 발송</button>
+                </div>
+              </div>
+              <!---------------------------------------기업시작----------------------------------------------->
+              <div class="row g-3" id="coForm" style="display: none">
+                <div class="col-12">
+                  <label
+                    for="id"
+                    class="form-label"
+                    style="width: 150px; text-align: left"
+                    ><b>아이디</b></label
+                  >
+                  <input
+                    type="text"
+                    class="form-control input_id"
+                    placeholder="아이디를 입력해 주세요"
+                    name="id"
+                    required
+                  />
+                  <font id="checkId" size="2"></font>
+                </div>
+
+                <div class="col-12">
+                  <label
+                    for="password"
+                    class="form-label"
+                    style="width: 150px; text-align: left; text-align: left"
+                    ><b>비밀번호</b></label
+                  >
+                  <input
+                    type="password"
+                    class="form-control"
+                    placeholder="비밀번호를 입력해 주세요"
+                    name="pw"
+                    required
+                  />
+                </div>
+                <div class="col-12">
+                  <label
+                    for="passwordCheck"
+                    class="form-label"
+                    style="width: 150px; text-align: left"
+                    ><b>비밀번호 확인</b>
+                  </label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    name="pscheck"
+                    placeholder="비밀번호 확인"
+                    required
+                  />
+                  <font id="checkUps" size="2"></font>
+                </div>
+
+                <div class="col-12">
+                  <label
+                    for="cname"
+                    class="form-label"
+                    style="width: 150px; text-align: left"
+                    ><b>이름</b></label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="name"
+                    placeholder="이름을 입력해 주세요"
+                    required
+                  />
+                </div>
+
                 <div class="col-9">
                   <label
                     for="email"
@@ -246,8 +253,9 @@
                   <input
                     type="text"
                     class="form-control"
-                    name="uphone"
+                    name="bizno"
                     placeholder=""
+                    readonly
                   />
                   <div class="invalid-feedback">전화번호를 입력 해 주세요</div>
                 </div>
@@ -272,7 +280,7 @@
         <!-- </main>-->
       </div>
     </div>
-
+    <!-- ---------------휴대폰 인증 모달------------------------------- -->
     <div
       class="modal fade"
       id="phoneModal"
@@ -295,22 +303,21 @@
             <table class="table">
               <tbody class="trColor">
                 <tr>
-                  <th>제목</th>
+                  <th>인증번호</th>
                   <td>
                     <input
                       id="chKey"
                       name="chKey"
                       type="text"
                       class="fullWidth"
-                      style="border: 1px solid #ddd"
                     />
                   </td>
                   <td>
                     <button
+                      id="chPh"
                       type="button"
-                      class="btn btn-secondary radius"
+                      class="btn btn-secondary radius p-2"
                       style="background-color: gray; border: none"
-                      data-bs-dismiss="modal"
                     >
                       확인
                     </button>
@@ -322,20 +329,24 @@
           <div class="modal-footer">
             <button
               type="button"
-              class="btn btn-secondary radius"
+              class="btn btn-secondary radius p-2"
               style="background-color: gray; border: none"
               data-bs-dismiss="modal"
             >
               닫기
             </button>
-            <button id="pofolRegBtn" type="button" class="btn btn-dark radius">
+            <button
+              id="pofolRegBtn"
+              type="button"
+              class="btn btn-dark radius p-2"
+            >
               인증번호 재발급
             </button>
           </div>
         </div>
       </div>
     </div>
-
+    <!-- ---------------사업자 인증 모달-------------------- -->
     <div
       class="modal fade"
       id="numberModal"
@@ -358,8 +369,8 @@
             <table class="table">
               <tbody class="trColor">
                 <tr>
-                  <th>제목</th>
-                  <td>
+                  <th class="p-3">사업자 번호</th>
+                  <td class="p-3">
                     <input
                       id="chNum"
                       name="chNum"
@@ -371,9 +382,10 @@
                   <td>
                     <button
                       type="button"
-                      class="btn btn-secondary radius"
+                      id="btnCo"
+                      name="btnCo"
+                      class="btn btn-secondary radius p-2"
                       style="background-color: gray; border: none"
-                      data-bs-dismiss="modal"
                     >
                       확인
                     </button>
@@ -385,7 +397,7 @@
           <div class="modal-footer">
             <button
               type="button"
-              class="btn btn-secondary radius"
+              class="btn btn-secondary radius p-2"
               style="background-color: gray; border: none"
               data-bs-dismiss="modal"
             >
@@ -408,35 +420,6 @@
         msg: "올바른 휴대폰 번호를 입력해 주세요",
       };
 
-      let space = " "; //한 칸 공백
-      let newLine = "\n"; //개행 문자
-      let method = "POST";
-      let serviceId = "ncp:sms:kr:308594044602:moamore";
-      let uri = `/sms/v2/services/${serviceId}/messages`;
-      let timestamp = new Date().getTime().toString();
-
-      let accessKey = "pvVM0F8uLeNnE2BaIX9f";
-      let secretKey = "ehcrWXP3QwzZdhXDX239uAqVGZKUw5eauSgViEdz";
-      let hmac =
-        method + space + uri + newLine + timestamp + newLine + accessKey;
-      //       let byteSignature = Utilities.computeHmacSha256Signature(hmac, secretKey);
-      //       let signature = Utilities.base64Encode(byteSignature).toString();
-      let apiUrl = `https://sens.apigw.ntruss.com/sms/v2/services/${serviceId}/messages`;
-
-      let body = {
-        type: "SMS",
-        contentType: "COMM",
-        countryCode: "82",
-        from: "발신번호에 등록한 전화번호",
-        content: "내용",
-        messages: [
-          {
-            to: "sda",
-            content: "문자 보내기 API 테스트입니다.",
-          },
-        ],
-      };
-
       $(document).ready(function () {
         var regExp =
           /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
@@ -450,8 +433,9 @@
           $("#userForm").attr("style", "display: none");
           $("#coForm").attr("style", "display: block");
         });
-        $("cocheck").on("click", function () {
-          $("#numberModal").show();
+        $("#coCheck").on("click", function () {
+          console.log("되네");
+          $("#numberModal").modal("show");
         });
         //         $(".input_id").focusout(function () {
         //           let userId = $(".input_id").val().trim();
@@ -497,26 +481,62 @@
         });
         $("#phCheck").on("click", function () {
           // 			chkReg(replacePhCl,$(this));
-          $("#pofolModal").modal("show");
-          body.messages[0].to = $(this).val();
-          let checkNum = Math.floor(100000 + Math.random() * 900000);
-          body.messages[0].content = checkNum;
-
-          let jsonBody = JSON.stringify(body);
-
-          let options = {
-            method: method,
-            muteHttpExceptions: true,
-            headers: {
-              "Content-Type": "application/json; charset=utf-8",
-              "x-ncp-apigw-timestamp": timestamp,
-              "x-ncp-iam-access-key": accessKey,
-              "x-ncp-apigw-signature-v2": signature,
-            },
-            payload: jsonBody,
+          $("#phoneModal").modal("show");
+        });
+        $("#chPh").on("click", function () {
+          let memPh = $("input[name=chkey]").val();
+          let timestamp = new Date().getTime().toString();
+          let body = {
+            type: "SMS",
+            contentType: "COMM",
+            countryCode: "82",
+            from: "010-6339-6817",
+            subject: "인증번호 발송",
+            content: "문자 가냐",
+            messages: [
+              {
+                to: "010-6339-6817",
+                content: "문자 보내기 API 테스트입니다.",
+              },
+            ],
           };
-          let response = UrlFetchApp.fetch(apiUrl, options);
-          Logger.log(response);
+          $.ajax({
+            type: "POST",
+            url: "https://sens.apigw.ntruss.com/sms/v2/services/ncp:sms:kr:308594044602:moamore/messages",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(body),
+
+            success: function (res) {
+              alert("success");
+            },
+            error: function (xhr) {
+              alert(xhr.responseText);
+            },
+          });
+        });
+        $("#btnCo").on("click", function () {
+          let coNum = $("input[name=chNum]").val();
+          console.log(coNum);
+
+          var data = {
+            b_no: [coNum], // 사업자번호 "xxxxxxx" 로 조회 시,
+          };
+
+          $.ajax({
+            url: "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=fnNvgI%2F85j%2FrXVYeAtfnN1hGMK65xH8FI5d1cG2%2By9hoNLV17dHqrp2VmlXr%2BrKWCccdvk95IS5QYa82JbKilg%3D%3D",
+            type: "POST",
+            data: JSON.stringify(data), // json 을 string으로 변환하여 전송
+            dataType: "JSON",
+            contentType: "application/json",
+            accept: "application/json",
+            success: function (result) {
+              console.log(result);
+            },
+            error: function (result) {
+              console.log(result.responseText); //responseText의 에러메세지 확인
+            },
+          });
         });
 
         //joinform_check 함수로 유효성 검사
@@ -530,10 +550,10 @@
           let mobile = document.getElementById("uphone");
           console.log(repwd);
 
-          if (uid.value == "") {
+          if (id.value == "") {
             //해당 입력값이 없을 경우 같은말: if(!uid.value)
             alert("아이디를 입력하세요.");
-            uid.focus(); //focus(): 커서가 깜빡이는 현상, blur(): 커서가 사라지는 현상
+            id.focus(); //focus(): 커서가 깜빡이는 현상, blur(): 커서가 사라지는 현상
             return false; //return: 반환하다 return false:  아무것도 반환하지 말아라 아래 코드부터 아무것도 진행하지 말것
           }
 
@@ -546,11 +566,11 @@
           //비밀번호 영문자+숫자+특수조합(8~25자리 입력) 정규식
           let pwdCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
 
-          if (!pwdCheck.test(pwd.value)) {
+          if (!pwdCheck.test(pw.value)) {
             alert(
               "비밀번호는 영문자+숫자+특수문자 조합으로 8~25자리 사용해야 합니다."
             );
-            pwd.focus();
+            pw.focus();
             return false;
           }
 
@@ -560,9 +580,9 @@
             return false;
           }
 
-          if (uname.value == "") {
+          if (name.value == "") {
             alert("이름을 입력하세요.");
-            uname.focus();
+            name.focus();
             return false;
           }
 
