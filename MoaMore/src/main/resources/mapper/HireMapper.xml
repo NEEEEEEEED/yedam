@@ -384,15 +384,23 @@
 	   	AND R.ACCP_DT IS NOT NULL
 	</select>
 	<!-- 셀프구직(관심순) -->
-	<select id="popSelf" resultType="CommunityVO">
+	<select id="popSelf" resultType="SelfVO">
 		SELECT TTL,
 		       ID
 		FROM JOB_SEARCH_NOTIWR 
 		WHERE 1=1
 		<![CDATA[AND ROWNUM < 4]]>
+		<if test="auth != null and !auth.equals('') and auth.equals('user')">
+			AND (id = #{id} OR pubc_range = 'c3')
+		</if>
+		<if test="auth != null and !auth.equals('') and auth.equals('co')">
+			AND (pubc_range = 'c3' OR pubc_range = 'c2')
+		</if>
+		<if test="auth != null and !auth.equals('') and auth.equals('admin')">
+		</if>
 		ORDER BY INTEREST
 	</select>
-	<!-- 취업 Q&A 게시글 Best3 출력 추천, 댓글, 조회수순 -->
+	<!-- 취업 Q&A 게시글 Best3  -->
 	<select id="jobQnaBest" resultType="CommunityVO">
 		<![CDATA[ SELECT *
 				    FROM (
@@ -401,15 +409,6 @@
 					  ORDER BY RECO_CNT DESC, RPLY_CNT DESC, INQ_CNT DESC
 				    )
 				   WHERE ROWNUM <= 3 ]]>
-		<if test="auth != null and !auth.equals('') and auth.equals('user')">
-			AND (jsn.id = #{id} OR jsn.pubc_range = 'c3')
-		</if>
-		<if test="auth != null and !auth.equals('') and auth.equals('co')">
-			AND (jsn.pubc_range = 'c3' OR jsn.pubc_range = 'c2')
-		</if>
-		<if test="auth != null and !auth.equals('') and auth.equals('admin')">
-		</if>
-				   
 	</select>
   <!-- 구인 공고삭제 : 관리자 -->
 	<delete id="recruitDelFn" statementType="CALLABLE" parameterType="String">

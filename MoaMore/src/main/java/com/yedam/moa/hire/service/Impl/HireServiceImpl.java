@@ -10,6 +10,7 @@ import com.yedam.moa.community.CommunityVO;
 import com.yedam.moa.hire.HireVO;
 import com.yedam.moa.hire.mapper.HireMapper;
 import com.yedam.moa.hire.service.HireService;
+import com.yedam.moa.self.SelfVO;
 
 @Service
 public class HireServiceImpl implements HireService{
@@ -237,8 +238,8 @@ public class HireServiceImpl implements HireService{
 	}
 	// 셀프구직(관심순)
 	@Override
-	public List<CommunityVO> popSelf(CommunityVO communityVO) {
-		return hireMapper.popSelf(communityVO);
+	public List<CommunityVO> popSelf(SelfVO selfVO) {
+		return hireMapper.popSelf(selfVO);
 	}
 	// 취업QnA 베스트3
 	@Override
