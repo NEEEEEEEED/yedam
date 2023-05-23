@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.yedam.moa.mem.MemVO;
+import com.yedam.moa.products.service.ProductVO;
 
 public interface AdminService {
 
@@ -32,5 +33,7 @@ public interface AdminService {
 	public String approveCancelBoard(String[] nos);
 
 	public String addReport(ReportVO rvo);
+
+	public List<ProductVO> getPayList();
 
 }
