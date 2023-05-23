@@ -46,10 +46,6 @@
 		         ORDER BY QA_NOTIWR_NO DESC ) a WHERE rownum <= #{page}*#{perPageNum}
 			) WHERE RNUM > #{pageStart} ]]>
 	
-		<!-- SELECT QA_NOTIWR_NO, TTL, ID, CNTN, HTML_CNTN, 
-			   INQ_CNT, RPLY_CNT, REG_DT, RECO_CNT
-		FROM EMPL_QST
-		ORDER BY QA_NOTIWR_NO DESC -->
 	</select>
 	
 	<!-- 취업 Q&A 게시글 총 갯수 -->
@@ -448,12 +444,66 @@
 		 WHERE PRJT_NO = #{prjtNo}
 	</update>
 	
-	<!-- 프로젝트 모집 삭제 -->
-	<delete id="projectDelFn" parameterType="String">
-		DELETE
-		  FROM PRJT
-		 WHERE PRJT_NO = #{prjtNo}
+	
+	<!-- 프로젝트 모집 삭제 : 프로시저 호출 -->
+	<delete id="projectDelFn" statementType="CALLABLE" parameterType="String">
+		{ 
+      		call PRJT_Delete_PRO(#{prjtNo})
+   		}
 	</delete>
+	
+	<!-- 프로젝트모집 댓글 리스트 출력 -->
+	<select id="projectReplyList" resultType="ReplyVO">
+		SELECT   RPLY_NO
+			   , PRJT_NO
+			   , ID
+			   , RPLY_CNTN
+			   , REG_DT
+			   , RPLY_DEL_YN
+		  FROM PRJT_RPLY
+		 WHERE PRJT_NO = #{prjtNo}
+		 ORDER BY REG_DT DESC
+	</select>
+	
+	<!-- 프로젝트 모집 댓글 등록 -->
+	<insert id="projectReplyAdd" parameterType="ReplyVO">
+		<selectKey keyProperty="rplyNo" resultType="String" order="BEFORE">
+		 	SELECT 'PRR'|| PRJT_RPLY_SEQ.NEXTVAL as rplyNo
+			FROM DUAL
+		</selectKey>
+		
+		INSERT INTO PRJT_RPLY(  RPLY_NO
+							  , PRJT_NO
+							  , ID
+							  , RPLY_CNTN )
+			 VALUES (  #{rplyNo}
+			 		 , #{prjtNo}
+			 		 , #{id}
+			 		 , #{rplyCntn}
+			 		)
+	</insert>
+	
+	
+	<!-- 프로젝트 모집 댓글수 증가 기능 -->
+	<update id="projectReplyCount" parameterType="String">
+		UPDATE PRJT
+		   SET RPLY_CNT = TO_NUMBER(RPLY_CNT)+1
+		 WHERE PRJT_NO = #{prjtNo}
+	</update>
+	
+	<!-- 프로젝트 모집 댓글 수정 -->
+	<update id="projectReplyMod" parameterType="ReplyVO">
+		UPDATE PRJT_RPLY
+		   SET RPLY_CNTN = #{rplyCntn}
+		 WHERE RPLY_NO = #{rplyNo}
+	</update>
+	
+	<!-- 프로젝트 모집 댓글 삭제 -->
+	<update id="projectReplyDelete" parameterType="ReplyVO">
+		UPDATE PRJT_RPLY
+		   SET RPLY_DEL_YN = 'Y'
+		 WHERE RPLY_NO = #{rplyNo}
+	</update>
 	
 	<!-- 스터디 모집 등록 -->
 	<insert id="studyInsert" parameterType="StudyVO">
@@ -598,12 +648,68 @@
 		 WHERE STUDY_NO = #{studyNo}
 	</update>
 	
-	<!-- 스터디 모집 삭제 기능 -->
-	<delete id="studyDelFn" parameterType="String">
-		DELETE
-		  FROM STUDY
-		 WHERE STUDY_NO = #{studyNo}
+	
+	<!-- 스터디 모집 삭제 기능 : 프로시저 호출 -->
+	<delete id="studyDelFn" statementType="CALLABLE" parameterType="String">
+		{ 
+      		call STUDY_Delete_PRO(#{studyNo})
+   		}
 	</delete>
+	
+	
+	<!-- 스터디 모집 댓글 리스트 출력 -->
+	<select id="studyReplyList" resultType="ReplyVO">
+		SELECT   RPLY_NO
+			   , STUDY_NO
+			   , ID
+			   , RPLY_CNTN
+			   , REG_DT
+			   , RPLY_DEL_YN
+		  FROM STUDY_RPLY
+		 WHERE STUDY_NO = #{studyNo}
+		 ORDER BY REG_DT DESC
+	</select>
+	
+	<!-- 스터디 모집 댓글 등록 -->
+	<insert id="studyReplyAdd" parameterType="ReplyVO">
+		<selectKey keyProperty="rplyNo" resultType="String" order="BEFORE">
+		 	SELECT 'STR'|| STUDY_RPLY_SEQ.NEXTVAL as rplyNo
+			FROM DUAL
+		</selectKey>
+		
+		INSERT INTO STUDY_RPLY( RPLY_NO
+							  , STUDY_NO
+							  , ID
+							  , RPLY_CNTN )
+			 VALUES (  #{rplyNo}
+			 		 , #{studyNo}
+			 		 , #{id}
+			 		 , #{rplyCntn}
+			 		)
+	</insert>
+	
+	
+	<!-- 스터디 모집 댓글수 증가 기능 -->
+	<update id="studyReplyCount" parameterType="String">
+		UPDATE STUDY
+		   SET RPLY_CNT = TO_NUMBER(RPLY_CNT)+1
+		 WHERE STUDY_NO = #{studyNo}
+	</update>
+	
+	<!-- 스터디 모집 댓글 수정 -->
+	<update id="studyReplyMod" parameterType="ReplyVO">
+		UPDATE STUDY_RPLY
+		   SET RPLY_CNTN = #{rplyCntn}
+		 WHERE RPLY_NO = #{rplyNo}
+	</update>
+	
+	<!-- 스터디 모집 댓글 삭제 -->
+	<update id="studyReplyDelete" parameterType="ReplyVO">
+		UPDATE STUDY_RPLY
+		   SET RPLY_DEL_YN = 'Y'
+		 WHERE RPLY_NO = #{rplyNo}
+	</update>
+	
 	
 	<!-- 면접후기 단건: 관리자 -->
 	<select id="selectITVDetail" resultType="IntrvVO">

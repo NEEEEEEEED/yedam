@@ -41,10 +41,12 @@
             <span>{{study.id}}</span>
           </div>
           <div style="margin-left:auto">
-            <i class="fa-regular fa-eye fa-sm"></i>
+              <i class="fa-regular fa-comment-dots fa-sm"></i>
+              <span>&nbsp{{study.rplyCnt}}&nbsp</span>
+              <i class="fa-regular fa-eye fa-sm"></i>
               <span>&nbsp{{study.inqCnt}}</span>
-            </div>
           </div>
+        </div>
       </div>
     </div>
   </div>
@@ -78,7 +80,7 @@
 
       // 제목의 글자수가 일정이상 넘어가면 ..처리
       truncatedTitle(title) {
-        let characterLimit = 12; // 글자 수 제한 설정
+        let characterLimit = 10; // 글자 수 제한 설정
         if (title.length > characterLimit) {
           return title.slice(0, characterLimit) + "..";
         } else {
