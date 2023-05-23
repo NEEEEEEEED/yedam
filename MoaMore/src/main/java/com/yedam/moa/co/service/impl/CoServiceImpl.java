@@ -83,6 +83,16 @@ public class CoServiceImpl implements CoService{
 	public int responseApply(CoVO vo) {
 		return mapper.responseApply(vo);
 	}
+
+	@Override
+	public int deleteApply(CoVO vo) {
+		return mapper.deleteApply(vo);
+	}
+
+	@Override
+	public int updateApplySt(CoVO vo) {
+		return mapper.updateApplySt(vo);
+	}
 	
 	
 	

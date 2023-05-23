@@ -74,6 +74,14 @@ public class CoMypageController {
 		return service.selectNewApply(id);
 	}
 	
+	// 지원 조회 이후 미열람 -> 열람 
+	@PostMapping("/updateApplySt")
+	@ResponseBody
+	public String updateApplySt(CoVO vo) {
+		service.updateApplySt(vo);
+		return "stUpdateSuccess";
+	}
+	
 	// 공고의 처리된 지원목록
 	@GetMapping("/selectCompletedApply")
 	@ResponseBody
@@ -87,7 +95,15 @@ public class CoMypageController {
 	@ResponseBody
 	public String responseApply(CoVO vo) {
 		service.responseApply(vo);
-		return "test";
+		return "success";
+	}
+	
+	// 지원 삭제
+	@PostMapping("/deleteApply")
+	@ResponseBody
+	public String deleteApply(CoVO vo) {
+		service.deleteApply(vo);
+		return "success";
 	}
 
 	// 기업정보등록/수정 페이지

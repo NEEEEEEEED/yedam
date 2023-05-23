@@ -41,4 +41,8 @@ public interface CoMapper {
 	public List<CoVO> selectCompletedApply(String id);
 
 	public int responseApply(CoVO vo);
+
+	public int deleteApply(CoVO vo);
+
+	public int updateApplySt(CoVO vo);
 }
