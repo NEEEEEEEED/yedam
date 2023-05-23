@@ -312,6 +312,16 @@ public class HireController {
 			return null;
 		}
 	}
+
+	@PostMapping("/hireDelete")
+	@ResponseBody
+	public String hireDelete(@RequestParam("recruitNo") String recruitNo) {
+		hireService.hireDelete(recruitNo);
+		return "hireDelSuccess";
+	}
+	
+
+
 }
 	
 	

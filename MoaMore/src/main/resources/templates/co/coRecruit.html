@@ -10,7 +10,14 @@
 </head>
 <body>
 	<div class="container" layout:fragment="content">
-		<span class="fw-bold fs-3" style="color: #0a2640;">나의 구인공고 목록</span>
+		<div class="row">
+			<div class="col-lg-10">
+				<span class="fw-bold fs-3" style="color: #0a2640;">나의 구인공고 목록</span>
+			</div>
+			<div class="col-lg-2">
+				<button type="button" onclick="location.href='/hireInsert'" class="btn btn-outline-dark" id="hireInsert">새글등록</button>
+			</div>
+		</div>
 		<hr>
 
 		<div class="row mt-7 gx-xl-7" id="hireList">

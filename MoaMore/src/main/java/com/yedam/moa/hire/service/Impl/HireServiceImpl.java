@@ -218,6 +218,12 @@ public class HireServiceImpl implements HireService{
 		}
 			
 	}
+	
+	// 구인공고 삭제
+	@Override
+	public int hireDelete(String recruitNo) {
+		return hireMapper.hireDelete(recruitNo);
+	}
 	// 메인 페이지
 	// 유료
 	@Override
@@ -244,6 +250,7 @@ public class HireServiceImpl implements HireService{
 	public List<CommunityVO> jobQnaBest(CommunityVO communityVO) {
 		return hireMapper.jobQnaBest(communityVO);
 	}
+	
 	
 	
 	

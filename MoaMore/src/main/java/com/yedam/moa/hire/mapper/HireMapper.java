@@ -33,6 +33,7 @@ public interface HireMapper {
 	public int hireImgDelete(HireVO vo); // 공고 이미지 삭제
 
 	public int recruitDelFn(String recruitNo); // 공고 삭제 : 관리자
+	public int hireDelete(String recruitNo); // 구인공고 삭제 : 기업
 
 	
 	// 메인 페이지
@@ -41,5 +42,6 @@ public interface HireMapper {
 	public List<HireVO> popSelect (HireVO hireVO); // 인기공고
 	public List<SelfVO> popSelf (SelfVO selfVO);// 셀프구직 관심순
 	public List<CommunityVO> jobQnaBest (CommunityVO communityVO); // 취업QnA 베스트3 조회
+	
 
 }

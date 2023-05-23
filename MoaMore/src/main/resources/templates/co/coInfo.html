@@ -41,7 +41,7 @@ section {
 }
 
 .pointer {
-	cursor : pointer;
+	cursor: pointer;
 }
 </style>
 </head>
@@ -50,11 +50,15 @@ section {
 		layout:fragment="content">
 
 		<div class="col-lg-9 text-center">
-		<div class="" >
-		<img onclick="openImg()" th:src="@{'moamoreImg/' + ${co.profileImg}}" onerror="this.src='self/profile.JPG'" id="myImg" class="circleImg mb-4 pointer">
-		<h3>[[${co.coNm}]] 님, 환영합니다</h3>
-		</div>
-		<input type="file" id="imgFileUploader" onchange="readURL(this)" style="display:none;">			
+			<div class="">
+				<img onclick="openImg()"
+					th:src="@{'moamoreImg/' + ${co.profileImg}}"
+					onerror="this.src='self/profile.JPG'" id="myImg"
+					class="circleImg mb-4 pointer">
+				<h3>[[${co.coNm}]] 님, 환영합니다</h3>
+			</div>
+			<input type="file" id="imgFileUploader" onchange="readURL(this)"
+				style="display: none;">
 			<div class="card">
 				<div class="card-body text-center" style="padding: 30px">
 					<div class="">
@@ -89,11 +93,9 @@ section {
 						</div>
 						<hr style="color: #e3e5e5">
 						<div class="row d-flex justify-content-center pointer"
-							data-bs-toggle="modal" data-bs-target="#updateEmail"
-							onclick="updateEmail()">
+							data-bs-toggle="modal" data-bs-target="#updateAddr">
 							<div class="col-lg-4 ">주소</div>
-
-							<div class="col-lg-4 gray">[[${member.addr}]]</div>
+							<div class="col-lg-4 gray">([[${member.post}]])[[${member.addr}]]</div>
 							<div class="col-lg-2">
 								<i class="bi bi-chevron-compact-right"></i>
 							</div>
@@ -256,6 +258,7 @@ section {
 			</div>
 		</div>
 
+
 		<!-- html모달창 -->
 		<!-- 비밀번호 변경  -->
 		<div class="modal fade" id="updatePw" tabindex="-1"
@@ -271,8 +274,9 @@ section {
 					<div class="modal-body">
 						<div class="row d-flex justify-content-center">
 							<div class="row d-flex justify-content-center mb-2">
-								<label class="col-4">현재 비밀번호</label> <input type="password" class="col-6"
-									name="pw" placeholder="비밀번호 입력" oninput="checkPw()">
+								<label class="col-4">현재 비밀번호</label> <input type="password"
+									class="col-6" name="pw" placeholder="비밀번호 입력"
+									oninput="checkPw()">
 								<div class="row">
 									<span class="col-5"></span><small id="incPw"
 										class="col-5 text-danger pwWarn" style="display: none;">현재
@@ -280,12 +284,13 @@ section {
 								</div>
 							</div>
 							<div class="row d-flex justify-content-center mb-2">
-								<label class="col-4">새 비밀번호</label> <input type="password" class="col-6"
-									name="newPw" placeholder="새 비밀번호 입력" oninput="checkNewPw()">
+								<label class="col-4">새 비밀번호</label> <input type="password"
+									class="col-6" name="newPw" placeholder="새 비밀번호 입력"
+									oninput="checkNewPw()">
 							</div>
 							<div class="row d-flex justify-content-center">
-								<label class="col-4">비밀번호 확인</label> <input type="password" class="col-6"
-									name="newPwCheck" placeholder="새 비밀번호 다시 입력"
+								<label class="col-4">비밀번호 확인</label> <input type="password"
+									class="col-6" name="newPwCheck" placeholder="새 비밀번호 다시 입력"
 									oninput="checkNewPw()">
 								<div class="row">
 									<span class="col-5"></span><small id="incNewPw"
@@ -331,26 +336,34 @@ section {
 				</div>
 			</div>
 		</div>
-		<!-- 이메일변경 모달 -->
-		<div class="modal fade" id="updateEmail" tabindex="-1"
+		<!-- 주소변경 모달 -->
+		<div class="modal fade" id="updateAddr" tabindex="-1"
 			aria-labelledby="exampleModalCenterTitle" style="display: none;"
 			aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalCenterTitle">Modal
-							title</h5>
+						<h5 class="modal-title" id="exampleModalCenterTitle">주소변경</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal"
 							aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
-						<p>Thitest.</p>
+						<div class="row d-flex justify-content-center">
+							<div class="row d-flex justify-content-center mb-2">
+								<label class="col-4">우편번호</label> <input id="post" disabled
+									th:value="${member.post}" class="col-3 w-25">
+								<button class="col-3 btn-outline-dark" onclick="addrApi()">검색</button>	
+							</div>
+							<div class="row d-flex justify-content-center mb-2">
+								<label class="col-4">주소</label> <input id="addr" disabled
+									th:value="${member.addr}" class="col-6">
+							</div>
+						</div>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary"
-							data-bs-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary">Save
-							changes</button>
+							data-bs-dismiss="modal">취소</button>
+						<button type="button" class="btn btn-primary" onclick="updateAddr()">저장</button>
 					</div>
 				</div>
 			</div>
@@ -464,57 +477,108 @@ section {
 				alwaysNone();
 			}
 			
-		// 프로필 이미지 --------------------------------------------------------------------
-		
-			//프로필 이미지클릭
-			function openImg(){
-				$('#imgFileUploader').click();		
+			// 주소 수정
+			function updateAddr(){
+				let updateAddr = document.querySelector('#updateAddr'); // 주소변경 모달창
+				let post = updateAddr.querySelector('#post').value // 우편번호
+				let addr = updateAddr.querySelector('#addr').value // 주소
+				// 주소 수정 ajax
+				$.ajax({
+					url : '/updateAddr',
+					type : 'post',
+					data : {post : post
+							addr : addr},
+					success : function(result) {
+						console.log(result)
+						Swal.fire({
+							icon : 'success',
+							title : '주소변경 완료!'
+						});
+
+					},
+					error : function(reject) {
+						console.log(reject);
+					}
+				});
+				
 			}
-			
+
+			// 프로필 이미지 --------------------------------------------------------------------
+
+			//프로필 이미지클릭
+			function openImg() {
+				$('#imgFileUploader').click();
+			}
+
 			// 프로필변환 이미지 미리보기 , 이미지파일이 변경되면 실행 됨 // 출처: 박선아 selfJobProfile.html
 			function readURL(input) {
-			  if (input.files && input.files[0]) {
-			    var reader = new FileReader();
-			    reader.onload = function(e) {
-			    	console.log(e);
-			      document.getElementById('myImg').src = e.target.result;
-			    };
-			    reader.readAsDataURL(input.files[0]);
-			  } else {
-			    document.getElementById('myImg').src = "";
-			  }
-			  
-			  //이미지 바뀜과 동시에 이미지 저장
-			  myImgReg();
+				if (input.files && input.files[0]) {
+					var reader = new FileReader();
+					reader.onload = function(e) {
+						console.log(e);
+						document.getElementById('myImg').src = e.target.result;
+					};
+					reader.readAsDataURL(input.files[0]);
+				} else {
+					document.getElementById('myImg').src = "";
+				}
+
+				//이미지 바뀜과 동시에 이미지 저장
+				myImgReg();
 			}
-			
+
 			// 프로필 이미지 등록함수 c:moaImg 에 저장
-			function myImgReg(){
+			function myImgReg() {
 				let formData = new FormData();
 				formData.append("profileImage", imgFileUploader.files[0]);
-				
+
 				$.ajax({
-					url: 'uploadProfileImg',
-					type: 'post',
-					data: formData,
-					async: true, //비동기 여부
-			        enctype: "multipart/form-data", //form data 설정
-			        processData: false, //프로세스 데이터 설정 : false 값을 해야 form data로 인식함
-			        contentType: false, //헤더의 Content-Type을 설정 : false 값을 해야 form data로 인식함
-					success: function (result) {
+					url : 'uploadProfileImg',
+					type : 'post',
+					data : formData,
+					async : true, //비동기 여부
+					enctype : "multipart/form-data", //form data 설정
+					processData : false, //프로세스 데이터 설정 : false 값을 해야 form data로 인식함
+					contentType : false, //헤더의 Content-Type을 설정 : false 값을 해야 form data로 인식함
+					success : function(result) {
 						console.log(result)
 						Swal.fire({
 							icon : 'success',
 							title : '대표이미지가 변경되었습니다.'
 						});
-						
+
 					},
-			 		error: function (reject) {	   
-			    		console.log(reject);
+					error : function(reject) {
+						console.log(reject);
 					}
 				});
 
-			} 
+			}
+
+			// 주소 API
+			function addrApi() {
+				new daum.Postcode({
+					oncomplete : function(data) {
+						var addr = ""; // 주소 변수
+						var extraAddr = ""; // 참고항목 변수
+
+						//사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+						if (data.userSelectedType === "R") {
+							// 사용자가 도로명 주소를 선택했을 경우
+							addr = data.roadAddress;
+						} else {
+							// 사용자가 지번 주소를 선택했을 경우(J)
+							addr = data.jibunAddress;
+						}
+						$("#addr").val(addr);
+						$("#post").val(data.zonecode);
+					},
+					theme : {
+						searchBgColor : "#254364", //검색창 배경색
+						queryTextColor : "#FFFFFF", //검색창 글자색
+					},
+				}).open();
+			}
 		</script>
 	</div>
 </body>

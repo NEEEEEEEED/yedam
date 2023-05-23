@@ -3,7 +3,5 @@ ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar
 ENV TZ=Asia/Seoul
 
-ENV SPRING_PROFILES_ACTIVE=linux
-ENTRYPOINT ["java","-jar","/app.jar"]
-
-
+ENV USE_PROFILE=linux
+ENTRYPOINT ["java","-jar","-Dspring.config.use-legacy-processing=true","-Dspring.profiles.active=${USE_PROFILE}","/app.jar"]
