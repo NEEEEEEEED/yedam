@@ -57,7 +57,7 @@
 			
 				    	<!-- 버전1 -->
 					    <div class="card-title mb-1" style="display:flex">
-					    	<h3 class="fw-bold" th:text="${jobQnaDetail.ttl}">제목</h3>
+					    	<h3 id="ttl" class="fw-bold" th:text="${jobQnaDetail.ttl}">제목</h3>
 					    	<div style="margin-left: auto;">
 						    	<div class="d-flex">
 						    		<div class="ms-3">
@@ -71,7 +71,7 @@
 					    			<div class="ms-3">
 						    			<p th:text="${jobQnaDetail.regDt}">작성일자</p>
 						    		</div>
-					    			<div class="ms-3 cursor">
+					    			<div class="ms-3 cursor" id="reportBtn">
 						   				<i class="fa-solid fa-land-mine-on"></i>
 						   				<span class="fs--1">신고하기</span>
 						   			</div>
@@ -231,7 +231,23 @@ $('#jobQnaDelete').on('click', function(){
  	});
  });
  
- 
+$('#reportBtn').on('click', function(){
+	let no = $('#likeBtn').data('no');
+	let title = $('#ttl').text();
+
+	var url = '/reportForm?no='+no+"&title="+title;  
+    var windowName = '신고하기'; 
+    var windowWidth = 400; // 새 창의 너비
+    var windowHeight = 300; // 새 창의 높이   
+    var windowLeft = (window.innerWidth - windowWidth) / 2;
+    var windowTop = (window.innerHeight - windowHeight) / 2;
+    
+    var windowFeatures = 'width=' + windowWidth + ',height=' + windowHeight +
+        ',top=' + windowTop + ',left=' + windowLeft;
+    
+    window.open(url, windowName, windowFeatures);
+	
+});
 
 </script>
 	</div>

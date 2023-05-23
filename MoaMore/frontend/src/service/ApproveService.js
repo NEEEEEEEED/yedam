@@ -32,4 +32,14 @@ export const reportList = {
         console.log(error);
       });
   },
+  approveCancelBoard(nos) {
+    return axios
+      .post("/api/approveCancelBoard", nos)
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
 };

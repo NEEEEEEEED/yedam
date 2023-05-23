@@ -9,7 +9,7 @@ public class ReportVO {
 	private String rprtNo;
 	private String rprter;
 	private String rprtResn;
-	private String dispontn;
+	private String dispocntn;
 	private String dispoDt;
 	private String notiwrNo;
 	private String rprtTm;

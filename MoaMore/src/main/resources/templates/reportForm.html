@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+<!-- JQuery -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+			<!-- SweetAlert -->
+	<link rel="stylesheet"
+		href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+	<script
+		src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+</head>
+<style>
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* 화면 높이에 맞게 조정 */
+}
+
+form {
+  width: 400px; /* 폼의 너비를 조정하세요 */
+
+}
+</style>
+<body>
+	<div class=container>
+		<form  id="rprtForm" class="row g-3" onsubmit="return false">
+	<hr>
+                <div class="col-md-6 mb-1 ">
+                  <input name="notiwrNo" type="text" class="form-control" th:value="${no}" readonly>
+                </div>
+                <div class="col-md-6 mb-1 ">
+                  <input type="text" class="form-control" th:value="${title}" readonly>
+                </div>
+                <div class="col-md-12 mb-1">
+                  <select name="rprtResn" class="form-select">
+					<option selected disabled>신고사유</option>
+			 	 	<option th:each="code : ${Codes.l}" th:value="${code.prov}" th:text="${code.desct}"></option>
+                  </select>
+                </div>
+                <div class="text-center">
+                  <button  id="rprtBtn" type="button" class="btn btn-danger">신고하기</button>
+                  <button type="reset" class="btn btn-secondary">취소</button>
+                </div>
+              <hr>
+              </form>
+	</div>
+<script>
+$("#rprtBtn").on("click", function () {
+	let notiwrNo = $("#rprtForm").find("input[name=notiwrNo]").val();
+	let rprtResn = $("#rprtForm").find("select[name=rprtResn]").val();
+	let rvo = {};
+	rvo.notiwrNo = notiwrNo
+	rvo.rprtResn = rprtResn
+	console.log(rvo)
+	if(rprtResn == null || rprtResn ==""){
+		Swal.fire({
+			  icon: 'error',
+			  title: '신고 사유를 선택해주세요.'
+		})
+		return;
+	}
+	
+     $.ajax({
+      url: "/addReport",
+      method: "POST",
+      data: rvo, 
+      success: function(res) {
+        if(res == 'success'){
+    		Swal.fire({
+  			  icon: 'success',
+  			  title: '신고에 성공했습니다.'
+  		}).then(result =>{window.close()})
+        } else if(res=='fail'){
+    		Swal.fire({
+  			  icon: 'error',
+  			  title: '신고에 실패했습니다.'
+  		}).then(result =>{window.close()})
+        } else {
+    		Swal.fire({
+  			  icon: 'info',
+  			  title: '이미 신고한 게시글입니다.'
+  		}).then(result =>{window.close()})
+        }
+      },
+      error: function(error) {
+        console.log(error);
+      }
+    }); 
+  })
+</script>
+</body>
+</html>
