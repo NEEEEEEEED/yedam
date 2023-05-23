@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.yedam.moa.community.CommunityVO;
 import com.yedam.moa.hire.HireVO;
+import com.yedam.moa.self.SelfVO;
 
 public interface HireMapper {
 	public List<HireVO> serchHire(HireVO hireVO); // 구인공고 전체 조회
@@ -38,7 +39,7 @@ public interface HireMapper {
 	public List<HireVO> prdtSelect (HireVO hireVO); // 유료공고
 	public List<HireVO> newSelect (HireVO hireVO); // 최신공고
 	public List<HireVO> popSelect (HireVO hireVO); // 인기공고
-	public List<CommunityVO> popSelf (CommunityVO communityVO);// 셀프구직 관심순
+	public List<CommunityVO> popSelf (SelfVO selfVO);// 셀프구직 관심순
 	public List<CommunityVO> jobQnaBest (CommunityVO communityVO); // 취업QnA 베스트3 조회
 
 }
