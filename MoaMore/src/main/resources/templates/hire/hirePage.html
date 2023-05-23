@@ -141,6 +141,7 @@
 	                		str1 = `<div class="col-md-3 text-center text-md-start h-auto mb-5" >
 					    							<div class="d-flex justify-content-between flex-column h-100">
 					    						
+					    							<a href="/hireInfo?recruitNo=`+item.recruitNo+`&skill=`+item.skill+`" style="text-decoration: none;">
 					                				<div class="image">
 														<img class="w-75 w-md-100 rounded-2 " src="/moamoreImg/`+item.coImg+`" alt="" style="width: 100px; height: 200px;" />
 														<i class="bi bi-bookmark-heart-fill fs-5 btn1 text-danger" ></i>
@@ -149,6 +150,7 @@
 		                		str1 = `<div class="col-md-3 text-center text-md-start h-auto mb-5" >
 					    							<div class="d-flex justify-content-between flex-column h-100">
 					                				
+					    							<a href="/hireInfo?recruitNo=`+item.recruitNo+`&skill=`+item.skill+`" style="text-decoration: none;">
 					    							<div class="image">
 														<img class="w-75 w-md-100 rounded-2 " src="/moamoreImg/`+item.coImg+`" alt="" style="width: 100px; height: 200px;" />
 														<i class="bi bi-bookmark-heart-fill fs-5 btn1" ></i>
@@ -157,7 +159,7 @@
 		                	
 	                	
 		                	str2 = `<div class="d-flex align-items-center justify-content-center justify-content-md-start gap-2 mt-3">
-		                				<a href="/hireInfo?recruitNo=`+item.recruitNo+`&skill=`+item.skill+`" style="text-decoration: none;">						
+		                										
 		                							<p class="fw-bold mb-0 text-black skills">`+item.skill+`</p>
 													<p class="mb-0">`+item.exprDt+`</p>
 												</div>

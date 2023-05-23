@@ -83,14 +83,16 @@
 			</div>
 				
 			<!-- 기업이라면 보이는곳 -->
-			<div sec:authorize="hasRole('ROLE_CO')">
-				<div style="padding:18px; text-align : center;">
-					<h4>셀프구직[기업]</h4>
-					<hr>
-					<ul class="listStyle">
-						<li class="fs-1"><a href="/coMypage?interest=t">관심게시글</a></li>
-						<li class="fs-1"><a href="#">보낸제안</a></li>
-					</ul>
+				<div sec:authorize="hasRole('ROLE_CO')">
+					<div style="padding:18px; text-align : center;">
+						<h4>셀프구직[기업]</h4>
+						<hr>
+						<ul class="listStyle">
+							<li class="fs-1"><a href="/coMypage?interest=t">관심게시글</a></li>
+							<li class="fs-1"><a href="/coMypage?interest=t">보낸제안</a></li>
+						</ul>
+					</div>
+
 				</div>
 			</div>
 		</div>

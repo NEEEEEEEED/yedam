@@ -389,11 +389,11 @@
 <!--  	 개인정보 입력(업데이트) -->
 		<update id="insertMem">   	
 		UPDATE member
-		SET  email = #{email}, 
-			 ph=#{ph},
-			 ph_cl=#{phCl},
-			 addr=#{addr},
-			 post=#{post}
+		SET <if test="email != null">email = #{email},</if>
+    		<if test="ph != null">ph = #{ph},</if>
+    		<if test="phCl != null">ph_cl = #{phCl},</if>
+    		<if test="addr != null">addr = #{addr},</if>
+    		<if test="post != null">post = #{post}</if>
 		where id = #{id}
 		</update>
 		

@@ -124,7 +124,7 @@ i {
 					</div>
 
 					<div id="thirdTop" class="card-body" style="display: none">
-						<h5 class="text-center">>
+						<h5 class="text-center">
 							<span id="smallInter" class="selected interInfer"
 								onclick="changeSlash(this,1)">관심 구직글</span>
 						</h5>
@@ -282,7 +282,7 @@ i {
 									</div>
 									<div class="col-lg-3">
 										<p class="">마감일자 : `+res[i].exprDt+`</p>
-										<p >지원일자 `+res[i].applyDt+`</p>
+										<p >지원일자 `+res[i].aplyDt+`</p>
 									</div>
 									<div class="col-lg-3 text-center">
 										<button type="button" data-recruitno="`+res[i].recruitNo+`" data-resumeno="`+res[i].resumeNo+`" data-win="T1" onclick="responseApply(this)" class="btn btn-outline-info btn-sm listBtn">합 격</button><br>
@@ -402,7 +402,7 @@ i {
 												</div>
 												<div class="col-lg-3">
 													<p class="">마감일자 : `+res[i].exprDt+`</p>
-													<p >지원일자 `+res[i].applyDt+`</p>
+													<p >지원일자 `+res[i].aplyDt+`</p>
 												</div>
 												<div class="col-lg-3 text-center">`
 												if(res[i].win == '합격'){

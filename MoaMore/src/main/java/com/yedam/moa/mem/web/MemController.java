@@ -278,10 +278,10 @@ public class MemController {
 		
 		return "mem/signup";
 	}
-	@GetMapping("/checkId")
-	public int checkId( String id) {
-		MemInfoVO vo = new MemInfoVO(); 
-		vo.setId(id);
+	
+	@PostMapping("/checkId")
+	@ResponseBody
+	public int checkId(@RequestBody MemInfoVO vo) {
 		System.out.println(mem.checkId(vo));
 		return 0;
 	}

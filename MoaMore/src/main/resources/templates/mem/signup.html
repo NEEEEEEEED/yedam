@@ -168,7 +168,7 @@
                     name="ph"
                     placeholder="휴대전화번호를 입력해주세요"
                     oninput="phTemp(this)"
-                    maxlength="13"
+                     maxlength="13"
                   />
                   <div class="invalid-feedback">전화번호를 입력 해 주세요</div>
                 </div>
@@ -408,7 +408,7 @@
       </div>
     </div>
     <script>
-      const phTemp = (target) => {
+    const phTemp = (target) => {
         target.value = target.value
           .replace(/[^0-9]/g, "")
           .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3")
@@ -419,7 +419,7 @@
         reg: /^(0[1-9]\d{2})\d{4}\d{4}$/,
         msg: "올바른 휴대폰 번호를 입력해 주세요",
       };
-
+      let randomNumber = null;
       $(document).ready(function () {
         var regExp =
           /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
@@ -437,33 +437,36 @@
           console.log("되네");
           $("#numberModal").modal("show");
         });
-        //         $(".input_id").focusout(function () {
-        //           let userId = $(".input_id").val().trim();
-        //           console.log(userId);
-        //           $.ajax({
-        //             url: "/checkId",
-        //             type: "GET",
-        //             data: {id:userId},
-        //             success: function (result) {
-        //               if (result>=1) {
-        //                 $("#checkId").html("사용할 수 없는 아이디 입니다.");
-        //                 $("#checkId").attr("color", "red");
-        //               } else if (
-        //                 result==0 &&
-        //                 $(".input_id").val() == ""
-        //               ) {
-        //                 $("#checkId").html("아이디를 입력하세요");
-        //                 $("#checkId").attr("color", "red");
-        //               } else {
-        //                 $("#checkId").html("사용할 수 있는 아이디 입니다.");
-        //                 $("#checkId").attr("color", "green");
-        //               }
-        //             },
-        //             error: function () {
-        //               alert("서버요청 실패");
-        //             },
-        //           });
-        //         });
+                $(".input_id").focusout(function () {
+                  let userId = $(".input_id").val().trim();
+                  
+                  console.log(userId);
+                  $.ajax({
+                    url: "/checkId",
+                    type: "POST",
+                    data: 	JSON.stringify({id:userId}),
+                    dataType : "text",  
+                    contentType: "application/json; charset=UTF-8",
+                    success: function (result) {
+                      if (result>=1) {
+                        $("#checkId").html("사용할 수 없는 아이디 입니다.");
+                        $("#checkId").attr("color", "red");
+                      } else if (
+                        result==0 &&
+                        $(".input_id").val() == ""
+                      ) {
+                        $("#checkId").html("아이디를 입력하세요");
+                        $("#checkId").attr("color", "red");
+                      } else {
+                        $("#checkId").html("사용할 수 있는 아이디 입니다.");
+                        $("#checkId").attr("color", "green");
+                      }
+                    },
+                    error: function () {
+                      alert("서버요청 실패");
+                    },
+                  });
+                });
 
         $("#pscheck").focusout(function () {
           let pscheck = $("#pscheck").val().trim();
@@ -484,37 +487,32 @@
           $("#phoneModal").modal("show");
         });
         $("#chPh").on("click", function () {
-          let memPh = $("input[name=chkey]").val();
-          let timestamp = new Date().getTime().toString();
-          let body = {
-            type: "SMS",
-            contentType: "COMM",
-            countryCode: "82",
-            from: "010-6339-6817",
-            subject: "인증번호 발송",
-            content: "문자 가냐",
-            messages: [
-              {
-                to: "010-6339-6817",
-                content: "문자 보내기 API 테스트입니다.",
-              },
-            ],
-          };
-          $.ajax({
-            type: "POST",
-            url: "https://sens.apigw.ntruss.com/sms/v2/services/ncp:sms:kr:308594044602:moamore/messages",
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify(body),
+        	let phoneNum = $("input[name=ph]").val();
+			let convertNum = phoneNum.replace(/-/g, "");
+        	randomNumber = Math.floor(100000 + Math.random() * 900000);
+        	console.log(randomNumber);
+        	console.log(convertNum);
+        	let data = function(){
+        		
+        	}
 
-            success: function (res) {
-              alert("success");
-            },
-            error: function (xhr) {
-              alert(xhr.responseText);
-            },
-          });
+//                   $.ajax({
+//                     url: "/sms/send",
+//                     type: "POST",
+//                     data: JSON.stringify(data), // json 을 string으로 변환하여 전송
+//                     dataType: "JSON",
+//                     contentType: "application/json",
+//                     accept: "application/json",
+//                     success: function (result) {
+//                       console.log(result);
+//                     },
+//                     error: function (result) {
+//                       console.log(result.responseText); //responseText의 에러메세지 확인
+//                     },
+//                   });
+          
         });
+//         사업자 번호 조회
         $("#btnCo").on("click", function () {
           let coNum = $("input[name=chNum]").val();
           console.log(coNum);

@@ -208,6 +208,7 @@ body {
 							<div><!-- 공고수정은 본인만 가능하도록 -->
 								<th:block th:if="${hireVO.idCo}==${#authentication.principal.username}" >
 									<a class="btn btn-outline-dark" id="hireMod" th:href="@{/hireMod(recruitNo=${hireVO.recruitNo})}">공고수정</a>
+									<a class="btn btn-outline-dark" id="hireDel" th:data-recruitno="${hireVO.recruitNo}" onclick="hireDel(this.getAttribute('data-recruitno'))">공고삭제</a>
 								</th:block>
 									<button type="button" class="btn btn-outline-dark" id="btnList">목록</button>
 							</div>
@@ -298,11 +299,6 @@ body {
 		scrollY: true,
 		rowHeaders: ['checkbox'],
 		bodyHeight: 300,
-		pageOptions: {
-		  useClient: true,
-		  type: 'scroll',
-		  perPage: 50
-		},
 		columns: [
 			{ header: '이력서번호',
 			  name: 'resumeNo',
@@ -403,8 +399,6 @@ body {
 		resumeInsert(resumeNo, id, recruitNo);
 		resumeMod(e);
 		
-		$('#exampleModal').modal('hide');
-	    $('.modal-backdrop').remove();
 	});
 	
 	// 이력서수정으로 이동
@@ -432,6 +426,8 @@ body {
 				  icon: 'success',
 				  title: result
 				});
+				$('#exampleModal').modal('hide');
+			    $('.modal-backdrop').remove();
 			},
 			error: function (reject) {	   
 				console.log(reject);
@@ -527,6 +523,45 @@ body {
 				console.log(reject);
 			}
 		});
+	}
+	
+	// 공고 삭제
+	function hireDel(recruitNo){
+		
+		
+		Swal.fire({
+			   title: '공고를 삭제하시겠습니까?',
+			   text: '',
+			   icon: 'question',
+			   showCancelButton: true, 
+			   confirmButtonColor: '#3085d6', 
+			   cancelButtonColor: '#d33', 
+			   confirmButtonText: '삭제', 
+			   cancelButtonText: '취소', 
+			   reverseButtons: true, 
+			}).then(result => {
+			   if (result.isConfirmed) { 
+				   $.ajax({
+						url: "/hireDelete?recruitNo="+recruitNo,
+						type: 'post',
+						success: function(res){
+							console.log(res);
+							Swal.fire({
+								  icon: 'success',
+								  title: '삭제완료!'
+								}).then(function(){
+									location.href="/hirePage";                   
+								});
+						},
+						error: function(reject){
+							console.log(reject);
+						}
+					});		
+			   }
+			});	
+		
+		
+			
 	}
 	
 	

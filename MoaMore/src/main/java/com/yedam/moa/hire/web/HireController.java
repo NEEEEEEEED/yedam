@@ -21,6 +21,7 @@ import com.yedam.moa.comm.service.CommService;
 import com.yedam.moa.hire.HireVO;
 import com.yedam.moa.hire.service.HireService;
 import com.yedam.moa.hire.service.Impl.HireServiceImpl;
+import com.yedam.moa.self.SelfVO;
 
 // 권수민 개발날짜 23.04.28
 // 구인광고 관리
@@ -55,6 +56,8 @@ public class HireController {
 		hireVO.setId(pr.getName());
 		hireVO.getAccpDt();
 		hireVO.getExprDt();
+//		String[] skillArray = hireList.get(0).getSkill().split(",");
+//		hireVO.setSkillArray(skillArray);
 
 		hireList = hireService.hireList(hireVO);
 		return hireList;
@@ -298,8 +301,6 @@ public class HireController {
 				 }
 			 }
 				 
-			
-			 
 			//첨부파일명 VO에 지정
 			hireVO.setId(pr.getName());
 
@@ -310,6 +311,13 @@ public class HireController {
 		}else {			
 			return null;
 		}
+	}
+
+	@PostMapping("/hireDelete")
+	@ResponseBody
+	public String hireDelete(@RequestParam("recruitNo") String recruitNo) {
+		hireService.hireDelete(recruitNo);
+		return "hireDelSuccess";
 	}
 	
 

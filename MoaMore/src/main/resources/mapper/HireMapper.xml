@@ -36,7 +36,7 @@
 			<if test="scrapYn != null and scrapYn != ''">
 				AND EXISTS (SELECT S.RECRUIT_NO FROM RECRUIT_SCRAP S WHERE R.RECRUIT_NO = S.RECRUIT_NO AND ID = #{id})
        		</if>
-			
+		<!--             -->
 			<if test="job != null and job != ''">
 				AND R.JOB = #{job}
        		</if>
@@ -49,6 +49,9 @@
 				AND R.CARR = #{carr}       		
        		</if>
        		
+<!--        		<foreach collection="skillArray" item="skill" open="(" close=")" separator=","> -->
+<!-- 				#{skill} -->
+<!-- 			</foreach> -->
        		<if test="skill != null and skill != ''">
        			AND K.SKILL LIKE '%' || get_common(#{skill}) || '%'
        		</if>
@@ -186,7 +189,7 @@
 	<!-- 구인공고 지원 -->
 	<insert id="resumeInsert" parameterType="HireVO">
 		INSERT INTO RECRUIT_ANUM_ST (RECRUIT_NO, RESUME_NO, ID, APLY_ST, APLY_DT, ST, WIN)
-       	VALUES (#{recruitNo}, #{resumeNo}, #{id}, 'b1',  TO_CHAR(sysdate,'yyyy-MM-dd'), '0', 'T2')
+       	VALUES (#{recruitNo}, #{resumeNo}, #{id}, 'b1',  TO_CHAR(sysdate,'yyyy-MM-dd'), 'm1', 'T2')
 	</insert>
 	<!-- 관심 기업 등록 -->
 	<insert id="followInsert" parameterType="HireVO">
@@ -227,7 +230,7 @@
 	<!-- 공고 등록 -->
 	<insert id="hireDataInsert" parameterType="HireVO">
 		INSERT INTO RECRUIT_ANUN(RECRUIT_NO, ID, TTL, SHCR, CARR, MA_BUSS, QUAL_COND, PREF_COND, WELF, EXPR_DT, WKSITE, REG_DT, JOB, CO_INTRO)
-						 VALUES (#{recruitNo}, #{id}, #{ttl}, #{shcr}, #{carr}, #{maBuss}, #{qualCond}, #{prefCond}, #{welf}, #{exprDt}, #{wksite}, TO_CHAR(SYSDATE,'yyyy-MM-dd'), #{job}, #{coIntro})  
+						 VALUES (#{recruitNo}, #{id}, #{ttl}, #{shcr}, #{carr}, #{maBuss}, #{qualCond}, #{prefCond}, #{welf}, #{exprDt}, #{wksite}, TO_CHAR(SYSDATE,'yyyy-MM-dd HH24:MI:SS'), #{job}, #{coIntro})  
 	</insert>
 	
 	<!-- 공고 스킬 번호 -->
@@ -309,6 +312,10 @@
 	<delete id="hireImgDelete" parameterType="HireVO">
 		DELETE FROM RECRUIT_IMAGES WHERE RECRUIT_NO = #{recruitNo}
 	</delete>
+	<!-- 공고 삭제 -->
+	<delete id="hireDelete" parameterType="String">
+		DELETE FROM RECRUIT_ANUN WHERE RECRUIT_NO = #{recruitNo}
+	</delete>
 	
 	
 	<!-- 메인 페이지 -->
@@ -389,7 +396,6 @@
 		       ID
 		FROM JOB_SEARCH_NOTIWR 
 		WHERE 1=1
-		<![CDATA[AND ROWNUM < 4]]>
 		<if test="auth != null and !auth.equals('') and auth.equals('user')">
 			AND id = #{id} OR pubc_range = 'c3'
 		</if>
@@ -399,9 +405,10 @@
 		<if test="auth != null and !auth.equals('') and auth.equals('admin')">
 		
 		</if>
+		<![CDATA[AND ROWNUM < 4]]>
 		ORDER BY INTEREST
 	</select>
-	<!-- 취업 Q&A 게시글 Best3  -->
+	<!-- 취업 Q&A 게시글  -->
 	<select id="jobQnaBest" resultType="CommunityVO">
 		<![CDATA[ SELECT *
 				    FROM (
@@ -409,7 +416,7 @@
 					  FROM EMPL_QST
 					  ORDER BY RECO_CNT DESC, RPLY_CNT DESC, INQ_CNT DESC
 				    )
-				   WHERE ROWNUM <= 3 ]]>
+				   WHERE ROWNUM < 4 ]]>
 	</select>
   <!-- 구인 공고삭제 : 관리자 -->
 	<delete id="recruitDelFn" statementType="CALLABLE" parameterType="String">
