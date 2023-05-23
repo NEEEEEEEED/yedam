@@ -476,6 +476,7 @@
       from MEMBER 
      where id=#{id}
 	</select>
+<!-- 	이력서 관리 페이지 페이징처리 -->
 	<select id="getPageCnt" resultType="int">
 		SELECT  COUNT(*)
 		FROM	RESUME
@@ -493,4 +494,15 @@
 	WHERE   rn > #{pageStart}]]>
 
 	</select>
+	
+<!-- 	회원가입 -->
+	 <insert id="joinMoaMore">
+	 INSERT INTO member (id, pw, name, ph)
+	 VALUES(#{id},#{pw},#{name},#{ph})
+	 </insert>
+	 <insert id="insertBiz">
+	 INSERT INTO CO (id, bizno)
+	 VALUES (#{id},#{bizno})
+	 </insert>
+	 
 </mapper>

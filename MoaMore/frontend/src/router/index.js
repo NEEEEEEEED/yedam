@@ -3,6 +3,7 @@ import HomeView from "../views/HomeView.vue";
 import UserView from "../views/UserView.vue";
 import BoardView from "../views/BoardView.vue";
 import ApproveView from "../views/ApproveView.vue";
+import PayView from "../views/PayView.vue";
 
 const routes = [
   {
@@ -24,6 +25,11 @@ const routes = [
     path: "/approve",
     name: "approve",
     component: ApproveView,
+  },
+  {
+    path: "/pay",
+    name: "pay",
+    component: PayView,
   },
 ];
 

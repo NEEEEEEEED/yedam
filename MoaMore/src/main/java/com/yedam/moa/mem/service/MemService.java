@@ -1,5 +1,6 @@
 package com.yedam.moa.mem.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.yedam.moa.community.Criteria;
@@ -47,8 +48,12 @@ public interface MemService {
 	public List<ResumeVO>resumeList(Criteria cri);
 	
 	public int delResume(ResumeVO rvo);
-	
+
 // 회원정보 수정
 	public int updateInfo(MemInfoVO vo);
 	
+	public int joinMoaMore(MemInfoVO vo);
+	
+	public int insertBiz(MemInfoVO vo);
+
 }
