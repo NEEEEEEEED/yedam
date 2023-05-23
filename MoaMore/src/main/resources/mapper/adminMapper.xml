@@ -25,6 +25,7 @@
 				,NICKNAME
 				,get_common(clsf) as "clsfname"
        	FROM member
+       	WHERE clsf !='I4'
        	ORDER BY join_dt DESC
 	</select>
 	
