@@ -27,36 +27,30 @@
         <div class="card" style="min-height: 100%">
           <div class="card-body">
             <div
-              class="mt-1"
+              class="mt-1 mb-1"
               style="float: right; position: relative; z-index: 2"
             >
-              <button
-                class="p-button p-component"
-                type="button"
-                aria-label="Delete"
-                data-v-d3f5b421=""
+              <Button
+                label="success"
+                severity="success"
+                style="margin-left: 5px"
                 @click="approveBtn"
+                >승인</Button
               >
-                승인
-              </button>
-              <button
-                class="p-button p-component"
-                type="button"
-                aria-label="Delete"
-                data-v-d3f5b421=""
+              <Button
+                label="secondary"
+                severity="secondary"
+                style="margin-left: 5px"
                 @click="approveCancelBtn"
+                >승인취소</Button
               >
-                승인취소
-              </button>
-              <button
-                class="p-button p-component"
-                type="button"
-                aria-label="Delete"
-                data-v-d3f5b421=""
+              <Button
+                label="Danger"
+                severity="danger"
+                style="margin-left: 5px"
                 @click="deleteBtn"
+                >삭제</Button
               >
-                삭제
-              </button>
             </div>
             <DataTable
               style="clear: both"
