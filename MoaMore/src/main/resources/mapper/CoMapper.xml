@@ -295,7 +295,14 @@
 		WHERE s.win = 'T2' AND a.id = #{id}
 	</select>
 	
-	<!-- (T1합격)된 처리된 지원 조회 -->
+	<!-- 미열람m1 -> 열람m2 -->
+	<update id="updateApplySt" parameterType="CoVO">
+		UPDATE recruit_anum_st
+        SET st = 'm2'
+        WHERE recruit_no = #{recruitNo} and resume_no = #{resumeNo}
+	</update>
+	
+	<!-- (T1합격, T3불합격, n1미삭제)된 처리된 지원 조회 -->
 	<select id="selectCompletedApply" parameterType="String" resultType="CoVO">
 		SELECT  s.recruit_no,
 				s.resume_no,
@@ -311,7 +318,7 @@
 		   ON s.recruit_no = a.recruit_no
 		 JOIN resume r 
 		   ON r.resume_no = s.resume_no
-		WHERE s.win = 'T1' AND a.id = #{id}
+		WHERE (s.win = 'T1' OR s.win = 'T3') AND a.id = #{id} and s.delyn = 'n1'
 	</select>
 	
 	<!-- 지원 합격/불합격 처리 -->
@@ -319,6 +326,13 @@
 		UPDATE recruit_anum_st
 		   SET win = #{win}
 		 WHERE resume_no = #{resumeNo} and recruit_no = #{recruitNo} 
+	</update>
+	
+	<!-- 처리된지원 삭제 n2로 변경-->
+	<update id="deleteApply" parameterType="CoVO">
+		UPDATE recruit_anum_st
+        SET delyn = 'n2'
+        WHERE recruit_no = #{recruitNo} and resume_no = #{resumeNo}
 	</update>
 	
 </mapper>

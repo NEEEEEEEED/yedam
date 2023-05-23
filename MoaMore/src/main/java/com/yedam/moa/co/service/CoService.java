@@ -44,8 +44,15 @@ public interface CoService {
 	
 	// 처리된지원 목록 조회
 	public List<CoVO> selectCompletedApply(String id);
-
+	
+	// 지원 합격/불합격 처리
 	public int responseApply(CoVO vo);
+
+	// 지원 삭제
+	public int deleteApply(CoVO vo);
+	
+	// 미열람 열람으로
+	public int updateApplySt(CoVO vo);
 	
 
 }
