@@ -78,6 +78,11 @@ public class CoServiceImpl implements CoService{
 	public List<CoVO> selectCompletedApply(String id) {
 		return mapper.selectCompletedApply(id);
 	}
+
+	@Override
+	public int responseApply(CoVO vo) {
+		return mapper.responseApply(vo);
+	}
 	
 	
 	

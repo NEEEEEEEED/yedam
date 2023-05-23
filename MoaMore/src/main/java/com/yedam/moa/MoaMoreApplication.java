@@ -46,7 +46,6 @@ public class MoaMoreApplication {
 		model.addAttribute("popSelf", hireService.popSelf(communityVO));// 셀프구직(관심순)
 		model.addAttribute("jobQnaBest", hireService.jobQnaBest(communityVO)); // 취업QnA 베스트3
 		
-
 		return "main";
 	}
 	@GetMapping("/vueAdmin")
