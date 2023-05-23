@@ -1,6 +1,7 @@
 package com.yedam.moa;
 
 import java.security.Principal;
+import java.util.List;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,20 +36,24 @@ public class MoaMoreApplication {
 		return "loginForm";
 	}		
 	@GetMapping("/main")
-	public String home(Model model, Principal pr) {
+	public String home(Model model) {
 		
 		HireVO hireVO = new HireVO();
 		CommunityVO communityVO = new CommunityVO();
-		SelfVO selfVO = new SelfVO();
-		selfVO.setId(pr.getName());
+		
+		
 		
 		model.addAttribute("prdtSelect",hireService.prdtSelect(hireVO)); // 유료공고
 		model.addAttribute("newSelect",hireService.newSelect(hireVO)); // 최신공고
 		model.addAttribute("popSelect",hireService.popSelect(hireVO)); // 인기공고
-		model.addAttribute("popSelf", hireService.popSelf(selfVO));// 셀프구직(관심순)
 		model.addAttribute("jobQnaBest", hireService.jobQnaBest(communityVO)); // 취업QnA 베스트3
 		
 		return "main";
+	}
+	@GetMapping("/selfMain")
+	public List<SelfVO> selfMain(Principal pr, SelfVO selfVO) {
+		selfVO.setId(pr.getName());
+		return hireService.popSelf(selfVO);
 	}
 	@GetMapping("/vueAdmin")
 	public String vueTest() {

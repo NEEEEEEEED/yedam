@@ -391,12 +391,13 @@
 		WHERE 1=1
 		<![CDATA[AND ROWNUM < 4]]>
 		<if test="auth != null and !auth.equals('') and auth.equals('user')">
-			AND (id = #{id} OR pubc_range = 'c3')
+			AND id = #{id} OR pubc_range = 'c3'
 		</if>
 		<if test="auth != null and !auth.equals('') and auth.equals('co')">
-			AND (pubc_range = 'c3' OR pubc_range = 'c2')
+			AND pubc_range = 'c3' OR pubc_range = 'c2'
 		</if>
 		<if test="auth != null and !auth.equals('') and auth.equals('admin')">
+		
 		</if>
 		ORDER BY INTEREST
 	</select>

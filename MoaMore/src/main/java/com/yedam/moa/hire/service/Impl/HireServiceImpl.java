@@ -238,7 +238,7 @@ public class HireServiceImpl implements HireService{
 	}
 	// 셀프구직(관심순)
 	@Override
-	public List<CommunityVO> popSelf(SelfVO selfVO) {
+	public List<SelfVO> popSelf(SelfVO selfVO) {
 		return hireMapper.popSelf(selfVO);
 	}
 	// 취업QnA 베스트3
