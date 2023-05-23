@@ -142,7 +142,6 @@ let coNm = ''; // 검색조건 : 회사명
 // 검색 조건에다른 면접후기 리스트 출력
 $(document).ready(function() {
 	interViewList(job, carr, coNm);
-	console.log('선아');
 })
 
 //직무 조건 변경시 검색리스트
@@ -164,7 +163,7 @@ $('#coNmBtn').on('click', function(){
 });
 
 function interViewList(job, carr, coNm){
-	console.log('선아');
+	
 	let data = { duty : job, carr : carr, coNm : coNm};
 	
 	$.ajax({
@@ -178,7 +177,7 @@ function interViewList(job, carr, coNm){
 			  list.innerHTML =''; // 초기화
 			
 			  if(interViewList.length == 0){
-				  	list.innerHTML = `<div class="fs-2 mt-5" style="text-align : center;">검색조건에 만족하는게 없습니다.</div>`;
+				  	list.innerHTML = `<div class="fs-2 mt-5" style="text-align : center;">검색조건을 만족하는게 없습니다.</div>`;
 					return;
 			  }
 			  
@@ -264,8 +263,8 @@ function interViewListPrint(result={}){
 			    <div class="col-md-9">`+result.spcCtnt+`</div>
 			 </div>
 			 <div class="row mb-2">
-			    <div class="col-md-2">[등록일자]</div>
-			    <div class="col-md-9">`+result.regDt+`</div>
+			    <div class="col-md-2">[면접일자]</div>
+			    <div class="col-md-9">`+result.intrvDt+`</div>
 			 </div>
 	    </div>
 	</div>

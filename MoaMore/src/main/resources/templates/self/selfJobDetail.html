@@ -11,6 +11,20 @@
 </head>
 <body>
 	<div layout:fragment="content">
+	
+		<!-- 선아 2023-05-24 추가 코드 시작 -->
+		<!-- 현재로그인된 유저정보 -->
+		<input id="logId" name="id" type="hidden" th:value="${#authentication.principal.username}">
+		
+		<!-- 현재로그인된 유저가 가진 권한 -->
+		<div sec:authorize="hasRole('ROLE_MEM')" style="display:none;">
+			<input id="ROLE_MEM" value="ROLE_MEM"> 
+		</div>
+		<div sec:authorize="hasRole('ROLE_CO')" style="display:none;">
+			<input id="ROLE_CO" value="ROLE_CO"> 
+		</div>
+		<!-- 선아 2023-05-24 추가 코드 끝 -->
+	
 		<div class="row" style="margin-top: 20px;">
 			<div class="col-md-1"></div>
 
@@ -160,7 +174,7 @@
 						<div class="row text-center" id="topMenu">
 							<h5 th:text="|${selfJobInfo.name}님의 셀프구직|">OOO님의 셀프구직</h5>
 							<hr>
-							<button class="btn btn-dark radius mb-3" type="button">채용지원제안</button>
+							<button id="offer" class="btn btn-dark radius mb-3" type="button">채용지원제안</button>
 							<div class="col">
 								<span class="fw-bold fs-2" th:text="${selfJobInfo.interest}">관심수</span> <br /> 
 								<span class="selected fw-bold">받은관심</span>
@@ -181,54 +195,93 @@
 						</div>
 					</th:block>
 					
+					<!-- 로그인된 사용자가 관리자라면 나타나는 버튼 -->
+					<th:block sec:authorize="hasRole('ROLE_ADMIN')">
+						<div class="card-footer text-center" style="background-color:white;">
+							<button type="button" class="btn btn-outline-secondary radius mx-1 px-4" th:onclick="|location.href='@{/selfJobMod(jobSearchNo=${selfJobInfo.jobSearchNo},resumeNo=${selfJobInfo.resumeNo})}'|">수정</button>
+							<button type="button" class="btn btn-outline-danger radius mx-1 px-4" id="selfJobDelBtn" th:data-no="${selfJobInfo.jobSearchNo}">삭제</button>
+						</div>
+					</th:block>
+					
 				</div>
 			</div>
 			<hr>
 			<div class="col-md-1"></div>
 		</div>
 <script>
-	// 삭제버튼 클릭시 실행하는 함수
-	$('#selfJobDelBtn').on('click', function(){
-		Swal.fire({
-		  icon: 'warning',
-		  title: '해당 게시글을 \n정말 삭제하시겠습니까?',
-		  showCancelButton: true,
-		  confirmButtonColor: '#d33',
-		  cancelButtonColor: '#3085d6',
-		  confirmButtonText: '삭제',
-		  cancelButtonText: '취소',
-		  buttonsStyling: true,
-		  reverseButtons: true
-		}).then((result) => {
-			
-		  if (result.isConfirmed) {
-			  let jobSearchNo = $('#selfJobDelBtn').data('no');
-			  $.ajax({
-				url: 'selfJobDelete',
-				type: 'post',
-				data: {jobSearchNo : jobSearchNo},
-				success: function (result) {
-					
-					Swal.fire({
-					  icon: 'success',
-					  title: '삭제완료!',
-					  showCancelButton: false,
-					  confirmButtonText: '확인'
-					}).then((result) => {
-					  if (result.isConfirmed) {
-						location.href="/selfJobList";
-					  }
-					});
-					
-				},
-		 		error: function (reject) {	   
-		    		console.log(reject);
-				}
-			});
-		  } // if끝
-		  
+// 삭제버튼 클릭시 실행하는 함수
+$('#selfJobDelBtn').on('click', function(){
+	Swal.fire({
+	  icon: 'warning',
+	  title: '해당 게시글을 \n정말 삭제하시겠습니까?',
+	  showCancelButton: true,
+	  confirmButtonColor: '#d33',
+	  cancelButtonColor: '#3085d6',
+	  confirmButtonText: '삭제',
+	  cancelButtonText: '취소',
+	  buttonsStyling: true,
+	  reverseButtons: true
+	}).then((result) => {
+		
+	  if (result.isConfirmed) {
+		  let jobSearchNo = $('#selfJobDelBtn').data('no');
+		  $.ajax({
+			url: 'selfJobDelete',
+			type: 'post',
+			data: {jobSearchNo : jobSearchNo},
+			success: function (result) {
+				
+				Swal.fire({
+				  icon: 'success',
+				  title: '삭제완료!',
+				  showCancelButton: false,
+				  confirmButtonText: '확인'
+				}).then((result) => {
+				  if (result.isConfirmed) {
+					location.href="/selfJobList";
+				  }
+				});
+				
+			},
+	 		error: function (reject) {	   
+	    		console.log(reject);
+			}
 		});
+	  } // if끝	  
 	});
+});
+	
+// 선아 2023-05-24 추가코드 권한이 ROLE_MEM일때 채용지원제안 막음
+// 채용지원제안 버튼에 id 추가함
+/*
+$('#offer').on('click', function(){
+	
+	if($('#ROLE_MEM').val()){ // 유저일때
+		//console.log('유저입니다 - ROLE_MEM 일때 수정해야할 부분 -');
+		Swal.fire({
+			  icon: 'error',
+			  title: '기업만 채용지원제안이 \n가능합니다.'
+		});
+		
+		return;
+		
+	}else if($('#ROLE_ADMIN').val()){ // 관리자일때
+		//console.log('관리자입니다.');
+
+		Swal.fire({
+			  icon: 'error',
+			  title: '기업만 채용지원제안이 \n가능합니다.'
+		});
+		
+		return;
+		
+	} else{ // 기업일때
+		
+	}
+})
+*/
+// 선아 2023-05-24 추가코드 권한이 ROLE_MEM일때 채용지원제안 막음
+	
 </script>
 	</div>
 </body>
