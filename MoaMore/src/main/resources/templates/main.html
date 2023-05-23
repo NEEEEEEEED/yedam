@@ -1,12 +1,20 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{template/layout}">
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{template/layout}">
 <head>
   <title>main</title>
 </head>
     <body>
     <div layout:fragment="content">
+    <!-- 현재로그인된 유저가 가진 권한 -->
+	<div sec:authorize="hasRole('ROLE_MEM')" style="display:none;">
+		<input id="ROLE_MEM" value="ROLE_MEM"> 
+	</div>
+	<div sec:authorize="hasRole('ROLE_CO')" style="display:none;">
+		<input id="ROLE_CO" value="ROLE_CO"> 
+	</div>
     <!-- 유료공고 -->
     <section class="bg-dark pt-6">
         <div class="container">
@@ -80,19 +88,8 @@
 	<!-- 인기공고 끝 ================================-->
 	<div class="row">
 	<!-- 셀프구직(관심순) -->
-        <div class="col-lg-6">
-          <div class="card">
-            <div class="card-body">
-				<div>
-					<p style="text-align : center;">인기 셀프구직</p>
-					<hr>
-					<ul th:each="popSelf:${popSelf}">
-						<li th:text="|${popSelf.ttl}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp${popSelf.id}|">
-<!-- 						/*<a th:href="@{/hireInfo(recruitNo=${newSelect.recruitNo}&skill=${newSelect.skill})}">ㄴㄴㄴ</a>*/--></li> 
-					</ul>
-				</div>	
-            </div>
-          </div>
+        <div class="col-lg-6" id="selfList">
+          <!-- 셀프구직 ajax들어가는 부분 -->
         </div>
 	<!-- 셀프구직(관심순) 끝 ================================-->
 	<!-- 취업QnA -->
@@ -113,6 +110,46 @@
        </div>
 	<!-- 취업QnA 끝 ================================-->
 	</div>
+	<script>
+		let auth = ''; // 현재접속한 사람의 권한
+		// 셀프구직이 권한별로 보이도록
+		function selfList(){
+			let data = {
+					auth : auth, 
+			}
+		
+			  $.ajax({
+		            url: "/selfMain",
+		            type: "GET",
+		            data: data,
+		            dataType: "json",
+		            success: function(data) {
+		            	$("#selfList").empty();
+		            	
+		            	$.each(data, function(index, item) {
+		            		let str = '';
+		            		
+		            		str = `<div class="card">
+		                        <div class="card-body">
+		        				<div>
+		        					<p style="text-align : center;">인기 셀프구직</p>
+		        					<hr>
+		        					<ul>
+		        						<li> `+item.ttl+`              `+item.id+`
+		        <!-- 						/*<a th:href="@{/hireInfo(recruitNo=${newSelect.recruitNo}&skill=${newSelect.skill})}">ㄴㄴㄴ</a>*/--></li> 
+		        					</ul>
+		        				</div>	
+		                    </div>
+		                  </div>`;
+		            	})
+		            	$("#selfList").HTML(str);
+		            },
+			  error: function(reject){
+				  conosle.log(reject);
+			  }
+			  })
+		}
+	</script>
 	</div>
     </body>
 </html>

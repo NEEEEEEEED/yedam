@@ -29,7 +29,7 @@ public interface HireService {
 	public List<HireVO> prdtSelect(HireVO hireVO);// 메인페이지 - 유료
 	public List<HireVO> popSelect(HireVO hireVO);// 메인페이지 - 인기
 	public List<HireVO> newSelect(HireVO hireVO);// 메인페이지 - 최신
-	public List<CommunityVO> popSelf(SelfVO selfVO);// 메인페이지 - 셀프구직(관심순)
+	public List<SelfVO> popSelf(SelfVO selfVO);// 메인페이지 - 셀프구직(관심순)
 	public List<CommunityVO> jobQnaBest(CommunityVO communityVO);// 메인페이지 - 취업QnA 베스트3
 			
 }
