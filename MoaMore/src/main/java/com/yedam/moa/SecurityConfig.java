@@ -34,7 +34,7 @@ public class SecurityConfig {
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.authorizeHttpRequests().antMatchers("/loginForm", "/","/find/**").permitAll()
+		http.authorizeHttpRequests().antMatchers("/loginForm", "/","/find/**","/main").permitAll()
 				.antMatchers("/admin/**")
 				.hasAuthority("ROLE_ADMIN")
 				.anyRequest()
@@ -48,7 +48,7 @@ public class SecurityConfig {
 																				// 이동할지 구현
 				.permitAll().and().logout().logoutUrl("/logout").logoutSuccessUrl("/login").permitAll().and()
 				.csrf().disable()
-				.oauth2Login().loginPage("/loginForm").userInfoEndpoint().userService(userService);
+				.oauth2Login().loginPage("/login").userInfoEndpoint().userService(userService);
 		return http.build();
 	}
 

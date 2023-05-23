@@ -32,10 +32,10 @@
 		   SET pw = #{pw}
 		 <where>
 	 		<if test="id != null">
-				id = #{id}
+				and id = #{id}
 	 		</if>
 	 		<if test="email != null">
-			 	email = #{email}
+			 	and email = #{email}
 	 		</if>
 	 	 </where>
 	</update>
@@ -50,7 +50,7 @@
 	<select id="findPw" resultType="int">
 			SELECT count(email)
 			FROM member
-			WHERE name=#{name}
+			WHERE id=#{id}
 			  AND email=#{email} 
 			  AND ph_cl=#{phCl}
 			  AND api IS NULL

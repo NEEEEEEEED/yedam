@@ -45,7 +45,7 @@ public class MemberServiceImpl implements MemberService, OAuth2UserService<OAuth
 	RegisterMail registerMail;
 
 	@Override
-	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {	
 		OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
         OAuth2User oAuth2User = delegate.loadUser(userRequest);
 
@@ -144,11 +144,15 @@ public class MemberServiceImpl implements MemberService, OAuth2UserService<OAuth
 	@Override
 	public String findpw(MemVO vo) throws Exception {
 		int result = memberMapper.findPw(vo);
+		System.out.println("result:"+result);
 		if(result > 0) {
 			String email = vo.getEmail();
+			System.out.println("email:"+email);
 	    	String code = registerMail.sendSimpleMessage(email);
+	    	System.out.println("code:"+code);
 			BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
 			String password = bcrypt.encode(code);
+			System.out.println("password:"+password);
 			vo.setPw(password);
 			if(memberMapper.updateMember(vo)>0) {
 				return "updateSuccess";

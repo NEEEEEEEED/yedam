@@ -91,4 +91,6 @@ public class SelfVO {
 	private String acceptStatus;
 	
 	private String postType="구직공고";
+	
+	private String accpDt;
 }

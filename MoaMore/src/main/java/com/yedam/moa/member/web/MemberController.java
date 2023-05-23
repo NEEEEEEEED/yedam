@@ -42,6 +42,7 @@ public class MemberController {
 	@PostMapping("/find/Id")
 	@ResponseBody
 	public String findId(MemVO vo) {
+		System.out.println(vo);
 		return memberService.findId(vo);
 	}
 	
