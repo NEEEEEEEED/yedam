@@ -348,4 +348,10 @@ public class MemServiceImpl implements MemService {
 			 return 0;
 		 }
 	}
+
+	// 개인정보 수정
+	@Override
+	public int updateInfo(MemInfoVO vo) {
+		return mem.insertMem(vo);
+	}
 }

@@ -477,14 +477,16 @@ section {
 				alwaysNone();
 			}
 			
-			// 주소 수정
+			// 주소 수정클릭
 			function updateAddr(){
 				let updateAddr = document.querySelector('#updateAddr'); // 주소변경 모달창
 				let post = updateAddr.querySelector('#post').value // 우편번호
 				let addr = updateAddr.querySelector('#addr').value // 주소
+				console.log(post)
+				console.log(addr)
 				// 주소 수정 ajax
-				$.ajax({
-					url : '/updateAddr',
+				/* $.ajax({
+					url : '/updateInfo',
 					type : 'post',
 					data : {post : post
 							addr : addr},
@@ -499,7 +501,7 @@ section {
 					error : function(reject) {
 						console.log(reject);
 					}
-				});
+				}); */
 				
 			}
 

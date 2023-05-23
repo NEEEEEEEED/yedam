@@ -48,4 +48,7 @@ public interface MemService {
 	
 	public int delResume(ResumeVO rvo);
 	
+// 회원정보 수정
+	public int updateInfo(MemInfoVO vo);
+	
 }
