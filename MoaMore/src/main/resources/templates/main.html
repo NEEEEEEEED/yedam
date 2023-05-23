@@ -52,16 +52,8 @@
 					<p style="text-align : center;">최신 공고</p>
 					<hr>
 					<ul th:each="newSelect:${newSelect}">
-<<<<<<< HEAD
 						<li th:text="|${newSelect.ttl}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp${newSelect.coNm}|">
 <!-- 						/*<a th:href="@{/hireInfo(recruitNo=${newSelect.recruitNo}&skill=${newSelect.skill})}">ㄴㄴㄴ</a>*/--></li> 
-=======
-							<li th:text="|${newSelect.ttl}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp${newSelect.coNm}|">
-						<a th:href="@{/hireInfo(recruitNo=${newSelect.recruitNo}&skill=${newSelect.skill})}">
-							a태그
-						</a>
-							</li>
->>>>>>> branch 'main' of https://github.com/MoaMore/MoaMore.git
 					</ul>
 				</div>	
             </div>
@@ -76,7 +68,6 @@
 					<p style="text-align : center;">인기 공고</p>
 					<hr>
 					<ul th:each="popSelect:${popSelect}">
-<<<<<<< HEAD
 						<li th:text="|${popSelect.ttl}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp${popSelect.coNm}|">
 <!-- 						/*<a th:href="@{/hireInfo(recruitNo=${popSelect.recruitNo}&skill=${popSelect.skill})}">ㅁㅁㅁ</a>*/--></li> 
 					</ul>
@@ -98,13 +89,6 @@
 					<ul th:each="popSelf:${popSelf}">
 						<li th:text="|${popSelf.ttl}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp${popSelf.id}|">
 <!-- 						/*<a th:href="@{/hireInfo(recruitNo=${newSelect.recruitNo}&skill=${newSelect.skill})}">ㄴㄴㄴ</a>*/--></li> 
-=======
-							<li th:text="|${popSelect.ttl}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp${popSelect.coNm}|">
-						<a th:href="@{/hireInfo(recruitNo=${popSelect.recruitNo}&skill=${popSelect.skill})}">
-								a태그
-						</a>
-							</li>
->>>>>>> branch 'main' of https://github.com/MoaMore/MoaMore.git
 					</ul>
 				</div>	
             </div>

@@ -233,8 +233,33 @@ export default {
         console.log(data);
         this.$toast.add({
           severity: "success",
-          summary: "삭제 완료",
-          detail: data + "의 정보가 삭제되었습니다.",
+          summary: "승인 완료",
+          detail: data + "의 정보가 승인되었습니다.",
+          life: 3000,
+        });
+        this.getApprvList().then((data) => {
+          //배열합치기 spread operator
+          this.ApproveList = [...data.hireVO, ...data.intrvVO, ...data.selfVO];
+        });
+      });
+    },
+    approveCancelBtn() {
+      if (this.selectedBoard == null) {
+        this.$toast.add({
+          severity: "info",
+          summary: "승인할 게시물을 선택하세요.",
+          life: 2000,
+        });
+        return;
+      }
+      const nos = this.selectedBoard.map((item) => item.no);
+      console.log(nos);
+      reportList.approveCancelBoard(nos).then((data) => {
+        console.log(data);
+        this.$toast.add({
+          severity: "success",
+          summary: "승인 취소 완료",
+          detail: data + "의 정보가 승인 취소되었습니다.",
           life: 3000,
         });
         this.getApprvList().then((data) => {

@@ -7,8 +7,10 @@ import lombok.Data;
 @Data
 public class ReplyVO {
 	
-	private String rplyNo; 				// 취업 Q&A 댓글번호
+	private String rplyNo; 				// 댓글번호
 	private String qaNotiwrNo; 			// 취업 Q&A 게시글번호(fk)
+	private String prjtNo;				// 프로젝트 모집 게시글번호(fk)
+	private String studyNo;				// 스터디 모집 게시글번호(fk)
 	private String id;					// 아이디
 	private String rplyCntn;			// 댓글내용
 	private String regDt;				// 등록일자

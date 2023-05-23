@@ -58,7 +58,7 @@
 				    
 				    	<!-- 버전1 -->
 					    <div class="card-title mb-1" style="display:flex">
-					    	<h3 class="fw-bold" th:text="|${projectInfo.ttl}&nbsp&nbsp|">제목</h3>
+					    	<h3 class="fw-bold" th:text="|${projectInfo.ttl}&nbsp&nbsp|" id="ttl">제목</h3>
 					    	<p th:if="${projectInfo.collSt == '모집중'}" class="badge bg-secondary radius" th:text="${projectInfo.collSt}">모집중</p>
           					<p th:unless="${projectInfo.collSt == '모집중'}" class="badge bg-dark radius" th:text="${projectInfo.collSt}">모집완료</p>
 					    	
@@ -75,7 +75,7 @@
 					    			<div class="ms-3">
 						    			<p th:text="${projectInfo.regDt}">등록일자</p>
 						    		</div>
-					    			<div class="ms-3 cursor">
+					    			<div class="ms-3 cursor" id="reportBtn">
 						   				<i class="fa-solid fa-land-mine-on"></i>
 						   				<span class="fs--1">신고하기</span>
 						   			</div>
@@ -163,21 +163,18 @@
 						</div>
 				    	
 				    	<div>
-					    	<p class="fs-1 mb-3">◈ 프로젝트소개</p>
+					    	<p class="fs-1 mb-4">◈ 프로젝트소개</p>
 					    	<div class="ms-4" th:utext="${projectInfo.cntn}"></div>
 					    </div>
 				    </div>
 				  </div>
 				</div>
 				
-				<!-- <div class="input-group mb-4">
-				  <textarea class="form-control radius" style="resize: none; height: 50px;" placeholder="댓글을 작성해주세요" ></textarea>
-				  <button class="btn btn-dark radius" type="button" id="button-addon2">댓글등록</button>
-				</div>
-
-				 <div id="app">
+				
+				<!-- Vue -->
+				<div id="app">
 				    <project-component></project-component>
-				</div> -->
+				</div>
 
 
 				<div class="mt-5 mb-5" style="text-align:right;">
@@ -236,23 +233,16 @@ $('#projectDelBtn').on('click', function(){
 			data: {prjtNo : prjtNo},
 			success: function (result) {
 				
-				if(result.result == 'Success'){
-					Swal.fire({
-					  icon: 'success',
-					  title: '삭제완료!',
-					  showCancelButton: false,
-					  confirmButtonText: '확인'
-					}).then((result) => {
-					  if (result.isConfirmed) {
-						location.href="/projectList";
-					  }
-					});
-				}else{
-					Swal.fire({
-						  icon: 'error',
-						  title: '게시글 삭제실패!'
-					});
-				}
+				Swal.fire({
+				  icon: 'success',
+				  title: '삭제완료!',
+				  showCancelButton: false,
+				  confirmButtonText: '확인'
+				}).then((result) => {
+				  if (result.isConfirmed) {
+					location.href="/projectList";
+				  }
+				});
 				
 			},
 	 		error: function (reject) {	   
@@ -261,6 +251,24 @@ $('#projectDelBtn').on('click', function(){
 		});
 	  } // if끝
 	});
+});
+
+$('#reportBtn').on('click', function(){
+	let no = $('#projectDelBtn').data('no');
+	let title = $('#ttl').text();
+
+	var url = '/reportForm?no='+no+"&title="+title;  
+    var windowName = '신고하기'; 
+    var windowWidth = 400; // 새 창의 너비
+    var windowHeight = 300; // 새 창의 높이   
+    var windowLeft = (window.innerWidth - windowWidth) / 2;
+    var windowTop = (window.innerHeight - windowHeight) / 2;
+    
+    var windowFeatures = 'width=' + windowWidth + ',height=' + windowHeight +
+        ',top=' + windowTop + ',left=' + windowLeft;
+    
+    window.open(url, windowName, windowFeatures);
+	
 });
 
 </script>

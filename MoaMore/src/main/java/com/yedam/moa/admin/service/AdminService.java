@@ -29,4 +29,8 @@ public interface AdminService {
 
 	public String approveBoard(String[] nos);
 
+	public String approveCancelBoard(String[] nos);
+
+	public String addReport(ReportVO rvo);
+
 }

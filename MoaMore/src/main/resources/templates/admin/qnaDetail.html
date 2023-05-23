@@ -86,20 +86,6 @@
 </head>
 <body>
 	<div>
-		<!--  <div class="row mt-2 mb-5">
-			<div class="col-md-2"></div>
-			<div class="col-md-8">
-				<nav style="background-color: white; border-bottom : 1px solid #ddd;">
-					<ul class="listStyle d-flex justify-content-evenly">
-						<li><a href="/jobQnA">취업Q&A</a></li>
-						<li><a href="#">면접후기</a></li>
-						<li><a href="#">프로젝트모집</a></li>
-						<li><a href="#">스터디모집</a></li>
-					</ul>
-				</nav>
-			</div>
-			<div class="col-md-2"></div>
-		</div>-->
 	
 		<div class="row">
 
@@ -111,7 +97,7 @@
 				<div class="mb-4">
 				  <div class="card col-lg-12">
 				    <div class="card-body">
-				    
+			
 				    	<!-- 버전1 -->
 					    <div class="card-title mb-1" style="display:flex">
 					    	<h3 class="fw-bold" th:text="${jobQnaDetail.ttl}">제목</h3>
@@ -136,106 +122,31 @@
 					   		</div>
 					    </div>
 					    
-					    <!-- 버전2 -->
-					    <!-- <div class="card-title mb-1">
-					    	<div class="row">
-					    		<div class="col-md-8">
-					    			<h3 class="fw-bold" th:text="${jobQnaDetail.ttl}">제목</h3>
-					    		</div>
-					    		<div class="col-md-4" style="display:flex;">
-						   			<div class="mx-3">
-					    				<i class="fa-regular fa-comment-dots"></i>
-					    				<span th:text="${jobQnaDetail.inqCnt}">조회수</span>
-					    			</div>
-					    			<div class="mx-3">
-						   				<i class="fa-regular fa-comment-dots"></i>
-						   				<span th:text="${jobQnaDetail.rplyCnt}">댓글수</span>
-						   			</div>
-					    			<div class="mx-3">
-						   				<i class="fa-solid fa-land-mine-on"></i>
-						   				<span class="fs--1">신고하기</span>
-						   			</div>
-					    		</div>
-					   		</div>	
-					    </div> -->
-					    
 				    	<div class="mb-5">
 				    		<img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
 				    		<span class="ms-1" th:text="${jobQnaDetail.id}">작성자</span>
 				    		<!-- <hr class="mt-4" style="color:#ddd"> -->
 				    	</div>
+				    
+				    	<div class="mb-7" th:utext="|${jobQnaDetail.htmlCntn}|"></div>
 				    	
-				    	<div th:utext="|${jobQnaDetail.htmlCntn}|"></div>
+				    	<div class="mb-3 text-center">
+				    		<span class="fs-1 p-3" style="border : 1px solid #ddd;">
+				    			<th:block th:if="${recoYn == 'N'}">
+				    				<span id="likeBtn" style="cursor : pointer;" th:data-no="${jobQnaDetail.qaNotiwrNo}"><i class="bi bi-hand-thumbs-up fa-xl"></i> 추천</span>
+				    			</th:block>
+				    			<th:block th:if="${recoYn == 'Y'}">
+				    				<span id="likeBtn" style="cursor : pointer;" th:data-no="${jobQnaDetail.qaNotiwrNo}"><i class="bi bi-hand-thumbs-up-fill text-secondary fa-xl"></i> 추천</span>
+				    			</th:block>
+				    			<span id="likeCount" th:text="${jobQnaDetail.recoCnt}">0</span>
+				    		</span>
+				    	</div>
+				    	
 				    </div>
 				  </div>
 				</div>
 				
-				<div class="input-group mb-4">
-				  <textarea class="form-control radius" style="resize: none; height: 50px;" placeholder="댓글을 작성해주세요" ></textarea>
-				  <button class="btn btn-dark radius" type="button" id="button-addon2">댓글등록</button>
-				</div>
-
-				<hr style="color:#ddd;">
 				
-				<div class="mb-2 p-2">
-					<div class="mb-2" style="display:flex">
-						<div>
-							<img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
-							<span>아이디</span>
-						</div>
-						<div style="margin-left:auto;">
-							<div class="d-flex">
-								<div>
-					    			<p>2023/05/13</p>
-					    		</div>
-								<div class="ms-3">
-				    				<i class="fa-regular fa-comment-dots fa-sm"></i>
-				    				<span>0</span>
-				    			</div>
-								<div class="cursor ms-3">
-					   				<i class="fa-solid fa-land-mine-on"></i>
-					   				<span class="fs--1">신고하기</span>
-					   			</div>
-				   			</div>
-						</div>
-					</div>
-					<p>내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-						내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-						내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-					</p>
-				</div>
-				
-				<hr style="color:#ddd;">
-				
-				<div class="mb-2 p-2">
-					<div class="mb-2" style="display:flex">
-						<div>
-							<img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
-							<span>아이디</span>
-						</div>
-						<div style="margin-left:auto;">
-							<div class="d-flex">
-								<div>
-					    			<p>2023/05/13</p>
-					    		</div>
-								<div class="ms-3">
-				    				<i class="fa-regular fa-comment-dots fa-sm"></i>
-				    				<span>0</span>
-				    			</div>
-								<div class="cursor ms-3">
-					   				<i class="fa-solid fa-land-mine-on"></i>
-					   				<span class="fs--1">신고하기</span>
-					   			</div>
-				   			</div>
-						</div>
-					</div>
-					<p>내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-						내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-						내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-					</p>
-				</div>
-				
-				<hr style="color:#ddd;">
 				
 				<div class="mt-5 mb-5" style="text-align:right;">
 					<!-- 로그인된 사용자가 자기가 작성한 게시물이라면 나타나는 버튼 -->
@@ -256,53 +167,97 @@
 		
 <script>
 
+function RecoAdd(qaNotiwrNo){
+	$.ajax({
+		url: 'jobQnaRecoAdd',
+		type: 'post',
+		data: {qaNotiwrNo : qaNotiwrNo},
+		success: function (result) {
+			if(result.result == 'Success'){
+				console.log('추천완료');
+			}else{
+				Swal.fire({
+					  icon: 'error',
+					  title: '게시글 추천실패!'
+				});
+			}
+		},
+			error: function (reject) {	  
+	   		console.log(reject);
+		}
+	});
+}
+
+// 추천버튼 클릭시 실행하는 함수
+$('#likeBtn').on('click', function(){
+	
+	let like = $('#likeBtn').find('.bi-hand-thumbs-up');
+	
+	if(like.hasClass("bi-hand-thumbs-up")){ // 추천이 안되어있는 상태라면
+		
+		like.removeClass("bi-hand-thumbs-up"); // 추천이 안되어있는 상태 지우고
+		like.addClass("bi-hand-thumbs-up-fill"); // 추천 상태 추가
+		like.addClass("text-secondary");
+		$('#likeCount').text(parseInt($('#likeCount').text()) + 1);
+		
+		let qaNotiwrNo = $('#likeBtn').data('no');
+		RecoAdd(qaNotiwrNo); // 추천 등록 함수 호출
+		
+	}else{
+
+		Swal.fire({
+			  icon: 'error',
+			  title: '이미 추천한 게시글입니다.'
+		});
+	}
+});
+
+
 //삭제버튼 클릭시 실행하는 함수
 $('#jobQnaDelete').on('click', function(){
-	Swal.fire({
-	  icon: 'warning',
-	  title: '해당 게시글을 \n정말 삭제하시겠습니까?',
-	  showCancelButton: true,
-	  confirmButtonColor: '#d33',
-	  cancelButtonColor: '#3085d6',
-	  confirmButtonText: '삭제',
-	  cancelButtonText: '취소',
-	  buttonsStyling: true,
-	  reverseButtons: true
-	}).then((result) => {
-	  if (result.isConfirmed) {
-		  let qaNotiwrNo = $('#jobQnaDelete').data('no');
-		  $.ajax({
-			url: 'jobQnaDelete',
-			type: 'post',
-			data: {qaNotiwrNo : qaNotiwrNo},
-			success: function (result) {
-				
-				if(result.result == 'Success'){
-					Swal.fire({
-					  icon: 'success',
-					  title: '삭제완료!',
-					  showCancelButton: false,
-					  confirmButtonText: '확인'
-					}).then((result) => {
-					  if (result.isConfirmed) {
-						location.href="/jobQnA";
-					  }
-					});
-				}else{
-					Swal.fire({
-						  icon: 'error',
-						  title: '게시글 삭제실패!'
-					});
-				}
-				
-			},
-	 		error: function (reject) {	   
-	    		console.log(reject);
-			}
-		});
-	  } // if끝
-	});
-});
+ 	Swal.fire({
+ 	  icon: 'warning',
+ 	  title: '해당 게시글을 \n정말 삭제하시겠습니까?',
+ 	  showCancelButton: true,
+ 	  confirmButtonColor: '#d33',
+ 	  cancelButtonColor: '#3085d6',
+ 	  confirmButtonText: '삭제',
+ 	  cancelButtonText: '취소',
+ 	  buttonsStyling: true,
+ 	  reverseButtons: true
+ 	}).then((result) => {
+ 	  if (result.isConfirmed) {
+ 		  
+ 		  let qaNotiwrNo = $('#jobQnaDelete').data('no');
+ 		  
+ 		  $.ajax({
+ 			url: 'jobQnaDelete',
+ 			type: 'post',
+ 			data: {qaNotiwrNo : qaNotiwrNo},
+ 			success: function (result) {
+		
+				Swal.fire({
+			 	  icon: 'success',
+				  title: '삭제완료!',
+				  showCancelButton: false,
+				  confirmButtonText: '확인'
+				})
+				.then((result) => {
+				  if (result.isConfirmed) {
+					location.href="/jobQnA";
+				  }
+				});
+ 					
+ 			},
+ 	 		error: function (reject) {	  
+ 	    		console.log(reject);
+ 			}
+ 		});
+ 	  } // if끝
+ 	});
+ });
+ 
+ 
 
 </script>
 	</div>

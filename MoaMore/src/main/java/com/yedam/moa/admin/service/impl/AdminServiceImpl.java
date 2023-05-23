@@ -164,6 +164,38 @@ public class AdminServiceImpl implements AdminService {
 		}
 		return message;
 	}
+	@Override
+	public String approveCancelBoard(String[] nos) {
+		String message = "";
+		for(String str : nos) {
+			String substr = str.substring(0,3);
+			System.out.println(substr);
+			if (substr.equals("REA")) {
+				adminMapper.approveCancelREA(str);
+				message = message + str +",";
+			} else if(substr.equals("JSN")) {
+				adminMapper.approveCancelJSN(str);
+				message = message + str +",";
+			} else  {
+				adminMapper.approveCancelITV(str);
+				message = message + str +",";
+			} 
+		}
+		return message;
+	}
+	@Override
+	public String addReport(ReportVO rvo) {
+		if(adminMapper.getReport(rvo)>0) {
+			return "exist";
+		} else {
+			if(adminMapper.insertReport(rvo)>0) {
+				return "success";
+			} else {
+				return "fail";
+			}
+		}
+		
+	}
 
 
 }

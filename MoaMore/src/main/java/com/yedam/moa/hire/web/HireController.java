@@ -69,10 +69,13 @@ public class HireController {
 		hireVO.setId(pr.getName());
 		
 		
+		
 
 		List<HireVO> hireInfo = hireService.hireInfo(hireVO);
+		String[] skillArray = hireInfo.get(0).getSkill().split(",");
+		hireVO.setSkillArray(skillArray);
 		
-		String[] array = hireInfo.get(0).getRecruitImg().split(","); 
+		String[] array = hireInfo.get(0).getRecruitImg().split(",");
 		
 		model.addAttribute("recommend", hireService.selectRecommend(hireVO));
 		model.addAttribute("imgArray",array);
@@ -92,6 +95,7 @@ public class HireController {
 	@PostMapping("/resumeInsert")
 	@ResponseBody
 	public String resumeInsert(HireVO hireVO) {
+		
 		return hireService.resumeInsert(hireVO);
 	}
 	
