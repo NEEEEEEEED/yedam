@@ -274,5 +274,55 @@ public class CommunityServiceImpl implements CommunityService{
 		return commuMapper.jobQnaListCnt();
 	}
 
+	// 프로젝트 모집 댓글 리스트
+	@Override
+	public List<ReplyVO> projectReplyList(ReplyVO replyVO) {
+		return commuMapper.projectReplyList(replyVO);
+	}
+
+	// 프로젝트 모집 댓글 등록
+	@Override
+	public int projectReplyAdd(ReplyVO replyVO) {
+		commuMapper.projectReplyCount(replyVO.getPrjtNo()); // 댓글수 증가
+		return commuMapper.projectReplyAdd(replyVO);
+	}
+
+	// 프로젝트 모집 댓글 수정 기능
+	@Override
+	public int projectReplyMod(ReplyVO replyVO) {
+		return commuMapper.projectReplyMod(replyVO);
+	}
+
+	// 프로젝트 모집 댓글 삭제 기능
+	@Override
+	public int projectReplyDelete(ReplyVO replyVO) {
+		return commuMapper.projectReplyDelete(replyVO);
+	}
 	
+	// 스터디 모집 댓글 리스트
+	@Override
+	public List<ReplyVO> studyReplyList(ReplyVO replyVO) {
+		return commuMapper.studyReplyList(replyVO);
+	}
+
+	// 스터디 모집 댓글 등록
+	@Override
+	public int studyReplyAdd(ReplyVO replyVO) {
+		commuMapper.studyReplyCount(replyVO.getStudyNo()); // 댓글수 증가
+		return commuMapper.studyReplyAdd(replyVO);
+	}
+
+	// 스터디 모집 댓글 수정 기능
+	@Override
+	public int studyReplyMod(ReplyVO replyVO) {
+		return commuMapper.studyReplyMod(replyVO);
+	}
+
+	// 스터디 모집 댓글 삭제 기능
+	@Override
+	public int studyReplyDelete(ReplyVO replyVO) {
+		return commuMapper.studyReplyDelete(replyVO);
+	}
+
+
 }
