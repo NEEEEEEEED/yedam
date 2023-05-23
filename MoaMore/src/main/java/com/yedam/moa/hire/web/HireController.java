@@ -21,7 +21,6 @@ import com.yedam.moa.comm.service.CommService;
 import com.yedam.moa.hire.HireVO;
 import com.yedam.moa.hire.service.HireService;
 import com.yedam.moa.hire.service.Impl.HireServiceImpl;
-import com.yedam.moa.self.SelfVO;
 
 // 권수민 개발날짜 23.04.28
 // 구인광고 관리
@@ -186,7 +185,6 @@ public class HireController {
 
 	// 구인공고 썸네일 업로드
 	String fileNameThumnailImg= null; // 단건
-	String uploadFileNameThumnailImg = null;   // 다건
 		
 
 	
@@ -267,7 +265,6 @@ public class HireController {
 	
 		// 구인공고 썸네일 업로드
 		String fileNameThumnailImg= null; // 단건
-		String uploadFileNameThumnailImg = null;   // 다건
 			
 
 		

@@ -396,15 +396,6 @@
 		       ID
 		FROM JOB_SEARCH_NOTIWR 
 		WHERE 1=1
-		<if test="auth != null and !auth.equals('') and auth.equals('user')">
-			AND id = #{id} OR pubc_range = 'c3'
-		</if>
-		<if test="auth != null and !auth.equals('') and auth.equals('co')">
-			AND pubc_range = 'c3' OR pubc_range = 'c2'
-		</if>
-		<if test="auth != null and !auth.equals('') and auth.equals('admin')">
-		
-		</if>
 		<![CDATA[AND ROWNUM < 4]]>
 		ORDER BY INTEREST
 	</select>

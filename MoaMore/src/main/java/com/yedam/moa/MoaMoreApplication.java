@@ -41,22 +41,17 @@ public class MoaMoreApplication {
 		
 		HireVO hireVO = new HireVO();
 		CommunityVO communityVO = new CommunityVO();
+		SelfVO selfVO = new SelfVO();
 		
 		
 		
 		model.addAttribute("prdtSelect",hireService.prdtSelect(hireVO)); // 유료공고
 		model.addAttribute("newSelect",hireService.newSelect(hireVO)); // 최신공고
 		model.addAttribute("popSelect",hireService.popSelect(hireVO)); // 인기공고
-		model.addAttribute("jobQnaBest", hireService.jobQnaBest(communityVO)); // 취업QnA 베스트3
+		model.addAttribute("popSelf", hireService.popSelf(selfVO)); // 인기 셀프구직
+		model.addAttribute("jobQnaBest", hireService.jobQnaBest(communityVO)); // 취업QnA 
 		
 		return "main";
-	}
-	
-	@GetMapping("/selfMain")
-	@ResponseBody
-	public List<SelfVO> selfMain(Principal pr, SelfVO selfVO) {
-		selfVO.setId(pr.getName());
-		return hireService.popSelf(selfVO);
 	}
 	
 	@GetMapping("/vueAdmin")
