@@ -13,10 +13,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.moa.comm.service.CommService;
-import com.yedam.moa.community.CommunityVO;
 import com.yedam.moa.community.Criteria;
 import com.yedam.moa.community.PagingVO;
 import com.yedam.moa.mem.MemInfoVO;
@@ -221,7 +221,7 @@ public class MemController {
 		mem.updateRe(vo);
 		 return mem.insertResume(vo);
 	}
-	
+//	마이페이지 이력서 관리 페이지(이력서 리스트 화면 출력)
 	@GetMapping("/resumeList")
 	public String getList(Model model,Principal pr,Criteria cri) {
 		System.out.println(cri);
@@ -244,7 +244,7 @@ public class MemController {
 		
 		return "/mem/resumeList";
 	}
-	
+//	이력서 삭제 메소드
 	@GetMapping("/delResume")
 	public String delResume(Model model,Principal pr,Criteria cri,ResumeVO rvo) {
 		rvo.setId(pr.getName());
@@ -279,9 +279,11 @@ public class MemController {
 		return "mem/signup";
 	}
 	@GetMapping("/checkId")
-	public int checkId(MemInfoVO vo) {
-		
-		return mem.checkId(vo);
+	public int checkId( String id) {
+		MemInfoVO vo = new MemInfoVO(); 
+		vo.setId(id);
+		System.out.println(mem.checkId(vo));
+		return 0;
 	}
 	
 }

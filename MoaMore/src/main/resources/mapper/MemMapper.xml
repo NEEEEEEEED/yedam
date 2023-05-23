@@ -5,20 +5,20 @@
 <mapper namespace="com.yedam.moa.mem.mapper.MemMapper">
 <!-- 	마이페이지 홈  -->
 	<select id="openSesame" resultType="MemVO">
-		SELECT  r.id as id_co,
-				r.ttl,
-				r.expr_dt,
-				r.recruit_no,
-				m.email
-		 FROM co c 
-		 join recruit_anun r
-		   ON r.id = c.id
-		 join member m
-		   on c.id = m.id
-		   
-		WHERE r.id IN (SELECT id_co
-		                 FROM following
-		                WHERE id_mem = #{id})
+		  select 	r.ttl
+				  , r.ma_buss
+				  , get_common(r.wksite) wksite
+				  ,	r.expr_dt,r.recruit_no
+				  , m.email
+				  , LISTAGG(get_common(t.SKILL), ',') WITHIN GROUP (ORDER BY SKILL_NO) as SKILL
+    	 from 	following f join recruit_anun r
+    	 on  	f.id_co = r.id
+	    			join member m
+	    			on f.id_co = m.id
+					    join recruit_skill t
+					    on r.recruit_no = t.recruit_no
+    	 where f.id_mem = #{id} <![CDATA[and TO_DATE(sysdate, 'YYYY-MM-DD') < TO_DATE(r.EXPR_DT, 'YYYY-MM-DD')]]>
+     	 GROUP BY r.ttl,r.expr_dt,r.recruit_no,m.email, wksite,r.ma_buss
 	</select>
 <!-- 공고 검색 조건 갯수 뷰 -->
 	<select id="getCount" resultType="SearchVO">
