@@ -1,5 +1,6 @@
 package com.yedam.moa.mem.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.yedam.moa.community.Criteria;
@@ -48,4 +49,7 @@ public interface MemService {
 	
 	public int delResume(ResumeVO rvo);
 	
+	public int joinMoaMore(MemInfoVO vo);
+	
+	public int insertBiz(MemInfoVO vo);
 }

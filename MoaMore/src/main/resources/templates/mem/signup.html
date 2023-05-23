@@ -58,6 +58,18 @@
     <script src="/assets/js/theme.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <style>
+      .btn-md {
+        font-size: 3px;
+        width: 90%;
+        height: 40%;
+        background-color: #65e4a3;
+      }
+      .card {
+        background-color: #ffff;
+      }
+      .bgcol {
+        background-color: #0a2640;
+      }
       .inpCon {
         width: 700px;
         height: fit-content;
@@ -74,200 +86,179 @@
       #forCo {
         cursor: pointer;
       }
+      .cor {
+        cursor: pointer;
+      }
+      .border {
+        --bs-border-opacity: 1;
+      }
+      #forUserDiv {
+        display: block;
+      }
+      #forCoDiv {
+        display: none;
+      }
     </style>
-    <title>Insert title here</title>
+    <title>Sign Up</title>
   </head>
   <body>
-    <div class="bg-light">
+    <div class="bgcol">
       <div class="container d-flex justify-content-center">
         <!--  <main>-->
-        <div class="row g-5 inpCon align-items-center">
-          <div class="col-md-7 col-lg-8 mx-auto">
-            <div class="ali"><h3>회원가입</h3></div>
-            <div class="row">
-              <div class="col-6 ali mt-3" id="forUser">일반회원</div>
-              <div class="col-6 ali mt-3" id="forCo">기업회원</div>
-
-              <!-- -------------------일반시작------------------------------------- -->
-              <div class="row g-3" id="userForm" style="display: block">
-                <div class="col-12" id="member">
-                  <label
-                    for="id"
-                    class="form-label"
-                    style="width: 150px; text-align: left"
-                    ><b>아이디</b></label
-                  >
-                  <input
-                    type="text"
-                    class="form-control input_id"
-                    placeholder="아이디를 입력해 주세요"
-                    name="id"
-                    required
-                  />
-                  <font id="checkId" size="2"></font>
-                </div>
-
-                <div class="col-12">
-                  <label
-                    for="password"
-                    class="form-label"
-                    style="width: 150px; text-align: left; text-align: left"
-                    ><b>비밀번호</b></label
-                  >
-                  <input
-                    type="password"
-                    class="form-control"
-                    placeholder="비밀번호를 입력해 주세요"
-                    name="pw"
-                    required
-                  />
-                </div>
-                <div class="col-12">
-                  <label
-                    for="passwordCheck"
-                    class="form-label"
-                    style="width: 150px; text-align: left"
-                    ><b>비밀번호 확인</b>
-                  </label>
-                  <input
-                    type="password"
-                    class="form-control"
-                    name="pscheck"
-                    placeholder="비밀번호 확인"
-                    required
-                  />
-                  <font id="checkUps" size="2"></font>
-                </div>
-
-                <div class="col-12">
-                  <label
-                    for="username"
-                    class="form-label"
-                    style="width: 150px; text-align: left"
-                    ><b>이름</b></label
-                  >
-                  <input
-                    type="text"
-                    class="form-control"
-                    name="name"
-                    placeholder="이름을 입력해 주세요"
-                    required
-                  />
-                </div>
-
-                <div class="col-9 me-0">
-                  <label
-                    for="email"
-                    class="form-label"
-                    style="width: 150px; text-align: left"
-                    >연락처</label
-                  >
-                  <input
-                    type="text"
-                    class="form-control"
-                    name="ph"
-                    placeholder="휴대전화번호를 입력해주세요"
-                    oninput="phTemp(this)"
-                    maxlength="13"
-                  />
-                  <div class="invalid-feedback">전화번호를 입력 해 주세요</div>
-                </div>
-                <div class="col-3 mt-5">
-                  <button id="phCheck">인증번호 발송</button>
-                </div>
+        <div class="row g-5 inpCon justify-content-center p-3">
+          <div class="col-md-7 col-lg-8 mx-2 card">
+            <div class="ali my-3"><h3>회원가입</h3></div>
+            <div class="row justify-content-center">
+              <div
+                class="col-6 ali cor p-3 border border-bottom-0"
+                id="forUser"
+              >
+                일반회원
               </div>
-              <!---------------------------------------기업시작----------------------------------------------->
-              <div class="row g-3" id="coForm" style="display: none">
-                <div class="col-12" id="company">
-                  <label
-                    for="id"
-                    class="form-label"
-                    style="width: 150px; text-align: left"
-                    ><b>아이디</b></label
-                  >
-                  <input
-                    type="text"
-                    class="form-control input_id"
-                    placeholder="아이디를 입력해 주세요"
-                    name="id"
-                    required
-                  />
-                  <font id="checkId" size="2"></font>
-                </div>
-
-                <div class="col-12">
-                  <label
-                    for="password"
-                    class="form-label"
-                    style="width: 150px; text-align: left; text-align: left"
-                    ><b>비밀번호</b></label
-                  >
-                  <input
-                    type="password"
-                    class="form-control"
-                    placeholder="비밀번호를 입력해 주세요"
-                    name="pw"
-                    required
-                  />
-                </div>
-                <div class="col-12">
-                  <label
-                    for="passwordCheck"
-                    class="form-label"
-                    style="width: 150px; text-align: left"
-                    ><b>비밀번호 확인</b>
-                  </label>
-                  <input
-                    type="password"
-                    class="form-control"
-                    name="pscheck"
-                    placeholder="비밀번호 확인"
-                    required
-                  />
-                  <font id="checkUps" size="2"></font>
-                </div>
-
-                <div class="col-12">
-                  <label
-                    for="cname"
-                    class="form-label"
-                    style="width: 150px; text-align: left"
-                    ><b>이름</b></label
-                  >
-                  <input
-                    type="text"
-                    class="form-control"
-                    name="name"
-                    placeholder="이름을 입력해 주세요"
-                    required
-                  />
-                </div>
-
-                <div class="col-9">
-                  <label
-                    for="email"
-                    class="form-label"
-                    style="width: 150px; text-align: left"
-                    >사업자 번호</label
-                  >
-                  <input
-                    type="text"
-                    class="form-control"
-                    name="bizno"
-                    placeholder=""
-                    readonly
-                  />
-                  <div class="invalid-feedback">전화번호를 입력 해 주세요</div>
-                </div>
-                <div class="col-3 mt-5">
-                  <button id="coCheck">사업자 확인</button>
-                </div>
+              <div class="col-6 ali cor p-3 border-bottom" id="forCo">
+                기업회원
               </div>
-              <hr class="my-4" />
+              <form>
+                <!-- -------------------일반시작------------------------------------- -->
+                <div
+                  class="row justify-content-center border border-top-0 mb-4"
+                  id="bod"
+                >
+                  <div class="col-12" id="member">
+                    <label
+                      for="id"
+                      class="form-label mt-3"
+                      style="width: 150px; text-align: left"
+                      ><b>아이디</b></label
+                    >
+                    <input
+                      type="text"
+                      id="id"
+                      class="form-control p-2 input_id"
+                      placeholder="아이디를 입력해 주세요"
+                      name="id"
+                      required
+                    />
+                    <font id="checkId" size="2"></font>
+                  </div>
+
+                  <div class="col-12">
+                    <label
+                      for="pw"
+                      class="form-label mt-3"
+                      style="width: 150px; text-align: left; text-align: left"
+                      ><b>비밀번호</b></label
+                    >
+                    <input
+                      type="password"
+                      id="pw"
+                      class="form-control p-2"
+                      placeholder="비밀번호를 입력해 주세요"
+                      name="pw"
+                      required
+                    />
+                  </div>
+                  <div class="col-12">
+                    <label
+                      for="pscheck"
+                      class="form-label mt-3"
+                      style="width: 150px; text-align: left"
+                      ><b>비밀번호 확인</b>
+                    </label>
+                    <input
+                      type="password"
+                      id="pscheck"
+                      class="form-control p-2"
+                      name="pscheck"
+                      placeholder="비밀번호 확인"
+                      required
+                    />
+                    <font id="checkUps" size="2"></font>
+                  </div>
+
+                  <div class="col-12">
+                    <label
+                      for="name"
+                      class="form-label mt-3"
+                      style="width: 150px; text-align: left"
+                      ><b>이름</b></label
+                    >
+                    <input
+                      type="text"
+                      id="name"
+                      class="form-control p-2"
+                      name="name"
+                      placeholder="이름을 입력해 주세요"
+                      required
+                    />
+                  </div>
+                  <div
+                    class="row col-12 p-0"
+                    id="forUserDiv"
+                    style="display: block"
+                  >
+                    <div class="col-9 m-0">
+                      <label
+                        for="ph"
+                        class="form-label mt-3"
+                        style="width: 150px; text-align: left"
+                        >연락처</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control p-2"
+                        id="ph"
+                        name="ph"
+                        placeholder="휴대전화번호를 입력해주세요"
+                        oninput="phTemp(this)"
+                        maxlength="13"
+                      />
+                      <input type="hidden" id="confirm" value="" />
+                      <div class="invalid-feedback">
+                        휴대전화번호를 입력 해 주세요
+                      </div>
+                    </div>
+                    <div class="col-3 mt-3 mx-0">
+                      <button class="btn btn-md px-2 py-1 mt-4" id="phCheck">
+                        인증번호 발송
+                      </button>
+                    </div>
+                  </div>
+                  <div class="col-12 row p-0 mb-3" id="forCoDiv">
+                    <div class="col-9">
+                      <label
+                        for="bizno"
+                        class="form-label mt-3"
+                        style="width: 150px; text-align: left"
+                        >사업자 번호</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control p-2"
+                        id="bizno"
+                        name="bizno"
+                        oninput="bizTemp(this)"
+                        placeholder=""
+                        readonly
+                      />
+                      <div class="invalid-feedback">
+                        사업자 번호를 입력 해 주세요
+                      </div>
+                    </div>
+                    <div class="col-3 mt-3">
+                      <button id="coCheck" class="btn btn-md py-2 px-3 mt-4">
+                        사업자 확인
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
               <div class="d-flex">
-                <button class="w-50 btn btn-lg" id="btnSign">회원가입</button>
+                <button class="w-50 btn btn-lg p-1 mb-4" id="btnSign">
+                  회원가입
+                </button>
                 <button
-                  class="w-50 btn btn-lg"
+                  class="w-50 btn btn-lg p-1 mb-4"
                   type="button"
                   onclick="history.back()"
                 >
@@ -335,11 +326,7 @@
             >
               닫기
             </button>
-            <button
-              id="pofolRegBtn"
-              type="button"
-              class="btn btn-dark radius p-2"
-            >
+            <button id="reBtn" type="button" class="btn btn-dark radius p-2">
               인증번호 재발급
             </button>
           </div>
@@ -377,6 +364,8 @@
                       type="text"
                       class="fullWidth"
                       style="border: 1px solid #ddd"
+                      maxlength="10"
+                      placeholder="-없이 숫자만 입력해주세요"
                     />
                   </td>
                   <td>
@@ -408,35 +397,54 @@
       </div>
     </div>
     <script>
+      //전화번호 형식
       const phTemp = (target) => {
         target.value = target.value
           .replace(/[^0-9]/g, "")
           .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3")
           .replace(/(\-{1,2})$/g, "");
       };
-      //       전화 번호 정규식
+      const bizTemp = (target) => {
+        target.value = target.value.replace(/[^0-9]/g, "");
+      };
 
       let randomNumber = null;
       $(document).ready(function () {
-        var regExp =
-          /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+        // 일반회원 클릭시 표시
         $("#forUser").on("click", function () {
-          $("#forCo").attr("style", "backgroud-color : brown");
-          $("#userForm").attr("style", "display: block");
-          $("#coForm").attr("style", "display: none");
+          $("#forCo").attr("class", "col-6 ali cor p-3 border-bottom");
+          $("#forUser").attr(
+            "class",
+            "col-6 ali cor p-3 border border-bottom-0"
+          );
+          $("#forUserDiv").attr("style", "display: block");
+          $("#forCoDiv").attr("style", "display: none");
+          $("#bizno").val("");
         });
+        //기업회원 클릭시 표시
         $("#forCo").on("click", function () {
-          $("#forUser").attr("style", "backgroud-color : brown");
-          $("#userForm").attr("style", "display: none");
-          $("#coForm").attr("style", "display: block");
+          $("#forCo").attr("class", "col-6 ali cor p-3 border border-bottom-0");
+          $("#forUser").attr("class", "col-6 ali cor p-3 border-bottom");
+          $("#forUserDiv").attr("style", "display: none");
+          $("#forCoDiv").attr("style", "display: block");
+          $("#ph").val("");
         });
+
+        //사업자 번호 모달
         $("#coCheck").on("click", function () {
           console.log("되네");
+          $("#bizno").val("");
           $("#numberModal").modal("show");
         });
-        $(".input_id").focusout(function () {
-          let userId = $(".input_id").val().trim();
 
+        //         아이디 중복검사
+        $("#id").focusout(function () {
+          let userId = $("#id").val().trim();
+          if (userId == "" || userId == null) {
+            $("#checkId").html("아이디를 입력하세요");
+            $("#checkId").attr("color", "red");
+            return;
+          }
           console.log(userId);
           $.ajax({
             url: "/checkId",
@@ -461,10 +469,10 @@
             },
           });
         });
-
+        //비밀번호 확인 검사
         $("#pscheck").focusout(function () {
-          let pscheck = $("input[name=pscheck]").val().trim();
-          let ps = $("input[name=pw]").val().trim();
+          let pscheck = $("#pscheck").val().trim();
+          let ps = $("#pw").val().trim();
           console.log(pscheck);
           if (pscheck == null || pscheck == "") {
             $("#checkUps").html("");
@@ -476,39 +484,34 @@
             $("#checkUps").attr("color", "green");
           }
         });
+        // 사용자 인증 모달
         $("#phCheck").on("click", function () {
-          // 			chkReg(replacePhCl,$(this));
-          $("#phoneModal").modal("show");
+          console.log($("#ph").val());
+          if ($("#ph").val() == "") {
+            salert("전화번호를 입력하지 않았습니다!!");
+          } else {
+            sendNum();
+            $("#phoneModal").modal("show");
+          }
         });
         $("#chPh").on("click", function () {
-          let phoneNum = $("input[name=ph]").val();
-          let convertNum = phoneNum.replace(/-/g, "");
-          randomNumber = Math.floor(100000 + Math.random() * 900000);
-          console.log(randomNumber);
-          console.log(convertNum);
-          let data = function () {};
-
-          //                   $.ajax({
-          //                     url: "/sms/send",
-          //                     type: "POST",
-          //                     data: JSON.stringify(data), // json 을 string으로 변환하여 전송
-          //                     dataType: "JSON",
-          //                     contentType: "application/json",
-          //                     accept: "application/json",
-          //                     success: function (result) {
-          //                       console.log(result);
-          //                     },
-          //                     error: function (result) {
-          //                       console.log(result.responseText); //responseText의 에러메세지 확인
-          //                     },
-          //                   });
+          let vald = $("#chKey").val();
+          if (vald == randomNumber) {
+            $("#confirm").val("true");
+            $("#phoneModal").modal("hide");
+            $("#chKey").val("");
+          } else {
+            salert("인증번호가 일치하지 않습니다!");
+            $("#confirm").val("false");
+          }
         });
+        $("#reBtn").on("click", sendNum);
         //         사업자 번호 조회
         $("#btnCo").on("click", function () {
           let coNum = $("input[name=chNum]").val();
           console.log(coNum);
 
-          var data = {
+          let data = {
             b_no: [coNum], // 사업자번호 "xxxxxxx" 로 조회 시,
           };
 
@@ -520,43 +523,60 @@
             contentType: "application/json",
             accept: "application/json",
             success: function (result) {
-              console.log(result);
+              console.log();
+              if (
+                result.data[0].b_stt_cd == "01" ||
+                result.data[0].b_stt_cd == "02"
+              ) {
+                $("#bizno").val(coNum);
+                $("#numberModal").modal("hide");
+              } else if (result.data[0].b_stt_cd != "03") {
+                salert("폐업 사업자는 기업 가입이 불가 합니다.");
+              }
             },
             error: function (result) {
               console.log(result.responseText); //responseText의 에러메세지 확인
             },
           });
         });
-
+        $("#btnSign").on("click", joinform_check);
         //joinform_check 함수로 유효성 검사
         function joinform_check() {
           //변수에 담아주기
-          let uid = document.getElementById("uid");
-          let pwd = document.getElementById("ups");
-          let pscheck = document.getElementById("pscheck");
-          let repwd = document.getElementById("checkUps").getAttribute("color");
-          let uname = document.getElementById("uname");
-          let mobile = document.getElementById("uphone");
+          let pwd = $("#pw").val();
+          let id = $("#id").val();
+          let pscheck = $("#pscheck").val();
+          let repwd = $("#checkUps").attr("color");
+          let name = $("#name").val();
+          let mobile = $("#ph").val();
+          let bizno = $("#bizno").val();
+          let confirm = $("#confirm").val();
+          console.log(pwd);
+          console.log(id);
+          console.log(pscheck);
+          console.log(name);
+          console.log(mobile);
+          console.log(bizno);
           console.log(repwd);
 
-          if (id.value == "") {
+          if (id == "") {
             //해당 입력값이 없을 경우 같은말: if(!uid.value)
-            alert("아이디를 입력하세요.");
-            id.focus(); //focus(): 커서가 깜빡이는 현상, blur(): 커서가 사라지는 현상
+            salert("아이디를 입력하세요.");
+            $("#id").focus(); //focus(): 커서가 깜빡이는 현상, blur(): 커서가 사라지는 현상
             return false; //return: 반환하다 return false:  아무것도 반환하지 말아라 아래 코드부터 아무것도 진행하지 말것
           }
 
-          if (pwd.value == "") {
-            alert("비밀번호를 입력하세요.");
-            pwd.focus();
+          if (pwd == "") {
+            salert("비밀번호를 입력하세요.");
+            $("#pw").focus();
             return false;
           }
 
           //비밀번호 영문자+숫자+특수조합(8~25자리 입력) 정규식
           let pwdCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
 
-          if (!pwdCheck.test(pw.value)) {
-            alert(
+          if (!pwdCheck.test(pw)) {
+            salert(
               "비밀번호는 영문자+숫자+특수문자 조합으로 8~25자리 사용해야 합니다."
             );
             pw.focus();
@@ -564,44 +584,85 @@
           }
 
           if (repwd == "red") {
-            alert("비밀번호가 일치하지 않습니다.");
-            pscheck.focus();
+            salert("비밀번호가 일치하지 않습니다.");
+            $("#pscheck").focus();
             return false;
           }
 
-          if (name.value == "") {
-            alert("이름을 입력하세요.");
-            name.focus();
+          if (name == "") {
+            salert("이름을 입력하세요.");
+            $("#name").focus();
             return false;
           }
-
-          var reg = /^[0-9]+/g; //숫자만 입력하는 정규식
-
-          if (!reg.test(mobile.value)) {
-            alert("전화번호는 숫자만 입력할 수 있습니다.");
-            mobile.focus();
-            return false;
+          if (ph == "") {
+            $("#ph").focus();
+            salert("휴대폰번호를 입력하세요");
           }
+          if (confirm == "") {
+            salert("본인인증을 진행해 주세요");
+          }
+          console.log($("#forUserDiv").attr("style").substring(9));
+          console.log($("#forCoDiv").attr("style").substring(9));
+          console.log($("#forUserDiv").attr("style"));
+          console.log($("#forCoDiv").attr("style"));
+
+          let formmData = $("form").serialize();
+          console.log(formData);
+          $.ajax({
+            url: "/joinMoaMore",
+            type: "POST",
+            data: formmData, // json 을 string으로 변환하여 전송
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+              console.log(result);
+            },
+            error: function (result) {
+              console.log(result.responseText); //responseText의 에러메세지 확인
+            },
+          });
 
           //입력 값 전송
-          document.signUp.submit(); //유효성 검사의 포인트
         }
 
         //      정규식 확인 알람
-        function chkReg(data, loc) {
-          let value = $(loc).val();
+        function salert(data) {
           //           console.log(value);
           //           console.log(data.reg);
-          if (!data.reg.test(value)) {
-            $(this).val("");
-            Swal.fire({
-              title: "!!!!",
-              text: data.msg + "!!",
-              icon: "warning",
-              confirmButtonText: "확인!",
-            });
-            return;
-          }
+          Swal.fire({
+            title: "!!!!",
+            text: data,
+            icon: "warning",
+            confirmButtonText: "확인!",
+          });
+          return;
+        }
+
+        function sendNum() {
+          let phoneNum = $("#ph").val();
+          let convertNum = phoneNum.replace(/-/g, "");
+          randomNumber = Math.floor(100000 + Math.random() * 900000);
+          console.log(randomNumber);
+          console.log(convertNum);
+          let data = function () {
+            no: convertNum;
+            content: randomNumber;
+          };
+
+          // $.ajax({
+          //   url: "/sms/send",
+          //   type: "POST",
+          //   data: JSON.stringify(data), // json 을 string으로 변환하여 전송
+          //   dataType: "JSON",
+          //   contentType: "application/json",
+          //   accept: "application/json",
+          //   success: function (result) {
+          //     console.log(result);
+          //   },
+          //   error: function (result) {
+          //     console.log(result.responseText); //responseText의 에러메세지 확인
+          //   },
+          // });
         }
       });
     </script>

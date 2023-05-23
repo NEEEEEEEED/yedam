@@ -15,5 +15,7 @@ public class MemInfoVO {
 	private String addr;	//주소
 	private String post;	//우편번호
 	private String gen;		//성별
+	private String pscheck;
+	private String bizno;
 	
 }

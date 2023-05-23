@@ -1,5 +1,6 @@
 package com.yedam.moa.mem.mapper;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.yedam.moa.community.Criteria;
@@ -89,4 +90,8 @@ public interface MemMapper {
 	public int getPageCnt(String id);
 	
 	public List<ResumeVO> resumeList(Criteria cri);
+	
+	public int joinMoaMore(MemInfoVO vo);
+	
+	public int insertBiz(MemInfoVO vo);
 }
