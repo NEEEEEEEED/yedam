@@ -276,7 +276,7 @@
 	</insert>
 	
 	<!-- 지원관리 -->
-	<!-- 합격유무 없는 새로운 지원 조회 -->
+	<!-- 합격유무가 대기중인(T2) 새로운 지원 조회 -->
 	<select id="selectNewApply" parameterType="String" resultType="CoVO">
 		SELECT  s.recruit_no,
 				s.resume_no,
@@ -295,7 +295,7 @@
 		WHERE s.win = 'T2' AND a.id = #{id}
 	</select>
 	
-	<!-- 합격유무 있는 처리된 지원 조회 -->
+	<!-- (T1합격 또는 T3불합격)된 처리된 지원 조회 -->
 	<select id="selectCompletedApply" parameterType="String" resultType="CoVO">
 		SELECT  s.recruit_no,
 				s.resume_no,
@@ -311,7 +311,14 @@
 		   ON s.recruit_no = a.recruit_no
 		 JOIN resume r 
 		   ON r.resume_no = s.resume_no
-		WHERE s.win != 'T2' AND a.id = #{id}
+		WHERE s.win = 'T1' OR s.win = 'T3' AND a.id = #{id}
 	</select>
+	
+	<!-- 지원 합격/불합격 처리 -->
+	<update id="responseApply" parameterType="CoVO">
+		UPDATE recruit_anum_st
+		   SET win = #{win}
+		 WHERE resume_no = #{resumeNo} and recruit_no = #{recruitNo} 
+	</update>
 	
 </mapper>

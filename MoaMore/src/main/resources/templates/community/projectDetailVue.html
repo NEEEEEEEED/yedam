@@ -163,21 +163,18 @@
 						</div>
 				    	
 				    	<div>
-					    	<p class="fs-1 mb-3">◈ 프로젝트소개</p>
+					    	<p class="fs-1 mb-4">◈ 프로젝트소개</p>
 					    	<div class="ms-4" th:utext="${projectInfo.cntn}"></div>
 					    </div>
 				    </div>
 				  </div>
 				</div>
 				
-				<!-- <div class="input-group mb-4">
-				  <textarea class="form-control radius" style="resize: none; height: 50px;" placeholder="댓글을 작성해주세요" ></textarea>
-				  <button class="btn btn-dark radius" type="button" id="button-addon2">댓글등록</button>
-				</div>
-
-				 <div id="app">
+				
+				<!-- Vue -->
+				<div id="app">
 				    <project-component></project-component>
-				</div> -->
+				</div>
 
 
 				<div class="mt-5 mb-5" style="text-align:right;">
@@ -236,23 +233,16 @@ $('#projectDelBtn').on('click', function(){
 			data: {prjtNo : prjtNo},
 			success: function (result) {
 				
-				if(result.result == 'Success'){
-					Swal.fire({
-					  icon: 'success',
-					  title: '삭제완료!',
-					  showCancelButton: false,
-					  confirmButtonText: '확인'
-					}).then((result) => {
-					  if (result.isConfirmed) {
-						location.href="/projectList";
-					  }
-					});
-				}else{
-					Swal.fire({
-						  icon: 'error',
-						  title: '게시글 삭제실패!'
-					});
-				}
+				Swal.fire({
+				  icon: 'success',
+				  title: '삭제완료!',
+				  showCancelButton: false,
+				  confirmButtonText: '확인'
+				}).then((result) => {
+				  if (result.isConfirmed) {
+					location.href="/projectList";
+				  }
+				});
 				
 			},
 	 		error: function (reject) {	   

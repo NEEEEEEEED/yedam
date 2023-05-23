@@ -82,11 +82,11 @@ public class CoMypageController {
 		return service.selectCompletedApply(id);
 	}
 	
-	// 지원 합격 처리
-	@GetMapping("/acceptApply")
+	// 지원 합격/불합격 처리
+	@PostMapping("/responseApply")
 	@ResponseBody
-	public String acceptApply(CoVO vo) {
-		System.out.println(vo);
+	public String responseApply(CoVO vo) {
+		service.responseApply(vo);
 		return "test";
 	}
 

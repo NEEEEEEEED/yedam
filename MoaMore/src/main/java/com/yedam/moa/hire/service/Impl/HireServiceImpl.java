@@ -41,9 +41,9 @@ public class HireServiceImpl implements HireService{
 	@Override
 	public String resumeInsert(HireVO hireVO) {
 		String message = null;
-		int resultcheck = hireMapper.checkResume(hireVO);
+		int resultcheck = hireMapper.checkResume(hireVO).size();
 		int result = 0;
-		if (resultcheck < 0) {
+		if (resultcheck == 0) {
 			
 			result = hireMapper.resumeInsert(hireVO);
 			
@@ -174,18 +174,24 @@ public class HireServiceImpl implements HireService{
 	// 공고 수정 기능
 	@Override
 	public int hireModify(HireVO vo) {
-		int result = hireMapper.hireSkillDelete(vo);
-		result = hireMapper.hireModify(vo);
+		int result = 0;
 		
-		String[] skillArray = vo.getSkill().split(",");
+		
+		if(vo.getSkill() != null && !vo.getSkill().equals("")) {
+			result += hireMapper.hireSkillDelete(vo);
+			result += hireMapper.hireModify(vo);
+			
+			String[] skillArray = vo.getSkill().split(",");
+			
+		
 
-		for(String str : skillArray) {
-			String skillNo = hireMapper.skillNo();
-			vo.setSkillNo(skillNo);
-			vo.setSkill(str);
-			result += hireMapper.skillInsert(vo);
+			for(String str : skillArray) {
+				String skillNo = hireMapper.skillNo();
+				vo.setSkillNo(skillNo);
+				vo.setSkill(str);
+				result += hireMapper.skillInsert(vo);
+			}
 		}
-		
 		
 		if(result > 0) {
 			return 1;
