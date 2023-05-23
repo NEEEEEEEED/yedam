@@ -359,4 +359,20 @@
 				VALUES		 (#{rprtNo},#{rprter},#{rprtResn},#{notiwrNo},to_char(sysdate,'yyyy-MM-dd'),'G4')
 		
 	</insert>
+	
+	<!-- 결제내역 조회 -->
+	<select id="selectPayList" resultType="ProductVO">
+		SELECT  ORDER_NO
+		        ,RECRUIT_NO
+		        ,ID
+		        ,STTL_CD
+		        ,STTL_DT
+		        ,s.PRDT_CD
+		        ,RESER_DTS
+		        ,prdt_nm
+		        ,total_price
+		FROM    sttl s, prdt p
+		WHERE   s.PRDT_CD = p.PRDT_CD
+		ORDER BY sttl_dt DESC
+	</select>
 </mapper>

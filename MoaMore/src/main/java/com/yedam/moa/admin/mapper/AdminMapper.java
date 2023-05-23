@@ -12,6 +12,7 @@ import com.yedam.moa.community.StudyVO;
 import com.yedam.moa.hire.HireVO;
 import com.yedam.moa.mem.MemVO;
 import com.yedam.moa.mem.ResumeVO;
+import com.yedam.moa.products.service.ProductVO;
 import com.yedam.moa.self.SelfVO;
 
 public interface AdminMapper {
@@ -59,6 +60,8 @@ public interface AdminMapper {
 	public int getReport(ReportVO rvo);
 
 	public int insertReport(ReportVO rvo);
+
+	public List<ProductVO> selectPayList();
 
 
 

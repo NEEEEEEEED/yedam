@@ -65,7 +65,7 @@ public class MemberServiceImpl implements MemberService, OAuth2UserService<OAuth
 
     private Member saveOrUpdate(OAuthAttributes attributes) {
         Member Member = userRepository.findByEmail(attributes.getEmail())
-                .map(entity -> entity.update(attributes.getEmail(), attributes.getAge(), attributes.getBirth(), attributes.getGen(), attributes.getName(), attributes.getNickname()))
+                .map(entity -> entity.update(attributes.getEmail(), attributes.getName(), attributes.getBirth(), attributes.getGen(),attributes.getAge() , attributes.getNickname()))
                 .orElse(attributes.toEntity());
 
         return userRepository.save(Member);
@@ -147,12 +147,9 @@ public class MemberServiceImpl implements MemberService, OAuth2UserService<OAuth
 		System.out.println("result:"+result);
 		if(result > 0) {
 			String email = vo.getEmail();
-			System.out.println("email:"+email);
 	    	String code = registerMail.sendSimpleMessage(email);
-	    	System.out.println("code:"+code);
 			BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
 			String password = bcrypt.encode(code);
-			System.out.println("password:"+password);
 			vo.setPw(password);
 			if(memberMapper.updateMember(vo)>0) {
 				return "updateSuccess";

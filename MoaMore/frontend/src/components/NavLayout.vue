@@ -3,7 +3,7 @@
   <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="/">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
@@ -20,7 +20,7 @@
         <router-link class="nav-link" to="/approve">승인게시물관리</router-link>
       </li>
       <li class="nav-item">
-        <router-link class="nav-link" to="/">매출관리</router-link>
+        <router-link class="nav-link" to="/pay">매출관리</router-link>
       </li>
     </ul>
   </aside>
