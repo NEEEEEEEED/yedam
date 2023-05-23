@@ -111,7 +111,8 @@
 		       R.RECRUIT_NO,
 		       C.ID AS ID_CO
 		FROM RECRUIT_ANUN R
-		JOIN CO C ON R.ID = C.ID
+		JOIN CO C 
+			ON R.ID = C.ID
 		JOIN (
 			  SELECT RECRUIT_NO, LISTAGG(get_common(SKILL), ',') WITHIN GROUP (ORDER BY SKILL_NO) AS SKILL
 			  FROM RECRUIT_SKILL
@@ -155,7 +156,11 @@
 		ON R.RECRUIT_NO = I.RECRUIT_NO
 		JOIN (SELECT DISTINCT RECRUIT_NO, CO_IMG FROM RECRUIT_IMAGES) I
 		ON R.RECRUIT_NO = I.RECRUIT_NO
-		WHERE get_common(SKILL) = #{skill}
+		WHERE 1=1
+		AND get_common(SKILL) IN
+		<foreach collection="skillArray" item="skill" open="(" close=")" separator=",">
+		#{skill}
+		</foreach>
 		GROUP BY K.RECRUIT_NO, R.TTL, CARR, JOB, R.ACCP_DT, C.CO_NM, I.CO_IMG
 		ORDER BY K.RECRUIT_NO
 	</select>
@@ -169,7 +174,7 @@
 		WHERE ID = #{id}
 	</select>
 	<!-- 해당공고에 지원가능한지 확인 -->
-	<select id="checkResume" resultType="int">
+	<select id="checkResume" resultType="HireVO">
 		SELECT RECRUIT_NO,
 		       RESUME_NO,
 		       COUNT(ID) AS ID
@@ -253,14 +258,10 @@
 		FROM RECRUIT_IMAGES  
 		WHERE RECRUIT_NO = #{recruitNo}
 	</select>
-	
 	<!-- 공고 수정 기능 -->
 	<update id="hireModify" parameterType="HireVO">
 		UPDATE RECRUIT_ANUN 
 			<set>
-				<if test='recruitNo != null and !"".equals(recruitNo)'>
-					RECRUIT_NO = #{recruitNo},
-				</if>
 				<if test='id != null and !"".equals(id)'>
 					ID = #{id},
 				</if>
@@ -400,6 +401,15 @@
 					  ORDER BY RECO_CNT DESC, RPLY_CNT DESC, INQ_CNT DESC
 				    )
 				   WHERE ROWNUM <= 3 ]]>
+		<if test="auth != null and !auth.equals('') and auth.equals('user')">
+			AND (jsn.id = #{id} OR jsn.pubc_range = 'c3')
+		</if>
+		<if test="auth != null and !auth.equals('') and auth.equals('co')">
+			AND (jsn.pubc_range = 'c3' OR jsn.pubc_range = 'c2')
+		</if>
+		<if test="auth != null and !auth.equals('') and auth.equals('admin')">
+		</if>
+				   
 	</select>
   <!-- 구인 공고삭제 : 관리자 -->
 	<delete id="recruitDelFn" statementType="CALLABLE" parameterType="String">

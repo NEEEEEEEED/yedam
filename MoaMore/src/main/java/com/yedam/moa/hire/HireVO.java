@@ -14,6 +14,7 @@ public class HireVO {
 	private String recruitNo; // 구인공고 번호
 	private String id; // 회원아이디
 	private String ttl; // 구인공고 제목
+	private String[] skillArray; // 스킬 배열
 	private String skill; // 기술스펙
 	private String shcr; // 학력
 	private String carr; // 경력
