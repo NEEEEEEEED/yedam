@@ -160,7 +160,7 @@
 						<div class="row text-center" id="topMenu">
 							<h5 th:text="|${selfJobInfo.name}님의 셀프구직|">OOO님의 셀프구직</h5>
 							<hr>
-							<button class="btn btn-dark radius mb-3" type="button">채용지원제안</button>
+							<button class="btn btn-dark radius mb-3" type="button" onclick="openOfferModal()">채용지원제안</button>
 							<div class="col">
 								<span class="fw-bold fs-2" th:text="${selfJobInfo.interest}">관심수</span> <br /> 
 								<span class="selected fw-bold">받은관심</span>
@@ -186,6 +186,25 @@
 			<hr>
 			<div class="col-md-1"></div>
 		</div>
+		
+		<!-- html모달창 제안모달 -->
+		<div class="modal fade " id="offerModal" tabindex="-1"
+			aria-labelledby="exampleModalLgLabel" style="display: none;"
+			aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-4" id="exampleModalLgLabel">구직 제안</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div id="offerModalBody" class="modal-body d-flex justify-content-center">
+					<!-- 채용지원제안 클릭 했을 때 ajax로 기술스택과 구인공고 목록을 불러와서 모달에 넣고 그려줌 -->
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 모달 끝 -->
 <script>
 	// 삭제버튼 클릭시 실행하는 함수
 	$('#selfJobDelBtn').on('click', function(){
@@ -229,6 +248,125 @@
 		  
 		});
 	});
+	
+	// 채용지원제안클릭 시 제안 모달창 열기
+	function openOfferModal(){
+		// 모달 안 필요한 구인공고목록, 기술스택 가져오기
+		$.ajax({
+			url: '/openOfferModal',
+			type: 'get',
+			success: function (res) {
+				console.log(res)
+				console.log(res.commList)
+				console.log(res.commList.Z)
+				// 가져온 내용을 추가하고 모달바디에 붙이기
+				document.querySelector('#offerModalBody').innerHTML = ''; // 모달바디 초기화
+				let modalBodyHtml = `<form class="col-lg-11 " id="offerForm" action="/offerSubmit" method="POST">
+					<div class="mb-1 row ">
+					<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+						회사명</label>
+					<div class="col-sm-4 center-input">
+						<input type="text" name="coNm" class="form-control form-control-sm " id="">
+					</div>
+					
+					<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+						복지</label>
+					<div class="col-sm-4 center-input">
+						<input type="text" name="bnft" class="form-control form-control-sm" id="">
+					</div>
+				</div>
+
+				<div class="mb-1 row ">
+					<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+						근무지 주소</label>
+					<div class="col-sm-4 center-input">
+						<input type="text" name="wksite" class="form-control form-control-sm " id="">
+					</div>
+					
+					<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+						급여</label>
+					<div class="col-sm-4 center-input">
+						<input type="text" name="saly" class="form-control form-control-sm" id="">
+					</div>
+				</div>
+
+				<div class="mb-1 row ">
+					<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+						프로젝트 명</label>
+					<div class="col-sm-4 center-input">
+						<input type="text" name="projectNm" class="form-control form-control-sm" id="">
+					</div>
+					
+					<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+						업무 시작일</label>
+					<div class="col-sm-4 center-input">
+						<input type="date" name="bussStartDt" class="form-control form-control-sm"
+							id="">
+					</div>
+				</div>
+
+				<div class="mb-1 row ">
+					<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+						기술 스택</label>
+					<div class="col-sm-4 center-input">
+						<select name="tech" class="form-select form-select-sm" style="padding-right:0;">
+							<option value="selectedOpt" id="selectedOpt" style="display:none;"></option>
+							<option value="" selected>기술선택(다중선택가능)</option>`
+							let tech = res.commList.Z
+							for(let i=0;i<tech.length;i++){
+		   modalBodyHtml += `<option value="`+tech[i].prov+`">`+tech[i].desct+`</option>`	
+							}
+		   modalBodyHtml += `</select>
+					</div>
+					
+					<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+						제안 마감일</label>
+					<div class="col-sm-4 center-input">
+						<input type="date" name="clsDt" class="form-control form-control-sm" id="">
+					</div>
+				</div>
+
+				<div class="mb-1 row ">
+					<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+						주요 업무</label>
+					<div class="col-sm-4 center-input">
+						<input type="text" name="maBuss" class="form-control form-control-sm" id="">
+					</div>
+					
+					<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+						구인공고</label>
+					<div class="col-sm-4 center-input">
+						<select name="ttl" class="form-select form-select-sm" id="">
+							<option value='' selected>선택</option>`
+							let rec = res.recList
+							for(let i=0;i<rec.length;i++){
+		   modalBodyHtml += `<option value="`+rec[i].recruitNo+`">`+rec[i].ttl+`</option>`	
+							}
+		   modalBodyHtml += `</select>
+					</div>
+				</div>
+
+				<!-- 함께보낼데이타 -->
+				<input type="hidden" name="jobSearchNo">
+				<div class="row mb-4">
+					<div class="col-12 d-flex justify-content-center">
+						<button id="modalCloseBtn" type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal" onclick="closeModal()">취소</button>
+						<button id="offerBtn" type="button" class="btn btn-primary"
+							onclick="offerCheck()">제안</button>
+					</div>
+				</div>
+			</form>`;
+			
+			document.querySelector('#offerModalBody').innerHTML += modalBodyHtml;
+	 		$('#offerModal').modal('show');
+			},
+	 		error: function (reject) {	   
+	    		console.log(reject);
+			}
+		});
+		
+	}
 </script>
 	</div>
 </body>

@@ -350,6 +350,11 @@ public class MemServiceImpl implements MemService {
 		 }
 	}
 
+	// 개인정보 수정
+	@Override
+	public int updateInfo(MemInfoVO vo) {
+		return mem.insertMem(vo);
+
 	@Override
 	public int joinMoaMore(MemInfoVO vo) {
 		return mem.joinMoaMore(vo);
@@ -358,5 +363,6 @@ public class MemServiceImpl implements MemService {
 	@Override
 	public int insertBiz(MemInfoVO vo) {
 		return mem.insertBiz(vo);
+
 	}
 }
