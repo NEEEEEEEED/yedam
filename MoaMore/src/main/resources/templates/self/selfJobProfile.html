@@ -231,7 +231,7 @@
 				<br>
 				<!-- 프로필 등록 버튼 -->
 				<div class="mb-5" style="text-align:right;">
-					<button id="cancleBtn" onclick="history.back()" type="button" class="btn btn-light radius m-2">취소</button>
+					<button id="cancleBtn" onclick="location.href='/selfJobList'" type="button" class="btn btn-light radius m-2">취소</button>
 					<button id="myProfileBtn" type="button" class="btn btn-dark radius">등록</button>
 				</div>
 			</div>
@@ -338,9 +338,10 @@ $('#resumeList').on('click',function(){
 //그리드
 const grid = new tui.Grid({
   el: document.getElementById('grid'), // Container element
-  scrollX: false,
+  	 scrollX: false,
      scrollY: true,
      rowHeaders: ['checkbox'],
+     bodyHeight: 250,
   columns: [
     {
       header: '이력서번호',
@@ -608,6 +609,37 @@ $('#pofolBtn').on('click', function(){
 // 포트폴리오 등록버튼 클릭시
 $('#pofolRegBtn').on('click', function(){
 	
+	// 예외처리
+	// 포트폴리오 제목 비어있을때
+	if($('#pofolTitle').val() == '' ){ // 제목
+		Swal.fire({
+			  icon: 'warning',
+			  title: '제목을 입력해주세요'
+		});
+		//$('#title').focus();
+		return;
+	}
+	
+	// 포트폴리오 이미지가 업로드 되지않았을때
+	if($('#pofolImg').val() == '' ){ // 이미지
+		Swal.fire({
+			  icon: 'warning',
+			  title: '등록할 이미지를 업로드해주세요'
+		});
+		//$('#pofolImg').focus();
+		return;
+	}
+	
+	// 포트폴리오 파일이 업로드 되지않았을때
+	if($('#pofolFile').val() == '' ){ // 파일
+		Swal.fire({
+			  icon: 'warning',
+			  title: '등록할 파일을 업로드해주세요'
+		});
+		//$('#pofolFile').focus();
+		return;
+	}
+	
 	pofolReg(); // 포트폴리오 등록 ajax호출 함수
 	$('#pofolModal').modal('hide');
 	
@@ -627,7 +659,13 @@ function pofolReg(){
         processData: false, //프로세스 데이터 설정 : false 값을 해야 form data로 인식합니다
         contentType: false, //헤더의 Content-Type을 설정 : false 값을 해야 form data로 인식합니다
 		success: function (result) {
-			console.log(result);
+			
+			Swal.fire({
+				  icon: 'success',
+				  title: '포트폴리오 추가완료!'
+			})
+			
+			//console.log(result);
 			pofolRows.innerHTML = ''; // 초기화
 			
 			let pofolHtml = '';
@@ -827,32 +865,46 @@ function myImgReg(){
 function deletePofol(deleteItem){
 	
 	let jobSearchNo = deleteItem.dataset.no; // data - 속성 이용해서 값가져옴
-	console.log(jobSearchNo);
+	//console.log(jobSearchNo);
 	
-	$.ajax({
-		url: 'pofolDelete',
-		type: 'post',
-		data: {fileNo : deleteItem.id, jobSearchNo : jobSearchNo},
-		success: function (result) {
-			console.log('삭제성공');
-			pofolRows.innerHTML = ''; // 초기화
-			
-			let pofolHtml = '';
-			if(result.length == 0){ // 포트폴리오 리스트 항목이 0개라면
-				pofolHtml = `<div style="background-color : pink; text-align:center;">포트폴리오 항목이 비어있습니다. 추가를 눌러 채워 주세요</div>`;
-				pofolRows.innerHTML= pofolHtml;
-			}else{
-				for(let i = 0 ; i < result.length; i++){
-					pofolHtml += pofolListPrint(result[i]); // 화면에 뿌려주는 태그들
+	Swal.fire({
+		  icon: 'warning',
+		  title: '정말 제거하시겠습니까?',
+		  showCancelButton: true,
+		  confirmButtonColor: '#d33',
+		  cancelButtonColor: '#3085d6',
+		  confirmButtonText: '제거',
+		  cancelButtonText: '취소',
+		  buttonsStyling: true,
+		  reverseButtons: true
+		}).then((result) => {
+		  if (result.isConfirmed) {
+			$.ajax({
+				url: 'pofolDelete',
+				type: 'post',
+				data: {fileNo : deleteItem.id, jobSearchNo : jobSearchNo},
+				success: function (result) {
+					Swal.fire('제거완료!', '', 'success')
+					pofolRows.innerHTML = ''; // 초기화
+					
+					let pofolHtml = '';
+					if(result.length == 0){ // 포트폴리오 리스트 항목이 0개라면
+						pofolHtml = `<div style="background-color : pink; text-align:center;">포트폴리오 항목이 비어있습니다. 추가를 눌러 채워 주세요</div>`;
+						pofolRows.innerHTML= pofolHtml;
+					}else{
+						for(let i = 0 ; i < result.length; i++){
+							pofolHtml += pofolListPrint(result[i]); // 화면에 뿌려주는 태그들
+						}
+						
+						pofolRows.innerHTML= pofolHtml;			
+					}
+				},
+		 		error: function (reject) {	   
+		    		console.log(reject);
 				}
-				
-				pofolRows.innerHTML= pofolHtml;			
-			}
-		},
- 		error: function (reject) {	   
-    		console.log(reject);
-		}
-	});	
+			});	
+		  }
+		})
 }
 
 
