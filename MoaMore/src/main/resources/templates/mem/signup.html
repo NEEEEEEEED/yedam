@@ -90,7 +90,7 @@
 
               <!-- -------------------일반시작------------------------------------- -->
               <div class="row g-3" id="userForm" style="display: block">
-                <div class="col-12">
+                <div class="col-12" id="member">
                   <label
                     for="id"
                     class="form-label"
@@ -168,7 +168,7 @@
                     name="ph"
                     placeholder="휴대전화번호를 입력해주세요"
                     oninput="phTemp(this)"
-                     maxlength="13"
+                    maxlength="13"
                   />
                   <div class="invalid-feedback">전화번호를 입력 해 주세요</div>
                 </div>
@@ -178,7 +178,7 @@
               </div>
               <!---------------------------------------기업시작----------------------------------------------->
               <div class="row g-3" id="coForm" style="display: none">
-                <div class="col-12">
+                <div class="col-12" id="company">
                   <label
                     for="id"
                     class="form-label"
@@ -408,17 +408,14 @@
       </div>
     </div>
     <script>
-    const phTemp = (target) => {
+      const phTemp = (target) => {
         target.value = target.value
           .replace(/[^0-9]/g, "")
           .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3")
           .replace(/(\-{1,2})$/g, "");
       };
       //       전화 번호 정규식
-      let replacePhCl = {
-        reg: /^(0[1-9]\d{2})\d{4}\d{4}$/,
-        msg: "올바른 휴대폰 번호를 입력해 주세요",
-      };
+
       let randomNumber = null;
       $(document).ready(function () {
         var regExp =
@@ -437,40 +434,37 @@
           console.log("되네");
           $("#numberModal").modal("show");
         });
-                $(".input_id").focusout(function () {
-                  let userId = $(".input_id").val().trim();
-                  
-                  console.log(userId);
-                  $.ajax({
-                    url: "/checkId",
-                    type: "POST",
-                    data: 	JSON.stringify({id:userId}),
-                    dataType : "text",  
-                    contentType: "application/json; charset=UTF-8",
-                    success: function (result) {
-                      if (result>=1) {
-                        $("#checkId").html("사용할 수 없는 아이디 입니다.");
-                        $("#checkId").attr("color", "red");
-                      } else if (
-                        result==0 &&
-                        $(".input_id").val() == ""
-                      ) {
-                        $("#checkId").html("아이디를 입력하세요");
-                        $("#checkId").attr("color", "red");
-                      } else {
-                        $("#checkId").html("사용할 수 있는 아이디 입니다.");
-                        $("#checkId").attr("color", "green");
-                      }
-                    },
-                    error: function () {
-                      alert("서버요청 실패");
-                    },
-                  });
-                });
+        $(".input_id").focusout(function () {
+          let userId = $(".input_id").val().trim();
+
+          console.log(userId);
+          $.ajax({
+            url: "/checkId",
+            type: "POST",
+            data: JSON.stringify({ id: userId }),
+            dataType: "text",
+            contentType: "application/json; charset=UTF-8",
+            success: function (result) {
+              if (result >= 1) {
+                $("#checkId").html("사용할 수 없는 아이디 입니다.");
+                $("#checkId").attr("color", "red");
+              } else if (result == 0 && $(".input_id").val() == "") {
+                $("#checkId").html("아이디를 입력하세요");
+                $("#checkId").attr("color", "red");
+              } else {
+                $("#checkId").html("사용할 수 있는 아이디 입니다.");
+                $("#checkId").attr("color", "green");
+              }
+            },
+            error: function () {
+              alert("서버요청 실패");
+            },
+          });
+        });
 
         $("#pscheck").focusout(function () {
-          let pscheck = $("#pscheck").val().trim();
-          let ps = $("#ups").val().trim();
+          let pscheck = $("input[name=pscheck]").val().trim();
+          let ps = $("input[name=pw]").val().trim();
           console.log(pscheck);
           if (pscheck == null || pscheck == "") {
             $("#checkUps").html("");
@@ -487,32 +481,29 @@
           $("#phoneModal").modal("show");
         });
         $("#chPh").on("click", function () {
-        	let phoneNum = $("input[name=ph]").val();
-			let convertNum = phoneNum.replace(/-/g, "");
-        	randomNumber = Math.floor(100000 + Math.random() * 900000);
-        	console.log(randomNumber);
-        	console.log(convertNum);
-        	let data = function(){
-        		
-        	}
+          let phoneNum = $("input[name=ph]").val();
+          let convertNum = phoneNum.replace(/-/g, "");
+          randomNumber = Math.floor(100000 + Math.random() * 900000);
+          console.log(randomNumber);
+          console.log(convertNum);
+          let data = function () {};
 
-//                   $.ajax({
-//                     url: "/sms/send",
-//                     type: "POST",
-//                     data: JSON.stringify(data), // json 을 string으로 변환하여 전송
-//                     dataType: "JSON",
-//                     contentType: "application/json",
-//                     accept: "application/json",
-//                     success: function (result) {
-//                       console.log(result);
-//                     },
-//                     error: function (result) {
-//                       console.log(result.responseText); //responseText의 에러메세지 확인
-//                     },
-//                   });
-          
+          //                   $.ajax({
+          //                     url: "/sms/send",
+          //                     type: "POST",
+          //                     data: JSON.stringify(data), // json 을 string으로 변환하여 전송
+          //                     dataType: "JSON",
+          //                     contentType: "application/json",
+          //                     accept: "application/json",
+          //                     success: function (result) {
+          //                       console.log(result);
+          //                     },
+          //                     error: function (result) {
+          //                       console.log(result.responseText); //responseText의 에러메세지 확인
+          //                     },
+          //                   });
         });
-//         사업자 번호 조회
+        //         사업자 번호 조회
         $("#btnCo").on("click", function () {
           let coNum = $("input[name=chNum]").val();
           console.log(coNum);

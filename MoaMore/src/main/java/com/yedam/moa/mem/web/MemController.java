@@ -282,8 +282,7 @@ public class MemController {
 	@PostMapping("/checkId")
 	@ResponseBody
 	public int checkId(@RequestBody MemInfoVO vo) {
-		System.out.println(mem.checkId(vo));
-		return 0;
+		return mem.checkId(vo);
 	}
 	
 }
