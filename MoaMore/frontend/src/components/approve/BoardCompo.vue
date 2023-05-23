@@ -209,6 +209,7 @@ export default {
         this.getApprvList().then((data) => {
           //배열합치기 spread operator
           this.ApproveList = [...data.hireVO, ...data.intrvVO, ...data.selfVO];
+          this.selectedBoard = null;
         });
       });
     },
@@ -234,6 +235,7 @@ export default {
         this.getApprvList().then((data) => {
           //배열합치기 spread operator
           this.ApproveList = [...data.hireVO, ...data.intrvVO, ...data.selfVO];
+          this.selectedBoard = null;
         });
       });
     },
@@ -241,7 +243,7 @@ export default {
       if (this.selectedBoard == null) {
         this.$toast.add({
           severity: "info",
-          summary: "승인할 게시물을 선택하세요.",
+          summary: "승인취소할 게시물을 선택하세요.",
           life: 2000,
         });
         return;
@@ -259,6 +261,7 @@ export default {
         this.getApprvList().then((data) => {
           //배열합치기 spread operator
           this.ApproveList = [...data.hireVO, ...data.intrvVO, ...data.selfVO];
+          this.selectedBoard = null;
         });
       });
     },

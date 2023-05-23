@@ -34,5 +34,5 @@ public class IntrvVO {
 	private String dispoDt="-"; //처리일자
 	
 	private String no;
-
+	private String accpDt;
 }

@@ -277,6 +277,7 @@
 				,PROP
 				,REG_DT
 				,CAREER
+				,ACCP_DT
 		FROM job_search_notiwr
 	</select>
 	

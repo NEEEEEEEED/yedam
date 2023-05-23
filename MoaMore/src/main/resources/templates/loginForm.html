@@ -29,14 +29,20 @@
 
 <!-- Template Main CSS File -->
 <link href="assets/css/style.css" rel="stylesheet">
+<style>
+.vertical-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>
 </head>
 <body>
 	<main style="background-color: #0A2640">
 		<div class="row">
-			<div class="col-md-6"
-				style="text-align: center; vertical-align: middle;">
-				<span style="color: #65E4A3;">MoaMore</span>
-			</div>
+<div class="col-md-6 vertical-center">
+  <img src="/assets/img/bigLogo.png" style="width:100%"/>
+</div>
 			<div class="col-md-6">
 				<div class="container" style="background-color: white;">
 					<section
@@ -64,24 +70,23 @@
 														tabindex="-1">기업회원</button>
 												</li>
 											</ul>
-											<div class="tab-content pt-2"
+											<div class="tab-content pt-3"
 												id="borderedTabJustifiedContent">
 												<div class="tab-pane fade show active"
 													id="bordered-justified-home" role="tabpanel"
 													aria-labelledby="home-tab">
 													<div class="pt-4 pb-2">
-														<h5 class="card-title text-center pb-0 fs-4">Login to
-															Your Account</h5>
-														<p class="text-center small">Enter your username &
+														<h5 class="card-title text-center pb-0 fs-4">Welcome MoaMore!</h5>
+														<p class="text-center small">Enter your ID &
 															password to login</p>
 													</div>
-													<div th:if="${param.error}">ID 또는 PW를 확인하세요.</div>
+													<div th:if="${param.error}"  style="color:red; text-align:center; font-size:1em">ID 또는 PW를 확인하세요.</div>
 
 													<form action="/login" method="post"
 														class="row g-3 needs-validation">
 														<input type="hidden" th:value="user" name="user_key" />
 														<div class="col-12">
-															<label for="yourUsername" class="form-label">email</label>
+															<label for="yourUsername" class="form-label">ID</label>
 															<div class="input-group has-validation">
 																<input type="text" id="userId" name="userid" class="form-control"
 																	required>
@@ -103,13 +108,13 @@
 														<div class="col-6 pt-2" style="margin-top: 0px">
 															<a sec:authorize="isAnonymous()"
 																href="/oauth2/authorization/naver" role="button"> <img
-																class="w-100 h-100" src="images/btnG_축약형.png">
+																class="w-100" style="height:38px" src="images/네이버.png">
 															</a>
 														</div>
 														<div class="col-6 pt-2" style="margin-top: 0px">
 															<a sec:authorize="isAnonymous()"
 																href="/oauth2/authorization/kakao" role="button"><img
-																class="w-100 h-100" src="images/kakao_login_medium.png"></a>
+																class="w-100" style="height:38px" src="images/카카오.png"></a>
 														</div>
 														<div class="col-6">
 															<span class="small mb-0"> <a
@@ -192,6 +197,9 @@
 			aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-lg modal-dialog-centered">
 				<div class="modal-content">
+				<div class="modal-header">
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
 					<div class="modal-body">
 						<div class="card-body" style="padding-bottom: 0px">
 							<!-- Bordered Tabs Justified -->
@@ -210,7 +218,7 @@
 										tabindex="-1">비밀번호 찾기</button>
 								</li>
 							</ul>
-							<div class="tab-content pt-2" id="borderedTabJustifiedContent">
+							<div class="tab-content pt-3" id="borderedTabJustifiedContent">
 								<div class="tab-pane fade show active" id="userFind"
 									role="tabpanel" aria-labelledby="home-tab">
 									<div class="row">
@@ -219,21 +227,21 @@
 											<form id="findId" name="findId" action="find/Id"
 												method="post" onsubmit="return false">
 												<div class="row mb-3">
-													<label for="inputEmail3" class="col-sm-2 col-form-label">이름</label>
-													<div class="col-sm-10">
+													<label for="inputEmail3" class="col-sm-3 col-form-label">이름</label>
+													<div class="col-sm-9">
 														<input type="text" class="form-control" name="name"
 															id="inputText">
 													</div>
 												</div>
 												<div class="row mb-3">
-													<label for="inputEmail3" class="col-sm-2 col-form-label">전화번호</label>
-													<div class="col-sm-10">
+													<label for="inputEmail3" class="col-sm-3 col-form-label">전화번호</label>
+													<div class="col-sm-9">
 														<input type="text" oninput="autoHyphen(this)"
 															maxlength="13" class="form-control" name="phCl"
 															id="inputEmail">
 													</div>
 												</div>
-												<div>
+												<div style="text-align:right">
 													<button type="submit" class="btn btn-primary">Submit</button>
 												</div>
 											</form>
@@ -250,27 +258,27 @@
 											<form id="findPw" name="findPw" action="find/Pw"
 												method="post" onsubmit="return false">
 												<div class="row mb-3">
-													<label for="inputEmail3" class="col-sm-2 col-form-label">이름</label>
-													<div class="col-sm-10">
-														<input type="text" class="form-control" name="name"
+													<label for="inputEmail3" class="col-sm-3 col-form-label">아이디</label>
+													<div class="col-sm-9">
+														<input type="text" class="form-control" name="id"
 															id="inputText">
 													</div>
 												</div>
 												<div class="row mb-3">
-													<label for="inputEmail3" class="col-sm-2 col-form-label">이메일</label>
-													<div class="col-sm-10">
+													<label for="inputEmail3" class="col-sm-3 col-form-label">이메일</label>
+													<div class="col-sm-9">
 														<input type="email" class="form-control" name="email"
 															id="inputText">
 													</div>
 												</div>
 												<div class="row mb-3">
-													<label for="inputEmail3" class="col-sm-2 col-form-label">전화번호</label>
-													<div class="col-sm-10">
+													<label for="inputEmail3" class="col-sm-3 col-form-label">전화번호</label>
+													<div class="col-sm-9">
 														<input type="text" oninput="autoHyphen(this)" name="phCl"
 															maxlength="13" class="form-control" id="inputEmail">
 													</div>
 												</div>
-												<div>
+												<div style="text-align:right">
 													<button type="submit" class="btn btn-primary">Submit</button>
 												</div>
 											</form>
@@ -283,10 +291,8 @@
 							<!-- End Bordered Tabs Justified -->
 						</div>
 					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary"
-							data-bs-dismiss="modal">Close</button>
-					</div>
+					<hr>
+					<br>
 				</div>
 			</div>
 		</div>
@@ -296,6 +302,9 @@
 			aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-lg modal-dialog-centered">
 				<div class="modal-content">
+				<div class="modal-header">
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
 					<div class="modal-body">
 						<div class="card-body" style="padding-bottom: 0px">
 							<!-- Bordered Tabs Justified -->
@@ -314,7 +323,7 @@
 										tabindex="-1">비밀번호 찾기</button>
 								</li>
 							</ul>
-							<div class="tab-content pt-2" id="borderedTabJustifiedContent">
+							<div class="tab-content pt-3" id="borderedTabJustifiedContent">
 								<div class="tab-pane fade show active" id="coIdFind"
 									role="tabpanel" aria-labelledby="home-tab">
 									<div class="row">
@@ -323,21 +332,21 @@
 											<form id="coFindId" name="coFindId" action="find/coId"
 												method="post" onsubmit="return false">
 												<div class="row mb-3">
-													<label for="inputEmail3" class="col-sm-2 col-form-label">사업자번호</label>
-													<div class="col-sm-10">
+													<label for="inputEmail3" class="col-sm-3 col-form-label">사업자번호</label>
+													<div class="col-sm-9">
 														<input type="text" class="form-control" name="bizno"
 															id="inputText">
 													</div>
 												</div>
 												<div class="row mb-3">
-													<label for="inputEmail3" class="col-sm-2 col-form-label">대표자이름</label>
-													<div class="col-sm-10">
+													<label for="inputEmail3" class="col-sm-3 col-form-label">대표자이름</label>
+													<div class="col-sm-9">
 														<input type="text" oninput="autoHyphen(this)"
 															maxlength="13" class="form-control" name="rpstr"
 															id="inputEmail">
 													</div>
 												</div>
-												<div>
+												<div style="text-align:right">
 													<button type="submit" class="btn btn-primary">Submit</button>
 												</div>
 											</form>
@@ -354,27 +363,27 @@
 											<form id="coFindPw" name="coFindPw" action="find/coPw"
 												method="post" onsubmit="return false">
 												<div class="row mb-3">
-													<label for="inputEmail3" class="col-sm-2 col-form-label">사업자번호</label>
-													<div class="col-sm-10">
+													<label for="inputEmail3" class="col-sm-3 col-form-label">사업자번호</label>
+													<div class="col-sm-9">
 														<input type="text" class="form-control" name="bizno"
 															id="inputText">
 													</div>
 												</div>
 												<div class="row mb-3">
-													<label for="inputEmail3" class="col-sm-2 col-form-label">대표자이름</label>
-													<div class="col-sm-10">
+													<label for="inputEmail3" class="col-sm-3 col-form-label">대표자이름</label>
+													<div class="col-sm-9">
 														<input type="email" class="form-control" name="rpstr"
 															id="inputText">
 													</div>
 												</div>
 												<div class="row mb-3">
-													<label for="inputEmail3" class="col-sm-2 col-form-label">이메일</label>
-													<div class="col-sm-10">
+													<label for="inputEmail3" class="col-sm-3 col-form-label">이메일</label>
+													<div class="col-sm-9">
 														<input type="text" oninput="autoHyphen(this)" name="email"
 															maxlength="13" class="form-control" id="inputEmail">
 													</div>
 												</div>
-												<div>
+												<div style="text-align:right">
 													<button type="submit" class="btn btn-primary">Submit</button>
 												</div>
 											</form>
@@ -387,10 +396,8 @@
 							<!-- End Bordered Tabs Justified -->
 						</div>
 					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary"
-							data-bs-dismiss="modal">Close</button>
-					</div>
+					<hr>
+					<br>
 				</div>
 			</div>
 		</div>
@@ -414,6 +421,7 @@
 		    var name = $(this).find('[name="name"]').val().trim();
 		    var phCl = $(this).find('[name="phCl"]').val().trim();
 		    console.log(name);
+		    console.log(phCl);
 			if(name == ""){
 		        Swal.fire({
 		            icon: "warning",
@@ -463,16 +471,16 @@
 	 $("#findPw").submit(function(event) {
 		    event.preventDefault(); 
 		    var formData = $(this).serialize();
-		    var name = $(this).find('[name="name"]').val().trim();
+		    var id = $(this).find('[name="id"]').val().trim();
 		    var email = $(this).find('[name="email"]').val().trim();
 		    var phCl = $(this).find('[name="phCl"]').val().trim();
 		    console.log(name);
-			if(name == ""){
+			if(id == ""){
 		        Swal.fire({
 		            icon: "warning",
 		            title: "이름을 입력하세요.",
 		        })
-		        $(this).find('[name="name"]').focus();
+		        $(this).find('[name="id"]').focus();
 		        return 
 			}
 			if(phCl == "") {
@@ -501,7 +509,7 @@
 		    	if(data == "updateSuccess"){
 			        Swal.fire({
 			            icon: "success",
-			            title: "입력한 이메일을 확인해주세요.",
+			            title: "임시비밀번호를 확인해주세요.",
 			            confirmButtonText: "확인",
 			           }).then((result) => {
 			        	   $('#userModal').modal('hide');
