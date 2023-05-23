@@ -229,8 +229,7 @@ public class CoMypageController {
 	@ResponseBody
 	public String updateInfo(MemInfoVO vo, Principal principal) {
 		vo.setId(principal.getName());
-		System.out.println(vo);
-		//mservice.updateInfo(vo);
+		mservice.updateInfo(vo);
 		return "updateSuccess";
 	}
 	

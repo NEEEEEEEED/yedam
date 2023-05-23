@@ -102,6 +102,17 @@ public class SelfController {
 	
 	// 제안 영역-------------------------------------------------------------
 	
+	// 제안모달 안 필요정보(셀프구직상세페이지에서 사용)
+	@GetMapping("/openOfferModal")
+	@ResponseBody
+	public Map<String,Object> openOfferModal(HireVO vo,Principal principal){
+		vo.setId(principal.getName());
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("commList", commonService.getCodes("Z"));
+		map.put("recList", coService.selectRec(vo));
+		return map;
+	}
+	
 	// 제안등록
 	@PostMapping("/offerSubmit")
 	@ResponseBody

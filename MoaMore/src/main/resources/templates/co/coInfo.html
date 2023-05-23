@@ -95,7 +95,7 @@ section {
 						<div class="row d-flex justify-content-center pointer"
 							data-bs-toggle="modal" data-bs-target="#updateAddr">
 							<div class="col-lg-4 ">주소</div>
-							<div class="col-lg-4 gray">([[${member.post}]])[[${member.addr}]]</div>
+							<div class="col-lg-4 gray" id="oldAddr">([[${member.post}]])[[${member.addr}]]</div>
 							<div class="col-lg-2">
 								<i class="bi bi-chevron-compact-right"></i>
 							</div>
@@ -480,28 +480,28 @@ section {
 			// 주소 수정클릭
 			function updateAddr(){
 				let updateAddr = document.querySelector('#updateAddr'); // 주소변경 모달창
-				let post = updateAddr.querySelector('#post').value // 우편번호
-				let addr = updateAddr.querySelector('#addr').value // 주소
-				console.log(post)
-				console.log(addr)
+				let post = updateAddr.querySelector('#post').value // 새로바뀐 우편번호
+				let addr = updateAddr.querySelector('#addr').value // 새로바뀐 주소
 				// 주소 수정 ajax
-				/* $.ajax({
+				 $.ajax({
 					url : '/updateInfo',
 					type : 'post',
-					data : {post : post
+					data : {post : post,
 							addr : addr},
 					success : function(result) {
-						console.log(result)
+						oldAddr.innerText = '('+post+')'+addr // 기존주소 화면상에서도 바꾸기
 						Swal.fire({
 							icon : 'success',
 							title : '주소변경 완료!'
+						}).then(function(){
+							$('#updateAddr').modal('hide');
 						});
 
 					},
 					error : function(reject) {
 						console.log(reject);
 					}
-				}); */
+				}); 
 				
 			}
 
