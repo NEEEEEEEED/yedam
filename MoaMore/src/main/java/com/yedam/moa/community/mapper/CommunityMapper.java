@@ -95,6 +95,21 @@ public interface CommunityMapper {
 	// 프로젝트 모집 삭제
 	public int projectDelFn(String prjtNo);
 	
+	// 프로젝트 모집 댓글 리스트
+	public List<ReplyVO> projectReplyList(ReplyVO replyVO);
+	
+	// 프로젝트 모집 댓글 등록
+	public int projectReplyAdd(ReplyVO replyVO);
+	
+	// 프로젝트 모집 댓글수 증가 기능
+	public int projectReplyCount(String prjtNo);
+	
+	// 프로젝트 모집 댓글 수정 기능
+	public int projectReplyMod(ReplyVO replyVO);
+	
+	// 프로젝트 모집 댓글 삭제 기능
+	public int projectReplyDelete(ReplyVO replyVO);
+	
 	// 스터디 모집 등록
 	public int studyInsert(StudyVO studyVO);
 
@@ -115,7 +130,22 @@ public interface CommunityMapper {
 	
 	// 스터디 모집 삭제
 	public int studyDelFn(String studyNo);
-
+	
+	// 스터디 모집 댓글 리스트
+	public List<ReplyVO> studyReplyList(ReplyVO replyVO);
+	
+	// 스터디 모집 댓글 등록
+	public int studyReplyAdd(ReplyVO replyVO);
+	
+	// 스터디 모집 댓글수 증가 기능
+	public int studyReplyCount(String prjtNo);
+	
+	// 스터디 모집 댓글 수정 기능
+	public int studyReplyMod(ReplyVO replyVO);
+	
+	// 스터디 모집 댓글 삭제 기능
+	public int studyReplyDelete(ReplyVO replyVO);
+	
 	// 면접후기 단건: 관리자
 	public IntrvVO selectITVDetail(String intrvNo);
 	

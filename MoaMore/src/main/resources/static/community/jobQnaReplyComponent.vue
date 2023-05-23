@@ -210,8 +210,8 @@
   module.exports = {
     data() {
       return {
-        qnaReplyList : [], // 댓글 리스트
-        qaNotiwrNo : '',  // 게시글 번호
+        qnaReplyList : [], // 취업 Q&A 댓글 리스트
+        qaNotiwrNo : '',  // 취업 Q&A 게시글 번호
         rplyCntn: '',     // 댓글 내용
         userId : '',      // 로그인한 아이디
         openIndex : -1    // 특정 대댓글창 열어 놓는값
@@ -219,7 +219,7 @@
     },
     mounted(){
 
-      this.getQaNotiwrNo();  // 댓글 리스트
+      this.getQaNotiwrNo();  // 취업 Q&A 게시글 번호 , 댓글 리스트
       this.getLoginUserId(); // 현재 로그인한 userid
 
     },
