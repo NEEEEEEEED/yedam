@@ -32,5 +32,7 @@ public interface HireService {
 	public List<HireVO> newSelect(HireVO hireVO);// 메인페이지 - 최신
 	public List<SelfVO> popSelf(SelfVO selfVO);// 메인페이지 - 셀프구직(관심순)
 	public List<CommunityVO> jobQnaBest(CommunityVO communityVO);// 메인페이지 - 취업QnA 베스트3
+	
+	public int hireCount(HireVO hireVO); // 페이징
 			
 }

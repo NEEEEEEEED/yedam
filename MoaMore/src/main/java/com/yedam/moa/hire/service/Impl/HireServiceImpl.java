@@ -250,6 +250,10 @@ public class HireServiceImpl implements HireService{
 	public List<CommunityVO> jobQnaBest(CommunityVO communityVO) {
 		return hireMapper.jobQnaBest(communityVO);
 	}
+	@Override
+	public int hireCount(HireVO hireVO) {
+		return hireMapper.hireCount(hireVO);
+	}
 	
 	
 	

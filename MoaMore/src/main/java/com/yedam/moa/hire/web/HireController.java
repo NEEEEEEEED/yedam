@@ -55,10 +55,14 @@ public class HireController {
 		hireVO.setId(pr.getName());
 		hireVO.getAccpDt();
 		hireVO.getExprDt();
-//		String[] skillArray = hireList.get(0).getSkill().split(",");
-//		hireVO.setSkillArray(skillArray);
-
+		
+		int totalCount = hireService.hireCount(hireVO);
+		
 		hireList = hireService.hireList(hireVO);
+		HireVO vo = new HireVO();
+		vo = hireList.get(0);
+		vo.setTotalInter(totalCount);
+		hireList.set(0, vo);
 		return hireList;
 	}
 
