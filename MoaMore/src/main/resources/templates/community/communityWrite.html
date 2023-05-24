@@ -107,7 +107,7 @@
 								<td>
 									<div class="d-flex justify-content-center">
 										<label th:each="carr : ${commList.O}" class="mx-3">
-											<input id="carr" name="carr" type="radio"  th:text="${carr.desct}" th:value="${carr.prov}"> 
+											<input name="carr" type="radio"  th:text="${carr.desct}" th:value="${carr.prov}"> 
 										</label>
 									</div>
 								</td>
@@ -115,7 +115,7 @@
 								<td>
 									<div class="d-flex justify-content-center">
 										<label class="mx-3" th:each="appr : ${commList.P}">
-											<input id="appr" name="appr" type="radio" th:text="${appr.desct}" th:value="${appr.prov}"> 
+											<input name="appr" type="radio" th:text="${appr.desct}" th:value="${appr.prov}"> 
 										</label>
 									</div>
 								</td>
@@ -125,7 +125,7 @@
 								<td>
 									<div class="d-flex justify-content-center">
 										<label class="mx-3" th:each="dif : ${commList.Q}">
-											<input id="dif" name="dif" type="radio" th:text="${dif.desct}" th:value="${dif.prov}"> 
+											<input name="dif" type="radio" th:text="${dif.desct}" th:value="${dif.prov}"> 
 										</label>
 									</div>
 								</td>
@@ -133,7 +133,7 @@
 								<td>
 									<div class="d-flex justify-content-center">
 										<label class="mx-3" th:each="passYn : ${commList.T}">
-											<input id="passYn" name="passYn" type="radio" th:text="${passYn.desct}" th:value="${passYn.prov}"> 
+											<input name="passYn" type="radio" th:text="${passYn.desct}" th:value="${passYn.prov}"> 
 										</label>
 									</div>
 								</td>
@@ -582,7 +582,9 @@ function studyUpdatePlaceholder() {
  		if($("#title").val() == "") { // 제목이 비어있으면
 			Swal.fire({
 				  icon: 'error',
-				  title: '제목을 입력해주세요'
+				  title: '제목을 입력해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
 			})
 			return;
 		 }
@@ -596,7 +598,9 @@ function studyUpdatePlaceholder() {
 	   	if(editorData == "") { // 내용이 비어있으면
 	   		Swal.fire({
 				  icon: 'error',
-				  title: '내용을 입력해주세요'
+				  title: '내용을 입력해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
 			})
 	   		return;
 	   	}
@@ -646,6 +650,139 @@ function studyUpdatePlaceholder() {
  	
  	// 면접후기 등록
  	function jobReviewInsert(){
+ 		
+ 		// 회사명이 비어있으면
+ 		if($("#coNm").val() == "") { 
+			Swal.fire({
+				  icon: 'error',
+				  title: '회사명을 입력해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		 }
+ 		
+ 		// 지원직무가 비어있으면
+ 		if($("#duty").val() == "") { 
+			Swal.fire({
+				  icon: 'error',
+				  title: '지원직무를 선택해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		 }
+ 		
+ 		// 면접당시 경력이 비어있으면
+ 		if(!$('input[name="carr"]').is(':checked')) { 
+			Swal.fire({
+				  icon: 'error',
+				  title: '면접당시 경력을 선택해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		 }
+ 		
+ 		// 전반적인 평가가 비어있으면
+ 		if(!$('input[name="appr"]').is(':checked')) { 
+			Swal.fire({
+				  icon: 'error',
+				  title: '전반적인 평가를 선택해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		 }
+ 		
+ 		// 난이도가 비어있으면
+ 		if(!$('input[name="dif"]').is(':checked')) { 
+			Swal.fire({
+				  icon: 'error',
+				  title: '난이도를 선택해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		 }
+ 		
+ 		// 합격여부가 비어있으면
+ 		if(!$('input[name="passYn"]').is(':checked')) { 
+			Swal.fire({
+				  icon: 'error',
+				  title: '합격여부를 선택해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		 }
+ 		
+ 		// 면접유형이 비어있으면
+ 		if($("#intrvTyp").val() == "") { 
+			Swal.fire({
+				  icon: 'error',
+				  title: '면접유형을 선택해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		 }
+ 		
+ 		// 면접인원이 비어있으면
+ 		if($("#intrvRcnt").val() == "") { 
+			Swal.fire({
+				  icon: 'error',
+				  title: '면접인원을 선택해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		 }
+ 		
+ 		// 면접일자가 비어있으면
+ 		if($("#intrvDt").val() == "") { 
+			Swal.fire({
+				  icon: 'error',
+				  title: '면접일자를 선택해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		 }
+ 		
+ 		// 면접증빙서류가 비어있으면
+ 		if($("#upload").val() == "") { 
+			Swal.fire({
+				  icon: 'error',
+				  title: '면접증빙서류를 업로드해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		 }
+ 		
+ 		// 면접질문이 비어있으면
+ 		if($("#qstCntn").val() == "") { 
+			Swal.fire({
+				  icon: 'error',
+				  title: '면접질문을 작성해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		 }
+ 		
+ 		// 면접Tip 및 특이사항이 비어있으면
+ 		if($("#spcCtnt").val() == "") { 
+			Swal.fire({
+				  icon: 'error',
+				  title: '면접Tip 및 특이사항을 \n작성해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		 }
+ 		
  		
  		let formData = new FormData($('#jobReviewForm')[0]); // 폼데이터
 		formData.append("id", $('#logId').val());
