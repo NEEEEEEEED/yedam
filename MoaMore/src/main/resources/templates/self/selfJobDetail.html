@@ -302,31 +302,29 @@ $('#offer').on('click', function(){
 	
 	}
 })
-	
-// 채용지원제안클릭 시 제안 모달창 열기
-function openOfferModal(){
-	// 모달 안 필요한 구인공고목록, 기술스택 가져오기
-	$.ajax({
-		url: '/openOfferModal',
-		type: 'get',
-		success: function (res) {
-			console.log(res)
-			console.log(res.commList)
-			console.log(res.commList.Z)
-			// 가져온 내용을 추가하고 모달바디에 붙이기
-			document.querySelector('#offerModalBody').innerHTML = ''; // 모달바디 초기화
-			let modalBodyHtml = `<form class="col-lg-11 " id="offerForm" action="/offerSubmit" method="POST">
-				<div class="mb-1 row ">
-				<label for="inputPassword" class="col-sm-2 col-form-label  fs">
-					회사명</label>
-				<div class="col-sm-4 center-input">
-					<input type="text" name="coNm" class="form-control form-control-sm " id="">
-				</div>
-				
-				<label for="inputPassword" class="col-sm-2 col-form-label  fs">
-					복지</label>
-				<div class="col-sm-4 center-input">
-					<input type="text" name="bnft" class="form-control form-control-sm" id="">
+
+	// 채용지원제안클릭 시 제안 모달창 열기
+	function openOfferModal(){
+		// 모달 안 필요한 구인공고목록, 기술스택 가져오기
+		$.ajax({
+			url: '/openOfferModal',
+			type: 'get',
+			success: function (res) {
+				// 가져온 내용을 추가하고 모달바디에 붙이기
+				document.querySelector('#offerModalBody').innerHTML = ''; // 모달바디 초기화
+				let modalBodyHtml = `<form class="col-lg-11 " id="offerForm" action="/offerSubmit" method="POST">
+					<div class="mb-1 row ">
+					<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+						회사명</label>
+					<div class="col-sm-4 center-input">
+						<input type="text" name="coNm" class="form-control form-control-sm " id="">
+					</div>
+					
+					<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+						복지</label>
+					<div class="col-sm-4 center-input">
+						<input type="text" name="bnft" class="form-control form-control-sm" id="">
+					</div>
 				</div>
 			</div>
 
@@ -400,27 +398,26 @@ function openOfferModal(){
 				</div>
 			</div>
 
-			<!-- 함께보낼데이타 -->
-			<input type="hidden" name="jobSearchNo">
-			<div class="row mb-4">
-				<div class="col-12 d-flex justify-content-center">
-					<button id="modalCloseBtn" type="button" class="btn btn-secondary"
-						data-bs-dismiss="modal" onclick="closeModal()">취소</button>
-					<button id="offerBtn" type="button" class="btn btn-primary"
-						onclick="offerCheck()">제안</button>
+				<!-- 함께보낼데이타 -->
+				<input type="hidden" name="jobSearchNo">
+				<div class="row mb-4">
+					<div class="col-12 d-flex justify-content-center">
+						<button id="modalCloseBtn" type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal" onclick="closeModal()">취소</button>
+						<button id="offerBtn" type="button" class="btn btn-primary"
+							onclick="submitOffer()">제안</button>
+					</div>
 				</div>
-			</div>
-		</form>`;
-		
-		document.querySelector('#offerModalBody').innerHTML += modalBodyHtml;
- 		$('#offerModal').modal('show');
-		},
- 		error: function (reject) {	   
-    		console.log(reject);
-		}
-	});
-	
-}
+			</form>`;
+			
+			document.querySelector('#offerModalBody').innerHTML += modalBodyHtml;
+	 		$('#offerModal').modal('show'); // 모달 창 열기
+			},
+	 		error: function (reject) {	   
+	    		console.log(reject);
+			}
+		});
+	}
 
 </script>
 	</div>
