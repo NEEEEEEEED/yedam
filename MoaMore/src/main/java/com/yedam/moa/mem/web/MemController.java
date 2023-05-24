@@ -235,7 +235,7 @@ public class MemController {
 		System.out.println(paging.toString());
 		
 		
-		return "/mem/resumeList";
+		return "mem/resumeList";
 	}
 //	이력서 삭제 메소드
 	@GetMapping("/delResume")
@@ -259,7 +259,7 @@ public class MemController {
 		System.out.println(paging.toString());
 		
 		
-		return "/mem/resumeList";
+		return "mem/resumeList";
 		}else {
 			return "redirect:/resumeList";
 		}
