@@ -37,9 +37,9 @@ public class MemServiceImpl implements MemService {
 	public List<MemVO> getSearch(SearchVO vo) {
 		List<MemVO> sv = mem.getSearch(vo);
 		for(int i = 0; i<sv.size();i++) {
-			if( sv.get(i).getSt().contains("1")) {
+			if( sv.get(i).getSt().contains("m2")) {
 				sv.get(i).setSt("열람");
-			}else if(sv.get(i).getSt().contains("0")) {
+			}else if(sv.get(i).getSt().contains("m1")) {
 				sv.get(i).setSt("미열람");
 			}
 			if(sv.get(i).getExprSt() > 0) {

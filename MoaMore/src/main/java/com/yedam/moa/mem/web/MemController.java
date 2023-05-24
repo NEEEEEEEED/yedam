@@ -45,7 +45,9 @@ public class MemController {
 	@GetMapping("mem/mypage")
 	public String getMyPgae(Principal principal, Model model, MemVO vo) {
 		vo.setId(principal.getName());
+		
 		model.addAttribute("list", mem.openSesame(vo));
+		System.out.println(model.getAttribute("list"));
 		model.addAttribute("count", mem.getCount(vo));
 		return "mem/mem_mypage";
 	}
@@ -242,6 +244,7 @@ public class MemController {
 	public String delResume(Model model,Principal pr,Criteria cri,ResumeVO rvo) {
 		rvo.setId(pr.getName());
 		int result = mem.delResume(rvo);
+		System.out.println(result);
 		if(result==1) {
 		// 전체 글 개수
         int resumePageCnt = mem.getPageCnt(pr.getName());

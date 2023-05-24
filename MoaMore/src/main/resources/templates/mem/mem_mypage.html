@@ -149,8 +149,8 @@
         </div>
 
         <div class="col-xl-9 col-md-8 text-center">
-          <div class="card">
-            <section class="bg-dark pt-6">
+          <div>
+            <section class="bg-dark pt-6 card">
               <div class="container">
                 <div class="col-md-6">
                   <h1 class="text-white fs-lg-5 fs-md-3 fs-2">
@@ -172,11 +172,10 @@
                       <div
                         class="swiper-slide bg-white p-5 rounded-3 h-auto"
                         th:each="list:${list}"
-                        th:onclick="|location.href='@{/hireInfo(recruitNo=${list.recruitNo})}'|"
+                        th:onclick="|location.href='@{/hireInfo(recruitNo=${list.recruitNo},skill=${list.skill})}'|"
                       >
                         <div
                           class="d-flex flex-column justify-content-between h-100"
-                          
                         >
                           <h4 class="text-black">[[${list.ttl}]]</h4>
                           <input type="hidden" th:value="${list.recruitNo}" />
@@ -343,7 +342,7 @@
                             type="button"
                             class="dropdown-item"
                             style="border-radius: 0.5rem"
-                            data-value="m1"
+                            data-value="m2"
                           >
                             <span>열람</span>
                           </button>
@@ -353,7 +352,7 @@
                             type="button"
                             class="dropdown-item"
                             style="border-radius: 0.5rem"
-                            data-value="m2"
+                            data-value="m1"
                           >
                             <span>미열람</span>
                           </button>
@@ -435,7 +434,6 @@
           this.st = st;
           // this.aplySt = aplySt;
         };
-        
 
         $(document).ready(function () {
           $(".dropdown-item").on("click", function () {
@@ -450,47 +448,7 @@
               $(this).closest(".dropdown")[0].nextElementSibling.value
             );
           });
-          $("#search").on("click", function () {
-            let period = $(":input:radio[name=options]:checked").val();
-            let startDt = $("#startDt").val();
-            let endDt = $("#endDt").val();
-            let expir = $("#expir").val();
-            let st = $("#st").val();
-            let aplyst = $("#aplySt").val();
-            //             console.log(period, startDt, endDt, expir, st, aplyst);
-            if (startDt == "") {
-              startDt = null;
-            }
-            if (endDt == "") {
-              endDt = null;
-            }
-            if (expir == "") {
-              expir = null;
-            }
-            if (st == "") {
-              st = null;
-            }
-            if (aplyst == "") {
-              aplyst = null;
-            }
-            //             console.log(aplyst);
-            let ball = new container(period, startDt, endDt, expir, st, aplySt);
-            //             console.log(aplyst);
-            //             console.log(ball);
-            $.ajax({
-              type: "POST",
-              url: "/getSearch",
-              contentType: "application/json",
-              data: JSON.stringify(ball),
-              success: function (res) {
-                //                 console.log(res);
-                mkTr(res);
-              },
-              error: function (err) {
-                alert(err.responseText);
-              },
-            });
-          });
+          $("#search").on("click", search);
 
           $(document).on("click", "button[name=del]", function () {
             let data = $(this).closest("tr").data("recruit-no");
@@ -501,14 +459,59 @@
             confirmDel(anumDel, tr);
           });
         });
+        function search() {
+          let period = $(":input:radio[name=options]:checked").val();
+          let startDt = $("#startDt").val();
+          let endDt = $("#endDt").val();
+          let expir = $("#expir").val();
+          let st = $("#st").val();
+          let aplyst = $("#aplySt").val();
+          //             console.log(period, startDt, endDt, expir, st, aplyst);
+          if (startDt == "") {
+            startDt = null;
+          }
+          if (endDt == "") {
+            endDt = null;
+          }
+          if (expir == "") {
+            expir = null;
+          }
+          if (st == "") {
+            st = null;
+          }
+          if (aplyst == "") {
+            aplyst = null;
+          }
+          //             console.log(aplyst);
+          let ball = new container(period, startDt, endDt, expir, st, aplySt);
+          //             console.log(aplyst);
+          //             console.log(ball);
+          $.ajax({
+            type: "POST",
+            url: "/getSearch",
+            contentType: "application/json",
+            data: JSON.stringify(ball),
+            success: function (res) {
+              //                 console.log(res);
+              mkTr(res);
+            },
+            error: function (err) {
+              alert(err.responseText);
+            },
+          });
+        }
         function mkTr(map) {
           let table = $("#listSt");
           table.empty();
           for (let i = 0; i < map.length; i++) {
             let newTr = document.createElement("tr");
             newTr.setAttribute("data-recruit-no", map[i].recruitNo);
-            newTr.innerHTML = `<td><span>${map[i].aplySt}</span><br><span>${map[i].aplyDt}</span></td><td><span>${map[i].ttl}</span><br><span>${map[i].maBuss}</span></td><td><span>${map[i].exprStatus}</span><br><span>${map[i].exprDt}</span></td><td><span>${map[i].st}</span></td><td><button class="btn btn-outline-danger px-1 btn-sm" name="del"
-                style="border-radius: 0.5rem">삭제</button></td>`;
+            if (map[i].aplySt == "지원완료") {
+              newTr.innerHTML = `<td><span>${map[i].aplySt}</span><br><span>${map[i].aplyDt}</span></td><td><span>${map[i].ttl}</span><br><span>${map[i].maBuss}</span></td><td><span>${map[i].exprStatus}</span><br><span>${map[i].exprDt}</span></td><td><span>${map[i].st}</span></td><td><button class="btn btn-outline-danger px-1 btn-sm" name="del"
+                style="border-radius: 0.5rem">지원취소</button></td>`;
+            } else {
+              newTr.innerHTML = `<td><span>${map[i].aplySt}</span><br><span>${map[i].aplyDt}</span></td><td><span>${map[i].ttl}</span><br><span>${map[i].maBuss}</span></td><td><span>${map[i].exprStatus}</span><br><span>${map[i].exprDt}</span></td><td><span>${map[i].st}</span></td><td></td>`;
+            }
             table.append(newTr);
           }
         }
@@ -525,7 +528,8 @@
             if (result.isConfirmed) {
               callback(data.data("recruit-no"));
               Swal.fire("Deleted!", "Your file has been deleted.", "success");
-              data.remove();
+              console.log(data);
+              search();
             } else if (
               /* Read more about handling dismissals below */
               result.dismiss === Swal.DismissReason.cancel

@@ -348,7 +348,7 @@
             </div>
           </div>
           <!-- ==================최신 이력서 기술 끝================================================ -->
-          <div th:if=" ${resume.shcrNo}==null">
+          <div th:if=" ${resume.skillNo}==null">
             <div class="col-md-12 col-lg-12">
               <h4 class="mb-3">기술 역량</h4>
               <div class="formSkill my-3 card ps-4 py-3">
@@ -2122,6 +2122,7 @@
                 data: JSON.stringify(data),
                 success: function (result) {
                   console.log(result);
+                  location.href='/resumeList';
                 },
                 error: function (err) {
                   console.log(err);

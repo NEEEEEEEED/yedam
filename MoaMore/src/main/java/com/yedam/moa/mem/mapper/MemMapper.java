@@ -1,6 +1,5 @@
 package com.yedam.moa.mem.mapper;
 
-import java.util.HashMap;
 import java.util.List;
 
 import com.yedam.moa.community.Criteria;

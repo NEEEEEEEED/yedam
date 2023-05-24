@@ -19,6 +19,11 @@
         width: 80%;
         height: 100%;
       }
+      .subTitle{
+      	text-align : center;
+	    color: black;
+	    border-bottom : 2px solid #65e4a3;
+	 }
     </style>
   </head>
   <body>
@@ -58,7 +63,7 @@
                       type="button"
                       data-bs-toggle="collapse"
                       data-bs-target="#panelsStayOpen-collapseOne"
-                      aria-expanded="false"
+                      aria-expanded="ture"
                       aria-controls="panelsStayOpen-collapseOne"
                     >
                       이력서
@@ -66,7 +71,7 @@
                   </h2>
                   <div
                     id="panelsStayOpen-collapseOne"
-                    class="accordion-collapse collapse"
+                    class="accordion-collapse collapse show"
                     aria-labelledby="panelsStayOpen-headingOne"
                   >
                     <div
@@ -88,7 +93,7 @@
                       type="button"
                       data-bs-toggle="collapse"
                       data-bs-target="#panelsStayOpen-collapseTwo"
-                      aria-expanded="false"
+                      aria-expanded="true"
                       aria-controls="panelsStayOpen-collapseTwo"
                     >
                       현황
@@ -96,7 +101,7 @@
                   </h2>
                   <div
                     id="panelsStayOpen-collapseTwo"
-                    class="accordion-collapse collapse"
+                    class="accordion-collapse collapse show"
                     aria-labelledby="panelsStayOpen-headingTwo"
                   >
                     <div
@@ -119,7 +124,7 @@
                       type="button"
                       data-bs-toggle="collapse"
                       data-bs-target="#panelsStayOpen-collapseThree"
-                      aria-expanded="false"
+                      aria-expanded="true"
                       aria-controls="panelsStayOpen-collapseThree"
                     >
                       개인정보
@@ -127,7 +132,7 @@
                   </h2>
                   <div
                     id="panelsStayOpen-collapseThree"
-                    class="accordion-collapse collapse"
+                    class="accordion-collapse collapse show"
                     aria-labelledby="panelsStayOpen-headingThree"
                   >
                     <div
@@ -148,8 +153,9 @@
         </div>
 
         <div class="col-md-7 col-xl-7 px-4">
+        	<div class="subTitle"><h3>작성된 이력서가 없습니다! 이력서를 작성해 주세요</h3></div>
           <!-- 반복 -->
-          <div
+          <div th:if="${resumeList} != null"
             th:each="list : ${resumeList}"
             class="hoverRow listRow row cursor ms-4"
             name="goView"
@@ -225,21 +231,34 @@
 
       <script>
         $(document).ready(function () {
-          
           let id = $("input[name=id]").val();
           $("div[name=goView]").on("click", function () {
-          
-            window.location = "/viewResume?id="+$(this).find("input[name=id]").val()+"&resumeNo="+$(this).find("input[name=resumeNo]").val();
+            window.location =
+              "/viewResume?id=" +
+              $(this).find("input[name=id]").val() +
+              "&resumeNo=" +
+              $(this).find("input[name=resumeNo]").val();
           });
           $("button[name=delResume]").on("click", function () {
             console.log($(this));
-//             window.location = "/?id="+id+"&resumeNo="+resumeNo;
+            //             window.location = "/?id="+id+"&resumeNo="+resumeNo;
+            window.location =
+              "/delResume?id=" +
+              $(this).parents().find("input[name=id]").val() +
+              "&resumeNo=" +
+              $(this).parents().find("input[name=resumeNo]").val();
             event.preventDefault();
             event.stopPropagation();
           });
           $("button[name=modResume]").on("click", function () {
             console.log($(this));
-//             window.location = "/mem/modRe?id="+id+"&resumeNo="+resumeNo;
+            console.log($(this).parents().find("input[name=id]").val());
+            window.location =
+              "/mem/modRe?id=" +
+              $(this).parents().find("input[name=id]").val() +
+              "&resumeNo=" +
+              $(this).parents().find("input[name=resumeNo]").val();
+            //             window.location = "/mem/modRe?id="+id+"&resumeNo="+resumeNo;
             event.preventDefault();
             event.stopPropagation();
           });
