@@ -12,7 +12,7 @@
 <body>
 	<div layout:fragment="content">
 	
-		<!-- 선아 2023-05-24 추가 코드 시작 -->
+	
 		<!-- 현재로그인된 유저정보 -->
 		<input id="logId" name="id" type="hidden" th:value="${#authentication.principal.username}">
 		
@@ -23,15 +23,15 @@
 		<div sec:authorize="hasRole('ROLE_CO')" style="display:none;">
 			<input id="ROLE_CO" value="ROLE_CO"> 
 		</div>
-		<!-- 선아 2023-05-24 추가 코드 끝 -->
+		
 	
 		<div class="row" style="margin-top: 20px;">
-			<div class="col-md-1"></div>
+			<div class="col-md-2"></div>
 
-			<div id="selfDetail" class="col-md-7" style="border-bottom : 1px solid #ddd;"> 
+			<div id="selfDetail" class="col-md-6" style="border-bottom : 1px solid #ddd;"> 
 				<h3 class="text-center" th:text="${selfJobInfo.ttl}">셀프구직 제목</h3>
 				<hr>
-				<div class="mt-5 text-center">
+				<div class="fs-1 mt-4 mb-5 text-center">
 					<img th:src="@{/moamoreImg/} + ${selfJobInfo.myimg}" th:onerror="this.src='self/profile.JPG'" id="myImg" class="circleImg mb-4">
 					<p class="mb-1" th:text="${selfJobInfo.name}">이름</p>
 					<p class="mb-1" th:text="${selfJobInfo.email}">이메일</p>
@@ -39,14 +39,16 @@
 					<p class="mb-1" th:text="${selfJobInfo.skill}">기술스택</p>
 				</div>
 
-				<div class="text-left mt-8 mb-8">
-					<span class="fs-2 subTitle">&nbsp&nbsp&nbsp저의 포트폴리오입니다&nbsp&nbsp&nbsp</span>
+				<hr style="color : #ddd;">
+				
+				<div class="fs-1 text-left mt-5 mb-7">
+					<span class="fs-2 subTitle p-2">&nbsp&nbsp&nbsp&nbsp저의 포트폴리오입니다&nbsp&nbsp&nbsp&nbsp</span>
 					<div style="display:flex">
-						<p class="mt-4 mb-3" style="margin-left : 16px;" th:text="|◈ ${selfJobInfo.name}님의 포트폴리오 (|">◈ OOO님의 포트폴리오</p>
-						<span class="mt-4 mb-3"><span style="color:red; font-weight:bold;">*</span>파일명클릭시 다운로드가능)</span>
+						<p class="fw-bold text-dark mt-5 mb-5" style="margin-left : 16px;" th:text="|◈ ${selfJobInfo.name}님의 포트폴리오 (|">◈ OOO님의 포트폴리오</p>
+						<span class="fw-bold text-dark mt-5 mb-5"><span style="color:red; font-weight:bold;">*</span>파일명클릭시 다운로드가능)</span>
 					</div>
 					<div class="row" id = "pofolList">
-					<!-- 반복 -->
+						<!-- 반복 -->
 						<div th:each="pofol : ${pofolList}" class="col-md-4 text-center text-md-start h-auto" >
 		    				<div class="d-flex justify-content-between flex-column h-100">
                 				<div class="image">
@@ -59,9 +61,9 @@
 					</div>
 				</div>
 					
-				<div class="text-left mt-1 mb-4">
-					<span class="fs-2 subTitle">&nbsp&nbsp&nbsp저는 이런사람이에요&nbsp&nbsp&nbsp</span>
-					<p class="mt-4 mb-0" style="margin-left : 16px;" th:text="|◈ ${selfJobInfo.name}님의 희망 사항|">◈ OOO님의 희망 사항</p>
+				<div class="fs-1 text-left my-8">
+					<span class="fs-2 subTitle p-2">&nbsp&nbsp&nbsp&nbsp저는 이런사람이에요&nbsp&nbsp&nbsp&nbsp</span>
+					<p class="fw-bold text-dark mt-5 mb-1" style="margin-left : 16px;" th:text="|◈ ${selfJobInfo.name}님의 희망 사항|">◈ OOO님의 희망 사항</p>
 					<div class="mt-4" style="margin-left : 16px;">
 						<ul>
 							<li class="mb-2" th:text="|희망 급여 : ${selfJobInfo.hopeSal}|">희망 급여 : </li>
@@ -69,32 +71,22 @@
 							<li th:text="|상주가능여부 : ${selfJobInfo.residency}|">상주가능여부 : </li>
 						</ul>
 					</div>
-					<p class="mt-4 mb-0" style="margin-left : 16px;" th:text="|◈ ${selfJobInfo.name}님의 자기소개|">◈ OOO님의 자기소개</p>
-				  	<div class="row">
-				  		<div class="col-md-9">
-				  			<textarea id="intro" class="form-control radius" readonly style="background-color : white; height: 100px; resize: none; border:none;" th:text="${selfJobInfo.intro}">자기소개</textarea>
-				  		</div>
-				  		<div class="col-md-3"></div>
-				  	</div>
+					<p class="fw-bold text-dark mt-5 mb-4" style="margin-left : 16px;" th:text="|◈ ${selfJobInfo.name}님의 자기소개|">◈ OOO님의 자기소개</p>
+				  	<p id="intro" class="fs-1 mb-4 radius" style="margin-left : 32px; white-space: pre-line;" th:text="${selfJobInfo.intro}">자기소개</p>
 				</div>
 				
-				<div class="text-left mb-8">
-					<span class="fs-2 subTitle">&nbsp&nbsp&nbsp이런 기술스택을 가지고있어요&nbsp&nbsp&nbsp</span>
-					<div class="row">
-						<p class="mt-4 mb-2" style="margin-left : 16px;" th:text="|◈ ${selfJobInfo.name}님의 보유기술|">◈ OOO님의 보유기술</p>
-						
-						<!-- 반복 -->
-						<div th:each="skillItem : ${skillList}" class="col-md-4 mt-4" style="margin-left : 16px;">
-							<span th:text="${skillItem.skill}" class="skillBorder">보유기술1</span>
-						</div>
-						
-						<div class="col-md-4"></div>
+				<div class="fs-1 text-left mb-8">
+					<span class="fs-2 subTitle p-2">&nbsp&nbsp&nbsp&nbsp이런 기술스택을 가지고있어요&nbsp&nbsp&nbsp&nbsp</span>
+					<p class="fw-bold text-dark mt-5 mb-4" style="margin-left : 16px;" th:text="|◈ ${selfJobInfo.name}님의 보유기술|">◈ OOO님의 보유기술</p>
+					<!-- 반복 -->
+					<div th:each="skillItem : ${skillList}" class="mb-3 mx-2" style="display : inline-block;">
+						<div th:text="${skillItem.skill}" class="skillBorder">보유기술1</div>
 					</div>
 				</div>
 				
-				<div class="text-left mt-1 mb-9">
-					<span class="fs-2 subTitle">&nbsp&nbsp&nbsp제 실무경험과 학력입니다&nbsp&nbsp&nbsp</span>
-						<p class="mt-4 mb-3" style="margin-left : 16px;">◈ 경력</p>
+				<div class="fs-1 text-left my-8">
+					<span class="fs-2 subTitle p-2">&nbsp&nbsp&nbsp&nbsp제 실무경험과 학력입니다&nbsp&nbsp&nbsp&nbsp</span>
+						<p class="fw-bold text-dark mt-5 mb-4" style="margin-left : 16px;">◈ 경력</p>
 							<div class="row">
 								<div id="carrRows" class="col-md-10" style="margin-left : 40px;">
 									<th:block th:if="${#lists.size(carrList)} == 0">
@@ -118,7 +110,7 @@
 								</div>
 							</div>
 
-						<p class="mt-5 mb-3" style="margin-left : 16px;">◈ 학력</p>
+						<p class="fw-bold text-dark mt-5 mb-3" style="margin-left : 16px;">◈ 학력</p>
 						<div class="row mb-3">
 							<div class="col-md-2" style="text-align:center;">
 							</div>
@@ -208,7 +200,7 @@
 				</div>
 			</div>
 			<hr>
-			<div class="col-md-1"></div>
+			<div class="col-md-3"></div>
 		</div>
 		
 		<!-- html모달창 제안모달 -->
