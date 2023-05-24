@@ -159,51 +159,51 @@ body {
 								</div>
 								
 								<div class="mb-3">
-									<h4>기업서비스 소개</h4>
+									<h5>기업서비스 소개</h5>
 									<p th:utext="|${hireVO.coIntro}|" id="editor"></p>
 									<br>
 								</div>
-								
+							
 								<div class="mb-3">
-									<h4>기술스텍</h4>
+									<h5>기술스텍</h5>
 									<p th:text="${hireVO.skill}" th:value="${hireVO.skill}" id="nowSkill"/>
 								</div>
-				
+							
 								<div class="mb-3">
-									<h4>주요업무</h4>
+									<h5>주요업무</h5>
 									<p th:text="${hireVO.maBuss}"/>
 								</div> 
-								
+							
 								<div class="mb-3">
-									<h4>자격요건</h4>
+									<h5>자격요건</h5>
 									<p th:text="${hireVO.qualCond}"/>
 								</div>
-								
+							
 								<div class="mb-3">
-									<h4>우대사항</h4>
+									<h5>우대사항</h5>
 									<p th:text="${hireVO.prefCond}"/>
 								</div>
-								
+							
 								<div class="mb-3">
-									<h4>복지 및 혜택</h4>
+									<h5>복지 및 혜택</h5>
 									<p th:text="${hireVO.welf}"/>
 								</div>
-								
+							<hr>
 								<div class="mb-3">
-									<h4>경력</h4>
+									<h6>경력</h6>
 									<p th:text="${hireVO.carr}"/>
 								</div>
 								
 								<div class="mb-3">
-									<h4>학력</h4>
+									<h6>학력</h6>
 									<p th:text="${hireVO.shcr}"/>
 								</div>
 								
 								<div class="mb-3">
-									<h4>마감일</h4>
+									<h6>마감일</h6>
 									<p th:text="${hireVO.exprDt}"/>
 								</div>
-								
+							<hr>
 							</form>
 							<div><!-- 공고수정은 본인만 가능하도록 -->
 								<th:block th:if="${hireVO.idCo}==${#authentication.principal.username}" >
@@ -386,7 +386,7 @@ body {
    grid.on('unCheck', (ev) => {
 		checkLen = grid.getCheckedRows().length;
 	}); 
-	console.log(checkLen);
+
 	// 지원하기 버튼을 눌렀을 때
 	$('#recruitInsert').on('click',function(){
 		if(checkLen > 1){
@@ -394,10 +394,11 @@ body {
 				  icon: 'error',
 				  title: '이력서는 하나만 선택해주세요!!'
 				});
+			checkLen = "";
 			return;
-		} // -> for문말고 if로 바꿔서 갯수가 많으면 alert띄우고 return
+		} 
 		else{
-	        str = grid.getCheckedRows()[0].resumeNo;
+			str = grid.getCheckedRows()[0].resumeNo;
 		}
 		let id = logId.value; // 로그인한 아이디
 		let recruitNo = nowRecruitNo.value; // 현재보고있는 공고
@@ -414,17 +415,15 @@ body {
 				  icon: 'error',
 				  title: '이력서는 하나만 선택해주세요!!'
 				});
+			checkLen = "";
 			return;
-		} // -> for문말고 if로 바꿔서 갯수가 많으면 alert띄우고 return
+		} 
 		else{
-	        str = grid.getCheckedRows()[0].resumeNo;
-	        console.log(str);
+			str = grid.getCheckedRows()[0].resumeNo;
 		}
 		e.preventDefault();
 		let id = logId.value; // 로그인한 아이디
 		let resumeNo = str; // 체크한 이력서 번호
-		console.log(id);
-		console.log(resumeNo);
  		location.href="/mem/modRe?id="+id+"&resumeNo="+resumeNo;
 	});
 	

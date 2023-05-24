@@ -206,6 +206,7 @@
 		       REG_DT
 		FROM RESUME
 		WHERE ID = #{id}
+		ORDER BY REG_DT DESC
 	</select>
 	<!-- 해당공고에 지원가능한지 확인 -->
 	<select id="checkResume" resultType="HireVO">
