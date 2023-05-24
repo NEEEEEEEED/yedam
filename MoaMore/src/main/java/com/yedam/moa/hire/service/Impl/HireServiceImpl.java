@@ -49,7 +49,7 @@ public class HireServiceImpl implements HireService{
 			result = hireMapper.resumeInsert(hireVO);
 			
 			if(result > 0) {
-				message = "해당 공고에 지원하였습니다.";
+				message = "해당 기업에 지원하였습니다.";
 			}
 		}else{
 			message = "이미 지원한 공고입니다.";
