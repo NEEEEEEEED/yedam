@@ -107,7 +107,7 @@
 								<td>
 									<div class="d-flex justify-content-center">
 										<label th:each="carr : ${commList.O}" class="mx-3">
-											<input name="carr" type="radio"  th:text="${carr.desct}" th:value="${carr.prov}"> 
+											<input id="carr" name="carr" type="radio"  th:text="${carr.desct}" th:value="${carr.prov}"> 
 										</label>
 									</div>
 								</td>
@@ -115,7 +115,7 @@
 								<td>
 									<div class="d-flex justify-content-center">
 										<label class="mx-3" th:each="appr : ${commList.P}">
-											<input name="appr" type="radio" th:text="${appr.desct}" th:value="${appr.prov}"> 
+											<input id="appr" name="appr" type="radio" th:text="${appr.desct}" th:value="${appr.prov}"> 
 										</label>
 									</div>
 								</td>
@@ -125,7 +125,7 @@
 								<td>
 									<div class="d-flex justify-content-center">
 										<label class="mx-3" th:each="dif : ${commList.Q}">
-											<input name="dif" type="radio" th:text="${dif.desct}" th:value="${dif.prov}"> 
+											<input id="dif" name="dif" type="radio" th:text="${dif.desct}" th:value="${dif.prov}"> 
 										</label>
 									</div>
 								</td>
@@ -133,7 +133,7 @@
 								<td>
 									<div class="d-flex justify-content-center">
 										<label class="mx-3" th:each="passYn : ${commList.T}">
-											<input name="passYn" type="radio" th:text="${passYn.desct}" th:value="${passYn.prov}"> 
+											<input id="passYn" name="passYn" type="radio" th:text="${passYn.desct}" th:value="${passYn.prov}"> 
 										</label>
 									</div>
 								</td>
@@ -144,14 +144,14 @@
 									<select id="intrvTyp" name="intrvTyp" class="inputStyle">
 										 <option value="" selected>면접유형 선택</option>
 									     <option th:each="intrvTyp : ${commList.R}" th:text="${intrvTyp.desct}" th:value="${intrvTyp.prov}">면접유형</option>
-									  </select>
+									 </select>
 								</td>
 								<th>면접인원</th>
 								<td>
 									<select id="intrvRcnt" name="intrvRcnt" class="inputStyle">
 										 <option value="" selected>면접인원 선택</option>
 									     <option th:each="intrvRcnt : ${commList.S}" th:text="${intrvRcnt.desct}" th:value="${intrvRcnt.prov}">면접인원</option>
-									  </select>
+									 </select>
 								</td>
 							</tr>
 							<tr>
@@ -549,6 +549,7 @@ function studyUpdatePlaceholder() {
     $('#topic').on('change', function(){
     	
     	let topic = $('#topic').val(); // 선택한 topic
+    	
     	switch(topic){
 	        case "f1" :
 	        			jobQnADisplay();
@@ -818,6 +819,7 @@ function studyUpdatePlaceholder() {
     $('#regBtn').on('click', function(){
     	
     	let topic = $('#topic').val(); // 선택한 topic
+    	
     	switch(topic){
 	        case "f1" :
 	        			jobQnAInsert();		// 취업 Q&A 등록

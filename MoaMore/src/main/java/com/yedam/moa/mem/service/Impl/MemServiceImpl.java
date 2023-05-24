@@ -355,6 +355,7 @@ public class MemServiceImpl implements MemService {
 	public int updateInfo(MemInfoVO vo) {
 		return mem.insertMem(vo);
 	}
+
 	@Override
 	public int joinMoaMore(MemInfoVO vo) {
 		return mem.joinMoaMore(vo);
