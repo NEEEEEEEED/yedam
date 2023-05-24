@@ -118,7 +118,7 @@
               <div class="col-6 ali cor p-3 border-bottom" id="forCo">
                 기업회원
               </div>
-              <form>
+              <form class="form-control">
                 <!-- -------------------일반시작------------------------------------- -->
                 <div
                   class="row justify-content-center border border-top-0 mb-4"
@@ -192,40 +192,38 @@
                       required
                     />
                   </div>
-                  <div
-                    class="row col-12 p-0"
-                    id="forUserDiv"
-                    style="display: block"
-                  >
-                    <div class="col-9 m-0">
-                      <label
-                        for="ph"
-                        class="form-label mt-3"
-                        style="width: 150px; text-align: left"
-                        >연락처</label
-                      >
-                      <input
-                        type="text"
-                        class="form-control p-2"
-                        id="ph"
-                        name="ph"
-                        placeholder="휴대전화번호를 입력해주세요"
-                        oninput="phTemp(this)"
-                        maxlength="13"
-                      />
-                      <input type="hidden" id="confirm" value="" />
-                      <div class="invalid-feedback">
-                        휴대전화번호를 입력 해 주세요
+                  <div class="col-12">
+                    <label
+                      for="ph"
+                      class="form-label mt-3"
+                      style="width: 150px; text-align: left"
+                      >연락처</label
+                    >
+                    <div class="row p-0" id="forUserDiv" style="display: block">
+                      <div class="col-7 m-0">
+                        <input
+                          type="text"
+                          class="form-control p-2"
+                          id="ph"
+                          name="ph"
+                          placeholder="휴대전화번호를 입력해주세요"
+                          oninput="phTemp(this)"
+                          maxlength="13"
+                        />
+                        <input type="hidden" id="confirm" value="" />
+                      </div>
+                      <div class="col-3 mt-3 mx-0">
+                        <button class="btn btn-md px-2 py-1 mt-4" id="phCheck">
+                          인증번호 발송
+                        </button>
                       </div>
                     </div>
-                    <div class="col-3 mt-3 mx-0">
-                      <button class="btn btn-md px-2 py-1 mt-4" id="phCheck">
-                        인증번호 발송
-                      </button>
-                    </div>
+                  </div>
+                  <div class="invalid-feedback">
+                    휴대전화번호를 입력 해 주세요
                   </div>
                   <div class="col-12 row p-0 mb-3" id="forCoDiv">
-                    <div class="col-9">
+                    <div class="col-7">
                       <label
                         for="bizno"
                         class="form-label mt-3"
