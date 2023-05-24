@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{template/layout}">
+	layout:decorate="~{template/layout}"
+	xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -39,7 +40,7 @@
 						<span class="fw-bold fs-3 text-dark me-6">[[${products[0].prdtNm}]]</span> <span
 							class="fw-bold fs-3 text-decoration-line-through me-6">[[${products[0].prdtPrc}]] 원</span>
 						<span class="fw-bold fs-3 text-dark"> [[${products[0].totalPrice}]] 원</span>
-						<button class="">결제</button>
+						<p class="italic">GO!</p>
 					</div>
 				</div>
 			</div>
@@ -54,7 +55,6 @@
 						<span class="fw-bold fs-3 text-dark me-6">[[${products[1].prdtNm}]]</span> <span
 							class="fw-bold fs-3 text-decoration-line-through me-6">[[${products[1].prdtPrc}]] 원</span>
 						<span class="fw-bold fs-3 text-dark">[[${products[1].totalPrice}]] 원</span>
-						<button class="">결제</button>
 					</div>
 				</div>
 			</div>
@@ -69,7 +69,6 @@
 						<span class="fw-bold fs-3 text-dark me-6">[[${products[2].prdtNm}]]</span> <span
 							class="fw-bold fs-3  text-decoration-line-through me-6">[[${products[2].prdtPrc}]] 원</span>
 						<span class="fw-bold fs-3 text-dark">[[${products[2].totalPrice}]] 원</span>
-						<button class="payBtn">결제</button>
 					</div>
 				</div>
 			</div>
@@ -80,7 +79,7 @@
 <div class="col-lg-9 fs-1" style="background-color:#f7f7f7; padding:50px;"><span >우리의 구직사이트에서는 회원님이 올린 구인공고를 상단에 노출시킬 수 있는 유료 상품을 제공합니다.</span><br><div class="row mt-4 mb-4"><img src="products/ad.png"></div> 이 상품을 사용하시면 구직자들에게 쉽게 전달되고, 효과적으로 소중한 인력을 얻을 수 있습니다.<br> 지금 바로 이 기회를 놓치지 마세요!</div>
 		<script>
 			function payPage(cd) {
-				if(ROLE_CO){
+				if($('#ROLE_CO').val()){
 					location.href = "/payCheck?prdtCd="+cd;
 				}else {
 					Swal.fire({
