@@ -350,19 +350,22 @@ export default {
         const top = (window.innerHeight - height) / 2;
         if (selectedNo.substr(0, 3) == "STD") {
           window.open(
-            "/api/adminStudyDetial?studyNo=" + selectedNo,
+            "http://52.78.95.201:8000/api/adminStudyDetial?studyNo=" +
+              selectedNo,
             "popupWindow",
             `width=${width}, height=${height}, left=${left}, top=${top} location=no`
           );
         } else if (selectedNo.substr(0, 3) == "PRJ") {
           window.open(
-            "/api/adminProjectDetail?prjtNo=" + selectedNo,
+            "http://52.78.95.201:8000/api/adminProjectDetail?prjtNo=" +
+              selectedNo,
             "popupWindow",
             `width=${width}, height=${height}, left=${left}, top=${top} location=no`
           );
         } else {
           window.open(
-            "/api/adminQnaDetail?qaNotiwrNo=" + selectedNo,
+            "http://52.78.95.201:8000/api/adminQnaDetail?qaNotiwrNo=" +
+              selectedNo,
             "popupWindow",
             `width=${width}, height=${height}, left=${left}, top=${top} location=no`
           );
