@@ -45,4 +45,8 @@ public interface CoMapper {
 	public int deleteApply(CoVO vo);
 
 	public int updateApplySt(CoVO vo);
+
+	public CoVO selectCoInfo(String id);
+
+	public CoVO selectOfferYN(CoVO vo);
 }

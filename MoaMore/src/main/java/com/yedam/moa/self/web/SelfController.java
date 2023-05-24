@@ -107,9 +107,11 @@ public class SelfController {
 	@ResponseBody
 	public Map<String,Object> openOfferModal(HireVO vo,Principal principal){
 		vo.setId(principal.getName());
+		String id = principal.getName();
 		Map<String,Object> map = new HashMap<String, Object>();
-		map.put("commList", commonService.getCodes("Z"));
-		map.put("recList", coService.selectRec(vo));
+		map.put("commList", commonService.getCodes("Z")); // 기술 목록
+		map.put("recList", coService.selectRec(vo)); // 본인(기업)이 쓴 공고 목록
+		map.put("coInfo", coService.selectCoInfo(id)); // 기업명, 기업주소
 		return map;
 	}
 	

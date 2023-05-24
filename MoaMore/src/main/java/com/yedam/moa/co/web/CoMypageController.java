@@ -125,7 +125,7 @@ public class CoMypageController {
 		} else
 			return false;
 	}
-
+	
 	// 기업나의구인공고목록
 	@GetMapping("/coRecruit")
 	public String coRecruitPage(Model model, Principal principal, HireVO vo) {
@@ -133,7 +133,16 @@ public class CoMypageController {
 		model.addAttribute("recList", service.selectRec(vo));
 		return "co/coRecruit";
 	}
-
+	
+	// 셀프구직상세에서 제안 유무 확인
+	@GetMapping("/selectOfferYN")
+	@ResponseBody
+	public CoVO selectOfferYN(CoVO vo,Principal principal) {
+		vo.setId(principal.getName());
+		return service.selectOfferYN(vo);
+		
+	}
+	
 	// 제안모달창 열었을 때 필요한 정보들
 	@GetMapping("/getOfferModalData")
 	@ResponseBody

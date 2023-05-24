@@ -294,6 +294,26 @@ $('#offer').on('click', function(){
 	
 	}
 })
+// 제안 영역 ---------------------------------------------------------------
+	$(document).ready(function() {
+		let jobSearchNo = '[[${selfJobInfo.jobSearchNo}]]' // 구인공고번호
+		
+		// 이미 제안 했다면 채용지원제안버튼 바꾸기 위해 제안유무 조회하는 ajax	
+		$.ajax({
+			url : "/selectOfferYN?jobSearchNo="+jobSearchNo,
+			method : "get",
+			success : function(res) {
+				console.log(res);
+				console.log(res.length);
+				if(res.length != 0){ // 제안 이력이 있다면 제안완료로 바꾸기
+					offer.innerText = '제안 완료'
+				}
+			},
+			error : function(jqXHR, textStatus, errorThrown) {
+				console.error(textStatus, errorThrown);
+			},
+		}); 
+	})
 
 	// 채용지원제안클릭 시 제안 모달창 열기
 	function openOfferModal(){
@@ -302,6 +322,7 @@ $('#offer').on('click', function(){
 			url: '/openOfferModal',
 			type: 'get',
 			success: function (res) {
+				console.log(res.coInfo);
 				// 가져온 내용을 추가하고 모달바디에 붙이기
 				document.querySelector('#offerModalBody').innerHTML = ''; // 모달바디 초기화
 				let modalBodyHtml = `<form class="col-lg-11 " id="offerForm" action="/offerSubmit" method="POST">
@@ -309,7 +330,7 @@ $('#offer').on('click', function(){
 					<label for="inputPassword" class="col-sm-2 col-form-label  fs">
 						회사명</label>
 					<div class="col-sm-4 center-input">
-						<input type="text" name="coNm" class="form-control form-control-sm " id="">
+						<input type="text" name="coNm" value="`+res.coInfo.coNm+`" class="form-control form-control-sm " id="">
 					</div>
 					
 					<label for="inputPassword" class="col-sm-2 col-form-label  fs">
@@ -324,7 +345,7 @@ $('#offer').on('click', function(){
 				<label for="inputPassword" class="col-sm-2 col-form-label  fs">
 					근무지 주소</label>
 				<div class="col-sm-4 center-input">
-					<input type="text" name="wksite" class="form-control form-control-sm " id="">
+					<input type="text" name="wksite" value="`+res.coInfo.addr+`" class="form-control form-control-sm " id="">
 				</div>
 				
 				<label for="inputPassword" class="col-sm-2 col-form-label  fs">
@@ -386,16 +407,21 @@ $('#offer').on('click', function(){
 						for(let i=0;i<rec.length;i++){
 	   modalBodyHtml += `<option value="`+rec[i].recruitNo+`">`+rec[i].ttl+`</option>`	
 						}
+	   // 공고 번호 담기 url에서 jobSearchNo 파라미터 값 뽑아오기
+	   let url = window.location.search;
+	   let urlParams = new URLSearchParams(url);
+
+	   let jobSearchNo = urlParams.get('jobSearchNo');
 	   modalBodyHtml += `</select>
 				</div>
 			</div>
 
 				<!-- 함께보낼데이타 -->
-				<input type="hidden" name="jobSearchNo">
+				<input type="hidden" name="jobSearchNo" value="`+jobSearchNo+`">
 				<div class="row mb-4">
 					<div class="col-12 d-flex justify-content-center">
 						<button id="modalCloseBtn" type="button" class="btn btn-secondary"
-							data-bs-dismiss="modal" onclick="closeModal()">취소</button>
+							data-bs-dismiss="modal" onclick="">취소</button>
 						<button id="offerBtn" type="button" class="btn btn-primary"
 							onclick="submitOffer()">제안</button>
 					</div>
@@ -410,6 +436,28 @@ $('#offer').on('click', function(){
 			}
 		});
 	}
+	
+//제안클릭 제안제출
+function submitOffer(){
+	let formData = $('#offerForm').serialize(); 
+	let jobSearchNo = $('input[name="jobSearchNo"]').val();
+	
+	  $.ajax({
+	   url: '/offerSubmit',
+	   type: 'post',
+	   data: formData,
+	   success: function(res){
+		   modalCloseBtn.click(); //모달창 닫기
+		   Swal.fire({
+				icon: 'success',
+				title: '제안이 완료되었습니다.'
+		   });
+	   },
+	   error: function (reject) {	   
+	   	  	console.log(reject);
+		  }
+	})  
+}
 
 </script>
 	</div>

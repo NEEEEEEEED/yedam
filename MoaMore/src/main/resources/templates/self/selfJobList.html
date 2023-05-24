@@ -127,7 +127,7 @@
 		</div>
 		
 		<!-- html모달창 제안모달 -->
-		<div class="modal fade " id="exampleModalLg" tabindex="-1"
+		<div class="modal fade " id="offerModal" tabindex="-1"
 			aria-labelledby="exampleModalLgLabel" style="display: none;"
 			aria-hidden="true">
 			<div class="modal-dialog modal-lg">
@@ -137,100 +137,8 @@
 						<button type="button" class="btn-close" data-bs-dismiss="modal"
 							aria-label="Close"></button>
 					</div>
-					<div class="modal-body d-flex justify-content-center">
-						<form class="col-lg-11 " id="offerForm" action="/offerSubmit" method="POST">
-							<div class="mb-1 row ">
-								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
-									회사명</label>
-								<div class="col-sm-4 center-input">
-									<input type="text" name="coNm" class="form-control form-control-sm " id="">
-								</div>
-								
-								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
-									복지</label>
-								<div class="col-sm-4 center-input">
-									<input type="text" name="bnft" class="form-control form-control-sm" id="">
-								</div>
-							</div>
-
-							<div class="mb-1 row ">
-								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
-									근무지 주소</label>
-								<div class="col-sm-4 center-input">
-									<input type="text" name="wksite" class="form-control form-control-sm " id="">
-								</div>
-								
-								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
-									급여</label>
-								<div class="col-sm-4 center-input">
-									<input type="text" name="saly" class="form-control form-control-sm" id="">
-								</div>
-							</div>
-
-							<div class="mb-1 row ">
-								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
-									프로젝트 명</label>
-								<div class="col-sm-4 center-input">
-									<input type="text" name="projectNm" class="form-control form-control-sm" id="">
-								</div>
-								
-								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
-									업무 시작일</label>
-								<div class="col-sm-4 center-input">
-									<input type="date" name="bussStartDt" class="form-control form-control-sm"
-										id="">
-								</div>
-							</div>
-
-							<div class="mb-1 row ">
-								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
-									기술 스택</label>
-								<div class="col-sm-4 center-input">
-									<select id="tech" name="tech" class="form-select form-select-sm" style="padding-right:0;">
-										<option value="selectedOpt" id="selectedOpt" style="display:none;"></option>
-										<option value="" selected>기술선택(다중선택가능)</option>
-										 <option th:each="tech : ${commList.Z}" th:text="${tech.desct}"
-											th:value="${tech.prov}">기술스택</option>
-									</select>
-								</div>
-								
-								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
-									제안 마감일</label>
-								<div class="col-sm-4 center-input">
-									<input type="date" name="clsDt" class="form-control form-control-sm" id="">
-								</div>
-							</div>
-
-							<div class="mb-1 row ">
-								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
-									주요 업무</label>
-								<div class="col-sm-4 center-input">
-									<input type="text" name="maBuss" class="form-control form-control-sm" id="">
-								</div>
-								
-								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
-									구인공고</label>
-								<div class="col-sm-4 center-input">
-									<select name="ttl" class="form-select form-select-sm" id="">
-										<option value='' selected>선택</option>
-										<option th:each="rec : ${recList}" th:text="${rec.ttl}"
-											th:value="${rec.recruitNo}">구인공고제목</option>
-									</select>
-								</div>
-							</div>
-
-							<!-- 함께보낼데이타 -->
-							<input type="hidden" name="jobSearchNo">
-							<div class="row mb-4">
-								<div class="col-12 d-flex justify-content-center">
-									<button id="modalCloseBtn" type="button" class="btn btn-secondary"
-										data-bs-dismiss="modal" onclick="closeModal()">취소</button>
-									<button id="offerBtn" type="button" class="btn btn-primary"
-										onclick="offerCheck()">제안</button>
-								</div>
-							</div>
-						</form>
-
+					<div id="offerModalBody" class="modal-body d-flex justify-content-center">
+					<!-- 채용지원제안 클릭 했을 때 ajax로 기술스택과 구인공고 목록을 불러와서 모달에 넣고 그려줌 -->
 					</div>
 				</div>
 			</div>
@@ -424,7 +332,6 @@ function offerModal(t){
 		
 	}else if($('#ROLE_ADMIN').val()){ // 관리자일때
 		//console.log('관리자입니다.');
-
 		Swal.fire({
 			  icon: 'error',
 			  title: '기업만 제안이 가능합니다.'
@@ -434,9 +341,122 @@ function offerModal(t){
 		
 	} else{ // 기업일때
 		if(t.innerText == '제안'){ // 제안 전일 때만 모달창 열기
-			$('#exampleModalLg').modal('show')
-			let jobSearchNo = t.getAttribute("data-id"); // 모달창 열릴 때 해당공고번호 가지고 들어감
-			$('input[name="jobSearchNo"]').val(jobSearchNo);
+			let jobSearchNo = t.getAttribute("data-id"); // 모달창 열릴 때 필요한 해당공고번호
+			
+			// 모달 안 필요한 구인공고목록, 기술스택 가져오기
+			$.ajax({
+				url: '/openOfferModal',
+				type: 'get',
+				success: function (res) {
+					console.log(res.coInfo);
+					// 가져온 내용을 추가하고 모달바디에 붙이기
+					document.querySelector('#offerModalBody').innerHTML = ''; // 모달바디 초기화
+					let modalBodyHtml = `<form class="col-lg-11 " id="offerForm" action="/offerSubmit" method="POST">
+						<div class="mb-1 row ">
+						<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+							회사명</label>
+						<div class="col-sm-4 center-input">
+							<input type="text" name="coNm" value="`+res.coInfo.coNm+`" class="form-control form-control-sm " id="">
+						</div>
+						
+						<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+							복지</label>
+						<div class="col-sm-4 center-input">
+							<input type="text" name="bnft" class="form-control form-control-sm" id="">
+						</div>
+					</div>
+				</div>
+
+				<div class="mb-1 row ">
+					<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+						근무지 주소</label>
+					<div class="col-sm-4 center-input">
+						<input type="text" name="wksite" value="`+res.coInfo.addr+`" class="form-control form-control-sm " id="">
+					</div>
+					
+					<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+						급여</label>
+					<div class="col-sm-4 center-input">
+						<input type="text" name="saly" class="form-control form-control-sm" id="">
+					</div>
+				</div>
+
+				<div class="mb-1 row ">
+					<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+						프로젝트 명</label>
+					<div class="col-sm-4 center-input">
+						<input type="text" name="projectNm" class="form-control form-control-sm" id="">
+					</div>
+					
+					<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+						업무 시작일</label>
+					<div class="col-sm-4 center-input">
+						<input type="date" name="bussStartDt" class="form-control form-control-sm"
+							id="">
+					</div>
+				</div>
+
+				<div class="mb-1 row ">
+					<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+						기술 스택</label>
+					<div class="col-sm-4 center-input">
+						<select name="tech" class="form-select form-select-sm" style="padding-right:0;">
+							<option value="selectedOpt" id="selectedOpt" style="display:none;"></option>
+							<option value="" selected>기술선택(다중선택가능)</option>`
+							let tech = res.commList.Z
+							for(let i=0;i<tech.length;i++){
+		   modalBodyHtml += `<option value="`+tech[i].prov+`">`+tech[i].desct+`</option>`	
+							}
+		   modalBodyHtml += `</select>
+					</div>
+					
+					<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+						제안 마감일</label>
+					<div class="col-sm-4 center-input">
+						<input type="date" name="clsDt" class="form-control form-control-sm" id="">
+					</div>
+				</div>
+
+				<div class="mb-1 row ">
+					<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+						주요 업무</label>
+					<div class="col-sm-4 center-input">
+						<input type="text" name="maBuss" class="form-control form-control-sm" id="">
+					</div>
+					
+					<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+						구인공고</label>
+					<div class="col-sm-4 center-input">
+						<select name="ttl" class="form-select form-select-sm" id="">
+							<option value='' selected>선택</option>`
+							let rec = res.recList
+							for(let i=0;i<rec.length;i++){
+		   modalBodyHtml += `<option value="`+rec[i].recruitNo+`">`+rec[i].ttl+`</option>`	
+							}
+		   modalBodyHtml += `</select>
+					</div>
+				</div>
+
+					<!-- 함께보낼데이타 -->
+					<input type="hidden" name="jobSearchNo" value="`+jobSearchNo+`">
+					<div class="row mb-4">
+						<div class="col-12 d-flex justify-content-center">
+							<button id="modalCloseBtn" type="button" class="btn btn-secondary"
+								data-bs-dismiss="modal" onclick="closeModal()">취소</button>
+							<button id="offerBtn" type="button" class="btn btn-primary"
+								onclick="submitOffer()">제안</button>
+						</div>
+					</div>
+				</form>`;
+				
+				document.querySelector('#offerModalBody').innerHTML += modalBodyHtml;
+		 		$('#offerModal').modal('show'); // 모달 창 열기
+				},
+		 		error: function (reject) {	   
+		    		console.log(reject);
+				}
+			});
+			
 		} 
 	}
 }
@@ -456,12 +476,12 @@ function closeModal(){
 } 
 
 // 제안클릭 제안제출
-function offerCheck(){
+function submitOffer(){
 	let formData = $('#offerForm').serialize(); 
 	let jobSearchNo = $('input[name="jobSearchNo"]').val();
 	
 	  $.ajax({
-	   url: 'offerSubmit',
+	   url: '/offerSubmit',
 	   type: 'post',
 	   data: formData,
 	   success: function(res){
