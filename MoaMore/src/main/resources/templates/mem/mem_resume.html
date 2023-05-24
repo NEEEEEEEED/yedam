@@ -131,7 +131,7 @@
               <button
                 class="btn btn-outline-secondary px-2"
                 type="button"
-                onclick="location.href='/mem/mkResumeTest'"
+                id="newEst"
               >최신 이력서 불러오기</button>
             </div>
           </div>
@@ -1031,6 +1031,17 @@
           // 저장
           $("#saveResume").on("click", function () {
             ttl = $("#ttl").val();
+            if(ttl=='' ||ttl==null){
+            	Swal.fire({
+                    title: "빈칸발견!",
+                    text: "제목이 비었습니다!!\n빈칸을 채워주세요!!",
+                    icon: "warning",
+                    
+                    confirmButtonText: "확인!",
+            	})
+            	return
+                  
+            }
             console.log($("#inputImg").attr("value"));
             imgNo = $("#inputImg").attr("value");
             prtflNo = $("input[name = prtflNo]").attr("value");
@@ -1124,6 +1135,25 @@
             element.css("display", "block");
             $(element).find("i.bi.bi-plus-circle-fill").click();
           });
+          $("#newest").on("click",function(){
+        	  Swal.fire({
+                  title: "최신이력서",
+                  text: "저장하지 않은 값은 모두 사라집니다 최신이력서를 작성하시겠습니까?",
+                  icon: "warning",
+                  showCancelButton: true,
+                  confirmButtonText: "확인",
+                  cancelButtonText: "취소",
+                  reverseButtons: true,
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                	  location.href='/mem/mkResumeTest'
+                  } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                  ) {
+                  }
+                });
+          })
 
           //+버튼 클릭시 노드 복사 함수
           function copy(ev) {

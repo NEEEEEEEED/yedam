@@ -59,9 +59,9 @@
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <style>
       .btn-md {
-        font-size: 3px;
+        font-size: 12px;
         width: 90%;
-        height: 40%;
+        height: 90%;
         background-color: #65e4a3;
       }
       .card {
@@ -92,9 +92,6 @@
       .border {
         --bs-border-opacity: 1;
       }
-      #forUserDiv {
-        display: block;
-      }
       #forCoDiv {
         display: none;
       }
@@ -118,17 +115,15 @@
               <div class="col-6 ali cor p-3 border-bottom" id="forCo">
                 기업회원
               </div>
-              <form class="form-control">
+              <input type="hidden" id="statusDiv" />
+              <form class="rounded-bottom">
                 <!-- -------------------일반시작------------------------------------- -->
-                <div
-                  class="row justify-content-center border border-top-0 mb-4"
-                  id="bod"
-                >
+                <div class="row justify-content-center mb-4" id="bod">
                   <div class="col-12" id="member">
                     <label
                       for="id"
                       class="form-label mt-3"
-                      style="width: 150px; text-align: left"
+                      style="width: 100%; text-align: left"
                       ><b>아이디</b></label
                     >
                     <input
@@ -146,7 +141,7 @@
                     <label
                       for="pw"
                       class="form-label mt-3"
-                      style="width: 150px; text-align: left; text-align: left"
+                      style="width: 100%; text-align: left; text-align: left"
                       ><b>비밀번호</b></label
                     >
                     <input
@@ -162,7 +157,7 @@
                     <label
                       for="pscheck"
                       class="form-label mt-3"
-                      style="width: 150px; text-align: left"
+                      style="width: 100%; text-align: left"
                       ><b>비밀번호 확인</b>
                     </label>
                     <input
@@ -180,7 +175,7 @@
                     <label
                       for="name"
                       class="form-label mt-3"
-                      style="width: 150px; text-align: left"
+                      style="width: 100%; text-align: left"
                       ><b>이름</b></label
                     >
                     <input
@@ -192,15 +187,15 @@
                       required
                     />
                   </div>
-                  <div class="col-12">
+                  <div class="col-12" id="forUserDiv" style="display: none">
                     <label
                       for="ph"
                       class="form-label mt-3"
-                      style="width: 150px; text-align: left"
+                      style="width: 100%; text-align: left"
                       >연락처</label
                     >
-                    <div class="row p-0" id="forUserDiv" style="display: block">
-                      <div class="col-7 m-0">
+                    <div class="row">
+                      <div class="col-8 m-0">
                         <input
                           type="text"
                           class="form-control p-2"
@@ -212,8 +207,8 @@
                         />
                         <input type="hidden" id="confirm" value="" />
                       </div>
-                      <div class="col-3 mt-3 mx-0">
-                        <button class="btn btn-md px-2 py-1 mt-4" id="phCheck">
+                      <div class="col-3 mx-0">
+                        <button class="btn btn-md px-0 py-1" id="phCheck">
                           인증번호 발송
                         </button>
                       </div>
@@ -222,31 +217,33 @@
                   <div class="invalid-feedback">
                     휴대전화번호를 입력 해 주세요
                   </div>
-                  <div class="col-12 row p-0 mb-3" id="forCoDiv">
-                    <div class="col-7">
-                      <label
-                        for="bizno"
-                        class="form-label mt-3"
-                        style="width: 150px; text-align: left"
-                        >사업자 번호</label
-                      >
-                      <input
-                        type="text"
-                        class="form-control p-2"
-                        id="bizno"
-                        name="bizno"
-                        oninput="bizTemp(this)"
-                        placeholder=""
-                        readonly
-                      />
-                      <div class="invalid-feedback">
-                        사업자 번호를 입력 해 주세요
+                  <div class="col-12" id="forCoDiv">
+                    <label
+                      for="bizno"
+                      class="form-label mt-3"
+                      style="width: 100%; text-align: left"
+                      >사업자 번호</label
+                    >
+                    <div class="row">
+                      <div class="col-8">
+                        <input
+                          type="text"
+                          class="form-control p-2"
+                          id="bizno"
+                          name="bizno"
+                          oninput="bizTemp(this)"
+                          placeholder=""
+                          readonly
+                        />
+                        <div class="invalid-feedback">
+                          사업자 번호를 입력 해 주세요
+                        </div>
                       </div>
-                    </div>
-                    <div class="col-3 mt-3">
-                      <button id="coCheck" class="btn btn-md py-2 px-3 mt-4">
-                        사업자 확인
-                      </button>
+                      <div class="col-3">
+                        <button id="coCheck" class="btn btn-md py-1 px-1">
+                          사업자 확인
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -405,9 +402,13 @@
       const bizTemp = (target) => {
         target.value = target.value.replace(/[^0-9]/g, "");
       };
-
+      const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+      //비밀번호 영문자+숫자+특수조합(8~25자리 입력) 정규식
+      // const pwdCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/;
       let randomNumber = null;
       $(document).ready(function () {
+        $("#statusDiv").val("User");
+        $("#forUserDiv").show();
         // 일반회원 클릭시 표시
         $("#forUser").on("click", function () {
           $("#forCo").attr("class", "col-6 ali cor p-3 border-bottom");
@@ -415,17 +416,19 @@
             "class",
             "col-6 ali cor p-3 border border-bottom-0"
           );
-          $("#forUserDiv").attr("style", "display: block");
+          $("#forUserDiv").show();
           $("#forCoDiv").attr("style", "display: none");
           $("#bizno").val("");
+          // $("#statusDiv").val("")
         });
         //기업회원 클릭시 표시
         $("#forCo").on("click", function () {
           $("#forCo").attr("class", "col-6 ali cor p-3 border border-bottom-0");
           $("#forUser").attr("class", "col-6 ali cor p-3 border-bottom");
           $("#forUserDiv").attr("style", "display: none");
-          $("#forCoDiv").attr("style", "display: block");
+          $("#forCoDiv").show();
           $("#ph").val("");
+          // $("#statusDiv").val("Co")
         });
 
         //사업자 번호 모달
@@ -443,6 +446,11 @@
             $("#checkId").attr("color", "red");
             return;
           }
+          // else if(emailRegex.test(userId)){
+          //   $("#checkId").html("이메일 형식으로 입력하세요");
+          //   $("#checkId").attr("color", "red");
+          //   return;
+          // }
           console.log(userId);
           $.ajax({
             url: "/checkId",
@@ -512,7 +520,7 @@
           let data = {
             b_no: [coNum], // 사업자번호 "xxxxxxx" 로 조회 시,
           };
-
+          // 사업자 번호 조회 ajax
           $.ajax({
             url: "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=fnNvgI%2F85j%2FrXVYeAtfnN1hGMK65xH8FI5d1cG2%2By9hoNLV17dHqrp2VmlXr%2BrKWCccdvk95IS5QYa82JbKilg%3D%3D",
             type: "POST",
@@ -521,14 +529,14 @@
             contentType: "application/json",
             accept: "application/json",
             success: function (result) {
-              console.log();
+              console.log(result);
               if (
                 result.data[0].b_stt_cd == "01" ||
                 result.data[0].b_stt_cd == "02"
               ) {
                 $("#bizno").val(coNum);
                 $("#numberModal").modal("hide");
-              } else if (result.data[0].b_stt_cd != "03") {
+              } else {
                 salert("폐업 사업자는 기업 가입이 불가 합니다.");
               }
             },
@@ -557,59 +565,72 @@
           console.log(bizno);
           console.log(repwd);
 
-          if (id == "") {
-            //해당 입력값이 없을 경우 같은말: if(!uid.value)
-            salert("아이디를 입력하세요.");
-            $("#id").focus(); //focus(): 커서가 깜빡이는 현상, blur(): 커서가 사라지는 현상
-            return false; //return: 반환하다 return false:  아무것도 반환하지 말아라 아래 코드부터 아무것도 진행하지 말것
-          }
+          // if (id == "") {
+          //   //해당 입력값이 없을 경우 같은말: if(!uid.value)
+          //   salert("아이디를 입력하세요.");
+          //   $("#id").focus(); //focus(): 커서가 깜빡이는 현상, blur(): 커서가 사라지는 현상
+          //   return false; //return: 반환하다 return false:  아무것도 반환하지 말아라 아래 코드부터 아무것도 진행하지 말것
+          // }
 
-          if (pwd == "") {
-            salert("비밀번호를 입력하세요.");
-            $("#pw").focus();
-            return false;
-          }
+          // if (pwd == "") {
+          //   salert("비밀번호를 입력하세요.");
+          //   $("#pw").focus();
+          //   return false;
+          // }
 
-          //비밀번호 영문자+숫자+특수조합(8~25자리 입력) 정규식
-          let pwdCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
+          // // if (!pwdCheck.test(pw)) {
+          // //   salert(
+          // //     "비밀번호는 영문자+숫자+특수문자 조합으로 8~25자리 사용해야 합니다."
+          // //   );
+          // //   pw.focus();
+          // //   return false;
+          // // }
 
-          if (!pwdCheck.test(pw)) {
-            salert(
-              "비밀번호는 영문자+숫자+특수문자 조합으로 8~25자리 사용해야 합니다."
-            );
-            pw.focus();
-            return false;
-          }
+          // if (repwd == "red") {
+          //   salert("비밀번호가 일치하지 않습니다.");
+          //   $("#pscheck").focus();
+          //   return false;
+          // }
 
-          if (repwd == "red") {
-            salert("비밀번호가 일치하지 않습니다.");
-            $("#pscheck").focus();
-            return false;
-          }
+          // if (name == "") {
+          //   salert("이름을 입력하세요.");
+          //   $("#name").focus();
+          //   return false;
+          // }
+          // if($("#forUser").hasClass("border-bottom-0")){
+          // if (ph == "") {
+          //   $("#ph").focus();
+          //   salert("휴대폰번호를 입력하세요");
+          //   return false;
+          // }
+          // if (confirm == "") {
+          //   salert("본인인증을 진행해 주세요");
+          //   return false;
+          // }else if(confirm=='false'){
+          // salert("본인 인증에 실패했습니다. 본인인증을 다시 진행해 주세요");
+          //   return false;
+          // }
+          // }
+          // if($("#forCo").hasClass("border-bottom-0")){
+          // if (bizno == "") {
+          //   $("#bizno").focus();
+          //   salert("사업자 번호를 확인하세요");
+          //   return false;
+          // }
 
-          if (name == "") {
-            salert("이름을 입력하세요.");
-            $("#name").focus();
-            return false;
-          }
-          if (ph == "") {
-            $("#ph").focus();
-            salert("휴대폰번호를 입력하세요");
-          }
-          if (confirm == "") {
-            salert("본인인증을 진행해 주세요");
-          }
-          console.log($("#forUserDiv").attr("style").substring(9));
-          console.log($("#forCoDiv").attr("style").substring(9));
+          // }
+          console.log($("#forUser").hasClass("border-bottom-0"));
+          console.log($("#forCo").hasClass("border-bottom-0"));
+          console.log($("#forCoDiv").attr("style"));
           console.log($("#forUserDiv").attr("style"));
           console.log($("#forCoDiv").attr("style"));
 
-          let formmData = $("form").serialize();
+          let formData = $("form").serialize();
           console.log(formData);
           $.ajax({
             url: "/joinMoaMore",
             type: "POST",
-            data: formmData, // json 을 string으로 변환하여 전송
+            data: formData, // json 을 string으로 변환하여 전송
             contentType: "application/x-www-form-urlencoded; charset=utf-8",
             dataType: "json",
             success: function (result) {
