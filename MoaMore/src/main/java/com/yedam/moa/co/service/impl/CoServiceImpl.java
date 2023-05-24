@@ -93,6 +93,16 @@ public class CoServiceImpl implements CoService{
 	public int updateApplySt(CoVO vo) {
 		return mapper.updateApplySt(vo);
 	}
+
+	@Override
+	public CoVO selectCoInfo(String id) {
+		return mapper.selectCoInfo(id);
+	}
+
+	@Override
+	public CoVO selectOfferYN(CoVO vo) {
+		return mapper.selectOfferYN(vo);
+	}
 	
 	
 	

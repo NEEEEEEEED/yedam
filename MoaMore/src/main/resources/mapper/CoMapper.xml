@@ -336,4 +336,20 @@
         WHERE recruit_no = #{recruitNo} and resume_no = #{resumeNo}
 	</update>
 	
+	<!-- 제안모달 필요한 기업정보 -->
+	<select id="selectCoInfo" parameterType="String" resultType="CoVO">
+		SELECT  m.addr,
+				c.co_nm
+		  FROM member m JOIN co c
+			ON m.id=c.id
+	     WHERE m.id = #{id}
+	</select>
+	
+	<!--  구인공고 상세에서 제안유무조회용 resultType="java.util.String" 값이 찐으로 없어도 null로 받아옴-->
+	<select id="selectOfferYN" parameterType="CoVO" resultType="CoVO">
+		SELECT accept_status 
+		  FROM job_search_st 
+		 WHERE id = #{id} AND job_search_no = #{jobSearchNo}
+	</select>
+	
 </mapper>

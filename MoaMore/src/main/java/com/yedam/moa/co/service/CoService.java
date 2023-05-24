@@ -54,5 +54,13 @@ public interface CoService {
 	// 미열람 열람으로
 	public int updateApplySt(CoVO vo);
 	
+	// 제안 모달에서 쓸 기업정보
+	public CoVO selectCoInfo(String id);
+	
+	// 구인공고 상세에서 제안유무조회용
+	public CoVO selectOfferYN(CoVO vo);
+
+	
+	
 
 }
