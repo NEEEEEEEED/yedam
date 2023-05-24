@@ -275,7 +275,7 @@ $('#selfJobDelBtn').on('click', function(){
 	
 // 선아 2023-05-24 추가코드 권한이 ROLE_MEM일때 채용지원제안 막음
 // 채용지원제안 버튼에 id 추가함
-/*
+
 $('#offer').on('click', function(){
 	
 	if($('#ROLE_MEM').val()){ // 유저일때
@@ -301,7 +301,7 @@ $('#offer').on('click', function(){
 		openOfferModal();
 	}
 })
-*/
+
 // 선아 2023-05-24 추가코드 권한이 ROLE_MEM일때 채용지원제안 막음
 	
 	
@@ -312,9 +312,6 @@ $('#offer').on('click', function(){
 			url: '/openOfferModal',
 			type: 'get',
 			success: function (res) {
-				console.log(res)
-				console.log(res.commList)
-				console.log(res.commList.Z)
 				// 가져온 내용을 추가하고 모달바디에 붙이기
 				document.querySelector('#offerModalBody').innerHTML = ''; // 모달바디 초기화
 				let modalBodyHtml = `<form class="col-lg-11 " id="offerForm" action="/offerSubmit" method="POST">
@@ -409,19 +406,18 @@ $('#offer').on('click', function(){
 						<button id="modalCloseBtn" type="button" class="btn btn-secondary"
 							data-bs-dismiss="modal" onclick="closeModal()">취소</button>
 						<button id="offerBtn" type="button" class="btn btn-primary"
-							onclick="offerCheck()">제안</button>
+							onclick="submitOffer()">제안</button>
 					</div>
 				</div>
 			</form>`;
 			
 			document.querySelector('#offerModalBody').innerHTML += modalBodyHtml;
-	 		$('#offerModal').modal('show');
+	 		$('#offerModal').modal('show'); // 모달 창 열기
 			},
 	 		error: function (reject) {	   
 	    		console.log(reject);
 			}
 		});
-		
 	}
 
 </script>
