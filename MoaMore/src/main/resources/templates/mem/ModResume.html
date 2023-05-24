@@ -117,9 +117,8 @@
                 </div>
                 <i name="pofol" class="bi-plus-circle-fill fs-4 md-3"></i>
               </li>
-             
             </ul>
-			
+
             <div class="d-flex justify-content-center p-2">
               <button id="saveResume" class="btn btn-outline-primary px-2 m-2">
                 이력서 수정
@@ -128,7 +127,6 @@
                 취소
               </button>
             </div>
-            
           </div>
         </div>
         <!-- 			sidebar end -->
@@ -182,7 +180,10 @@
             <div class="col-md-9 col-lg-9 reTl px-0">
               <label for="ttl" style="width: 100%; font-size: larger">
                 <h4>이력서 제목</h4>
-                <input name="resumeNo" th:value="${resume.resumeNo}" type="hidden">	
+                <input
+                  name="resumeNo"
+                  th:value="${resume.resumeNo}"
+                  type="hidden" />
                 <input
                   type="text"
                   id="ttl"
@@ -307,7 +308,6 @@
           </div>
           <!-------------- 스킬--------------------------------------------------------------------- -->
           <div th:if=" ${resume.skillNo}!=null">
-         
             <div class="col-md-12 col-lg-12">
               <h4 class="mb-3">기술 역량</h4>
               <div class="formSkill my-3 card ps-4 py-3">
@@ -1900,9 +1900,9 @@
                             </div>
                             <div class="col-md-1">
                               <button
+                                name="pofoldelbtn"
                                 th:id="${pr.prtflNo}"
                                 th:attr="data-prtflNo=${pr.prtflNo}, data-no=${pr.no}"
-                                onclick="delPofol(this)"
                                 type="button"
                                 style="margin-left: 20px; padding: 15px"
                                 class="btn-close"
@@ -2122,7 +2122,7 @@
                 data: JSON.stringify(data),
                 success: function (result) {
                   console.log(result);
-                  location.href='/resumeList';
+                  location.href = "/resumeList";
                 },
                 error: function (err) {
                   console.log(err);
@@ -2199,6 +2199,8 @@
             element.css("display", "block");
             $(element).find("i.bi.bi-plus-circle-fill").click();
           });
+          // 포트폴리오 삭제 버튼
+          $(document).on("click", "button[name=pofoldelbtn]", delPofol);
 
           //+버튼 클릭시 노드 복사 함수
           function copy(ev) {
@@ -2397,7 +2399,7 @@
               return false;
             } else {
               return {
-            	resumeNo : $("input[name=resumeNo]").val(),
+                resumeNo: $("input[name=resumeNo]").val(),
                 ttl: ttl,
                 prtflNo: prtflNo,
                 imgNo: imgNo,
@@ -2545,9 +2547,7 @@
           }).open();
         }
         function goBack() {
-          
-
-                    window.history.back();
+          window.history.back();
         }
         //         정규식 확인 알람
         function chkReg(data, loc) {
@@ -2605,7 +2605,8 @@
           });
         }
         //         포폴 삭제 버튼 함수
-        function delPofol(deleteItem) {
+        function delPofol() {
+          let deleteItem = $(this);
           console.log($(deleteItem));
           console.log($(deleteItem).data("no"));
           console.log($(deleteItem).data("prtflNo"));
@@ -2615,32 +2616,32 @@
           data.prtflNo = $(deleteItem).data("prtflno");
           console.log(data);
 
-          $.ajax({
-            url: "/delPofol",
-            type: "post",
-            data: data,
-            success: function (result) {
-              console.log("삭제성공");
-              pofolRows.innerHTML = ""; // 초기화
-              console.log(result);
-              let pofolHtml = "";
-              if (result.length == 0) {
-                // 포트폴리오 리스트 항목이 0개라면
-                pofolHtml = `<div style="background-color : pink; text-align:center;">포트폴리오 항목이 비어있습니다. 추가를 눌러 채워 주세요</div>`;
-                $("input[name = prtflNo]").attr("value", "");
-                pofolRows.innerHTML = pofolHtml;
-              } else {
-                for (let i = 0; i < result.length; i++) {
-                  pofolHtml += pofolListPrint(result[i]); // 화면에 뿌려주는 태그들
-                }
+          // $.ajax({
+          //   url: "/delPofol",
+          //   type: "post",
+          //   data: data,
+          //   success: function (result) {
+          //     console.log("삭제성공");
+          //     pofolRows.innerHTML = ""; // 초기화
+          //     console.log(result);
+          //     let pofolHtml = "";
+          //     if (result.length == 0) {
+          //       // 포트폴리오 리스트 항목이 0개라면
+          //       pofolHtml = `<div style="background-color : pink; text-align:center;">포트폴리오 항목이 비어있습니다. 추가를 눌러 채워 주세요</div>`;
+          //       $("input[name = prtflNo]").attr("value", "");
+          //       pofolRows.innerHTML = pofolHtml;
+          //     } else {
+          //       for (let i = 0; i < result.length; i++) {
+          //         pofolHtml += pofolListPrint(result[i]); // 화면에 뿌려주는 태그들
+          //       }
 
-                pofolRows.innerHTML = pofolHtml;
-              }
-            },
-            error: function (reject) {
-              console.log(reject);
-            },
-          });
+          //       pofolRows.innerHTML = pofolHtml;
+          //     }
+          //   },
+          //   error: function (reject) {
+          //     console.log(reject);
+          //   },
+          // });
         }
       </script>
     </div>

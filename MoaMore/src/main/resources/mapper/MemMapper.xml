@@ -496,9 +496,11 @@
 	
 <!-- 	회원가입 -->
 	 <insert id="joinMoaMore">
-	 INSERT INTO member (id, pw, name, ph)
-	 VALUES(#{id},#{pw},#{name},#{ph})
+	 INSERT INTO member (id, pw, email,name, ph)
+	 VALUES((SELECT SUBSTR(#{id}, 1, INSTR(#{id}, '@') - 1) AS result FROM dual),#{pw},#{id},#{name},#{ph})
 	 </insert>
+<!-- 	  INSERT INTO member (id, pw,name, ph) -->
+<!-- 	 VALUES(#{id},#{pw},#{name},#{ph}) -->
 	 <insert id="insertBiz">
 	 INSERT INTO CO (id, bizno)
 	 VALUES (#{id},#{bizno})

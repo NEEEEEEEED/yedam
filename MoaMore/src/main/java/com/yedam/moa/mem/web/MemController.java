@@ -282,7 +282,7 @@ public class MemController {
 	}
 	@PostMapping("/joinMoaMore")
 	@ResponseBody
-	public int signUp(@RequestBody MemInfoVO vo) {
+	public int signUp(MemInfoVO vo) {
 		int count = 0;
 		count += mem.joinMoaMore(vo);
 		if(vo.getBizno() != null && !vo.getBizno().isEmpty()) {
