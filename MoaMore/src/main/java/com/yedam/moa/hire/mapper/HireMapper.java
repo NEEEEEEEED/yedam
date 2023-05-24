@@ -43,5 +43,7 @@ public interface HireMapper {
 	public List<SelfVO> popSelf (SelfVO selfVO);// 셀프구직 관심순
 	public List<CommunityVO> jobQnaBest (CommunityVO communityVO); // 취업QnA 베스트3 조회
 	
+	public int hireCount(HireVO hireVO); // 페이징
+	
 
 }
