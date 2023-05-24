@@ -162,7 +162,7 @@ public class CoMypageController {
 	@PostMapping("/offerSelf")
 	public String offerSelf(CoVO vo) {
 		service.afterOffer(vo);
-		return "redirect:coMypage";
+		return "redirect:/coMypage";
 	}
 
 	// 제안조회
@@ -189,7 +189,7 @@ public class CoMypageController {
 		vo.setId(principal.getName());
 
 		service.saveCoInfo(vo);
-		return "redirect:coInfoPage";
+		return "redirect:/coInfoPage";
 	}
 	
 	// 프로필 이미지 등록
