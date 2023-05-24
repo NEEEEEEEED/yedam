@@ -46,7 +46,7 @@ public class AdminController {
 	@Autowired
 	CommService commonService;
 	
-	@GetMapping("/api/getCommonCode")
+	@GetMapping("/getCommonCode")
 	@ResponseBody
 	public Map<String, List<CommVO>> getCommonCode() {
 		return comm.getCodes("I");
@@ -57,18 +57,18 @@ public class AdminController {
 		return "admin";
 	}
 
-	@GetMapping("/api/member/common")
+	@GetMapping("/member/common")
 	public String commonMember() {
 		return "admin/commonMember";
 	}
 
-	@GetMapping("/api/getUserInfo")
+	@GetMapping("/getUserInfo")
 	@ResponseBody
 	public List<MemVO> getUserInfo() {
 		return adminService.getUserInfo();
 	}
 	
-	@PostMapping("/api/getUserDetail")
+	@PostMapping("/getUserDetail")
 	@ResponseBody
 	public MemVO getUserDetails(@RequestBody String email) {
 		//인코딩된 이메일을 디코딩하는 부분
@@ -82,7 +82,7 @@ public class AdminController {
 		return adminService.getUserDetails(decoded);
 	}
 	//유저 수정
-	@PostMapping("/api/modifyUser")
+	@PostMapping("/modifyUser")
 	@ResponseBody
 	public String modifyUser(@RequestBody MemVO[] memVo) {
 		//인코딩된 이메일을 디코딩하는 부분
@@ -90,63 +90,63 @@ public class AdminController {
 		return adminService.modifyUser(memVo);
 	}
 	//게시글 전체 조회
-	@GetMapping("/api/getBoardData")
+	@GetMapping("/getBoardData")
 	@ResponseBody
 	public PostListVO getBoardData() {
 		return adminService.getBoardData();
 	}
 	//유저 삭제
-	@PostMapping("/api/deleteUsers")
+	@PostMapping("/deleteUsers")
 	@ResponseBody
 	public String removeUsers(@RequestBody String[] emails) {
 		return adminService.removeUsers(emails);
 	}
 	// 유저 검색
-	@PostMapping("/api/getSearchUser")
+	@PostMapping("/getSearchUser")
 	@ResponseBody
 	public List<MemVO> getSearchUser(@RequestBody UserSearchVO vo) {
 		return adminService.getSearchUser(vo);
 	}
-	@PostMapping("/api/modifyRprt")
+	@PostMapping("/modifyRprt")
 	@ResponseBody
 	public String modifyRprt(@RequestBody List<ReportVO> vo) {
 		return adminService.modifyRprt(vo);
 	}
-	@PostMapping("/api/removeBoard")
+	@PostMapping("/removeBoard")
 	@ResponseBody
 	public String removeBoard(@RequestBody String[] nos) {
 		return adminService.removeBoard(nos);
 	}
-	@GetMapping("/api/getApprvList")
+	@GetMapping("/getApprvList")
 	@ResponseBody
 	public ApprvListVO getApprvList() {
 		return adminService.getApprvList();
 	}
-	@PostMapping("/api/approveBoard")
+	@PostMapping("/approveBoard")
 	@ResponseBody
 	public String approveBoard(@RequestBody String[] nos) {
 		return adminService.approveBoard(nos);
 	}
-	@PostMapping("/api/approveCancelBoard")
+	@PostMapping("/approveCancelBoard")
 	@ResponseBody
 	public String approveCancelBoard(@RequestBody String[] nos) {
 		return adminService.approveCancelBoard(nos);
 	}
-	@GetMapping("/api/reportForm")
+	@GetMapping("/reportForm")
 	public String reportForm(Model model,@RequestParam String no,@RequestParam String title) {
 		model.addAttribute("Codes",comm.getCodes("l"));
 		model.addAttribute("no",no);
 		model.addAttribute("title",title);
 		return "reportForm";
 	}
-	@PostMapping("/api/addReport")
+	@PostMapping("/addReport")
 	@ResponseBody
 	public String addReport(ReportVO rvo, Principal pr) {
 		rvo.setRprter(pr.getName());
 		return adminService.addReport(rvo);
 	}
 	//결제 전체 조회
-	@GetMapping("/api/getPayList")
+	@GetMapping("/getPayList")
 	@ResponseBody
 	public List<ProductVO> getPayList() {
 		return adminService.getPayList();
@@ -155,7 +155,7 @@ public class AdminController {
 	@Autowired 
 	CommunityService commuService;
 	// 취업 Q&A 상세페이지
-	@GetMapping("/api/adminQnaDetail")
+	@GetMapping("/adminQnaDetail")
 	public String jobQnaDetail(Model model, String qaNotiwrNo, Principal pr) {
 		CommunityVO vo = new CommunityVO();
 		vo.setQaNotiwrNo(qaNotiwrNo);
@@ -168,19 +168,19 @@ public class AdminController {
 		return "admin/qnaDetail";
 	}
 	// 취업 Q&A 수정페이지
-	@GetMapping("/api/adminQnaMod")
+	@GetMapping("/adminQnaMod")
 	public String jobQnaDetailMod(Model model,String qaNotiwrNo) {
 		model.addAttribute("jobQnaDetail", commuService.jobQnaDetail(qaNotiwrNo));
 		return "admin/jobQnADetailMod";
 	}	
 	// 프로젝트 상세페이지
-	@GetMapping("/api/adminProjectDetail")
+	@GetMapping("/adminProjectDetail")
 	public String adminProjectDetail(Model model, String prjtNo) {
 		model.addAttribute("projectInfo", commuService.projectDetail(prjtNo));
 		return "admin/projectDetailVue";
 	}
 	// 프로젝트 수정페이지
-	@GetMapping("/api/adminProjectMod")
+	@GetMapping("/adminProjectMod")
 	public String adminProjectMod (Model model, Principal pr, String prjtNo) {
 		model.addAttribute("logId",pr.getName());
 		// 직무, 진행방식, 진행기간, 연락방법, 모집상태
@@ -190,13 +190,13 @@ public class AdminController {
 	}
 	
 	// 스터디 상세페이지
-	@GetMapping("/api/adminStudyDetial")
+	@GetMapping("/adminStudyDetial")
 	public String adminStudyDetial(Model model, String studyNo) {
 		model.addAttribute("studyDetailInfo", commuService.studyDetail(studyNo));
 		return "admin/studyDetailVue";
 	}
 	// 스터디 수정페이지
-	@GetMapping("/api/adminStudyMod")
+	@GetMapping("/adminStudyMod")
 	public String adminStudyMod (Model model, Principal pr, String studyNo) {
 		model.addAttribute("logId",pr.getName());
 		// 스터디 구분 , 진행방식, 진행기간, 연락방법, 모집상태
@@ -205,7 +205,7 @@ public class AdminController {
 		return "admin/studyDetailMod";
 	}
 	//신고 조회
-	@PostMapping("/api/getReportData")
+	@PostMapping("/getReportData")
 	@ResponseBody
 	public Map<String,Object> getReportData(@RequestBody String notiwrNo) {
 		return adminService.getReportData(notiwrNo.replace("=", ""));
@@ -213,7 +213,7 @@ public class AdminController {
 	@Autowired
 	HireService hireService;
 	// 구인공고 상세페이지
-	@GetMapping("/api/adminReaDetail")
+	@GetMapping("/adminReaDetail")
 	public String adminReaDetail(String recruitNo, Model model, Principal pr) {
 		HireVO hireVO = new HireVO();
 		hireVO.setRecruitNo(recruitNo);
@@ -233,7 +233,7 @@ public class AdminController {
 	@Autowired 
 	SelfService selfService; // 셀프구직
 	// 구직공고 상세페이지
-	@GetMapping("/api/adminJSNDetail")
+	@GetMapping("/adminJSNDetail")
 	public String adminJSNDetail(Model model, String jobSearchNo, String resumeNo) {
 		String carrNo = selfService.resumeKeys(resumeNo).getCarrNo(); // 해당 이력서의 경력번호
 		String shcrNo = selfService.resumeKeys(resumeNo).getShcrNo(); // 해당 이력서의 학력번호
@@ -251,7 +251,7 @@ public class AdminController {
 		return "admin/selfDetail";
 	}
 	// 면접 후기 상세페이지
-	@GetMapping("/api/adminITVDetail")
+	@GetMapping("/adminITVDetail")
 	public String adminITVDetail(String intrvNo,Model model) {
 		model.addAttribute("jobInterviewList", commuService.jobInterviewDetail(intrvNo));
 		return "admin/jobITVDetail";
