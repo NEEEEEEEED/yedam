@@ -258,7 +258,7 @@ body {
 	let recruitNo = $('#nowRecruitNo').val(); // 현재 보고있는 공고번호
 	let idCo      = $('#co').val(); // 보고있는 공고의 기업
 	let skill = $('#nowSkill').val(); // 보고있는 공고의 기술정보
-
+	let checkLen = ''; // 체크한 이력서
 	// 공고목록으로 이동
 	$(document).on('click', '#btnList', function(e){
 		e.preventDefault();
@@ -386,13 +386,19 @@ body {
    grid.on('unCheck', (ev) => {
 		checkLen = grid.getCheckedRows().length;
 	}); 
-	
+	console.log(checkLen);
 	// 지원하기 버튼을 눌렀을 때
 	$('#recruitInsert').on('click',function(){
-		for (let i = 0; i < checkLen; i++) {
-	        str += grid.getCheckedRows()[i].resumeNo;
-	    }
-		
+		if(checkLen > 1){
+			Swal.fire({
+				  icon: 'error',
+				  title: '이력서는 하나만 선택해주세요!!'
+				});
+			return;
+		} // -> for문말고 if로 바꿔서 갯수가 많으면 alert띄우고 return
+		else{
+	        str = grid.getCheckedRows()[0].resumeNo;
+		}
 		let id = logId.value; // 로그인한 아이디
 		let recruitNo = nowRecruitNo.value; // 현재보고있는 공고
 		let resumeNo = str; // 체크한 이력서 번호
@@ -403,9 +409,17 @@ body {
 	
 	// 이력서수정으로 이동
 	$(document).on('click', '#resumeMod', function resumeMod(e){
-		for (let i = 0; i < checkLen; i++) {
-	        str += grid.getCheckedRows()[i].resumeNo;
-	    }
+		if(checkLen > 1){
+			Swal.fire({
+				  icon: 'error',
+				  title: '이력서는 하나만 선택해주세요!!'
+				});
+			return;
+		} // -> for문말고 if로 바꿔서 갯수가 많으면 alert띄우고 return
+		else{
+	        str = grid.getCheckedRows()[0].resumeNo;
+	        console.log(str);
+		}
 		e.preventDefault();
 		let id = logId.value; // 로그인한 아이디
 		let resumeNo = str; // 체크한 이력서 번호
