@@ -22,10 +22,11 @@
 }
 
 .skillBorder{
-	width: 100px;
+	width: 120px;
 	padding : 10px; 
 	border : 1px solid grey; 
 	border-radius : 500rem;
+	text-align : center;
 }
 
 .listRow{
