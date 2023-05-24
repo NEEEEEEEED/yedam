@@ -1,5 +1,6 @@
 package com.yedam.moa.mem.service.Impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -347,5 +348,21 @@ public class MemServiceImpl implements MemService {
 		 }else {
 			 return 0;
 		 }
+	}
+
+	// 개인정보 수정
+	@Override
+	public int updateInfo(MemInfoVO vo) {
+		return mem.insertMem(vo);
+
+	@Override
+	public int joinMoaMore(MemInfoVO vo) {
+		return mem.joinMoaMore(vo);
+	}
+
+	@Override
+	public int insertBiz(MemInfoVO vo) {
+		return mem.insertBiz(vo);
+
 	}
 }

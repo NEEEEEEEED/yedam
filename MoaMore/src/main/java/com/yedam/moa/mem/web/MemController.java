@@ -13,7 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.moa.comm.service.CommService;
@@ -167,13 +166,7 @@ public class MemController {
 			return null;
 		}
 	}
-//	@GetMapping("mem/viewResume")
-//	public String getVueRe(Principal principal, Model model, MemVO vo) {
-////		vo.setId(principal.getName());
-////		model.addAttribute("list", mem.openSesame(vo));
-////		model.addAttribute("count", mem.getCount(vo));
-//		return "mem/resume_vue";
-//	}
+//	이력서 상세
 	@GetMapping("/viewResume")
 	public String getVueResume(Principal principal, Model model, ResumeVO rvo) {
 		MemVO vo = new MemVO();
@@ -282,8 +275,17 @@ public class MemController {
 	@PostMapping("/checkId")
 	@ResponseBody
 	public int checkId(@RequestBody MemInfoVO vo) {
-		System.out.println(mem.checkId(vo));
-		return 0;
+		return mem.checkId(vo);
+	}
+	@PostMapping("/joinMoaMore")
+	@ResponseBody
+	public int signUp(@RequestBody MemInfoVO vo) {
+		int count = 0;
+		count += mem.joinMoaMore(vo);
+		if(vo.getBizno() != null && !vo.getBizno().isEmpty()) {
+			count+= mem.insertBiz(vo);
+		}
+		return count;
 	}
 	
 }

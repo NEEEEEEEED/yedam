@@ -29,6 +29,7 @@ import com.yedam.moa.community.service.CommunityService;
 import com.yedam.moa.hire.HireVO;
 import com.yedam.moa.hire.service.HireService;
 import com.yedam.moa.mem.MemVO;
+import com.yedam.moa.products.service.ProductVO;
 import com.yedam.moa.self.service.SelfService;
 
 @Controller
@@ -141,11 +142,15 @@ public class AdminController {
 	@PostMapping("/addReport")
 	@ResponseBody
 	public String addReport(ReportVO rvo, Principal pr) {
-		System.out.println("rrrrrrrrrrrrrrrrrrrrrrrrrr"+rvo);
 		rvo.setRprter(pr.getName());
 		return adminService.addReport(rvo);
 	}
-	
+	//결제 전체 조회
+	@GetMapping("/getPayList")
+	@ResponseBody
+	public List<ProductVO> getPayList() {
+		return adminService.getPayList();
+	}
 	
 	@Autowired 
 	CommunityService commuService;

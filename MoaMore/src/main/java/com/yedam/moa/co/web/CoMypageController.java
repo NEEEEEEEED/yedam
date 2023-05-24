@@ -22,12 +22,10 @@ import com.yedam.moa.co.service.CoService;
 import com.yedam.moa.co.service.CoVO;
 import com.yedam.moa.comm.service.CommService;
 import com.yedam.moa.hire.HireVO;
+import com.yedam.moa.mem.MemInfoVO;
 import com.yedam.moa.mem.MemVO;
-
 import com.yedam.moa.mem.service.MemService;
-
 import com.yedam.moa.member.service.MemberService;
-import com.yedam.moa.member.service.MemberVO;
 import com.yedam.moa.products.service.ProductService;
 import com.yedam.moa.self.SelfVO;
 
@@ -109,10 +107,10 @@ public class CoMypageController {
 	// 기업정보등록/수정 페이지
 	@GetMapping("/coInfoPage") // 기업아이디 들고 들어가서 해당 아이디에 해당하는 기업정보 있다면 model에 service담아서 미리출력
 	public String coInfoPage(Model model, Principal principal, MemVO mvo, CoVO vo) {
-		mvo.setId(principal.getName());
 		vo.setId(principal.getName());
-		model.addAttribute("co", service.selectCo(vo));
-		model.addAttribute("member", mservice.getMemInfo(mvo));
+		model.addAttribute("co", service.selectCo(vo)); //기업정보
+		mvo.setId(principal.getName());
+		model.addAttribute("member", mservice.getMemInfo(mvo)); //일반정보
 		return "co/coInfo";
 	}
 
@@ -226,7 +224,16 @@ public class CoMypageController {
 		return "{\"file\": \"" + uploadFileName + "\"}";
 	}
 	
-	//비밀번호 수정
+	// 개인정보 수정 (주소,)
+	@PostMapping("/updateInfo") 
+	@ResponseBody
+	public String updateInfo(MemInfoVO vo, Principal principal) {
+		vo.setId(principal.getName());
+		mservice.updateInfo(vo);
+		return "updateSuccess";
+	}
+	
+	// 비밀번호 수정
 	@PostMapping("/updatePw")
 	@ResponseBody
 	public String updatePw(@RequestBody MemVO vo) {
