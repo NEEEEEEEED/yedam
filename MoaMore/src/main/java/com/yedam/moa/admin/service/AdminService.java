@@ -36,4 +36,6 @@ public interface AdminService {
 
 	public List<ProductVO> getPayList();
 
+	public List<ReserveVO> getReservList();
+
 }

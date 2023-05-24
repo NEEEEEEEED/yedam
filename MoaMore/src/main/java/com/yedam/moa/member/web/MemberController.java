@@ -25,19 +25,19 @@ public class MemberController {
 	
 	//private final HttpSession httpSession = null;
 	
-	@GetMapping("/")
-	public String index(Model model, HttpSession httpSession) {
-	    SessionUser user = (SessionUser) httpSession.getAttribute("user");
-	    
-	    if (user != null) {
-	    	model.addAttribute("userName", user.getName());
-	        model.addAttribute("NickName", user.getNickName());
-	        model.addAttribute("Email", user.getEmail());
-	        model.addAttribute("Gender", user.getGender());
-	        model.addAttribute("Age", user.getAge());
-	    }
-	    return "main";
-	}
+//	@GetMapping("/")
+//	public String index(Model model, HttpSession httpSession) {
+//	    SessionUser user = (SessionUser) httpSession.getAttribute("user");
+//	    
+//	    if (user != null) {
+//	    	model.addAttribute("userName", user.getName());
+//	        model.addAttribute("NickName", user.getNickName());
+//	        model.addAttribute("Email", user.getEmail());
+//	        model.addAttribute("Gender", user.getGender());
+//	        model.addAttribute("Age", user.getAge());
+//	    }
+//	    return "main";
+//	}
 	
 	@PostMapping("/find/Id")
 	@ResponseBody

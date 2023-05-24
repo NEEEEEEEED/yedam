@@ -1,14 +1,14 @@
 <template>
   <Button
     type="button"
-    label="Cancel"
+    label="닫기"
     icon="pi pi-times"
     @click="closeDialog({ buttonType: 'No' })"
     text
   ></Button>
   <Button
     type="button"
-    label="Save"
+    label="저장"
     icon="pi pi-check"
     @click="closeDialog({ buttonType: 'Yes' })"
     autofocus

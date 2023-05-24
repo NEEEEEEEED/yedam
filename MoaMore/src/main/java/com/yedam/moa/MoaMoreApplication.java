@@ -36,7 +36,7 @@ public class MoaMoreApplication {
 	public String hello() {
 		return "loginForm";
 	}		
-	@GetMapping("/main")
+	@GetMapping({"/main",   "/"})
 	public String home(Model model) {
 		
 		HireVO hireVO = new HireVO();

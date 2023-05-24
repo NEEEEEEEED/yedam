@@ -12,6 +12,7 @@ import com.yedam.moa.admin.service.AdminService;
 import com.yedam.moa.admin.service.ApprvListVO;
 import com.yedam.moa.admin.service.PostListVO;
 import com.yedam.moa.admin.service.ReportVO;
+import com.yedam.moa.admin.service.ReserveVO;
 import com.yedam.moa.admin.service.UserSearchVO;
 import com.yedam.moa.community.mapper.CommunityMapper;
 import com.yedam.moa.hire.mapper.HireMapper;
@@ -200,6 +201,10 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public List<ProductVO> getPayList() {
 		return adminMapper.selectPayList();
+	}
+	@Override
+	public List<ReserveVO> getReservList() {
+		return adminMapper.selectReservList();
 	}
 
 
