@@ -34,7 +34,7 @@ public class SecurityConfig {
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.authorizeHttpRequests().antMatchers("/signUp","/loginForm", "/","/find/**","/main").permitAll()
+		http.authorizeHttpRequests().antMatchers("/signUp","/loginForm", "/","/find/**","/main","/error").permitAll()
 				.antMatchers("/admin/**")
 				.hasAuthority("ROLE_ADMIN")
 				.anyRequest()
@@ -73,7 +73,7 @@ public class SecurityConfig {
 	// 정적 컨텐츠들은 다 넣어주면됨
 	@Bean
 	public WebSecurityCustomizer webSecurityCustomizer() {
-		return (web) -> web.ignoring().antMatchers("/기업정보관리/**", "/admin/**", "/images/**", "/js/**", "/css/**",
+		return (web) -> web.ignoring().antMatchers("/기업정보관리/**", "/admin/**", "/images/**", "/js/**", "/css/**","/moamorePofol/**","/moamoreImg/**",
 				"/assets/**", "/vendors/**");
 	}
 	

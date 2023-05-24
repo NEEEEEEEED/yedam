@@ -76,7 +76,7 @@
 													id="bordered-justified-home" role="tabpanel"
 													aria-labelledby="home-tab">
 													<div class="pt-4 pb-2">
-														<h5 class="card-title text-center pb-0 fs-4">Welcome MoaMore!</h5>
+														<h3 class="card-title text-center pb-0 fs-4">Welcome MoaMore!</h3>
 														<p class="text-center small">Enter your ID &
 															password to login</p>
 													</div>
@@ -103,7 +103,7 @@
 																password!</div>
 														</div>
 														<div class="col-12">
-															<button class="btn btn-primary w-100" type="submit">Login</button>
+															<button style="background-color:#0A2640; border:none" class="btn btn-primary w-100" type="submit">Login</button>
 														</div>
 														<div class="col-6 pt-2" style="margin-top: 0px">
 															<a sec:authorize="isAnonymous()"
@@ -133,8 +133,7 @@
 												<div class="tab-pane fade" id="bordered-justified-profile"
 													role="tabpanel" aria-labelledby="profile-tab">
 													<div class="pt-4 pb-2">
-														<h5 class="card-title text-center pb-0 fs-4">Login to
-															Your Account</h5>
+														<h3 class="card-title text-center pb-0 fs-4">Welcome MoaMore!</h3>
 														<p class="text-center small">Enter your username &
 															password to login</p>
 													</div>
@@ -160,7 +159,7 @@
 																password!</div>
 														</div>
 														<div class="col-12">
-															<button class="btn btn-primary w-100" type="submit">Login</button>
+															<button style="background-color:#0A2640;border:none;" class="btn btn-primary w-100" type="submit">Login</button>
 														</div>
 														<div class="row"></div>
 														<div class="col-6">
@@ -181,8 +180,9 @@
 											</div>
 											<!-- End Bordered Tabs Justified -->
 										</div>
-										<div sec:authorize="isAuthenticated()">
-											<span sec:authentication="principal.username"></span>
+										<div sec:authorize="isAuthenticated()" style="text-align:center" class="mt-3">
+											<button type="button" class="btn btn-outline-dark w-100 fs-4" style="height:50px"   onclick="location.href='/logout'">로그아웃</button>
+											<button type="button"  class="btn btn-outline-dark w-100 mt-2 fs-4"  style="height:50px"  onclick="location.href='/main'">메인으로</button>
 										</div>
 									</div>
 								</div>

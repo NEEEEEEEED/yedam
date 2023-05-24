@@ -50,7 +50,7 @@
             </div>
           </div>
           <div class="row" style="margin-bottom: 10px">
-            <span class="col-sm-1 col-form-label">회원명부</span>
+            <span class="col-sm-1 col-form-label">회원명</span>
             <div class="col-md-4">
               <input type="text" class="form-control" v-model="name" />
             </div>
@@ -388,6 +388,7 @@ export default {
             detail: names + " 정보 수정 성공.",
             life: 3000,
           });
+          this.selectedUser = null;
           this.userDetail = {};
         } else {
           this.$toast.add({
@@ -396,6 +397,7 @@ export default {
             detail: names + " 정보 수정 실패.",
             life: 3000,
           });
+          this.selectedUser = null;
         }
       });
     },
@@ -437,6 +439,8 @@ export default {
               detail: names + "의 정보가 삭제되었습니다.",
               life: 3000,
             });
+            this.userDetail = {};
+            this.selectedUser = null;
           } else {
             this.$toast.add({
               severity: "error",
@@ -444,6 +448,7 @@ export default {
               detail: names + "의 정보가 삭제에 실패했습니다.",
               life: 3000,
             });
+            this.selectedUser = null;
           }
         })
         .catch((error) => {

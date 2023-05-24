@@ -159,25 +159,25 @@
 		FROM 	member
 		<where>
 			<if test="id!=null and !id.equals('')">
-				id = #{id}
+				and id LIKE '%'||#{id}||'%'
 			</if>
-			<if test="name!=null and !id.equals('')">
-				name = #{name}
+			<if test="name!=null and !name.equals('')">
+				and name LIKE '%'||#{name}||'%'
 			</if>
 			<if test="startDate!=null and !startDate.equals('')">
-				<![CDATA[join_dt >= #{startDate}]]>
+				and <![CDATA[join_dt >= #{startDate}]]>
 			</if>
 			<if test="lastDate!=null and !lastDate.equals('')">
-				<![CDATA[join_dt <= #{lastDate}]]>
+				and <![CDATA[join_dt <= #{lastDate}]]>
 			</if>
 			<if test="server!=null and !server.equals('')">
-				email LIKE '%'||'@'||#{server}||'%'
+				and email LIKE '%'||'@'||#{server}||'%'
 			</if>
 			<if test="userName!=null and !userName.equals('')">
-				email LIKE '%'||#{userName}||'%'
+				and email LIKE '%'||#{userName}||'%'
 			</if>
-			<if test="commds!=null">
-			 clsf IN
+			<if test="commds != null and commds.length > 0">
+			 	and clsf IN
 			 <foreach collection='commds' item='clsf' open='(' close=')' separator=','>
 			 	#{clsf}
 			 </foreach>	
@@ -305,17 +305,17 @@
 	
 	<update id="approveREA" parameterType="String">
 		UPDATE 	recruit_anun
-		SET 	ACCP_DT = to_char(sysdate,'yyyy-MM-dd')
+		SET 	ACCP_DT = to_char(sysdate,'yyyy-MM-dd hh:mm:ss')
 		WHERE   RECRUIT_NO = #{recruitNo}
 	</update>
 	<update id="approveJSN" parameterType="String">
 		UPDATE 	job_search_notiwr
-		SET 	ACCP_DT = to_char(sysdate,'yyyy-MM-dd')
+		SET 	ACCP_DT = to_char(sysdate,'yyyy-MM-dd hh:mm:ss')
 		WHERE   JOB_SEARCH_NO = #{jobSearchNo}
 	</update>
 	<update id="approveITV" parameterType="String">
 		UPDATE 	intrv_scrn
-		SET 	ACCP_DT = to_char(sysdate,'yyyy-MM-dd')
+		SET 	ACCP_DT = to_char(sysdate,'yyyy-MM-dd hh:mm:ss')
 		WHERE   INTRV_NO = #{intrvNo}
 	</update>
 	<update id="approveCancelREA" parameterType="String">
@@ -356,7 +356,7 @@
 								,RPRT_TM
 								,RPRT_ST
 							  )
-				VALUES		 (#{rprtNo},#{rprter},#{rprtResn},#{notiwrNo},to_char(sysdate,'yyyy-MM-dd'),'G4')
+				VALUES		 (#{rprtNo},#{rprter},#{rprtResn},#{notiwrNo},to_char(sysdate,'yyyy-MM-dd hh:mm:ss'),'G4')
 		
 	</insert>
 	
@@ -374,5 +374,14 @@
 		FROM    sttl s, prdt p
 		WHERE   s.PRDT_CD = p.PRDT_CD
 		ORDER BY sttl_dt DESC
+	</select>
+	
+	<!-- 예약내역 조회 -->
+	<select id="selectReservList" resultType="ReserveVO">
+		SELECT   rr.RECRUIT_NO as "no"
+				,ttl as "title"
+				,RESER_DT as "start"
+		FROM	rec_reser rr, recruit_anun ra
+		WHERE	rr.recruit_no = ra.recruit_no
 	</select>
 </mapper>

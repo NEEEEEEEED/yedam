@@ -310,7 +310,7 @@ export default {
         props: {
           header: "본문 내용",
           style: {
-            width: "50vw",
+            width: "70vw",
           },
           breakpoints: {
             "960px": "75vw",
@@ -344,25 +344,25 @@ export default {
       console.log(selectedRow[0]);
       if (selectedRow && selectedRow.length > 0) {
         const selectedNo = selectedRow[0].data.no; // 선택된 행의 'no' 컬럼 값 가져오기
-        const width = 800;
+        const width = 1000;
         const height = 700;
         const left = (window.innerWidth - width) / 2;
         const top = (window.innerHeight - height) / 2;
         if (selectedNo.substr(0, 3) == "STD") {
           window.open(
-            "http://localhost:8000/adminStudyDetial?studyNo=" + selectedNo,
+            "/api/adminStudyDetial?studyNo=" + selectedNo,
             "popupWindow",
             `width=${width}, height=${height}, left=${left}, top=${top} location=no`
           );
         } else if (selectedNo.substr(0, 3) == "PRJ") {
           window.open(
-            "http://localhost:8000/adminProjectDetail?prjtNo=" + selectedNo,
+            "/api/adminProjectDetail?prjtNo=" + selectedNo,
             "popupWindow",
             `width=${width}, height=${height}, left=${left}, top=${top} location=no`
           );
         } else {
           window.open(
-            "http://localhost:8000/adminQnaDetail?qaNotiwrNo=" + selectedNo,
+            "/api/adminQnaDetail?qaNotiwrNo=" + selectedNo,
             "popupWindow",
             `width=${width}, height=${height}, left=${left}, top=${top} location=no`
           );

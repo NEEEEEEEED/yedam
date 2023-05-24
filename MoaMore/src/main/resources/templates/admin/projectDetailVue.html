@@ -218,14 +218,6 @@
 				  </div>
 				</div>
 				
-				<div class="input-group mb-4">
-				  <textarea class="form-control radius" style="resize: none; height: 50px;" placeholder="댓글을 작성해주세요" ></textarea>
-				  <button class="btn btn-dark radius" type="button" id="button-addon2">댓글등록</button>
-				</div>
-
-				<div id="app">
-				    <project-component></project-component>
-				</div>
 
 
 				<div class="mt-5 mb-5" style="text-align:right;">
@@ -239,7 +231,7 @@
                         <button type="button" class="btn btn-outline-secondary radius mx-1 px-5"  style="height:50px;" th:onclick="|location.href='@{/adminProjectMod(prjtNo=${projectInfo.prjtNo})}'|">수정</button>
                         <button type="button" class="btn btn-outline-danger radius mx-1 px-5" style="height:50px; text-align:center;" id="projectDelBtn" th:data-no="${projectInfo.prjtNo}">삭제</button>
                     </th:block>
-                    <button type="button" class="btn btn-dark radius mx-1 px-5" style="background-color: #536779; color:white; border-color: #536779; height:50px;" onclick="location.href='/projectList'">목록</button>
+                    <button type="button" class="btn btn-dark radius mx-1 px-5" style="background-color: #536779; color:white; border-color: #536779; height:50px;" onclick="window.close()">닫기</button>
                 </div>
 			</div>
 			<div class="col-md-1"></div>
@@ -247,19 +239,6 @@
 	
 		
 <script>
-
-// Vue
-const { createApp } = Vue;
-createApp({
-	data() {
-		return {}
-	},
-	mounted() {},
-	methods: {},
-	components: {
-		'project-component': Vue.defineAsyncComponent(() => loadModule('community/projectDetailComponent.vue', options))
-	}
-}).mount('#app')
 
 //삭제버튼 클릭시 실행하는 함수
 $('#projectDelBtn').on('click', function(){

@@ -165,13 +165,13 @@ export default {
         const top = (window.innerHeight - height) / 2;
         if (selectedNo.substr(0, 3) == "REA") {
           window.open(
-            "http://localhost:8000/adminReaDetail?recruitNo=" + selectedNo,
+            "/api/adminReaDetail?recruitNo=" + selectedNo,
             "popupWindow",
             `width=${width}, height=${height}, left=${left}, top=${top} location=no`
           );
         } else if (selectedNo.substr(0, 3) == "JSN") {
           window.open(
-            "http://localhost:8000/adminJSNDetail?jobSearchNo=" +
+            "/api/adminJSNDetail?jobSearchNo=" +
               selectedNo +
               "&resumeNo=" +
               resumeNo,
@@ -180,7 +180,7 @@ export default {
           );
         } else {
           window.open(
-            "http://localhost:8000/adminITVDetail?intrvNo=" + selectedNo,
+            "/api/adminITVDetail?intrvNo=" + selectedNo,
             "popupWindow",
             `width=${width}, height=${height}, left=${left}, top=${top} location=no`
           );

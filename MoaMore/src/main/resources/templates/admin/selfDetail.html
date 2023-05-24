@@ -213,12 +213,7 @@
 							</th:block>
 						</div>
 					</div>
-					<th:block th:if="${selfJobInfo.id}==${#authentication.principal.username}" >
-						<div class="card-footer text-center" style="background-color:white;">
-							<button type="button" class="btn btn-outline-secondary radius mx-1 px-4" th:onclick="|location.href='@{/selfJobMod(jobSearchNo=${selfJobInfo.jobSearchNo},resumeNo=${selfJobInfo.resumeNo})}'|">수정</button>
-							<button type="button" class="btn btn-outline-danger radius mx-1 px-4" id="selfJobDelBtn" th:data-no="${selfJobInfo.jobSearchNo}">삭제</button>
-						</div>
-					</th:block>
+<button type="button" style="float:right" class="btn btn-outline-dark mt-2" id="btnList"  onclick="window.close()">닫기</button>
 				</div>
 			</div>
 			<div class="col-md-2"></div>

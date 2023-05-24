@@ -20,6 +20,7 @@ import com.yedam.moa.admin.service.AdminService;
 import com.yedam.moa.admin.service.ApprvListVO;
 import com.yedam.moa.admin.service.PostListVO;
 import com.yedam.moa.admin.service.ReportVO;
+import com.yedam.moa.admin.service.ReserveVO;
 import com.yedam.moa.admin.service.UserSearchVO;
 import com.yedam.moa.comm.CommVO;
 import com.yedam.moa.comm.service.CommService;
@@ -55,11 +56,6 @@ public class AdminController {
 	@GetMapping("/admin")
 	public String job() {
 		return "admin";
-	}
-
-	@GetMapping("/api/member/common")
-	public String commonMember() {
-		return "admin/commonMember";
 	}
 
 	@GetMapping("/api/getUserInfo")
@@ -105,6 +101,7 @@ public class AdminController {
 	@PostMapping("/api/getSearchUser")
 	@ResponseBody
 	public List<MemVO> getSearchUser(@RequestBody UserSearchVO vo) {
+		System.out.println(vo);
 		return adminService.getSearchUser(vo);
 	}
 	@PostMapping("/api/modifyRprt")
@@ -150,6 +147,12 @@ public class AdminController {
 	@ResponseBody
 	public List<ProductVO> getPayList() {
 		return adminService.getPayList();
+	}
+	//예약 전체 조회
+	@GetMapping("/api/getReservList")
+	@ResponseBody
+	public List<ReserveVO> getReservList() {
+		return adminService.getReservList();
 	}
 	
 	@Autowired 

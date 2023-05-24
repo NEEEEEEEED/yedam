@@ -15,6 +15,7 @@ public class UserSearchVO {
 	
 	private String[] commds;
 
+	
 
 
 }

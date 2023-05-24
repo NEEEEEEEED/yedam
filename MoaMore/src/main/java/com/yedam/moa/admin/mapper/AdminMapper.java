@@ -3,6 +3,7 @@ package com.yedam.moa.admin.mapper;
 import java.util.List;
 
 import com.yedam.moa.admin.service.ReportVO;
+import com.yedam.moa.admin.service.ReserveVO;
 import com.yedam.moa.admin.service.UserSearchVO;
 import com.yedam.moa.admin.service.rprtStatusVO;
 import com.yedam.moa.community.CommunityVO;
@@ -62,6 +63,8 @@ public interface AdminMapper {
 	public int insertReport(ReportVO rvo);
 
 	public List<ProductVO> selectPayList();
+
+	public List<ReserveVO> selectReservList();
 
 
 
