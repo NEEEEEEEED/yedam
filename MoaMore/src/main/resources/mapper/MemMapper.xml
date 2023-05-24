@@ -10,7 +10,7 @@
 				  , get_common(r.wksite) wksite
 				  ,	r.expr_dt,r.recruit_no
 				  , m.email
-				  , LISTAGG(get_common(t.SKILL), ',') WITHIN GROUP (ORDER BY SKILL_NO) as SKILL
+				  , LISTAGG(get_common(t.SKILL), ',') WITHIN GROUP (ORDER BY SKILL_NO) as skill
     	 from 	following f join recruit_anun r
     	 on  	f.id_co = r.id
 	    			join member m
@@ -80,7 +80,7 @@
 							<![CDATA[and sysdate - to_date(r.expr_dt,'yyyy-MM-dd') <= 0]]>
 						</if>
 						<if test='startDt != null and endDt != null '>
-							and s.aply_dt BETWEEN TO_CHAR(#{startDt},'yyyy-MM-dd') and  TO_CHAR(#{endDt},'yyyy-MM-dd')
+							and s.aply_dt BETWEEN #{startDt} and  #{endDt}
 						</if>
 						<if test='st != null '>
 							and s.st = #{st}
@@ -96,11 +96,10 @@
 		on d.recruit_no = e.recruit_no
 	</select>
 	
-	<delete id="delAnun" parameterType="SearchVO">
-	delete 
-	  from recruit_anum_st 
+	<update id="delAnun" parameterType="SearchVO">
+	update recruit_anum_st  set  aply_st = 'b2'
 	 where recruit_no = #{recruitNo} and id = #{id}
-	</delete>
+	</update>
 	
 	
 <!-- 	개인정보 조회 -->

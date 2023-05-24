@@ -13,7 +13,7 @@
         /* border-radius: 0.5rem; */
       }
       .btn-sm {
-        width: 70px;
+        width: 80px;
         height: 45px;
         font-size: 4px;
       }
@@ -312,7 +312,7 @@
             </div>
           </div>
           <!-------------- 스킬--------------------------------------------------------------------- -->
-          <div th:if=" ${resume.skillNo}!=null">
+          <div th:if="${resume.skillNo}!=null">
             <div class="col-md-12 col-lg-12">
               <h4 class="mb-3">기술 역량</h4>
               <div class="formSkill my-3 card ps-4 py-3">
@@ -322,7 +322,7 @@
                     class="col-md-1 mx-2 px-0"
                   >
                     <button
-                      class="btn btn-outline-primary btn-sm px-0"
+                      class="btn btn-outline-primary btn-sm px-0 fs-0"
                       th:value="${sk.skill}"
                       name="skillBtn"
                     >
@@ -340,7 +340,7 @@
                 <div class="row gy-3" name="cardForViewSkill" id="skill">
                   <div th:each="ski:${resume.skill}" class="col-md-1 mx-2 px-0">
                     <button
-                      class="btn btn-outline-primary btn-sm px-0"
+                      class="btn btn-outline-primary btn-sm px-0 fs-0"
                       th:value="${ski.skill}"
                       name="skillBtn"
                     >
@@ -353,7 +353,7 @@
             </div>
           </div>
           <!-- ==================최신 이력서 기술 끝================================================ -->
-          <div th:if=" ${resume.shcrNo}==null">
+          <div th:if="${resume.skillNo}==null">
             <div class="col-md-12 col-lg-12">
               <h4 class="mb-3">기술 역량</h4>
               <div class="formSkill my-3 card ps-4 py-3">
