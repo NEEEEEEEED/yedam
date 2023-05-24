@@ -163,16 +163,16 @@ export default {
         const height = 700;
         const left = (window.innerWidth - width) / 2;
         const top = (window.innerHeight - height) / 2;
+
         if (selectedNo.substr(0, 3) == "REA") {
           window.open(
-            "http://52.78.95.201:8000/api/adminReaDetail?recruitNo=" +
-              selectedNo,
+            "/api/adminReaDetail?recruitNo=" + selectedNo,
             "popupWindow",
             `width=${width}, height=${height}, left=${left}, top=${top} location=no`
           );
         } else if (selectedNo.substr(0, 3) == "JSN") {
           window.open(
-            "http://52.78.95.201:8000/api/adminJSNDetail?jobSearchNo=" +
+            "/api/adminJSNDetail?jobSearchNo=" +
               selectedNo +
               "&resumeNo=" +
               resumeNo,
@@ -181,7 +181,7 @@ export default {
           );
         } else {
           window.open(
-            "http://52.78.95.201:8000/api/adminITVDetail?intrvNo=" + selectedNo,
+            "/api/adminITVDetail?intrvNo=" + selectedNo,
             "popupWindow",
             `width=${width}, height=${height}, left=${left}, top=${top} location=no`
           );
