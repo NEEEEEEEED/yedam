@@ -108,7 +108,8 @@
 		  
 		JOIN (SELECT DISTINCT RECRUIT_NO, CO_IMG FROM RECRUIT_IMAGES) I
 		  ON R.RECRUIT_NO = I.RECRUIT_NO	
-	   WHERE r.id = #{id}      	
+	   WHERE r.id = #{id}
+	   ORDER BY expr_dt DESC      	
 	</select>
 	
 	<!-- 관심 게시글 수 -->
@@ -130,7 +131,7 @@
            							   n.resume_no,
            							   n.id,
            							   n.ttl,
-           							   n.hope_wksite,
+           							   get_common(n.hope_wksite) as hope_wksite,
            							   get_common(duty_fld) as duty_fld,
            							   n.posit,
            							   n.pubc_range,

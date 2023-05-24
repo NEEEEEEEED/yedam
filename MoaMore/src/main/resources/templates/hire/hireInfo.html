@@ -262,7 +262,8 @@ body {
 	// 공고목록으로 이동
 	$(document).on('click', '#btnList', function(e){
 		e.preventDefault();
-		location.href = "/hirePage";
+		window.history.back();
+		//location.href = "/hirePage";
 	});
 	
 	// 이력서 그리드 조회

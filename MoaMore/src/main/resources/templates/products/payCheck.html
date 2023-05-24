@@ -97,7 +97,7 @@ section {
 					<div class="row mb-3">
 						<p class="col-sm-4 text-end fs-3 fw-normal text-black">적용공고</p>
 						<div class="col-sm-7 text-end">
-							<select id="gonggo" class="form-select pointer" onchange="getDisabledDates(this)">
+							<select id="gonggo" class="form-select pointer p-3 text-center" onchange="getDisabledDates(this)">
 								<option value='' selected>선택</option>
 								<option th:each=" item : ${RecList}" th:text="${item.ttl}"
 									th:value="${item.recruitNo}" th:if="${item.accpDt}"></option>
@@ -107,8 +107,8 @@ section {
 					<div class="row mb-3">
 						<p id="forToggle" class="col-sm-4 text-end fs-3 fw-normal text-black">날짜선택</p>
 						<div class="col-sm-7 text-end">
-							<input th:placeholder="${product.svcCnt}+'개의 날짜를 선택해 주세요 click!'" readonly style="background-color: white;"
-								class="form-control pointer" id="datePick" /></input>
+							<input th:placeholder="${product.svcCnt}+'개의 날짜를 선택해 주세요 click!'"  style="background-color: white;"
+								class="form-control pointer" id="datePick" ></input>
 						</div>
 					</div>
 					<hr>
@@ -151,6 +151,10 @@ section {
 			</div>
 		</div>
 		<script th:inline="javascript">
+		 $("#datePick").change(function() {
+		        var selectedDates = $("#datePick").multiDatesPicker("getDates");
+		        console.log(selectedDates);
+		      });
 		
 		// 공고가 바뀔때마다 해당 공고가 이전에 예약한 날짜를 추가로 가져오는 함수
 		var disabledDates = [];
@@ -205,6 +209,9 @@ section {
 		
 			$(function() {
 				$('#datePick').multiDatesPicker({
+					onselect:function(dateText) {
+					     $('#dateArea').text('test');
+				    },
 					dateFormat: 'yy-mm-dd',
 					maxPicks : [[${product.svcCnt}]],
 					beforeShowDay: function(date) {
@@ -214,7 +221,6 @@ section {
 				                return [true];
 				            }
 				        },
-				       
 						  onClose: function(dateText, inst) { // 달력이 닫혀 있을 땐 
 						    datepickerVisible = false;
 						  },  

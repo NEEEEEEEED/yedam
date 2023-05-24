@@ -72,9 +72,9 @@ i {
 				<div class="card">
 					<div class="card-body">
 						<div>
-						<img th:src="@{'moamoreImg/' + ${co.profileImg}}" onerror="this.src='self/profile.JPG'" id="myImg" class="circleImg mb-4 pointer"
+						<img th:src="@{'moamoreImg/' + ${co?.profileImg}}" onerror="this.src='self/profile.JPG'" id="myImg" class="circleImg mb-4 pointer"
 						onclick="updateImgPage()">
-						<h4 th:text="${co.coNm}"></h4>
+						<h4 th:text="${co?.coNm}"></h4>
 						<a id="insertInfo" type="button" class="btn btn-light"
 							href="coInfoPage">기업정보관리</a>
 							</div>
@@ -145,7 +145,7 @@ i {
 				<div class="modal-content">
 					<div class="modal-header">
 						<h1 class="modal-title fs-4" id="exampleModalLgLabel">구직 제안</h1>
-						<button type="button" class="btn-close" data-bs-dismiss="modal"
+						<button id="closeBtn" onclick="closeModal()" type="button" class="btn-close" data-bs-dismiss="modal"
 							aria-label="Close"></button>
 					</div>
 					<div class="modal-body d-flex justify-content-center">
@@ -233,8 +233,8 @@ i {
 								type="hidden" name="jobSearchNo">
 							<div class="row mb-4">
 								<div class="col-12 d-flex justify-content-center">
-									<button type="button" class="btn btn-secondary"
-										data-bs-dismiss="modal" onclick="closeModal()">취소</button>
+									<button type="reset" class="btn btn-secondary"
+										data-bs-dismiss="modal">취소</button>
 									<button id="offerBtn" type="button" class="btn btn-primary"
 										onclick="offerCheck()">제안</button>
 								</div>
@@ -410,7 +410,7 @@ i {
 												}else {
 													completedList +=`<p class="fw-bold text-danger">거절됨</p>`
 												}
-						  completedList +=  `<button type="button" data-recruitno="`+res[i].recruitNo+`" data-resumeno="`+res[i].resumeNo+`" data-btnid="`+i+`" onclick="deleteApply(this)" class="btn btn-outline-danger btn-sm listBtn">삭제</button>
+						  completedList +=  `<button type="button" data-recruitno="`+res[i].recruitNo+`" data-resumeno="`+res[i].resumeNo+`" data-btnid="`+i+`" onclick="deleteApply(this)" class="btn btn-outline-danger btn-sm listBtn">지우기</button>
 						  					 </div>
 											</div>`	
 					}
@@ -464,7 +464,8 @@ i {
 									icon : 'success',
 									title : '삭제 완료!'
 								});
-								applyDiv.remove();
+								applyDiv.remove(); // 화면상 목록 삭제
+								completedApplyCount -= 1; // 처리된 지원 하나 줄이기
 							},
 							error : function(jqXHR, textStatus, errorThrown) {
 								console.error(textStatus, errorThrown);
@@ -568,23 +569,23 @@ i {
 					}
 				});
 			}
-			//관심게시글목록 출력
+			//관심게시글목록 그리기
 			function makeInterList(res){
 				let html = '';
-				
+				console.log(res)
 				for(let i=0;i<res.length;i++){
 					let notice = `<div id="`+res[i].jobSearchNo+`" onclick="location.href='/selfJobDetail?jobSearchNo=`+res[i].jobSearchNo+`&resumeNo=`+res[i].resumeNo+`'"
 						class="row align-items-center border-bottom p-4 mb-3 hoverRow pointer">
 						<div class="col-md-3 text-center">
 							<a href="#"> <img class="img-fluid"
-								src="assets/img/blog/blog-hero.png" alt="">
+								src="/moamoreImg/`+res[i].myimg+`" onerror="this.src='self/profile.JPG'" alt="">
 							</a>
 						</div>
 						<div class="col-md-6 text-center text-lg-start">
 							<div
 								class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
 								<p class="fw-bold mb-0 text-black">`+res[i].dutyFld+`</p>
-								<p class="mb-0">`+res[i].regDt+`</p>
+								<p class="mb-0">`+res[i].hopeWksite+`</p>
 								<span><i id="heartIcon"
 									class="bi bi-suit-heart-fill text-danger fa-2x"></i></span>`
 									
@@ -597,7 +598,7 @@ i {
 							}
 								
 							notice +=`</div>
-							<p class="fs-2 my-3">`+res[i].intro+`</p>
+							<p class="fs-2 my-3">`+res[i].ttl+`</p>
 							<div
 								class="d-flex align-items-center justify-content-center justify-content-lg-start gap-2">
 								<img class="img-fluid" src="assets/img/blog/profile1.png"
