@@ -59,14 +59,12 @@
 					</button>
 				</div>
 			<!-- 현재로그인된 유저가 가진 권한 -->
-			<div class="col-md-2" style="margin-left:auto;">
-	        	<div sec:authorize="hasRole('ROLE_MEM')">
-					<button type="button" class="btn btn-outline-dark btn-sm" id="scrapList">스크랩 정렬</button>
-				</div>
-				<div sec:authorize="hasRole('ROLE_CO')" >
-					<button type="button" class="btn btn-outline-dark btn-sm" id="hireInsert">등록하기</button>
-				</div> 
-			</div>
+		        	<div sec:authorize="hasRole('ROLE_MEM')" class="col-md-2" style="margin-left:auto;">
+						<button type="button" class="btn btn-sm p-2" style="background-color:#0A2640; color:white; height:40px;" id="scrapList">스크랩 정렬</button>
+					</div>
+					<div sec:authorize="hasRole('ROLE_CO')" class="col-md-2" style="margin-left:auto;">
+						<button type="button" class="btn btn-outline-dark btn-sm" id="hireInsert">등록하기</button>
+					</div> 
 			</div>				
 		</div>
 		
