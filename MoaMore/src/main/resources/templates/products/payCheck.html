@@ -156,21 +156,9 @@ section {
 		
 		// 공고가 바뀔때마다 실행되는 함수
 		var disabledDates = []; 
-		var y =''; // 공고만료일 년도 담을 변수
-		var m =''; // 월 변수
-		var d =''; // 일 변수
+	
 		function getDisabledDates(t){ 
 			$('#datePick').val(''); // 선택 되어져 있던 날짜들 비우기
-			const optionVal = $('#gonggo').val(); // select의 value로 에서 선택된 option찾기
-			const selectedOpt = $('#gonggo option[value="'+optionVal+'"]'); // 선택된 option
-			const exprDt = selectedOpt.attr('data-exprDt') // 선택된 공고의 만료일 가져오기 '2023-05-05'
-			
-			y = exprDt.split('-')[0]; // 만료일 잘라서 변수에 넣기
-			m = exprDt.split('-')[1];
-			d = exprDt.split('-')[2];
-			console.log(y)
-			console.log(m-1)
-			console.log(d)
 			
 			if(t.value !== ''){ // 공고가 선택되면 날짜선택 input 보이게
 				$('#datePick').css('display','block');	
@@ -224,6 +212,15 @@ section {
 		
 			// datePicker 
 			$(function() {
+				let optionVal = $('#gonggo').val(); // select의 value로 에서 선택된 option찾기
+				console.log(optionVal);
+				let selectedOpt = $('#gonggo option[value="'+optionVal+'"]'); // 선택된 option
+				let exprDt = selectedOpt.attr('data-exprDt') // 선택된 공고의 만료일 가져오기 '2023-05-05'
+				let splitedDt = exprDt.split('-') // '-'를 기준으로 날짜 자르기
+				let year = splitedDt[0]; // 잘린 숫자 변수에 넣기
+				let month = splitedDt[1];
+				let day = splitedDt[2];
+				//console.log(year);
 				$('#datePick').multiDatesPicker({
 					onselect:function(dateText) {
 					     $('#dateArea').text('test');
@@ -243,7 +240,7 @@ section {
 				    showAnim :'slideDown',
 				    minDate : 0,
 				    showButtonPanel: true,
-				    maxDate: new Date(y, m-1, d) // 월은 0부터 시작하므로 -1, 선택된 구인공고의 만료일 이후 못 선택하게 막는 */
+				    maxDate: new Date(year, month-1, day) // 월은 0부터 시작하므로 -1, 선택된 구인공고의 만료일 이후 못 선택하게 막는 */
 				});
 			});
 		
