@@ -1,10 +1,10 @@
 <template>
-  <div class="home"></div>
+  <dashBoard />
 </template>
 
 <script>
+import dashBoard from "@/components/dashBoard/dashBoard.vue";
 export default {
-  name: "HomeView",
-  components: {},
+  components: { dashBoard },
 };
 </script>

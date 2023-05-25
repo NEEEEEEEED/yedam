@@ -35,14 +35,6 @@
           </div>
         </div>
       </div>
-
-      <div class="col-lg-6">
-        <div class="card">
-          <div class="card-body">
-            <h3 class="card-title">Radar Chart</h3>
-          </div>
-        </div>
-      </div>
     </div>
   </section>
 </template>

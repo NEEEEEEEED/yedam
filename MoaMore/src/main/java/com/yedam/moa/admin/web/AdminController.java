@@ -47,7 +47,7 @@ public class AdminController {
 	@Autowired
 	CommService commonService;
 	
-	@GetMapping("/getCommonCode")
+	@GetMapping("/api/getCommonCode")
 	@ResponseBody
 	public Map<String, List<CommVO>> getCommonCode() {
 		return comm.getCodes("I");
@@ -58,13 +58,13 @@ public class AdminController {
 		return "admin";
 	}
 
-	@GetMapping("/getUserInfo")
+	@GetMapping("/api/getUserInfo")
 	@ResponseBody
 	public List<MemVO> getUserInfo() {
 		return adminService.getUserInfo();
 	}
 	
-	@PostMapping("/getUserDetail")
+	@PostMapping("/api/getUserDetail")
 	@ResponseBody
 	public MemVO getUserDetails(@RequestBody String email) {
 		//인코딩된 이메일을 디코딩하는 부분
@@ -78,7 +78,7 @@ public class AdminController {
 		return adminService.getUserDetails(decoded);
 	}
 	//유저 수정
-	@PostMapping("/modifyUser")
+	@PostMapping("/api/modifyUser")
 	@ResponseBody
 	public String modifyUser(@RequestBody MemVO[] memVo) {
 		//인코딩된 이메일을 디코딩하는 부분
@@ -86,70 +86,70 @@ public class AdminController {
 		return adminService.modifyUser(memVo);
 	}
 	//게시글 전체 조회
-	@GetMapping("/getBoardData")
+	@GetMapping("/api/getBoardData")
 	@ResponseBody
 	public PostListVO getBoardData() {
 		return adminService.getBoardData();
 	}
 	//유저 삭제
-	@PostMapping("/deleteUsers")
+	@PostMapping("/api/deleteUsers")
 	@ResponseBody
 	public String removeUsers(@RequestBody String[] emails) {
 		return adminService.removeUsers(emails);
 	}
 	// 유저 검색
-	@PostMapping("/getSearchUser")
+	@PostMapping("/api/getSearchUser")
 	@ResponseBody
 	public List<MemVO> getSearchUser(@RequestBody UserSearchVO vo) {
 		System.out.println(vo);
 		return adminService.getSearchUser(vo);
 	}
-	@PostMapping("/modifyRprt")
+	@PostMapping("/api/modifyRprt")
 	@ResponseBody
 	public String modifyRprt(@RequestBody List<ReportVO> vo) {
 		return adminService.modifyRprt(vo);
 	}
-	@PostMapping("/removeBoard")
+	@PostMapping("/api/removeBoard")
 	@ResponseBody
 	public String removeBoard(@RequestBody String[] nos) {
 		return adminService.removeBoard(nos);
 	}
-	@GetMapping("/getApprvList")
+	@GetMapping("/api/getApprvList")
 	@ResponseBody
 	public ApprvListVO getApprvList() {
 		return adminService.getApprvList();
 	}
-	@PostMapping("/approveBoard")
+	@PostMapping("/api/approveBoard")
 	@ResponseBody
 	public String approveBoard(@RequestBody String[] nos) {
 		return adminService.approveBoard(nos);
 	}
-	@PostMapping("/approveCancelBoard")
+	@PostMapping("/api/approveCancelBoard")
 	@ResponseBody
 	public String approveCancelBoard(@RequestBody String[] nos) {
 		return adminService.approveCancelBoard(nos);
 	}
-	@GetMapping("/reportForm")
+	@GetMapping("/api/reportForm")
 	public String reportForm(Model model,@RequestParam String no,@RequestParam String title) {
 		model.addAttribute("Codes",comm.getCodes("l"));
 		model.addAttribute("no",no);
 		model.addAttribute("title",title);
 		return "reportForm";
 	}
-	@PostMapping("/addReport")
+	@PostMapping("/api/addReport")
 	@ResponseBody
 	public String addReport(ReportVO rvo, Principal pr) {
 		rvo.setRprter(pr.getName());
 		return adminService.addReport(rvo);
 	}
 	//결제 전체 조회
-	@GetMapping("/getPayList")
+	@GetMapping("/api/getPayList")
 	@ResponseBody
 	public List<ProductVO> getPayList() {
 		return adminService.getPayList();
 	}
 	//예약 전체 조회
-	@GetMapping("/getReservList")
+	@GetMapping("/api/getReservList")
 	@ResponseBody
 	public List<ReserveVO> getReservList() {
 		return adminService.getReservList();
@@ -158,7 +158,7 @@ public class AdminController {
 	@Autowired 
 	CommunityService commuService;
 	// 취업 Q&A 상세페이지
-	@GetMapping("/adminQnaDetail")
+	@GetMapping("/api/adminQnaDetail")
 	public String jobQnaDetail(Model model, String qaNotiwrNo, Principal pr) {
 		CommunityVO vo = new CommunityVO();
 		vo.setQaNotiwrNo(qaNotiwrNo);
@@ -171,19 +171,19 @@ public class AdminController {
 		return "admin/qnaDetail";
 	}
 	// 취업 Q&A 수정페이지
-	@GetMapping("/adminQnaMod")
+	@GetMapping("/api/adminQnaMod")
 	public String jobQnaDetailMod(Model model,String qaNotiwrNo) {
 		model.addAttribute("jobQnaDetail", commuService.jobQnaDetail(qaNotiwrNo));
 		return "admin/jobQnADetailMod";
 	}	
 	// 프로젝트 상세페이지
-	@GetMapping("/adminProjectDetail")
+	@GetMapping("/api/adminProjectDetail")
 	public String adminProjectDetail(Model model, String prjtNo) {
 		model.addAttribute("projectInfo", commuService.projectDetail(prjtNo));
 		return "admin/projectDetailVue";
 	}
 	// 프로젝트 수정페이지
-	@GetMapping("/adminProjectMod")
+	@GetMapping("/api/adminProjectMod")
 	public String adminProjectMod (Model model, Principal pr, String prjtNo) {
 		model.addAttribute("logId",pr.getName());
 		// 직무, 진행방식, 진행기간, 연락방법, 모집상태
@@ -193,13 +193,13 @@ public class AdminController {
 	}
 	
 	// 스터디 상세페이지
-	@GetMapping("/adminStudyDetial")
+	@GetMapping("/api/adminStudyDetial")
 	public String adminStudyDetial(Model model, String studyNo) {
 		model.addAttribute("studyDetailInfo", commuService.studyDetail(studyNo));
 		return "admin/studyDetailVue";
 	}
 	// 스터디 수정페이지
-	@GetMapping("/adminStudyMod")
+	@GetMapping("/api/adminStudyMod")
 	public String adminStudyMod (Model model, Principal pr, String studyNo) {
 		model.addAttribute("logId",pr.getName());
 		// 스터디 구분 , 진행방식, 진행기간, 연락방법, 모집상태
@@ -208,7 +208,7 @@ public class AdminController {
 		return "admin/studyDetailMod";
 	}
 	//신고 조회
-	@PostMapping("/getReportData")
+	@PostMapping("/api/getReportData")
 	@ResponseBody
 	public Map<String,Object> getReportData(@RequestBody String notiwrNo) {
 		return adminService.getReportData(notiwrNo.replace("=", ""));
@@ -216,7 +216,7 @@ public class AdminController {
 	@Autowired
 	HireService hireService;
 	// 구인공고 상세페이지
-	@GetMapping("/adminReaDetail")
+	@GetMapping("/api/adminReaDetail")
 	public String adminReaDetail(String recruitNo, Model model, Principal pr) {
 		HireVO hireVO = new HireVO();
 		hireVO.setRecruitNo(recruitNo);
