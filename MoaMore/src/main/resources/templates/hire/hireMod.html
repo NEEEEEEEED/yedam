@@ -279,8 +279,19 @@
 	// 목록으로 돌아가기
 	$(document).on('click', '#btnList', function(e){
 		e.preventDefault();
-	
-		location.href="/hirePage";
+		Swal.fire({
+			icon: 'warning',
+			title: '정말 나가시겠습니까?',
+			text: '작성중인 정보가 저장되지 않습니다.',
+              showCancelButton: false,
+              confirmButtonText: '확인'
+		}).then((result) => {
+            if (result.isConfirmed) {
+          	  // 페이지 이동
+            location.href="/hirePage";
+            }
+          })
+		
 	});
 	
 	// 이미지 등록 버튼 클릭시
@@ -310,7 +321,7 @@
                         }).then((result) => {
                           if (result.isConfirmed) {
                         	  // 페이지 이동
-                        	  location.href="/hirePage";
+                        	  window.history.back();
                           }
                         })
 					},
@@ -350,10 +361,10 @@
 	function imageListPrint(){
 		
 		let imageHtml = `<div class="row align-items-center border-bottom hoverRow mb-3">
-					        <div class="col-md-3">
-					        div style="background-color : plum; text-align:center; color:white; flex" id="selectImages">이미지 등록 완료</div>
-						 </div>
-					</div>`;
+							        <div class="col-md-12">
+						        	<div style="background-color : plum; text-align:center; color:white; flex" id="selectImages">이미지 등록완료.</div>
+						        </div>            
+						</div>`;
 						
 		$('#selectImages').html(imageHtml);
 	}

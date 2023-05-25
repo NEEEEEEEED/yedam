@@ -240,6 +240,117 @@
 				"wksite" : wksite,
 				"coIntro" : intro
 		}
+		// 예외처리
+		if($('#ttl').val() == '' ){ // 제목
+			
+			Swal.fire({
+				  icon: 'warning',
+				  title: '제목을 입력해주세요',
+			});
+		
+		
+			return;
+		
+		}
+		
+		if($('#skill').val() == ''){  // 기술
+			
+			Swal.fire({
+				  icon: 'warning',
+				  title: '기술을 선택해주세요',
+			});
+		
+		
+			return;
+		
+		}
+		
+		if($('#job').val() == ''){ // 직군
+			
+			Swal.fire({
+				  icon: 'warning',
+				  title: '직군을 선택해주세요',
+			});
+		
+		
+			return;
+		
+		}
+		
+		if($('#maBuss').val() == ''){ // 주요업무
+			
+			Swal.fire({
+				  icon: 'warning',
+				  title: '주요업무를 입력해주세요',
+			});
+		
+		
+			return;
+			
+		}
+		
+		if($('#qual').val() == ''){ // 자격요건
+					
+					Swal.fire({
+						  icon: 'warning',
+						  title: '자격요건을 입력해주세요',
+					});
+				
+				
+					return;
+					
+				}
+		
+		if($('#exprDt').val() == ''){ // 마감일
+			
+			Swal.fire({
+				  icon: 'warning',
+				  title: '마감일을 선택해주세요',
+			});
+		
+		
+			return;
+			
+		}
+		
+		if($('#wksite').val() == ''){ // 근무지역
+					
+					Swal.fire({
+						  icon: 'warning',
+						  title: '근무지역을 선택해주세요',
+					});
+				
+				
+					return;
+					
+				}
+		
+		if($('#thumnailImg').val() == '' && $('#recrintImgDetail').val() == ''){ // 이미지
+			
+			Swal.fire({
+				  icon: 'warning',
+				  title: '이미지를 등록해주세요',
+			});
+		
+		
+			return;
+			
+		}
+		
+		if(intro == '<p><br></p>'){ // 기업소개
+			
+			Swal.fire({
+				  icon: 'warning',
+				  title: '기업소개를 입력해주세요',
+			});
+		
+		
+			return;
+			
+		}
+		
+		
+		
 		recruitInsert(data);
 		
 	});
