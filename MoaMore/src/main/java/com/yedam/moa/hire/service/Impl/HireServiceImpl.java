@@ -254,6 +254,11 @@ public class HireServiceImpl implements HireService{
 	public int hireCount(HireVO hireVO) {
 		return hireMapper.hireCount(hireVO);
 	}
+	// 구인중인 기업들
+	@Override
+	public List<HireVO> hireingCo(HireVO hireVO) {
+		return hireMapper.hireingCo(hireVO);
+	}
 	
 	
 	

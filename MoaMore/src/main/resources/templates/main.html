@@ -5,6 +5,11 @@
 	  layout:decorate="~{template/layout}">
 <head>
   <title>main</title>
+  <style>
+  	section{
+  		padding: 30px !important;
+  	}
+  </style>
 </head>
     <body>
     <div layout:fragment="content">
@@ -15,9 +20,9 @@
             <h1 class="text-white fs-lg-5 fs-md-3 fs-2">이달의 공고 <span class="py-1 px-2 rounded-2 bg-success fw-bold text-dark ms-2">Hiring!</span></h1>
             <br>
           </div>
-          <div class="swiper mt-7">
+          <div class="swiper mt-5">
             <div class="swiper-container swiper-theme" data-swiper='{"slidesPerView":1,"breakpoints":{"640":{"slidesPerView":1,"spaceBetween":10},"768":{"slidesPerView":2,"spaceBetween":20},"1025":{"slidesPerView":3,"spaceBetween":40}},"spaceBetween":10,"grabCursor":true,"pagination":{"el":".swiper-pagination","clickable":true},"navigation":{"nextEl":".swiper-button-next","prevEl":".swiper-button-prev"},"loop":true,"freeMode":true,"loopedSlides":3}'>
-              <div class="swiper-wrapper">
+              <div class="swiper-wrapper" style="height: 300px;">
                <!--  -->
                 <div class="swiper-slide bg-white p-5 rounded-3 h-auto" th:each="prdtSelect:${prdtSelect}">
                   <a th:href="@{/hireInfo?(recruitNo=${prdtSelect.recruitNo})&(skill=${prdtSelect.skill})}">
@@ -26,7 +31,7 @@
 	                    <h5 class="text-black" th:text="${prdtSelect.carr}">고용 형태</h5>
 	                    <h5 class="text-black" th:text="${prdtSelect.job}">구인 분야</h5>
 	                    <div class="d-flex align-items-center gap-3 mt-5">
-	                    	<img th:src="@{/moamoreImg/}+${prdtSelect.coImg}" class="w-75 w-md-50 rounded-2 " alt="" />
+	                    	<img th:src="@{/moamoreImg/}+${prdtSelect.coImg}" class="w-md-50 rounded-2" alt="" style="width:20% !important;"/>
 	                      <div class="text-black">
 	                        <p class="mb-0 fw-bold text-dark" th:text="${prdtSelect.coNm}">기업이름</p><small th:text="${prdtSelect.exprDt}">마감일</small>
 	                      </div>
@@ -37,13 +42,49 @@
                 <!--  -->
               </div>
             </div>   
-            <div class="swiper-button-next"><span class="fas fa-arrow-right fs-lg-3 fs-2"></span></div>
-            <div class="swiper-button-prev"><span class="fas fa-arrow-left fs-lg-3 fs-2"></span></div>
+            <div class="swiper-button-next" style="width: 50px;height: 50px;">
+            <span class="fas fa-arrow-right fs-lg-3 fs-2"></span></div>
+            <div class="swiper-button-prev"style="width: 50px;height: 50px;left: calc(100% - 8rem);">
+            <span class="fas fa-arrow-left fs-lg-3 fs-2"></span></div>
           </div>
-        </div>
-      </section>
+     
+		<br>
       <!-- 유료공고 끝 ============================-->
-      <div class="container">
+     
+		<div class="row">
+		
+		<!-- 구인중인 기업들 -->
+		<hr style="color:whtie;">
+	<div class="swiper">
+              <div class="swiper-container swiper-shadow swiper-theme swiper-container-initialized swiper-container-horizontal swiper-container-pointer-events swiper-container-free-mode" data-swiper="{&quot;slidesPerView&quot;:2,&quot;breakpoints&quot;:{&quot;640&quot;:{&quot;slidesPerView&quot;:2,&quot;spaceBetween&quot;:20},&quot;768&quot;:{&quot;slidesPerView&quot;:4,&quot;spaceBetween&quot;:40},&quot;992&quot;:{&quot;slidesPerView&quot;:5,&quot;spaceBetween&quot;:40},&quot;1024&quot;:{&quot;slidesPerView&quot;:4,&quot;spaceBetween&quot;:50},&quot;1025&quot;:{&quot;slidesPerView&quot;:6,&quot;spaceBetween&quot;:50}},&quot;spaceBetween&quot;:10,&quot;grabCursor&quot;:true,&quot;pagination&quot;:{&quot;el&quot;:&quot;.swiper-pagination&quot;,&quot;clickable&quot;:true},&quot;loop&quot;:true,&quot;freeMode&quot;:true,&quot;autoplay&quot;:{&quot;delay&quot;:2500,&quot;disableOnInteraction&quot;:false}}" style="cursor: grab;">
+                   <div class="swiper-wrapper" id="swiper-wrapper-00106a6bf80d8157a" aria-live="off" style="transform: translate3d(-1827px, 0px, 0px); transition-duration: 0ms;">
+	               <div class="swiper-slide text-center swiper-slide-duplicate" data-swiper-slide-index="0" role="group" aria-label="1 / 6" style="width: 153px; margin-right: 50px;"><img src="assets/img/logos/boldo.png" alt=""></div>
+	               <div class="swiper-slide text-center swiper-slide-duplicate" data-swiper-slide-index="1" role="group" aria-label="2 / 6" style="width: 153px; margin-right: 50px;"><img src="assets/img/logos/presto.png" alt=""></div>
+	               <div class="swiper-slide text-center swiper-slide-duplicate swiper-slide-duplicate-prev" data-swiper-slide-index="2" role="group" aria-label="3 / 6" style="width: 153px; margin-right: 50px;"><img src="assets/img/logos/boldo.png" alt=""></div>
+	               <div class="swiper-slide text-center swiper-slide-duplicate swiper-slide-duplicate-active" data-swiper-slide-index="3" role="group" aria-label="4 / 6" style="width: 153px; margin-right: 50px;"><img src="assets/img/logos/presto.png" alt=""></div>
+	               <div class="swiper-slide text-center swiper-slide-duplicate swiper-slide-duplicate-next" data-swiper-slide-index="4" role="group" aria-label="5 / 6" style="width: 153px; margin-right: 50px;"><img src="assets/img/logos/boldo.png" alt=""></div>
+	               <div class="swiper-slide text-center swiper-slide-duplicate" data-swiper-slide-index="5" role="group" aria-label="6 / 6" style="width: 153px; margin-right: 50px;"><img src="assets/img/logos/presto.png" alt=""></div>
+                   <div class="swiper-slide text-center" data-swiper-slide-index="0" role="group" aria-label="1 / 6" style="width: 153px; margin-right: 50px;"><img src="assets/img/logos/boldo.png" alt=""></div>
+                   <div class="swiper-slide text-center" data-swiper-slide-index="1" role="group" aria-label="2 / 6" style="width: 153px; margin-right: 50px;"><img src="assets/img/logos/presto.png" alt=""></div>
+                   <div class="swiper-slide text-center swiper-slide-prev" data-swiper-slide-index="2" role="group" aria-label="3 / 6" style="width: 153px; margin-right: 50px;"><img src="assets/img/logos/boldo.png" alt=""></div>
+                   <div class="swiper-slide text-center swiper-slide-active" data-swiper-slide-index="3" role="group" aria-label="4 / 6" style="width: 153px; margin-right: 50px;"><img src="assets/img/logos/presto.png" alt=""></div>
+                   <div class="swiper-slide text-center swiper-slide-next" data-swiper-slide-index="4" role="group" aria-label="5 / 6" style="width: 153px; margin-right: 50px;"><img src="assets/img/logos/boldo.png" alt=""></div>
+                   <div class="swiper-slide text-center" data-swiper-slide-index="5" role="group" aria-label="6 / 6" style="width: 153px; margin-right: 50px;"><img src="assets/img/logos/presto.png" alt=""></div>
+                   <div class="swiper-slide text-center swiper-slide-duplicate" data-swiper-slide-index="0" role="group" aria-label="1 / 6" style="width: 153px; margin-right: 50px;"><img src="assets/img/logos/boldo.png" alt=""></div>
+                   <div class="swiper-slide text-center swiper-slide-duplicate" data-swiper-slide-index="1" role="group" aria-label="2 / 6" style="width: 153px; margin-right: 50px;"><img src="assets/img/logos/presto.png" alt=""></div>
+                   <div class="swiper-slide text-center swiper-slide-duplicate swiper-slide-duplicate-prev" data-swiper-slide-index="2" role="group" aria-label="3 / 6" style="width: 153px; margin-right: 50px;"><img src="assets/img/logos/boldo.png" alt=""></div>
+                   <div class="swiper-slide text-center swiper-slide-duplicate swiper-slide-duplicate-active" data-swiper-slide-index="3" role="group" aria-label="4 / 6" style="width: 153px; margin-right: 50px;"><img src="assets/img/logos/presto.png" alt=""></div>
+                   <div class="swiper-slide text-center swiper-slide-duplicate swiper-slide-duplicate-next" data-swiper-slide-index="4" role="group" aria-label="5 / 6" style="width: 153px; margin-right: 50px;"><img src="assets/img/logos/boldo.png" alt=""></div>		
+                   <div class="swiper-slide text-center swiper-slide-duplicate" data-swiper-slide-index="5" role="group" aria-label="6 / 6" style="width: 153px; margin-right: 50px;"><img src="assets/img/logos/presto.png" alt=""></div></div>
+              	   <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+             </div>
+         </div>
+         </div>
+            </div>
+         </section>
+    <!-- 구인중인 기업들 끝 ================================-->
+    <br>
+  <div class="container">
 		<div class="row">
 	<!-- 최신공고 -->
         <div class="col-lg-6">
@@ -79,6 +120,7 @@
         </div>
       </div>
 	<!-- 인기공고 끝 ================================-->
+	<br>
 	<div class="row">
 	<!-- 셀프구직(관심순) -->
        <div class="col-lg-6" >
@@ -113,7 +155,6 @@
         </div>
        </div>
 	<!-- 취업QnA 끝 ================================-->
-	</div>
 	</div>
     </body>
 </html>

@@ -1,8 +1,5 @@
 package com.yedam.moa;
 
-import java.security.Principal;
-import java.util.List;
-
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -12,7 +9,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yedam.moa.community.CommunityVO;
 import com.yedam.moa.hire.HireVO;
@@ -50,6 +46,7 @@ public class MoaMoreApplication {
 		model.addAttribute("popSelect",hireService.popSelect(hireVO)); // 인기공고
 		model.addAttribute("popSelf", hireService.popSelf(selfVO)); // 인기 셀프구직
 		model.addAttribute("jobQnaBest", hireService.jobQnaBest(communityVO)); // 취업QnA 
+		model.addAttribute("hireingCo", hireService.hireingCo(hireVO)); // 구인중인 기업들
 		
 		return "main";
 	}
