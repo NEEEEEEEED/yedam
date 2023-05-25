@@ -15,7 +15,7 @@
       .btn-sm {
         width: 80px;
         height: 45px;
-        font-size: 4px;
+        font-size: 15px;
       }
       .bi.bi-plus-circle-fill::before,
       .bi.bi-x-lg::before {
@@ -204,7 +204,7 @@
             <h4 class="mb-3">개인정보</h4>
             <div class="formId my-3 card p-2">
               <div class="row gy-3" name="memInfo" id="memInfo">
-                <div class="col-md-3">
+                <div class="col-md-2">
                   <label class="w-100"
                     >이름
                     <input
@@ -242,33 +242,7 @@
                     />
                   </label>
                 </div>
-
-                <div class="col-md-2">
-                  <label class="w-100"
-                    >성별
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="gen"
-                      name="gen"
-                      th:value="${info.gen}"
-                      readonly
-                  /></label>
-                </div>
-
-                <div class="col-md-3 mt-0">
-                  <label class="w-100"
-                    >전화번호
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="ph"
-                      name="ph"
-                      th:value="${info.ph}"
-                  /></label>
-                </div>
-
-                <div class="col-md-3 mt-0">
+                <div class="col-md-3">
                   <label class="w-100"
                     >휴대폰
                     <input
@@ -279,6 +253,18 @@
                       th:value="${info.phCl}"
                       oninput="phTemp(this)"
                       maxlength="13"
+                  /></label>
+                </div>
+                <div class="col-md-2 mt-0">
+                  <label class="w-100"
+                    >성별
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="gen"
+                      name="gen"
+                      th:value="${info.gen}"
+                      readonly
                   /></label>
                 </div>
 
@@ -296,6 +282,18 @@
                   <!-- 								required</div> -->
                   <!-- 								유효성 검사용  -->
                 </div>
+                <div class="col-md-4 mt-0">
+                  <label class="w-100"
+                    >상세주소
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="addrDt"
+                      name="addrDt"
+                      th:value="${info.addrDt}"
+                  /></label>
+                </div>
+
                 <div class="col-md-2 mt-0">
                   <label class="w-100"
                     >우편 번호
@@ -322,7 +320,7 @@
                     class="col-md-1 mx-2 px-0"
                   >
                     <button
-                      class="btn btn-outline-primary btn-sm px-0 fs-0"
+                      class="btn btn-outline-primary btn-sm px-0"
                       th:value="${sk.skill}"
                       name="skillBtn"
                     >
@@ -340,7 +338,7 @@
                 <div class="row gy-3" name="cardForViewSkill" id="skill">
                   <div th:each="ski:${resume.skill}" class="col-md-1 mx-2 px-0">
                     <button
-                      class="btn btn-outline-primary btn-sm px-0 fs-0"
+                      class="btn btn-outline-primary btn-sm px-0"
                       th:value="${ski.skill}"
                       name="skillBtn"
                     >
@@ -360,7 +358,7 @@
                 <div class="row gy-3" name="cardForAddSkill">
                   <div th:each="list:${list.Z}" class="col-md-1 mx-2 px-0">
                     <button
-                      class="btn btn-outline-primary btn-sm px-0 fs-0"
+                      class="btn btn-outline-primary btn-sm px-0"
                       th:value="${list.prov}"
                       name="skillBtn"
                     >
@@ -426,22 +424,22 @@
                           <input type="text" class="form-control" name="mj" />
                         </label>
                       </div>
-                      <div class="col-md-2">
+                      <div class="col-md-3">
                         <label class="w-100"
                           >입학 년월
                           <input
                             type="month"
-                            class="form-control p-0"
+                            class="form-control"
                             name="joinYy"
                           />
                         </label>
                       </div>
-                      <div class="col-md-2">
+                      <div class="col-md-3">
                         <label class="w-100"
                           >졸업 년월
                           <input
                             type="month"
-                            class="form-control p-0"
+                            class="form-control"
                             name="retiYy"
                           />
                         </label>
@@ -452,7 +450,7 @@
                           <input type="text" class="form-control" name="pnt" />
                         </label>
                       </div>
-                      <div class="dropdown col-md-2 pt-3">
+                      <div class="dropdown col-md-1 pt-3">
                         <button
                           class="btn btn-chek p-2 dropdown-toggle mt-2"
                           type="button"
@@ -560,23 +558,23 @@
                           />
                         </label>
                       </div>
-                      <div class="col-md-2">
+                      <div class="col-md-3">
                         <label class="w-100"
                           >입학 년월
                           <input
                             type="month"
-                            class="form-control p-0"
+                            class="form-control"
                             name="joinYy"
                             th:value="${sc.joinYy}"
                           />
                         </label>
                       </div>
-                      <div class="col-md-2">
+                      <div class="col-md-3">
                         <label class="w-100"
                           >졸업 년월
                           <input
                             type="month"
-                            class="form-control p-0"
+                            class="form-control"
                             name="retiYy"
                             th:value="${sc.retiYy}"
                           />
@@ -593,7 +591,7 @@
                           />
                         </label>
                       </div>
-                      <div class="dropdown col-md-2 pt-3">
+                      <div class="dropdown col-md-1 pt-3">
                         <button
                           class="btn btn-chek p-2 dropdown-toggle mt-2"
                           type="button"
@@ -710,22 +708,22 @@
                           <input type="text" class="form-control" name="mj" />
                         </label>
                       </div>
-                      <div class="col-md-2">
+                      <div class="col-md-3">
                         <label class="w-100"
                           >입학 년월
                           <input
                             type="month"
-                            class="form-control p-0"
+                            class="form-control"
                             name="joinYy"
                           />
                         </label>
                       </div>
-                      <div class="col-md-2">
+                      <div class="col-md-3">
                         <label class="w-100"
                           >졸업 년월
                           <input
                             type="month"
-                            class="form-control p-0"
+                            class="form-control"
                             name="retiYy"
                           />
                         </label>
@@ -736,7 +734,7 @@
                           <input type="text" class="form-control" name="pnt" />
                         </label>
                       </div>
-                      <div class="dropdown col-md-2 pt-3">
+                      <div class="dropdown col-md-1 pt-3">
                         <button
                           class="btn btn-chek p-2 dropdown-toggle mt-2"
                           type="button"
@@ -832,7 +830,7 @@
                         </ul>
                       </div>
                       <input type="hidden" name="wkdty" value />
-                      <div class="col-md-4">
+                      <div class="col-md-3">
                         <label class="w-100"
                           >회사명
                           <input type="text" class="form-control" name="co" />
@@ -848,7 +846,7 @@
                           />
                         </label>
                       </div>
-                      <div class="dropdown col-md-2 pt-3">
+                      <div class="dropdown col-md-3 pt-3">
                         <button
                           class="btn btn-chek p-2 dropdown-toggle mt-2"
                           type="button"
@@ -872,27 +870,27 @@
                         </ul>
                       </div>
                       <input type="hidden" name="duty" value />
-                      <div class="col-md-2">
+                      <div class="col-md-3">
                         <label class="w-100"
                           >입사년도
                           <input
                             type="month"
-                            class="form-control p-0"
+                            class="form-control"
                             name="joinYy"
                           />
                         </label>
                       </div>
-                      <div class="col-md-2">
+                      <div class="col-md-3">
                         <label class="w-100"
                           >퇴사년도
                           <input
                             type="month"
-                            class="form-control p-0"
+                            class="form-control"
                             name="retiYy"
                           />
                         </label>
                       </div>
-                      <div class="col-md-6">
+                      <div class="col-md-4">
                         <label class="w-100"
                           >업무
                           <input type="text" class="form-control" name="buss" />
@@ -960,7 +958,7 @@
                         th:value="${ca.wkdty}"
                         value
                       />
-                      <div class="col-md-4">
+                      <div class="col-md-3">
                         <label class="w-100"
                           >회사명
                           <input
@@ -982,7 +980,7 @@
                           />
                         </label>
                       </div>
-                      <div class="dropdown col-md-2 pt-3">
+                      <div class="dropdown col-md-3 pt-3">
                         <button
                           class="btn btn-chek p-2 dropdown-toggle mt-2"
                           type="button"
@@ -1011,29 +1009,29 @@
                         th:value="${ca.duty}"
                         value
                       />
-                      <div class="col-md-2">
+                      <div class="col-md-3">
                         <label class="w-100"
                           >입사년도
                           <input
                             type="month"
-                            class="form-control p-0"
+                            class="form-control"
                             name="joinYy"
                             th:value="${ca.joinYy}"
                           />
                         </label>
                       </div>
-                      <div class="col-md-2">
+                      <div class="col-md-3">
                         <label class="w-100"
                           >퇴사년도
                           <input
                             type="month"
-                            class="form-control p-0"
+                            class="form-control"
                             name="retiYy"
                             th:value="${ca.retiYy}"
                           />
                         </label>
                       </div>
-                      <div class="col-md-6">
+                      <div class="col-md-4">
                         <label class="w-100"
                           >업무
                           <input
@@ -1117,7 +1115,7 @@
                         </ul>
                       </div>
                       <input type="hidden" name="wkdty" value />
-                      <div class="col-md-4">
+                      <div class="col-md-3">
                         <label class="w-100"
                           >회사명
                           <input type="text" class="form-control" name="co" />
@@ -1133,7 +1131,7 @@
                           />
                         </label>
                       </div>
-                      <div class="dropdown col-md-2 pt-3">
+                      <div class="dropdown col-md-3 pt-3">
                         <button
                           class="btn btn-chek p-2 dropdown-toggle mt-2"
                           type="button"
@@ -1157,27 +1155,27 @@
                         </ul>
                       </div>
                       <input type="hidden" name="duty" value />
-                      <div class="col-md-2">
+                      <div class="col-md-3">
                         <label class="w-100"
                           >입사년도
                           <input
                             type="month"
-                            class="form-control p-0"
+                            class="form-control"
                             name="joinYy"
                           />
                         </label>
                       </div>
-                      <div class="col-md-2">
+                      <div class="col-md-3">
                         <label class="w-100"
                           >퇴사년도
                           <input
                             type="month"
-                            class="form-control p-0"
+                            class="form-control"
                             name="retiYy"
                           />
                         </label>
                       </div>
-                      <div class="col-md-6">
+                      <div class="col-md-4">
                         <label class="w-100"
                           >업무
                           <input type="text" class="form-control" name="buss" />
@@ -1245,27 +1243,27 @@
                         </label>
                       </div>
 
-                      <div class="col-md-2">
+                      <div class="col-md-3">
                         <label class="w-100"
                           >시작년도
                           <input
                             type="month"
-                            class="form-control p-0"
+                            class="form-control"
                             name="joinYy"
                           />
                         </label>
                       </div>
-                      <div class="col-md-2">
+                      <div class="col-md-3">
                         <label class="w-100"
                           >종료년도
                           <input
                             type="month"
-                            class="form-control p-0"
+                            class="form-control"
                             name="retiYy"
                           />
                         </label>
                       </div>
-                      <div class="col-md-8">
+                      <div class="col-md-6">
                         <label class="w-100"
                           >이수내용
                           <input type="text" class="form-control" name="cntn" />
@@ -1302,29 +1300,29 @@
                         </label>
                       </div>
 
-                      <div class="col-md-2">
+                      <div class="col-md-3">
                         <label class="w-100"
                           >시작년도
                           <input
                             type="month"
-                            class="form-control p-0"
+                            class="form-control"
                             name="joinYy"
                             th:value="${edu.joinYy}"
                           />
                         </label>
                       </div>
-                      <div class="col-md-2">
+                      <div class="col-md-3">
                         <label class="w-100"
                           >종료년도
                           <input
                             type="month"
-                            class="form-control p-0"
+                            class="form-control"
                             name="retiYy"
                             th:value="${edu.retiYy}"
                           />
                         </label>
                       </div>
-                      <div class="col-md-8">
+                      <div class="col-md-6">
                         <label class="w-100"
                           >이수내용
                           <input
@@ -1371,27 +1369,27 @@
                         </label>
                       </div>
 
-                      <div class="col-md-2">
+                      <div class="col-md-3">
                         <label class="w-100"
                           >시작년도
                           <input
                             type="month"
-                            class="form-control p-0"
+                            class="form-control"
                             name="joinYy"
                           />
                         </label>
                       </div>
-                      <div class="col-md-2">
+                      <div class="col-md-3">
                         <label class="w-100"
                           >종료년도
                           <input
                             type="month"
-                            class="form-control p-0"
+                            class="form-control"
                             name="retiYy"
                           />
                         </label>
                       </div>
-                      <div class="col-md-8">
+                      <div class="col-md-6">
                         <label class="w-100"
                           >이수내용
                           <input type="text" class="form-control" name="cntn" />
@@ -1426,19 +1424,19 @@
                           />
                         </label>
                       </div>
-                      <div class="col-md-6">
+                      <div class="col-md-5">
                         <label class="w-100"
                           >발급기관
                           <input type="text" class="form-control" name="breu" />
                         </label>
                       </div>
 
-                      <div class="col-md-2">
+                      <div class="col-md-3">
                         <label class="w-100"
                           >취득월
                           <input
                             type="month"
-                            class="form-control p-0"
+                            class="form-control"
                             name="issuMm"
                           />
                         </label>
@@ -1462,7 +1460,7 @@
                           />
                         </label>
                       </div>
-                      <div class="col-md-6">
+                      <div class="col-md-5">
                         <label class="w-100"
                           >발급기관
                           <input
@@ -1474,12 +1472,12 @@
                         </label>
                       </div>
 
-                      <div class="col-md-2">
+                      <div class="col-md-3">
                         <label class="w-100"
                           >취득월
                           <input
                             type="month"
-                            class="form-control p-0"
+                            class="form-control"
                             name="issuMm"
                             th:value="${li.issuMm}"
                           />
@@ -1514,19 +1512,19 @@
                           />
                         </label>
                       </div>
-                      <div class="col-md-6">
+                      <div class="col-md-5">
                         <label class="w-100"
                           >발급기관
                           <input type="text" class="form-control" name="breu" />
                         </label>
                       </div>
 
-                      <div class="col-md-2">
+                      <div class="col-md-3">
                         <label class="w-100"
                           >취득월
                           <input
                             type="month"
-                            class="form-control p-0"
+                            class="form-control"
                             name="issuMm"
                           />
                         </label>
@@ -1562,19 +1560,19 @@
                           />
                         </label>
                       </div>
-                      <div class="col-md-6">
+                      <div class="col-md-5">
                         <label class="w-100"
                           >수여기관
                           <input type="text" class="form-control" name="breu" />
                         </label>
                       </div>
 
-                      <div class="col-md-2">
+                      <div class="col-md-3">
                         <label class="w-100"
                           >수상년도
                           <input
                             type="month"
-                            class="form-control p-0"
+                            class="form-control"
                             name="issuYy"
                           />
                         </label>
@@ -1604,7 +1602,7 @@
                           />
                         </label>
                       </div>
-                      <div class="col-md-6">
+                      <div class="col-md-5">
                         <label class="w-100"
                           >수여기관
                           <input
@@ -1616,12 +1614,12 @@
                         </label>
                       </div>
 
-                      <div class="col-md-2">
+                      <div class="col-md-3">
                         <label class="w-100"
                           >수상년도
                           <input
                             type="month"
-                            class="form-control p-0"
+                            class="form-control"
                             name="issuYy"
                             th:value="${ard.issuYy}"
                           />
@@ -1667,19 +1665,19 @@
                           />
                         </label>
                       </div>
-                      <div class="col-md-6">
+                      <div class="col-md-5">
                         <label class="w-100"
                           >수여기관
                           <input type="text" class="form-control" name="breu" />
                         </label>
                       </div>
 
-                      <div class="col-md-2">
+                      <div class="col-md-3">
                         <label class="w-100"
                           >수상년도
                           <input
                             type="month"
-                            class="form-control p-0"
+                            class="form-control"
                             name="issuYy"
                           />
                         </label>
@@ -2111,16 +2109,15 @@
           // 저장
           $("#saveResume").on("click", function () {
             ttl = $("#ttl").val();
-            if(ttl=='' ||ttl==null){
-            	Swal.fire({
-                    title: "빈칸발견!",
-                    text: "제목이 비었습니다!!\n빈칸을 채워주세요!!",
-                    icon: "warning",
-                    
-                    confirmButtonText: "확인!",
-            	})
-            	return
-                  
+            if (ttl == "" || ttl == null) {
+              Swal.fire({
+                title: "빈칸발견!",
+                text: "제목이 비었습니다!!\n빈칸을 채워주세요!!",
+                icon: "warning",
+
+                confirmButtonText: "확인!",
+              });
+              return;
             }
             console.log($("#inputImg").attr("value"));
             imgNo = $("#inputImg").attr("value");
@@ -2138,7 +2135,7 @@
                 data: JSON.stringify(data),
                 success: function (result) {
                   console.log(result);
-			location.href='/resumeList';
+                  location.href = "/resumeList";
                 },
                 error: function (err) {
                   console.log(err);
@@ -2149,7 +2146,7 @@
           //취소버튼 클릭
           $("#backToBefore").on("click", function () {
             Swal.fire({
-              title: "취소?ㄹㅇ?",
+              title: "작성취소",
               text: "저장하지 않은 값은 모두 사라집니다 취소하시겠습니까?",
               icon: "warning",
               showCancelButton: true,
@@ -2215,26 +2212,25 @@
             element.css("display", "block");
             $(element).find("i.bi.bi-plus-circle-fill").click();
           });
-			$("#newRe").on("click",function(){
-				Swal.fire({
-		              title: "새 이력서",
-		              text: "저장하지 않은 값은 모두 사라집니다 새 이력서를 작성하시겠습니까?",
-		              icon: "warning",
-		              showCancelButton: true,
-		              confirmButtonText: "확인",
-		              cancelButtonText: "취소",
-		              reverseButtons: true,
-		            }).then((result) => {
-		              if (result.isConfirmed) {
-		                location.href="/mem/mkResume"
-		              } else if (
-		                /* Read more about handling dismissals below */
-		                result.dismiss === Swal.DismissReason.cancel
-		              ) {
-		              }
-		            });
-
-			})
+          $("#newRe").on("click", function () {
+            Swal.fire({
+              title: "새 이력서",
+              text: "저장하지 않은 값은 모두 사라집니다 새 이력서를 작성하시겠습니까?",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonText: "확인",
+              cancelButtonText: "취소",
+              reverseButtons: true,
+            }).then((result) => {
+              if (result.isConfirmed) {
+                location.href = "/mem/mkResume";
+              } else if (
+                /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.cancel
+              ) {
+              }
+            });
+          });
           //+버튼 클릭시 노드 복사 함수
           function copy(ev) {
             let tar = $(this).parents()[1].children[1];
@@ -2270,7 +2266,7 @@
             } else {
               // 빈 값이 있는 경우
               //console.log("빈 값을 가진 객체의 인덱스:", emptyIndexes);
-              alertBin(emptyIndexes, target[index]);
+              alertBin(emptyIndexes, target);
               return false;
             }
           }
@@ -2404,7 +2400,7 @@
                   name: $(shl).find("input[name=name]").val(),
                   birth: $(shl).find("input[name=birth]").val(),
                   email: $(shl).find("input[name=email]").val(),
-                  ph: $(shl).find("input[name=ph]").val(),
+                  addrDt: $(shl).find("input[name=addrDt]").val(),
                   phCl: $(shl).find("input[name=phCl]").val(),
                   addr: $(shl).find("input[name=addr]").val(),
                   post: $(shl).find("input[name=post]").val(),
@@ -2603,7 +2599,7 @@
             });
           }
 
-                    window.history.back();
+          window.history.back();
         }
         //         정규식 확인 알람
         function chkReg(data, loc) {

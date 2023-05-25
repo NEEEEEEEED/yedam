@@ -21,6 +21,8 @@ public interface MemMapper {
 //	마이페이지 홈
 	public List<MemVO> openSesame(MemVO vo);
 	
+	public MemInfoVO getImg(MemVO vo);
+	
 	public SearchVO getCount(MemVO vo);
 
 	public List<MemVO> getSearch(SearchVO vo);
@@ -93,4 +95,5 @@ public interface MemMapper {
 	public int joinMoaMore(MemInfoVO vo);
 	
 	public int insertBiz(MemInfoVO vo);
+	
 }
