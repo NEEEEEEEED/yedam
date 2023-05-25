@@ -28,7 +28,7 @@
 		<div class="row" style="margin-top: 20px;">
 			<div class="col-md-2"></div>
 
-			<div id="selfDetail" class="col-md-6" style="border-bottom : 1px solid #ddd;"> 
+			<div id="selfDetail" class="col-md-6"> 
 				<h3 class="text-center" th:text="${selfJobInfo.ttl}">셀프구직 제목</h3>
 				<hr>
 				<div class="fs-1 mt-4 mb-5 text-center">
@@ -41,7 +41,7 @@
 
 				<hr style="color : #ddd;">
 				
-				<div class="fs-1 text-left mt-5 mb-7">
+				<div class="fs-1 text-left mt-6 mb-7">
 					<span class="fs-2 subTitle p-2"><i class="far fa-file-powerpoint"></i> 저의 포트폴리오입니다</span>
 					<div style="display:flex">
 						<p class="fw-bold text-dark mt-5 mb-5" style="margin-left : 16px;" th:text="|◈ ${selfJobInfo.name}님의 포트폴리오 (|">◈ OOO님의 포트폴리오</p>
@@ -86,7 +86,7 @@
 				
 				<div class="fs-1 text-left my-8">
 					<span class="fs-2 subTitle p-2"><i class="fas fa-book-open"></i>  제 실무경험과 학력입니다</span>
-						<p class="fw-bold text-dark mt-5 mb-4" style="margin-left : 16px;">◈ 경력</p>
+						<p class="fw-bold text-dark mt-5 mb-3" style="margin-left : 16px;">◈ 경력</p>
 							<div class="row">
 								<div id="carrRows" class="col-md-10" style="margin-left : 40px;">
 									<th:block th:if="${#lists.size(carrList)} == 0">
@@ -199,7 +199,7 @@
 					
 				</div>
 			</div>
-			<hr>
+			<!-- <hr> -->
 			<div class="col-md-3"></div>
 		</div>
 		

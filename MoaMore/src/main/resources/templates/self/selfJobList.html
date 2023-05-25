@@ -76,8 +76,7 @@
 					<h4>셀프구직[일반]</h4>
 					<hr>
 					<ul class="listStyle">
-						<li class="fs-1"><a href="#">받은제안</a></li>
-						<li class="fs-1"><a href="#">수락한제안</a></li>
+						<li class="fs-1"><a href="#">구직현황</a></li>
 					</ul>
 				</div>
 			</div>
@@ -348,7 +347,7 @@ function offerModal(t){
 				url: '/openOfferModal',
 				type: 'get',
 				success: function (res) {
-					console.log(res.coInfo);
+					//console.log(res.coInfo);
 					// 가져온 내용을 추가하고 모달바디에 붙이기
 					document.querySelector('#offerModalBody').innerHTML = ''; // 모달바디 초기화
 					let modalBodyHtml = `<form class="col-lg-11 " id="offerForm" action="/offerSubmit" method="POST">
@@ -572,11 +571,11 @@ function selfJobList(auth, id, job, carr, city, skill, currentPage){
 
 //페이징 버튼만들기
 function pagingBtnPrint(totalListNum){
-	console.log('페이지수 : ' + totalListNum );
+	//console.log('페이지수 : ' + totalListNum );
 	let totalPageNum = Math.ceil(totalListNum/5); // 총페이지 = 총 게시글수 / 5 
 	
 	let pagingBtn = `<nav aria-label="Page navigation example">
-					  <ul class="pagination  d-flx justify-content-center">
+					  <ul class="pagination  d-flx justify-content-center mt-5 mb-4">
 					    <li class="page-item">
 					      <a class="page-link" href="#" aria-label="Previous">
 					        <span aria-hidden="true">&laquo;</span>

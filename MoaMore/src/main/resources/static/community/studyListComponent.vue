@@ -37,8 +37,8 @@
         
         <div class="d-flex">
           <div>
-            <img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
-            <span>{{study.id}}</span>
+            <img :src="'/moamoreImg/' + study.profileImg" class="circleImg" alt="이미지오류" @error="imgError">
+            <span class="ms-1">{{study.id}}</span>
           </div>
           <div style="margin-left:auto">
               <i class="fa-regular fa-comment-dots fa-sm"></i>
@@ -72,6 +72,12 @@
               console.log(error)
           })
       },
+
+      // 이미지 오류시 실행하는 src경로 변경 함수
+      imgError(event) {
+        event.target.src = 'self/profile.JPG';
+      },
+
 
       // 버튼 클릭시 스터디모집 상세 페이지 이동
       studyDetail(studyNo){

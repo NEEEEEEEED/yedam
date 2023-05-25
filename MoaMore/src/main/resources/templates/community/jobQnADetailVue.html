@@ -5,7 +5,7 @@
 	layout:decorate="~{template/layout}">
 <head>
 <meta charset="UTF-8">
-<title>모아모아/커뮤니티(뷰적용)</title>
+<title>모아모아/커뮤니티</title>
 
 </head>
 <body>
@@ -80,7 +80,7 @@
 					    </div>
 					    
 				    	<div class="mb-5">
-				    		<img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
+				    		<img th:src="@{/moamoreImg/} + ${jobQnaDetail.profileImg}" th:onerror="this.src='self/profile.JPG'" class="circleImg" alt="이미지안보임" >
 				    		<span class="ms-1" th:text="${jobQnaDetail.id}">작성자</span>
 				    		<!-- <hr class="mt-4" style="color:#ddd"> -->
 				    	</div>
