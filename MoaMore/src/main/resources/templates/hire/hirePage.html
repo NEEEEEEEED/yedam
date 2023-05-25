@@ -6,6 +6,21 @@
 
 <head>
 <style>
+
+.selectStyle {
+    width: 180px;
+    height: 40px;
+    padding-left: 0.5em;
+    border: 1px solid #999;
+    font-family: inherit;
+    background: url(/self/arrow.jpg) no-repeat 95% 50%;
+    border-radius: 0px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin-bottom: 20px;
+    margin-right: 10px;
+}
 	#id{
 		display:inline;
 	}
@@ -37,55 +52,55 @@
 
 				<!-- 일반유저 권한 -->
 	        	<div sec:authorize="hasRole('ROLE_MEM')" style="margin-left:auto; display:inline-block;">
-	        		<select id = "job" class="col-md-2 p-0 ms-2">
+	        		<select id = "job" class="col-md-2 p-0 ms-2 selectStyle">
 						<option selected value = ''>개발 전체</option>
 						<option th:each="list : ${list.N}" th:text="${list.desct}" th:attr="value=${list.prov}">직무</option>
 					</select>
 	
-					<select id="loc" class="col-md-2 p-0 ms-2">
+					<select id="loc" class="col-md-2 p-0 ms-2 selectStyle">
 						<option selected value=''>전국</option>
 						<option th:each="list : ${list.X}" th:text="${list.desct}" th:attr="value=${list.prov}">지역</option>
 					</select>
 
-					<select id="cre" class="col-md-2 p-0 ms-2">
+					<select id="cre" class="col-md-2 p-0 ms-2 selectStyle">
 						<option selected value = ''>경력전체</option>
 						<option th:each="list : ${list.Y}" th:text="${list.desct}" th:attr="value=${list.prov}">경력</option>
 					</select>
 		
-					<select id = "skl" class="col-md-2 p-0 ms-2">
+					<select id = "skl" class="col-md-2 p-0 ms-2 selectStyle">
 						<option selected value=''>기술 전체</option>
 						<option th:each="list : ${list.Z}" th:text="${list.desct}" th:attr="value=${list.prov}">기술</option>
 					</select>
-					<button type="submit" class="btn btn-outline-dark btn-sm searchBtn col-md-1 ms-2 p-0" id="search" style="height:28px;">검색</button>
+					<button type="submit" class="btn btn-outline-dark btn-sm searchBtn ms-3" id="search">검색</button>
 					<button type="button" class="btn btn-outline-dark btn-sm searchBtn ms-3" id="searchReset">초기화</button>
-					<button type="button" class="btn btn-outline-dark btn-sm" style="background-color:#0A2640; color:white; height:37px;" id="scrapList">스크랩 정렬</button>
+					<button type="button" class="btn btn-outline-dark btn-sm ms-3" style="background-color:#0A2640; color:white; height:37px;" id="scrapList">스크랩 정렬</button>
 				</div>
 				
 				<!-- 기업권한 -->
 				<div sec:authorize="hasRole('ROLE_CO')" style="margin-left:auto;">
-					<select id = "job" class="col-md-2 p-0 ms-2">
+					<select id = "job" class="col-md-2 p-0 ms-2 selectStyle">
 						<option selected value = ''>개발 전체</option>
 						<option th:each="list : ${list.N}" th:text="${list.desct}" th:attr="value=${list.prov}">직무</option>
 					</select>
 	
-					<select id="loc" class="col-md-2 p-0 ms-2">
+					<select id="loc" class="col-md-2 p-0 ms-2 selectStyle">
 						<option selected value=''>전국</option>
 						<option th:each="list : ${list.X}" th:text="${list.desct}" th:attr="value=${list.prov}">지역</option>
 					</select>
 
-					<select id="cre" class="col-md-2 p-0 ms-2">
+					<select id="cre" class="col-md-2 p-0 ms-2 selectStyle">
 						<option selected value = ''>경력전체</option>
 						<option th:each="list : ${list.Y}" th:text="${list.desct}" th:attr="value=${list.prov}">경력</option>
 					</select>
 		
-					<select id = "skl" class="col-md-2 p-0 ms-2">
+					<select id = "skl" class="col-md-2 p-0 ms-2 selectStyle">
 						<option selected value=''>기술 전체</option>
 						<option th:each="list : ${list.Z}" th:text="${list.desct}" th:attr="value=${list.prov}">기술</option>
 					</select>
-					<button type="submit" class="btn btn-outline-dark btn-sm searchBtn col-md-1 ms-2 p-0" id="search" style="height:28px;">검색</button>
+					<button type="submit" class="btn btn-outline-dark btn-sm searchBtn ms-3" id="search">검색</button>
 						
 					<button type="button" class="btn btn-outline-dark btn-sm searchBtn ms-3" id="searchReset">초기화</button>
-					<button type="button" class="btn btn-outline-dark btn-sm" style="background-color:#0A2640; color:white; height:37px;" id="hireInsert">등록하기</button>
+					<button type="button" class="btn btn-outline-dark btn-sm ms-3" style="background-color:#0A2640; color:white; height:37px;" id="hireInsert">등록하기</button>
 				</div> 
 		</div>
 		<section class="pt-0" id="hireAllList">
@@ -126,9 +141,9 @@
 		$('#searchReset').click(function(){
 			
 			$("#job").val(""); // 직군
-			$("#wksite").val(""); // 지역
-			$("#carr").val("");// 경력
-			$("#skill").val("");// 기술스펙
+			$("#loc").val(""); // 지역
+			$("#cre").val("");// 경력
+			$("#skl").val("");// 기술스펙
 			
 			searchAll(1);
 		});

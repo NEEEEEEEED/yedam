@@ -22,22 +22,23 @@
 	<h1>
 		공고수정 페이지
 	</h1>
+	<br>
 	<article>
 		<div role="main">
 			<form name="form" id="form" role="form" method="post" action="${pageContext.request.contextPath}/board/saveBoard">
 				
 				<div class="mb-3" >
-					<label for="reg_id">제목</label><span id="star">*</span>
-					<input type="text" class="form-control" name="ttl" id="ttl" placeholder="제목" th:value="${hireInfo[0].ttl}" autofocus="autofocus">
+					<label for="reg_id" style="display:inline-block; width:15% !important;" class="fs-2">제목<span id="star">*</span></label>
+					<input  style="display:inline-block; width:80% !important;" type="text" class="form-control" name="ttl" id="ttl" placeholder="제목" th:value="${hireInfo[0].ttl}" autofocus="autofocus">
 				</div>
 				
 				<div class="mb-3">
-					<label for="reg_id">회사이름</label><span id="star">*</span>
-					<input type="text" class="form-control" name="coNm" id="reg_id" th:value="${hireInfo[0].coNm}" readonly>
+					<label for="reg_id" class="fs-2" style="width:15% !important;">회사이름<span id="star">*</span></label>
+					<input style="display:inline-block; width:80% !important;" type="text" class="form-control" name="coNm" id="reg_id" th:value="${hireInfo[0].coNm}" readonly>
 				</div>
 				
 				<div class="mb-3">
-					<label for="reg_id">기술스텍</label><span id="star">*</span>
+					<label for="reg_id" class="fs-2">기술선택(다중선택가능)<span id="star">*</span></label>
 					<input type="hidden" th:value="${hireInfo[0].skill}" id="skillOrg">
 					<select id = "skill" class = "selectStyle">
 						<option selected th:text="${hireInfo[0].skill}"></option>
@@ -46,7 +47,7 @@
 				</div>
 				
 				<div class="mb-3">
-					<label for="reg_id">직군</label><span id="star">*</span>
+					<label for="reg_id" class="fs-2">직군<span id="star">*</span></label>
 					<select id = "job" class = "selectStyle">
 						<option selected th:text="${hireInfo[0].job}"></option>
 						<option th:each="list : ${list.N}" th:text="${list.desct}" th:attr="value=${list.prov}">직무</option>
@@ -58,7 +59,7 @@
 							  	<div class="row">
 							  		<div class="col-md-3">
 							  			<div style="padding : 16px;">
-							  				<label for="floatingTextarea">주요업무</label><span id="star">*</span>
+							  				<label for="floatingTextarea">주요업무<span id="star">*</span></label>
 							  			</div>
 							  		</div>
 							  		<div class="col-md-9">
@@ -73,7 +74,7 @@
 							  	<div class="row">
 							  		<div class="col-md-3">
 							  			<div style="padding : 16px;">
-							  				<label for="floatingTextarea">자격요건</label><span id="star">*</span>
+							  				<label for="floatingTextarea">자격요건<span id="star">*</span></label>
 							  			</div>
 							  		</div>
 							  		<div class="col-md-9">
@@ -130,12 +131,12 @@
 				</div>
 				
 				<div class="mb-3">
-					<label for="tag">마감일</label><span id="star">*</span>
-					<input type="date" class="form-control" name="exprDt" id="exprDt" placeholder="태그를 입력해 주세요" th:value="${hireInfo[0].exprDt}"> 
+					<label for="tag" class="fs-2" style="width:15% !important;">마감일<span id="star">*</span></label>
+					<input style="display:inline-block; width:80% !important;" type="date" class="form-control" name="exprDt" id="exprDt" placeholder="태그를 입력해 주세요" th:value="${hireInfo[0].exprDt}"> 
 				</div>
 				
 				<div class="mb-3">
-					<label for="tag">근무지역</label><span id="star">*</span>
+					<label for="tag" class="fs-2">근무지역<span id="star">*</span></label>
 					<select id="wksite" class = "selectStyle">
 						<option selected th:text="${hireInfo[0].wksite}">전국</option>
 						<option th:each="list : ${list.X}" th:text="${list.desct}" th:attr="value=${list.prov}">지역</option>
@@ -144,7 +145,7 @@
 				
 				<div class="mb-3">
 					<div>
-						<label for="tag">기업 / 서비스 소개</label><span id="star">*</span>
+						<label for="tag" class="fs-2">기업 / 서비스 소개<span id="star">*</span></label>
 						<button type="button" id="imgUp" class="btn btn btn-outline-dark btn-sm radius" style="height:40px;">이미지 업로드</button>
 					</div>
 					<br>
@@ -236,6 +237,118 @@
 				"wksite" : wksite,
 				"coIntro" : intro
 		}
+		
+		
+		// 예외처리
+		if($('#ttl').val() == '' ){ // 제목
+			
+			Swal.fire({
+				  icon: 'warning',
+				  title: '제목을 입력해주세요',
+			});
+		
+		
+			return;
+		
+		}
+		
+		if($('#skill').val() == ''){  // 기술
+			
+			Swal.fire({
+				  icon: 'warning',
+				  title: '기술을 선택해주세요',
+			});
+		
+		
+			return;
+		
+		}
+		
+		if($('#job').val() == ''){ // 직군
+			
+			Swal.fire({
+				  icon: 'warning',
+				  title: '직군을 선택해주세요',
+			});
+		
+		
+			return;
+		
+		}
+		
+		if($('#maBuss').val() == ''){ // 주요업무
+			
+			Swal.fire({
+				  icon: 'warning',
+				  title: '주요업무를 입력해주세요',
+			});
+		
+		
+			return;
+			
+		}
+		
+		if($('#qual').val() == ''){ // 자격요건
+					
+					Swal.fire({
+						  icon: 'warning',
+						  title: '자격요건을 입력해주세요',
+					});
+				
+				
+					return;
+					
+				}
+		
+		if($('#exprDt').val() == ''){ // 마감일
+			
+			Swal.fire({
+				  icon: 'warning',
+				  title: '마감일을 선택해주세요',
+			});
+		
+		
+			return;
+			
+		}
+		
+		if($('#wksite').val() == ''){ // 근무지역
+					
+					Swal.fire({
+						  icon: 'warning',
+						  title: '근무지역을 선택해주세요',
+					});
+				
+				
+					return;
+					
+				}
+		
+		if($('#thumnailImg').val() == '' && $('#recrintImgDetail').val() == ''){ // 이미지
+			
+			Swal.fire({
+				  icon: 'warning',
+				  title: '이미지를 등록해주세요',
+			});
+		
+		
+			return;
+			
+		}
+		
+		if(intro == '<p><br></p>'){ // 기업소개
+			
+			Swal.fire({
+				  icon: 'warning',
+				  title: '기업소개를 입력해주세요',
+			});
+		
+		
+			return;
+			
+		}
+		
+		
 		recruitModify(data);
 		
 		});
@@ -279,8 +392,19 @@
 	// 목록으로 돌아가기
 	$(document).on('click', '#btnList', function(e){
 		e.preventDefault();
-	
-		location.href="/hirePage";
+		Swal.fire({
+			icon: 'warning',
+			title: '정말 나가시겠습니까?',
+			text: '작성중인 정보가 저장되지 않습니다.',
+              showCancelButton: false,
+              confirmButtonText: '확인'
+		}).then((result) => {
+            if (result.isConfirmed) {
+          	  // 페이지 이동
+            location.href="/hirePage";
+            }
+          })
+		
 	});
 	
 	// 이미지 등록 버튼 클릭시
@@ -310,6 +434,7 @@
                         }).then((result) => {
                           if (result.isConfirmed) {
                         	  // 페이지 이동
+                        	  window.history.back();
                           }
                         })
 					},
@@ -349,10 +474,10 @@
 	function imageListPrint(){
 		
 		let imageHtml = `<div class="row align-items-center border-bottom hoverRow mb-3">
-					        <div class="col-md-3">
-					        div style="background-color : plum; text-align:center; color:white; flex" id="selectImages">이미지 등록 완료</div>
-						 </div>
-					</div>`;
+							        <div class="col-md-12">
+						        	<div style="background-color : plum; text-align:center; color:white; flex" id="selectImages">이미지 등록완료.</div>
+						        </div>            
+						</div>`;
 						
 		$('#selectImages').html(imageHtml);
 	}

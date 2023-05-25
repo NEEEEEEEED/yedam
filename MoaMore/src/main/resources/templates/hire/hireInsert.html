@@ -22,23 +22,23 @@
 	<h1>
 		공고등록 페이지
 	</h1>
-	
+	<br>
 	<article>
 		<div role="main">
 			<form name="form" id="form" role="form" method="post" >
 				
 				<div class="mb-3">
-					<label for="reg_id">제목</label><span id="star">*</span>
-					<input id="ttl" type="text" class="form-control" name="ttl" placeholder="제목" autofocus="autofocus" >
+					<label for="reg_id" style="display:inline-block; width:15% !important;" class="fs-2">제목<span id="star">*</span></label>
+					<input style="display:inline-block; width:80% !important;" id="ttl" type="text" class="form-control" name="ttl" placeholder="제목" autofocus="autofocus" >
 				</div>
 				
 				<div class="mb-3" >
-					<label for="reg_id">회사이름</label><span id="star">*</span>
-					<input id="coNm" type="text" class="form-control" name="coNm" th:value="${recruitInsert.coNm}" readonly>
+					<label for="reg_id" class="fs-2" style="width:15% !important;">회사이름<span id="star">*</span></label>
+					<input style="display:inline-block; width:80% !important;" id="coNm" type="text" class="form-control" name="coNm" th:value="${recruitInsert.coNm}" readonly>
 				</div>
 				
 				<div class="mb-3">
-					<label for="reg_id">기술선택(다중선택가능)</label><span id="star">*</span>
+					<label for="reg_id" class="fs-2">기술선택(다중선택가능)<span id="star">*</span></label>
 					<select id = "skill" class = "selectStyle">
 						<option selected value=''>선택</option>	
 						<option th:each="list : ${list.Z}" th:text="${list.desct}" th:attr="value=${list.prov}">기술</option>
@@ -46,7 +46,7 @@
 				</div>
 
 				<div class="mb-3">
-					<label for="reg_id">직군</label><span id="star">*</span>
+					<label for="reg_id" class="fs-2">직군<span id="star">*</span></label>
 					<select id = "job" class = "selectStyle">
 						<option selected value=''>선택</option>	
 						<option th:each="list : ${list.N}" th:text="${list.desct}" th:attr="value=${list.prov}">직무</option>
@@ -58,7 +58,7 @@
 							  	<div class="row">
 							  		<div class="col-md-3">
 							  			<div style="padding : 16px;">
-							  				<label for="floatingTextarea">주요업무</label><span id="star">*</span>
+							  				<label for="floatingTextarea">주요업무<span id="star">*</span></label>
 							  			</div>
 							  		</div>
 							  		<div class="col-md-9">
@@ -73,7 +73,7 @@
 							  	<div class="row">
 							  		<div class="col-md-3">
 							  			<div style="padding : 16px;">
-							  				<label for="floatingTextarea">자격요건</label><span id="star">*</span>
+							  				<label for="floatingTextarea">자격요건<span id="star">*</span></label>
 							  			</div>
 							  		</div>
 							  		<div class="col-md-9">
@@ -114,7 +114,7 @@
 							</div>
 				
 				<div class="mb-3">
-					<label for="tag">경력</label>
+					<label for="tag" class="fs-2">경력</label>
 					<select id="carr" class = "selectStyle">
 						<option selected value=''>선택</option>	
 						<option th:each="list : ${list.Y}" th:text="${list.desct}" th:attr="value=${list.prov}">경력</option>
@@ -122,7 +122,7 @@
 				</div>
 				
 				<div class="mb-3">
-					<label for="tag">학력</label>
+					<label for="tag" class="fs-2">학력</label>
 					<select id="shcr" class = "selectStyle">
 						<option selected value=''>선택</option>	
 						<option th:each="list : ${list.D}" th:text="${list.desct}" th:attr="value=${list.prov}">학력</option>
@@ -130,12 +130,12 @@
 				</div>
 				
 				<div class="mb-3">
-					<label for="tag">마감일</label><span id="star">*</span>
-					<input id="exprDt" type="date" class="form-control" name="exprDt" placeholder="태그를 입력해 주세요">
+					<label for="tag" class="fs-2" style="width:15% !important;">마감일<span id="star">*</span></label>
+					<input style="display:inline-block; width:80% !important;" id="exprDt" type="date" class="form-control" name="exprDt" placeholder="태그를 입력해 주세요">
 				</div>
 				
 				<div class="mb-3">
-					<label for="tag">근무지역</label><span id="star">*</span>
+					<label for="tag" class="fs-2">근무지역<span id="star">*</span></label>
 					<select id="wksite" class = "selectStyle">
 						<option selected value=''>선택</option>	
 						<option th:each="list : ${list.X}" th:text="${list.desct}" th:attr="value=${list.prov}">지역</option>
@@ -144,7 +144,7 @@
 				
 				<div class="mb-3">
 					<div>
-						<label for="tag">기업 / 서비스 소개</label><span id="star">*</span>
+						<label for="tag" class="fs-2">기업 / 서비스 소개<span id="star">*</span></label>
 						<button type="button" id="imgUp" class="btn btn btn-outline-dark btn-sm radius" style="height:40px;">이미지 업로드</button>
 					</div>
 					<br>
@@ -240,6 +240,117 @@
 				"wksite" : wksite,
 				"coIntro" : intro
 		}
+		// 예외처리
+		if($('#ttl').val() == '' ){ // 제목
+			
+			Swal.fire({
+				  icon: 'warning',
+				  title: '제목을 입력해주세요',
+			});
+		
+		
+			return;
+		
+		}
+		
+		if($('#skill').val() == ''){  // 기술
+			
+			Swal.fire({
+				  icon: 'warning',
+				  title: '기술을 선택해주세요',
+			});
+		
+		
+			return;
+		
+		}
+		
+		if($('#job').val() == ''){ // 직군
+			
+			Swal.fire({
+				  icon: 'warning',
+				  title: '직군을 선택해주세요',
+			});
+		
+		
+			return;
+		
+		}
+		
+		if($('#maBuss').val() == ''){ // 주요업무
+			
+			Swal.fire({
+				  icon: 'warning',
+				  title: '주요업무를 입력해주세요',
+			});
+		
+		
+			return;
+			
+		}
+		
+		if($('#qual').val() == ''){ // 자격요건
+					
+					Swal.fire({
+						  icon: 'warning',
+						  title: '자격요건을 입력해주세요',
+					});
+				
+				
+					return;
+					
+				}
+		
+		if($('#exprDt').val() == ''){ // 마감일
+			
+			Swal.fire({
+				  icon: 'warning',
+				  title: '마감일을 선택해주세요',
+			});
+		
+		
+			return;
+			
+		}
+		
+		if($('#wksite').val() == ''){ // 근무지역
+					
+					Swal.fire({
+						  icon: 'warning',
+						  title: '근무지역을 선택해주세요',
+					});
+				
+				
+					return;
+					
+				}
+		
+		if($('#thumnailImg').val() == '' && $('#recrintImgDetail').val() == ''){ // 이미지
+			
+			Swal.fire({
+				  icon: 'warning',
+				  title: '이미지를 등록해주세요',
+			});
+		
+		
+			return;
+			
+		}
+		
+		if(intro == '<p><br></p>'){ // 기업소개
+			
+			Swal.fire({
+				  icon: 'warning',
+				  title: '기업소개를 입력해주세요',
+			});
+		
+		
+			return;
+			
+		}
+		
+		
+		
 		recruitInsert(data);
 		
 	});
