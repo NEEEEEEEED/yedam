@@ -49,7 +49,7 @@
        		             <if test="skill != null and skill != ''">
        		             	AND K.SKILL LIKE '%' || get_common(#{skill}) || '%'
        		             </if>
-	                     <![CDATA[ AND TO_DATE(sysdate, 'YYYY-MM-DD') < TO_DATE(EXPR_DT, 'YYYY-MM-DD')
+	                     <![CDATA[ AND TRUNC(sysdate) < TO_DATE(EXPR_DT, 'YYYY-MM-DD')
 	                        AND R.ACCP_DT IS NOT NULL
                           ORDER BY RECRUIT_NO DESC
     					) a  
@@ -87,7 +87,7 @@
    		             <if test="skill != null and skill != ''">
    		             	AND K.SKILL LIKE '%' || get_common(#{skill}) || '%'
    		             </if>
-                  <![CDATA[ AND TO_DATE(sysdate, 'YYYY-MM-DD') < TO_DATE(EXPR_DT, 'YYYY-MM-DD')
+                  <![CDATA[ AND TRUNC(sysdate) < TO_DATE(EXPR_DT, 'YYYY-MM-DD')
                      AND R.ACCP_DT IS NOT NULL
                       ORDER BY RECRUIT_NO DESC]]>
 	</select>
@@ -119,7 +119,7 @@
 		ON R.RECRUIT_NO = I.RECRUIT_NO
 		WHERE S.RECRUIT_NO IS NOT NULL
         AND M.ID = #{id}
-        <![CDATA[AND TO_DATE(sysdate, 'YYYY-MM-DD') < TO_DATE(EXPR_DT, 'YYYY-MM-DD')]]>
+        <![CDATA[AND TRUNC(sysdate) < TO_DATE(EXPR_DT, 'YYYY-MM-DD')]]>
 	   	AND R.ACCP_DT IS NOT NULL
         ORDER BY RECRUIT_NO DESC 
 	</select>
@@ -372,7 +372,7 @@
               GROUP BY recruit_no) k
         	ON R.RECRUIT_NO = K.RECRUIT_NO
 		WHERE S.RESER_DT = TO_CHAR(SYSDATE, 'yyyy-MM-dd')
-		<![CDATA[AND TO_DATE(sysdate, 'YYYY-MM-DD') < TO_DATE(EXPR_DT, 'YYYY-MM-DD')]]>
+		<![CDATA[AND TRUNC(sysdate) < TO_DATE(EXPR_DT, 'YYYY-MM-DD')]]>
 	   	AND R.ACCP_DT IS NOT NULL
 	</select>
 	<!-- 최신 공고 -->
@@ -381,17 +381,22 @@
 		       C.CO_NM,
                ROW_NUMBER() OVER (ORDER BY R.ACCP_DT DESC),
                R.RECRUIT_NO,
-               S.SKILL
+               S.SKILL,
+               I.CO_IMG,
+               R.WKSITE,
+               R.EXPR_DT
 		FROM RECRUIT_ANUN R
 		JOIN CO C
 			ON R.ID = C.ID
-		JOIN (SELECT recruit_no , LISTAGG(SKILL,',') WITHIN GROUP (ORDER BY SKILL_NO) as SKILL
+		JOIN (SELECT recruit_no , LISTAGG(get_common(SKILL),',') WITHIN GROUP (ORDER BY SKILL_NO) as SKILL
               FROM RECRUIT_SKILL
               GROUP BY recruit_no) S
 			ON S.RECRUIT_NO = R.RECRUIT_NO
+        JOIN RECRUIT_IMAGES I
+        ON R.RECRUIT_NO = I.RECRUIT_NO
 		WHERE 1=1
-        <![CDATA[AND ROWNUM < 4]]>
-        <![CDATA[AND TO_DATE(sysdate, 'YYYY-MM-DD') < TO_DATE(EXPR_DT, 'YYYY-MM-DD')]]>
+        <![CDATA[AND ROWNUM < 5]]>
+        <![CDATA[AND TRUNC(sysdate) < TO_DATE(EXPR_DT, 'YYYY-MM-DD')]]>
 	   	AND R.ACCP_DT IS NOT NULL
 	</select>
 	<!-- 인기 공고 -->
@@ -401,7 +406,9 @@
 		       R.TTL,
 		       C.CO_NM,
 		       R.RECRUIT_NO,
-		       S.SKILL
+		       S.SKILL,
+		       R.WKSITE,
+               R.EXPR_DT
 		FROM (
 		    SELECT COUNT(RECRUIT_NO) AS CNT, 
 		           RECRUIT_NO
@@ -413,13 +420,13 @@
 		    ON R.RECRUIT_NO = F.RECRUIT_NO
 		JOIN CO C
 		    ON C.ID = R.ID
-		JOIN (SELECT recruit_no , LISTAGG(SKILL,',') WITHIN GROUP (ORDER BY SKILL_NO) as SKILL
+		JOIN (SELECT recruit_no , LISTAGG(get_common(SKILL),',') WITHIN GROUP (ORDER BY SKILL_NO) as SKILL
               FROM RECRUIT_SKILL
               GROUP BY recruit_no) S
 			ON S.RECRUIT_NO = R.RECRUIT_NO
 		WHERE 1=1
-		<![CDATA[AND ROWNUM < 4]]>
-		<![CDATA[AND TO_DATE(sysdate, 'YYYY-MM-DD') < TO_DATE(EXPR_DT, 'YYYY-MM-DD')]]>
+		<![CDATA[AND ROWNUM < 5]]>
+		<![CDATA[AND TRUNC(sysdate) < TO_DATE(EXPR_DT, 'YYYY-MM-DD')]]>
 	   	AND R.ACCP_DT IS NOT NULL
 	</select>
 	<!-- 셀프구직(관심순) -->
@@ -428,7 +435,7 @@
 		       ID
 		FROM JOB_SEARCH_NOTIWR 
 		WHERE 1=1
-		<![CDATA[AND ROWNUM < 4]]>
+		<![CDATA[AND ROWNUM < 6]]>
 		ORDER BY INTEREST
 	</select>
 	<!-- 취업 Q&A 게시글  -->
@@ -439,7 +446,11 @@
 					  FROM EMPL_QST
 					  ORDER BY RECO_CNT DESC, RPLY_CNT DESC, INQ_CNT DESC
 				    )
-				   WHERE ROWNUM < 4 ]]>
+				   WHERE ROWNUM < 6 ]]>
+	</select>
+  <!-- 구인중인 기업들 조회 --> 	
+	<select id="hireingCo" resultType="HireVO">
+		SELECT DISTINCT RECRUIT_NO, CO_IMG FROM RECRUIT_IMAGES
 	</select>
   <!-- 구인 공고삭제 : 관리자 -->
 	<delete id="recruitDelFn" statementType="CALLABLE" parameterType="String">

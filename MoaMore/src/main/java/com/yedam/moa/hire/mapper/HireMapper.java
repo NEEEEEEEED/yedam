@@ -42,6 +42,7 @@ public interface HireMapper {
 	public List<HireVO> popSelect (HireVO hireVO); // 인기공고
 	public List<SelfVO> popSelf (SelfVO selfVO);// 셀프구직 관심순
 	public List<CommunityVO> jobQnaBest (CommunityVO communityVO); // 취업QnA 베스트3 조회
+	public List<HireVO> hireingCo(HireVO hireVO); // 구인중인 기업들
 	
 	public int hireCount(HireVO hireVO); // 페이징
 	
