@@ -57,10 +57,11 @@
 	</select>
 	
 	<select id="findCoId" resultType="String">
-		SELECT id
-		FROM member
-		WHERE bizno=#{bizno}
-		  AND rpstr=#{rpstr}
+		SELECT m.id
+		FROM member m, co c
+		WHERE m.id = c.id
+		  AND bizno = #{bizno}
+		  AND rpstr = #{rpstr}
 	</select>
 	
 	<select id="findCoPw" resultType="MemVO">

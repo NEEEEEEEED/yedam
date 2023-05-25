@@ -170,7 +170,8 @@ public class MemberServiceImpl implements MemberService, OAuth2UserService<OAuth
 	@Override
 	public String findCoPw(CoVO vo) throws Exception {
 		MemVO mvo = memberMapper.findCoPw(vo);
-		if(mvo.getId() == null || mvo.getId().isEmpty() ) {
+		if(mvo.getId() != null && !mvo.getId().isEmpty() ) {
+			System.out.println(mvo.getId());
 			String email = vo.getEmail();
 	    	String code = registerMail.sendSimpleMessage(email);
 			BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
