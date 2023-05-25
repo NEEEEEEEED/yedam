@@ -2215,7 +2215,7 @@
             element.css("display", "block");
             $(element).find("i.bi.bi-plus-circle-fill").click();
           });
-			$("newRe").on("click",function(){
+			$("#newRe").on("click",function(){
 				Swal.fire({
 		              title: "새 이력서",
 		              text: "저장하지 않은 값은 모두 사라집니다 새 이력서를 작성하시겠습니까?",
@@ -2226,7 +2226,7 @@
 		              reverseButtons: true,
 		            }).then((result) => {
 		              if (result.isConfirmed) {
-		                goBack();
+		                location.href="/mem/mkResume"
 		              } else if (
 		                /* Read more about handling dismissals below */
 		                result.dismiss === Swal.DismissReason.cancel
