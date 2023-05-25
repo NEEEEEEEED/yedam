@@ -208,7 +208,11 @@
                         <input type="hidden" id="confirm" value="" />
                       </div>
                       <div class="col-3 mx-0">
-                        <button class="btn btn-md px-0 py-1" id="phCheck">
+                        <button
+                          type="button"
+                          class="btn btn-md px-1 py-1"
+                          id="phCheck"
+                        >
                           인증번호 발송
                         </button>
                       </div>
@@ -240,7 +244,11 @@
                         </div>
                       </div>
                       <div class="col-3">
-                        <button id="coCheck" class="btn btn-md py-1 px-1">
+                        <button
+                          type="button"
+                          id="coCheck"
+                          class="btn btn-md py-1 px-2"
+                        >
                           사업자 확인
                         </button>
                       </div>
@@ -255,7 +263,7 @@
                 <button
                   class="w-50 btn btn-lg p-1 mb-4"
                   type="button"
-                  onclick="history.back()"
+                  onclick="location.href='/login'"
                 >
                   취소
                 </button>
@@ -404,7 +412,7 @@
       };
       const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
       //비밀번호 영문자+숫자+특수조합(8~25자리 입력) 정규식
-      // const pwdCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/;
+      const pwdCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/;
       let randomNumber = null;
       $(document).ready(function () {
         $("#statusDiv").val("User");
@@ -501,6 +509,7 @@
           }
         });
         $("#chPh").on("click", function () {
+          event.stopPropagation();
           let vald = $("#chKey").val();
           if (vald == randomNumber) {
             $("#confirm").val("true");
@@ -553,6 +562,7 @@
           let id = $("#id").val();
           let pscheck = $("#pscheck").val();
           let repwd = $("#checkUps").attr("color");
+          let reId = $("#checkId").attr("color");
           let name = $("#name").val();
           let mobile = $("#ph").val();
           let bizno = $("#bizno").val();
@@ -565,60 +575,63 @@
           console.log(bizno);
           console.log(repwd);
 
-          // if (id == "") {
-          //   //해당 입력값이 없을 경우 같은말: if(!uid.value)
-          //   salert("아이디를 입력하세요.");
-          //   $("#id").focus(); //focus(): 커서가 깜빡이는 현상, blur(): 커서가 사라지는 현상
-          //   return false; //return: 반환하다 return false:  아무것도 반환하지 말아라 아래 코드부터 아무것도 진행하지 말것
-          // }
+          if (id == "") {
+            //해당 입력값이 없을 경우 같은말: if(!uid.value)
+            salert("아이디를 입력하세요.");
+            $("#id").focus();
+            return false; //return: 반환하다 return false:  아무것도 반환하지 말아라 아래 코드부터 아무것도 진행하지 말것
+          }
+          if (reId == "red") {
+            salert("새로운 아이디를 입력해 주세요");
+            return false;
+          }
 
-          // if (pwd == "") {
-          //   salert("비밀번호를 입력하세요.");
-          //   $("#pw").focus();
-          //   return false;
-          // }
+          if (pwd == "") {
+            salert("비밀번호를 입력하세요.");
+            $("#pw").focus();
+            return false;
+          }
 
-          // // if (!pwdCheck.test(pw)) {
-          // //   salert(
-          // //     "비밀번호는 영문자+숫자+특수문자 조합으로 8~25자리 사용해야 합니다."
-          // //   );
-          // //   pw.focus();
-          // //   return false;
-          // // }
+          if (!pwdCheck.test(pwd)) {
+            salert(
+              "비밀번호는 영문자+숫자+특수문자(!@#$%^*+=-) 조합으로 8~25자리 사용해야 합니다."
+            );
+            pw.focus();
+            return false;
+          }
 
-          // if (repwd == "red") {
-          //   salert("비밀번호가 일치하지 않습니다.");
-          //   $("#pscheck").focus();
-          //   return false;
-          // }
+          if (repwd == "red") {
+            salert("비밀번호가 일치하지 않습니다.");
+            $("#pscheck").focus();
+            return false;
+          }
 
-          // if (name == "") {
-          //   salert("이름을 입력하세요.");
-          //   $("#name").focus();
-          //   return false;
-          // }
-          // if($("#forUser").hasClass("border-bottom-0")){
-          // if (ph == "") {
-          //   $("#ph").focus();
-          //   salert("휴대폰번호를 입력하세요");
-          //   return false;
-          // }
-          // if (confirm == "") {
-          //   salert("본인인증을 진행해 주세요");
-          //   return false;
-          // }else if(confirm=='false'){
-          // salert("본인 인증에 실패했습니다. 본인인증을 다시 진행해 주세요");
-          //   return false;
-          // }
-          // }
-          // if($("#forCo").hasClass("border-bottom-0")){
-          // if (bizno == "") {
-          //   $("#bizno").focus();
-          //   salert("사업자 번호를 확인하세요");
-          //   return false;
-          // }
-
-          // }
+          if (name == "") {
+            salert("이름을 입력하세요.");
+            $("#name").focus();
+            return false;
+          }
+          //           if ($("#forUser").hasClass("border-bottom-0")) {
+          //             if (ph == "") {
+          //               $("#ph").focus();
+          //               salert("휴대폰번호를 입력하세요");
+          //               return false;
+          //             }
+          //             if (confirm == "") {
+          //               salert("본인인증을 진행해 주세요");
+          //               return false;
+          //             } else if (confirm == "false") {
+          //               salert("본인 인증에 실패했습니다. 본인인증을 다시 진행해 주세요");
+          //               return false;
+          //             }
+          //           }
+          if ($("#forCo").hasClass("border-bottom-0")) {
+            if (bizno == "") {
+              $("#bizno").focus();
+              salert("사업자 번호를 확인하세요");
+              return false;
+            }
+          }
           console.log($("#forUser").hasClass("border-bottom-0"));
           console.log($("#forCo").hasClass("border-bottom-0"));
           console.log($("#forCoDiv").attr("style"));
@@ -635,6 +648,9 @@
             dataType: "json",
             success: function (result) {
               console.log(result);
+              if ($("#forCo").hasClass("border-bottom-0")){
+            	  
+              }
             },
             error: function (result) {
               console.log(result.responseText); //responseText의 에러메세지 확인
@@ -656,32 +672,65 @@
           });
           return;
         }
+        function joinResult(data){
+        	let reMessage=null;
+        	let user = $("#name").val();
+        	let icon =null;
+        	let 
+        	if(data==1){
+        		reMessage = user + "님 일반 회원가입을 축하드립니다.";
+        		icon = "success";
+        	}else if(data==2){
+        		reMessage = user + "님 기업 회원가입을 축하드립니다.";
+        		icon = "success";
+        	}else{
+        		reMessage = "회원가입에 실패했습니다."
+        		icon = "error"
+        	}
+        	 Swal.fire({
+                 title: "회원가입",
+                 text: reMessage,
+                 icon: icon,
+                 showCancelButton: true,
+                 confirmButtonText: "확인",
+                 cancelButtonText: "취소",
+                 reverseButtons: true,
+               }).then((result) => {
+                 
+                   if(icon=="success"){
+                	   loction.href="/login"
+                   }
+               
+                 
+               });
+        	
+        }
 
         function sendNum() {
           let phoneNum = $("#ph").val();
           let convertNum = phoneNum.replace(/-/g, "");
-          randomNumber = Math.floor(100000 + Math.random() * 900000);
+          randomNumber = String(Math.floor(100000 + Math.random() * 900000));
           console.log(randomNumber);
           console.log(convertNum);
-          let data = function () {
-            no: convertNum;
-            content: randomNumber;
+          let data = {
+            to: convertNum,
+            content: randomNumber,
           };
 
-          // $.ajax({
-          //   url: "/sms/send",
-          //   type: "POST",
-          //   data: JSON.stringify(data), // json 을 string으로 변환하여 전송
-          //   dataType: "JSON",
-          //   contentType: "application/json",
-          //   accept: "application/json",
-          //   success: function (result) {
-          //     console.log(result);
-          //   },
-          //   error: function (result) {
-          //     console.log(result.responseText); //responseText의 에러메세지 확인
-          //   },
-          // });
+          $.ajax({
+            url: "/sms/send",
+            type: "POST",
+            data: JSON.stringify(data), // json 을 string으로 변환하여 전송
+            dataType: "JSON",
+            contentType: "application/json",
+            accept: "application/json",
+            success: function (result) {
+              console.log(result);
+            },
+            error: function (result) {
+              console.log(result.responseText); //responseText의 에러메세지 확인
+            },
+          });
         }
       });
     </script>
