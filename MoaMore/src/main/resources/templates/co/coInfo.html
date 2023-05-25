@@ -26,8 +26,7 @@ section {
 	href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
 	rel="stylesheet">
 
-<!-- Template Main CSS File -->
-<link href="adminAssets/css/style.css" rel="stylesheet">
+
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
@@ -258,8 +257,8 @@ section {
 
 						<div class="row mb-4">
 							<div class="col-12 d-flex justify-content-center">
-								<a href="/coMypage" class="btn btn-outline-dark">취 소</a>
-								<button  onclick="infoSubmit()" class="btn btn-outline-dark">저 장</button>
+								<a href="/coMypage" class="btn btn-outline-dark me-1">취 소</a>
+								<button  onclick="infoSubmit()" class="btn btn-outline-dark ml-1">저 장</button>
 							</div>
 						</div>
 
@@ -313,12 +312,11 @@ section {
 						</div>
 
 					</div>
-					<div class="modal-footer">
+					<div class="modal-footer d-flex justify-content-center">
 						<button type="button" onclick="closePwModal()" id="closePwModal"
 							data-bs-dismiss="modal" aria-label="Close"
-							class="btn btn-secondary">Close</button>
-						<button type="button" onclick="updatePw()" class="btn btn-primary">Save
-							changes</button>
+							class="btn btn-outline-dark">취소</button>
+						<button type="button" onclick="updatePw()" class="btn btn-outline-dark">변경</button>
 					</div>
 				</div>
 			</div>
@@ -339,7 +337,7 @@ section {
 					<div class="modal-body">
 						<p>Thitest.</p>
 					</div>
-					<div class="modal-footer">
+					<div class="modal-footer text-center">
 						<button type="button" class="btn btn-secondary"
 							data-bs-dismiss="modal">Close</button>
 						<button type="button" class="btn btn-primary">Save
@@ -362,20 +360,20 @@ section {
 					<div class="modal-body">
 						<div class="row d-flex justify-content-center">
 							<div class="row d-flex justify-content-center mb-2">
-								<label class="col-4">우편번호</label> <input id="post" disabled
-									th:value="${member.post}" class="col-3 w-25">
+								<label class="col-3">우편번호</label> <input id="post" disabled
+									th:value="${member.post}" class="col-4">
 								<button class="col-3 btn-outline-dark" onclick="addrApi()">검색</button>	
 							</div>
 							<div class="row d-flex justify-content-center mb-2">
-								<label class="col-4">주소</label> <input id="addr" disabled
-									th:value="${member.addr}" class="col-6">
+								<label class="col-3">주소</label> <input id="addr" disabled
+									th:value="${member.addr}" class="col-7">
 							</div>
 						</div>
 					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary"
+					<div class="modal-footer d-flex justify-content-center">
+						<button type="button" class="btn btn-outline-dark"
 							data-bs-dismiss="modal">취소</button>
-						<button type="button" class="btn btn-primary" onclick="updateAddr()">저장</button>
+						<button type="button" class="btn btn-outline-dark" onclick="updateAddr()">저장</button>
 					</div>
 				</div>
 			</div>

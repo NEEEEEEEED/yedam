@@ -221,6 +221,25 @@
 			</div>
 		</div>
 		<!-- 모달 끝 -->
+		<!-- 제안완료 모달 -->
+		<div class="modal fade" id="offerdModal" tabindex="-1"
+			aria-labelledby="exampleModalLgLabel" style="display: none;"
+			aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title fs-4" id="">제안 정보</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div id="offerdModalBody"
+						class="modal-body d-flex justify-content-center mb-5">
+						<!-- 제안완료 데이터 ajax로 받아와서 모달에 붙여서 여기에 다시 붙임 -->
+					</div>
+				</div>
+			</div>
+		</div> 
+		<!-- 제안완료 모달 끝 -->
 <script>
 
 // 삭제버튼 클릭시 실행하는 함수
@@ -289,9 +308,11 @@ $('#offer').on('click', function(){
 		return;
 		
 	} else{ // 기업일때
-		
-		openOfferModal();
-	
+		if($('#offer').text() == '제안 완료'){
+			let jobSearchNo = '[[${selfJobInfo.jobSearchNo}]]' // 구인공고번호
+			console.log(jobSearchNo)
+			offerCompletedBtn(jobSearchNo)
+		}else openOfferModal();
 	}
 })
 // 제안 영역 ---------------------------------------------------------------
@@ -416,17 +437,17 @@ $('#offer').on('click', function(){
 				</div>
 			</div>
 
-				<!-- 함께보낼데이타 -->
-				<input type="hidden" name="jobSearchNo" value="`+jobSearchNo+`">
-				<div class="row mb-4">
-					<div class="col-12 d-flex justify-content-center">
-						<button id="modalCloseBtn" type="button" class="btn btn-secondary"
-							data-bs-dismiss="modal" onclick="">취소</button>
-						<button id="offerBtn" type="button" class="btn btn-primary"
-							onclick="submitOffer()">제안</button>
-					</div>
+			<!-- 함께보낼데이타 -->
+			<input type="hidden" name="jobSearchNo" value="`+jobSearchNo+`">
+			<div class="row mb-4">
+				<div class="col-12 d-flex justify-content-center">
+					<button id="modalCloseBtn" type="button" class="btn btn-outline-dark me-1"
+						data-bs-dismiss="modal" onclick="">취소</button>
+					<button id="offerBtn" type="button" class="btn btn-outline-dark ml-1"
+						onclick="submitOffer()">제안</button>
 				</div>
-			</form>`;
+			</div>
+		</form>`;
 			
 			document.querySelector('#offerModalBody').innerHTML += modalBodyHtml;
 	 		$('#offerModal').modal('show'); // 모달 창 열기
@@ -457,6 +478,108 @@ function submitOffer(){
 	   	  	console.log(reject);
 		  }
 	})  
+}
+//제안완료클릭
+function offerCompletedBtn(jobSearchNo){
+	event.stopPropagation();
+
+	$.ajax({
+		url : "/selectOffer?jobSearchNo="+jobSearchNo,
+		method : "GET",
+		dataType : "json",//받는타입
+		success : function(res) {
+			console.log(res);
+			
+			// 받아온 데이터 모달에 붙이기 
+			document.querySelector('#offerdModalBody').innerHTML = `<div class="col-lg-10 mt-5">
+				<div class="mb-1 row ">
+				<div class="col-sm-3">
+					<p class="fs-1 text-dark">회사명</p>
+				</div>
+				<div class="col-sm-3">
+					<p>`+res.coNm+`</p>
+				</div>
+
+				<div class="col-sm-3">
+					<p class="fs-1 text-dark">복지</p>
+				</div>
+				<div class="col-sm-3">
+					<p>`+res.bnft+`</p>
+				</div>
+			</div>
+
+
+			<div class="mb-1 row ">
+				<div class="col-sm-3">
+					<p class="fs-1 text-dark">근무지주소</p>
+				</div>
+				<div class="col-sm-3">
+					<p>`+res.wksite+`</p>
+				</div>
+
+				<div class="col-sm-3">
+					<p class="fs-1 text-dark">급여</p>
+				</div>
+				<div class="col-sm-3">
+					<p>`+res.saly+`</p>
+				</div>
+			</div>
+
+			<div class="mb-1 row ">
+				<div class="col-sm-3">
+					<p class="fs-1 text-dark">프로젝트명</p>
+				</div>
+				<div class="col-sm-3">
+					<p>`+res.projectNm+`</p>
+				</div>
+
+				<div class="col-sm-3">
+					<p class="fs-1 text-dark">업무시작일</p>
+				</div>
+				<div class="col-sm-3">
+					<p>`+res.bussStartDt+`</p>
+				</div>
+			</div>
+
+			<div class="mb-1 row ">
+				<div class="col-sm-3">
+					<p class="fs-1 text-dark">기술스택</p>
+				</div>
+				<div class="col-sm-3">
+					<p>`+res.tech+`</p>
+				</div>
+
+				<div class="col-sm-3">
+					<p class="fs-1 text-dark">제안마감일</p>
+				</div>
+				<div class="col-sm-3">
+					<p>`+res.clsDt+`</p>
+				</div>
+			</div>
+
+			<div class="mb-1 row ">
+				<div class="col-sm-3">
+					<p class="fs-1 text-dark">주요업무</p>
+				</div>
+				<div class="col-sm-3">
+					<p>`+res.maBuss+`</p>
+				</div>
+
+				<div class="col-sm-3">
+					<p class="fs-1 text-dark">구인공고</p>
+				</div>
+				<div class="col-sm-3">
+					<p>`+res.ttl+`</p>
+				</div>
+			</div>
+		</div>`
+	 
+		$('#offerdModal').modal('show'); // 모달 창 열기	
+		},
+		error : function(jqXHR, textStatus, errorThrown) {
+			console.error(textStatus, errorThrown);
+		},
+	});
 }
 
 </script>

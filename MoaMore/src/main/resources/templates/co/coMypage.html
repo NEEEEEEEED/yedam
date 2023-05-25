@@ -19,8 +19,10 @@ a {
 a:hover {
 	cursor: pointer;
 }
-notice += `<span><i id="heartIcon"
-									class="bi bi-suit-heart fa-2x" style="color:#6610f2;"></i></span>`r
+
+notice+ = `<span> <i id ="heartIcon "
+									class ="bi bi-suit-heart fa-2x " style ="color:#6610f2 ;"> </i>
+	</span> `r
 .interInfer:hover {
 	cursor: pointer;
 }
@@ -33,31 +35,31 @@ notice += `<span><i id="heartIcon"
 i {
 	color: red;
 }
+
 .center-input {
-  padding-top : 13px;
+	padding-top: 13px;
 }
 
 .circleImg {
-  border-radius: 50%;
-  width : 120px;
-  height : 120px;
+	border-radius: 50%;
+	width: 120px;
+	height: 120px;
 }
 
 .pointer {
-	cursor : pointer;
+	cursor: pointer;
 }
 
 .lrpadding {
-	padding-left:50px;
-	
+	padding-left: 50px;
 }
 
 .hoverRow:hover {
 	background-color: #f0f0f0;
 }
 
-.bhr{
-	border-bottom:1px solid gray;
+.bhr {
+	border-bottom: 1px solid gray;
 }
 </style>
 <link rel="stylesheet"
@@ -72,16 +74,22 @@ i {
 				<div class="card">
 					<div class="card-body">
 						<div>
-						<img th:src="@{'moamoreImg/' + ${co?.profileImg}}" onerror="this.src='self/profile.JPG'" id="myImg" class="circleImg mb-4 pointer"
-						onclick="updateImgPage()">
-						<h4 th:text="${co?.coNm}"></h4>
-						<a id="insertInfo" type="button" class="btn btn-light"
-							href="coInfoPage">기업정보관리</a>
-							</div>
+							<img th:src="@{'moamoreImg/' + ${co?.profileImg}}"
+								onerror="this.src='self/profile.JPG'" id="myImg"
+								class="circleImg mb-4 pointer" onclick="updateImgPage()">
+							<h4 th:text="${co?.coNm}"></h4>
+							<a id="insertInfo" type="button" class="btn btn-light"
+								href="coInfoPage">기업정보관리</a>
+						</div>
 						<hr />
-						<div  class="mb-0"><a>받은 관심</a><i class="bi bi-suit-heart-fill"></i><small
-							th:text="${followers}"></small></div><br /><p> <span class="mb-2"><a href="/coRecruit"  >나의
-							공고목록 </a></span><br /> <a href="/coProducts" class="">아이템 / 결제내역</a>
+						<div class="mb-0">
+							<a>받은 관심</a><i class="bi bi-suit-heart-fill"></i><small
+								th:text="${followers}"></small>
+						</div>
+						<br />
+						<p>
+							<span class="mb-2"><a href="/coRecruit">나의 공고목록 </a></span><br />
+							<a href="/coProducts" class="">아이템 / 결제내역</a>
 						<hr />
 						<a href="/withdraw">회원탈퇴</a>
 					</div>
@@ -91,16 +99,17 @@ i {
 				<div class="card">
 					<div class="card-body">
 						<div class="row" id="topMenu">
-							<a onclick="changeTable('first',this)" class="col text-center "><span id="newApplyCount"
-								class="fw-bold fs-7">0</span> <br /> <span
+							<a onclick="changeTable('first',this)" class="col text-center "><span
+								id="newApplyCount" class="fw-bold fs-7">0</span> <br /> <span
 								class="selected fw-bold fs-1">새로운 지원</span> </a><a
 								onclick="changeTable('second',this)"
-								class="col text-center border-start"><span id="completedApplyCount"
-								class="fw-bold fs-7">0</span> <br /> <span class="fw-bold fs-1">처리된
-									지원</span> </a> <a id="interMenu" onclick="changeTable('third',this)"
 								class="col text-center border-start"><span
-								class="fw-bold fs-7 " th:text="${totalInter.totalInter}" ></span> <br /> <span class="fw-bold fs-1">관심
-									구직글</span> </a>
+								id="completedApplyCount" class="fw-bold fs-7">0</span> <br /> <span
+								class="fw-bold fs-1">처리된 지원</span> </a> <a id="interMenu"
+								onclick="changeTable('third',this)"
+								class="col text-center border-start"><span
+								class="fw-bold fs-7 " th:text="${totalInter.totalInter}"></span>
+								<br /> <span class="fw-bold fs-1">관심 구직글</span> </a>
 						</div>
 					</div>
 				</div>
@@ -110,7 +119,7 @@ i {
 						<h5 class="text-center">새로운 지원</h5>
 						<hr>
 						<div id="newListShow">
-						<!-- ajax로 새로운지원 호출해서 붙이는 부분 -->
+							<!-- ajax로 새로운지원 호출해서 붙이는 부분 -->
 						</div>
 					</div>
 
@@ -119,7 +128,7 @@ i {
 						<h5 class="text-center">처리된 지원</h5>
 						<hr>
 						<div id="completedListShow">
-						<!-- ajax로 처리된지원 호출해서 붙이는 부분 -->
+							<!-- ajax로 처리된지원 호출해서 붙이는 부분 -->
 						</div>
 					</div>
 
@@ -130,121 +139,52 @@ i {
 						</h5>
 
 						<div id="selfList" class="col-md-12">
-						<!-- ajax로 관심구직글 호출해서 붙이는 부분 --></div>
+							<!-- ajax로 관심구직글 호출해서 붙이는 부분 -->
+						</div>
 					</div>
 					<!-- tableMenu갈아끼우기 끝 -->
 				</div>
 			</div>
 		</div>
 
-		<!-- html모달창 제안모달 -->
-		<div class="modal fade " id="exampleModalLg" tabindex="-1"
+		<!-- html모달창 제안하기모달 -->
+		<div class="modal fade " id="offerModal" tabindex="-1"
 			aria-labelledby="exampleModalLgLabel" style="display: none;"
 			aria-hidden="true">
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h1 class="modal-title fs-4" id="exampleModalLgLabel">구직 제안</h1>
-						<button id="closeBtn" onclick="closeModal()" type="button" class="btn-close" data-bs-dismiss="modal"
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
 							aria-label="Close"></button>
 					</div>
-					<div class="modal-body d-flex justify-content-center">
-						<form class="col-lg-11 " id="offerForm" action="/offerSelf" method="POST">
-							<div class="mb-1 row ">
-								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
-									회사명</label>
-								<div class="col-sm-4 center-input">
-									<input type="text" name="coNm" class="form-control form-control-sm " id="">
-								</div>
-								
-								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
-									복지</label>
-								<div class="col-sm-4 center-input">
-									<input type="text" name="bnft" class="form-control form-control-sm" id="">
-								</div>
-							</div>
-
-							<div class="mb-1 row ">
-								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
-									근무지 주소</label>
-								<div class="col-sm-4 center-input">
-									<input type="text" name="wksite" class="form-control form-control-sm " id="">
-								</div>
-								
-								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
-									급여</label>
-								<div class="col-sm-4 center-input">
-									<input type="text" name="saly" class="form-control form-control-sm" id="">
-								</div>
-							</div>
-
-							<div class="mb-1 row ">
-								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
-									프로젝트 명</label>
-								<div class="col-sm-4 center-input">
-									<input type="text" name="projectNm" class="form-control form-control-sm" id="">
-								</div>
-								
-								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
-									업무 시작일</label>
-								<div class="col-sm-4 center-input">
-									<input type="date" name="bussStartDt" class="form-control form-control-sm"
-										id="">
-								</div>
-							</div>
-
-							<div class="mb-1 row ">
-								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
-									기술 스택</label>
-								<div class="col-sm-4 center-input">
-									<select id="tech" name="tech" class="form-select form-select-sm" style="padding-right:0;">
-										<option value="selectedOpt" id="selectedOpt" style="display:none;"></option>
-										<option value="" selected>기술선택(다중선택가능)</option>
-										<option th:each="tech : ${commList.Z}" th:text="${tech.desct}"
-											th:value="${tech.prov}">기술스택</option>
-									</select>
-								</div>
-								
-								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
-									제안 마감일</label>
-								<div class="col-sm-4 center-input">
-									<input type="date" name="clsDt" class="form-control form-control-sm" id="">
-								</div>
-							</div>
-
-							<div class="mb-1 row ">
-								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
-									주요 업무</label>
-								<div class="col-sm-4 center-input">
-									<input type="text" name="maBuss" class="form-control form-control-sm" id="">
-								</div>
-								
-								<label for="inputPassword" class="col-sm-2 col-form-label  fs">
-									구인공고</label>
-								<div class="col-sm-4 center-input">
-									<select name="ttl" class="form-select form-select-sm" id="">
-										<option value='' selected>선택</option>
-									</select>
-								</div>
-							</div>
-
-							<!-- 함께보낼데이타 -->
-							<input type="hidden" name="id" th:value="${id.id}"> <input
-								type="hidden" name="jobSearchNo">
-							<div class="row mb-4">
-								<div class="col-12 d-flex justify-content-center">
-									<button type="reset" class="btn btn-secondary"
-										data-bs-dismiss="modal">취소</button>
-									<button id="offerBtn" type="button" class="btn btn-primary"
-										onclick="offerCheck()">제안</button>
-								</div>
-							</div>
-						</form>
-
+					<div id="offerModalBody"
+						class="modal-body d-flex justify-content-center">
+						<!-- 채용지원제안 클릭 했을 때 ajax로 기술스택과 구인공고 목록을 불러와서 모달에 넣고 그려줌 -->
 					</div>
 				</div>
 			</div>
 		</div>
+		<!-- 제안하기 모달 끝 -->
+		<!-- 제안완료 모달 -->
+		<div class="modal fade" id="offerdModal" tabindex="-1"
+			aria-labelledby="exampleModalLgLabel" style="display: none;"
+			aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title fs-4" id="">제안 정보</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div id="offerdModalBody"
+						class="modal-body d-flex justify-content-center mb-5">
+						<!-- 제안완료 데이터 ajax로 받아와서 모달에 붙여서 여기에 다시 붙임 -->
+					</div>
+				</div>
+			</div>
+		</div> 
+		<!-- 제안완료 모달 끝 -->
 
 
 		<script>
@@ -612,10 +552,10 @@ i {
 								class="btn btn-danger btn-sm listBtn mb-1">관심해제</button>`
 							if(res[i].offerCd != 'null'){//제안 완료된 게시글 버튼 다르게 표시
 								notice += `<button type="button" btn="offerBtn" onclick="offerCompletedBtn(\'`+res[i].jobSearchNo+`\')"
-								class="btn btn-info btn-sm listBtn mb-1" data-bs-toggle="modal" data-bs-target="#exampleModalLg">제안완료</button>
+								class="btn btn-info btn-sm listBtn mb-1">제안완료</button>
 								<p class="mb-0">`+res[i].acceptStatus+`</p>`
 							}else {
-								notice += `<button type="button" btn="offerBtn" onclick="insertJobSearchNo(\'`+res[i].jobSearchNo+`\')"
+								notice += `<button type="button" btn="offerBtn" data-id="`+res[i].jobSearchNo+`" onclick="openOfferModal(\'`+res[i].jobSearchNo+`\')"
 								class="btn btn-outline-info btn-sm listBtn" data-bs-toggle="modal" data-bs-target="#exampleModalLg">제안하기</button>`
 							}
 						notice += `</div>
@@ -629,13 +569,99 @@ i {
 			//제안완료클릭
 			function offerCompletedBtn(jobSearchNo){
 				event.stopPropagation();
+			
 				$.ajax({
 					url : "/selectOffer?jobSearchNo="+jobSearchNo,
 					method : "GET",
 					dataType : "json",//받는타입
 					success : function(res) {
 						console.log(res);
-						insertOffer(res);
+						
+						// 받아온 데이터 모달에 붙이기 
+						document.querySelector('#offerdModalBody').innerHTML = `<div class="col-lg-10 mt-5">
+							<div class="mb-1 row ">
+							<div class="col-sm-3">
+								<p class="fs-1 text-dark">회사명</p>
+							</div>
+							<div class="col-sm-3">
+								<p>`+res.coNm+`</p>
+							</div>
+
+							<div class="col-sm-3">
+								<p class="fs-1 text-dark">복지</p>
+							</div>
+							<div class="col-sm-3">
+								<p>`+res.bnft+`</p>
+							</div>
+						</div>
+
+
+						<div class="mb-1 row ">
+							<div class="col-sm-3">
+								<p class="fs-1 text-dark">근무지주소</p>
+							</div>
+							<div class="col-sm-3">
+								<p>`+res.wksite+`</p>
+							</div>
+
+							<div class="col-sm-3">
+								<p class="fs-1 text-dark">급여</p>
+							</div>
+							<div class="col-sm-3">
+								<p>`+res.saly+`</p>
+							</div>
+						</div>
+
+						<div class="mb-1 row ">
+							<div class="col-sm-3">
+								<p class="fs-1 text-dark">프로젝트명</p>
+							</div>
+							<div class="col-sm-3">
+								<p>`+res.projectNm+`</p>
+							</div>
+
+							<div class="col-sm-3">
+								<p class="fs-1 text-dark">업무시작일</p>
+							</div>
+							<div class="col-sm-3">
+								<p>`+res.bussStartDt+`</p>
+							</div>
+						</div>
+
+						<div class="mb-1 row ">
+							<div class="col-sm-3">
+								<p class="fs-1 text-dark">기술스택</p>
+							</div>
+							<div class="col-sm-3">
+								<p>`+res.tech+`</p>
+							</div>
+
+							<div class="col-sm-3">
+								<p class="fs-1 text-dark">제안마감일</p>
+							</div>
+							<div class="col-sm-3">
+								<p>`+res.clsDt+`</p>
+							</div>
+						</div>
+
+						<div class="mb-1 row ">
+							<div class="col-sm-3">
+								<p class="fs-1 text-dark">주요업무</p>
+							</div>
+							<div class="col-sm-3">
+								<p>`+res.maBuss+`</p>
+							</div>
+
+							<div class="col-sm-3">
+								<p class="fs-1 text-dark">구인공고</p>
+							</div>
+							<div class="col-sm-3">
+								<p>`+res.ttl+`</p>
+							</div>
+						</div>
+					</div>`
+				 
+					$('#offerdModal').modal('show'); // 모달 창 열기	
 					},
 					error : function(jqXHR, textStatus, errorThrown) {
 						console.error(textStatus, errorThrown);
@@ -703,42 +729,156 @@ i {
 				</nav>`;
 				return paging;
 			}
-			
+//제안 영역 ------------------------------------------------------------------------------------------
+
 			//모달에 게시글번호 넣기
-			function insertJobSearchNo(no){
+			function openOfferModal(jobSearchNo){
 				event.stopPropagation();
-				document.querySelector('[name="jobSearchNo"]').value = no;
-				console.log(no)
-				getOfferModalData();//모달에 구인공고목록 들고오기
+				
+				// 모달 안 필요한 구인공고목록, 기술스택 가져오기
+				$.ajax({
+					url: '/openOfferModal',
+					type: 'get',
+					success: function (res) {
+						console.log(res.coInfo);
+						// 가져온 내용을 추가하고 모달바디에 붙이기
+						document.querySelector('#offerModalBody').innerHTML = ''; // 모달바디 초기화
+						let modalBodyHtml = `<form class="col-lg-11 " id="offerForm" action="/offerSubmit" method="POST">
+							<div class="mb-1 row ">
+							<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+								회사명</label>
+							<div class="col-sm-4 center-input">
+								<input type="text" name="coNm" value="`+res.coInfo.coNm+`" class="form-control form-control-sm " id="">
+							</div>
+							
+							<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+								복지</label>
+							<div class="col-sm-4 center-input">
+								<input type="text" name="bnft" class="form-control form-control-sm" id="">
+							</div>
+						</div>
+					</div>
+
+					<div class="mb-1 row ">
+						<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+							근무지 주소</label>
+						<div class="col-sm-4 center-input">
+							<input type="text" name="wksite" value="`+res.coInfo.addr+`" class="form-control form-control-sm " id="">
+						</div>
+						
+						<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+							급여</label>
+						<div class="col-sm-4 center-input">
+							<input type="text" name="saly" class="form-control form-control-sm" id="">
+						</div>
+					</div>
+
+					<div class="mb-1 row ">
+						<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+							프로젝트 명</label>
+						<div class="col-sm-4 center-input">
+							<input type="text" name="projectNm" class="form-control form-control-sm" id="">
+						</div>
+						
+						<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+							업무 시작일</label>
+						<div class="col-sm-4 center-input">
+							<input type="date" name="bussStartDt" class="form-control form-control-sm"
+								id="">
+						</div>
+					</div>
+
+					<div class="mb-1 row ">
+						<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+							기술 스택</label>
+						<div class="col-sm-4 center-input">
+							<select name="tech" class="form-select form-select-sm" style="padding-right:0;">
+								<option value="selectedOpt" id="selectedOpt" style="display:none;"></option>
+								<option value="" selected>기술선택(다중선택가능)</option>`
+								let tech = res.commList.Z
+								for(let i=0;i<tech.length;i++){
+			   modalBodyHtml += `<option value="`+tech[i].prov+`">`+tech[i].desct+`</option>`	
+								}
+			   modalBodyHtml += `</select>
+						</div>
+						
+						<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+							제안 마감일</label>
+						<div class="col-sm-4 center-input">
+							<input type="date" name="clsDt" class="form-control form-control-sm" id="">
+						</div>
+					</div>
+
+					<div class="mb-1 row ">
+						<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+							주요 업무</label>
+						<div class="col-sm-4 center-input">
+							<input type="text" name="maBuss" class="form-control form-control-sm" id="">
+						</div>
+						
+						<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+							구인공고</label>
+						<div class="col-sm-4 center-input">
+							<select name="ttl" class="form-select form-select-sm" id="">
+								<option value='' selected>선택</option>`
+								let rec = res.recList
+								for(let i=0;i<rec.length;i++){
+			   modalBodyHtml += `<option value="`+rec[i].recruitNo+`">`+rec[i].ttl+`</option>`	
+								}
+			   modalBodyHtml += `</select>
+						</div>
+					</div>
+
+						<!-- 함께보낼데이타 -->
+						<input type="hidden" name="jobSearchNo" value="`+jobSearchNo+`">
+						<div class="row mb-4">
+							<div class="col-12 d-flex justify-content-center">
+								<button id="modalCloseBtn" type="button" class="btn btn-outline-dark me-1"
+									data-bs-dismiss="modal" onclick="">취소</button>
+								<button id="offerBtn" type="button" class="btn btn-outline-dark ml-1"
+									onclick="submitOffer()">제안</button>
+							</div>
+						</div>
+					</form>`;
+					
+					document.querySelector('#offerModalBody').innerHTML += modalBodyHtml;
+			 		$('#offerModal').modal('show'); // 모달 창 열기
+					},
+			 		error: function (reject) {	   
+			    		console.log(reject);
+					}
+				});
 			}
 			
-			//모달 안에서 제안클릭
-			function offerCheck(){
-				$('#offerForm').submit();
+			//제안클릭 제안제출
+			function submitOffer(){
+				let formData = $('#offerForm').serialize(); 
+				let jobSearchNo = $('input[name="jobSearchNo"]').val();
 				
+				  $.ajax({
+				   url: '/offerSubmit',
+				   type: 'post',
+				   data: formData,
+				   success: function(res){
+					   // 제안하기버튼 제안완료버튼으로 바꾸기
+					   let button = $('button[data-id="' + jobSearchNo + '"]');
+					   button.text('제안완료');
+					   button.removeClass("btn btn-outline-info btn-sm listBtn"); // 빈 버튼 클래스 지우고
+					   button.addClass("btn btn-info btn-sm listBtn"); // 꽉찬 버튼 클래스 추가
+					   button.removeAttr("data-bs-toggle");
+					   modalCloseBtn.click(); //모달창 닫기
+					   Swal.fire({
+							icon: 'success',
+							title: '제안이 완료되었습니다.'
+					   });
+				   },
+				   error: function (reject) {	   
+				   	  	console.log(reject);
+					  }
+				})  
 			}
-			//제안모달 안 필요한 구인공고 목록
-			function getOfferModalData(){
-				let id = '[[${id.id}]]';
-				 $.ajax({
-						url : "/getOfferModalData?id="+id,
-						method : "GET",
-						dataType : "json",//받는타입
-						success : function(res) {
-							console.log(res);
-							insertRecruit(res);//모달에 공고 넣기
-						},
-						error : function(res) {
-							console.log(res);
-						},
-				}); 	
-			}
-			//제안모달에 구인공고목록 넣기
-			function insertRecruit(res){
-				for(let i=0;i<res.length;i++){
-					document.querySelector('[name="ttl"]').innerHTML += `<option value="`+res[i].id+`">`+res[i].ttl+`</option>`
-				}
-			}
+			
+			
 			//관심클릭 관심해제
 			function deleteInter(no){
 				event.stopPropagation();
