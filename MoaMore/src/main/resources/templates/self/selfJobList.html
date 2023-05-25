@@ -431,7 +431,7 @@ function offerModal(t){
 							<option value='' selected>선택</option>`
 							let rec = res.recList
 							for(let i=0;i<rec.length;i++){
-		   modalBodyHtml += `<option value="`+rec[i].recruitNo+`">`+rec[i].ttl+`</option>`	
+		   modalBodyHtml += `<option value="`+rec[i].ttl+`">`+rec[i].ttl+`</option>`	
 							}
 		   modalBodyHtml += `</select>
 					</div>
@@ -441,9 +441,9 @@ function offerModal(t){
 					<input type="hidden" name="jobSearchNo" value="`+jobSearchNo+`">
 					<div class="row mb-4">
 						<div class="col-12 d-flex justify-content-center">
-							<button id="modalCloseBtn" type="button" class="btn btn-secondary"
+							<button id="modalCloseBtn" type="button" class="btn btn-outline-dark me-1"
 								data-bs-dismiss="modal" onclick="closeModal()">취소</button>
-							<button id="offerBtn" type="button" class="btn btn-primary"
+							<button id="offerBtn" type="button" class="btn btn-outline-dark ml-1"
 								onclick="submitOffer()">제안</button>
 						</div>
 					</div>
