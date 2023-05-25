@@ -513,6 +513,7 @@ i {
 			function makeInterList(res){
 				let html = '';
 				console.log(res)
+				
 				for(let i=0;i<res.length;i++){
 					let notice = `<div id="`+res[i].jobSearchNo+`" onclick="location.href='/selfJobDetail?jobSearchNo=`+res[i].jobSearchNo+`&resumeNo=`+res[i].resumeNo+`'"
 						class="row align-items-center border-bottom p-4 mb-3 hoverRow pointer">
@@ -565,6 +566,9 @@ i {
 				}
 				html += paging();
 				selfList.innerHTML = html;
+				if(res.length == 0){
+					selfList.innerHTML = `<hr><div class="text-center">새로운 지원이 없습니다</div>`;
+				}
 			}
 			//제안완료클릭
 			function offerCompletedBtn(jobSearchNo){

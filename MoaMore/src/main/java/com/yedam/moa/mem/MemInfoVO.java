@@ -13,6 +13,7 @@ public class MemInfoVO {
 	private String ph;		//전화번호
 	private String phCl;	//휴대폰
 	private String addr;	//주소
+	private String addrDt;	//주소상세
 	private String post;	//우편번호
 	private String gen;		//성별
 	private String pscheck;
