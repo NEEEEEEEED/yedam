@@ -95,8 +95,8 @@ section {
 					</div>
 					<hr>
 					<div class="row mb-3">
-						<p class="col-sm-4 text-end fs-3 fw-normal text-black">적용공고</p>
-						<div class="col-sm-7 text-end">
+						<p class="col-sm-4 text-end fs-2 fw-normal text-black">- 적용공고</p>
+						<div class="col-sm-12 text-center">
 							<select id="gonggo" class="form-select pointer p-3 text-center" onchange="getDisabledDates(this)">
 								<option value='' selected>선택</option>
 								<option th:each=" item : ${RecList}" th:text="${item.ttl+ '('+item.exprDt+')'}"
@@ -105,16 +105,11 @@ section {
 						</div>
 					</div>
 					<div class="row mb-3">
-						<p id="forToggle" class="col-sm-4 text-end fs-3 fw-normal text-black">날짜선택</p>
-						<div class="col-sm-7 text-end">
-						<input th:placeholder="${product.svcCnt}+'개의 날짜를 선택해 주세요'"  style="background-color:#dbdbdb;"
-								class="form-control pointer" id="datePick" ></input>
-								
-							
+						<p id="forToggle" class="col-sm-4 text-end fs-2 fw-normal text-black">- 날짜선택</p>
+						<div class="col-sm-12 text-end">
+						<input th:placeholder="${product.svcCnt}+'개의 날짜를 선택해 주세요'" disabled style="background-color:white;"
+								class="form-control pointer text-center" id="datePick" ></input>
 						</div>
-					</div>
-					<div class="row mb-3">
-						<input class="form-control pointer" id="" ></input>	
 					</div>
 					<hr>
 
@@ -156,10 +151,8 @@ section {
 			</div>
 		</div>
 		<script th:inline="javascript">
-		 $("#datePick").on("blur",function() {
-		        var selectedDates = $("#datePick").multiDatesPicker("getDates");
-		        console.log(selectedDates);
-		      });
+		
+		
 		
 		// 공고가 바뀔때마다 해당 공고가 이전에 예약한 날짜를 추가로 가져오는 함수
 		var disabledDates = [];
