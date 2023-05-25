@@ -6,13 +6,6 @@
 <meta charset="UTF-8">
 <title>hireMod</title>
 <style>
-
-body {
-
-  padding-top: 70px;
-  padding-bottom: 30px;
-
-}
 #hireButtons{
 		float:right;
 }
@@ -35,7 +28,7 @@ body {
 				
 				<div class="mb-3" >
 					<label for="reg_id">제목</label><span id="star">*</span>
-					<input type="text" class="form-control" name="ttl" id="ttl" placeholder="제목" th:value="${hireInfo[0].ttl}">
+					<input type="text" class="form-control" name="ttl" id="ttl" placeholder="제목" th:value="${hireInfo[0].ttl}" autofocus="autofocus">
 				</div>
 				
 				<div class="mb-3">
@@ -253,6 +246,7 @@ body {
 	          height: '500px',
 	         initialValue: '', 
 	         initialEditType: "wysiwyg",
+	         autofocus:false,
 	          hooks: {
 	               addImageBlobHook: (blob, callback) => {
 	                 var token = $("meta[name='_csrf']").attr("content");

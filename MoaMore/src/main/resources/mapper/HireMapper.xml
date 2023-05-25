@@ -377,14 +377,14 @@
 	</select>
 	<!-- 최신 공고 -->
 	<select id="newSelect" resultType="HireVO">
-	    SELECT R.TTL,
+	    SELECT DISTINCT R.TTL,
 		       C.CO_NM,
-               ROW_NUMBER() OVER (ORDER BY R.ACCP_DT DESC),
                R.RECRUIT_NO,
                S.SKILL,
                I.CO_IMG,
-               R.WKSITE,
-               R.EXPR_DT
+               get_common(WKSITE),
+               R.EXPR_DT,
+               R.ACCP_DT
 		FROM RECRUIT_ANUN R
 		JOIN CO C
 			ON R.ID = C.ID
@@ -393,22 +393,24 @@
               GROUP BY recruit_no) S
 			ON S.RECRUIT_NO = R.RECRUIT_NO
         JOIN RECRUIT_IMAGES I
-        ON R.RECRUIT_NO = I.RECRUIT_NO
+        	ON R.RECRUIT_NO = I.RECRUIT_NO
 		WHERE 1=1
         <![CDATA[AND ROWNUM < 5]]>
         <![CDATA[AND TRUNC(sysdate) < TO_DATE(EXPR_DT, 'YYYY-MM-DD')]]>
 	   	AND R.ACCP_DT IS NOT NULL
+	   	ORDER BY R.ACCP_DT
 	</select>
 	<!-- 인기 공고 -->
 	<select id="popSelect" resultType="HireVO">
-		SELECT F.CNT, 
+		SELECT DISTINCT F.CNT, 
 		       F.RECRUIT_NO, 
 		       R.TTL,
 		       C.CO_NM,
 		       R.RECRUIT_NO,
 		       S.SKILL,
-		       R.WKSITE,
-               R.EXPR_DT
+		       get_common(WKSITE),
+               R.EXPR_DT,
+               I.CO_IMG
 		FROM (
 		    SELECT COUNT(RECRUIT_NO) AS CNT, 
 		           RECRUIT_NO
@@ -424,10 +426,13 @@
               FROM RECRUIT_SKILL
               GROUP BY recruit_no) S
 			ON S.RECRUIT_NO = R.RECRUIT_NO
+		JOIN RECRUIT_IMAGES I
+        	ON R.RECRUIT_NO = I.RECRUIT_NO
 		WHERE 1=1
 		<![CDATA[AND ROWNUM < 5]]>
 		<![CDATA[AND TRUNC(sysdate) < TO_DATE(EXPR_DT, 'YYYY-MM-DD')]]>
 	   	AND R.ACCP_DT IS NOT NULL
+	   	ORDER BY F.CNT
 	</select>
 	<!-- 셀프구직(관심순) -->
 	<select id="popSelf" resultType="SelfVO">

@@ -6,13 +6,6 @@
 <meta charset="UTF-8">
 <title>hireInsert</title>
 <style>
-
-body {
-
-  padding-top: 70px;
-  padding-bottom: 30px;
-
-}
 #hireButtons{
 		float:right;
 }
@@ -36,7 +29,7 @@ body {
 				
 				<div class="mb-3">
 					<label for="reg_id">제목</label><span id="star">*</span>
-					<input id="ttl" type="text" class="form-control" name="ttl" placeholder="제목">
+					<input id="ttl" type="text" class="form-control" name="ttl" placeholder="제목" autofocus="autofocus" >
 				</div>
 				
 				<div class="mb-3" >
@@ -207,19 +200,6 @@ body {
 		</div>
 	<br>
 <script>
-let recruitNo = $('#recruitNo').val(); // 새 구인공고 번호
-let ttl = $('#ttl').val(); // 제목
-let coNm = $('#coNm').val(); // 기업이름
-let skill = $('#skill').val(); // 기술
-let job = $('#job').val(); // 직군
-let maBuss = $('#maBuss').val(); // 주요업무
-let qual = $('#qual').val(); // 자격요건
-let pref = $('#pref').val(); // 우대사항
-let welf = $('#welf').val(); // 복지
-let carr = $('#carr').val(); // 경력
-let shcr = $('#shcr').val(); // 학력
-let exprDt = $('#exprDt').val(); // 마감일
-let wksite = $('#wksite').val(); // 지역
 
 	// 공고목록으로 이동
 	$(document).on('click', '#btnList', function(e){
@@ -271,6 +251,7 @@ let wksite = $('#wksite').val(); // 지역
               height: '500px',
              initialValue: '', 
              initialEditType: "wysiwyg",
+             autofocus: false,
               hooks: {
                    addImageBlobHook: (blob, callback) => {
                      var token = $("meta[name='_csrf']").attr("content");
