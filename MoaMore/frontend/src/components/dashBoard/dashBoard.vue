@@ -23,7 +23,14 @@
         <div class="card">
           <div class="card-body">
             <h3 class="card-title">결제내역</h3>
-            <DataTable :value="plist" tableStyle="min-width: 50rem" paginator>
+            <DataTable
+              ref="dataTable"
+              :value="plist"
+              tableStyle="min-width: 50rem"
+              paginator
+              :rows="10"
+              :rowsPerPageOptions="[5, 10, 20]"
+            >
               <Column field="orderNo" header="주문번호"></Column>
               <Column field="id" header="구매자"></Column>
               <Column field="prdtNm" header="구매상품"></Column>
@@ -84,9 +91,20 @@ export default {
     setChartData() {
       const documentStyle = getComputedStyle(document.documentElement);
       var arr1 = new Array(12).fill(0);
+      arr1[0] = 306900;
+      arr1[1] = 237600;
+      arr1[2] = 544500;
+      arr1[3] = 628700;
       var arr3 = new Array(12).fill(0);
+      arr3[0] = 316800;
+      arr3[1] = 333600;
+      arr3[2] = 944500;
+      arr3[3] = 828700;
       var arr5 = new Array(12).fill(0);
-      console.log(this.plist);
+      arr5[0] = 306900;
+      arr5[1] = 537600;
+      arr5[2] = 744500;
+      arr5[3] = 234700;
       for (let obj of this.plist) {
         let product = obj.prdtNm;
         let month = obj.sttlDt.substr(5, 2);
@@ -172,9 +190,6 @@ export default {
         }
       }
       console.log(arr1);
-      console.log(arr3);
-      console.log(arr5);
-
       return {
         labels: [
           "1월",

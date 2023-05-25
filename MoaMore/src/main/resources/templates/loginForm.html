@@ -142,7 +142,7 @@
 														class="row g-3 needs-validation">
 														<input type="hidden" th:value="co" name="user_key" />
 														<div class="col-12">
-															<label for="yourUsername" class="form-label">email</label>
+															<label for="yourUsername" class="form-label">ID</label>
 															<div class="input-group has-validation">
 																<input type="text" name="userid" class="form-control"
 																	id="coId" required>
@@ -164,7 +164,7 @@
 														<div class="row"></div>
 														<div class="col-6">
 															<span class="small mb-0"> <a
-																href="pages-register.html">회원가입</a>
+																href="/signUp">회원가입</a>
 															</span>
 														</div>
 														<div class="col-6" style="text-align: right">
@@ -332,18 +332,17 @@
 											<form id="coFindId" name="coFindId" action="find/coId"
 												method="post" onsubmit="return false">
 												<div class="row mb-3">
-													<label for="inputEmail3" class="col-sm-3 col-form-label">사업자번호</label>
+													<label for="bizno" class="col-sm-3 col-form-label">사업자번호</label>
 													<div class="col-sm-9">
 														<input type="text" class="form-control" name="bizno"
-															id="inputText">
+															id="bizno">
 													</div>
 												</div>
 												<div class="row mb-3">
-													<label for="inputEmail3" class="col-sm-3 col-form-label">대표자이름</label>
+													<label for="rpstr" class="col-sm-3 col-form-label">대표자이름</label>
 													<div class="col-sm-9">
-														<input type="text" oninput="autoHyphen(this)"
-															maxlength="13" class="form-control" name="rpstr"
-															id="inputEmail">
+														<input type="text"  class="form-control" name="rpstr"
+															id="rpstr">
 													</div>
 												</div>
 												<div style="text-align:right">
@@ -372,15 +371,15 @@
 												<div class="row mb-3">
 													<label for="inputEmail3" class="col-sm-3 col-form-label">대표자이름</label>
 													<div class="col-sm-9">
-														<input type="email" class="form-control" name="rpstr"
+														<input type="text" class="form-control" name="rpstr"
 															id="inputText">
 													</div>
 												</div>
 												<div class="row mb-3">
-													<label for="inputEmail3" class="col-sm-3 col-form-label">이메일</label>
+													<label for="email2" class="col-sm-3 col-form-label">이메일</label>
 													<div class="col-sm-9">
-														<input type="text" oninput="autoHyphen(this)" name="email"
-															maxlength="13" class="form-control" id="inputEmail">
+														<input type="email"  name="email"
+															class="form-control" id="email2">
 													</div>
 												</div>
 												<div style="text-align:right">
@@ -537,15 +536,16 @@
 		    var formData = $(this).serialize();
 		    var bizno = $(this).find('[name="bizno"]').val().trim();
 		    var rpstr = $(this).find('[name="rpstr"]').val().trim();
-		    console.log(name);
-			if(name == ""){
+		    console.log(bizno);
+		    console.log(rpstr);
+			if(bizno == ""){
 		        Swal.fire({
 		            icon: "warning",
 		            title: "이름을 입력하세요.",
 		        })
 		        $(this).find('[bizno="bizno"]').focus();
 		        return 
-			} else if(phCl == "") {
+			} else if(rpstr == "") {
 		        Swal.fire({
 		            icon: "warning",
 		            title: "전화번호를 입력하세요.",
@@ -587,32 +587,31 @@
 	 $("#coFindPw").submit(function(event) {
 		    event.preventDefault(); 
 		    var formData = $(this).serialize();
-		    var name = $(this).find('[name="name"]').val().trim();
-		    var email = $(this).find('[name="email"]').val().trim();
-		    var phCl = $(this).find('[name="phCl"]').val().trim();
-		    console.log(name);
-			if(name == ""){
+		    var bizno = $(this).find('[name="bizno"]').val().trim();
+		    var rpstr = $(this).find('[name="rpstr"]').val().trim();
+		    var email2 = $(this).find('[name="email2"]').val();
+			if(bizno == ""){
 		        Swal.fire({
 		            icon: "warning",
 		            title: "이름을 입력하세요.",
 		        })
-		        $(this).find('[name="name"]').focus();
+		        $(this).find('[name="bizno"]').focus();
 		        return 
 			}
-			if(phCl == "") {
+			if(rpstr == "") {
 		        Swal.fire({
 		            icon: "warning",
 		            title: "전화번호를 입력하세요.",
 		        })
-		        $(this).find('[name="phCl"]').focus();
+		        $(this).find('[name="rpstr"]').focus();
 				return  
 			}
-			if(email == "") {
+			if(email2 == "") {
 		        Swal.fire({
 		            icon: "warning",
 		            title: "이메일을 입력하세요.",
 		        })
-		        $(this).find('[name="email"]').focus();
+		        $(this).find('[name="email2"]').focus();
 				return
 			}
 		    
