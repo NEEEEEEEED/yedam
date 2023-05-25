@@ -35,6 +35,10 @@
       .yn {
         width: 100px;
       }
+      .circleImg{
+	 	width:100px;
+	 	height:100px;
+	 }
 
       /*       .btn{ */
       /*       border-radius: 0.5rem; */
@@ -51,9 +55,18 @@
           <div class="card">
             <div class="card-body">
               <h4>[[${#authentication.principal.username}]]</h4>
-              <a id="insertInfo" type="button" class="btn btn-light" href=""
-                >정보등록</a
-              >
+              <img
+                  th:src="|/moamoreImg/${img.profileImg}|"
+                  id="preview"
+                  class="circleImg"
+                  th:if="${img.profileImg}!=null"
+                />
+                <img
+                  src="/self/profile.JPG"
+                  id="preview"
+                  class="circleImg"
+                  th:if="${img.profileImg}==null"
+                />
               <div class="accordion" id="sideMenu">
                 <div class="accordion-item">
                   <h2 class="accordion-header" id="panelsStayOpen-headingOne">

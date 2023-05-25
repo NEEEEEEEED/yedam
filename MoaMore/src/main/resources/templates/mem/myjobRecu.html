@@ -24,6 +24,10 @@
 	    color: black;
 	    border-bottom : 2px solid #65e4a3;
 	 }
+	.circleImg{
+	 	width:100px;
+	 	height:100px;
+	 }
     </style>
   </head>
   <body>
@@ -51,10 +55,20 @@
         <div class="col-xl-2 col-md-2 text-center">
           <div class="card">
             <div class="card-body">
+            
               <h4>[[${#authentication.principal.username}]]</h4>
-              <a id="insertInfo" type="button" class="btn btn-light" href=""
-                >정보등록</a
-              >
+              <img
+                  th:src="|/moamoreImg/${img.profileImg}|"
+                  id="preview"
+                  class="circleImg"
+                  th:if="${img.profileImg}!=null"
+                />
+                <img
+                  src="/self/profile.JPG"
+                  id="preview"
+                  class="circleImg"
+                  th:if="${img.profileImg}==null"
+                />
               <div class="accordion" id="sideMenu">
                 <div class="accordion-item">
                   <h2 class="accordion-header" id="panelsStayOpen-headingOne">
@@ -139,7 +153,7 @@
                       class="accordion-body d-flex flex-column align-items-center p-0"
                     >
                       <div class="mb-1">
-                        <a href="">개인정보 수정</a>
+                        <a href="/coInfoPage">개인정보 수정</a>
                       </div>
                       <div class="mb-1">
                         <a href="">작성글 목록</a>
@@ -153,7 +167,7 @@
         </div>
 
         <div class="col-md-7 col-xl-7 px-4">
-        	<div class="subTitle"><h3>작성된 이력서가 없습니다! 이력서를 작성해 주세요</h3></div>
+        	<div class="subTitle" th:if="${resumeList}==null"><h3>작성된 이력서가 없습니다! 이력서를 작성해 주세요</h3></div>
           <!-- 반복 -->
           <div th:if="${resumeList} != null"
             th:each="list : ${resumeList}"
@@ -167,7 +181,15 @@
                 src="self/profile.JPG"
                 class="circleImg"
                 alt="이미지안보임"
+                th:if="${list.imgNo}==null"
               />
+              <img
+                  th:src="|/moamoreImg/${list.imgNo}|"
+                  id="preview"
+                  class="circleImg"
+                  th:if="${list.imgNo}!=null"
+                />
+             
               <span th:text="${list.id}">아이디</span>
             </div>
             <div class="col-md-2 py-3">

@@ -51,6 +51,13 @@ public class MemServiceImpl implements MemService {
 		System.out.println(sv);
 		return sv;
 	}
+	
+	@Override
+	public MemInfoVO getImg(MemVO vo) {
+		
+		return mem.getImg(vo);
+	}
+	
 //	공고 검색 목록에서 삭제하기
 	@Override
 	public int delAnun(SearchVO vo) {
@@ -366,4 +373,6 @@ public class MemServiceImpl implements MemService {
 		return mem.insertBiz(vo);
 
 	}
+
+	
 }

@@ -4,11 +4,17 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yedam.moa.mem.mapper.MemMapper">
 <!-- 	마이페이지 홈  -->
+	<select id="getImg" resultType="MemInfoVO">
+		select profile_img
+		from   member
+		where  id = #{id}
+	</select>
 	<select id="openSesame" resultType="MemVO">
 		  select 	r.ttl
 				  , r.ma_buss
 				  , get_common(r.wksite) wksite
-				  ,	r.expr_dt,r.recruit_no
+				  ,	r.expr_dt
+				  , r.recruit_no
 				  , m.email
 				  , LISTAGG(get_common(t.SKILL), ',') WITHIN GROUP (ORDER BY SKILL_NO) as skill
     	 from 	following f join recruit_anun r
@@ -116,7 +122,7 @@
 			clsf,
 			log_cnt,
 			ltst_tm,
-			gen,
+			get_common(gen) gen,
 			birth,
 			addr,
 			join_dt,
@@ -389,7 +395,7 @@
 		<update id="insertMem">   	
 		UPDATE member
 		SET <if test="email != null">email = #{email},</if>
-    		<if test="ph != null">ph = #{ph},</if>
+    		<if test="addrDt != null">addrDt = #{addrDt},</if>
     		<if test="phCl != null">ph_cl = #{phCl},</if>
     		<if test="addr != null">addr = #{addr},</if>
     		<if test="post != null">post = #{post}</if>
@@ -496,8 +502,22 @@
 	
 <!-- 	회원가입 -->
 	 <insert id="joinMoaMore">
-	 INSERT INTO member (id, pw,name, ph, authr)
-	 VALUES(#{id},#{pw},#{name},#{ph},#{authr})
+	 INSERT INTO member (id,
+	 					 pw,
+	 					 name, 
+	 					 ph_cl, 
+	 					 authr,
+	 					 join_dt,
+	 					 birth,
+	 					 gen)
+	 			VALUES( #{id},
+	 					#{pw},
+	 					#{name},
+	 					#{ph},
+	 					#{authr},
+	 					to_char(sysdate,'yyyy-MM-dd'),
+	 					to_char(#{birth},'yyyy-MM-dd'),
+	 					#{gen})
 	 </insert>
 <!-- 	  INSERT INTO member (id, pw,name, ph) -->
 <!-- 	 VALUES(#{id},#{pw},#{name},#{ph}) -->

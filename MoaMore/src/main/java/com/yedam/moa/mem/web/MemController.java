@@ -50,6 +50,7 @@ public class MemController {
 	public String getMyPgae(Principal principal, Model model, MemVO vo) {
 		vo.setId(principal.getName());
 		
+		model.addAttribute("img", mem.getImg(vo));
 		model.addAttribute("list", mem.openSesame(vo));
 		System.out.println(model.getAttribute("list"));
 		model.addAttribute("count", mem.getCount(vo));
@@ -224,7 +225,8 @@ public class MemController {
 	@GetMapping("/resumeList")
 	public String getList(Model model,Principal pr,Criteria cri) {
 		System.out.println(cri);
-		
+		MemVO mvo = new MemVO();
+		mvo.setId(pr.getName());
 		// 전체 글 개수
         int resumePageCnt = mem.getPageCnt(pr.getName());
         System.out.println(resumePageCnt);
@@ -234,7 +236,7 @@ public class MemController {
         paging.setTotalCount(resumePageCnt);    
         cri.setId(pr.getName());
         List<ResumeVO> list = mem.resumeList(cri);
-        
+        model.addAttribute("img", mem.getImg(mvo));
         model.addAttribute("resumeList", list);    
         model.addAttribute("paging", paging);    
 		
@@ -288,6 +290,7 @@ public class MemController {
 	@ResponseBody
 	public int signUp(MemInfoVO vo) {
 		int count = 0;
+	 System.out.println(vo);
 		vo.setPw(passEnc.encode(vo.getPw()));
 		if(vo.getBizno() != null && !vo.getBizno().isEmpty()) {
 			vo.setAuthr("ROLE_CO");
