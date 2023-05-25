@@ -19,9 +19,6 @@
       <li class="nav-item">
         <router-link class="nav-link" to="/approve">승인게시물관리</router-link>
       </li>
-      <li class="nav-item">
-        <router-link class="nav-link" to="/pay">매출관리</router-link>
-      </li>
     </ul>
   </aside>
   <!-- End Sidebar-->

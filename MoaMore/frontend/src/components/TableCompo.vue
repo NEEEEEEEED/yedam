@@ -126,13 +126,14 @@
                 <!----><span
                   class="pi pi-check p-button-icon p-button-icon-left"
                 ></span
-                ><span class="p-button-label">Save</span
+                ><span class="p-button-label">저장</span
                 ><!----><span
                   class="p-ink"
                   role="presentation"
                   aria-hidden="true"
-                ></span></button
-              ><button
+                ></span>
+              </button>
+              <button
                 class="p-button p-component"
                 type="button"
                 aria-label="Delete"
@@ -142,7 +143,7 @@
                 <!----><span
                   class="pi pi-trash p-button-icon p-button-icon-left"
                 ></span
-                ><span class="p-button-label">Delete</span
+                ><span class="p-button-label">삭제</span
                 ><!----><span
                   class="p-ink"
                   role="presentation"

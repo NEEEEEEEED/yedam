@@ -23,7 +23,7 @@
         <div class="card">
           <div class="card-body">
             <h3 class="card-title">결제내역</h3>
-            <DataTable :value="plist" tableStyle="min-width: 50rem">
+            <DataTable :value="plist" tableStyle="min-width: 50rem" paginator>
               <Column field="orderNo" header="주문번호"></Column>
               <Column field="id" header="구매자"></Column>
               <Column field="prdtNm" header="구매상품"></Column>
