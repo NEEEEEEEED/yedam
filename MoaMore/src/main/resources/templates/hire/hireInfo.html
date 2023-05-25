@@ -60,7 +60,7 @@
 							<button type="button" class="btn btn-outline-dark" id="followCO">기업 팔로우</button>
 						</div>
 						<div class="mb-2 cursor">
-							<button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#exampleModal" id="searchBtn" name="searchBtn">
+							<button type="button" class="btn btn-outline-dark ms-0" data-toggle="modal" data-target="#exampleModal" id="searchBtn" name="searchBtn">
 								지원하기
 							</button>
 							
@@ -125,6 +125,7 @@
 							<div id="resumeGrid"></div>
 						</div>
 						<div class="modal-footer">
+							<button type="button" class="btn btn-outline-dark" data-dismiss="modal" id="resumeNew">이력서 작성</button>
 							<button type="button" class="btn btn-outline-dark" data-dismiss="modal" id="resumeMod">이력서 수정</button>
 							<button type="button" class="btn btn-outline-dark" data-dismiss="modal" id="recruitInsert">지원하기</button>
 						</div>
@@ -404,6 +405,11 @@
 		resumeInsert(resumeNo, id, recruitNo);
 		resumeMod(e);
 		
+	});
+	// 이력서작성으로 이동
+	$(document).on('click','#resumeNew',function resumeNew(e){
+		e.preventDefault();
+		location.href="/mem/mkResume";
 	});
 	
 	// 이력서수정으로 이동
