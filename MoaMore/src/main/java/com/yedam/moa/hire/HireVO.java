@@ -46,6 +46,8 @@ public class HireVO {
 	private String skillNo; // 스킬 번호
 	private String recruitImgNo; // 공고 상세 이미지 번호
 	private String reserDt; // 결제날짜
+	private int CNT; // 인기순
+	
 	
 	// 페이징
 	private int pageNum;

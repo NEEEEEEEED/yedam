@@ -146,7 +146,7 @@
 			    /* <a class="page-link" href="/selectInterNoti?pageNum=`+i+`">`+i+`</a> */
 			    for(let i=1;i<=pageSu;i++){
 			    	paging +=
-					    `<li class="page-item pointer"><span onclick="search(null, `+i+`)" class="page-link">`+i+`</span></li>`
+					    `<li class="page-item pointer"><span onclick="search(`+i+`)" class="page-link" style="cursor:pointer">`+i+`</span></li>`
 					    ;	
 			    }
 			    paging +=
@@ -215,7 +215,7 @@
 														<p class="mb-0">`+item.exprDt+`</p>
 													</div>
 													
-													<h5 class="mt-1 mb-3 fs-0 fs-md-1" >`+item.ttl+`</h5>
+													<h5 class="mt-1 mb-3 fs-0 fs-md-1 pb-5">`+item.ttl+`</h5>
 													<p class="mb-0">`+item.wksite+`</p>
 													
 													<div class="d-flex align-items-center justify-content-center justify-content-md-start gap-3">
