@@ -437,7 +437,9 @@
 	<!-- 셀프구직(관심순) -->
 	<select id="popSelf" resultType="SelfVO">
 		SELECT TTL,
-		       ID
+		       ID,
+		       JOB_SEARCH_NO,
+               RESUME_NO
 		FROM JOB_SEARCH_NOTIWR 
 		WHERE 1=1
 		<![CDATA[AND ROWNUM < 6]]>

@@ -94,27 +94,27 @@
 					<div class="row mt-7 gx-xl-7">
 					
 						<div class="col-md-3 text-center text-md-start h-auto mb-5" th:each="newSelect:${newSelect}">
-		    							<div class="d-flex justify-content-between flex-column h-100">
-										<div>
-<!-- 		    							/*<a th:href="/hireInfo?(recruitNo=${newSelect.recruitNo})&(skill=${newSelect.skill}) style="text-decoration: none;">*/ -->
+		    							<a th:href="@{/hireInfo?(recruitNo=${newSelect.recruitNo},skill=${newSelect.skill})}" style="text-decoration: none;">
+	    						<div class="d-flex justify-content-between flex-column h-100">
+									<div>
 		                				<div class="image">
 											<img class="w-75 w-md-100 rounded-2 " th:src="@{/moamoreImg/}+${newSelect.coImg}" alt="" style="width: 100px; height: 200px;" />
 											
 										</div>
 										<div class="d-flex align-items-center justify-content-center justify-content-md-start gap-2 mt-3">
-	              										
-	              							<p class="fw-bold mb-0 text-black skills" th:text="${newSelect.skill}"></p>
-										<p class="mb-0" th:text="${newSelect.exprDt}"></p>
-									</div>
-									
-									<h5 class="mt-1 mb-3 fs-0 fs-md-1" th:text="${newSelect.ttl}"></h5>
-									<p class="mb-0" th:text="${newSelect.wksite}"></p>
+		              										
+		              							<p class="fw-bold mb-0 text-black skills" th:text="${newSelect.skill}"></p>
+											<p class="mb-0" th:text="${newSelect.exprDt}"></p>
+										</div>
+										
+										<h5 class="mt-1 mb-3 fs-0 fs-md-1" th:text="${newSelect.ttl}"></h5>
+										<p class="mb-0" th:text="${newSelect.wksite}"></p>
 									</div>
 									<div class="d-flex align-items-center justify-content-center justify-content-md-start gap-3">
-									<h4 class="mb-0 text-danger" th:text="${newSelect.coNm}"></h4>
+										<h4 class="mb-0 text-danger" th:text="${newSelect.coNm}"></h4>
 									</div>
 								</div>
-<!-- 							</a> -->
+							</a>
 			    		</div>
 					</div>
 				</div>	
@@ -128,9 +128,9 @@
 					<div class="row mt-7 gx-xl-7">
 					
 						<div class="col-md-3 text-center text-md-start h-auto mb-5" th:each="popSelect:${popSelect}">
+		    							<a th:href="@{/hireInfo?(recruitNo=${popSelect.recruitNo},skill=${popSelect.skill})}" style="text-decoration: none;">
 		    							<div class="d-flex justify-content-between flex-column h-100">
 										<div>
-<!-- 		    							/*<a th:href="/hireInfo?(recruitNo=${newSelect.recruitNo})&(skill=${newSelect.skill}) style="text-decoration: none;">*/ -->
 		                				<div class="image">
 											<img class="w-75 w-md-100 rounded-2 " th:src="@{/moamoreImg/}+${popSelect.coImg}" alt="" style="width: 100px; height: 200px;" />
 											
@@ -148,7 +148,7 @@
 									<h4 class="mb-0 text-danger" th:text="${popSelect.coNm}"></h4>
 									</div>
 								</div>
-<!-- 							</a> -->
+							</a>
 			    		</div>
 					</div>
 					
@@ -164,9 +164,11 @@
 				<div>
 					<p style="text-align : center; color:#0A2640;" class="fs-3">◇인기 셀프구직◇</p>
 					<hr style="color:#65e48d; height: 3px;">
-					<ul th:each="popSelf:${popSelf}">
-						<li><span style="display:inline-block; width:300px;" th:text="${popSelf.ttl}"></span><span style="display:inline-block; width:100px; text-align:right;"th:text="${popSelf.id}"></span>
-<!-- 						/*<a th:href="@{/hireInfo(recruitNo=${newSelect.recruitNo}&skill=${newSelect.skill})}">ㄴㄴㄴ</a> */--></li>
+					<ul>
+						<li  th:each="popSelf:${popSelf}">
+						    <span style="display:inline-block; width:300px;" ><a th:text="${popSelf.ttl}" th:href="@{/selfJobDetail(jobSearchNo=${popSelf.jobSearchNo},resumeNo=${popSelf.resumeNo})}"></a></span>
+						    <span style="display:inline-block; width:100px; text-align:right;"th:text="${popSelf.id}"></span>
+ 						</li>
 					</ul>
 				</div>	
             </div>
@@ -180,9 +182,11 @@
 				<div>
 					<p style="text-align : center; color:#0A2640;" class="fs-3">◆인기 취업QnA◆</p>
 					<hr style="color:#65e48d; height: 3px;">
-					<ul th:each="jobQnaBest:${jobQnaBest}">
-						<li><span style="display:inline-block; width:300px;" th:text="${jobQnaBest.ttl}"></span><span style="display:inline-block; width:100px; text-align:right;"th:text="${jobQnaBest.id}"></span>
-<!-- 						/*<a th:href="@{/hireInfo(recruitNo=${newSelect.recruitNo}&skill=${newSelect.skill})}">ㄴㄴㄴ</a> */--></li>
+					<ul>
+						<li th:each="jobQnaBest:${jobQnaBest}">
+						    <span style="display:inline-block; width:300px;" ><a th:text="${jobQnaBest.ttl}" th:href="@{/jobQnaDetail(qaNotiwrNo=${jobQnaBest.qaNotiwrNo})}"></a></span>
+						    <span style="display:inline-block; width:100px; text-align:right;"th:text="${jobQnaBest.id}"></span>
+ 						</li>
 					</ul>
 				</div>	
             </div>
