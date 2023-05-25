@@ -107,7 +107,7 @@ section {
 					<div class="row mb-3">
 						<p id="forToggle" class="col-sm-4 text-end fs-3 fw-normal text-black">날짜선택</p>
 						<div class="col-sm-7 text-end">
-							<input th:placeholder="${product.svcCnt}+'개의 날짜를 선택해 주세요 click!'"  style="background-color: white;"
+							<input th:placeholder="${product.svcCnt}+'개의 날짜를 선택해 주세요'"  style="background-color: white;"
 								class="form-control pointer" id="datePick" ></input>
 						</div>
 					</div>
@@ -143,8 +143,8 @@ section {
 						</div>
 					</div>
 					<div class="text-center">
-						<button type="button" onclick="requestPay()">결제</button>
-						<button type="reset" class="btn btn-secondary">Reset</button>
+						<a href="/products" class="btn btn-outline-dark">취소</a>
+						<button type="button" class="btn btn-outline-dark" onclick="requestPay()">결제</button>
 					</div>
 				</form>
 				<!-- End Horizontal Form -->
