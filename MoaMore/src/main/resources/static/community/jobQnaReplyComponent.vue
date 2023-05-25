@@ -14,13 +14,13 @@
     <hr style="color:#ddd;">
 
     <!-- 댓글 리스트 반복 -->
-    <div v-for="(reply, index) in qnaReplyList" :key="reply.rplyNo" class="mb-2 p-3">
+    <div v-for="(reply, index) in qnaReplyList" :key="reply.rplyNo" class="mb-2 pt-3 px-3">
       <!-- 삭제 되지 않은 댓글일때 -->
       <div v-if="reply.rplyDelYn === 'N'">
         <div class="mb-2" style="display:flex">
           <div>
-            <img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
-            <span>{{reply.id}}</span>
+            <img :src="'/moamoreImg/' + reply.profileImg" class="circleImg" alt="이미지오류" @error="imgError">
+            <span class="ms-1">{{reply.id}}</span>
           </div>
           <div style="margin-left:auto;">
             <div class="d-flex">
@@ -66,8 +66,8 @@
             <div v-if="chreply.rplyDelYn === 'N'">
               <div class="mb-2" style="display:flex">
                 <div>
-                  <img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
-                  <span>{{chreply.id}}</span>
+                  <img :src="'/moamoreImg/' + chreply.profileImg" class="circleImg" alt="이미지오류" @error="imgError">
+                  <span class="ms-1">{{chreply.id}}</span>
                 </div>
                 <div style="margin-left:auto;">
                   <div class="d-flex">
@@ -111,8 +111,8 @@
           <div v-else>
             <div class="mb-2" style="display:flex">
               <div>
-                <img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
-                <span>{{chreply.id}}</span>
+                <img :src="'/moamoreImg/' + chreply.profileImg" class="circleImg" alt="이미지오류" @error="imgError">
+                <span class="ms-1">{{chreply.id}}</span>
               </div>
               <div style="margin-left:auto;">
                 <div class="d-flex">
@@ -151,8 +151,8 @@
     <div v-else>
         <div class="mb-2" style="display:flex">
           <div>
-            <img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
-            <span>{{reply.id}}</span>
+            <img :src="'/moamoreImg/' + reply.profileImg" class="circleImg" alt="이미지오류" @error="imgError" >
+            <span class="ms-1">{{reply.id}}</span>
           </div>
           <div style="margin-left:auto;">
             <div class="d-flex">
@@ -174,8 +174,8 @@
           <div v-for="(chreply, chIndex) in reply.chreplyList" :key="chreply.rplyNo">
             <div class="mb-2" style="display:flex">
               <div>
-                <img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
-                <span>{{chreply.id}}</span>
+                <img :src="'/moamoreImg/' + chreply.profileImg" class="circleImg" alt="이미지오류" @error="imgError" >
+                <span class="ms-1">{{chreply.id}}</span>
               </div>
               <div style="margin-left:auto;">
                 <div class="d-flex">
@@ -272,6 +272,12 @@
           }
         } 
       },
+
+      // 이미지 오류시 실행하는 src경로 변경 함수
+      imgError(event) {
+        event.target.src = 'self/profile.JPG';
+      },
+
 
       // 댓글 등록버튼 클릭시 실행하는 함수
       replyAdd(){

@@ -62,9 +62,9 @@
 				<div th:each="jobQna : ${jobQnaList}" class="hoverRow listRow row cursor ms-4" th:onclick="|location.href='@{/jobQnaDetail(qaNotiwrNo=${jobQna.qaNotiwrNo})}'|">
 					<div class="col-md-9">
 					 	<h4 class="mt-2" th:text="${jobQna.ttl}">게시글제목</h4>
-					 	<p class="fs--1 ellipsis" th:text="${jobQna.cntn}">Some text..Some text..</p>
-					 	<img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
-					 	<span th:text="${jobQna.id}">아이디</span>
+					 	<p class="ellipsis my-4" th:text="${jobQna.cntn}">Some text..Some text..</p>
+					 	<img th:src="@{/moamoreImg/} + ${jobQna.profileImg}" th:onerror="this.src='self/profile.JPG'" class="circleImg" alt="이미지안보임" >
+					 	&nbsp;<span class="fs-1" th:text="${jobQna.id}">아이디</span>
 				 	</div>
 				 	<div class="col-md-3" style="display: flex; align-items: center; flex-direction : column;" >
 				      <div style="border: 1px solid black; text-align: center; width: 60px; margin: auto; border-radius: 5px;  line-height: 15px; padding: 8px;">

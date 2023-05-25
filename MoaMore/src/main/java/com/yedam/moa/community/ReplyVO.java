@@ -23,4 +23,7 @@ public class ReplyVO {
 	
 	private String prReplyNo;			// 부모 댓글 번호
 	
+	// Member 테이블
+	private String profileImg;	// 회원정보 프로필 이미지
+	
 }

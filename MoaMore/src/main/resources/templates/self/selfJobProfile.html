@@ -231,7 +231,7 @@
 				<br>
 				<!-- 프로필 등록 버튼 -->
 				<div class="mb-5" style="text-align:right;">
-					<button id="cancleBtn" onclick="location.href='/selfJobList'" type="button" class="btn btn-light radius m-2">취소</button>
+					<button id="cancleBtn" type="button" class="btn btn-light radius m-2">취소</button>
 					<button id="myProfileBtn" type="button" class="btn btn-dark radius">등록</button>
 				</div>
 			</div>
@@ -408,8 +408,21 @@ function resumeList(id){
 	});
 }
 
+
+
 // 이력서 모달창에서 선택 버튼 클릭시
 $('#resumeSelect').on('click', function(){
+	
+	let resumeCount = grid.getCheckedRows().length; // 이력서 모달창에서 체크한 행의 총 갯수
+	
+	if(resumeCount >= 2){ // 선택한 이력서가 2개이상이라면
+		Swal.fire({
+			  icon: 'error',
+			  title: '이력서는 한개만 선택해주세요'
+		})
+		return;
+	}
+	
 	let row = grid.getCheckedRows(); // 체크된 행 정보 리턴
 	careerList(row[0].carrNo); // 경력사항 리스트 함수
 	schoolList(row[0].shcrNo); // 학력사항 리스트 함수
@@ -419,6 +432,7 @@ $('#resumeSelect').on('click', function(){
 		  icon: 'success',
 		  title: '이력서 불러오기 성공!'
 	})
+	
 });
 
 
@@ -996,6 +1010,24 @@ function myProfileAdd(imgName){
 			}
 		});
 }
+
+$('#cancleBtn').on('click', function(){
+	Swal.fire({
+		  icon: 'warning',
+		  html: '현재 작성중인 내용이 모두 사라집니다.<br>정말 나가시겠습니까?',
+		  showCancelButton: true,
+		  confirmButtonColor: '#d33',
+		  cancelButtonColor: '#3085d6',
+		  confirmButtonText: '나가기',
+		  cancelButtonText: '취소',
+		  buttonsStyling: true,
+		  reverseButtons: true
+		}).then((result) => {
+		  if (result.isConfirmed) {
+			  location.href='/selfJobList';
+		  }
+		})
+})
 
 </script>
 

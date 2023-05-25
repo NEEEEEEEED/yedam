@@ -14,13 +14,13 @@
 		<hr style="color:#ddd;">
 	
 		<!-- 댓글 리스트 반복 -->
-		<div v-for="(reply, index) in proReplyList" :key="reply.rplyNo" class="mb-2 p-3">
+		<div v-for="(reply, index) in proReplyList" :key="reply.rplyNo" class="mb-2 pt-2 px-3">
 			<!-- 삭제 되지 않은 댓글일때 -->
 			<div v-if="reply.rplyDelYn === 'N'">
 				<div class="mb-2" style="display:flex">
 					<div>
-						<img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
-						<span>{{reply.id}}</span>
+						<img :src="'/moamoreImg/' + reply.profileImg" class="circleImg" alt="이미지오류" @error="imgError">
+						<span class="ms-1">{{reply.id}}</span>
 					</div>
 					<div style="margin-left:auto;">
 						<div class="d-flex">
@@ -63,8 +63,8 @@
 			<div v-else>
 					<div class="mb-2" style="display:flex">
 						<div>
-							<img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
-							<span>{{reply.id}}</span>
+							<img :src="'/moamoreImg/' + reply.profileImg" class="circleImg" alt="이미지오류" @error="imgError">
+							<span class="ms-1">{{reply.id}}</span>
 						</div>
 						<div style="margin-left:auto;">
 							<div class="d-flex">
@@ -166,6 +166,11 @@
 								console.log(error)
 					})    
 				},
+
+				// 이미지 오류시 실행하는 src경로 변경 함수
+				imgError(event) {
+        	event.target.src = 'self/profile.JPG';
+      	},
 	
 				// 로그인한 유저 ID 받아오는 함수
 				getLoginUserId(){

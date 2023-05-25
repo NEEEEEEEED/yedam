@@ -34,17 +34,20 @@
 	<![CDATA[	
 		SELECT * FROM (
 		     SELECT ROWNUM AS rnum, a.* FROM (
-		        SELECT QA_NOTIWR_NO
-		               , TTL
-		               , ID
-		               , CNTN
-		               , HTML_CNTN
-		               , INQ_CNT
-		               , RPLY_CNT
-		               , REG_DT
-		               , RECO_CNT
-		          FROM EMPL_QST
-		         ORDER BY QA_NOTIWR_NO DESC ) a WHERE rownum <= #{page}*#{perPageNum}
+		        SELECT  eq.QA_NOTIWR_NO
+			          , eq.TTL
+			          , eq.ID
+			          , eq.CNTN
+			          , eq.HTML_CNTN
+			          , eq.INQ_CNT
+			          , eq.RPLY_CNT
+			          , eq.REG_DT
+			          , eq.RECO_CNT
+			          , m.PROFILE_IMG
+			      FROM EMPL_QST eq
+			      JOIN MEMBER m
+			        ON eq.id = m.id    
+			     ORDER BY QA_NOTIWR_NO DESC ) a WHERE rownum <= #{page}*#{perPageNum}
 			) WHERE RNUM > #{pageStart} ]]>
 	
 	</select>
@@ -68,17 +71,20 @@
 	
 	<!-- 취업Q&A 상세 페이지 조회 -->
 	<select id="jobQnaDetail" resultType="CommunityVO">
-		SELECT    QA_NOTIWR_NO
-				, TTL
-				, ID
-				, CNTN
-				, HTML_CNTN
-				, INQ_CNT
-				, RPLY_CNT
-				, REG_DT
-				, RECO_CNT
-		 FROM EMPL_QST
-		WHERE QA_NOTIWR_NO = #{qaNotiwrNo}
+		SELECT    eq.QA_NOTIWR_NO
+				, eq.TTL
+				, eq.ID
+				, eq.CNTN
+				, eq.HTML_CNTN
+				, eq.INQ_CNT
+				, eq.RPLY_CNT
+				, eq.REG_DT
+				, eq.RECO_CNT
+                , m.PROFILE_IMG
+		  FROM EMPL_QST eq
+          JOIN MEMBER m
+         	ON eq.id = m.id
+		 WHERE QA_NOTIWR_NO = #{qaNotiwrNo}
 	</select>
 	
 	<!-- 취업 Q&A 상세 페이지 추천등록 -->
@@ -187,32 +193,40 @@
 	
 	<!-- 취업 Q&A 모댓글 리스트 출력 -->
 	<select id="qnaReplyList" resultType="ReplyVO">
-		SELECT   RPLY_NO
-			   , QA_NOTIWR_NO
-			   , ID, RPLY_CNTN
-			   , REG_DT
-			   , RPLY_DEPTH
-			   , RPLY_GROUP
-			   , RPLY_DEL_YN 
-		  FROM EMPL_RPLY
+		SELECT   er.RPLY_NO
+			   , er.QA_NOTIWR_NO
+			   , er.ID
+               , er.RPLY_CNTN
+			   , er.REG_DT
+			   , er.RPLY_DEPTH
+			   , er.RPLY_GROUP
+			   , er.RPLY_DEL_YN 
+               , m.PROFILE_IMG
+		  FROM EMPL_RPLY er
+          JOIN MEMBER m
+            ON er.id = m.id
 		 WHERE QA_NOTIWR_NO = #{qaNotiwrNo} 
 		   AND RPLY_DEPTH = #{rplyDepth}
-		 ORDER BY REG_DT DESC
+		 ORDER BY REG_DT
 	</select>
 	
 	<!-- 모댓글에 대한 자식 댓글들 리스트 -->
 	<select id="childReplyList" resultType="ReplyVO">
-		SELECT   RPLY_NO
-		       , QA_NOTIWR_NO
-		       , ID, RPLY_CNTN
-		       , REG_DT
-		       , RPLY_DEPTH
-		       , RPLY_GROUP
-		       , RPLY_DEL_YN 
-		 FROM EMPL_RPLY
+		SELECT   er.RPLY_NO
+		       , er.QA_NOTIWR_NO
+		       , er.ID
+               , er.RPLY_CNTN
+		       , er.REG_DT
+		       , er.RPLY_DEPTH
+		       , er.RPLY_GROUP
+		       , er.RPLY_DEL_YN
+               , m.PROFILE_IMG
+		 FROM EMPL_RPLY er
+         JOIN MEMBER m
+           ON er.id = m.id
 		WHERE RPLY_DEPTH = #{rplyDepth}
 		  AND RPLY_GROUP = #{rplyGroup}
-		ORDER BY REG_DT DESC
+		ORDER BY REG_DT
 	</select>
 	
 	<!-- 취업 Q&A 댓글 수정 -->
@@ -342,25 +356,28 @@
 	
 	<!-- 프로젝트 모집 리스트 -->
 	<select id="projectList" resultType="PrjtVO">
-		SELECT PRJT_NO
-		       , get_common(PROG_MTHD) as progMthd
-		       , COLL_RCNT
-		       , get_common(PROG_TERM) as progTerm
-		       , SKILL
-		       , get_common(COLL_POSI) as collPosi
-		       , get_common(COCT_MTHD) as coctMthd
-		       , TTL
-		       , CNTN
-		       , RPLY_CNT
-		       , INQ_CNT
-		       , EXPC_DT
-		       , get_common(COLL_ST) as collSt
-		       , CLS_DT
-		       , ID
-		       , REG_DT
-		       , CONTACT
-		FROM PRJT
-		ORDER BY COLL_ST ASC , REG_DT DESC, PRJT_NO DESC
+		SELECT p.PRJT_NO
+		       , get_common(p.PROG_MTHD) as progMthd
+		       , p.COLL_RCNT
+		       , get_common(p.PROG_TERM) as progTerm
+		       , p.SKILL
+		       , get_common(p.COLL_POSI) as collPosi
+		       , get_common(p.COCT_MTHD) as coctMthd
+		       , p.TTL
+		       , p.CNTN
+		       , p.RPLY_CNT
+		       , p.INQ_CNT
+		       , p.EXPC_DT
+		       , get_common(p.COLL_ST) as collSt
+		       , p.CLS_DT
+		       , p.ID
+		       , p.REG_DT
+		       , p.CONTACT
+               , m.PROFILE_IMG
+		FROM PRJT p
+        JOIN MEMBER m
+          ON p.id = m.id
+        ORDER BY COLL_ST ASC , REG_DT DESC, PRJT_NO DESC
 	</select>
 	
 	<!-- 프로젝트 모집 오늘날짜 오전 9시를 기준으로 모집 상태 update  -->
@@ -372,25 +389,28 @@
 	
 	<!-- 프로젝트 모집 상세 -->
 	<select id="projectDetail" resultType="PrjtVO">
-		SELECT PRJT_NO
-		       , get_common(PROG_MTHD) as progMthd
-		       , COLL_RCNT
-		       , get_common(PROG_TERM) as progTerm
-		       , SKILL
-		       , get_common(COLL_POSI) as collPosi
-		       , get_common(COCT_MTHD) as coctMthd
-		       , TTL
-		       , CNTN
-		       , RPLY_CNT
-		       , INQ_CNT
-		       , EXPC_DT
-		       , get_common(COLL_ST) as collSt
-		       , CLS_DT
-		       , ID
-		       , REG_DT
-		       , CONTACT
-		FROM PRJT
-		WHERE prjt_no = #{prjtNo}
+		SELECT p.PRJT_NO
+		       , get_common(p.PROG_MTHD) as progMthd
+		       , p.COLL_RCNT
+		       , get_common(p.PROG_TERM) as progTerm
+		       , p.SKILL
+		       , get_common(p.COLL_POSI) as collPosi
+		       , get_common(p.COCT_MTHD) as coctMthd
+		       , p.TTL
+		       , p.CNTN
+		       , p.RPLY_CNT
+		       , p.INQ_CNT
+		       , p.EXPC_DT
+		       , get_common(p.COLL_ST) as collSt
+		       , p.CLS_DT
+		       , p.ID
+		       , p.REG_DT
+		       , p.CONTACT
+               , m.PROFILE_IMG
+		  FROM PRJT p
+          JOIN MEMBER m
+            ON p.id = m.id
+		 WHERE prjt_no = #{prjtNo}
 	</select>
 	
 	<!-- 프로젝트 모집 조회수 기능 -->
@@ -455,15 +475,18 @@
 	
 	<!-- 프로젝트모집 댓글 리스트 출력 -->
 	<select id="projectReplyList" resultType="ReplyVO">
-		SELECT   RPLY_NO
-			   , PRJT_NO
-			   , ID
-			   , RPLY_CNTN
-			   , REG_DT
-			   , RPLY_DEL_YN
-		  FROM PRJT_RPLY
+		SELECT   pr.RPLY_NO
+			   , pr.PRJT_NO
+			   , pr.ID
+			   , pr.RPLY_CNTN
+			   , pr.REG_DT
+			   , pr.RPLY_DEL_YN
+               , m.PROFILE_IMG
+		  FROM PRJT_RPLY pr
+          JOIN MEMBER m
+            ON pr.id = m.id
 		 WHERE PRJT_NO = #{prjtNo}
-		 ORDER BY REG_DT DESC
+		 ORDER BY REG_DT
 	</select>
 	
 	<!-- 프로젝트 모집 댓글 등록 -->
@@ -546,24 +569,27 @@
 	
 	<!-- 스터디 목록 리스트 -->
 	<select id="studyList" resultType="StudyVO">
-		SELECT 	 STUDY_NO
-		       , get_common(study_fg) as studyFg
-		       , get_common(prog_mthd) as progMthd
-		       , ttl
-		       , cntn
-		       , get_common(coct_mthd) as coctMthd
-		       , coll_rcnt
-		       , rply_cnt
-		       , inq_cnt
-		       , expc_dt
-		       , get_common(coll_st) as collSt
-		       , cls_dt
-		       , id
-		       , reg_dt
-		       , study_sjt
-		       , contact
-		       , get_common(prog_term) as progTerm
-		  FROM STUDY
+		SELECT 	 s.STUDY_NO
+		       , get_common(s.study_fg) as studyFg
+		       , get_common(s.prog_mthd) as progMthd
+		       , s.ttl
+		       , s.cntn
+		       , get_common(s.coct_mthd) as coctMthd
+		       , s.coll_rcnt
+		       , s.rply_cnt
+		       , s.inq_cnt
+		       , s.expc_dt
+		       , get_common(s.coll_st) as collSt
+		       , s.cls_dt
+		       , s.id
+		       , s.reg_dt
+		       , s.study_sjt
+		       , s.contact
+		       , get_common(s.prog_term) as progTerm
+               , m.PROFILE_IMG
+		  FROM STUDY s
+          JOIN MEMBER m
+            ON s.id = m.id
 	  ORDER BY COLL_ST ASC, REG_DT DESC ,STUDY_NO DESC
 	</select>
 	
@@ -577,24 +603,27 @@
 	
 	<!-- 스터디 모집 상세 -->
 	<select id="studyDetail" resultType="StudyVO">
-		SELECT STUDY_NO
-		       , get_common(study_fg) as studyFg
-		       , get_common(prog_mthd) as progMthd
-		       , ttl
-		       , cntn
-		       , get_common(coct_mthd) as coctMthd
-		       , coll_rcnt
-		       , rply_cnt
-		       , inq_cnt
-		       , expc_dt
-		       , get_common(coll_st) as collSt
-		       , cls_dt
-		       , id
-		       , reg_dt
-		       , study_sjt
-		       , contact
-		       , get_common(prog_term) as progTerm
-		FROM study
+		SELECT	 s.STUDY_NO
+		       , get_common(s.study_fg) as studyFg
+		       , get_common(s.prog_mthd) as progMthd
+		       , s.ttl
+		       , s.cntn
+		       , get_common(s.coct_mthd) as coctMthd
+		       , s.coll_rcnt
+		       , s.rply_cnt
+		       , s.inq_cnt
+		       , s.expc_dt
+		       , get_common(s.coll_st) as collSt
+		       , s.cls_dt
+		       , s.id
+		       , s.reg_dt
+		       , s.study_sjt
+		       , s.contact
+		       , get_common(s.prog_term) as progTerm
+               , m.PROFILE_IMG
+		  FROM study s
+          JOIN MEMBER m
+            ON s.id = m.id
 		WHERE STUDY_NO = #{studyNo}
 	</select>
 	
@@ -660,15 +689,18 @@
 	
 	<!-- 스터디 모집 댓글 리스트 출력 -->
 	<select id="studyReplyList" resultType="ReplyVO">
-		SELECT   RPLY_NO
-			   , STUDY_NO
-			   , ID
-			   , RPLY_CNTN
-			   , REG_DT
-			   , RPLY_DEL_YN
-		  FROM STUDY_RPLY
-		 WHERE STUDY_NO = #{studyNo}
-		 ORDER BY REG_DT DESC
+		SELECT   sr.RPLY_NO
+			   , sr.STUDY_NO
+			   , sr.ID
+			   , sr.RPLY_CNTN
+			   , sr.REG_DT
+			   , sr.RPLY_DEL_YN
+               , m.PROFILE_IMG
+		  FROM STUDY_RPLY sr
+          JOIN MEMBER m
+            ON sr.id = m.id
+		 WHERE sr.STUDY_NO = #{studyNo}
+		 ORDER BY sr.REG_DT
 	</select>
 	
 	<!-- 스터디 모집 댓글 등록 -->

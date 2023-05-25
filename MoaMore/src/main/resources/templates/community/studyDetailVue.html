@@ -84,7 +84,7 @@
 					    </div>
 					    
 				    	<div class="mb-5">
-				    		<img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
+				    		<img th:src="@{/moamoreImg/} + ${studyDetailInfo.profileImg}" th:onerror="this.src='self/profile.JPG'" class="circleImg" alt="이미지안보임">
 				    		<span class="ms-1" th:text="${studyDetailInfo.id}">작성자</span>
 				    		<!-- <hr class="mt-4" style="color:#ddd"> -->
 				    	</div>
@@ -140,7 +140,8 @@
 											<span class="fw-bold">연락방법</span>
 										</div>
 										<div class="col-md-4 p-1">
-											<span th:text="|&nbsp&nbsp${studyDetailInfo.coctMthd}|">카카오</span><a style="color:blue;" th:href="${studyDetailInfo.contact}" th:text="| (${studyDetailInfo.contact})|">연락처</a>
+											<span th:text="|&nbsp&nbsp${studyDetailInfo.coctMthd} ${studyDetailInfo.contact}|">카카오</span>
+											<!-- <a style="color:blue;" th:href="${studyDetailInfo.contact}" th:text="| (${studyDetailInfo.contact})|">연락처</a> -->
 										</div>
 										<div class="col-md-2 text-center p-1" style="background-color:#EBECF0;">
 											<span class="fw-bold">마감일</span>

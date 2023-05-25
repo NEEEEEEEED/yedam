@@ -22,11 +22,12 @@ public class PrjtVO {
 	private String id;			// 아이디
 	private String regDt;		// 등록일자
 	
+	// Member 테이블
+	private String profileImg;	// 회원정보 프로필 이미지
+	
+	// 신고테이블
 	private String postType;
-
 	private String rprtCnt="0"; //총신고건수
 	private String noneCnt="0"; 	//미처리 신고수
-	
-	
 	private String no;
 }

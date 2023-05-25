@@ -5,7 +5,7 @@
 	layout:decorate="~{template/layout}">
 <head>
 <meta charset="UTF-8">
-<title>모아모아/커뮤니티(뷰적용)</title>
+<title>모아모아/커뮤니티</title>
 
 </head>
 <body>
@@ -85,7 +85,7 @@
 					    
 					    
 				    	<div class="mb-5">
-				    		<img src="self/profile.JPG" class="circleImg" alt="이미지안보임" >
+				    		<img th:src="@{/moamoreImg/} + ${projectInfo.profileImg}" th:onerror="this.src='self/profile.JPG'" class="circleImg" alt="이미지안보임">
 				    		<span class="ms-1" th:text="${projectInfo.id}">작성자</span>
 				    		<!-- <hr class="mt-4" style="color:#ddd"> -->
 				    	</div>
@@ -99,13 +99,13 @@
 											<span class="fw-bold">모집직무</span>
 										</div>
 										<div class="col-md-4 p-1">
-											<span th:text="|&nbsp&nbsp${projectInfo.collPosi}|">백엔드개발자</span>
+											<span th:text="|&nbsp;&nbsp;${projectInfo.collPosi}|">백엔드개발자</span>
 										</div>
 										<div class="col-md-2 text-center p-1" style="background-color:#EBECF0;">
 											<span class="fw-bold">모집인원</span>
 										</div>
 										<div class="col-md-4 p-1">
-											<span th:text="|&nbsp&nbsp${projectInfo.collRcnt}|">1</span>
+											<span th:text="|&nbsp;&nbsp;${projectInfo.collRcnt}|">1</span>
 										</div>
 									</div>
 									<div class="row mb-2">
@@ -113,13 +113,13 @@
 											<span class="fw-bold">진행방식</span>
 										</div>
 										<div class="col-md-4 p-1">
-											<span th:text="|&nbsp&nbsp${projectInfo.progMthd}|">오프라인</span>
+											<span th:text="|&nbsp;&nbsp;${projectInfo.progMthd}|">오프라인</span>
 										</div>
 										<div class="col-md-2 text-center p-1" style="background-color:#EBECF0;">
 											<span class="fw-bold">요구기술</span>
 										</div>
 										<div class="col-md-4 p-1">
-											<span th:text="|&nbsp&nbsp${projectInfo.skill}|">자바,스프링</span>
+											<span th:text="|&nbsp;&nbsp;${projectInfo.skill}|">자바,스프링</span>
 										</div>
 									</div>
 									<div class="row mb-2">
@@ -127,13 +127,13 @@
 											<span class="fw-bold">시작예정</span>
 										</div>
 										<div class="col-md-4 p-1">
-											<span th:text="|&nbsp&nbsp${projectInfo.expcDt}|">시작예정일날짜</span>
+											<span th:text="|&nbsp;&nbsp;${projectInfo.expcDt}|">시작예정일날짜</span>
 										</div>
 										<div class="col-md-2 text-center p-1" style="background-color:#EBECF0;">
 											<span class="fw-bold ">진행기간</span>
 										</div>
 										<div class="col-md-4 p-1">
-											<span th:text="|&nbsp&nbsp${projectInfo.progTerm}|">2개월</span>
+											<span th:text="|&nbsp;&nbsp;${projectInfo.progTerm}|">2개월</span>
 										</div>
 									</div>
 									<div class="row mb-2">
@@ -141,13 +141,14 @@
 											<span class="fw-bold">연락방법</span>
 										</div>
 										<div class="col-md-4 p-1">
-											<span th:text="|&nbsp&nbsp${projectInfo.coctMthd}|">연락방법</span><a style="color:blue;" th:href="${projectInfo.contact}" th:text="| (${projectInfo.contact})|">연락처</a>
+											<span th:text="|&nbsp;&nbsp;${projectInfo.coctMthd} ${projectInfo.contact}|">연락방법</span>
+											<!-- <a style="color:blue;" th:href="${projectInfo.contact}" th:text="| (${projectInfo.contact})|">연락처</a> -->
 										</div>
 										<div class="col-md-2 text-center p-1" style="background-color:#EBECF0;">
 											<span class="fw-bold ">마감일</span>
 										</div>
 										<div class="col-md-4 p-1">
-											<span th:text="|&nbsp&nbsp${projectInfo.clsDt}|">마감일날짜</span>
+											<span th:text="|&nbsp;&nbsp;${projectInfo.clsDt}|">마감일날짜</span>
 										</div>
 									</div>
 								</div>	

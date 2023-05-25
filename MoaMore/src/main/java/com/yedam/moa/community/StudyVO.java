@@ -23,6 +23,10 @@ public class StudyVO {
 	private String clsDt;		// 모집마감일
 	private String regDt;		// 등록일자
 	
+	// Member 테이블
+	private String profileImg;	// 회원정보 프로필 이미지
+		
+	// 신고테이블
 	private String postType;
 	private String rprtCnt="0"; //신고건수
 	private String noneCnt="0"; //처리결과

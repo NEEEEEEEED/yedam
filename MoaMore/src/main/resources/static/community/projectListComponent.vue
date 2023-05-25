@@ -37,8 +37,8 @@
 
         <div class="d-flex">
           <div>
-            <img src="self/profile.JPG" class="circleImg" alt="이미지안보임">
-            <span>{{project.id}}</span>
+            <img :src="'/moamoreImg/' + project.profileImg" class="circleImg" alt="이미지오류" @error="imgError">
+            <span class="ms-2">{{project.id}}</span>
           </div>
           <div style="margin-left:auto">
             <i class="fa-regular fa-comment-dots fa-sm"></i>
@@ -76,6 +76,11 @@
             }).catch(function(error){
                 console.log(error)
             })
+      },
+
+      // 이미지 오류시 실행하는 src경로 변경 함수
+      imgError(event) {
+        event.target.src = 'self/profile.JPG';
       },
 
       // 버튼 클릭시 프로젝트 상세 페이지 이동

@@ -886,11 +886,104 @@ function studyUpdatePlaceholder() {
  		if($("#projectTitle").val() == "") { // 제목이 비어있으면
 			Swal.fire({
 				  icon: 'error',
-				  title: '제목을 입력해주세요'
+				  title: '제목을 입력해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
 			})
 			return;
 		 }
-	   	
+ 		
+ 		if($("#collPosi").val() == "") { // 모집직무가 비어있으면
+			Swal.fire({
+				  icon: 'error',
+				  title: '모집직무를 선택해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		 }
+ 		
+ 		if($("#collRcnt").val() == "") { // 모집인원이 비어있으면
+			Swal.fire({
+				  icon: 'error',
+				  title: '모집인원을 작성해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		 }
+ 		
+ 		if(!$('input[name="progMthd"]').is(':checked')) { // 진행방식이 체크되어있지않다면
+			Swal.fire({
+				  icon: 'error',
+				  title: '진행방식을 선택해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		}
+ 		
+ 		if($("#skill").val() == "") { // 요구기술이 비어있다면
+			Swal.fire({
+				  icon: 'error',
+				  title: '요구기술을 작성해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		}
+ 		
+ 		if($("#expcDt").val() == "") { // 시작예정 비어있다면
+			Swal.fire({
+				  icon: 'error',
+				  title: '시작예정일을 선택해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		}
+ 		
+ 		if($("#progTerm").val() == "") { // 진행기간이 비어있다면
+			Swal.fire({
+				  icon: 'error',
+				  title: '진행기간을 선택해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		}
+ 		
+ 		if($("#coctMthd").val() == "") { // 연락방법이 비어있다면
+			Swal.fire({
+				  icon: 'error',
+				  title: '연락방법을 선택해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		}
+ 		
+ 		if($("#contact").val() == "") { // 연락이 비어있다면
+			Swal.fire({
+				  icon: 'error',
+				  title: '연락주소를 작성해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		}
+ 		
+ 		if($("#clsDt").val() == "") { // 모집마감일이 비어있다면
+			Swal.fire({
+				  icon: 'error',
+				  title: '모집마감일을 선택해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		}
+ 		
+ 		
      	// 에디터에 들어있는 HTML태그를 포함한 내용
 		const editorData = projectNewEditor.getData(); 
      	
