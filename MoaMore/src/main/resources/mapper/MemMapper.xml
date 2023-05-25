@@ -125,6 +125,7 @@
 			get_common(gen) gen,
 			birth,
 			addr,
+			addr_dt,
 			join_dt,
 			age,
 			api,
@@ -398,6 +399,7 @@
     		<if test="addrDt != null">addrDt = #{addrDt},</if>
     		<if test="phCl != null">ph_cl = #{phCl},</if>
     		<if test="addr != null">addr = #{addr},</if>
+    		<if test="addrDt != null">addr_dt = #{addrDt},</if>
     		<if test="post != null">post = #{post}</if>
 		where id = #{id}
 		</update>

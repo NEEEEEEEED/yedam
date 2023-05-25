@@ -368,6 +368,10 @@ section {
 								<label class="col-3">주소</label> <input id="addr" disabled
 									th:value="${member.addr}" class="col-7">
 							</div>
+							<div class="row d-flex justify-content-center mb-2">
+								<label class="col-3">상세주소</label> <input id="addrDt" 
+									th:value="${member.addrDt}"  class="col-7">
+							</div>
 						</div>
 					</div>
 					<div class="modal-footer d-flex justify-content-center">
@@ -495,14 +499,16 @@ section {
 				let updateAddr = document.querySelector('#updateAddr'); // 주소변경 모달창
 				let post = updateAddr.querySelector('#post').value // 새로바뀐 우편번호
 				let addr = updateAddr.querySelector('#addr').value // 새로바뀐 주소
+				let addrDt = updateAddr.querySelector('#addrDt').value // 새로바뀐 상세주소
 				// 주소 수정 ajax
 				 $.ajax({
 					url : '/updateInfo',
 					type : 'post',
 					data : {post : post,
-							addr : addr},
+							addr : addr,
+							addrDt : addrDt},
 					success : function(result) {
-						oldAddr.innerText = '('+post+')'+addr // 기존주소 화면상에서도 바꾸기
+						oldAddr.innerText = '('+post+')'+addr+' '+addrDt;  // 기존주소 화면상에서도 바꾸기
 						Swal.fire({
 							icon : 'success',
 							title : '주소변경 완료!'
