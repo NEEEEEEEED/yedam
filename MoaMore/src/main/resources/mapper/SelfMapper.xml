@@ -107,36 +107,6 @@
 				ORDER BY jsn.job_search_no DESC)
 	</select>
 	
-	<!-- 셀프구직 페이지 영역 : 버전 1 -->
-	<!-- select  job_search_no
-				,resume_no,id, 
-		        posit, 
-		        get_common(pubc_range) as pubcRange, 
-		        ttl, get_common(hope_wksite) as hopeWksite, get_common(duty_fld) as dutyFld, hope_sal, myimg, 
-		        interest, prop, reg_dt
-		from job_search_notiwr
-		<where>
-		    <if test="auth != null and !auth.equals('') and auth.equals('user')">
-		         (id = #{id} OR pubc_range = 'c3')
-		    </if>
-		    <if test="auth != null and !auth.equals('') and auth.equals('co')">
-		        (pubc_range = 'c3' OR pubc_range = 'c2')
-		    </if>
-		    <if test="auth != null and !auth.equals('') and auth.equals('admin')">
-		    
-		    </if>
-		    <if test="dutyFld != null and !dutyFld.equals('')">
-		    	AND duty_fld = #{dutyFld}
-		    </if>
-		    <if test="career != null and !career.equals('')">
-		    	AND career = #{career}
-		    </if>
-		    <if test="hopeWksite != null and !hopeWksite.equals('')">
-		    	AND hope_wksite = #{hopeWksite}
-		    </if>
-		</where>
-		ORDER BY job_search_no desc -->
-	
 
 	<!-- 관심등록 리스트 -->
 	<select id="selfJobInterestList" resultType="SelfVO">
@@ -281,7 +251,7 @@
 				, #{hopeSal}
 				, #{residency}
 				, #{myimg}
-				, TO_CHAR(sysdate, 'YYYY-MM-DD'))
+				, TO_CHAR(sysdate, 'YYYY-MM-DD HH24:MI:SS'))
 	</insert>
 
 	<!-- 셀프구직 스킬 기본키부여 -->
@@ -324,7 +294,7 @@
 				, #{pofolImg}
 				, #{pofolFile}
 				, #{pofolUuidFile}
-				, TO_CHAR(sysdate, 'YYYY-MM-DD')) 
+				, TO_CHAR(sysdate, 'YYYY-MM-DD HH24:MI:SS'))
 	</insert>
 	
 	<!-- 포트폴리오 목록 리스트 -->

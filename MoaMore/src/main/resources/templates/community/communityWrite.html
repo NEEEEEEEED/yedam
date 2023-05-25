@@ -14,6 +14,15 @@
 <script src="https://cdn.ckeditor.com/ckeditor5/37.1.0/decoupled-document/ckeditor.js"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/37.1.0/decoupled-document/translations/ko.js"></script>
 
+  <!-- jQuery 라이브러리 추가 -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  
+  <!-- jQuery UI 라이브러리 추가 -->
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  
+  <!-- jQuery UI CSS 추가 -->
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  
 </head>
 <body>
 	<div layout:fragment="content">
@@ -157,7 +166,7 @@
 							<tr>
 								<th>면접일자</th>
 								<td>
-									<input id="intrvDt" name="intrvDt" class="inputStyle" type="date" >
+									<input id="intrvDt" name="intrvDt" readonly class="inputStyle" placeholder="면접 본 날짜를 선택해주세요" type="text" >
 								</td>
 								<th>면접증빙서류</th>
 								<td>
@@ -240,7 +249,7 @@
 							</tr>
 							<tr>
 								<th>시작예정</th>
-								<td><input id="expcDt" name="expcDt" class="inputStyle" type="date"></td>
+								<td><input id="expcDt" name="expcDt" class="inputStyle" readonly placeholder="프로젝트 시작예정 날짜를 선택해주세요" type="text"></td>
 								<th>진행기간</th>
 								<td>
 								  <select id="progTerm"  name="progTerm" class="inputStyle">
@@ -262,7 +271,7 @@
 							</tr>
 							<tr>
 								<th>모집마감일</th>
-								<td><input id="clsDt" name="clsDt" class="inputStyle" type="date"></td>
+								<td><input id="clsDt" name="clsDt" class="inputStyle" readonly placeholder="프로젝트 모집마감 날짜를 선택해주세요" type="text"></td>
 								<th>모집상태</th>
 								<td>
 								  <select id="collSt" name="collSt" class="inputStyle">
@@ -329,7 +338,7 @@
 							</tr>
 							<tr>
 								<th>시작예정</th>
-								<td><input id="studyExpcDt" name="expcDt" class="inputStyle" type="date"></td>
+								<td><input id="studyExpcDt" name="expcDt" class="inputStyle" readonly placeholder="스터디 시작예정 날짜를 선택해주세요" type="text"></td>
 								<th>진행기간</th>
 								<td>
 								  <select id="studyProgTerm"  name="progTerm" class="inputStyle">
@@ -351,7 +360,7 @@
 							</tr>
 							<tr>
 								<th>모집마감일</th>
-								<td><input id="studyClsDt" name="clsDt" class="inputStyle" type="date"></td>
+								<td><input id="studyClsDt" name="clsDt" class="inputStyle" readonly placeholder="스터디 모집마감 날짜를 선택해주세요" type="text"></td>
 								<th>모집상태</th>
 								<td>
 								  <select id="studyCollSt" name="collSt" class="inputStyle">
@@ -387,6 +396,55 @@
 		 </div>
 		 
 <script>
+
+$(function() {
+	
+	// 면접후기 날짜
+    $("#intrvDt").datepicker({
+      maxDate: '0', // 오늘이전만 선택 가능
+      dateFormat: 'yy-mm-dd', // MM/dd/yyyy 형식으로 표시
+      onSelect: function(dateText, inst) {
+          $("#intrvDt").val(dateText); // 선택한 날짜를 input에 표시
+        }
+    });
+    
+	// 프로젝트 시작예정 날짜
+    $("#expcDt").datepicker({
+    	minDate: '0', // 오늘이후만 선택 가능
+        dateFormat: 'yy-mm-dd', // MM/dd/yyyy 형식으로 표시
+        onSelect: function(dateText, inst) {
+            $("#expcDt").val(dateText); // 선택한 날짜를 input에 표시
+          }
+     });
+	
+ 	// 프로젝트 모집마감 날짜
+    $("#clsDt").datepicker({
+    	minDate: '0', // 오늘이후만 선택 가능
+        dateFormat: 'yy-mm-dd', // MM/dd/yyyy 형식으로 표시
+        onSelect: function(dateText, inst) {
+            $("#clsDt").val(dateText); // 선택한 날짜를 input에 표시
+          }
+     });
+ 	
+ 	// 스터디 시작예정 날짜
+    $("#studyExpcDt").datepicker({
+    	minDate: '0', // 오늘이후만 선택 가능
+        dateFormat: 'yy-mm-dd', // MM/dd/yyyy 형식으로 표시
+        onSelect: function(dateText, inst) {
+            $("#studyExpcDt").val(dateText); // 선택한 날짜를 input에 표시
+          }
+     });
+    
+	// 스터디 모집마감 날짜
+    $("#studyClsDt").datepicker({
+    	minDate: '0', // 오늘이후만 선택 가능
+        dateFormat: 'yy-mm-dd', // MM/dd/yyyy 형식으로 표시
+        onSelect: function(dateText, inst) {
+            $("#studyClsDt").val(dateText); // 선택한 날짜를 input에 표시
+          }
+     });
+    
+ });
 
 // 프로젝트 모집에서 사용
 // select(연락방법)가 변경될시 input(연락)의 placeholder 변경

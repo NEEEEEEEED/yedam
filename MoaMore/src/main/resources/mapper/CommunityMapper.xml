@@ -24,7 +24,8 @@
 			  	, #{id}
 			  	, #{cntn}
 			  	, #{htmlCntn}
-			  	, TO_CHAR(sysdate, 'YYYY-MM-DD') )
+			  	, TO_CHAR(sysdate, 'YYYY-MM-DD HH24:MI:SS'))
+			  	
 	</insert>
 
 	<!-- 취업Q&A 게시글 목록 조회 -->
@@ -264,7 +265,7 @@
 				, #{intrvImg}
 				, #{qstCntn}
 				, #{intrvDt}
-				, TO_CHAR(sysdate, 'YYYY-MM-DD'))
+				, TO_CHAR(sysdate, 'YYYY-MM-DD HH24:MI:SS'))
 	</insert>
 	
 	<!-- 면접후기 리스트 출력 -->
@@ -336,7 +337,7 @@
 				, #{expcDt}
 				, #{collSt}
 				, #{clsDt}
-				, TO_CHAR(sysdate, 'YYYY-MM-DD'))
+				, TO_CHAR(sysdate, 'YYYY-MM-DD HH24:MI:SS'))
 	</insert>
 	
 	<!-- 프로젝트 모집 리스트 -->
@@ -359,7 +360,7 @@
 		       , REG_DT
 		       , CONTACT
 		FROM PRJT
-		ORDER BY COLL_ST ASC , PRJT_NO DESC
+		ORDER BY COLL_ST ASC , REG_DT DESC, PRJT_NO DESC
 	</select>
 	
 	<!-- 프로젝트 모집 오늘날짜 오전 9시를 기준으로 모집 상태 update  -->
@@ -540,7 +541,7 @@
 				, #{progTerm}
 				, #{clsDt}
 				, #{collSt}
-				, TO_CHAR(sysdate, 'YYYY-MM-DD'))
+				, TO_CHAR(sysdate, 'YYYY-MM-DD HH24:MI:SS'))
 	</insert>
 	
 	<!-- 스터디 목록 리스트 -->
@@ -563,7 +564,7 @@
 		       , contact
 		       , get_common(prog_term) as progTerm
 		  FROM STUDY
-	  ORDER BY COLL_ST ASC, STUDY_NO DESC
+	  ORDER BY COLL_ST ASC, REG_DT DESC ,STUDY_NO DESC
 	</select>
 	
 	<!-- 스터디 모집 오늘날짜 오전 9시를 기준으로 모집 상태 update  -->

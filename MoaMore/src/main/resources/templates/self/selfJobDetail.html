@@ -42,7 +42,7 @@
 				<hr style="color : #ddd;">
 				
 				<div class="fs-1 text-left mt-5 mb-7">
-					<span class="fs-2 subTitle p-2">&nbsp&nbsp&nbsp&nbsp저의 포트폴리오입니다&nbsp&nbsp&nbsp&nbsp</span>
+					<span class="fs-2 subTitle p-2"><i class="far fa-file-powerpoint"></i> 저의 포트폴리오입니다</span>
 					<div style="display:flex">
 						<p class="fw-bold text-dark mt-5 mb-5" style="margin-left : 16px;" th:text="|◈ ${selfJobInfo.name}님의 포트폴리오 (|">◈ OOO님의 포트폴리오</p>
 						<span class="fw-bold text-dark mt-5 mb-5"><span style="color:red; font-weight:bold;">*</span>파일명클릭시 다운로드가능)</span>
@@ -62,7 +62,7 @@
 				</div>
 					
 				<div class="fs-1 text-left my-8">
-					<span class="fs-2 subTitle p-2">&nbsp&nbsp&nbsp&nbsp저는 이런사람이에요&nbsp&nbsp&nbsp&nbsp</span>
+					<span class="fs-2 subTitle p-2"><i class="far fa-user"></i> 저는 이런사람이에요</span>
 					<p class="fw-bold text-dark mt-5 mb-1" style="margin-left : 16px;" th:text="|◈ ${selfJobInfo.name}님의 희망 사항|">◈ OOO님의 희망 사항</p>
 					<div class="mt-4" style="margin-left : 16px;">
 						<ul>
@@ -76,7 +76,7 @@
 				</div>
 				
 				<div class="fs-1 text-left mb-8">
-					<span class="fs-2 subTitle p-2">&nbsp&nbsp&nbsp&nbsp이런 기술스택을 가지고있어요&nbsp&nbsp&nbsp&nbsp</span>
+					<span class="fs-2 subTitle p-2"><i class="fas fa-wrench"></i> 이런 기술스택을 가지고있어요</span>
 					<p class="fw-bold text-dark mt-5 mb-4" style="margin-left : 16px;" th:text="|◈ ${selfJobInfo.name}님의 보유기술|">◈ OOO님의 보유기술</p>
 					<!-- 반복 -->
 					<div th:each="skillItem : ${skillList}" class="mb-3 mx-2" style="display : inline-block;">
@@ -85,7 +85,7 @@
 				</div>
 				
 				<div class="fs-1 text-left my-8">
-					<span class="fs-2 subTitle p-2">&nbsp&nbsp&nbsp&nbsp제 실무경험과 학력입니다&nbsp&nbsp&nbsp&nbsp</span>
+					<span class="fs-2 subTitle p-2"><i class="fas fa-book-open"></i>  제 실무경험과 학력입니다</span>
 						<p class="fw-bold text-dark mt-5 mb-4" style="margin-left : 16px;">◈ 경력</p>
 							<div class="row">
 								<div id="carrRows" class="col-md-10" style="margin-left : 40px;">
