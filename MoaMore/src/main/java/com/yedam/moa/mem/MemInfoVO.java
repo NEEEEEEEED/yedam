@@ -16,6 +16,7 @@ public class MemInfoVO {
 	private String post;	//우편번호
 	private String gen;		//성별
 	private String pscheck;
-	private String bizno;
-	private String authr;
+	private String bizno;	//사업자번호
+	private String authr;	//권한	
+	private String clsf; 	//회원 분류
 }

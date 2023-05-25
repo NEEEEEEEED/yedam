@@ -291,9 +291,11 @@ public class MemController {
 		vo.setPw(passEnc.encode(vo.getPw()));
 		if(vo.getBizno() != null && !vo.getBizno().isEmpty()) {
 			vo.setAuthr("ROLE_CO");
+			vo.setClsf("I2");
 			count+= mem.insertBiz(vo);
 		}else {
 			vo.setAuthr("ROLE_MEM");
+			vo.setClsf("I1");
 		}
 		count += mem.joinMoaMore(vo);
 		return count;
