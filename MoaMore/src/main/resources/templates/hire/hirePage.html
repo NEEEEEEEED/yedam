@@ -60,14 +60,14 @@
 				
 
 				<!-- 현재로그인된 유저가 가진 권한 -->
-	        	<div sec:authorize="hasRole('ROLE_MEM')" style="margin-left:auto; display:inline-block;">
-					<button type="submit" class="btn btn-outline-dark btn-sm searchBtn" id="searchReset">초기화</button>
-					<button type="button" class="btn btn-sm " style="background-color:#0A2640; color:white; height:40px;" id="scrapList">스크랩 정렬</button>
-				</div>
-				<div sec:authorize="hasRole('ROLE_CO')" style="margin-left:auto;">
-					<button type="submit" class="btn btn-outline-dark btn-sm searchBtn" id="searchReset">초기화</button>
-					<button type="button" class="btn btn-outline-dark btn-sm" id="hireInsert">등록하기</button>
-				</div> 
+	        	<span sec:authorize="hasRole('ROLE_MEM')" style="margin-left:auto; display:inline-block;">
+					<button type="button" class="btn btn-outline-dark btn-sm searchBtn" id="searchReset">초기화</button>
+					<button type="button" class="btn btn-outline-dark btn-sm" style="background-color:#0A2640; color:white; height:37px;" id="scrapList">스크랩 정렬</button>
+				</span>
+				<span sec:authorize="hasRole('ROLE_CO')" style="margin-left:auto;">
+					<button type="button" class="btn btn-outline-dark btn-sm searchBtn" id="searchReset">초기화</button>
+					<button type="button" class="btn btn-outline-dark btn-sm" style="background-color:#0A2640; color:white; height:37px;" id="hireInsert">등록하기</button>
+				</span> 
 		</div>
 		<section class="pt-0" id="hireAllList">
 			<div class="container">
@@ -108,10 +108,10 @@
 			
 			searchAll(1);
 			
-			$("#job").val() = "", // 직군
-			$("#wksite").val() = "", // 지역
-			$("#carr").val() = "", // 경력
-			$("#skill").val() = "" // 기술스펙
+			$("#job").val(""); // 직군
+			$("#wksite").val(""); // 지역
+			$("#carr").val("");// 경력
+			$("#skill").val("");// 기술스펙
 		});
 		// 페이징 버튼
 		function paging(totalInter){
