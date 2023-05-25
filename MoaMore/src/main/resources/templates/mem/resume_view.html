@@ -42,6 +42,16 @@
         font-weight: 1000;
         font-size: larger;
       }
+	  i.rotate{
+		    animation: rotate_image 10s linear infinite;
+		    transform-origin: 50% 50%;
+		}
+		 
+		@keyframes rotate_image{
+			100% {
+		    	transform: rotate(360deg);
+		    }
+		}
       /*       #pofolBtn{ */
       /*        height: 40px; */
       /*        float: right; */
@@ -50,6 +60,7 @@
   </head>
   <body>
     <div class="container" layout:fragment="content">
+    
       <div class="row g-4 my-5">
         <!-- 		sidebar -->
 
@@ -153,7 +164,7 @@
 
           <!-- ---------------↓↓↓↓↓↓선택 한 기술--------------------------- -->
           <div th:if="${resume.skillNo}!=null">
-            <h4>보유 기술</h4>
+            <h4><i class="bi bi-asterisk rotate" ></i>보유 기술</h4>
             <div class="col-md-12 col-lg-12">
               <div class="row my-3 ps-4 py-3">
                 <div class="col-md-2">

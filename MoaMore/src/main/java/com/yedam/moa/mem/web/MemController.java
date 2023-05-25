@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +34,9 @@ public class MemController {
 
 	@Autowired
 	CommService com;
+	
+	@Autowired
+	PasswordEncoder passEnc;
 	
 	@Value("${site.upload}")
 	String uploadPath;
@@ -284,10 +288,14 @@ public class MemController {
 	@ResponseBody
 	public int signUp(MemInfoVO vo) {
 		int count = 0;
-		count += mem.joinMoaMore(vo);
+		vo.setPw(passEnc.encode(vo.getPw()));
 		if(vo.getBizno() != null && !vo.getBizno().isEmpty()) {
+			vo.setAuthr("ROLE_CO");
 			count+= mem.insertBiz(vo);
+		}else {
+			vo.setAuthr("ROLE_MEM");
 		}
+		count += mem.joinMoaMore(vo);
 		return count;
 	}
 	

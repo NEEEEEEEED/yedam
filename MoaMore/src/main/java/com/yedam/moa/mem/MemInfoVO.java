@@ -17,5 +17,5 @@ public class MemInfoVO {
 	private String gen;		//성별
 	private String pscheck;
 	private String bizno;
-	
+	private String authr;
 }
