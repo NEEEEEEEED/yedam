@@ -7,7 +7,7 @@ import PayView from "../views/PayView.vue";
 
 const routes = [
   {
-    path: "/",
+    path: "/admin",
     name: "home",
     component: HomeView,
   },
