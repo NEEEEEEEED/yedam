@@ -14,8 +14,8 @@
       <div class="card-body">
         <p class="card-title">검색조건</p>
         <form class="row g-3">
-          <span class="col-sm-1 col-form-label">분류</span>
-          <div class="col-md-5" style="padding-top: 7px">
+          <span class="col-sm-1 col-form-label m-0">분류</span>
+          <div class="col-md-5 m-0" style="padding-top: 7px">
             <div class="form-check form-check-inline">
               <input
                 class="form-check-input"
@@ -79,7 +79,7 @@
 
     <div class="row">
       <div class="col-md-12 grid-margin stretch-card">
-        <div class="card" style="min-height: 100%">
+        <div class="card" style="min-height: 637px">
           <div class="card-body">
             <div
               class="mt-1"
@@ -92,7 +92,15 @@
                 data-v-d3f5b421=""
                 @click="deleteList"
               >
-                Delete
+                <!----><span
+                  class="pi pi-trash p-button-icon p-button-icon-left"
+                ></span
+                ><span class="p-button-label">삭제</span
+                ><!----><span
+                  class="p-ink"
+                  role="presentation"
+                  aria-hidden="true"
+                ></span>
               </button>
             </div>
             <TabView :activeIndex="active">
@@ -151,37 +159,6 @@
                   ></Column>
                 </DataTable>
               </TabPanel>
-              <!-- <TabPanel header="공고목록">
-                <DataTable
-                  style="clear: both"
-                  ref="dataTable"
-                  :value="notiList"
-                  class="p-datatable-sm"
-                  dataKey=""
-                  showGridlines
-                  sortField=""
-                  paginator
-                  :rows="10"
-                  :rowsPerPageOptions="[5, 10, 20]"
-                  tableStyle="min-width: 100%"
-                  v-model:selection="selectedUser"
-                  selectionMode="sigle"
-                >
-                  <Column
-                    selectionMode="multiple"
-                    headerStyle="width: 3rem"
-                  ></Column>
-                  <Column field="" header="분류"></Column>
-                  <Column field="" header="제목"></Column>
-                  <Column field="" header="작성자"></Column>
-                  <Column field="" header="작성일자"></Column>
-                  <Column field="" header="승인일자"></Column>
-                  <Column field="" header="승인상태"></Column>
-                  <Column field="rprtCnt" header="신고수"></Column>
-                  <Column field="rprtSt" header="처리결과"></Column>
-                  <Column field="dispoDt" header="처리일자"></Column>
-                </DataTable>
-              </TabPanel> -->
               <TabPanel header="댓글목록">
                 <DataTable
                   style="clear: both"

@@ -14,9 +14,91 @@
       <div class="card-body">
         <p class="card-title">검색조건</p>
         <form class="row g-3">
-          <div class="row">
-            <div class="col-md-8"></div>
-            <div class="col-md-3"></div>
+          <div class="row" style="margin-bottom: 10px">
+            <span class="col-sm-1 col-form-label">회원</span>
+            <div class="col-md-5">
+              <div
+                class="form-check form-check-inline"
+                style="padding-top: 6px"
+              >
+                <label for="recruit" class="form-check-label">구인공고</label>
+                <input id="recruit" type="checkbox" class="form-check-input" />
+              </div>
+              <div
+                class="form-check form-check-inline"
+                style="padding-top: 6px"
+              >
+                <label for="self" class="form-check-label">구직공고</label>
+                <input id="self" type="checkbox" class="form-check-input" />
+              </div>
+              <div
+                class="form-check form-check-inline"
+                style="padding-top: 6px"
+              >
+                <label for="interview" class="form-check-label">면접후기</label>
+                <input
+                  id="interview"
+                  type="checkbox"
+                  class="form-check-input"
+                />
+              </div>
+            </div>
+            <span class="col-sm-1 col-form-label">작성일자</span>
+            <div class="col-md-4">
+              <div class="row">
+                <div class="col-md-6">
+                  <input type="date" class="form-control" v-model="startDate" />
+                </div>
+                <div class="col-md-6">
+                  <input type="date" class="form-control" v-model="lastDate" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" style="margin-bottom: 10px">
+            <span class="col-sm-1 col-form-label">작성자</span>
+            <div class="col-md-4">
+              <input type="text" class="form-control" v-model="name" />
+            </div>
+            <div class="col-md-1"></div>
+            <span class="col-sm-1 col-form-label">승인일자</span>
+            <div class="col-md-4">
+              <div class="row">
+                <div class="col-md-6">
+                  <input type="date" class="form-control" v-model="startDate" />
+                </div>
+                <div class="col-md-6">
+                  <input type="date" class="form-control" v-model="lastDate" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" style="margin-bottom: 10px">
+            <span class="col-sm-1 col-form-label">제목</span>
+            <div class="col-md-4">
+              <input type="text" class="form-control" v-model="id" />
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-8"></div>
+                <div class="col-md-4">
+                  <button
+                    style="float: right; margin-left: 5px"
+                    class="btn btn-outline-primary"
+                    type="submit"
+                    @click.prevent="searchBtn"
+                  >
+                    검색</button
+                  ><button
+                    style="float: right"
+                    class="btn btn-outline-secondary"
+                    type="reset"
+                  >
+                    초기화
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </form>
       </div>
@@ -24,34 +106,65 @@
 
     <div class="row">
       <div class="col-md-12 grid-margin stretch-card">
-        <div class="card" style="min-height: 100%">
+        <div class="card" style="min-height: 637px">
           <div class="card-body">
-            <div
-              class="mt-1 mb-1"
-              style="float: right; position: relative; z-index: 2"
-            >
-              <Button
-                label="success"
-                severity="success"
-                style="margin-left: 5px"
+            <span
+              class="p-buttonset"
+              data-v-d3f5b421=""
+              style="float: right; padding-top: 10px; padding-bottom: 10px"
+              ><button
+                class="p-button p-component"
+                type="button"
+                aria-label="Save"
+                data-v-d3f5b421=""
                 @click="approveBtn"
-                >승인</Button
               >
-              <Button
-                label="secondary"
-                severity="secondary"
-                style="margin-left: 5px"
+                <!----><span
+                  class="pi pi-check p-button-icon p-button-icon-left"
+                ></span
+                ><span class="p-button-label">승인</span
+                ><!----><span
+                  class="p-ink"
+                  role="presentation"
+                  aria-hidden="true"
+                ></span>
+              </button>
+
+              <button
+                class="p-button p-component"
+                type="button"
+                aria-label="Cancel"
+                data-v-d3f5b421=""
                 @click="approveCancelBtn"
-                >승인취소</Button
               >
-              <Button
-                label="Danger"
-                severity="danger"
-                style="margin-left: 5px"
+                <!----><span
+                  class="pi pi-times p-button-icon p-button-icon-left"
+                ></span
+                ><span class="p-button-label">승인취소</span
+                ><!----><span
+                  class="p-ink"
+                  role="presentation"
+                  aria-hidden="true"
+                ></span>
+              </button>
+              <button
+                class="p-button p-component"
+                type="button"
+                aria-label="Delete"
+                data-v-d3f5b421=""
                 @click="deleteBtn"
-                >삭제</Button
               >
-            </div>
+                <!----><span
+                  class="pi pi-trash p-button-icon p-button-icon-left"
+                ></span
+                ><span class="p-button-label">삭제</span
+                ><!----><span
+                  class="p-ink"
+                  role="presentation"
+                  aria-hidden="true"
+                ></span>
+              </button>
+            </span>
             <DataTable
               style="clear: both"
               ref="dataTable"
