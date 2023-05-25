@@ -91,70 +91,62 @@
 				    	
 				    	<p class="fs-1 mb-4">◈ 스터디진행</p>
 				    	<div class="card mb-4">
-				    		<div class="card-body p-4" style="margin-left : 110px;">
-						    	<div>
+				    		<div class="card-body p-4" style="margin-left : 150px;">
+						    	<div class="mt-2">
 							    	<div class="row mb-2">
-										<div class="col-md-2 text-center" style="background-color:#EBECF0;">
+										<div class="col-md-2 text-center p-1" style="background-color:#EBECF0;">
 											<span class="fw-bold">구분</span>
 										</div>
-										<div class="col-md-4">
-											<span th:text="${studyDetailInfo.studyFg}">코딩테스트대비</span>
+										<div class="col-md-4 p-1">
+											<span th:text="|&nbsp&nbsp${studyDetailInfo.studyFg}|">코딩테스트대비</span>
 										</div>
-										<div class="col-md-2 text-center" style="background-color:#EBECF0;">
+										<div class="col-md-2 text-center p-1" style="background-color:#EBECF0;">
 											<span class="fw-bold">모집인원</span>
 										</div>
-										<div class="col-md-4">
-											<span th:text="${studyDetailInfo.collRcnt}">5</span>
+										<div class="col-md-4 p-1">
+											<span th:text="|&nbsp&nbsp${studyDetailInfo.collRcnt}|">5</span>
 										</div>
 									</div>
 									<div class="row mb-2">
-										<div class="col-md-2 text-center" style="background-color:#EBECF0;">
+										<div class="col-md-2 text-center p-1" style="background-color:#EBECF0;">
 											<span class="fw-bold">진행방식</span>
 										</div>
-										<div class="col-md-4">
-											<span th:text="${studyDetailInfo.progMthd}">온라인</span>
+										<div class="col-md-4 p-1">
+											<span th:text="|&nbsp&nbsp${studyDetailInfo.progMthd}|">온라인</span>
 										</div>
-										<div class="col-md-2 text-center" style="background-color:#EBECF0;">
+										<div class="col-md-2 text-center p-1" style="background-color:#EBECF0;">
 											<span class="fw-bold">과목</span>
 										</div>
-										<div class="col-md-4">
-											<span th:text="${studyDetailInfo.studySjt}">자바,스프링</span>
+										<div class="col-md-4 p-1">
+											<span th:text="|&nbsp&nbsp${studyDetailInfo.studySjt}|">자바,스프링</span>
 										</div>
 									</div>
 									<div class="row mb-2">
-										<div class="col-md-2 text-center" style="background-color:#EBECF0;">
+										<div class="col-md-2 text-center p-1" style="background-color:#EBECF0;">
 											<span class="fw-bold">시작예정</span>
 										</div>
-										<div class="col-md-4">
-											<span th:text="${studyDetailInfo.expcDt}">2023/05/14</span>
+										<div class="col-md-4 p-1">
+											<span th:text="|&nbsp&nbsp${studyDetailInfo.expcDt}|">2023/05/14</span>
 										</div>
-										<div class="col-md-2 text-center" style="background-color:#EBECF0;">
+										<div class="col-md-2 text-center p-1" style="background-color:#EBECF0;">
 											<span class="fw-bold ">진행기간</span>
 										</div>
-										<div class="col-md-4">
-											<span th:text="${studyDetailInfo.progTerm}">2개월</span>
+										<div class="col-md-4 p-1">
+											<span th:text="|&nbsp&nbsp${studyDetailInfo.progTerm}|">2개월</span>
 										</div>
 									</div>
 									<div class="row mb-2">
-										<div class="col-md-2 text-center" style="background-color:#EBECF0;">
+										<div class="col-md-2 text-center p-1" style="background-color:#EBECF0;">
 											<span class="fw-bold">연락방법</span>
 										</div>
-										<div class="col-md-4">
-											<span th:text="${studyDetailInfo.coctMthd}">카카오</span>
+										<div class="col-md-4 p-1">
+											<span th:text="|&nbsp&nbsp${studyDetailInfo.coctMthd}|">카카오</span><a style="color:blue;" th:href="${studyDetailInfo.contact}" th:text="| (${studyDetailInfo.contact})|">연락처</a>
 										</div>
-										<div class="col-md-2 text-center" style="background-color:#EBECF0;">
-											<span class="fw-bold">연락주소</span>
-										</div>
-										<div class="col-md-4">
-											<a style="color:blue; text-decoration : underline !important;" th:href="${studyDetailInfo.contact}" th:text="${studyDetailInfo.contact}">연락처</a>
-										</div>
-									</div>
-									<div class="row mb-2">
-										<div class="col-md-2 text-center" style="background-color:#EBECF0;">
+										<div class="col-md-2 text-center p-1" style="background-color:#EBECF0;">
 											<span class="fw-bold">마감일</span>
 										</div>
-										<div class="col-md-4">
-											<span th:text="${studyDetailInfo.clsDt}">2023/05/17</span>
+										<div class="col-md-4 p-1">
+											<span th:text="|&nbsp&nbsp${studyDetailInfo.clsDt}|">2023/05/17</span>
 										</div>
 									</div>
 								</div>	
