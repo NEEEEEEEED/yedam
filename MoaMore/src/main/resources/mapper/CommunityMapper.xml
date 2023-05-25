@@ -287,7 +287,7 @@
 		       , ACCP_YN
 		       , INTRV_DT
 		FROM intrv_scrn
-		WHERE ACCP_YN = 'Y'
+		WHERE ACCP_DT IS NOT NULL
 		<if test="duty != null and !duty.equals('')">
 	    	AND duty = #{duty}
 	    </if>
