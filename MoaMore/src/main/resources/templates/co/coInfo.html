@@ -93,16 +93,16 @@ section {
 							</div>
 						</div>
 						<hr style="color: #e3e5e5">
-						<div class="row d-flex justify-content-center pointer"
+						<!-- <div class="row d-flex justify-content-center pointer"
 							data-bs-toggle="modal" data-bs-target="#updatePh">
-							<div class="col-lg-4">전화번호</div>
+							<div class="col-lg-4">이메일</div>
 
-							<div class="col-lg-4 gray">[[${member.ph}]]</div>
+							<div class="col-lg-4 gray">[[${member.email}]]</div>
 							<div class="col-lg-2">
 								<i class="bi bi-chevron-compact-right"></i>
 							</div>
 						</div>
-						<hr style="color: #e3e5e5">
+						<hr style="color: #e3e5e5"> -->
 						<div class="row d-flex justify-content-center pointer"
 							data-bs-toggle="modal" data-bs-target="#updateAddr">
 							<div class="col-lg-4 ">주소</div>
@@ -406,7 +406,10 @@ section {
 						},
 					});
 				} else
-					alert("빈칸체크");
+					Swal.fire({
+						icon : 'warning',
+						title : '비밀번호를 확인해주세요.'
+					});
 			}
 			//비밀번호 빈칸체크
 			function pwNullCheck() {
