@@ -111,17 +111,11 @@ public class HireServiceImpl implements HireService{
 	// 구인공고 등록
 	@Override
 	public String hireDataInsert(HireVO vo, Principal pr ) {
-		
 		String message = null;
-		
 		int result= 0;
-		
 		vo.setId(pr.getName());
-		
 		result = hireMapper.hireDataInsert(vo);
-		
 		String[] skillArray = vo.getSkill().split(",");
-
 		for(String str : skillArray) {
 			String skillNo = hireMapper.skillNo();
 			vo.setSkillNo(skillNo);
@@ -129,13 +123,11 @@ public class HireServiceImpl implements HireService{
 			result += hireMapper.skillInsert(vo);
 		}
 		
-		
 		if(result > 0) {
 			message = "스크랩 되었습니다.";
 		}else {
 			message="fail";
 		}
-		
 		return message;
 	}
 	// 공고 상세 추천공고 조회
@@ -177,7 +169,6 @@ public class HireServiceImpl implements HireService{
 	public int hireModify(HireVO vo) {
 		int result = 0;
 		
-		
 		if(vo.getSkill() != null && !vo.getSkill().equals("")) {
 			result += hireMapper.hireSkillDelete(vo);
 			result += hireMapper.hireModify(vo);
@@ -197,7 +188,6 @@ public class HireServiceImpl implements HireService{
 		}else {
 			return 0;
 		}
-		
 	}
 	
 	// 공고 이미지 수정
