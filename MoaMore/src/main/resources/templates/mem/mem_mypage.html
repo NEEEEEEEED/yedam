@@ -59,13 +59,13 @@
                   th:src="|/moamoreImg/${img.profileImg}|"
                   id="preview"
                   class="circleImg"
-                  th:if="${img.profileImg}!=null"
+                  th:if="${img?.profileImg}!=null"
                 />
                 <img
                   src="/self/profile.JPG"
                   id="preview"
                   class="circleImg"
-                  th:if="${img.profileImg}==null"
+                  th:if="${img?.profileImg}==null"
                 />
               <div class="accordion" id="sideMenu">
                 <div class="accordion-item">
@@ -153,9 +153,7 @@
                       <div class="mb-1">
                         <a href="/coInfoPage">개인정보 수정</a>
                       </div>
-                      <div class="mb-1">
-                        <a href="">작성글 목록</a>
-                      </div>
+                      
                     </div>
                   </div>
                 </div>

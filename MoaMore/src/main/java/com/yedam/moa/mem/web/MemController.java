@@ -239,7 +239,7 @@ public class MemController {
         model.addAttribute("img", mem.getImg(mvo));
         model.addAttribute("resumeList", list);    
         model.addAttribute("paging", paging);    
-		
+		System.out.println(list);
 		System.out.println(paging.toString());
 		
 		

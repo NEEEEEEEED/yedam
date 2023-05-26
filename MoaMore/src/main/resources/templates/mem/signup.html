@@ -120,7 +120,6 @@
               <div class="col-6 ali cor p-3 border-bottom" id="forCo">
                 기업회원
               </div>
-              <input type="hidden" id="statusDiv" />
               <form class="rounded-bottom">
                 <!-- -------------------일반시작------------------------------------- -->
                 <div class="row justify-content-center mb-4" id="bod">
@@ -444,17 +443,25 @@
           .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3")
           .replace(/(\-{1,2})$/g, "");
       };
+      
       const bizTemp = (target) => {
         target.value = target.value.replace(/[^0-9]/g, "");
       };
+      
       const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+      
       //비밀번호 영문자+숫자+특수조합(8~25자리 입력) 정규식
       const pwdCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/;
+      
+//       인증용 랜덤번호
       let randomNumber = null;
+      
+      
       $(document).ready(function () {
-        $("#statusDiv").val("User");
+        
         $("#forUserDiv").show();
         $("#genBir").show();
+        
         // 일반회원 클릭시 표시
         $("#forUser").on("click", function () {
           $("#forCo").attr("class", "col-6 ali cor p-3 border-bottom");
@@ -463,20 +470,15 @@
             "col-6 ali cor p-3 border border-bottom-0"
           );
           $("#genBir").show();
-          //           $("#forUserDiv").show();
           $("#forCoDiv").attr("style", "display: none");
           $("#bizno").val("");
-          // $("#statusDiv").val("")
         });
         //기업회원 클릭시 표시
         $("#forCo").on("click", function () {
           $("#forCo").attr("class", "col-6 ali cor p-3 border border-bottom-0");
           $("#forUser").attr("class", "col-6 ali cor p-3 border-bottom");
           $("#genBir").attr("style", "display: none");
-          //           $("#forUserDiv").attr("style", "display: none");
           $("#forCoDiv").show();
-          //           $("#ph").val("");
-          // $("#statusDiv").val("Co")
         });
         
         //사업자 번호 모달
@@ -742,9 +744,7 @@
             title: "회원가입",
             text: reMessage,
             icon: icon,
-            showCancelButton: true,
             confirmButtonText: "확인",
-            cancelButtonText: "취소",
             reverseButtons: true,
           }).then((result) => {
             if (icon == "success") {
