@@ -156,26 +156,13 @@ section {
 		
 		// 공고가 바뀔때마다 실행되는 함수
 		var disabledDates = []; 
-		
-		var year = ''
-		var month = ''
-		var day = ''
 		function getDisabledDates(t){ 
 			$('#datePick').val(''); // 선택 되어져 있던 날짜들 비우기
 			let optionVal = $('#gonggo').val(); // select의 value로 에서 선택된 option찾기
 			console.log(optionVal);
 			let selectedOpt = $('#gonggo option[value="'+optionVal+'"]'); // 선택된 option
-			let exprDt = selectedOpt.attr('data-exprDt') // 선택된 공고의 만료일 가져오기 '2023-05-05'
-			let splitedDt = exprDt.split('-') // '-'를 기준으로 날짜 자르기
-			year = splitedDt[0]; // 잘린 숫자 변수에 넣기
-			month = splitedDt[1];
-			day = splitedDt[2]; 
-			console.log(year);
-			
-			let start = new Date(2023,6,10);
-			let end = new Date(2023,7,10);
-			//datepicker.addRange(start, end);
-			
+			let exprDt = selectedOpt.attr('data-exprDt') // 선택된공고 만료일 가져오기 '2023-05-05'
+		
 			if(t.value !== ''){ // 공고가 선택되면 날짜선택 input 보이게
 				$('#datePick').css('display','block');	
 			}else {
@@ -183,12 +170,12 @@ section {
 			}
 			
 			disabledDates = []; // 막을날짜 새로 비우고
-			let dates = [[${disabledDates}]] // 결제화면 들어오자마자 model로 받는 이미 5번 공고 찬 날짜들
+			// 결제화면 들어오자마자 model로 받는 이미 5번 공고 찬 날짜들
+			let dates = [[${disabledDates}]] 
 			
 			for(let i=0;i<dates.length;i++){
 				disabledDates.push(dates[i].reserDt); // 5번 꽉 날짜들 다시 넣기
 			}
-			
 			
 			// 추가로 막을 날짜(이미해당공고의 결제내역이있는)를 가져오는 ajax 호출
 			let recuritNo = t.value;
@@ -217,8 +204,7 @@ section {
 					for(let k=0;k<addDates.length;k++){
 						disabledDates.push(addDates[k])
 					}
-					console.log(disabledDates);
-					console.log(addDates);
+					createDatePicker(exprDt) // 마감일을 가지고 가서 datepicker인스턴스 새로 만듦
 				},
 				error : function(reject) {
 					console.log(reject);
@@ -226,30 +212,33 @@ section {
 			});  
 		}
 		
-			// datePicker 
-			$(function() {
-				var datepicker = $('#datePick').multiDatesPicker({
-					onselect:function(dateText) {
-					     $('#dateArea').text('test');
-				    },
-					dateFormat: 'yy-mm-dd',
-					maxPicks : [[${product.svcCnt}]],
-					beforeShowDay: function(date) { // 달력 날짜 막기
-				            if (disabledDates.includes($.datepicker.formatDate('yy-mm-dd', date))) {
-				                return [false];
-				            } else {
-				                return [true];
-				            }
-				        },
-						  onClose: function(dateText, inst) { // 달력이 닫혀 있을 땐 
-						    datepickerVisible = false;
-						  },  
-				    showAnim :'slideDown',
-				    minDate : 0,
-				    showButtonPanel: true//,
-				    //maxDate: new Date(year, month-1, day) // 월은 0부터 시작하므로 -1, 선택된 구인공고의 만료일 이후 못 선택하게 막는 */
-				});
+		
+		// datePicker 
+		function createDatePicker(exprDt) {
+			$('#datePick').multiDatesPicker('destroy'); // datePicker 인스턴스 삭제
+			
+			$('#datePick').multiDatesPicker({
+				dateFormat: 'yy-mm-dd',
+				maxPicks : [[${product.svcCnt}]], // 선택 가능 갯수 
+				beforeShowDay: function(date) { 
+					// 달력 날짜 막기(disabledDates == 5번 꽉찬 날짜, 해당공고의 기존 결제내역이 있는 날짜)    
+			            if (disabledDates.includes($.datepicker.formatDate('yy-mm-dd', date))) {
+			                return [false];
+			            } else {
+			                return [true];
+			            }
+			        },
+					  onClose: function(dateText, inst) { // 달력이 닫혀 있을 땐 
+					    datepickerVisible = false;
+					  },  
+			    showAnim :'slideDown', // 슬라이드로 열리게
+			    minDate : 0, // 오늘포함 이전날짜 선택 못 하게
+			    showButtonPanel: true, // 아래 done버튼 생성
+			    maxDate: new Date(exprDt) // 선택된 구인공고의 만료일(exprDt) 이후 선택하게 못하게
 			});
+		};
+		
+		//createDatePicker();
 		
 			var datepickerVisible = false;
 
@@ -326,7 +315,6 @@ section {
 						merchant_uid : uid, // 주문번호
 						name : name,
 						amount : amount, // 숫자 타입
-						buyer_name : "홍길동",
 						buyer_postcode : "01181"
 					}, function(rsp) { // callback
 						if(rsp.success != false){ //결제 취소하면 안 들어가게
