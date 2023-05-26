@@ -215,6 +215,7 @@
               <li
                 th:each="num : ${#numbers.sequence(paging.startPage, paging.endPage)}"
                 class="page-item"
+                th:if="${num}!=0"
                 th:classappend="${num} == ${paging.cri.page} ? 'active' : ''"
               >
                 <a

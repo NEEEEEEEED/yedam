@@ -133,12 +133,11 @@ public class MemController {
 		return "mem/withdraw";
 	}
 	
-	//  포트폴리오 등록 - 첨부파일 업로드 처리 // 피드백 : 받오는값을 커멘트 객체 형식으로 VO에 한꺼번에 받아도됨(대신 이름이 일치해야함)
+	//  포트폴리오 등록 - 첨부파일 업로드 처리 
 		@PostMapping("/insertPofol")
 		@ResponseBody
 		public List<PrtflVO> pofolUpload(PrtflVO vo	   
 								   		 ) throws IllegalStateException, IOException {
-			System.out.println(vo);
 			
 			ResumeVO rvo = new ResumeVO();
 			if(vo.getUuidImg() !=null && !vo.getUuidImg().isEmpty() && vo.getUuidImg().getSize()>0
@@ -224,24 +223,19 @@ public class MemController {
 //	마이페이지 이력서 관리 페이지(이력서 리스트 화면 출력)
 	@GetMapping("/resumeList")
 	public String getList(Model model,Principal pr,Criteria cri) {
-		System.out.println(cri);
 		MemVO mvo = new MemVO();
 		mvo.setId(pr.getName());
 		// 전체 글 개수
         int resumePageCnt = mem.getPageCnt(pr.getName());
-        System.out.println(resumePageCnt);
         // 페이징 객체
         PagingVO paging = new PagingVO();
         paging.setCri(cri);
         paging.setTotalCount(resumePageCnt);    
         cri.setId(pr.getName());
         List<ResumeVO> list = mem.resumeList(cri);
-        model.addAttribute("img", mem.getImg(mvo));
+        model.addAttribute("img", mem.getImg(mvo));	
         model.addAttribute("resumeList", list);    
         model.addAttribute("paging", paging);    
-		System.out.println(list);
-		System.out.println(paging.toString());
-		
 		
 		return "mem/resumeList";
 	}

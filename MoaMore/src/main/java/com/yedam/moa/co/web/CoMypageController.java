@@ -111,6 +111,7 @@ public class CoMypageController {
 		model.addAttribute("co", service.selectCo(vo)); //기업정보
 		mvo.setId(principal.getName());
 		model.addAttribute("member", mservice.getMemInfo(mvo)); //일반정보
+		System.out.println(model.getAttribute("member"));
 		return "co/coInfo";
 	}
 
