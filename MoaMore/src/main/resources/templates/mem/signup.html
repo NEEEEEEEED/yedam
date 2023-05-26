@@ -532,7 +532,6 @@
         $("#pscheck").focusout(function () {
           let pscheck = $("#pscheck").val().trim();
           let ps = $("#pw").val().trim();
-          console.log(pscheck);
           if (pscheck == null || pscheck == "") {
             $("#checkUps").html("");
           } else if (ps != pscheck) {
@@ -574,7 +573,8 @@
           let data = {
             b_no: [coNum], // 사업자번호 "xxxxxxx" 로 조회 시,
           };
-          // 사업자 번호 조회 ajax
+          
+//           사업자 번호 조회 ajax
           $.ajax({
             url: "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=fnNvgI%2F85j%2FrXVYeAtfnN1hGMK65xH8FI5d1cG2%2By9hoNLV17dHqrp2VmlXr%2BrKWCccdvk95IS5QYa82JbKilg%3D%3D",
             type: "POST",
@@ -583,7 +583,6 @@
             contentType: "application/json",
             accept: "application/json",
             success: function (result) {
-              console.log(result);
               if (
                 result.data[0].b_stt_cd == "01" ||
                 result.data[0].b_stt_cd == "02"
@@ -715,8 +714,6 @@
 
         //      정규식 확인 알람
         function salert(data) {
-          //           console.log(value);
-          //           console.log(data.reg);
           Swal.fire({
             title: "!!!!",
             text: data,
@@ -754,14 +751,14 @@
         }
 
         function sendNum() {
+          
           let phoneNum = $("#ph").val();
           let convertNum = phoneNum.replace(/-/g, "");
           randomNumber = String(Math.floor(100000 + Math.random() * 900000));
-          console.log(randomNumber);
-          console.log(convertNum);
+          
           let data = {
             to: convertNum,
-            content: randomNumber,
+            content: "[MoaMore 본인확인]인증번호["+randomNumber+"]를 입력해주세요.",
           };
 
           $.ajax({
