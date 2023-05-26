@@ -518,7 +518,7 @@
 	 					#{ph},
 	 					#{authr},
 	 					to_char(sysdate,'yyyy-MM-dd'),
-	 					to_char(#{birth},'yyyy-MM-dd'),
+	 					#{birth},
 	 					#{gen})
 	 </insert>
 <!-- 	  INSERT INTO member (id, pw,name, ph) -->

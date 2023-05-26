@@ -251,10 +251,10 @@
                           id="gen"
                           class="form-control py-2 px-3 secio"
                         >
+                          <option selected disabled>성별</option>
                           <option value="U1">남</option>
                           <option value="U2">여</option>
                         </select>
-                        <input type="hidden" id="genCheck" />
                       </div>
                     </div>
                   </div>
@@ -478,17 +478,7 @@
           //           $("#ph").val("");
           // $("#statusDiv").val("Co")
         });
-        $("#gen").on("change", function () {
-          console.log("된냐");
-          console.log($("#gen").val());
-          let data = $("#gen").val();
-          if (data != null || data != "") {
-            $("#genCheck").val("true");
-          }
-
-          console.log($("#genCheck").val());
-        });
-
+        
         //사업자 번호 모달
         $("#coCheck").on("click", function () {
           console.log("되네");
@@ -677,16 +667,16 @@
             salert("본인 인증에 실패했습니다. 본인인증을 다시 진행해 주세요");
             return false;
           }
-          //           if ($("#forUser").hasClass("border-bottom-0")) {
-          //             if ($("genCheck").val() !="true") {
-          //               salert("성별을 선택하지 않았습니다.");
-          //               return false;
-          //             }
-          //             if ($("#birth").val() == null || $("#birth").val() == "") {
-          //               salert("출생일을 선택 하지 않았습니다!");
-          //               return false;
-          //             }
-          //           }
+          if ($("#forUser").hasClass("border-bottom-0")) {
+            if ($("#gen").val()==null||$("#gen").val()=='') {
+              salert("성별을 선택하지 않았습니다.");
+              return false;
+            }
+            if ($("#birth").val() == null || $("#birth").val() == "") {
+              salert("출생일을 선택 하지 않았습니다!");
+              return false;
+            }
+          }
 
           if ($("#forCo").hasClass("border-bottom-0")) {
             if (bizno == "") {
