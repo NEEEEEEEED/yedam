@@ -47,9 +47,9 @@
 	<div class="row" style="margin-top : 30px; height: auto;"  th:each="hireVO:${hireInfo}">
 		<div class="col-md-1"></div>
 		<div class="col-md-2 border-end" style="margin:10px;">
-			<div style="position: sticky; top:150px;">	
-			<h5 style="text-align:center;">공고 상세페이지</h5>
-				<div sec:authorize="hasRole('ROLE_MEM')">
+		 <div style="position: sticky; top:150px;">	
+			<div sec:authorize="hasRole('ROLE_MEM')">
+			  <h5 style="text-align:center;">공고 상세페이지</h5>
 				<hr>
 				<div style="display:flex; justify-content: center;">
 					<div style="display:flex; flex-direction: column;" id="hireButtons">
@@ -67,9 +67,9 @@
 						</div>
 					</div>	
 				</div>
-				</div>
-			<hr>
+			  <hr>
 			</div>
+		 </div>
 		</div>
 <!-- 	</div> -->
 		<!-- 이미지 슬라이드 시작 -->
@@ -388,12 +388,13 @@
 
 	// 지원하기 버튼을 눌렀을 때
 	$('#recruitInsert').on('click',function(){
+		checkLen = grid.getCheckedRows().length;
 		if(checkLen > 1){
 			Swal.fire({
 				  icon: 'error',
 				  title: '이력서는 하나만 선택해주세요!!'
 				});
-			checkLen = "";
+			grid.uncheckAll(true);
 			return;
 		} 
 		else{
@@ -403,7 +404,6 @@
 		let recruitNo = nowRecruitNo.value; // 현재보고있는 공고
 		let resumeNo = str; // 체크한 이력서 번호
 		resumeInsert(resumeNo, id, recruitNo);
-		resumeMod(e);
 		
 	});
 	// 이력서작성으로 이동
@@ -414,12 +414,13 @@
 	
 	// 이력서수정으로 이동
 	$(document).on('click', '#resumeMod', function resumeMod(e){
+	var checkLen = grid.getCheckedRows().length;
 		if(checkLen > 1){
 			Swal.fire({
 				  icon: 'error',
 				  title: '이력서는 하나만 선택해주세요!!'
 				});
-			checkLen = "";
+			grid.uncheckAll(true);
 			return;
 		} 
 		else{
