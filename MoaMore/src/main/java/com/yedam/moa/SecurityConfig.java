@@ -25,8 +25,6 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfig {
 	private final MemberServiceImpl userService;
 
-	// MemberServiceImpl에 있는것을 시큐리티가 가져다가 씀
-
 	@Bean
 	public PasswordEncoder bcryptPassword() {
 		return new BCryptPasswordEncoder();
@@ -34,29 +32,25 @@ public class SecurityConfig {
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.authorizeHttpRequests().antMatchers("/jobQnA","/signUp","/loginForm", "/","/find/**","/main","/error","/joinMoaMore","/checkId","/sms/**").permitAll()
-				.antMatchers("/admin/**")
-				.hasAuthority("ROLE_ADMIN")
-				.anyRequest()
-				.authenticated()
-				.and()
-				.formLogin()
-				.loginPage("/login")
-				.usernameParameter("userid")
-				.authenticationDetailsSource(webAuthenticationDetailsSource)
-				.successHandler(successHandler()) // successHandler()를 호출하여 로그인 성공 후 어떤 페이지로
-																				// 이동할지 구현
+		http.authorizeHttpRequests()
+				.antMatchers("/reportForm", "/jobQnA", "/signUp", "/loginForm", "/", "/find/**", "/main", "/error",
+						"/joinMoaMore", "/checkId", "/sms/**")
+				.permitAll().antMatchers("/admin/**").hasAuthority("ROLE_ADMIN").anyRequest().authenticated().and()
+				.formLogin().loginPage("/login").usernameParameter("userid")
+				// 시큐리티 로그인 커스텀
+				.authenticationDetailsSource(webAuthenticationDetailsSource).successHandler(successHandler())
 				.permitAll().and().logout().logoutUrl("/logout").logoutSuccessUrl("/login").permitAll().and()
 				.csrf().disable()
-				.oauth2Login().loginPage("/login").userInfoEndpoint().userService(userService);
+				// API로그인 진행
+				.oauth2Login().loginPage("/login")
+				.userInfoEndpoint().userService(userService);
 		return http.build();
 	}
 
 	private AuthenticationSuccessHandler successHandler() {
 		return (request, response, authentication) -> {
 			Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
-			
-			//유저 정보 세션추가
+
 			System.out.println("권한" + roles);
 			if (roles.contains("ROLE_ADMIN")) {
 				response.sendRedirect("/admin");
@@ -68,15 +62,15 @@ public class SecurityConfig {
 		};
 	}
 
-
 	// static 아래에 있는것들은 다 넣어주면됨
 	// 정적 컨텐츠들은 다 넣어주면됨
 	@Bean
 	public WebSecurityCustomizer webSecurityCustomizer() {
-		return (web) -> web.ignoring().antMatchers("/images/**","/fonts/**","/community/**","/기업정보관리/**", "/admin/**", "/images/**", "/js/**", "/css/**","/moamorePofol/**","/moamoreImg/**",
-				"/assets/**", "/vendors/**");
+		return (web) -> web.ignoring().antMatchers("/images/**", "/fonts/**", "/community/**", "/기업정보관리/**",
+				"/admin/**", "/images/**", "/js/**", "/css/**", "/moamorePofol/**", "/moamoreImg/**", "/assets/**",
+				"/vendors/**");
 	}
-	
-    @Autowired
-    private WebAuthenticationDetailsSource webAuthenticationDetailsSource;
+
+	@Autowired
+	private WebAuthenticationDetailsSource webAuthenticationDetailsSource;
 }

@@ -129,14 +129,14 @@ public class AdminController {
 	public String approveCancelBoard(@RequestBody String[] nos) {
 		return adminService.approveCancelBoard(nos);
 	}
-	@GetMapping("/api/reportForm")
+	@GetMapping("/reportForm")
 	public String reportForm(Model model,@RequestParam String no,@RequestParam String title) {
 		model.addAttribute("Codes",comm.getCodes("l"));
 		model.addAttribute("no",no);
 		model.addAttribute("title",title);
 		return "reportForm";
 	}
-	@PostMapping("/api/addReport")
+	@PostMapping("/addReport")
 	@ResponseBody
 	public String addReport(ReportVO rvo, Principal pr) {
 		rvo.setRprter(pr.getName());

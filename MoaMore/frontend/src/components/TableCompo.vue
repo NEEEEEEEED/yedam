@@ -349,19 +349,19 @@ export default {
     searchForm.getCommonCode().then((data) => (this.test = data));
   },
   methods: {
+    // 유저 전체 조회 선언
+    getUserData() {
+      return userList.getUserData();
+    },
     // 검색
     searchBtn() {
       const data = this.formData;
       const CommCds = Object.values(this.checkedCommCds);
 
       data.commds = CommCds;
-      console.log(data);
       userList.getSearchUser(data).then((data) => (this.userList = data));
     },
-    // 유저 전체 조회 선언
-    getUserData() {
-      return userList.getUserData();
-    },
+
     cancelBtn() {
       userList.getUserData().then((data) => (this.userList = data));
       this.userDetail = {};

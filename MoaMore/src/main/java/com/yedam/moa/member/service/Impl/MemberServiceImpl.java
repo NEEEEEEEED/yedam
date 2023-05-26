@@ -34,124 +34,118 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 
-public class MemberServiceImpl implements MemberService, OAuth2UserService<OAuth2UserRequest, OAuth2User> , UserDetailsService   {
+public class MemberServiceImpl
+		implements MemberService, OAuth2UserService<OAuth2UserRequest, OAuth2User>, UserDetailsService {
 
-	
-    private final UserRepository userRepository;
+	private final UserRepository userRepository;
 
-    //private final HttpSession httpSession;
-	
+	// private final HttpSession httpSession;
+
 	@Autowired
 	RegisterMail registerMail;
 
 	@Override
-	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {	
+	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 		OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
-        OAuth2User oAuth2User = delegate.loadUser(userRequest);
+		OAuth2User oAuth2User = delegate.loadUser(userRequest);
 
-        String registrationId = userRequest.getClientRegistration().getRegistrationId();
-        String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails()
-                .getUserInfoEndpoint().getUserNameAttributeName();
+		String registrationId = userRequest.getClientRegistration().getRegistrationId();
+		String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint()
+				.getUserNameAttributeName();
 		// naver, kakao 로그인 구분
-        OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
-        Member Member = saveOrUpdate(attributes);
-        //httpSession.setAttribute("user", new SessionUser(Member));
+		OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName,
+				oAuth2User.getAttributes());
+		Member Member = saveOrUpdate(attributes);
 
-        return new DefaultOAuth2User(
-                Collections.singleton(new SimpleGrantedAuthority(Member.getRoleKey())),
-                attributes.getAttributes(),
-                attributes.getNameAttributeKey());
+		return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority(Member.getRoleKey())),
+				attributes.getAttributes(), attributes.getNameAttributeKey());
 	}
 
-    private Member saveOrUpdate(OAuthAttributes attributes) {
-        Member Member = userRepository.findByEmail(attributes.getEmail())
-                .map(entity -> entity.update(attributes.getEmail(), attributes.getName(), attributes.getBirth(), attributes.getGen(),attributes.getAge() , attributes.getNickname()))
-                .orElse(attributes.toEntity());
+	private Member saveOrUpdate(OAuthAttributes attributes) {
+		Member Member = userRepository.findByEmail(attributes.getEmail())
+				.map(entity -> entity.update(attributes.getEmail(), attributes.getName(), attributes.getBirth(),
+						attributes.getGen(), attributes.getAge(), attributes.getNickname()))
+				.orElse(attributes.toEntity());
 
-        return userRepository.save(Member);
-    }
-    
+		return userRepository.save(Member);
+	}
+
 	@Autowired
 	MemberMapper memberMapper;
-	
+
 	// 시큐리티 id 체크
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		MemberVO memberVO = memberMapper.getMember(username);
-		if(memberVO == null) {
+		if (memberVO == null) {
 			throw new UsernameNotFoundException("no userid");
-		} 
+		}
 		return memberVO;
 	}
 
-
-	//로그인 성공 실패
+	// 로그인 성공 실패
 	@Override
 	public boolean authenticate(String id, String pw) {
 		MemberVO member = memberMapper.getMember(id);
-        if (member == null) {
-            return false;
-        }
-        if (new BCryptPasswordEncoder().matches(pw, member.getPw())) {
-            // 로그인 성공
-            return true;
-        } else {
-            // 로그인 실패
-            return false;
-        }
+		if (member == null) {
+			return false;
+		}
+		if (new BCryptPasswordEncoder().matches(pw, member.getPw())) {
+			// 로그인 성공
+			return true;
+		} else {
+			// 로그인 실패
+			return false;
+		}
 	}
-	
+
 	@Override
 	public boolean authenticateCo(String id, String pw) {
 		MemberVO member = memberMapper.getCoMember(id);
-        if (member == null) {
-            return false;
-        }
-        if (new BCryptPasswordEncoder().matches(pw, member.getPw())) {
-            // 로그인 성공
-            return true;
-        } else {
-            // 로그인 실패
-            return false;
-        }
+		if (member == null) {
+			return false;
+		}
+		if (new BCryptPasswordEncoder().matches(pw, member.getPw())) {
+			// 로그인 성공
+			return true;
+		} else {
+			// 로그인 실패
+			return false;
+		}
 	}
 
 	@Override
 	public MemberVO getMember(String id) {
-		
+
 		return memberMapper.getMember(id);
 	}
-	
-	 @Override
-     public MemberVO getCoMember(String id) {
-         return memberMapper.getCoMember(id);
-     } 
 
-
+	@Override
+	public MemberVO getCoMember(String id) {
+		return memberMapper.getCoMember(id);
+	}
 
 	@Override
 	public int updateMember(MemVO vo) {
 		return memberMapper.updateMember(vo);
 	}
 
-
 	@Override
 	public String findId(MemVO vo) {
 		return memberMapper.findId(vo);
 	}
 
-
 	@Override
 	public String findpw(MemVO vo) throws Exception {
 		int result = memberMapper.findPw(vo);
-		System.out.println("result:"+result);
-		if(result > 0) {
+		System.out.println("result:" + result);
+		if (result > 0) {
 			String email = vo.getEmail();
-	    	String code = registerMail.sendSimpleMessage(email);
+			String code = registerMail.sendSimpleMessage(email);
 			BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
 			String password = bcrypt.encode(code);
 			vo.setPw(password);
-			if(memberMapper.updateMember(vo)>0) {
+			if (memberMapper.updateMember(vo) > 0) {
 				return "updateSuccess";
 			} else {
 				return "updateFail";
@@ -159,7 +153,7 @@ public class MemberServiceImpl implements MemberService, OAuth2UserService<OAuth
 		} else {
 			return "noUser";
 		}
-		
+
 	}
 
 	@Override
@@ -170,14 +164,14 @@ public class MemberServiceImpl implements MemberService, OAuth2UserService<OAuth
 	@Override
 	public String findCoPw(CoVO vo) throws Exception {
 		MemVO mvo = memberMapper.findCoPw(vo);
-		if(mvo.getId() != null && !mvo.getId().isEmpty() ) {
+		if (mvo.getId() != null && !mvo.getId().isEmpty()) {
 			System.out.println(mvo.getId());
 			String email = vo.getEmail();
-	    	String code = registerMail.sendSimpleMessage(email);
+			String code = registerMail.sendSimpleMessage(email);
 			BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
 			String password = bcrypt.encode(code);
 			vo.setPw(password);
-			if(memberMapper.updateMember(mvo)>0) {
+			if (memberMapper.updateMember(mvo) > 0) {
 				return "updateSuccess";
 			} else {
 				return "updateFail";
@@ -185,10 +179,7 @@ public class MemberServiceImpl implements MemberService, OAuth2UserService<OAuth
 		} else {
 			return "noCoUser";
 		}
-		
+
 	}
-
-
-
 
 }
