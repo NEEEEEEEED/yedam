@@ -102,26 +102,32 @@
 		       I.CO_IMG,
 		       S.RECRUIT_NO,
 		       <if test="id != null and id != ''">
-              	 (SELECT S.RECRUIT_NO FROM RECRUIT_SCRAP S WHERE R.RECRUIT_NO = S.RECRUIT_NO AND ID = #{id}) AS scrapYn
+              	 (SELECT S.RECRUIT_NO 
+				    FROM RECRUIT_SCRAP S 
+				   WHERE R.RECRUIT_NO = S.RECRUIT_NO 
+				     AND ID = #{id}) AS scrapYn
                </if>
+
 		FROM RECRUIT_ANUN R
 		JOIN CO C
-			ON R.ID = C.ID
+		  ON R.ID = C.ID
 		JOIN RECRUIT_SCRAP S
-			ON R.RECRUIT_NO = S.RECRUIT_NO
+		  ON R.RECRUIT_NO = S.RECRUIT_NO
         JOIN MEMBER M
-        	ON S.ID = M.ID
-        JOIN (SELECT recruit_no , LISTAGG(get_common(SKILL), ',') WITHIN GROUP (ORDER BY SKILL_NO) as SKILL
-              FROM RECRUIT_SKILL
-              GROUP BY recruit_no) K
-			ON R.RECRUIT_NO = K.RECRUIT_NO
+          ON S.ID = M.ID
+        JOIN (SELECT recruit_no,
+                     LISTAGG(get_common(SKILL), ',') WITHIN GROUP (ORDER BY SKILL_NO) as SKILL
+                FROM RECRUIT_SKILL
+               GROUP BY recruit_no) K
+		  ON R.RECRUIT_NO = K.RECRUIT_NO
 		JOIN RECRUIT_IMAGES I
-		ON R.RECRUIT_NO = I.RECRUIT_NO
+		  ON R.RECRUIT_NO = I.RECRUIT_NO
+
 		WHERE S.RECRUIT_NO IS NOT NULL
         AND M.ID = #{id}
         <![CDATA[AND TRUNC(sysdate) < TO_DATE(EXPR_DT, 'YYYY-MM-DD')]]>
 	   	AND R.ACCP_DT IS NOT NULL
-        ORDER BY RECRUIT_NO DESC 
+        ORDER BY RECRUIT_NO DESC
 	</select>
 	<!-- 상세조회 -->
 	<select id="searchInfo" resultType="HireVO">
