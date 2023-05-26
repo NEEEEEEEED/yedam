@@ -31,17 +31,17 @@
 		SELECT 
 				(SELECT COUNT(aply_st) AS count_aply_st
 				FROM recruit_anum_st
-				WHERE aply_st ='b1') as count_aply_st
+				WHERE aply_st ='b1' and id=#{id}) as count_aply_st
 				,
 				(SELECT COUNT(aply_st) AS
 				count_deny
 				FROM recruit_anum_st
-				WHERE aply_st ='b2') as count_deny
+				WHERE aply_st ='b2' and id=#{id}) as count_deny
 				,
 				(SELECT
 				COUNT(st) AS count_st
 				FROM recruit_anum_st
-				WHERE st ='m2') as count_st
+				WHERE st ='m2' and id=#{id}) as count_st
 		  FROM dual
 	</select>
 
@@ -129,6 +129,7 @@
 			join_dt,
 			age,
 			api,
+			profile_img,
 			nickname
 	  from member
 	 where id = #{id}

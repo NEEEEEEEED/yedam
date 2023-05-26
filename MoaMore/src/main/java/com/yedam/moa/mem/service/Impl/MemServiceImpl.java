@@ -70,7 +70,7 @@ public class MemServiceImpl implements MemService {
 	}
 
 
-
+	//이력서 입력
 	@Override
 	public String insertResume(ResumeVO vo) {
 		int count = 0; //입력 프로 시져 실행 횟 수
@@ -87,8 +87,6 @@ public class MemServiceImpl implements MemService {
 				no=vo.getSkill().get(i).getSkillNo();
 					if(no == null){break;}
 				count++;
-				System.out.println(count);
-				System.out.println(compare);
 				
 			}
 			vo.setSkillNo(no);

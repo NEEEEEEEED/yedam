@@ -2026,6 +2026,7 @@
             .replace(/(\-{1,2})$/g, "");
         };
         $(document).ready(function () {
+        	
           let sch = [];
           let ard = [];
           let carr = [];
@@ -2233,15 +2234,15 @@
           });
           //+버튼 클릭시 노드 복사 함수
           function copy(ev) {
+        	  
             let tar = $(this).parents()[1].children[1];
-            console.log($(this));
-            console.log(tar);
             let newNode = $(this).parents()[1].children[0].children[0];
-            console.log(newNode);
             let cop = newNode.cloneNode(true);
-            console.log(cop);
+            
             cop.style.display = "block";
+            
             tar.append(cop);
+            
             $(this).parents()[1].children[1];
             ev.stopPropagation();
           }
@@ -2262,10 +2263,8 @@
 
             if (emptyIndexes.length === 0) {
               // 빈 값이 없는 경우
-              //console.log("객체 배열에 빈 값이 없습니다.");
             } else {
               // 빈 값이 있는 경우
-              //console.log("빈 값을 가진 객체의 인덱스:", emptyIndexes);
               alertBin(emptyIndexes, target);
               return false;
             }

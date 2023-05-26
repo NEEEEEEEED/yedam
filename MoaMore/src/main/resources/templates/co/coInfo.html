@@ -62,12 +62,18 @@ section {
 
 		<div class="col-lg-9 text-center">
 			<div class="">
-				<img onclick="openImg()"
+				<img sec:authorize="hasRole('ROLE_CO')"  
+					onclick="openImg()"
 					th:src="@{'moamoreImg/' + ${co?.profileImg}}"
 					onerror="this.src='self/profile.JPG'" id="myImg"
 					class="circleImg mb-4 pointer">
+					<img sec:authorize="hasRole('ROLE_MEM')"  
+					onclick="openImg()"
+					th:src="@{'moamoreImg/' + ${member?.profileImg}}"
+					onerror="this.src='self/profile.JPG'" id="myImg"
+					class="circleImg mb-4 pointer">
 				<h3 sec:authorize="hasRole('ROLE_CO')">[[${co?.coNm}]] 님, 환영합니다</h3>
-				<h3 sec:authorize="hasRole('ROLE_MEM')"> 님, 환영합니다</h3>
+				<h3 sec:authorize="hasRole('ROLE_MEM')">[[${member?.name}]] 님, 환영합니다</h3>
 			</div>
 			<input type="file" id="imgFileUploader" onchange="readURL(this)"
 				style="display: none;">
