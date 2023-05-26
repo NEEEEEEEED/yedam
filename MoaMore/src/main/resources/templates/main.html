@@ -25,7 +25,7 @@
               <div class="swiper-wrapper" style="height: 300px;">
                <!--  -->
                 <div class="swiper-slide bg-white p-5 rounded-3 h-auto" th:each="prdtSelect:${prdtSelect}">
-                  <a th:href="@{/hireInfo?(recruitNo=${prdtSelect.recruitNo})&(skill=${prdtSelect.skill})}">
+                  <a th:href="@{/hireInfo?(recruitNo=${prdtSelect.recruitNo},skill=${prdtSelect.skill})}">
 	                  <div class="d-flex flex-column justify-content-between h-100">
 	                    <h4 class="text-black" th:text="${prdtSelect.ttl}">제목</h4>
 	                    <h5 class="text-black" th:text="${prdtSelect.carr}">고용 형태</h5>

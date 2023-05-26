@@ -73,9 +73,6 @@ public class HireController {
 		hireVO.setRecruitNo(recruitNo);
 		hireVO.setSkill(skill);
 		hireVO.setId(pr.getName());
-		
-		
-		
 
 		List<HireVO> hireInfo = hireService.hireInfo(hireVO);
 		String[] skillArray = hireInfo.get(0).getSkill().split(",");
@@ -141,8 +138,6 @@ public class HireController {
 		}else {
 			return hireService.recruitScrapInsert(hireVO);
 		}
-		
-		
 	}
 
 	// 구인공고 상세 페이지 스크랩 조회
@@ -179,7 +174,7 @@ public class HireController {
 		return hireService.hireDataInsert(vo, pr);
 	}
 	
-	// 구인공고 상세 이미지들, 썸네일 등록 - 첨부파일 업로드 처리 // 피드백 : 받오는값을 커멘트 객체 형식으로 VO에 한꺼번에 받아도됨(대신 이름이 일치해야함)
+	// 구인공고 상세 이미지들, 썸네일 등록 - 첨부파일 업로드 처리 
 	@PostMapping("/hireImgInsert")
 	@ResponseBody
 	public List<HireVO> hireImgInsert(@RequestParam("thumnailImg") MultipartFile uploadthumnailImg,

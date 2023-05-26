@@ -55,7 +55,7 @@
     					) a  
 				) WHERE rn > (#{pageNum}-1) * 8 AND rn <= #{pageNum} * 8
                         ]]>
-	</select>
+	  </select>
 	<select id="hireCount" resultType="int">
 		SELECT COUNT(*)
                 FROM RECRUIT_ANUN R
@@ -138,8 +138,14 @@
 		       R.EXPR_DT,
 		       I.RECRUIT_IMG,
 		       R.RECRUIT_NO,
-		       (SELECT S.RECRUIT_NO FROM RECRUIT_SCRAP S WHERE R.RECRUIT_NO = S.RECRUIT_NO AND ID = #{id}) AS scrapYn,
-		       (SELECT F.ID_CO FROM FOLLOWING F WHERE R.ID = F.ID_CO AND F.ID_MEM = #{id}) AS followYn,
+		       (SELECT S.RECRUIT_NO 
+			      FROM RECRUIT_SCRAP S 
+				 WHERE R.RECRUIT_NO = S.RECRUIT_NO 
+				   AND ID = #{id}) AS scrapYn,
+		       (SELECT F.ID_CO 
+			      FROM FOLLOWING F 
+				 WHERE R.ID = F.ID_CO 
+				   AND F.ID_MEM = #{id}) AS followYn,
 		       get_common(JOB) AS JOB,
 		       R.MA_BUSS,
 		       R.QUAL_COND,
@@ -152,25 +158,32 @@
 		       C.ID AS ID_CO
 		FROM RECRUIT_ANUN R
 		JOIN CO C 
-			ON R.ID = C.ID
+		  ON R.ID = C.ID
 		JOIN (
-			  SELECT RECRUIT_NO, LISTAGG(get_common(SKILL), ',') WITHIN GROUP (ORDER BY SKILL_NO) AS SKILL
-			  FROM RECRUIT_SKILL
-			  GROUP BY RECRUIT_NO
+			  SELECT RECRUIT_NO, 
+			         LISTAGG(get_common(SKILL), ',') WITHIN GROUP (ORDER BY SKILL_NO) AS SKILL
+			    FROM RECRUIT_SKILL
+			   GROUP BY RECRUIT_NO
 			) K 
-			ON R.RECRUIT_NO = K.RECRUIT_NO
+		  ON R.RECRUIT_NO = K.RECRUIT_NO
 		JOIN (
 			  SELECT RECRUIT_NO, LISTAGG(RECRUIT_IMG, ',') WITHIN GROUP (ORDER BY RECRUIT_IMG_NO) AS RECRUIT_IMG 
-			  FROM RECRUIT_IMAGES 
-			  GROUP BY RECRUIT_NO
+			    FROM RECRUIT_IMAGES 
+			   GROUP BY RECRUIT_NO
 			) I 
-			ON R.RECRUIT_NO = I.RECRUIT_NO
-		WHERE R.RECRUIT_NO = #{recruitNo}
+		  ON R.RECRUIT_NO = I.RECRUIT_NO
+	   WHERE R.RECRUIT_NO = #{recruitNo}
 		<if test="scrapYn != null and scrapYn != ''">
-			AND EXISTS (SELECT S.RECRUIT_NO FROM RECRUIT_SCRAP S WHERE R.RECRUIT_NO = S.RECRUIT_NO AND ID = #{id})
+			AND EXISTS (SELECT S.RECRUIT_NO 
+						  FROM RECRUIT_SCRAP S 
+						 WHERE R.RECRUIT_NO = S.RECRUIT_NO 
+						   AND ID = #{id})
        	</if>
        	<if test="followYn != null and followYn != ''">
-			AND EXISTS (SELECT F.ID_CO FROM FOLLOWING F WHERE R.ID = F.ID_CO AND F.ID_MEM = #{id})
+			AND EXISTS (SELECT F.ID_CO 
+			              FROM FOLLOWING F 
+						 WHERE R.ID = F.ID_CO 
+						   AND F.ID_MEM = #{id})
        	</if>
 	</select>
 	<!-- 구인공고 상세 이미지들 불러오기 -->
@@ -189,15 +202,17 @@
 		       I.CO_IMG
 		FROM RECRUIT_SKILL K
 		JOIN RECRUIT_ANUN R 
-		ON K.RECRUIT_NO = R.RECRUIT_NO
+		  ON K.RECRUIT_NO = R.RECRUIT_NO
 		JOIN CO C
-		ON C.ID = R.ID
+		  ON C.ID = R.ID
 		JOIN RECRUIT_IMAGES I
-		ON R.RECRUIT_NO = I.RECRUIT_NO
-		JOIN (SELECT DISTINCT RECRUIT_NO, CO_IMG FROM RECRUIT_IMAGES) I
-		ON R.RECRUIT_NO = I.RECRUIT_NO
+		  ON R.RECRUIT_NO = I.RECRUIT_NO
+		JOIN (SELECT DISTINCT RECRUIT_NO, 
+		             CO_IMG 
+		        FROM RECRUIT_IMAGES) I
+		  ON R.RECRUIT_NO = I.RECRUIT_NO
 		WHERE 1=1
-		AND get_common(SKILL) IN
+		  AND get_common(SKILL) IN
 		<foreach collection="skillArray" item="skill" open="(" close=")" separator=",">
 		#{skill}
 		</foreach>
@@ -250,7 +265,8 @@
 	
 	<!-- 공고 스크랩 삭제 -->
 	<delete id="recruitScrapDelete" parameterType="HireVO">
-		DELETE FROM RECRUIT_SCRAP WHERE RECRUIT_NO = #{recruitNo} AND ID = #{id}
+		DELETE FROM RECRUIT_SCRAP 
+			  WHERE RECRUIT_NO = #{recruitNo} AND ID = #{id}
 	</delete>
 	
 	<!-- 공고 등록 키 -->
