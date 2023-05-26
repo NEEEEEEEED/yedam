@@ -426,7 +426,7 @@ $('#offer').on('click', function(){
 						<option value='' selected>선택</option>`
 						let rec = res.recList
 						for(let i=0;i<rec.length;i++){
-	   modalBodyHtml += `<option value="`+rec[i].recruitNo+`">`+rec[i].ttl+`</option>`	
+	   modalBodyHtml += `<option value="`+rec[i].ttl+`">`+rec[i].ttl+`</option>`	
 						}
 	   // 공고 번호 담기 url에서 jobSearchNo 파라미터 값 뽑아오기
 	   let url = window.location.search;

@@ -207,7 +207,6 @@ public class CoMypageController {
 	public String imgUpload(@RequestParam(value="profileImage", required = false) MultipartFile uploadFile, Principal principal) throws IllegalStateException, IOException {
 			
 		System.out.println("uploadFile : " + uploadFile);
-		//System.out.println("성공");
 
 		//첨부파일 업로드 처리
 		MultipartFile upload = uploadFile;

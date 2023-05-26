@@ -396,7 +396,6 @@
 		<update id="insertMem">   	
 		UPDATE member
 		SET <if test="email != null">email = #{email},</if>
-    		<if test="addrDt != null">addrDt = #{addrDt},</if>
     		<if test="phCl != null">ph_cl = #{phCl},</if>
     		<if test="addr != null">addr = #{addr},</if>
     		<if test="addrDt != null">addr_dt = #{addrDt},</if>
