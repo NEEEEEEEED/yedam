@@ -1,5 +1,8 @@
 package com.yedam.moa.mem;
 
+
+import java.util.Date;
+
 import lombok.Data;
 
 @Data
@@ -21,5 +24,4 @@ public class MemInfoVO {
 	private String authr;	//권한	
 	private String clsf; 	//회원 분류
 	private String profileImg; //회원 이미지
-	private String addrDt;	//상세주소
 }
