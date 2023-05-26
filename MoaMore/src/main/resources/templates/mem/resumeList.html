@@ -259,29 +259,29 @@
               "&resumeNo=" +
               $(this).find("input[name=resumeNo]").val();
           });
+          
           $("button[name=delResume]").on("click", function () {
-            console.log($(this));
-            //             window.location = "/?id="+id+"&resumeNo="+resumeNo;
+           
             window.location =
               "/delResume?id=" +
-              $(this).parents().find("input[name=id]").val() +
+              $(this).parents()[1].children[3].value +
               "&resumeNo=" +
-              $(this).parents().find("input[name=resumeNo]").val();
+              $(this).parents()[1].children[4].value;
             event.preventDefault();
             event.stopPropagation();
           });
+          
           $("button[name=modResume]").on("click", function () {
-            console.log($(this));
-            console.log($(this).parents().find("input[name=id]").val());
+         
             window.location =
               "/mem/modRe?id=" +
-              $(this).parents().find("input[name=id]").val() +
+              $(this).parents()[1].children[3].value +
               "&resumeNo=" +
-              $(this).parents().find("input[name=resumeNo]").val();
-            //             window.location = "/mem/modRe?id="+id+"&resumeNo="+resumeNo;
+              $(this).parents()[1].children[4].value;
             event.preventDefault();
             event.stopPropagation();
           });
+          
         });
       </script>
     </div>
