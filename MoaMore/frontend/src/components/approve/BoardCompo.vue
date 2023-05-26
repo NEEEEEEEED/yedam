@@ -4,7 +4,7 @@
       <h1>승인게시물관리</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item"><a href="/admin">Home</a></li>
           <li class="breadcrumb-item active">승인게시물관리</li>
         </ol>
       </nav>
@@ -207,7 +207,6 @@
         </div>
       </div>
     </div>
-    <DynamicDialog />
     <toast />
   </section>
 </template>
@@ -218,11 +217,6 @@ import Toast from "primevue/toast";
 import { reportList } from "@/service/ApproveService.js";
 import Button from "primevue/button";
 import "primeicons/primeicons.css";
-import DynamicDialog from "primevue/dynamicdialog";
-//import { defineAsyncComponent } from "vue";
-//const ReportModal = defineAsyncComponent(() =>
-//  import("../components/modal/ReportModal.vue")
-//);
 
 export default {
   components: {
@@ -230,7 +224,6 @@ export default {
     Column,
     Toast,
     Button,
-    DynamicDialog,
   },
   data() {
     return {
@@ -263,20 +256,17 @@ export default {
     getDetail(rowData) {
       // 선택된 행의 데이터 가져오기
       const selectedRow = [rowData];
-      console.log(selectedRow[0]);
       if (selectedRow && selectedRow.length > 0) {
-        const selectedNo = selectedRow[0].data.no; // 선택된 행의 'no' 컬럼 값 가져오기
+        // 선택된 행의 'no' 컬럼 값 가져오기
+        const selectedNo = selectedRow[0].data.no;
         let resumeNo = "";
         if (selectedRow[0].data.resumeNo) {
           resumeNo = selectedRow[0].data.resumeNo;
         }
-        console.log(resumeNo);
-        console.log(selectedNo);
         const width = 800;
         const height = 700;
         const left = (window.innerWidth - width) / 2;
         const top = (window.innerHeight - height) / 2;
-
         if (selectedNo.substr(0, 3) == "REA") {
           window.open(
             "/api/adminReaDetail?recruitNo=" + selectedNo,
@@ -339,7 +329,6 @@ export default {
       const nos = this.selectedBoard.map((item) => item.no);
       console.log(nos);
       reportList.approveBoard(nos).then((data) => {
-        console.log(data);
         this.$toast.add({
           severity: "success",
           summary: "승인 완료",
@@ -347,7 +336,6 @@ export default {
           life: 3000,
         });
         this.getApprvList().then((data) => {
-          //배열합치기 spread operator
           this.ApproveList = [...data.hireVO, ...data.intrvVO, ...data.selfVO];
           this.selectedBoard = null;
         });

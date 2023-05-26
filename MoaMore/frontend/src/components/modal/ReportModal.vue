@@ -70,7 +70,6 @@ export default {
     };
   },
   async mounted() {
-    console.log(this.dialogRef.data.no);
     reportList.getReportData(this.dialogRef.data.no).then((data) => {
       this.rprtList = data.list;
       this.status = data.rprt;
@@ -101,13 +100,10 @@ export default {
       let voList = [];
       for (let j = 0; j < this.selectedRprt.length; j++) {
         let rprtVO = {};
-        console.log(this.selectedRprt[j].selectedSt.code);
-        console.log(this.selectedRprt[j].rprtNo);
         rprtVO.rprtNo = this.selectedRprt[j].rprtNo;
         rprtVO.rprtSt = this.selectedRprt[j].selectedSt.code;
         voList.push(rprtVO);
       }
-      console.log(voList);
       reportList.modifyRprt(voList).then((data) => {
         this.dialogRef.close(data);
       });
