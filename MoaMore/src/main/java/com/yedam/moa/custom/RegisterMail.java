@@ -26,7 +26,7 @@ public class RegisterMail implements MailServiceInter {
 	public MimeMessage createMessage(String to) throws MessagingException, UnsupportedEncodingException {
 		System.out.println("보내는 대상 : " + to);
 		System.out.println("인증 번호 : " + ePw);
-		
+
 		MimeMessage message = emailsender.createMimeMessage();
 
 		message.addRecipients(RecipientType.TO, to);// 보내는 대상
@@ -86,20 +86,21 @@ public class RegisterMail implements MailServiceInter {
 	// sendSimpleMessage 의 매개변수로 들어온 to 는 곧 이메일 주소가 되고,
 	// MimeMessage 객체 안에 내가 전송할 메일의 내용을 담는다.
 	// 그리고 bean 으로 등록해둔 javaMail 객체를 사용해서 이메일 send!!
+	
 	@Override
 	public String sendSimpleMessage(String to) throws Exception {
-
-		ePw = createKey(); // 랜덤 인증번호 생성
-
-		MimeMessage message = createMessage(to); // 메일 발송
-		try {// 예외처리
+		// 랜덤 인증번호 생성
+		ePw = createKey(); 
+		// 메일 발송 (to:보낼 이메일)
+		MimeMessage message = createMessage(to); 
+		// 예외처리
+		try {
 			emailsender.send(message);
 		} catch (MailException es) {
 			es.printStackTrace();
 			throw new IllegalArgumentException();
 		}
-
-
-		return ePw; // 메일로 보냈던 인증 코드를 서버로 반환
+		// 메일로 보냈던 인증 코드를 서버로 반환
+		return ePw; 
 	}
 }
