@@ -42,26 +42,26 @@
 			<form name="form" id="form" role="form" method="post" >
 				
 				<div class="mb-3">
-					<label for="reg_id" style="display:inline-block; width:15% !important;" class="fs-2">제목<span id="star">*</span></label>
-					<input style="display:inline-block; width:80% !important;" id="ttl" type="text" class="form-control" name="ttl" placeholder="제목" autofocus="autofocus" >
+					<label for="reg_id" style="display:inline-block; width:35% !important;" class="fs-2">제목<span id="star">*</span></label>
+					<input style="display:inline-block; width:60% !important;" id="ttl" type="text" class="form-control" name="ttl" placeholder="제목" autofocus="autofocus" >
 				</div>
 				
 				<div class="mb-3" >
-					<label for="reg_id" class="fs-2" style="width:15% !important;">회사이름<span id="star">*</span></label>
-					<input style="display:inline-block; width:80% !important;" id="coNm" type="text" class="form-control" name="coNm" th:value="${recruitInsert.coNm}" readonly>
+					<label for="reg_id" class="fs-2" style="width:35% !important;">회사이름<span id="star">*</span></label>
+					<input style="display:inline-block; width:60% !important;" id="coNm" type="text" class="form-control" name="coNm" th:value="${recruitInsert.coNm}" readonly>
 				</div>
 				
 				<div class="mb-3">
-					<label for="reg_id" class="fs-2">기술선택(다중선택가능)<span id="star">*</span></label>
-					<select id = "skill" class = "selectStyle">
+					<label for="reg_id" class="fs-2" style="width:35% !important;">기술선택(다중선택가능)<span id="star">*</span></label>
+					<select id = "skill" class = "selectStyle" style="display:inline-block; width:60% !important;">
 						<option selected value=''>선택</option>	
 						<option th:each="list : ${list.Z}" th:text="${list.desct}" th:attr="value=${list.prov}">기술</option>
 					</select>
 				</div>
 
 				<div class="mb-3">
-					<label for="reg_id" class="fs-2">직군<span id="star">*</span></label>
-					<select id = "job" class = "selectStyle">
+					<label for="reg_id" class="fs-2" style="width:35% !important;">직군<span id="star">*</span></label>
+					<select id = "job" class = "selectStyle" style="display:inline-block; width:60% !important;">
 						<option selected value=''>선택</option>	
 						<option th:each="list : ${list.N}" th:text="${list.desct}" th:attr="value=${list.prov}">직무</option>
 					</select>
@@ -128,29 +128,29 @@
 							</div>
 				
 				<div class="mb-3">
-					<label for="tag" class="fs-2">경력</label>
-					<select id="carr" class = "selectStyle">
+					<label for="tag" class="fs-2" style="width:35% !important;">경력</label>
+					<select id="carr" class = "selectStyle" style="display:inline-block; width:60% !important;">
 						<option selected value=''>선택</option>	
 						<option th:each="list : ${list.Y}" th:text="${list.desct}" th:attr="value=${list.prov}">경력</option>
 					</select>
 				</div>
 				
 				<div class="mb-3">
-					<label for="tag" class="fs-2">학력</label>
-					<select id="shcr" class = "selectStyle">
+					<label for="tag" class="fs-2" style="width:35% !important;">학력</label>
+					<select id="shcr" class = "selectStyle" style="display:inline-block; width:60% !important;">
 						<option selected value=''>선택</option>	
 						<option th:each="list : ${list.D}" th:text="${list.desct}" th:attr="value=${list.prov}">학력</option>
 					</select>
 				</div>
 				
 				<div class="mb-3">
-					<label for="tag" class="fs-2" style="width:15% !important;">마감일<span id="star">*</span></label>
-					<input style="display:inline-block; width:80% !important;" id="exprDt" type="date" class="form-control" name="exprDt" placeholder="태그를 입력해 주세요">
+					<label for="tag" class="fs-2" style="width:35% !important;">마감일<span id="star">*</span></label>
+					<input style="display:inline-block; width:60% !important;" id="exprDt" type="date" class="form-control" name="exprDt" placeholder="태그를 입력해 주세요">
 				</div>
 				
 				<div class="mb-3">
-					<label for="tag" class="fs-2">근무지역<span id="star">*</span></label>
-					<select id="wksite" class = "selectStyle">
+					<label for="tag" class="fs-2" style="width:35% !important;">근무지역<span id="star">*</span></label>
+					<select id="wksite" class = "selectStyle" style="display:inline-block; width:60% !important;">
 						<option selected value=''>선택</option>	
 						<option th:each="list : ${list.X}" th:text="${list.desct}" th:attr="value=${list.prov}">지역</option>
 					</select>
@@ -158,7 +158,7 @@
 				
 				<div class="mb-3">
 					<div>
-						<label for="tag" class="fs-2">기업 / 서비스 소개<span id="star">*</span></label>
+						<label for="tag" class="fs-2" >기업 / 서비스 소개<span id="star">*</span></label>
 						<button type="button" id="imgUp" class="btn btn btn-outline-dark btn-sm radius" style="height:40px;">이미지 업로드</button>
 					</div>
 					<br>
