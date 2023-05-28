@@ -246,7 +246,7 @@
             th:if=" ${resume.shcrNo}!=null"
           >
             <div class="col-md-12 col-lg-12">
-              <h4 class="mb-3">학력</h4>
+              <h4 class="mb-3"><i class="bi bi-asterisk rotate" ></i>학력</h4>
               <div class="forSchr ps-4 px-3 mb-3">
                 <!-- ===================== 이력서에 학력 있으면 반복시작======================== -->
                 <div id="school" th:if="${resume.shcrNo}!=null">
@@ -292,7 +292,7 @@
             th:if="${resume.carrNo}!=null"
           >
             <div class="col-md-12 col-lg-12">
-              <h4 class="mt-5">경력</h4>
+              <h4 class="mt-5"><i class="bi bi-asterisk rotate" ></i>경력</h4>
               <div class="forCarr mb-3 ps-4 pb-3">
                 <!-- <div class="forCarr my-3 card ps-4 p-3"> -->
                 <!--=======  경력 있으면 반복 시작=======================================-->
@@ -337,7 +337,7 @@
           <!-- -----------교육--------------------------- -->
           <div id="ed" style="display: block" th:if="${resume.eduNo}!=null">
             <div class="col-md-12 col-lg-12">
-              <h4 class="mb-3">교육</h4>
+              <h4 class="mb-3"><i class="bi bi-asterisk rotate" ></i>교육</h4>
               <div class="forCarr my-3 ps-4 p-3">
                 <!-- ============ 교육있으면 반복 시작====================================== -->
                 <div id="educate" th:if="${resume.eduNo}!=null">
@@ -375,7 +375,7 @@
           <!-----------자격증------------------------------>
           <div id="licen" style="display: block" th:if="${resume.licnNo}!=null">
             <div class="col-md-12 col-lg-12">
-              <h4 class="mb-1">자격증</h4>
+              <h4 class="mb-1"><i class="bi bi-asterisk rotate" ></i>자격증</h4>
               <div class="mb-3 ps-4 pb-3">
                 <!-- ============= 자격증 있으면 반복============================= -->
                 <div id="licence" th:if="${resume.licnNo}!=null">
@@ -409,7 +409,7 @@
           <!--------------------------수상내역------------------------------->
           <div id="won" style="display: block" th:if="${resume.ardNo}!=null">
             <div class="col-md-12 col-lg-12">
-              <h4 class="mb-1">수상내역</h4>
+              <h4 class="mb-1"><i class="bi bi-asterisk rotate" ></i>수상내역</h4>
               <div class="mb-3 ps-4 pb-3">
                 <!-- ================수상 있으면 반복================================= -->
                 <div id="award" th:if="${resume.ardNo}!=null">
@@ -443,7 +443,7 @@
             th:if="${resume.introNo}!=null"
           >
             <div class="col-md-12 col-lg-12 my-4">
-              <h4 class="mb-3">자기소개서</h4>
+              <h4 class="mb-3"><i class="bi bi-asterisk rotate" ></i>자기소개서</h4>
               <div class="my-3 ps-4 p-3">
                 <!-- ================자소서 있으면 반복======================= -->
                 <div id="resumeText" th:if="${resume.introNo}!=null">
@@ -484,7 +484,7 @@
             th:if="${resume.prtflNo}!=null"
           >
             <div class="col-md-12 col-lg-12">
-              <h4 class="mb-3"><b>포트폴리오 </b></h4>
+              <h4 class="mb-3"><i class="bi bi-asterisk rotate" ></i><b>포트폴리오 </b></h4>
               <div class="forCarr my-3 ps-4 p-3">
                 <div class="whrPst" name="whrPst">
                   <div style="display: block">

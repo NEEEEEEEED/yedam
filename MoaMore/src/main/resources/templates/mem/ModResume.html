@@ -199,7 +199,7 @@
             <h4 class="mb-3">개인정보</h4>
             <div class="formId my-3 card p-2">
               <div class="row gy-3" name="memInfo" id="memInfo">
-                <div class="col-md-3">
+                <div class="col-md-2">
                   <label class="w-100"
                     >이름
                     <input
@@ -237,33 +237,7 @@
                     />
                   </label>
                 </div>
-
-                <div class="col-md-2">
-                  <label class="w-100"
-                    >성별
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="gen"
-                      name="gen"
-                      th:value="${info.gen}"
-                      readonly
-                  /></label>
-                </div>
-
-                <div class="col-md-3 mt-0">
-                  <label class="w-100"
-                    >전화번호
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="ph"
-                      name="ph"
-                      th:value="${info.ph}"
-                  /></label>
-                </div>
-
-                <div class="col-md-3 mt-0">
+                <div class="col-md-3">
                   <label class="w-100"
                     >휴대폰
                     <input
@@ -274,6 +248,18 @@
                       th:value="${info.phCl}"
                       oninput="phTemp(this)"
                       maxlength="13"
+                  /></label>
+                </div>
+                <div class="col-md-2 mt-0">
+                  <label class="w-100"
+                    >성별
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="gen"
+                      name="gen"
+                      th:value="${info.gen}"
+                      readonly
                   /></label>
                 </div>
 
@@ -291,6 +277,18 @@
                   <!-- 								required</div> -->
                   <!-- 								유효성 검사용  -->
                 </div>
+                <div class="col-md-4 mt-0">
+                  <label class="w-100"
+                    >상세주소
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="addrDt"
+                      name="addrDt"
+                      th:value="${info.addrDt}"
+                  /></label>
+                </div>
+
                 <div class="col-md-2 mt-0">
                   <label class="w-100"
                     >우편 번호
@@ -309,7 +307,7 @@
           <!-------------- 스킬--------------------------------------------------------------------- -->
           <div th:if=" ${resume.skillNo}!=null">
             <div class="col-md-12 col-lg-12">
-              <h4 class="mb-3">기술 역량</h4>
+              <h4 class="mb-3"><b>기술 역량</b></h4>
               <div class="formSkill my-3 card ps-4 py-3">
                 <div class="row gy-3" name="cardForAddSkill">
                   <div
@@ -379,7 +377,7 @@
             th:if=" ${resume.shcrNo}!=null"
           >
             <div class="col-md-12 col-lg-12">
-              <h4 class="mb-3">학력</h4>
+              <h4 class="mb-3"><b>학력</b></h4>
               <div class="forSchr my-3 card ps-4 p-3">
                 <div class="whrPst" name="whrPst">
                   <div style="display: none">
@@ -663,7 +661,7 @@
             th:if=" ${resume.shcrNo}==null"
           >
             <div class="col-md-12 col-lg-12">
-              <h4 class="mb-3">학력</h4>
+              <h4 class="mb-3"><b>학력</b></h4>
               <div class="forSchr my-3 card ps-4 p-3">
                 <div class="whrPst" name="whrPst">
                   <div style="display: none">
@@ -797,7 +795,7 @@
             th:if="${resume.carrNo}!=null"
           >
             <div class="col-md-12 col-lg-12">
-              <h4 class="mb-3">경력</h4>
+              <h4 class="mb-3"><b>경력</b></h4>
               <div class="forCarr my-3 card ps-4 p-3">
                 <div class="whrPst">
                   <div style="display: none">
@@ -1082,7 +1080,7 @@
           <!--   =================경력 최신 끝=================================================-->
           <div id="carrer" style="display: none" th:if="${resume.carrNo}==null">
             <div class="col-md-12 col-lg-12">
-              <h4 class="mb-3">경력</h4>
+              <h4 class="mb-3"><b>경력</b></h4>
               <div class="forCarr my-3 card ps-4 p-3">
                 <div class="whrPst">
                   <div style="display: none">
@@ -1217,7 +1215,7 @@
           <!-- -----------교육--------------------------- -->
           <div id="ed" style="display: block" th:if="${resume.eduNo}!=null">
             <div class="col-md-12 col-lg-12">
-              <h4 class="mb-3">교육</h4>
+              <h4 class="mb-3"><b>교육</b></h4>
               <div class="forCarr my-3 card ps-4 p-3">
                 <div class="whrPst" name="whrPst">
                   <div style="display: none">
@@ -1343,7 +1341,7 @@
           <!-- ==============최신 교육 끝=============================== -->
           <div id="ed" style="display: none" th:if="${resume.eduNo}==null">
             <div class="col-md-12 col-lg-12">
-              <h4 class="mb-3">교육</h4>
+              <h4 class="mb-3"><b>교육</b></h4>
               <div class="forCarr my-3 card ps-4 p-3">
                 <div class="whrPst" name="whrPst">
                   <div style="display: none">
@@ -1405,7 +1403,7 @@
           <!-----------자격증------------------------------>
           <div id="licen" style="display: block" th:if="${resume.licnNo}!=null">
             <div class="col-md-12 col-lg-12">
-              <h4 class="mb-3">자격증</h4>
+              <h4 class="mb-3"><b>자격증</b></h4>
               <div class="forCarr my-3 card ps-4 p-3">
                 <div class="whrPst" name="whrPst">
                   <div style="display: none">
@@ -1493,7 +1491,7 @@
           <!-- ==========================최신 자격증 끝 -->
           <div id="licen" style="display: none" th:if="${resume.licnNo}==null">
             <div class="col-md-12 col-lg-12">
-              <h4 class="mb-3">자격증</h4>
+              <h4 class="mb-3"><b>자격증</b></h4>
               <div class="forCarr my-3 card ps-4 p-3">
                 <div class="whrPst" name="whrPst">
                   <div style="display: none">
@@ -1541,7 +1539,7 @@
           <!--------------------------수상내역------------------------------->
           <div id="won" style="display: block" th:if="${resume.ardNo}!=null">
             <div class="col-md-12 col-lg-12">
-              <h4 class="mb-3">수상내역</h4>
+              <h4 class="mb-3"><b>수상내역</b></h4>
               <div class="forCarr my-3 card ps-4 p-3">
                 <div class="whrPst" name="whrPst">
                   <div style="display: none">
@@ -1646,7 +1644,7 @@
           <!-- ===============최신 수상 끝=============================== -->
           <div id="won" style="display: none" th:if="${resume.ardNo}==null">
             <div class="col-md-12 col-lg-12">
-              <h4 class="mb-3">수상내역</h4>
+              <h4 class="mb-3"><b>수상내역</b></h4>
               <div class="forCarr my-3 card ps-4 p-3">
                 <div class="whrPst" name="whrPst">
                   <div style="display: none">
@@ -1705,7 +1703,7 @@
             th:if="${resume.introNo}!=null"
           >
             <div class="col-md-12 col-lg-12">
-              <h4 class="mb-3">자기소개서</h4>
+              <h4 class="mb-3"><b>자기소개서</b></h4>
               <div class="forCarr my-3 card ps-4 p-3">
                 <div class="whrPst" name="whrPst">
                   <div style="display: none">
@@ -1776,7 +1774,7 @@
             th:if="${resume.introNo}==null"
           >
             <div class="col-md-12 col-lg-12">
-              <h4 class="mb-3">자기소개서</h4>
+              <h4 class="mb-3"><b>자기소개서</b></h4>
               <div class="forCarr my-3 card ps-4 p-3">
                 <div class="whrPst" name="whrPst">
                   <div style="display: none">
@@ -2237,7 +2235,7 @@
             } else {
               // 빈 값이 있는 경우
               //console.log("빈 값을 가진 객체의 인덱스:", emptyIndexes);
-              alertBin(emptyIndexes, target[index]);
+              alertBin(emptyIndexes, target);
               return false;
             }
           }
@@ -2616,32 +2614,32 @@
           data.prtflNo = $(deleteItem).data("prtflno");
           console.log(data);
 
-          // $.ajax({
-          //   url: "/delPofol",
-          //   type: "post",
-          //   data: data,
-          //   success: function (result) {
-          //     console.log("삭제성공");
-          //     pofolRows.innerHTML = ""; // 초기화
-          //     console.log(result);
-          //     let pofolHtml = "";
-          //     if (result.length == 0) {
-          //       // 포트폴리오 리스트 항목이 0개라면
-          //       pofolHtml = `<div style="background-color : pink; text-align:center;">포트폴리오 항목이 비어있습니다. 추가를 눌러 채워 주세요</div>`;
-          //       $("input[name = prtflNo]").attr("value", "");
-          //       pofolRows.innerHTML = pofolHtml;
-          //     } else {
-          //       for (let i = 0; i < result.length; i++) {
-          //         pofolHtml += pofolListPrint(result[i]); // 화면에 뿌려주는 태그들
-          //       }
+          $.ajax({
+            url: "/delPofol",
+            type: "post",
+            data: data,
+            success: function (result) {
+              console.log("삭제성공");
+              pofolRows.innerHTML = ""; // 초기화
+              console.log(result);
+              let pofolHtml = "";
+              if (result.length == 0) {
+                // 포트폴리오 리스트 항목이 0개라면
+                pofolHtml = `<div style="background-color : pink; text-align:center;">포트폴리오 항목이 비어있습니다. 추가를 눌러 채워 주세요</div>`;
+                $("input[name = prtflNo]").attr("value", "");
+                pofolRows.innerHTML = pofolHtml;
+              } else {
+                for (let i = 0; i < result.length; i++) {
+                  pofolHtml += pofolListPrint(result[i]); // 화면에 뿌려주는 태그들
+                }
 
-          //       pofolRows.innerHTML = pofolHtml;
-          //     }
-          //   },
-          //   error: function (reject) {
-          //     console.log(reject);
-          //   },
-          // });
+                pofolRows.innerHTML = pofolHtml;
+              }
+            },
+            error: function (reject) {
+              console.log(reject);
+            },
+          });
         }
       </script>
     </div>
