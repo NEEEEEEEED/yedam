@@ -459,14 +459,16 @@
 	</select>
 	<!-- 셀프구직(관심순) -->
 	<select id="popSelf" resultType="SelfVO">
+		SELECT * 
+		  FROM (
 		SELECT TTL,
 		       ID,
 		       JOB_SEARCH_NO,
                RESUME_NO
 		  FROM JOB_SEARCH_NOTIWR 
-		 WHERE 1=1
-  <![CDATA[AND ROWNUM < 6]]>
-	  ORDER BY INTEREST
+		 ORDER BY INTEREST DESC)
+  <![CDATA[WHERE ROWNUM < 6]]>
+	  
 	</select>
 	<!-- 취업 Q&A 게시글  -->
 	<select id="jobQnaBest" resultType="CommunityVO">
