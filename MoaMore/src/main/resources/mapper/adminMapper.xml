@@ -283,7 +283,7 @@
 	
 	<select id="selectINTRVPost" resultType="IntrvVO">
 		SELECT	INTRV_NO as "no"
-				,CO_NM
+				,CO_NM as "ttl"
 				,DUTY
 				,CARR
 				,APPR
