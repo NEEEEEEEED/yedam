@@ -217,8 +217,8 @@ i {
 			for(let i=0;i<res.length;i++){
 				newApplyList += `<div class="row hoverRow pointer bhr mb-3" data-resumeno="`+res[i].resumeNo+`" data-recruitno="`+res[i].recruitNo+`" data-id="`+res[i].id+`" data-st="`+res[i].st+`" onclick="resumeDetail(this)" >
 									<div class="col-lg-6 fs-1 lrpadding vr" >
-										<p class="fw-bold">구인공고 : `+res[i].attl+`</p>
-										<p>이력서 제목 : `+res[i].rttl+`</p>
+										<p class="fw-bold">구인공고 - `+res[i].attl+`</p>
+										<p>이력서 - `+res[i].rttl+`</p>
 										<p>지원자 : `+res[i].id+`</p>
 									</div>
 									<div class="col-lg-3">
@@ -337,8 +337,8 @@ i {
 					for(let i=0;i<res.length;i++){
 							completedList += `<div class="row pointer hoverRow bhr mb-3" data-divid="`+i+`" onclick="location.href='/viewResume?id=`+res[i].id+`&resumeNo=`+res[i].resumeNo+`'">
 												<div class="col-lg-6 fs-1 lrpadding vr" >
-													<p class="fw-bold">구인공고 : `+res[i].attl+`</p>
-													<p>이력서 제목 : `+res[i].rttl+`</p>
+													<p class="fw-bold">구인공고 - `+res[i].attl+`</p>
+													<p>이력서 - `+res[i].rttl+`</p>
 													<p>지원자 : `+res[i].id+`</p>
 												</div>
 												<div class="col-lg-3">
@@ -871,6 +871,9 @@ i {
 					   button.removeClass("btn btn-outline-info btn-sm listBtn"); // 빈 버튼 클래스 지우고
 					   button.addClass("btn btn-info btn-sm listBtn"); // 꽉찬 버튼 클래스 추가
 					   button.removeAttr("data-bs-toggle");
+					   button.removeAttr("onclick");
+					   button.attr("onclick","offerCompletedBtn('" + jobSearchNo + "')");
+					   button.after('<p>대기중</p>');
 					   modalCloseBtn.click(); //모달창 닫기
 					   Swal.fire({
 							icon: 'success',
