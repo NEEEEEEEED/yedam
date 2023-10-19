@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>info/empList.html</title>
+    <style>
+      * {
+        margin: 0 auto;
+      }
+      h3 {
+        text-align: center;
+      }
+      tr.delError {
+        background-color: gray;
+      }
+      .center {
+        text-align: center;
+        margin-top: 5px;
+      }
+
+      .pagination {
+        display: inline-block;
+      }
+
+      .pagination a {
+        color: black;
+        float: left;
+        padding: 6px 12px;
+        text-decoration: none;
+        transition: background-color 0.3s;
+        border: 1px solid #ddd;
+        margin: 0 4px;
+      }
+
+      .pagination a.active {
+        background-color: #4caf50;
+        color: white;
+        border: 1px solid #4caf50;
+      }
+
+      .pagination a:hover:not(.active) {
+        background-color: #ddd;
+      }
+    </style>
+  </head>
+  <body>
+    <h3>사원등록</h3>
+    <form action="../myInfo" method="post" name="empForm">
+      <table border="1">
+        <tbody>
+          <tr>
+            <td>사원번호:</td>
+            <td><input type="text" name="emp_id" /></td>
+          </tr>
+          <tr>
+            <td>이름:</td>
+            <td><input type="text" name="last_name" /></td>
+          </tr>
+          <tr>
+            <td>이메일:</td>
+            <td><input type="text" name="email" /></td>
+          </tr>
+          <tr>
+            <td>입사일자:</td>
+            <td><input type="text" name="hire_date" /></td>
+          </tr>
+          <tr>
+            <td>직무:</td>
+            <td><input type="text" name="job_id" /></td>
+          </tr>
+          <tr>
+            <td colspan="2" align="center">
+              <input type="submit" value="저장" name="" />
+              <input type="reset" value="초기화" name="" />
+              <input
+                id="delSelectedBtn"
+                type="button"
+                value="선택삭제"
+                name=""
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+    <h3>사원리스트</h3>
+    <select class="right" name="pageCnt" id="pageCnt">
+      <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="25">25</option>
+    </select>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>사원번호</th>
+          <th>이름</th>
+          <th>이메일</th>
+          <th>고용일</th>
+          <th>직무</th>
+          <th>삭제</th>
+          <th>수정</th>
+          <th><input type="checkbox" /></th>
+        </tr>
+      </thead>
+      <tbody id="list"></tbody>
+    </table>
+    <div class="center">
+      <div id="paging" class="pagination"></div>
+    </div>
+    <script src="../Js/empList.js"></script>
+  </body>
+</html>

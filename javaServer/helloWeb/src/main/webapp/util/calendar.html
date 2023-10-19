@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Insert title here</title>
+  </head>
+  <body>
+    <h3>달력만들기.</h3>
+    <div id="show"></div>
+
+    <script>
+      let month = 2;
+      makeCalendar(month);
+
+      function getLastDate(month) {
+        //마지막 날짜를 반환하는 함수.
+        if (
+          month == 1 ||
+          month == 3 ||
+          month == 5 ||
+          month == 7 ||
+          month == 8 ||
+          month == 10 ||
+          month == 12
+        ) {
+          return 31;
+        } else if (month == 2) {
+          return 28;
+        } else {
+          return 30;
+        }
+      }
+
+      function getFirstDay(month) {
+        // 1일의 요일 정보를 반환하는 함수.
+        if (month == 1) {
+          return 0;
+        } else if (month == 2 || month == 3 || month == 10) {
+          return 3;
+        } else if (month == 4 || month == 7 || month == 11) {
+          return 6;
+        } else if (month == 5) {
+          return 1;
+        } else if (month == 6) {
+          return 4;
+        } else if (month == 8) {
+          return 2;
+        } else if (month == 9 || month == 12) {
+          return 5;
+        }
+      }
+
+      function makeCalendar(month) {
+        let table = document.createElement("table");
+        table.setAttribute("border", "1");
+        let thead = document.createElement("thead");
+        table.append(thead);
+        let tbody = document.createElement("tbody");
+        table.append(thead);
+        table.append(tbody);
+
+        for (let i = 0; i < getFirstDay(month); i++) {
+          let td = document.createElement("td");
+          tr.append(td);
+        }
+        for (let i = 1; i <= getLastDate(month); i++) {
+          let td = document.createElement("td");
+          td.innerHTML = i;
+          tr.append(td);
+          td.style.width = "50px";
+          if (tr.childElementCount == 7) {
+            tbody.append(tr);
+            tr.firstChild.style.color = "red";
+            tr.lastChild.style.color = "blue";
+            tr = document.createElement("tr");
+          }
+        }
+        tbody.append(tr);
+        tr.firstChild.style.color = "red";
+
+        show.append(table);
+      }
+    </script>
+  </body>
+</html>

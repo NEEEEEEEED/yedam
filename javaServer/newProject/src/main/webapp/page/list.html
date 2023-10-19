@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>list/empList.html</title>
+    <style>
+      tr.delError {
+        background-color: gray;
+      }
+    </style>
+  </head>
+  <body>
+    <h3>도서등록</h3>
+    <form action="" method="post" name="empForm">
+      <table border="1">
+        <tbody>
+          <tr>
+            <td>도서번호:</td>
+            <td><input type="text" name="emp_id" /></td>
+          </tr>
+          <tr>
+            <td>도서제목:</td>
+            <td><input type="text" name="last_name" /></td>
+          </tr>
+          
+            <td colspan="2" align="center">
+              <input type="submit" value="저장" name="" />
+              <input type="reset" value="초기화" name="" />
+              <input
+                id="delSelectedBtn"
+                type="button"
+                value="선택삭제"
+                name=""
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+    <h3>도서리스트</h3>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>도서번호</th>
+          <th>도서제목</th>
+          <th>대여자 이름</th>
+          <th>대여자 연락처</th>
+          <th>대여일</th>
+          <th>반납일</th>
+          <th>반납예정일</th>
+          <th>대여</th>
+          <th><input type="checkbox" /></th>
+        </tr>
+      </thead>
+      <tbody id="list"></tbody>
+    </table>
+
+    <script src="../js/bookList.js"></script>
+  </body>
+</html>
