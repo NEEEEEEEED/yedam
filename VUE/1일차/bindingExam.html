@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
+    <style>
+      .sizeClass {
+        font-size: 150%;
+      }
+      .backYellowClass {
+        background-color: yellow;
+      }
+      .fontClass {
+        color: red;
+      }
+      .blue-underline {
+        text-decoration: underline;
+        color: blue;
+      }
+      .strike-through {
+        text-decoration: line-through;
+        color: blue;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app">
+      <p>
+        <a v-bind:href="myLink">네이버로 연결</a>
+      </p>
+      <!-- 이미지 태그 -->
+      <img v-bind:src="fileName" />고양이 표기
+      <br />
+      <!-- align -->
+      <p v-bind:align="myAlignLeft">텍스트 왼쪽 정렬</p>
+      <p v-bind:align="myAlignRight">텍스트 오른쪽 정렬</p>
+      <p v-bind:align="myAlignCenter">텍스트 가운데 정렬</p>
+      <!-- 인라인 스타일 지정 -->
+      <p v-bind:style="{color:myColor}">인라인 글자색 빨간색</p>
+
+      <p v-bind:style="{fontSize : mySize}">인라인 스타일 글자크기 150%크게</p>
+
+      <p v-bind:class="[sizeClass, backYellowClass, fontClass]">
+        인라인 스타일 글자크기 150% 빨간색 배경 노랑색
+      </p>
+      <p v-on:click="changeClass" v-bind:class="{'blue-underline':isON}">
+        blue underline 지정
+      </p>
+      <p
+        v-on:click="changeClass"
+        v-bind:class="[{'strike-through':isON}, 'blue-underline']"
+      >
+        blue underline, strike-through
+      </p>
+    </div>
+    <script>
+      new Vue({
+        el: "#app",
+        data: {
+          myLink: "https://www.naver.com",
+          fileName: "고양이상품예시이미지.PNG",
+          myAlignLeft: "left",
+          myAlignCenter: "center",
+          myAlignRight: "right",
+          myColor: "red",
+          mySize: "150%",
+          sizeClass: "sizeClass",
+          backYellowClass: "backYellowClass",
+          fontClass: "fontClass",
+          isON: "false",
+        },
+        methods: {
+          changeClass: function () {
+            if (this.isON) {
+              this.isON = false;
+            } else {
+              this.isON = true;
+            }
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

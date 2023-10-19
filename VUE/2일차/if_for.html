@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <ul>
+        <!-- myArray 1~10까지 데이터를 담고 있음 -->
+        <!-- 짝수만 li tag에 등록 -->
+        <!-- <li v-for="item in myArray" v-if="item%2==0">{{item}}</li> -->
+        <li v-for="item in myArray">{{item}}</li>
+      </ul>
+      <button v-on:click="evenDate()">짝수만 표시</button>
+    </div>
+    <script>
+      new Vue({
+        el: "#app",
+        data: {
+          myArray: [1, 2, 3, 4, 5, 6],
+        },
+        methods: {
+          evenDate: function () {
+            //filter
+            this.myArray = this.myArray.filter(function (val) {
+              return val % 2 == 0; //val에 따라 true false 반환하여 true만 모아서 새로운 배열 생성
+            });
+          },
+        },
+      });
+    </script>
+    <hr />
+    <div id="app2">
+      <h3>숫자 배열 조작과 구구단 출력</h3>
+      <ul>
+        <li v-for="(item,index) in number" v-if="item % 2 ==0">
+          {{item}}
+          <button @click="changeNum(item)">변경</button>
+          <button @click="deleteNum(index)">삭제</button>
+        </li>
+      </ul>
+      <button @click="addNumber()">추가</button>
+      <button @click="sortNum()">정렬</button>
+      <button @click="show9()">구구단 보이기</button>
+      <p v-for="num in 9" v-show="myVisible">
+        {{number2}}*{{num}}={{number2 * num}}
+      </p>
+    </div>
+    <script>
+      new Vue({
+        el: "#app2",
+        data: {
+          number: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+          myVisible: false,
+          number2: 0,
+        },
+        methods: {
+          show9: function () {
+            if (!this.myVisible) {
+              this.myVisible = true;
+            } else {
+              this.myVisible = false;
+            }
+          },
+          changeNum: function (item) {
+            this.number2 = item;
+          },
+          deleteNum: function (index) {
+            // this.number2 = 0;
+            this.number.splice(index, 1);
+          },
+          addNumber: function () {
+            this.number2 += 1;
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

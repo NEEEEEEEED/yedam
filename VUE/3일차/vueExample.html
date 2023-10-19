@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h1>제한 시간내에 문자 입력하기</h1>
+      금지문자(,로 나누어 복수 입력가능)
+      <input type="text" v-model="inputLimit" v-bind:disabled="!isWritable" />
+      <br />
+      제한시간을 입력하세요(초)
+      <input
+        type="number"
+        v-model.number="limitedTime"
+        v-bind:disabled="!isWritable"
+      />
+      <button @click="startTimer" v-bind:disabled="!isWritable">시작</button>
+
+      <p>남은시간 : {{restSec}}초</p>
+      <textarea v-model="inputText" v-bind:disabled="isWritable"></textarea>
+      <p>{{count}} 개의 문자를 입력하였습니다.</p>
+      <p>벌점 : {{penalty}} (금지문자 1개당 12점)</p>
+    </div>
+    <script>
+      new Vue({
+        el: "#app",
+        data: {
+          forbiddenText: [],
+          forbiddenCnt: 0,
+          inputLimit: "",
+          inputText: "",
+          count: 0,
+          restSec: 0,
+          // penalty: 0, computed에 정의 되어 있기 때문에 없어야함
+          limitedTime: 0,
+          timerObj: null, //setInterval에 대한 반환값이 교유한 ID이기 때문에
+          //-> clearinterval에서 어떤 setinterval을 할지 알 수 있음
+          isWritable: true,
+        },
+        methods: {
+          startTimer: function () {
+            this.isWritable = false;
+            clearInterval(this.timerObj);
+            this.restSec = this.limitedTime;
+            const vueObj = this;
+            // this => 객체(new Vue)
+            // setInterval()에서의 This와 밖에서의 This가 다르기 때문
+            this.timerObj = setInterval(() => {
+              vueObj.restSec--;
+            }, 1000);
+          },
+        },
+        watch: {
+          restSec: function () {
+            if (this.restSec <= 0) {
+              alert("시간 제한입니다.");
+              clearInterval(this.timerObj);
+              this.isWritable = true;
+              this.count = this.inputText.length;
+            }
+          },
+          inputText: function () {
+            this.forbiddenText = this.inputLimit.split(",");
+            for (let i = 0; i < this.forbiddenText.length; i++) {
+              let keyword = this.forbiddenText[i];
+              let pos = this.inputText.indexOf(keyword);
+              if (pos > -1) {
+                alert(this.inputLimit + "는 입력할 수 없습니다.");
+                this.forbiddenCnt++;
+                this.inputText = this.inputText.substr(0, pos);
+                this.restSec += 10;
+              }
+            }
+          },
+        },
+        computed: {
+          penalty: function () {
+            return this.forbiddenCnt * 12;
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
