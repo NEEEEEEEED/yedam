@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      <form
+        action="http://localhost:8081/spring/upload"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        <input name="name" value="hong" placeholder="이름" />
+        <input name="pic" type="file" multiple />
+        <button type="submit">전송</button>
+      </form>
+    </div>
+    <script>
+      fetch("http://localhost:8081/spring/getInfo", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+        },
+        body: JSON.stringify({
+          name: "hi",
+          age: 23,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => console.log(data))
+        .catch((reject) => console.log(reject));
+    </script>
+  </body>
+</html>
