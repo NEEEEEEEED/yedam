@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{template/layout}">
+<head>
+<meta charset="UTF-8">
+<title>모아모아/커뮤니티(뷰적용)</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+</head>
+<body>
+	<div layout:fragment="content">
+	<!-- studyDetail.CSS -->
+		<link href="community/studyDetail.css" rel="stylesheet">
+		
+		<!-- layout:fragment 아래에 있어야 인식함 -->
+		<!-- Vue 3버전 -->
+		<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+		<script src="https://unpkg.com/vue-router@4"></script> <!-- 뷰3 라우터4-->
+		<script src="https://cdn.jsdelivr.net/npm/vue3-sfc-loader/dist/vue3-sfc-loader.js"></script>
+		
+		<!-- 뷰에서 컴포넌트 하기위해 필요한 js파일 -->
+		<script src="community/vue_common.js"></script>
+		
+		<!-- axios CDN -->
+		<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+		
+		<!-- 폰트어썸 -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+		
+	
+		<div class="row">
+			<div class="col-md-2 mx-6 p-4">
+				<div style="position: sticky; top:150px;">
+					<div>
+						<div id="topMenu" class="text-center">
+							<h5>커뮤니티</h5>
+							<hr>
+							<ul class="decoUl">
+								<li><a href="/jobQnA">ㆍ취업Q&A</a></li>
+								<li><a href="/jobInterview">ㆍ면접후기</a></li>
+								<li><a href="/projectList">ㆍ프로젝트모집</a></li>
+								<li><a href="/studyList" style="color:red">ㆍ스터디모집</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-md-8">
+				<div class="line mt-3 mb-5">
+					<span>커뮤니티 /&nbsp</span><span style="color:red">스터디모집</span>
+				</div>
+				<div class="mb-4">
+				  <div class="card col-lg-12">
+				    <div class="card-body">
+				    
+				    	<!-- 버전1 -->
+					    <div class="card-title mb-1" style="display:flex">
+					    	<h3 class="fw-bold" th:text="|${studyDetailInfo.ttl}&nbsp&nbsp|" id="ttl">제목</h3>
+					    	<p th:if="${studyDetailInfo.collSt == '모집중'}" class="badge bg-secondary radius" th:text="${studyDetailInfo.collSt}">모집중</p>
+          					<p th:unless="${studyDetailInfo.collSt == '모집중'}" class="badge bg-dark radius" th:text="${studyDetailInfo.collSt}">모집완료</p>
+					    	
+					    	<div style="margin-left: auto;">
+						    	<div class="d-flex">
+						    		<div class="ms-3">
+					    				<i class="fa-regular fa-eye fa-sm"></i>
+					    				<span th:text="${studyDetailInfo.inqCnt}">0</span>
+					    			</div>
+						    		<div class="ms-3">
+					    				<i class="fa-regular fa-comment-dots fa-sm"></i>
+					    				<span th:text="${studyDetailInfo.rplyCnt}">0</span>
+					    			</div>
+					    			<div class="ms-3">
+						    			<p th:text="${studyDetailInfo.regDt}">등록일자</p>
+						    		</div>
+					    			<div class="ms-3 cursor" id="reportBtn">
+						   				<i class="fa-solid fa-land-mine-on" ></i>
+						   				<span class="fs--1">신고하기</span>
+						   			</div>
+						   		</div>
+					   		</div>
+					    </div>
+					    
+				    	<div class="mb-5">
+				    		<img th:src="@{/moamoreImg/} + ${studyDetailInfo.profileImg}" th:onerror="this.src='self/profile.JPG'" class="circleImg" alt="이미지안보임">
+				    		<span class="ms-1" th:text="${studyDetailInfo.id}">작성자</span>
+				    		<!-- <hr class="mt-4" style="color:#ddd"> -->
+				    	</div>
+				    	
+				    	<p class="fs-1 mb-4">◈ 스터디진행</p>
+				    	<div class="card mb-4">
+				    		<div class="card-body p-4" style="margin-left : 150px;">
+						    	<div class="mt-2">
+							    	<div class="row mb-2">
+										<div class="col-md-2 text-center p-1" style="background-color:#EBECF0;">
+											<span class="fw-bold">구분</span>
+										</div>
+										<div class="col-md-4 p-1">
+											<span th:text="|&nbsp&nbsp${studyDetailInfo.studyFg}|">코딩테스트대비</span>
+										</div>
+										<div class="col-md-2 text-center p-1" style="background-color:#EBECF0;">
+											<span class="fw-bold">모집인원</span>
+										</div>
+										<div class="col-md-4 p-1">
+											<span th:text="|&nbsp&nbsp${studyDetailInfo.collRcnt}|">5</span>
+										</div>
+									</div>
+									<div class="row mb-2">
+										<div class="col-md-2 text-center p-1" style="background-color:#EBECF0;">
+											<span class="fw-bold">진행방식</span>
+										</div>
+										<div class="col-md-4 p-1">
+											<span th:text="|&nbsp&nbsp${studyDetailInfo.progMthd}|">온라인</span>
+										</div>
+										<div class="col-md-2 text-center p-1" style="background-color:#EBECF0;">
+											<span class="fw-bold">과목</span>
+										</div>
+										<div class="col-md-4 p-1">
+											<span th:text="|&nbsp&nbsp${studyDetailInfo.studySjt}|">자바,스프링</span>
+										</div>
+									</div>
+									<div class="row mb-2">
+										<div class="col-md-2 text-center p-1" style="background-color:#EBECF0;">
+											<span class="fw-bold">시작예정</span>
+										</div>
+										<div class="col-md-4 p-1">
+											<span th:text="|&nbsp&nbsp${studyDetailInfo.expcDt}|">2023/05/14</span>
+										</div>
+										<div class="col-md-2 text-center p-1" style="background-color:#EBECF0;">
+											<span class="fw-bold ">진행기간</span>
+										</div>
+										<div class="col-md-4 p-1">
+											<span th:text="|&nbsp&nbsp${studyDetailInfo.progTerm}|">2개월</span>
+										</div>
+									</div>
+									<div class="row mb-2">
+										<div class="col-md-2 text-center p-1" style="background-color:#EBECF0;">
+											<span class="fw-bold">연락방법</span>
+										</div>
+										<div class="col-md-4 p-1">
+											<span th:text="|&nbsp&nbsp${studyDetailInfo.coctMthd} ${studyDetailInfo.contact}|">카카오</span>
+											<!-- <a style="color:blue;" th:href="${studyDetailInfo.contact}" th:text="| (${studyDetailInfo.contact})|">연락처</a> -->
+										</div>
+										<div class="col-md-2 text-center p-1" style="background-color:#EBECF0;">
+											<span class="fw-bold">마감일</span>
+										</div>
+										<div class="col-md-4 p-1">
+											<span th:text="|&nbsp&nbsp${studyDetailInfo.clsDt}|">2023/05/17</span>
+										</div>
+									</div>
+								</div>	
+							</div>
+						</div>
+				    	
+				    	<div>
+					    	<p class="fs-1 mb-4">◈ 스터디소개</p>
+					    	<div class="ms-4" th:utext="${studyDetailInfo.cntn}"></div>
+					    </div>
+				    </div>
+				  </div>
+				</div>
+				
+				
+				<!-- Vue -->
+				<div id="app">
+				    <study-component></study-component>
+				</div>
+				
+				
+				<div class="mt-5 mb-5" style="text-align:right;">
+					<!-- 로그인된 사용자가 자기가 작성한 게시물이라면 나타나는 버튼 -->
+					<th:block th:if="${studyDetailInfo.id}==${#authentication.principal.username}">
+						<button type="button" class="btn btn-outline-secondary radius mx-1 px-5" th:onclick="|location.href='@{/studyMod(studyNo=${studyDetailInfo.studyNo})}'|">수정</button>
+						<button type="button" class="btn btn-outline-danger radius mx-1 px-5" id="studyDelBtn" th:data-no="${studyDetailInfo.studyNo}">삭제</button>
+					</th:block>
+					<!-- 로그인된 사용자가 관리자일때 나타나는 버튼 -->
+					<th:block sec:authorize="hasRole('ROLE_ADMIN')">
+						<button type="button" class="btn btn-outline-secondary radius mx-1 px-5" th:onclick="|location.href='@{/studyMod(studyNo=${studyDetailInfo.studyNo})}'|">수정</button>
+						<button type="button" class="btn btn-outline-danger radius mx-1 px-5" id="studyDelBtn" th:data-no="${studyDetailInfo.studyNo}">삭제</button>
+					</th:block>
+					<button type="button" class="btn btn-dark radius mx-1 px-5" style="background-color: #536779; color:white; border-color: #536779;" onclick="location.href='/studyList'">목록</button>
+				</div>
+			</div>
+			<div class="col-md-1"></div>
+		</div>
+	
+		
+<script>
+//Vue
+const { createApp } = Vue;
+createApp({
+	data() {
+		return {}
+	},
+	mounted() {},
+	methods: {},
+	components: {
+		'study-component': Vue.defineAsyncComponent(() => loadModule('community/studyDetailComponent.vue', options))
+	}
+}).mount('#app')
+
+// 삭제버튼 클릭시 실행하는 함수
+$('#studyDelBtn').on('click', function(){
+	Swal.fire({
+	  icon: 'warning',
+	  title: '해당 게시글을 \n정말 삭제하시겠습니까?',
+	  showCancelButton: true,
+	  confirmButtonColor: '#d33',
+	  cancelButtonColor: '#3085d6',
+	  confirmButtonText: '삭제',
+	  cancelButtonText: '취소',
+	  buttonsStyling: true,
+	  reverseButtons: true
+	}).then((result) => {
+	  if (result.isConfirmed) {
+		  
+		  let studyNo = $('#studyDelBtn').data('no');
+		  
+		  $.ajax({
+			url: 'studyDelFn',
+			type: 'post',
+			data: {studyNo : studyNo},
+			success: function (result) {
+				
+				Swal.fire({
+				  icon: 'success',
+				  title: '게시글 삭제완료!',
+				  showCancelButton: false,
+				  confirmButtonText: '확인'
+				}).then((result) => {
+				  if (result.isConfirmed) {
+					location.href="/studyList";
+				  }
+				});
+				
+			},
+	 		error: function (reject) {	   
+	    		console.log(reject);
+			}
+		});
+	  } // if끝
+	});
+});
+
+$('#reportBtn').on('click', function(){
+	let no = $('#studyDelBtn').data('no');
+	let title = $('#ttl').text();
+
+	var url = '/reportForm?no='+no+"&title="+title;  
+    var windowName = '신고하기'; 
+    var windowWidth = 400; // 새 창의 너비
+    var windowHeight = 300; // 새 창의 높이   
+    var windowLeft = (window.innerWidth - windowWidth) / 2;
+    var windowTop = (window.innerHeight - windowHeight) / 2;
+    
+    var windowFeatures = 'width=' + windowWidth + ',height=' + windowHeight +
+        ',top=' + windowTop + ',left=' + windowLeft;
+    
+    window.open(url, windowName, windowFeatures);
+	
+});
+
+</script>
+	</div>
+</body>
+</html>

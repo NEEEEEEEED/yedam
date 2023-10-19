@@ -1,0 +1,2664 @@
+<!DOCTYPE html>
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{template/layout}"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <title>이력서 작성</title>
+    <style>
+      input {
+        height: 50px;
+        /* border-radius: 0.5rem; */
+      }
+      .btn-sm {
+        width: 70px;
+        height: 45px;
+        font-size: 4px;
+      }
+      .bi.bi-plus-circle-fill::before,
+      .bi.bi-x-lg::before {
+        float: right;
+        cursor: pointer;
+      }
+      .cursor {
+        cursor: pointer;
+      }
+      .circleImg {
+        border-radius: 10%;
+        width: 120px;
+        height: 120px;
+      }
+      .reTl {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+      }
+      .reTlCn {
+        position: relative;
+      }
+      /*       #pofolBtn{ */
+      /*        height: 40px; */
+      /*        float: right; */
+      /*       } */
+    </style>
+  </head>
+  <body>
+    <div class="container" layout:fragment="content">
+      <div class="row g-4 my-5">
+        <!-- 		sidebar -->
+        <div class="col-md-3 col-lg-3 order-md-last">
+          <div style="position: sticky; top: 150px">
+            <h4 class="mb-3">
+              <span class="text">이력서 항목</span>
+            </h4>
+            <ul class="list-group mb-3 ps-1">
+              <li
+                name="scholar"
+                class="list-group-item d-flex justify-content-between cursor bt"
+              >
+                <div>
+                  <h4 class="my-2">학력</h4>
+                </div>
+                <i name="scholar" class="bi-plus-circle-fill fs-4 md-3"></i>
+              </li>
+              <li
+                name="carrer"
+                class="list-group-item d-flex justify-content-between cursor bt"
+              >
+                <div>
+                  <h4 class="my-2">경력</h4>
+                </div>
+                <i class="bi-plus-circle-fill fs-4 md-3"></i>
+              </li>
+              <li
+                name="ed"
+                class="list-group-item d-flex justify-content-between cursor bt"
+              >
+                <div>
+                  <h4 class="my-2">교육</h4>
+                </div>
+                <i class="bi-plus-circle-fill fs-4 md-3"></i>
+              </li>
+              <li
+                name="licen"
+                class="list-group-item d-flex justify-content-between cursor bt"
+              >
+                <div>
+                  <h4 class="my-2">자격증</h4>
+                </div>
+                <i class="bi-plus-circle-fill fs-4 md-3"></i>
+              </li>
+              <li
+                name="won"
+                class="list-group-item d-flex justify-content-between cursor bt"
+              >
+                <div>
+                  <h4 class="my-2">수상내역</h4>
+                </div>
+                <i class="bi-plus-circle-fill fs-4 md-3"></i>
+              </li>
+              <li
+                name="introduce"
+                class="list-group-item d-flex justify-content-between cursor bt"
+              >
+                <div>
+                  <h4 class="my-2">자기소개서</h4>
+                </div>
+                <i class="bi-plus-circle-fill fs-4 md-3"></i>
+              </li>
+              <li
+                name="pofol"
+                class="list-group-item d-flex justify-content-between cursor bt"
+              >
+                <div>
+                  <h4 class="my-2">포트폴리오</h4>
+                </div>
+                <i name="pofol" class="bi-plus-circle-fill fs-4 md-3"></i>
+              </li>
+            </ul>
+
+            <div class="d-flex justify-content-center p-2">
+              <button id="saveResume" class="btn btn-outline-primary px-2 m-2">
+                이력서 저장
+              </button>
+              <button id="backToBefore" class="btn btn-outline-danger px-2 m-2">
+                취소
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- 			sidebar end -->
+        <div class="col-md-9 col-lg-9">
+          <div class="row col-md-12 col-lg-12 reTlCn">
+            <div class="col-md-3" style="text-align: center">
+              <form
+                id="profileImgForm"
+                action="/myProfileAdd"
+                method="post"
+                enctype="multipart/form-data"
+                onsubmit="return false"
+              >
+                <img
+                  th:src="|/moamoreImg/${resume.imgNo}|"
+                  id="preview"
+                  class="circleImg"
+                  th:if="${resume.imgNo}!=null"
+                />
+                <img
+                  src="/self/profile.JPG"
+                  id="preview"
+                  class="circleImg"
+                  th:if="${resume.imgNo}==null"
+                />
+
+                <input
+                  id="inputImg"
+                  type="file"
+                  onchange="readURL(this);"
+                  style="display: none"
+                  th:if="${resume.imgNo}!=null"
+                  th:value="${resume.imgNo}"
+                />
+                <input
+                  id="inputImg"
+                  type="file"
+                  onchange="readURL(this);"
+                  style="display: none"
+                  th:if="${resume.imgNo}==null"
+                /><br />
+                <button
+                  id="changeImg"
+                  type="button"
+                  class="btn btn-outline-success btn-sm mt-2 px-0"
+                >
+                  이미지등록
+                </button>
+              </form>
+            </div>
+            <div class="col-md-9 col-lg-9 reTl px-0">
+              <label for="ttl" style="width: 100%; font-size: larger">
+                <h4>이력서 제목</h4>
+                <input
+                  type="text"
+                  id="ttl"
+                  name="ttl"
+                  class="form-control"
+                  th:value="${resume.ttl}"
+                  placeholder="제목"
+              /></label>
+            </div>
+          </div>
+          <!-- 				main -->
+          <div class="col-md-12 col-lg-12">
+            <h4 class="mb-3">개인정보</h4>
+            <div class="formId my-3 card p-2">
+              <div class="row gy-3" name="memInfo" id="memInfo">
+                <div class="col-md-3">
+                  <label class="w-100"
+                    >이름
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="name"
+                      name="name"
+                      th:value="${info.name}"
+                      readonly
+                  /></label>
+                </div>
+
+                <div class="col-md-3">
+                  <label class="w-100"
+                    >생년월일
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="birth"
+                      name="birth"
+                      th:value="${info.birth}"
+                      readonly
+                  /></label>
+                </div>
+
+                <div class="col-md-4">
+                  <label class="w-100"
+                    >이메일
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="email"
+                      name="email"
+                      th:value="${info.email}"
+                    />
+                  </label>
+                </div>
+
+                <div class="col-md-2">
+                  <label class="w-100"
+                    >성별
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="gen"
+                      name="gen"
+                      th:value="${info.gen}"
+                      readonly
+                  /></label>
+                </div>
+
+                <div class="col-md-3 mt-0">
+                  <label class="w-100"
+                    >전화번호
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="ph"
+                      name="ph"
+                      th:value="${info.ph}"
+                  /></label>
+                </div>
+
+                <div class="col-md-3 mt-0">
+                  <label class="w-100"
+                    >휴대폰
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="phCl"
+                      name="phCl"
+                      th:value="${info.phCl}"
+                      oninput="phTemp(this)"
+                      maxlength="13"
+                  /></label>
+                </div>
+
+                <div class="col-md-4 mt-0">
+                  <label class="w-100"
+                    >주소
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="addr"
+                      name="addr"
+                      th:value="${info.addr}"
+                  /></label>
+                  <!-- 							<div class="invalid-feedback">Credit card number is -->
+                  <!-- 								required</div> -->
+                  <!-- 								유효성 검사용  -->
+                </div>
+                <div class="col-md-2 mt-0">
+                  <label class="w-100"
+                    >우편 번호
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="post"
+                      name="post"
+                      th:value="${info.post}"
+                      readonly
+                  /></label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-------------- 스킬--------------------------------------------------------------------- -->
+          <div th:if=" ${resume.shcrNo}!=null">
+            <div class="col-md-12 col-lg-12">
+              <h4 class="mb-3">기술 역량</h4>
+              <div class="formSkill my-3 card ps-4 py-3">
+                <div class="row gy-3" name="cardForAddSkill">
+                  <div
+                    th:each="sk:${resume.unSkill}"
+                    class="col-md-1 mx-2 px-0"
+                  >
+                    <button
+                      class="btn btn-outline-primary btn-sm px-0"
+                      th:value="${sk.skill}"
+                      name="skillBtn"
+                    >
+                      [[${sk.skillNm}]]
+                    </button>
+                    <input type="hidden" name="skill" th:value="${sk.skill}" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- ---------------↑↑↑선택 안 한 기술--------------------------- -->
+            <!-- ---------------↓↓↓↓↓↓선택 한 기술--------------------------- -->
+            <div class="col-md-12 col-lg-12">
+              <div class="formSkill my-3 card ps-4 py-3">
+                <div class="row gy-3" name="cardForViewSkill" id="skill">
+                  <div th:each="ski:${resume.skill}" class="col-md-1 mx-2 px-0">
+                    <button
+                      class="btn btn-outline-primary btn-sm px-0"
+                      th:value="${ski.skill}"
+                      name="skillBtn"
+                    >
+                      [[${ski.skillNm}]]
+                    </button>
+                    <input type="hidden" name="skill" th:value="${ski.skill}" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ==================최신 이력서 기술 끝================================================ -->
+          <div th:if=" ${resume.shcrNo}==null">
+            <div class="col-md-12 col-lg-12">
+              <h4 class="mb-3">기술 역량</h4>
+              <div class="formSkill my-3 card ps-4 py-3">
+                <div class="row gy-3" name="cardForAddSkill">
+                  <div th:each="list:${list.Z}" class="col-md-1 mx-2 px-0">
+                    <button
+                      class="btn btn-outline-primary btn-sm px-0"
+                      th:value="${list.prov}"
+                      name="skillBtn"
+                    >
+                      [[${list.desct}]]
+                    </button>
+                    <input type="hidden" name="skill" th:value="${list.prov}" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 col-lg-12">
+              <div class="formSkill my-3 card ps-4 py-3">
+                <div class="row gy-3" name="cardForViewSkill" id="skill"></div>
+              </div>
+            </div>
+          </div>
+          <!---------------------- 학력 -------------------------------------------------------->
+          <div
+            id="scholar"
+            style="display: block"
+            th:if=" ${resume.shcrNo}!=null"
+          >
+            <div class="col-md-12 col-lg-12">
+              <h4 class="mb-3">학력</h4>
+              <div class="forSchr my-3 card ps-4 p-3">
+                <div class="whrPst" name="whrPst">
+                  <div style="display: none">
+                    <div class="row gy-3 mb-4 mt-2">
+                      <div><i class="bi bi-x-lg"></i></div>
+                      <div class="dropdown col-md-2 pt-3">
+                        <button
+                          class="btn btn-chek p-2 dropdown-toggle mt-2"
+                          type="button"
+                          style="border-radius: 0.5rem; width: 100%"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <span>학교 구분</span>
+                        </button>
+                        <ul class="dropdown-menu" style="border-radius: 0.5rem">
+                          <li th:each="sh:${list.D}">
+                            <button
+                              type="button"
+                              class="dropdown-item"
+                              style="border-radius: 0.5rem; width: 100%"
+                              th:value="${sh.prov}"
+                            >
+                              <span>[[${sh.desct}]]</span>
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                      <input type="hidden" name="fg" value />
+                      <div class="col-md-5">
+                        <label class="w-100"
+                          >학교 이름
+                          <input type="text" class="form-control" name="breu" />
+                        </label>
+                      </div>
+                      <div class="col-md-5">
+                        <label class="w-100"
+                          >전공
+                          <input type="text" class="form-control" name="mj" />
+                        </label>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="w-100"
+                          >입학 년월
+                          <input
+                            type="month"
+                            class="form-control"
+                            name="joinYy"
+                          />
+                        </label>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="w-100"
+                          >졸업 년월
+                          <input
+                            type="month"
+                            class="form-control"
+                            name="retiYy"
+                          />
+                        </label>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="w-100"
+                          >학점
+                          <input type="text" class="form-control" name="pnt" />
+                        </label>
+                      </div>
+                      <div class="dropdown col-md-2 pt-3">
+                        <button
+                          class="btn btn-chek p-2 dropdown-toggle mt-2"
+                          type="button"
+                          style="border-radius: 0.5rem; width: 100%"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <span>총 점</span>
+                        </button>
+                        <ul class="dropdown-menu" style="border-radius: 0.5rem">
+                          <li th:each="tt:${list.E}">
+                            <button
+                              type="button"
+                              class="dropdown-item"
+                              style="border-radius: 0.5rem; width: 100%"
+                              th:value="${tt.prov}"
+                            >
+                              <span>[[${tt.desct}]]</span>
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                      <input type="hidden" name="ttScore" value />
+                      <div class="dropdown col-md-2 pt-3">
+                        <button
+                          class="btn btn-chek p-2 dropdown-toggle mt-2"
+                          type="button"
+                          style="border-radius: 0.5rem; width: 100%"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <span>졸업 여부</span>
+                        </button>
+                        <ul class="dropdown-menu" style="border-radius: 0.5rem">
+                          <li th:each="st:${list.B}">
+                            <button
+                              type="button"
+                              class="dropdown-item"
+                              style="border-radius: 0.5rem; width: 100%"
+                              th:value="${st.prov}"
+                            >
+                              <span>[[${st.desct}]]</span>
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                      <input type="hidden" name="shcrSt" value />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- =====================최신 이력서에 학력 있으면 반복시작======================== -->
+                <div id="school" th:if="${resume.shcrNo}!=null">
+                  <div style="display: block" th:each="sc:${resume.sch}">
+                    <div class="row gy-3 mb-4 mt-2">
+                      <div><i class="bi bi-x-lg"></i></div>
+                      <div class="dropdown col-md-2 pt-3">
+                        <button
+                          class="btn btn-chek p-2 dropdown-toggle mt-2"
+                          type="button"
+                          style="border-radius: 0.5rem; width: 100%"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <span>[[${sc.fgCo}]]</span>
+                        </button>
+                        <ul class="dropdown-menu" style="border-radius: 0.5rem">
+                          <li th:each="sh:${list.D}">
+                            <button
+                              type="button"
+                              class="dropdown-item"
+                              style="border-radius: 0.5rem; width: 100%"
+                              th:value="${sh.prov}"
+                            >
+                              <span>[[${sh.desct}]]</span>
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                      <input
+                        type="hidden"
+                        name="fg"
+                        th:value="${sc.fg}"
+                        value
+                      />
+                      <div class="col-md-5">
+                        <label class="w-100"
+                          >학교 이름
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="breu"
+                            th:value="${sc.breu}"
+                          />
+                        </label>
+                      </div>
+                      <div class="col-md-5">
+                        <label class="w-100"
+                          >전공
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="mj"
+                            th:value="${sc.mj}"
+                          />
+                        </label>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="w-100"
+                          >입학 년월
+                          <input
+                            type="month"
+                            class="form-control"
+                            name="joinYy"
+                            th:value="${sc.joinYy}"
+                          />
+                        </label>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="w-100"
+                          >졸업 년월
+                          <input
+                            type="month"
+                            class="form-control"
+                            name="retiYy"
+                            th:value="${sc.retiYy}"
+                          />
+                        </label>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="w-100"
+                          >학점
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="pnt"
+                            th:value="${sc.pnt}"
+                          />
+                        </label>
+                      </div>
+                      <div class="dropdown col-md-2 pt-3">
+                        <button
+                          class="btn btn-chek p-2 dropdown-toggle mt-2"
+                          type="button"
+                          style="border-radius: 0.5rem; width: 100%"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <span>[[${sc.ttCo}]]</span>
+                        </button>
+                        <ul class="dropdown-menu" style="border-radius: 0.5rem">
+                          <li th:each="tt:${list.E}">
+                            <button
+                              type="button"
+                              class="dropdown-item"
+                              style="border-radius: 0.5rem; width: 100%"
+                              th:value="${tt.prov}"
+                            >
+                              <span>[[${tt.desct}]]</span>
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                      <input
+                        type="hidden"
+                        name="ttScore"
+                        th:value="${sc.ttScore}"
+                        value
+                      />
+                      <div class="dropdown col-md-2 pt-3">
+                        <button
+                          class="btn btn-chek p-2 dropdown-toggle mt-2"
+                          type="button"
+                          style="border-radius: 0.5rem; width: 100%"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <span>[[${sc.shcrStCo}]]</span>
+                        </button>
+                        <ul class="dropdown-menu" style="border-radius: 0.5rem">
+                          <li th:each="st:${list.B}">
+                            <button
+                              type="button"
+                              class="dropdown-item"
+                              style="border-radius: 0.5rem; width: 100%"
+                              th:value="${st.prov}"
+                            >
+                              <span>[[${st.desct}]]</span>
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                      <input
+                        type="hidden"
+                        name="shcrSt"
+                        th:value="${sc.shcrSt}"
+                        value
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div id="school" th:if="${resume.shcrNo==null}"></div>
+                <div class="fs-4 md-3">
+                  <i class="bi bi-plus-circle-fill"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ============================학력끝============================================ -->
+          <div
+            id="scholar"
+            style="display: none"
+            th:if=" ${resume.shcrNo}==null"
+          >
+            <div class="col-md-12 col-lg-12">
+              <h4 class="mb-3">학력</h4>
+              <div class="forSchr my-3 card ps-4 p-3">
+                <div class="whrPst" name="whrPst">
+                  <div style="display: none">
+                    <div class="row gy-3 mb-4 mt-2">
+                      <div><i class="bi bi-x-lg"></i></div>
+                      <div class="dropdown col-md-2 pt-3">
+                        <button
+                          class="btn btn-chek p-2 dropdown-toggle mt-2"
+                          type="button"
+                          style="border-radius: 0.5rem; width: 100%"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <span>학교 구분</span>
+                        </button>
+                        <ul class="dropdown-menu" style="border-radius: 0.5rem">
+                          <li th:each="sh:${list.D}">
+                            <button
+                              type="button"
+                              class="dropdown-item"
+                              style="border-radius: 0.5rem; width: 100%"
+                              th:value="${sh.prov}"
+                            >
+                              <span>[[${sh.desct}]]</span>
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                      <input type="hidden" name="fg" value />
+                      <div class="col-md-5">
+                        <label class="w-100"
+                          >학교 이름
+                          <input type="text" class="form-control" name="breu" />
+                        </label>
+                      </div>
+                      <div class="col-md-5">
+                        <label class="w-100"
+                          >전공
+                          <input type="text" class="form-control" name="mj" />
+                        </label>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="w-100"
+                          >입학 년월
+                          <input
+                            type="month"
+                            class="form-control"
+                            name="joinYy"
+                          />
+                        </label>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="w-100"
+                          >졸업 년월
+                          <input
+                            type="month"
+                            class="form-control"
+                            name="retiYy"
+                          />
+                        </label>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="w-100"
+                          >학점
+                          <input type="text" class="form-control" name="pnt" />
+                        </label>
+                      </div>
+                      <div class="dropdown col-md-2 pt-3">
+                        <button
+                          class="btn btn-chek p-2 dropdown-toggle mt-2"
+                          type="button"
+                          style="border-radius: 0.5rem; width: 100%"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <span>총 점</span>
+                        </button>
+                        <ul class="dropdown-menu" style="border-radius: 0.5rem">
+                          <li th:each="tt:${list.E}">
+                            <button
+                              type="button"
+                              class="dropdown-item"
+                              style="border-radius: 0.5rem; width: 100%"
+                              th:value="${tt.prov}"
+                            >
+                              <span>[[${tt.desct}]]</span>
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                      <input type="hidden" name="ttScore" value />
+                      <div class="dropdown col-md-2 pt-3">
+                        <button
+                          class="btn btn-chek p-2 dropdown-toggle mt-2"
+                          type="button"
+                          style="border-radius: 0.5rem; width: 100%"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <span>졸업 여부</span>
+                        </button>
+                        <ul class="dropdown-menu" style="border-radius: 0.5rem">
+                          <li th:each="st:${list.B}">
+                            <button
+                              type="button"
+                              class="dropdown-item"
+                              style="border-radius: 0.5rem; width: 100%"
+                              th:value="${st.prov}"
+                            >
+                              <span>[[${st.desct}]]</span>
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                      <input type="hidden" name="shcrSt" value />
+                    </div>
+                  </div>
+                </div>
+                <div id="school"></div>
+                <div class="fs-4 md-3">
+                  <i class="bi bi-plus-circle-fill"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ===================학력 끝=============================== -->
+          <!-- -------------------------------경력 시작------------------------------- -->
+          <div
+            id="carrer"
+            style="display: block"
+            th:if="${resume.carrNo}!=null"
+          >
+            <div class="col-md-12 col-lg-12">
+              <h4 class="mb-3">경력</h4>
+              <div class="forCarr my-3 card ps-4 p-3">
+                <div class="whrPst">
+                  <div style="display: none">
+                    <div class="row gy-3 mb-4 mt-2">
+                      <div><i class="bi bi-x-lg"></i></div>
+                      <div class="dropdown col-md-2 pt-3">
+                        <button
+                          class="btn btn-chek p-2 dropdown-toggle mt-2"
+                          type="button"
+                          style="border-radius: 0.5rem; width: 100%"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <span>직책</span>
+                        </button>
+                        <ul class="dropdown-menu" style="border-radius: 0.5rem">
+                          <li th:each="cl:${list.d}">
+                            <button
+                              type="button"
+                              class="dropdown-item"
+                              style="border-radius: 0.5rem; width: 100%"
+                              th:value="${cl.prov}"
+                            >
+                              <span>[[${cl.desct}]]</span>
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                      <input type="hidden" name="wkdty" value />
+                      <div class="col-md-4">
+                        <label class="w-100"
+                          >회사명
+                          <input type="text" class="form-control" name="co" />
+                        </label>
+                      </div>
+                      <div class="col-md-4">
+                        <label class="2-100"
+                          >부서명
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="depart"
+                          />
+                        </label>
+                      </div>
+                      <div class="dropdown col-md-2 pt-3">
+                        <button
+                          class="btn btn-chek p-2 dropdown-toggle mt-2"
+                          type="button"
+                          style="border-radius: 0.5rem; width: 100%"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <span>직무</span>
+                        </button>
+                        <ul class="dropdown-menu" style="border-radius: 0.5rem">
+                          <li th:each="clc:${list.N}">
+                            <button
+                              type="button"
+                              class="dropdown-item"
+                              style="border-radius: 0.5rem; width: 100%"
+                              th:value="${clc.prov}"
+                            >
+                              <span>[[${clc.desct}]]</span>
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                      <input type="hidden" name="duty" value />
+                      <div class="col-md-2">
+                        <label class="w-100"
+                          >입사년도
+                          <input
+                            type="month"
+                            class="form-control"
+                            name="joinYy"
+                          />
+                        </label>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="w-100"
+                          >퇴사년도
+                          <input
+                            type="month"
+                            class="form-control"
+                            name="retiYy"
+                          />
+                        </label>
+                      </div>
+                      <div class="col-md-6">
+                        <label class="w-100"
+                          >업무
+                          <input type="text" class="form-control" name="buss" />
+                        </label>
+                      </div>
+
+                      <div class="dropdown col-md-2 pt-3">
+                        <button
+                          class="btn btn-chek p-2 dropdown-toggle mt-2"
+                          type="button"
+                          style="border-radius: 0.5rem; width: 100%"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <span>상태</span>
+                        </button>
+                        <ul class="dropdown-menu" style="border-radius: 0.5rem">
+                          <li th:each="st:${list.A}">
+                            <button
+                              type="button"
+                              class="dropdown-item"
+                              style="border-radius: 0.5rem; width: 100%"
+                              th:value="${st.prov}"
+                            >
+                              <span>[[${st.desct}]]</span>
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                      <input type="hidden" name="carrSt" value />
+                    </div>
+                  </div>
+                </div>
+                <!--======= 최신 경력 있으면 반복 시작=======================================-->
+                <div id="job" th:if="${resume.carrNo}!=null">
+                  <div style="display: block" th:each="ca:${resume.carr}">
+                    <div class="row gy-3 mb-4 mt-2">
+                      <div><i class="bi bi-x-lg"></i></div>
+                      <div class="dropdown col-md-2 pt-3">
+                        <button
+                          class="btn btn-chek p-2 dropdown-toggle mt-2"
+                          type="button"
+                          style="border-radius: 0.5rem; width: 100%"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <span>[[${ca.wkdtyCo}]]</span>
+                        </button>
+                        <ul class="dropdown-menu" style="border-radius: 0.5rem">
+                          <li th:each="cl:${list.d}">
+                            <button
+                              type="button"
+                              class="dropdown-item"
+                              style="border-radius: 0.5rem; width: 100%"
+                              th:value="${cl.prov}"
+                            >
+                              <span>[[${cl.desct}]]</span>
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                      <input
+                        type="hidden"
+                        name="wkdty"
+                        th:value="${ca.wkdty}"
+                        value
+                      />
+                      <div class="col-md-4">
+                        <label class="w-100"
+                          >회사명
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="co"
+                            th:value="${ca.co}"
+                          />
+                        </label>
+                      </div>
+                      <div class="col-md-4">
+                        <label class="2-100"
+                          >부서명
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="depart"
+                            th:value="${ca.depart}"
+                          />
+                        </label>
+                      </div>
+                      <div class="dropdown col-md-2 pt-3">
+                        <button
+                          class="btn btn-chek p-2 dropdown-toggle mt-2"
+                          type="button"
+                          style="border-radius: 0.5rem; width: 100%"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <span>[[${ca.dutyCo}]]</span>
+                        </button>
+                        <ul class="dropdown-menu" style="border-radius: 0.5rem">
+                          <li th:each="clc:${list.N}">
+                            <button
+                              type="button"
+                              class="dropdown-item"
+                              style="border-radius: 0.5rem; width: 100%"
+                              th:value="${clc.prov}"
+                            >
+                              <span>[[${clc.desct}]]</span>
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                      <input
+                        type="hidden"
+                        name="duty"
+                        th:value="${ca.duty}"
+                        value
+                      />
+                      <div class="col-md-2">
+                        <label class="w-100"
+                          >입사년도
+                          <input
+                            type="month"
+                            class="form-control"
+                            name="joinYy"
+                            th:value="${ca.joinYy}"
+                          />
+                        </label>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="w-100"
+                          >퇴사년도
+                          <input
+                            type="month"
+                            class="form-control"
+                            name="retiYy"
+                            th:value="${ca.retiYy}"
+                          />
+                        </label>
+                      </div>
+                      <div class="col-md-6">
+                        <label class="w-100"
+                          >업무
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="buss"
+                            th:value="${ca.buss}"
+                          />
+                        </label>
+                      </div>
+
+                      <div class="dropdown col-md-2 pt-3">
+                        <button
+                          class="btn btn-chek p-2 dropdown-toggle mt-2"
+                          type="button"
+                          style="border-radius: 0.5rem; width: 100%"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <span>[[${ca.carrStCo}]]</span>
+                        </button>
+                        <ul class="dropdown-menu" style="border-radius: 0.5rem">
+                          <li th:each="st:${list.A}">
+                            <button
+                              type="button"
+                              class="dropdown-item"
+                              style="border-radius: 0.5rem; width: 100%"
+                              th:value="${st.prov}"
+                            >
+                              <span>[[${st.desct}]]</span>
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                      <input
+                        type="hidden"
+                        name="carrSt"
+                        th:value="${ca.carrSt}"
+                        value
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div id="job" th:if="${resume.carrNo}==null"></div>
+                <div class="fs-4 md-3">
+                  <i class="bi bi-plus-circle-fill"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--   =================경력 최신 끝=================================================-->
+          <div id="carrer" style="display: none" th:if="${resume.carrNo}==null">
+            <div class="col-md-12 col-lg-12">
+              <h4 class="mb-3">경력</h4>
+              <div class="forCarr my-3 card ps-4 p-3">
+                <div class="whrPst">
+                  <div style="display: none">
+                    <div class="row gy-3 mb-4 mt-2">
+                      <div><i class="bi bi-x-lg"></i></div>
+                      <div class="dropdown col-md-2 pt-3">
+                        <button
+                          class="btn btn-chek p-2 dropdown-toggle mt-2"
+                          type="button"
+                          style="border-radius: 0.5rem; width: 100%"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <span>직책</span>
+                        </button>
+                        <ul class="dropdown-menu" style="border-radius: 0.5rem">
+                          <li th:each="cl:${list.d}">
+                            <button
+                              type="button"
+                              class="dropdown-item"
+                              style="border-radius: 0.5rem; width: 100%"
+                              th:value="${cl.prov}"
+                            >
+                              <span>[[${cl.desct}]]</span>
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                      <input type="hidden" name="wkdty" value />
+                      <div class="col-md-4">
+                        <label class="w-100"
+                          >회사명
+                          <input type="text" class="form-control" name="co" />
+                        </label>
+                      </div>
+                      <div class="col-md-4">
+                        <label class="2-100"
+                          >부서명
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="depart"
+                          />
+                        </label>
+                      </div>
+                      <div class="dropdown col-md-2 pt-3">
+                        <button
+                          class="btn btn-chek p-2 dropdown-toggle mt-2"
+                          type="button"
+                          style="border-radius: 0.5rem; width: 100%"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <span>직무</span>
+                        </button>
+                        <ul class="dropdown-menu" style="border-radius: 0.5rem">
+                          <li th:each="clc:${list.N}">
+                            <button
+                              type="button"
+                              class="dropdown-item"
+                              style="border-radius: 0.5rem; width: 100%"
+                              th:value="${clc.prov}"
+                            >
+                              <span>[[${clc.desct}]]</span>
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                      <input type="hidden" name="duty" value />
+                      <div class="col-md-2">
+                        <label class="w-100"
+                          >입사년도
+                          <input
+                            type="month"
+                            class="form-control"
+                            name="joinYy"
+                          />
+                        </label>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="w-100"
+                          >퇴사년도
+                          <input
+                            type="month"
+                            class="form-control"
+                            name="retiYy"
+                          />
+                        </label>
+                      </div>
+                      <div class="col-md-6">
+                        <label class="w-100"
+                          >업무
+                          <input type="text" class="form-control" name="buss" />
+                        </label>
+                      </div>
+
+                      <div class="dropdown col-md-2 pt-3">
+                        <button
+                          class="btn btn-chek p-2 dropdown-toggle mt-2"
+                          type="button"
+                          style="border-radius: 0.5rem; width: 100%"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <span>상태</span>
+                        </button>
+                        <ul class="dropdown-menu" style="border-radius: 0.5rem">
+                          <li th:each="st:${list.A}">
+                            <button
+                              type="button"
+                              class="dropdown-item"
+                              style="border-radius: 0.5rem; width: 100%"
+                              th:value="${st.prov}"
+                            >
+                              <span>[[${st.desct}]]</span>
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                      <input type="hidden" name="carrSt" value />
+                    </div>
+                  </div>
+                </div>
+                <div id="job"></div>
+                <div class="fs-4 md-3">
+                  <i class="bi bi-plus-circle-fill"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ==========경력 끝===================================== -->
+          <!-- -----------교육--------------------------- -->
+          <div id="ed" style="display: block" th:if="${resume.eduNo}!=null">
+            <div class="col-md-12 col-lg-12">
+              <h4 class="mb-3">교육</h4>
+              <div class="forCarr my-3 card ps-4 p-3">
+                <div class="whrPst" name="whrPst">
+                  <div style="display: none">
+                    <div class="row gy-3 mb-4 mt-2">
+                      <div><i class="bi bi-x-lg"></i></div>
+                      <div class="col-md-5">
+                        <label class="w-100"
+                          >교육명
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="eduNm"
+                          />
+                        </label>
+                      </div>
+                      <div class="col-md-7">
+                        <label class="w-100"
+                          >교육기관
+                          <input type="text" class="form-control" name="breu" />
+                        </label>
+                      </div>
+
+                      <div class="col-md-2">
+                        <label class="w-100"
+                          >시작년도
+                          <input
+                            type="month"
+                            class="form-control"
+                            name="joinYy"
+                          />
+                        </label>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="w-100"
+                          >종료년도
+                          <input
+                            type="month"
+                            class="form-control"
+                            name="retiYy"
+                          />
+                        </label>
+                      </div>
+                      <div class="col-md-8">
+                        <label class="w-100"
+                          >이수내용
+                          <input type="text" class="form-control" name="cntn" />
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- ============최신 교육있으면 반복 시작====================================== -->
+                <div id="educate" th:if="${resume.eduNo}!=null">
+                  <div style="display: block" th:each="edu:${resume.edu}">
+                    <div class="row gy-3 mb-4 mt-2">
+                      <div><i class="bi bi-x-lg"></i></div>
+                      <div class="col-md-5">
+                        <label class="w-100"
+                          >교육명
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="eduNm"
+                            th:value="${edu.eduNm}"
+                          />
+                        </label>
+                      </div>
+                      <div class="col-md-7">
+                        <label class="w-100"
+                          >교육기관
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="breu"
+                            th:value="${edu.breu}"
+                          />
+                        </label>
+                      </div>
+
+                      <div class="col-md-2">
+                        <label class="w-100"
+                          >시작년도
+                          <input
+                            type="month"
+                            class="form-control"
+                            name="joinYy"
+                            th:value="${edu.joinYy}"
+                          />
+                        </label>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="w-100"
+                          >종료년도
+                          <input
+                            type="month"
+                            class="form-control"
+                            name="retiYy"
+                            th:value="${edu.retiYy}"
+                          />
+                        </label>
+                      </div>
+                      <div class="col-md-8">
+                        <label class="w-100"
+                          >이수내용
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="cntn"
+                            th:value="${edu.cntn}"
+                          />
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div id="educate" th:if="${resume.eduNo}==null"></div>
+                <div class="fs-4 md-3">
+                  <i class="bi bi-plus-circle-fill"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ==============최신 교육 끝=============================== -->
+          <div id="ed" style="display: none" th:if="${resume.eduNo}==null">
+            <div class="col-md-12 col-lg-12">
+              <h4 class="mb-3">교육</h4>
+              <div class="forCarr my-3 card ps-4 p-3">
+                <div class="whrPst" name="whrPst">
+                  <div style="display: none">
+                    <div class="row gy-3 mb-4 mt-2">
+                      <div><i class="bi bi-x-lg"></i></div>
+                      <div class="col-md-5">
+                        <label class="w-100"
+                          >교육명
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="eduNm"
+                          />
+                        </label>
+                      </div>
+                      <div class="col-md-7">
+                        <label class="w-100"
+                          >교육기관
+                          <input type="text" class="form-control" name="breu" />
+                        </label>
+                      </div>
+
+                      <div class="col-md-2">
+                        <label class="w-100"
+                          >시작년도
+                          <input
+                            type="month"
+                            class="form-control"
+                            name="joinYy"
+                          />
+                        </label>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="w-100"
+                          >종료년도
+                          <input
+                            type="month"
+                            class="form-control"
+                            name="retiYy"
+                          />
+                        </label>
+                      </div>
+                      <div class="col-md-8">
+                        <label class="w-100"
+                          >이수내용
+                          <input type="text" class="form-control" name="cntn" />
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div id="educate"></div>
+                <div class="fs-4 md-3">
+                  <i class="bi bi-plus-circle-fill"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-----------자격증------------------------------>
+          <div id="licen" style="display: block" th:if="${resume.licnNo}!=null">
+            <div class="col-md-12 col-lg-12">
+              <h4 class="mb-3">자격증</h4>
+              <div class="forCarr my-3 card ps-4 p-3">
+                <div class="whrPst" name="whrPst">
+                  <div style="display: none">
+                    <div class="row gy-3 mb-4 mt-2">
+                      <div><i class="bi bi-x-lg"></i></div>
+                      <div class="col-md-4">
+                        <label class="w-100"
+                          >자격증명
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="licnNm"
+                          />
+                        </label>
+                      </div>
+                      <div class="col-md-6">
+                        <label class="w-100"
+                          >발급기관
+                          <input type="text" class="form-control" name="breu" />
+                        </label>
+                      </div>
+
+                      <div class="col-md-2">
+                        <label class="w-100"
+                          >취득월
+                          <input
+                            type="month"
+                            class="form-control"
+                            name="issuMm"
+                          />
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- =============최신 자격증 있으면 반복============================= -->
+                <div id="licence" th:if="${resume.licnNo}!=null">
+                  <div style="display: block" th:each="li:${resume.licn}">
+                    <div class="row gy-3 mb-4 mt-2">
+                      <div><i class="bi bi-x-lg"></i></div>
+                      <div class="col-md-4">
+                        <label class="w-100"
+                          >자격증명
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="licnNm"
+                            th:value="${li.licnNm}"
+                          />
+                        </label>
+                      </div>
+                      <div class="col-md-6">
+                        <label class="w-100"
+                          >발급기관
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="breu"
+                            th:value="${li.breu}"
+                          />
+                        </label>
+                      </div>
+
+                      <div class="col-md-2">
+                        <label class="w-100"
+                          >취득월
+                          <input
+                            type="month"
+                            class="form-control"
+                            name="issuMm"
+                            th:value="${li.issuMm}"
+                          />
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div id="licence" th:if="${resume.licnNo}==null"></div>
+                <div class="fs-4 md-3">
+                  <i class="bi bi-plus-circle-fill"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ==========================최신 자격증 끝 -->
+          <div id="licen" style="display: none" th:if="${resume.licnNo}==null">
+            <div class="col-md-12 col-lg-12">
+              <h4 class="mb-3">자격증</h4>
+              <div class="forCarr my-3 card ps-4 p-3">
+                <div class="whrPst" name="whrPst">
+                  <div style="display: none">
+                    <div class="row gy-3 mb-4 mt-2">
+                      <div><i class="bi bi-x-lg"></i></div>
+                      <div class="col-md-4">
+                        <label class="w-100"
+                          >자격증명
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="licnNm"
+                          />
+                        </label>
+                      </div>
+                      <div class="col-md-6">
+                        <label class="w-100"
+                          >발급기관
+                          <input type="text" class="form-control" name="breu" />
+                        </label>
+                      </div>
+
+                      <div class="col-md-2">
+                        <label class="w-100"
+                          >취득월
+                          <input
+                            type="month"
+                            class="form-control"
+                            name="issuMm"
+                          />
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div id="licence"></div>
+                <div class="fs-4 md-3">
+                  <i class="bi bi-plus-circle-fill"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- --=============자격증 끝============================ -->
+
+          <!--------------------------수상내역------------------------------->
+          <div id="won" style="display: block" th:if="${resume.ardNo}!=null">
+            <div class="col-md-12 col-lg-12">
+              <h4 class="mb-3">수상내역</h4>
+              <div class="forCarr my-3 card ps-4 p-3">
+                <div class="whrPst" name="whrPst">
+                  <div style="display: none">
+                    <div class="row gy-3 mb-4 mt-2">
+                      <div><i class="bi bi-x-lg"></i></div>
+                      <div class="col-md-4">
+                        <label class="w-100"
+                          >수상명
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="ardNm"
+                          />
+                        </label>
+                      </div>
+                      <div class="col-md-6">
+                        <label class="w-100"
+                          >수여기관
+                          <input type="text" class="form-control" name="breu" />
+                        </label>
+                      </div>
+
+                      <div class="col-md-2">
+                        <label class="w-100"
+                          >수상년도
+                          <input
+                            type="month"
+                            class="form-control"
+                            name="issuYy"
+                          />
+                        </label>
+                      </div>
+                      <div class="col-md-12">
+                        <label class="w-100"
+                          >수여내용
+                          <input type="text" class="form-control" name="cntn" />
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- ================최신수상 있으면 반복================================= -->
+                <div id="award" th:if="${resume.ardNo}!=null">
+                  <div style="display: block" th:each="ard:${resume.ard}">
+                    <div class="row gy-3 mb-4 mt-2">
+                      <div><i class="bi bi-x-lg"></i></div>
+                      <div class="col-md-4">
+                        <label class="w-100"
+                          >수상명
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="ardNm"
+                            th:value="${ard.ardNm}"
+                          />
+                        </label>
+                      </div>
+                      <div class="col-md-6">
+                        <label class="w-100"
+                          >수여기관
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="breu"
+                            th:value="${ard.breu}"
+                          />
+                        </label>
+                      </div>
+
+                      <div class="col-md-2">
+                        <label class="w-100"
+                          >수상년도
+                          <input
+                            type="month"
+                            class="form-control"
+                            name="issuYy"
+                            th:value="${ard.issuYy}"
+                          />
+                        </label>
+                      </div>
+                      <div class="col-md-12">
+                        <label class="w-100"
+                          >수여내용
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="cntn"
+                            th:value="${ard.cntn}"
+                          />
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div id="award" th:if="${resume.ardNo}==null"></div>
+                <div class="fs-4 md-3">
+                  <i class="bi bi-plus-circle-fill"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ===============최신 수상 끝=============================== -->
+          <div id="won" style="display: none" th:if="${resume.ardNo}==null">
+            <div class="col-md-12 col-lg-12">
+              <h4 class="mb-3">수상내역</h4>
+              <div class="forCarr my-3 card ps-4 p-3">
+                <div class="whrPst" name="whrPst">
+                  <div style="display: none">
+                    <div class="row gy-3 mb-4 mt-2">
+                      <div><i class="bi bi-x-lg"></i></div>
+                      <div class="col-md-4">
+                        <label class="w-100"
+                          >수상명
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="ardNm"
+                          />
+                        </label>
+                      </div>
+                      <div class="col-md-6">
+                        <label class="w-100"
+                          >수여기관
+                          <input type="text" class="form-control" name="breu" />
+                        </label>
+                      </div>
+
+                      <div class="col-md-2">
+                        <label class="w-100"
+                          >수상년도
+                          <input
+                            type="month"
+                            class="form-control"
+                            name="issuYy"
+                          />
+                        </label>
+                      </div>
+                      <div class="col-md-12">
+                        <label class="w-100"
+                          >수여내용
+                          <input type="text" class="form-control" name="cntn" />
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div id="award"></div>
+                <div class="fs-4 md-3">
+                  <i class="bi bi-plus-circle-fill"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-------------------------수상 끝------------------------------->
+
+          <!--------------------------자기소개서------------------------------->
+          <div
+            id="introduce"
+            style="display: block"
+            th:if="${resume.introNo}!=null"
+          >
+            <div class="col-md-12 col-lg-12">
+              <h4 class="mb-3">자기소개서</h4>
+              <div class="forCarr my-3 card ps-4 p-3">
+                <div class="whrPst" name="whrPst">
+                  <div style="display: none">
+                    <div class="row gy-3 mb-4 mt-2">
+                      <div><i class="bi bi-x-lg"></i></div>
+                      <div class="col-md-12">
+                        <label class="w-100"
+                          >자기소개서
+                          <input type="text" class="form-control" name="ttl" />
+                        </label>
+                      </div>
+                      <div class="col-md-12">
+                        <label class="w-100"
+                          >내용
+                          <textarea
+                            class="form-control"
+                            name="cntn"
+                            cols="30"
+                            rows="10"
+                          ></textarea>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- ================최신 자소서 있으면 반복======================= -->
+                <div id="resumeText" th:if="${resume.introNo}!=null">
+                  <div style="display: block" th:each="intro:${resume.intro}">
+                    <div class="row gy-3 mb-4 mt-2">
+                      <div><i class="bi bi-x-lg"></i></div>
+                      <div class="col-md-12">
+                        <label class="w-100"
+                          >자기소개서
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="ttl"
+                            th:value="${intro.ttl}"
+                          />
+                        </label>
+                      </div>
+                      <div class="col-md-12">
+                        <label class="w-100"
+                          >내용
+                          <textarea
+                            class="form-control"
+                            name="cntn"
+                            cols="30"
+                            rows="10"
+                            th:text="${intro.cntn}"
+                          ></textarea>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div id="resumeText" th:if="${resume.introNo}==null"></div>
+                <div class="fs-4 md-3">
+                  <i class="bi bi-plus-circle-fill"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ==================최신 자소서 끝====================== -->
+          <div
+            id="introduce"
+            style="display: none"
+            th:if="${resume.introNo}==null"
+          >
+            <div class="col-md-12 col-lg-12">
+              <h4 class="mb-3">자기소개서</h4>
+              <div class="forCarr my-3 card ps-4 p-3">
+                <div class="whrPst" name="whrPst">
+                  <div style="display: none">
+                    <div class="row gy-3 mb-4 mt-2">
+                      <div><i class="bi bi-x-lg"></i></div>
+                      <div class="col-md-12">
+                        <label class="w-100"
+                          >자기소개서
+                          <input type="text" class="form-control" name="ttl" />
+                        </label>
+                      </div>
+                      <div class="col-md-12">
+                        <label class="w-100"
+                          >내용
+                          <textarea
+                            class="form-control"
+                            name="cntn"
+                            cols="30"
+                            rows="10"
+                          ></textarea>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div id="resumeText"></div>
+                <div class="fs-4 md-3">
+                  <i class="bi bi-plus-circle-fill"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- -===================자소서 끝=============================== -->
+
+          <!-- 본문 : 포트폴리오 -->
+          <div id="pofol" style="display: none" th:if="${resume.prtflNo}==null">
+            <div class="col-md-12 col-lg-12">
+              <h4 class="mb-3"><b>포트폴리오 </b></h4>
+              <div class="forCarr my-3 card ps-4 p-3">
+                <div class="whrPst" name="whrPst">
+                  <div style="display: block">
+                    <div class="mb-5">
+                      <p class="fs-1">
+                        <button
+                          id="pofolBtn"
+                          type="button"
+                          class="btn btn btn-outline-dark btn-sm radius"
+                          style="height: 40px; float: right"
+                        >
+                          추가
+                        </button>
+                      </p>
+                      <br />
+                      <div class="row">
+                        <div id="pofolRows" class="col-md-10">
+                          <div
+                            style="background-color: pink; text-align: center"
+                          >
+                            포트폴리오 항목이 비어있습니다. 추가를 눌러 채워
+                            주세요
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!----------------------포폴 있는 이력서--------------------------------------->
+          <div
+            id="pofol"
+            style="display: block"
+            th:if="${resume.prtflNo}!=null"
+          >
+            <div class="col-md-12 col-lg-12">
+              <h4 class="mb-3"><b>포트폴리오 </b></h4>
+              <div class="forCarr my-3 card ps-4 p-3">
+                <div class="whrPst" name="whrPst">
+                  <div style="display: block">
+                    <div class="mb-5">
+                      <p class="fs-1">
+                        <button
+                          id="pofolBtn"
+                          type="button"
+                          class="btn btn btn-outline-dark btn-sm radius"
+                          style="height: 40px; float: right"
+                        >
+                          추가
+                        </button>
+                      </p>
+                      <br />
+                      <div class="row">
+                        <div id="pofolRows" class="col-md-10">
+                          <div
+                            class="row align-items-center border-bottom hoverRow mb-3"
+                            th:each="pr:${resume.prtfl}"
+                          >
+                            <div class="col-md-3">
+                              <img
+                                class="img-fluid imgSize"
+                                th:src="|/moamorePofol/${pr.prtflImg}|"
+                                alt="이미지없음"
+                              />
+                            </div>
+                            <div class="col-md-7" style="color: black">
+                              <p class="mb-0">[제목] [[${pr.ttl}]]</p>
+                              <p class="mb-0">
+                                [파일명]
+                                <a
+                                  style="
+                                    color: blue;
+                                    text-decoration: underline !important;
+                                  "
+                                  target="_blank"
+                                  th:href="|/moamorePofol/${pr.prtflFile}|"
+                                >
+                                  [[${pr.prtflFile}]]
+                                </a>
+                              </p>
+                            </div>
+                            <div class="col-md-1">
+                              <button
+                                th:id="${pr.prtflNo}"
+                                th:attr="data-prtflNo=${pr.prtflNo}, data-no=${pr.no}"
+                                onclick="delPofol(this)"
+                                type="button"
+                                style="margin-left: 20px; padding: 15px"
+                                class="btn-close"
+                                aria-label="Close"
+                              ></button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 포트폴리오 불러오기 버튼 모달창 -->
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="pofolModal"
+        tabindex="-1"
+        aria-labelledby="pofolModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content radius">
+            <div class="modal-header">
+              <h5 class="modal-title" id="pofolModalLabel">포트폴리오 등록</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <form id="pofolRegForm" enctype="multipart/form-data">
+                <!-- 현재로그인된 유저정보 -->
+                <input
+                  id="logId"
+                  name="id"
+                  type="hidden"
+                  th:value="${#authentication.principal.username}"
+                />
+                <!-- 불러온 이력서 번호 -->
+
+                <!-- 현재 작성 게시글 기본키값 -->
+                <!-- <input id="selfJobKey" name="jobSearchNo" type="hidden" /> -->
+
+                <table class="table">
+                  <tbody class="trColor">
+                    <tr>
+                      <th>제목</th>
+                      <td>
+                        <input
+                          id="pofolTitle"
+                          name="ttl"
+                          type="text"
+                          class="fullWidth"
+                          style="border: 1px solid #ddd"
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>이미지파일</th>
+                      <td>
+                        <input id="pofolImg" name="uuidImg" type="file" />
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>포트폴리오 파일</th>
+                      <td>
+                        <input id="pofolFile" name="uuid" type="file" />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <input
+                  name="prtflNo"
+                  type="hidden"
+                  th:if="${resume.prtflNo}!=null"
+                  th:value="${resume.prtflNo}"
+                />
+                <input
+                  type="hidden"
+                  name="prtflNo"
+                  th:if="${resume.prtflNo}==null"
+                />
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary radius"
+                style="background-color: gray; border: none"
+                data-bs-dismiss="modal"
+              >
+                닫기
+              </button>
+              <button
+                id="pofolRegBtn"
+                type="button"
+                class="btn btn-dark radius"
+              >
+                등록
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        const phTemp = (target) => {
+          target.value = target.value
+            .replace(/[^0-9]/g, "")
+            .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3")
+            .replace(/(\-{1,2})$/g, "");
+        };
+        $(document).ready(function () {
+          let sch = [];
+          let ard = [];
+          let carr = [];
+          let edu = [];
+          let intro = [];
+          let licn = [];
+          let skill = [];
+          let memInfo = [];
+          let prtflNo = null;
+          let ttl = null;
+          let today = new Date();
+          let year = today.getFullYear();
+          let month = ("0" + (today.getMonth() + 1)).slice(-2);
+          let day = ("0" + today.getDate()).slice(-2);
+          let date = year + "-" + month;
+          //           이메일 정규식
+          let replaceEmail = {
+            reg: /^([0-9a-zA-Z_-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/,
+            msg: "올바른 이메일을 입력해 주세요 !!",
+          };
+          // 		  숫자 정규식
+          let replaceNum = /^[0-9]*\.?[0-9]*$/;
+          //           특수문자 정규식
+          let replaceChar = {
+            reg: /[~!@\#$%^&*\()\-=+_'\;<>\/.\`:\"\\,\[\]?|{}]/gi,
+            msg: "특수문자는 불가합니다.",
+          };
+
+          //           휴대폰 정규식
+          let replacePhCl = {
+            reg: /^01[016789]-\d{3,4}-\d{4}$/g,
+            msg: "올바른 휴대폰 번호를 입력해 주세요",
+          };
+          // input 날짜 제한
+          $("input[type=month]").attr("max", date);
+          //           주소 입력
+          $("#addr").on("click", sample6_execDaumPostcode);
+          // 학점 입력 숫자로 제한
+
+          $(document).on("keyup", "input[name=pnt]", function () {
+            let value = $(this).val();
+            if (!replaceNum.test(value)) {
+              $(this).val("");
+              Swal.fire({
+                title: "!!!!",
+                text: "숫자만 입력해 주세요!!",
+                icon: "warning",
+                confirmButtonText: "확인!",
+              });
+              return;
+            }
+
+            // 최소값과 최대값 제한
+            let number = parseFloat(value);
+            if (number < 0 || number > 4.5) {
+              $(this).val("");
+              Swal.fire({
+                title: "!!!",
+                text: "0~4.5 사이의 값만 입력가능합니다.!!",
+                icon: "warning",
+                cancelButtonText: "취소!",
+              });
+              return;
+            }
+          });
+
+          //    	이메일 입력창 이메일 형식 제한
+          $("input[name=email]").on("focusout", function () {
+            console.log(replaceEmail);
+            chkReg(replaceEmail, $(this));
+          });
+
+          $("input.reg").on("focusout", function () {
+            chkReg(replaceChar, $(this));
+          });
+          // 프로필변환 버튼 클릭시
+          $("#changeImg").on("click", function () {
+            $("#inputImg").click();
+          });
+
+          // 저장
+          $("#saveResume").on("click", function () {
+            ttl = $("#ttl").val();
+            console.log($("#inputImg").attr("value"));
+            imgNo = $("#inputImg").attr("value");
+            prtflNo = $("input[name = prtflNo]").attr("value");
+            let data = getAllData();
+            console.log(data);
+            if (data == false) {
+              return;
+            } else {
+              $.ajax({
+                url: "/insertResume",
+                method: "POST",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(data),
+                success: function (result) {
+                  console.log(result);
+                },
+                error: function (err) {
+                  console.log(err);
+                },
+              });
+            }
+          });
+          //취소버튼 클릭
+          $("#backToBefore").on("click", function () {
+            Swal.fire({
+              title: "취소?ㄹㅇ?",
+              text: "저장하지 않은 값은 모두 사라집니다 취소하시겠습니까?",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonText: "확인",
+              cancelButtonText: "취소",
+              reverseButtons: true,
+            }).then((result) => {
+              if (result.isConfirmed) {
+                goBack();
+              } else if (
+                /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.cancel
+              ) {
+              }
+            });
+          });
+          // 스킬 클릭 이동
+
+          $("button[name=skillBtn]").on("click", function (ev) {
+            //console.log($(this).parent());
+            let cop = $(this).parent();
+            if ($(this).parent().parent().attr("name") == "cardForAddSkill") {
+              $("div[name=cardForViewSkill]").append(cop);
+            } else {
+              $("div[name=cardForAddSkill]").append(cop);
+            }
+          });
+          // 노드 복사
+          $("i.bi.bi-plus-circle-fill").on("click", copy);
+
+          // 드롭다운 메뉴
+          $(document).on("click", "button.dropdown-item", function () {
+            let selected = $(this).val();
+            let selectedText = $(this)[0].children[0].innerText;
+
+            // //console.log(selected);
+            // //console.log(selectedText);
+
+            $(this).closest(".dropdown")[0].firstElementChild.innerText =
+              selectedText;
+            $(this).closest(".dropdown")[0].nextElementSibling.value = selected;
+          });
+
+          //x버튼 삭제
+
+          $(document).on("click", "i.bi.bi-x-lg", function () {
+            let count = $(this).parents()[3].children.length;
+            let bid = $(this).parents()[6].id;
+            let dis = $("#" + bid);
+            $(this).parents()[2].remove();
+            if (count == 1) {
+              dis.css("display", "none");
+            }
+          });
+
+          //           메뉴 버튼
+          $(".bt").on("click", function () {
+            //             //console.log($(this)[0].getAttribute("name"));
+            let bname = $(this)[0].getAttribute("name");
+            console.log(bname);
+            let element = $("#" + bname);
+            console.log(element);
+            element.css("display", "block");
+            $(element).find("i.bi.bi-plus-circle-fill").click();
+          });
+
+          //+버튼 클릭시 노드 복사 함수
+          function copy(ev) {
+            let tar = $(this).parents()[1].children[1];
+            console.log($(this));
+            console.log(tar);
+            let newNode = $(this).parents()[1].children[0].children[0];
+            console.log(newNode);
+            let cop = newNode.cloneNode(true);
+            console.log(cop);
+            cop.style.display = "block";
+            tar.append(cop);
+            $(this).parents()[1].children[1];
+            ev.stopPropagation();
+          }
+
+          //           빈칸 체크 함수
+          function checkArr(arr, target) {
+            let emptyIndexes = arr
+              .map(function (obj, index) {
+                return Object.values(obj).some(function (val) {
+                  return val === "";
+                })
+                  ? index
+                  : -1;
+              })
+              .filter(function (index) {
+                return index !== -1;
+              });
+
+            if (emptyIndexes.length === 0) {
+              // 빈 값이 없는 경우
+              //console.log("객체 배열에 빈 값이 없습니다.");
+            } else {
+              // 빈 값이 있는 경우
+              //console.log("빈 값을 가진 객체의 인덱스:", emptyIndexes);
+              alertBin(emptyIndexes, target[index]);
+              return false;
+            }
+          }
+          //입력 값 받는 함수 (학력)
+          function mkSchool() {
+            if ($("#school").children().length > 0) {
+              sch = $.map($("#school").children(), function (shl) {
+                let obj = {
+                  breu: $(shl).find("input[name=breu]").val(),
+                  mj: $(shl).find("input[name=mj]").val(),
+                  joinYy: $(shl).find("input[name=joinYy]").val(),
+                  retiYy: $(shl).find("input[name=retiYy]").val(),
+                  pnt: $(shl).find("input[name=pnt]").val(),
+                  shcrSt: $(shl).find("input[name=shcrSt]").val(),
+                  ttScore: $(shl).find("input[name=ttScore]").val(),
+                  fg: $(shl).find("input[name=fg]").val(),
+                };
+                //console.log(obj);
+                return obj;
+              });
+              return checkArr(sch, $("#school").children());
+            }
+          }
+          //입력 값 받는 함수 (기술 역량)
+          function mkSkill() {
+            if ($("#skill").children().length > 0) {
+              skill = $.map($("#skill").children(), function (shl) {
+                let obj = {
+                  skill: $(shl).find("input[name=skill]").val(),
+                  skillNo: $(shl).find("input[name=skillNo]").val(),
+                };
+
+                //console.log(obj);
+                return obj;
+              });
+              return checkArr(skill, $("#skill").children());
+            }
+          }
+          //입력 값 받는 함수 (경력)
+          function mkJob() {
+            if ($("#job").children().length > 0) {
+              carr = $.map($("#job").children(), function (shl) {
+                let obj = {
+                  wkdty: $(shl).find("input[name=wkdty]").val(),
+                  depart: $(shl).find("input[name=depart]").val(),
+                  duty: $(shl).find("input[name=duty]").val(),
+                  joinYy: $(shl).find("input[name=joinYy]").val(),
+                  retiYy: $(shl).find("input[name=retiYy]").val(),
+                  buss: $(shl).find("input[name=buss]").val(),
+                  carrSt: $(shl).find("input[name=carrSt]").val(),
+                  co: $(shl).find("input[name=co]").val(),
+                };
+
+                //console.log(obj);
+                return obj;
+              });
+              return checkArr(carr, $("#job").children());
+            }
+          }
+          //입력 값 받는 함수 (교육))
+          function mkEducate() {
+            if ($("#educate").children().length > 0) {
+              edu = $.map($("#educate").children(), function (shl) {
+                let obj = {
+                  breu: $(shl).find("input[name=breu]").val(),
+                  joinYy: $(shl).find("input[name=joinYy]").val(),
+                  retiYy: $(shl).find("input[name=retiYy]").val(),
+                  cntn: $(shl).find("input[name=cntn]").val(),
+                  eduNm: $(shl).find("input[name=eduNm]").val(),
+                };
+
+                //console.log(obj);
+                return obj;
+              });
+              return checkArr(edu, $("#educate").children());
+            }
+          }
+          //입력 값 받는 함수 (수상)
+          function mkAward() {
+            if ($("#award").children().length > 0) {
+              ard = $.map($("#award").children(), function (shl) {
+                let obj = {
+                  cntn: $(shl).find("input[name=cntn]").val(),
+                  issuYy: $(shl).find("input[name=issuYy]").val(),
+                  ardNm: $(shl).find("input[name=ardNm]").val(),
+                  breu: $(shl).find("input[name=breu]").val(),
+                };
+
+                //console.log(obj);
+                return obj;
+              });
+              return checkArr(ard, $("#award").children());
+            }
+          }
+          //입력 값 받는 함수 (자격증)
+          function mkLicence() {
+            if ($("#licence").children().length > 0) {
+              licn = $.map($("#licence").children(), function (shl) {
+                let obj = {
+                  breu: $(shl).find("input[name=breu]").val(),
+                  issuMm: $(shl).find("input[name=issuMm]").val(),
+                  licnNm: $(shl).find("input[name=licnNm]").val(),
+                };
+
+                //console.log(obj);
+                return obj;
+              });
+              return checkArr(licn, $("#licence").children());
+            }
+          }
+          //입력 값 받는 함수 (자기소개)
+          function mkResumeText() {
+            if ($("#resumeText").children().length > 0) {
+              intro = $.map($("#resumeText").children(), function (shl) {
+                let obj = {
+                  cntn: $(shl).find("textarea[name=cntn]").val(),
+                  ttl: $(shl).find("input[name=ttl]").val(),
+                };
+
+                //console.log(obj);
+                return obj;
+              });
+              return checkArr(intro, $("#resumeText").children());
+            }
+          }
+          //입력 값 받는 함수 (개인정보)
+          function mkMemInfo() {
+            if ($("div.formId").children().length > 0) {
+              memInfo = $.map($("div.formId").children(), function (shl) {
+                let obj = {
+                  name: $(shl).find("input[name=name]").val(),
+                  birth: $(shl).find("input[name=birth]").val(),
+                  email: $(shl).find("input[name=email]").val(),
+                  ph: $(shl).find("input[name=ph]").val(),
+                  phCl: $(shl).find("input[name=phCl]").val(),
+                  addr: $(shl).find("input[name=addr]").val(),
+                  post: $(shl).find("input[name=post]").val(),
+                  gen: $(shl).find("input[name=gen]").val(),
+                };
+
+                //console.log(obj);
+                return obj;
+              });
+              return checkArr(memInfo, $("div.formId").children());
+            }
+          }
+          //화면 데이터 저장
+          function getAllData() {
+            if (
+              mkSchool() == false ||
+              mkJob() == false ||
+              mkEducate() == false ||
+              mkLicence() == false ||
+              mkAward() == false ||
+              mkSkill() == false ||
+              mkResumeText() == false ||
+              mkMemInfo() == false
+            ) {
+              return false;
+            } else {
+              return {
+                ttl: ttl,
+                prtflNo: prtflNo,
+                imgNo: imgNo,
+                sch: sch,
+                carr: carr,
+                edu: edu,
+                ard: ard,
+                licn: licn,
+                skill: skill,
+                intro: intro,
+                memInfo: memInfo,
+              };
+            }
+          }
+          // 포트폴리오 추가 버튼 클릭시
+          $("#pofolBtn").on("click", function () {
+            $("#pofolTitle").val(""); // 초기화
+            $("#pofolImg").val(""); // 초기화
+            $("#pofolFile").val(""); // 초기화
+            $("#pofolModal").modal("show");
+          });
+
+          // 포트폴리오 등록버튼 클릭시
+          $("#pofolRegBtn").on("click", function () {
+            pofolReg(); // 포트폴리오 등록 ajax호출 함수
+            $("#pofolModal").modal("hide");
+          });
+
+          // 포트폴리오 등록 ajax호출 함수
+          function pofolReg() {
+            let formData = new FormData($("#pofolRegForm")[0]); // 폼데이터
+
+            $.ajax({
+              url: "/insertPofol",
+              type: "post",
+              data: formData,
+              async: true, //비동기 여부
+              enctype: "multipart/form-data", //form data 설정
+              processData: false, //프로세스 데이터 설정 : false 값을 해야 form data로 인식합니다
+              contentType: false, //헤더의 Content-Type을 설정 : false 값을 해야 form data로 인식합니다
+              success: function (result) {
+                console.log(result);
+                pofolRows.innerHTML = ""; // 초기화
+                $("input[name = prtflNo]").attr("value", result[0].prtflNo);
+                let pofolHtml = "";
+                for (let i = 0; i < result.length; i++) {
+                  pofolHtml += pofolListPrint(result[i]);
+                }
+
+                pofolRows.innerHTML = pofolHtml;
+              },
+              error: function (reject) {
+                console.log(reject);
+              },
+            });
+          }
+        });
+        // 포트폴리오 목록 그리는 함수
+        function pofolListPrint(result = {}) {
+          let pofolHtml =
+            `<div class="row align-items-center border-bottom hoverRow mb-3">
+				        <div class="col-md-3">
+				      	<img class="img-fluid imgSize" src="/moamorePofol/` +
+            result.prtflImg +
+            `" alt="이미지없음">
+				      </div>
+				      <div class="col-md-7" style="color:black;">
+				      		<p class="mb-0">[제목] ` +
+            result.ttl +
+            `</p>
+				        	<p class="mb-0">[파일명] <a style="color:blue; text-decoration:underline !important;" target="_blank" href="/moamorePofol/` +
+            result.prtflFile +
+            `">` +
+            result.prtflFile +
+            `</a></p>
+				      </div>
+				      <div class="col-md-1" >
+					      <button id="` +
+            result.prtflNo +
+            `"data-prtflNo="` +
+            result.prtflNo +
+            `"data-no="` +
+            result.no +
+            `" onclick="delPofol(this)" type="button" style="margin-left : 20px; padding:15px;" class="btn-close" aria-label="Close"></button>
+					  </div>             
+					</div>`;
+          return pofolHtml;
+        }
+        //빈칸 알람
+        function alertBin(num, loca) {
+          Swal.fire({
+            title: "빈칸발견!",
+            text: "빈칸이 있습니다!!\n빈칸을 채워주세요!!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "확인!",
+            cancelButtonText: "취소!",
+            reverseButtons: true,
+          }).then((result) => {
+            if (result.isConfirmed) {
+              $(loca[num[0]]).focus();
+            } else if (
+              /* Read more about handling dismissals below */
+              result.dismiss === Swal.DismissReason.cancel
+            ) {
+              $(loca[num[0]]).focus();
+            }
+          });
+        }
+        //주소 API JS
+        function sample6_execDaumPostcode() {
+          new daum.Postcode({
+            oncomplete: function (data) {
+              //console.log(1, data);
+              // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+              // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+              // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+              var addr = ""; // 주소 변수
+              var extraAddr = ""; // 참고항목 변수
+
+              //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+              if (data.userSelectedType === "R") {
+                // 사용자가 도로명 주소를 선택했을 경우
+                addr = data.roadAddress;
+              } else {
+                // 사용자가 지번 주소를 선택했을 경우(J)
+                addr = data.jibunAddress;
+              }
+
+              //console.log(2, addr);
+              // 우편번호와 주소 정보를 해당 필드에 넣는다.
+              $("#addr").val(addr);
+              $("#post").val(data.zonecode);
+
+              //       document.getElementById("sample6_postcode").value = data.zonecode;
+              //       document.getElementById("sample6_address").value = addr;
+              // 커서를 상세주소 필드로 이동한다.
+              //       document.getElementById("sample6_detailAddress").focus();
+            },
+            theme: {
+              searchBgColor: "#254364", //검색창 배경색
+              queryTextColor: "#FFFFFF", //검색창 글자색
+            },
+          }).open();
+        }
+        function goBack() {
+          console.log(
+            $("#pofolRows")
+              .children()[0]
+              .children[2].children[0].getAttribute("id")
+          );
+          if ($("#pofolRows").children().length > 0) {
+            let data = $("#pofolRows")
+              .children()[0]
+              .children[2].children[0].getAttribute("id");
+            $.ajax({
+              url: "/delPofol",
+              type: "post",
+              data: data,
+              success: function (result) {
+                console.log("삭제성공");
+                pofolRows.innerHTML = ""; // 초기화
+                console.log(result);
+              },
+              error: function (reject) {
+                console.log(reject);
+              },
+            });
+          }
+
+          //           window.history.back();
+        }
+        //         정규식 확인 알람
+        function chkReg(data, loc) {
+          let value = $(loc).val();
+          console.log(value);
+          console.log(data.reg);
+          if (!data.reg.test(value)) {
+            $(this).val("");
+            Swal.fire({
+              title: "!!!!",
+              text: data.msg + "!!",
+              icon: "warning",
+              confirmButtonText: "확인!",
+            });
+            return;
+          }
+        }
+        // 프로필변환 이미지 미리보기 , 이미지파일이 변경되면
+        function readURL(input) {
+          if (input.files && input.files[0]) {
+            let reader = new FileReader();
+            reader.onload = function (e) {
+              // document.getElementById("preview").src = e.target.result;
+              $("#preview").attr("src", e.target.result);
+              console.log(e.target.result);
+            };
+            reader.readAsDataURL(input.files[0]);
+            myImgReg();
+          } else {
+            document.getElementById("preview").src = "";
+          }
+          console.log($("#inputImg")[0].files[0]);
+        }
+        // 셀프구직 이미지 등록함수
+        function myImgReg() {
+          let formData = new FormData();
+          formData.append("profileImage", $("#inputImg")[0].files[0]);
+          formData.append("reqLoc", "resume");
+
+          $.ajax({
+            url: "/myProfileImg",
+            type: "post",
+            data: formData,
+            async: true, //비동기 여부
+            enctype: "multipart/form-data", //form data 설정
+            processData: false, //프로세스 데이터 설정 : false 값을 해야 form data로 인식함
+            contentType: false, //헤더의 Content-Type을 설정 : false 값을 해야 form data로 인식함
+            success: function (result) {
+              console.log(result);
+              $("#inputImg").attr("value", result);
+            },
+            error: function (reject) {
+              console.log(reject);
+            },
+          });
+        }
+        //         포폴 삭제 버튼 함수
+        function delPofol(deleteItem) {
+          console.log($(deleteItem));
+          console.log($(deleteItem).data("no"));
+          console.log($(deleteItem).data("prtflNo"));
+          console.log($(deleteItem).data("prtflno"));
+          let data = new Object();
+          data.no = $(deleteItem).data("no");
+          data.prtflNo = $(deleteItem).data("prtflno");
+          console.log(data);
+
+          $.ajax({
+            url: "/delPofol",
+            type: "post",
+            data: data,
+            success: function (result) {
+              console.log("삭제성공");
+              pofolRows.innerHTML = ""; // 초기화
+              console.log(result);
+              let pofolHtml = "";
+              if (result.length == 0) {
+                // 포트폴리오 리스트 항목이 0개라면
+                pofolHtml = `<div style="background-color : pink; text-align:center;">포트폴리오 항목이 비어있습니다. 추가를 눌러 채워 주세요</div>`;
+                $("input[name = prtflNo]").attr("value", "");
+                pofolRows.innerHTML = pofolHtml;
+              } else {
+                for (let i = 0; i < result.length; i++) {
+                  pofolHtml += pofolListPrint(result[i]); // 화면에 뿌려주는 태그들
+                }
+
+                pofolRows.innerHTML = pofolHtml;
+              }
+            },
+            error: function (reject) {
+              console.log(reject);
+            },
+          });
+        }
+      </script>
+    </div>
+  </body>
+</html>

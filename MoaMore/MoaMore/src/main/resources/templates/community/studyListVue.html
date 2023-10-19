@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{template/layout}">
+<head>
+<meta charset="UTF-8">
+<title>커뮤니티/스터디모집(뷰적용)</title>
+
+</head>
+<body>
+	<div layout:fragment="content">
+
+		<!-- studyList.CSS -->
+		<link href="community/studyList.css" rel="stylesheet">
+
+		<!-- layout:fragment 아래에 있어야 인식함 -->
+		<!-- Vue 3버전 -->
+		<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+		<script src="https://unpkg.com/vue-router@4"></script> <!-- 뷰3 라우터4-->
+		<script src="https://cdn.jsdelivr.net/npm/vue3-sfc-loader/dist/vue3-sfc-loader.js"></script>
+		
+		<!-- 뷰에서 컴포넌트 하기위해 필요한 js파일 -->
+		<script src="community/vue_common.js"></script>
+		
+		<!-- axios CDN -->
+		<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+
+		<!-- nav -->
+		<div class="row mb-3 p-2">
+			<div class="col-md-1"></div>
+			<div class="col-md-10" style="border-bottom : 1px solid #ddd;">
+				<div class="mb-4 d-flex justify-content-evenly">
+					 <nav>
+					    <ul class="nav-list">
+					      <li class="mx-6"><a href="/jobQnA">취업Q&A</a></li>
+					      <li class="mx-6"><a href="/jobInterview">면접후기</a></li>
+					      <li class="mx-6"><a href="/projectList">프로젝트모집</a></li>
+				      	  <li class="mx-6"><a href="/studyList" style="color:red">스터디모집</a></li>
+					      <li class="mx-6" sec:authorize="hasRole('ROLE_MEM')">
+						      <button id="jobWriteForm" type="button" onclick="location.href='/jobQnAWrite'" class="btn btn-outline-danger radius nav-button">게시글작성</button>
+					      </li>
+					    </ul>
+					  </nav>
+				</div>
+			</div>
+			<div class="col-md-1"></div>
+		</div>
+		
+		<div class="row mb-7">
+			<div class="col-md-1"></div>
+			<div class="col-md-10">
+
+				<!-- 반복 -->
+				<div id="app" class="row">
+					<study-component></study-component>
+				</div>
+
+			</div>
+			<div class="col-md-1"></div>
+		</div>
+<script>
+	const { createApp } = Vue;
+		createApp({
+			data() {
+				return {}
+			},
+			mounted() {},
+			methods: {},
+			components: {
+				'study-component': Vue.defineAsyncComponent(() => loadModule('community/studyListComponent.vue', options))
+			}
+		}).mount('#app')
+</script>
+	</div>
+</body>
+</html>

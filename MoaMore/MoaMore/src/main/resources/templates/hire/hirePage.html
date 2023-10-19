@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	  layout:decorate="~{template/layout}">
+
+<head>
+<style>
+
+.selectStyle {
+    width: 180px;
+    height: 40px;
+    padding-left: 0.5em;
+    border: 1px solid #999;
+    font-family: inherit;
+    background: url(/self/arrow.jpg) no-repeat 95% 50%;
+    border-radius: 0px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin-bottom: 20px;
+    margin-right: 10px;
+}
+	#id{
+		display:inline;
+	}
+	.image{
+		position:relative;
+	}
+	.btn1{
+		position: absolute;
+  		right : 15px; 
+	}
+	.skills{
+		  overflow: hidden;  		
+		  text-overflow: ellipsis;  	
+		  white-space: nowrap; 		
+		  word-break:break-all
+		  width: 200px;
+		  height: 20px;
+	}
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+<meta charset="UTF-8">
+<title>HirePage</title>
+</head>
+<body>
+	<div layout:fragment = "content">
+		<div class = "container">
+	
+			<div class="row">
+
+				<!-- 일반유저 권한 -->
+	        	<div sec:authorize="hasRole('ROLE_MEM')" style="margin-left:auto; display:inline-block;">
+	        		<select id = "job" class="col-md-2 p-0 ms-2 selectStyle">
+						<option selected value = ''>개발 전체</option>
+						<option th:each="list : ${list.N}" th:text="${list.desct}" th:attr="value=${list.prov}">직무</option>
+					</select>
+	
+					<select id="loc" class="col-md-2 p-0 ms-2 selectStyle">
+						<option selected value=''>전국</option>
+						<option th:each="list : ${list.X}" th:text="${list.desct}" th:attr="value=${list.prov}">지역</option>
+					</select>
+
+					<select id="cre" class="col-md-2 p-0 ms-2 selectStyle">
+						<option selected value = ''>경력전체</option>
+						<option th:each="list : ${list.Y}" th:text="${list.desct}" th:attr="value=${list.prov}">경력</option>
+					</select>
+		
+					<select id = "skl" class="col-md-2 p-0 ms-2 selectStyle">
+						<option selected value=''>기술 전체</option>
+						<option th:each="list : ${list.Z}" th:text="${list.desct}" th:attr="value=${list.prov}">기술</option>
+					</select>
+					<button type="submit" class="btn btn-outline-dark btn-sm searchBtn ms-3" id="search">검색</button>
+					<button type="button" class="btn btn-outline-dark btn-sm searchBtn ms-3" id="searchReset">초기화</button>
+					<button type="button" class="btn btn-outline-dark btn-sm ms-3" style="background-color:#0A2640; color:white; height:37px;" id="scrapList">스크랩 정렬</button>
+				</div>
+				
+				<!-- 기업권한 -->
+				<div sec:authorize="hasRole('ROLE_CO')" style="margin-left:auto;">
+					<select id = "job" class="col-md-2 p-0 ms-2 selectStyle">
+						<option selected value = ''>개발 전체</option>
+						<option th:each="list : ${list.N}" th:text="${list.desct}" th:attr="value=${list.prov}">직무</option>
+					</select>
+	
+					<select id="loc" class="col-md-2 p-0 ms-2 selectStyle">
+						<option selected value=''>전국</option>
+						<option th:each="list : ${list.X}" th:text="${list.desct}" th:attr="value=${list.prov}">지역</option>
+					</select>
+
+					<select id="cre" class="col-md-2 p-0 ms-2 selectStyle">
+						<option selected value = ''>경력전체</option>
+						<option th:each="list : ${list.Y}" th:text="${list.desct}" th:attr="value=${list.prov}">경력</option>
+					</select>
+		
+					<select id = "skl" class="col-md-2 p-0 ms-2 selectStyle">
+						<option selected value=''>기술 전체</option>
+						<option th:each="list : ${list.Z}" th:text="${list.desct}" th:attr="value=${list.prov}">기술</option>
+					</select>
+					<button type="submit" class="btn btn-outline-dark btn-sm searchBtn ms-3" id="search">검색</button>
+						
+					<button type="button" class="btn btn-outline-dark btn-sm searchBtn ms-3" id="searchReset">초기화</button>
+					<button type="button" class="btn btn-outline-dark btn-sm ms-3" style="background-color:#0A2640; color:white; height:37px;" id="hireInsert">등록하기</button>
+				</div> 
+		</div>
+		<section class="pt-0" id="hireAllList">
+			<div class="container">
+				<div  class="row mt-7 gx-xl-7"  id = "hireList" >
+				<!--  AJAX 조회가 들어가는부분  -->
+				</div>
+				<div id="paging">
+				
+				</div>
+			</div>
+		</section>
+		
+		<script>
+		$(document).ready(function () {
+			searchAll(1);
+		});
+		
+		// 공고등록으로 이동
+		$(document).on('click', '#hireInsert', function(e){
+			e.preventDefault();
+
+			location.href="/hireInsert";
+			
+			
+		});
+		// 스크랩 정렬
+		$('#scrapList').click(function() {
+			
+			searchScrap(1);
+		});
+		// 검색
+		$('#search').click(function(){
+			
+			search(1);
+		});
+		// 초기화 버튼
+		$('#searchReset').click(function(){
+			
+			$("#job").val(""); // 직군
+			$("#loc").val(""); // 지역
+			$("#cre").val("");// 경력
+			$("#skl").val("");// 기술스펙
+			
+			searchAll(1);
+		});
+		// 페이징 버튼
+		function paging(totalInter){
+			let pageSu = Math.ceil(totalInter/8); //ceil 올림
+			console.log(pageSu)
+			let paging = `<nav aria-label="Page navigation example">
+				  <ul class="pagination d-flex justify-content-center">
+			    <li class="page-item">
+			      <a class="page-link" href="#" aria-label="Previous">
+			        <span aria-hidden="true">&laquo;</span>
+			      </a>
+			    </li>`;
+			    /* <a class="page-link" href="/selectInterNoti?pageNum=`+i+`">`+i+`</a> */
+			    for(let i=1;i<=pageSu;i++){
+			    	paging +=
+					    `<li class="page-item pointer"><span onclick="search(`+i+`)" class="page-link" style="cursor:pointer">`+i+`</span></li>`
+					    ;	
+			    }
+			    paging +=
+			    `
+			    <li class="page-item">
+			      <a class="page-link" href="#" aria-label="Next">
+			        <span aria-hidden="true">&raquo;</span>
+			      </a>
+			    </li>
+			  </ul>
+			</nav>`;
+			return paging;
+		}
+		
+		
+		function search(pageNum){
+			
+			let data = {
+					"job" : $("#job").val(), // 직군
+					"wksite" : $("#loc").val(), // 지역
+					"carr" : $("#cre").val(), // 경력
+					"skill" : $("#skl").val() // 기술스펙
+	    	    } 			
+			
+		     $.ajax({
+	            url: "/data?pageNum="+pageNum,
+	            type: "GET",
+	            data: data,
+	            dataType: "json",
+	            success: function(data) {
+	                $("#hireList").empty();
+	                $("#paging").empty();
+	                
+	                if(data != null ){
+	                	
+	                	var str1 = ``;
+	                	var str2 = ``;
+	                	var str3 = ``;
+	                	
+		                $.each(data, function(index, item) {
+		                	
+		                	if(item.scrapYn != null){
+		                		str1 = `<div class="col-md-3 text-center text-md-start h-auto mb-5" >
+						    							<div class="d-flex justify-content-between flex-column h-100">
+						    						
+						    							<a href="/hireInfo?recruitNo=`+item.recruitNo+`&skill=`+item.skill+`" style="text-decoration: none;">
+						                				<div class="image">
+															<img class="w-75 w-md-100 rounded-2 " src="/moamoreImg/`+item.coImg+`" alt="" style="width: 100px; height: 200px;" />
+															<i class="bi bi-bookmark-heart-fill fs-5 btn1 text-danger" ></i>
+														</div>`;
+			                	} else{
+			                	 str1 = `<div class="col-md-3 text-center text-md-start h-auto mb-5" >
+						    							<div class="d-flex justify-content-between flex-column h-100">
+						                				
+						    							<a href="/hireInfo?recruitNo=`+item.recruitNo+`&skill=`+item.skill+`" style="text-decoration: none;">
+						    							<div class="image">
+															<img class="w-75 w-md-100 rounded-2 " src="/moamoreImg/`+item.coImg+`" alt="" style="width: 100px; height: 200px;" />
+															<i class="bi bi-bookmark-heart-fill fs-5 btn1" ></i>
+														</div>`;
+			                	}
+			                	
+		                	
+			                	str2 = `<div class="d-flex align-items-center justify-content-center justify-content-md-start gap-2 mt-3">
+			                										
+			                							<p class="fw-bold mb-0 text-black skills">`+item.skill+`</p>
+														<p class="mb-0">`+item.exprDt+`</p>
+													</div>
+													
+													<h5 class="mt-1 mb-3 fs-0 fs-md-1 pb-5">`+item.ttl+`</h5>
+													<p class="mb-0">`+item.wksite+`</p>
+													
+													<div class="d-flex align-items-center justify-content-center justify-content-md-start gap-3">
+															`;
+					    		if(item.followYn != null){	
+					    			str3 = `<h4 class="mb-0 text-danger" >`+item.coNm+`</h4>
+													</div>
+												</div>
+											</a>
+							    		</div>`;
+					    		}else {
+					    			str3 = `<h4 class="mb-0 text-gray" >`+item.coNm+`</h4>
+												</div>
+											</div>
+										</a>
+						    		</div>`;
+					    		}
+			    			$("#hireList").append(str1+str2+str3);
+		                });
+		                }else{
+		                	str = `<div class="fs-2 mt-5" style="text-align : center;">검색조건을 만족하는게 없습니다.</div>`;
+		                	$("#hireList").append(str1);
+		                }
+		                $("#paging").append(paging(data[0].totalInter));
+		            },
+
+	            error: function(xhr, status, error) {
+	            }
+	        }); }
+		
+		// 스크랩 리스트 아작스
+		function searchScrap(pageNum){
+			
+			let data = {
+					"job" : $("#job").val(), // 직군
+					"wksite" : $("#loc").val(), // 지역
+					"carr" : $("#cre").val(), // 경력
+					"skill" : $("#skl").val(), // 기술스펙
+					"scrapYn" : "Y"
+	    	    } 			
+			
+		     $.ajax({
+	            url: "/data?pageNum="+pageNum,
+	            type: "GET",
+	            data: data,
+	            dataType: "json",
+	            success: function(data) {
+	                $("#hireList").empty();
+	                $("#paging").empty();
+	                
+	                if(data != null ){
+	                	
+	                	var str1 = ``;
+	                	var str2 = ``;
+	                	var str3 = ``;
+	                	
+		                $.each(data, function(index, item) {
+		                	
+		                	if(item.scrapYn != null){
+		                		str1 = `<div class="col-md-3 text-center text-md-start h-auto mb-5" >
+						    							<div class="d-flex justify-content-between flex-column h-100">
+						    						
+						    							<a href="/hireInfo?recruitNo=`+item.recruitNo+`&skill=`+item.skill+`" style="text-decoration: none;">
+						                				<div class="image">
+															<img class="w-75 w-md-100 rounded-2 " src="/moamoreImg/`+item.coImg+`" alt="" style="width: 100px; height: 200px;" />
+															<i class="bi bi-bookmark-heart-fill fs-5 btn1 text-danger" ></i>
+														</div>`;
+			                	} else{
+			                	 str1 = `<div class="col-md-3 text-center text-md-start h-auto mb-5" >
+						    							<div class="d-flex justify-content-between flex-column h-100">
+						                				
+						    							<a href="/hireInfo?recruitNo=`+item.recruitNo+`&skill=`+item.skill+`" style="text-decoration: none;">
+						    							<div class="image">
+															<img class="w-75 w-md-100 rounded-2 " src="/moamoreImg/`+item.coImg+`" alt="" style="width: 100px; height: 200px;" />
+															<i class="bi bi-bookmark-heart-fill fs-5 btn1" ></i>
+														</div>`;
+			                	}
+			                	
+		                	
+			                	str2 = `<div class="d-flex align-items-center justify-content-center justify-content-md-start gap-2 mt-3">
+			                										
+			                							<p class="fw-bold mb-0 text-black skills">`+item.skill+`</p>
+														<p class="mb-0">`+item.exprDt+`</p>
+													</div>
+													
+													<h5 class="mt-1 mb-3 fs-0 fs-md-1" >`+item.ttl+`</h5>
+													<p class="mb-0">`+item.wksite+`</p>
+													
+													<div class="d-flex align-items-center justify-content-center justify-content-md-start gap-3">
+															`;
+					    		if(item.followYn != null){	
+					    			str3 = `<h4 class="mb-0 text-danger" >`+item.coNm+`</h4>
+													</div>
+												</div>
+											</a>
+							    		</div>`;
+					    		}else {
+					    			str3 = `<h4 class="mb-0 text-gray" >`+item.coNm+`</h4>
+												</div>
+											</div>
+										</a>
+						    		</div>`;
+					    		}
+			    			$("#hireList").append(str1+str2+str3);
+		                });
+		                }else{
+		                	str = `<div class="fs-2 mt-5" style="text-align : center;">검색조건을 만족하는게 없습니다.</div>`;
+		                	$("#hireList").append(str1);
+		                }
+		                $("#paging").append(paging(data[0].totalInter));
+		            },
+
+	            error: function(xhr, status, error) {
+	            }
+	        }); }
+		
+		function searchAll(pageNum){
+			
+			let data = null;			
+			
+		     $.ajax({
+	            url: "/data?pageNum="+pageNum,
+	            type: "GET",
+	            data: data,
+	            dataType: "json",
+	            success: function(data) {
+	                $("#hireList").empty();
+	                $("#paging").empty();
+	                
+	                if(data != null ){
+	                	
+	                	var str1 = ``;
+	                	var str2 = ``;
+	                	var str3 = ``;
+	                	
+		                $.each(data, function(index, item) {
+		                	
+		                	if(item.scrapYn != null){
+		                		str1 = `<div class="col-md-3 text-center text-md-start h-auto mb-5" >
+						    							<div class="d-flex justify-content-between flex-column h-100">
+						    						
+						    							<a href="/hireInfo?recruitNo=`+item.recruitNo+`&skill=`+item.skill+`" style="text-decoration: none;">
+						                				<div class="image">
+															<img class="w-75 w-md-100 rounded-2 " src="/moamoreImg/`+item.coImg+`" alt="" style="width: 100px; height: 200px;" />
+															<i class="bi bi-bookmark-heart-fill fs-5 btn1 text-danger" ></i>
+														</div>`;
+			                	} else{
+			                	 str1 = `<div class="col-md-3 text-center text-md-start h-auto mb-5" >
+						    							<div class="d-flex justify-content-between flex-column h-100">
+						                				
+						    							<a href="/hireInfo?recruitNo=`+item.recruitNo+`&skill=`+item.skill+`" style="text-decoration: none;">
+						    							<div class="image">
+															<img class="w-75 w-md-100 rounded-2 " src="/moamoreImg/`+item.coImg+`" alt="" style="width: 100px; height: 200px;" />
+															<i class="bi bi-bookmark-heart-fill fs-5 btn1" ></i>
+														</div>`;
+			                	}
+			                	
+		                	
+			                	str2 = `<div class="d-flex align-items-center justify-content-center justify-content-md-start gap-2 mt-3">
+			                										
+			                							<p class="fw-bold mb-0 text-black skills">`+item.skill+`</p>
+														<p class="mb-0">`+item.exprDt+`</p>
+													</div>
+													
+													<h5 class="mt-1 mb-3 fs-0 fs-md-1" >`+item.ttl+`</h5>
+													<p class="mb-0">`+item.wksite+`</p>
+													
+													<div class="d-flex align-items-center justify-content-center justify-content-md-start gap-3">
+															`;
+					    		if(item.followYn != null){	
+					    			str3 = `<h4 class="mb-0 text-danger" >`+item.coNm+`</h4>
+													</div>
+												</div>
+											</a>
+							    		</div>`;
+					    		}else {
+					    			str3 = `<h4 class="mb-0 text-gray" >`+item.coNm+`</h4>
+												</div>
+											</div>
+										</a>
+						    		</div>`;
+					    		}
+			    			$("#hireList").append(str1+str2+str3);
+		                });
+		                }else{
+		                	str = `<div class="fs-2 mt-5" style="text-align : center;">검색조건을 만족하는게 없습니다.</div>`;
+		                	$("#hireList").append(str1);
+		                }
+		                $("#paging").append(paging(data[0].totalInter));
+		            },
+
+	            error: function(xhr, status, error) {
+	            }
+	        }); }
+		
+		</script>
+	</div>
+	</div>
+</body>
+</html>

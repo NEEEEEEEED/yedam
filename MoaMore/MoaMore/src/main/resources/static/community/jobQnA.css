@@ -1,0 +1,99 @@
+.hoverRow:hover {
+	background-color: rgb(233, 233, 233);
+}
+
+.listRow{
+	padding:20px; 
+	border-bottom : 1px solid #ddd;
+}
+
+.circleImg {
+  border-radius: 50%;
+  width : 35px;
+  height : 35px;
+}
+
+.listStyle{
+   list-style:none;
+   padding-left:0px;
+}
+
+.listStype li{
+	line-height: 32.13px;
+}
+.listStyle li a:hover{
+	color: red;
+	letter-spacing: -0.88px;
+}
+
+.best:hover {
+	color:red;
+}
+
+.bestCount {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 5ch; 
+}
+
+/* 글자수가 50이상 넘어가면 .. 로 처리 */
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100ch; 
+}
+
+.nav-list {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+.nav-list li {
+  margin-right: 10px;
+}
+
+.nav-button {
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.radius{
+	border-radius : 0px;
+}
+
+.cursor{
+	cursor:pointer;
+}
+
+.decoUl{
+	list-style: none; /* 불릿 스타일 제거 */
+	padding-left : 0px;
+	display: flex; 
+	flex-direction: column; 
+	align-items: flex-start;
+	
+}
+
+.decoUl li{
+	margin: 10px;
+}
+
+.page-item:first-child .page-link {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+ }
+.page-item:last-child .page-link{
+ 	border-top-right-radius : 0px;
+ 	border-bottom-right-radius : 0px;
+ }
+
+.page-item.active .page-link{
+	background-color : #0A2640;
+	border-color : #0A2640;
+}

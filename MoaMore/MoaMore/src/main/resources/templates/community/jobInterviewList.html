@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{template/layout}">
+<head>
+<meta charset="UTF-8">
+<title>커뮤니티/면접후기</title>
+
+<!-- jobInterviewList.CSS -->
+<link href="community/jobInterviewList.css" rel="stylesheet">
+
+</head>
+<body>
+	<div layout:fragment="content">
+	
+	<!-- nav -->
+	<div class="row mb-4 p-2">
+		<div class="col-md-1"></div>
+		<div class="col-md-10" style="border-bottom : 1px solid #ddd;">
+			<div class="mb-4 d-flex justify-content-evenly">
+				 <nav>
+				    <ul class="nav-list">
+				      <li class="mx-6"><a href="/jobQnA">취업Q&A</a></li>
+				      <li class="mx-6"><a href="/jobInterview" style="color:red">면접후기</a></li>
+				      <li class="mx-6"><a href="/projectList">프로젝트모집</a></li>
+				      <li class="mx-6"><a href="/studyList">스터디모집</a></li>
+				      <li class="mx-6" sec:authorize="hasRole('ROLE_MEM')">
+					      <button type="button" class="btn btn-outline-danger radius nav-button" onclick="location.href='/jobQnAWrite'">게시글작성</button>
+				      </li>
+				    </ul>
+				  </nav>
+			</div>
+		</div>
+		<div class="col-md-1"></div>
+	</div>
+	
+	<!-- nav2 -->
+	<div class="row">
+		<div class="col-md-1"></div>
+		<div class="col-md-10">
+			<div class="me-9 mb-3">
+				<div style="display:flex; justify-content: flex-end;">
+					<select id="job" class="selectStyle">
+						<option value="" selected>직무선택</option>
+						<option th:each="duty : ${commList.N}" th:text="${duty.desct}" th:value="${duty.prov}">직무</option>
+				  	</select>
+					<select id="carr" class="selectStyle">
+						<option value="" selected>경력선택</option>
+						<option th:each="carr : ${commList.O}" th:text="${carr.desct}" th:value="${carr.prov}">경력</option>
+				  	</select>
+				  	
+					<div style="display:flex;">
+						<input id="coNm" type="text" onkeydown="if(event.keyCode===13){document.getElementById('coNmBtn').click();}" class="search" placeholder="회사명을 입력하세요">
+						<button id="coNmBtn" type="button" class="btn btn-dark btn-sm searchBtn radius">
+							<i class="fas fa-search fa-lg"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-1"></div>
+	</div>
+	
+	<!-- 본문 -->
+	<div class="row mb-7">
+		<div class="col-md-2"></div>
+		<div id="list" class="col-md-8">
+			<!-- 반복 --> 
+			<!-- <div id="change_id01" class="accordion accordion-flush">
+				<div class="accordion-item"></div>
+				<h2 id="srgdgfdgdgg45" class="accordion-header border-bottom">
+					<button class="accordion-button text-black collapsed" type="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="srgdgfdgdgg45">
+						<div style="display:flex; flex-direction: column;">
+							<div style="display:flex; align-items: center;">
+								<h3 class="pe-3">회사명</h3>
+								
+								
+									<span  class="badge bg-secondary radius">합격</span>
+									<span  class="badge bg-dark radius">대기중</span>
+									<span class="badge bg-danger radius">불합격</span>
+								
+								
+							</div>
+							<br>
+							<div>
+								<span class="fw-bold">지원직무</span> |
+								<span >[신입/경력]</span> |
+								<span class="ms-1">2023/05/13</span>
+							</div>
+						</div>
+					</button>
+				</h2>
+			  	<div style="background-color:#f9f9f9; border:1px solid #ddd;" class="accordion-collapse collapse" aria-labelledby="srgdgfdgdgg45" data-bs-parent="#change_id01" >
+				    <div class="accordion-body mx-2 p-4">
+				    	<div class="fs-1 mb-3">
+				    		<span>[전반적인평가] </span><span class="fw-bold" >보통</span><span> / </span>
+				    		<span>[난이도] </span><span class="fw-bold"  >어려움</span><span> / </span>
+				    		<span>[결과] </span>
+				    				
+				    				<span class="fw-bold" style="color:blue;" >합격</span>
+									<span  class="fw-bold" style="color:black;">대기중</span>
+									<span class="fw-bold" style="color:red;">불합격</span>
+								
+				     	</div>		
+				     	
+				     	<div class="row mb-2">
+						    <div class="col-md-2">[면접유형]</div>
+						    <div class="col-md-9" >인적성검사</div>
+						 </div>
+						<div class="row mb-2">
+						    <div class="col-md-2">[면접인원]</div>
+						    <div class="col-md-9" >지원자 1명, 면접관 다수</div>
+						</div>
+						<div class="row mb-2">
+						    <div class="col-md-2">[면접질문]</div>
+						    <div class="col-md-9">
+						    	<textarea class="ps-0" style="background-color:#f9f9f9; width:100%; resize: none; border:none;"  readonly ></textarea>
+						    </div>
+						</div>
+						<div class="row mb-2">
+						    <div class="col-md-2">[Tip 및 특이사항]</div>
+						    <div class="col-md-9" >없음</div>
+						 </div>
+						 <div class="row mb-2">
+						    <div class="col-md-2">[등록일자]</div>
+						    <div class="col-md-9" >2023/05/15</div>
+						 </div>
+				    </div>
+				</div>
+			</div> -->
+		</div>
+		<div class="col-md-2"></div>
+	</div>
+<script>
+
+let job = ''; // 검색조건 : 직무
+let carr = ''; // 검색조건 : 경력
+let coNm = ''; // 검색조건 : 회사명
+
+
+// 검색 조건에다른 면접후기 리스트 출력
+$(document).ready(function() {
+	interViewList(job, carr, coNm);
+})
+
+//직무 조건 변경시 검색리스트
+$('#job').on('change', function(){
+	job = $('#job').val();
+	interViewList(job, carr, coNm); // 면접후기 목록 리스트
+});
+
+//경력 조건 변경시 검색리스트
+$('#carr').on('change', function(){
+	carr = $('#carr').val();
+	interViewList(job, carr, coNm); // 면접후기 목록 리스트
+});
+
+//회사명 검색 버튼 클릭시
+$('#coNmBtn').on('click', function(){
+	coNm = $('#coNm').val();
+	interViewList(job, carr, coNm);  // 면접후기 목록 리스트
+});
+
+function interViewList(job, carr, coNm){
+	
+	let data = { duty : job, carr : carr, coNm : coNm};
+	
+	$.ajax({
+		  url: 'jobInterviewList',
+		  type: 'post',
+		  data: data,
+		  success: function (result) {
+			  //console.log(result);
+			  let interViewList = result;
+			  
+			  list.innerHTML =''; // 초기화
+			
+			  if(interViewList.length == 0){
+				  	list.innerHTML = `<div class="fs-2 mt-5" style="text-align : center;">검색조건을 만족하는게 없습니다.</div>`;
+					return;
+			  }
+			  
+			  let listHtml = '';
+			  
+			  for(let i = 0; i < interViewList.length; i++){
+				  listHtml += interViewListPrint(interViewList[i]);
+			  }
+			  
+			  list.innerHTML = listHtml;
+				
+		  },
+		  error: function (reject) {	   
+		   	  	console.log(reject);
+		 }
+	});
+}
+
+
+function interViewListPrint(result={}){
+	
+	let html = `<div id="change_id01" class="accordion accordion-flush">
+					<div class="accordion-item"></div>
+					<h2 id="srgdgfdgdgg45" class="accordion-header border-bottom">
+						<button class="accordion-button text-black collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#`+result.intrvNo+`" aria-expanded="false" aria-controls="srgdgfdgdgg45">
+							<div style="display:flex; flex-direction: column;">
+								<div style="display:flex; align-items: center;">
+									<h3 class="pe-3">`+result.coNm+`</h3>`;
+						
+	if(result.passYn == '합격'){
+		html += `<span class="badge bg-secondary radius">`+result.passYn+`</span>`;
+	}else if(result.passYn == '대기중'){
+		html += `<span class="badge bg-dark radius">`+result.passYn+`</span>`;
+	}else{
+		html += `<span class="badge bg-danger radius">`+result.passYn+`</span>`;
+	}
+						
+	html += `</div>
+				<br>
+				<div>
+					<span class="fw-bold">`+result.duty+`</span> |
+					<span>[`+result.carr+`]</span> |
+					<span class="ms-1">`+result.intrvDt+`</span>
+				</div>
+			</div>
+		</button>
+		</h2>
+	  	<div id="`+result.intrvNo+`" style="background-color:#f9f9f9; border:1px solid #ddd;" class="accordion-collapse collapse" aria-labelledby="srgdgfdgdgg45" data-bs-parent="#change_id01" >
+		    <div class="accordion-body mx-2 p-4">
+		    	<div class="fs-1 mb-3">
+		    		<span>[전반적인평가] </span><span class="fw-bold">`+result.appr+`</span><span> / </span>
+		    		<span>[난이도] </span><span class="fw-bold">`+result.dif+`</span><span> / </span>
+		    		<span>[결과] </span>`;
+	
+		    		
+	if(result.passYn == '합격'){
+		html += `<span class="fw-bold" style="color:blue;" >`+result.passYn+`</span>`;
+	}else if(result.passYn == '대기중'){
+		html += `<span class="fw-bold" style="color:black;">`+result.passYn+`</span>`;
+	}else{
+		html += `<span class="fw-bold" style="color:red;">`+result.passYn+`</span>`;
+	}	    		
+		    		
+    		
+	html += `</div>		
+	     	
+	     	<div class="row mb-2">
+			    <div class="col-md-2">[면접유형]</div>
+			    <div class="col-md-9">`+result.intrvTyp+`</div>
+			 </div>
+			<div class="row mb-2">
+			    <div class="col-md-2">[면접인원]</div>
+			    <div class="col-md-9">`+result.intrvRcnt+`</div>
+			</div>
+			<div class="row mb-2">
+			    <div class="col-md-2">[면접질문]</div>
+			    <div class="col-md-9">
+			    	<textarea class="ps-0" style="background-color:#f9f9f9; width:100%; resize: none; border:none;"  readonly>`+result.qstCntn+`</textarea>
+			    </div>
+			</div>
+			<div class="row mb-2">
+			    <div class="col-md-2">[Tip 및 특이사항]</div>
+			    <div class="col-md-9">`+result.spcCtnt+`</div>
+			 </div>
+			 <div class="row mb-2">
+			    <div class="col-md-2">[면접일자]</div>
+			    <div class="col-md-9">`+result.intrvDt+`</div>
+			 </div>
+	    </div>
+	</div>
+</div>`;
+	
+	return html;
+	
+}
+
+</script>
+	</div>
+</body>
+</html>

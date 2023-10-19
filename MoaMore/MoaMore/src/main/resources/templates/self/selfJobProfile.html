@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+		xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{template/layout}">
+<head>
+<meta charset="UTF-8">
+<title>모아모아/셀프구직등록</title>
+
+<!-- self/selfJobProfile.css.CSS -->
+<link href="self/selfJobProfile.css" rel="stylesheet">
+
+</head>
+<body>
+	<div layout:fragment="content">
+		<!-- 사이드바 -->
+		<div class="row" style="margin-top : 30px; height: auto;">
+			<div class="col-md-1"></div>
+			<div class="col-md-2 border-end" style="margin:10px;">
+				<div style="position: sticky; top:150px;">			
+					<p class="fs-1" style="text-align : center;">셀프구직 등록</p>
+					<hr>
+					<div style="display:flex; justify-content: center;">
+						<div style="display:flex; flex-direction: column;">
+							<button type="button" id="resumeList" class="btn btn-outline-danger btn-sm mb-3 radius">이력서불러오기</button>
+							<div class="mb-2 cursor">
+								<a href="#selfMenu"><img src="self/number1.svg" class="number"><span>셀프소개</span></a>
+							</div>
+							<div class="mb-2 cursor">
+								<a href="#selfMenuCarr"><img src="self/number2.svg" class="number"><span>경력사항</span></a>
+							</div>
+							<div class="mb-2 cursor">
+								<a href="#selfMenuSchool"><img src="self/number3.svg" class="number"><span>학력</span></a>
+							</div>
+							<div class="mb-2 cursor">
+								<a href="#selfMenuSal"><img src="self/number4.svg" class="number"><span>희망급여</span></a>
+							</div>
+							<div class="mb-2 cursor">
+								<a href="#selfMenuResident"><img src="self/number5.svg" class="number"><span>상주가능정보</span></a>
+							</div>
+							<div class="mb-2 cursor">
+								<a href="#selfMenuPofol"><img src="self/number6.svg" class="number"><span>포트폴리오</span></a>
+							</div>
+						</div>	
+					</div>
+				</div>
+			</div>
+			<!-- 본문 : 셀프소개 -->
+			<div id="selfMenu" class="col-md-7">
+				<div class="mb-5">
+					<p class="fs-1"><b>셀프소개</b></p>
+					<div class="row">
+						<div class="col-md-3" style="text-align:center;">
+							<form id="profileImgForm" action="/myProfileAdd" method="post" encType="multipart/form-data" onsubmit="return false">
+								<img src="self/profile.JPG" id="preview" class="circleImg">
+								<input id="inputImg" type="file"  onchange="readURL(this);" style="display:none;"><br>
+								<button id="changeImg" type="button" class="btn btn-outline-success btn-sm mt-2">이미지등록</button>
+							</form>
+						</div>
+						<div class="col-md-9">
+							<table class="table widthSize20">
+								<tbody>
+									<tr>
+										<th>제목</th>
+										<td><input id="title" type="text" class="inputStyle" placeholder="제목을 입력해주세요." style="text-align : center;"></td>
+									</tr>
+									<tr>
+										<th>지역</th>
+										<td>
+										  <select id="city" class= "inputStyle" style="text-align:center;">
+										  	<option value="" selected>지역선택</option>
+										    <option th:each="city : ${commList.X}" th:text="${city.desct}" th:attr="value=${city.prov}">지역</option>
+										  </select>
+										</td>
+									</tr>
+									<tr>
+										<th>경력</th>
+										<td>
+											<select id="carr" class="inputStyle" style="text-align:center;">
+												 <option value="" selected>경력선택</option>
+											     <option th:each="carr : ${commList.Y}" th:text="${carr.desct}" th:attr="value=${carr.prov}">경력</option>
+											 </select>
+										</td>
+									</tr>
+									<tr>
+										<th>직무분야</th>
+										<td>
+											<select id="job" class="inputStyle" style="text-align:center;">
+												   <option value="" selected>직무선택</option>
+											       <option th:each="job : ${commList.N}" th:text="${job.desct}" th:attr="value=${job.prov}">직무</option>
+										  	</select>
+										</td>
+									</tr>
+									<tr>
+										<th>기술스택</th>
+										<td>
+											<select id="tech" class="inputStyle" style="text-align:center;">
+												 <option value="" selected>기술선택(다중선택가능)</option>
+											     <option th:each="tech : ${commList.Z}" th:text="${tech.desct}" th:attr="value=${tech.prov}">기술스택</option>
+											  </select>
+										</td>
+									</tr>					
+									<tr>
+										<th>보기권한설정</th>
+										<td>
+											<select id="auth" class="inputStyle" style="text-align:center;">
+											    <option value="" selected>선택해주세요</option>
+											    <option th:each="auth : ${commList.c}" th:text="${auth.desct}" th:attr="value=${auth.prov}">보기권한</option>
+											  </select>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<div class="divStyle mb-3">
+							  <div class="form-floating border fullWidth">
+							  	<div class="row">
+							  		<div class="col-md-3">
+							  			<div style="padding : 16px;">
+							  				<label for="floatingTextarea">자기소개</label>
+							  			</div>
+							  		</div>
+							  		<div class="col-md-9">
+							  			<textarea id="intro" class="form-control radius fullWidth" placeholder="자기소개를 작성해주세요" style="height: 200px; resize: none; border:none;"></textarea>
+							  		</div>
+							  	</div>
+							  </div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+			
+				<hr id="selfMenuCarr" style="color : #ddd;">
+				<br>
+				
+				<!-- 본문 : 경력사항 -->
+				<div class="mb-5">
+					<p class="fs-1"><b>경력사항 </b><!-- <button type="button" class="btn btn btn-outline-dark btn-sm radius" style="height:40px;">추가</button> --></p>
+					<div class="row mb-3">
+						<div class="col-md-2" style="text-align:center;">
+						</div>
+						<div id="carrRows" class="col-md-10">
+							<div style="background-color : pink; text-align:center;">경력사항이 비어있습니다. 이력서 정보 불러오기를 해주세요</div>
+						</div>
+					</div>
+				</div>
+				
+				<hr id="selfMenuSchool" style="color : #ddd;">
+				<br>
+				
+				<!-- 본문: 학력 -->
+				<div class="mb-5">
+					<p class="fs-1"><b>학력 </b><!-- <button type="button" class="btn btn btn-outline-dark btn-sm radius" style="height:40px;">추가</button> --></p>
+					<div class="row mb-3">
+						<div class="col-md-2" style="text-align:center;">
+						</div>
+						<div id="schoolRows" class="col-md-10">
+							<div style="background-color : pink; text-align:center;">학력사항이 비어있습니다. 이력서 정보 불러오기를 해주세요</div>
+						</div>
+					</div>
+				</div>
+				
+				<hr id="selfMenuSal" style="color : #ddd;">
+				<br>
+				
+				<!-- 본문 : 희망급여 -->
+				<div class="mb-5">
+					<p class="fs-1"><b>희망급여</b></p>
+					<div class="row">
+						<div class="col-md-2" style="text-align:center;">
+						</div>
+						<div class="col-md-8">
+							<div class="border-bottom divStyle mb-3">
+								<span style="width:20%; color:black;"><b>희망 급여</b></span>
+								<input id="salary" type="text" class="inputStyle" style="text-align:right; width:50%;" placeholder="천원 단위로 입력하세요(최소10,000원)">
+								<b><span style="color:black;">원</span></b>
+								<span style="color:blue; margin-left: 20px; margin-right:5px;"><b>협의가능</b></span>
+								<input id="nego" type="checkbox" style="width:20px; height:20px;">
+							</div>
+						</div>
+						<div class="col-md-2">
+						</div>
+					</div>
+				</div>
+				
+				<hr id="selfMenuResident" style="color : #ddd;">
+				<br>
+				
+				<!-- 본문 : 상주가능 정보 -->
+				<div class="mb-5">
+					<p class="fs-1"><b>상주가능정보</b></p>
+					<div class="row">
+						<div class="col-md-2" style="text-align:center;">
+						</div>
+						<div class="col-md-8">
+							<div class="border-bottom divStyle mb-3">
+								<span class="me-7" style="width:22%; color:black;"><b>상주가능여부</b></span>
+								<div class="form-check form-check-inline">
+								  <input class="form-check-input" type="radio" name="resident" id="inlineRadio1" value="가능">
+								  <label class="form-check-label" for="inlineRadio1">가능</label>
+								</div>
+								<div class="form-check form-check-inline ms-6">
+								  <input class="form-check-input" type="radio" name="resident" id="inlineRadio2" value="불가능">
+								  <label class="form-check-label" for="inlineRadio2">불가능</label>
+								</div>	
+							</div>
+						</div>
+						<div class="col-md-2">
+						</div>
+					</div>
+				</div>
+				
+				<hr id="selfMenuPofol" style="color : #ddd;">
+				<br>
+				
+				<!-- 본문 : 포트폴리오 -->
+				<div class="mb-5">
+					<p class="fs-1"><b>포트폴리오 </b><button id="pofolBtn" type="button" class="btn btn btn-outline-dark btn-sm radius" style="height:40px;">추가</button></p>
+					<br>
+					<div class="row">
+						<div class="col-md-2" style="text-align:center;">
+						</div>
+						<div id="pofolRows" class="col-md-10">
+							<div style="background-color : pink; text-align:center;">포트폴리오 항목이 비어있습니다. 추가를 눌러 채워 주세요</div>
+					 	</div>
+					 
+					</div>
+				</div>
+	
+				<hr style="color : #ddd;">
+				<br>
+				<!-- 프로필 등록 버튼 -->
+				<div class="mb-5" style="text-align:right;">
+					<button id="cancleBtn" type="button" class="btn btn-light radius m-2">취소</button>
+					<button id="myProfileBtn" type="button" class="btn btn-dark radius">등록</button>
+				</div>
+			</div>
+			<hr>
+			<div class="col-md-1"></div>
+		</div>
+		
+		<!-- 이력서 불러오기 버튼 모달창 -->
+		<!-- Modal -->
+		<div class="modal fade" id="resumModal" tabindex="-1" aria-labelledby="resumModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content radius">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="resumModalLabel">이력서 불러오기</h5>
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		      </div>
+		      <div class="modal-body" style="text-align: center;">
+					<!-- 그리드 -->
+					<div id="grid"></div> <!-- 그리드 -->
+			  </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary radius" style="background-color:gray; border : none;" data-bs-dismiss="modal">닫기</button>
+		        <button id="resumeSelect" type="button" class="btn btn-dark radius">선택</button>
+		      </div>
+		    </div>
+		 </div>
+		 </div>
+		
+		<!-- 포트폴리오 불러오기 버튼 모달창 -->
+		<!-- Modal -->
+		<div class="modal fade" id="pofolModal" tabindex="-1" aria-labelledby="pofolModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content radius">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="pofolModalLabel">포트폴리오 등록</h5>
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		      </div>
+		      <div class="modal-body">
+				<form id="pofolRegForm" encType="multipart/form-data">
+				
+					<!-- 현재로그인된 유저정보 -->
+					<input id="logId" name="id" type="hidden" th:value="${#authentication.principal.username}">
+					<!-- 불러온 이력서 번호 -->
+					<input id="resumeNo" name="resumeNo" type="hidden" >
+					<!-- 현재 작성 게시글 기본키값 -->
+					<input id="selfJobKey" name="jobSearchNo" type="hidden" th:attr="value=${selfJobKey}">
+					
+					<table class="table">
+						<tbody class="trColor">
+							<tr>
+								<th>제목</th>
+								<td><input id="pofolTitle" name="title" type="text" class="fullWidth" style="border : 1px solid #ddd;"></td>
+							</tr>
+							<tr>
+								<th>이미지파일</th>
+								<td><input id="pofolImg" name="pofolImg" type="file"></td>
+							</tr>
+							<tr>
+								<th>포트폴리오 파일</th>
+								<td><input id="pofolFile" name="pofolFile" type="file"></td>
+							</tr>
+						</tbody>
+					</table>
+				</form>
+			  </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary radius" style="background-color:gray; border : none;" data-bs-dismiss="modal">닫기</button>
+		        <button id="pofolRegBtn" type="button" class="btn btn-dark radius">등록</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		
+<!-- 스크립트 영역 -->
+<script>
+
+// 프로필변환 버튼 클릭시
+changeImg.addEventListener('click',function(){
+	inputImg.click();
+});
+
+// 프로필변환 이미지 미리보기 , 이미지파일이 변경되면
+function readURL(input) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      document.getElementById('preview').src = e.target.result;
+    };
+    reader.readAsDataURL(input.files[0]);
+  } else {
+    document.getElementById('preview').src = "";
+  }
+  
+}
+
+// 이력서 불러오기 버튼 클릭시
+$('#resumeList').on('click',function(){
+	// 모달창 open
+	$('#resumModal').modal('show');
+	let id = logId.value; // 로그인한 아이디
+	resumeList(id); // 이력서 목록 리스트
+});
+
+//그리드
+const grid = new tui.Grid({
+  el: document.getElementById('grid'), // Container element
+  	 scrollX: false,
+     scrollY: true,
+     rowHeaders: ['checkbox'],
+     bodyHeight: 250,
+  columns: [
+    {
+      header: '이력서번호',
+      name: 'resumeNo',
+      align : 'center',
+      hidden : true,
+      sortable : true,
+    },
+    {
+      header: '이력서제목',
+      name: 'ttl',
+      align : 'center'
+    },
+    {
+      header: '이력서경력번호',
+      name: 'carrNo',
+      align : 'center',
+      hidden : true,
+      sortable : true
+    },
+    {
+      header: '이력서학력번호',
+      name: 'shcrNo',
+      align : 'center',
+      hidden : true,
+      sortable : true
+    },
+    {
+      header: '작성일자',
+      name: 'regDt',
+      align : 'center',
+      sortable : true,
+      formatter : function(data){ // 날짜형식 바꿔주는것
+           return dateFormat(data.value); 
+     }
+   }
+  ]
+});
+
+//날짜 변환
+function dateFormat(date) {
+   let date1 = new Date(date);
+   let date2 = date1.getFullYear() + '-' 
+         + ((date1.getMonth()<10)?'0'+(date1.getMonth()+1):(date1.getMonth()+1)) + '-'
+         + ((date1.getDate()<10)?'0'+date1.getDate():date1.getDate());       
+   return date2;
+}
+
+//이력서 리스트 호출
+function resumeList(id){
+	$.ajax({
+		url: 'resumeHeaderList',
+		type: 'post',
+		data: {id : id},
+		success: function (result) {
+			setTimeout(function() {
+				grid.refreshLayout(); // new tui.Grid의 refreshLayout()으로 해줘야함
+			},300);
+			grid.resetData(result);
+		},
+ 		error: function (reject) {	   
+    		console.log(reject);
+		}
+	});
+}
+
+
+
+// 이력서 모달창에서 선택 버튼 클릭시
+$('#resumeSelect').on('click', function(){
+	
+	let resumeCount = grid.getCheckedRows().length; // 이력서 모달창에서 체크한 행의 총 갯수
+	
+	if(resumeCount >= 2){ // 선택한 이력서가 2개이상이라면
+		Swal.fire({
+			  icon: 'error',
+			  title: '이력서는 한개만 선택해주세요'
+		})
+		return;
+	}
+	
+	let row = grid.getCheckedRows(); // 체크된 행 정보 리턴
+	careerList(row[0].carrNo); // 경력사항 리스트 함수
+	schoolList(row[0].shcrNo); // 학력사항 리스트 함수
+	$('#resumeNo').val(row[0].resumeNo); // 이력서 번호
+	$('#resumModal').modal('hide');	
+	Swal.fire({
+		  icon: 'success',
+		  title: '이력서 불러오기 성공!'
+	})
+	
+});
+
+
+let carrArr = []; // 성공시 경력사항 배열에 데이터를 넣음
+
+// 경력사항 리스트
+function careerList(carrNo){
+	$.ajax({
+		url: 'careerList',
+		type: 'post',
+		data: {carrNo : carrNo},
+		success: function (result) {
+			// console.log(result);
+			
+			carrArr = result; // 배열에 복사
+			
+			let carrRows = document.getElementById('carrRows');
+			carrRows.innerHTML=''; // 경력사항 초기화
+			
+			let carrHtml = '';
+			
+			// 경력사항이 없을때
+			if(carrArr.length==0){
+				carrRows.innerHTML = '<div style="text-align:center;">경력사항이 없는 신입입니다.</div>';
+				return;
+			}
+			
+			// 경력사항이 있을때
+			for(let i=0; i<carrArr.length; i++){
+				carrHtml += careerPrint(carrArr[i]); // 경력사항 리스트 출력
+			}	
+			
+			carrRows.innerHTML= carrHtml;
+		},
+ 		error: function (reject) {	   
+    		console.log(reject);
+		}
+	});
+}
+
+// 경력사항 append
+function careerPrint(carrArr = {}){
+	
+	let carrRows = document.getElementById('carrRows');
+	let carrerHTML = `<div class="listRow row">
+					 	<div class="col-md-10 text-center text-lg-start">
+				        	<div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
+				          		<p class="fw-bold mb-0 text-black">`+carrArr.duty+`</p>
+				         		<p class="mb-0">`+carrArr.joinYy+` ~ `+carrArr.retiYy+` `+carrArr.carrSt+`</p>
+				        	</div>
+				        	<h6 class="fs-md-3 my-3">`+carrArr.co+` `+carrArr.depart+` 근무`+`</h6>
+					        <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-2">
+					            <p class="mb-0">`+carrArr.buss+`</p>
+					        </div>
+				  		</div>
+					</div>`;
+	return carrerHTML;
+}
+
+
+let schoolArr = [];
+
+// 학력 사항 리스트
+function schoolList(shcrNo){
+	$.ajax({
+		url: 'schoolList',
+		type: 'post',
+		data: {shcrNo : shcrNo},
+		success: function (result) {
+			
+			schoolArr = result; // 배열에 복사
+			
+			let schoolRows = document.getElementById('schoolRows');
+			schoolRows.innerHTML=''; // 학력사항 초기화
+			
+			let schoolHtml = '';
+			for(let i=0; i<schoolArr.length; i++){
+				schoolHtml += schoolPrint(schoolArr[i]); // 경력사항 리스트 출력
+			}	
+			
+			schoolRows.innerHTML= schoolHtml;
+
+		},
+ 		error: function (reject) {	   
+    		console.log(reject);
+		}
+	});
+}
+
+// 학력사항 append
+function schoolPrint(schoolArr={}){
+	let schoolRows = document.getElementById('schoolRows');
+	let schoolHTML = '';
+	if(schoolArr.fg=='고졸'){
+		schoolHTML = `<div class="listRow row">
+					 	<div class="col-md-10 text-center text-lg-start">
+						 		<span style="color:black;"><b>■ 고등학교</b></span> <hr>
+						 		<p class="mb-0">`+schoolArr.joinYy+` ~ `+schoolArr.retiYy+`</p>
+				                <h6 class="fs-md-3 my-3">`+schoolArr.breu+`</h6>
+				                <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
+				                  <p class="mb-0">`+schoolArr.shcrSt+`</p>
+				                </div>
+			              </div>
+						</div>`;
+				        	
+	}else if(schoolArr.fg=='대졸' || schoolArr.fg=='초대졸'){
+		schoolHTML = `<div class="listRow row">
+					 	<div class="col-md-10 text-center text-lg-start">
+					 		<span style="color:black;"><b>■ 대학교</b></span><hr>
+					 		<p class="mb-0">`+schoolArr.joinYy+` ~ `+schoolArr.retiYy+`</p>
+				            <h6 class="fs-md-3 my-3">`+schoolArr.breu+`</h6>
+				            <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
+				              <p class="fw-bold mb-0 text-black">`+schoolArr.mj+`</p>
+				              <p class="mb-0">`+schoolArr.shcrSt+`</p>
+				            </div>
+				      	</div>
+					</div>`;
+	}else{ // 대학원
+		schoolHTML = `<div class="listRow row">
+					 	<div class="col-md-10 text-center text-lg-start">
+					 		<span style="color:black;"><b>■ 대학교</b></span><hr>
+					 		<p class="mb-0">`+schoolArr.joinYy+` ~ `+schoolArr.retiYy+`</p>
+				            <h6 class="fs-md-3 my-3">`+schoolArr.breu+`</h6>
+				            <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
+				              <p class="fw-bold mb-0 text-black">`+schoolArr.mj+`</p>
+				              <p class="mb-0">`+schoolArr.shcrSt+`</p>
+				            </div>
+				      	</div>
+					</div>`;
+	}
+
+	return schoolHTML;
+}
+
+
+let tech_value = []; // select 태그 value 배열
+let tech_text = []; // seelct 태그 text 배열
+
+// 기술스택 값 변경시 실행되는 함수
+$('#tech').on('change', function(){
+	let tech = $('#tech option:selected').val(); // 선택된 value값을 가져옴
+	let techTxt = $('#tech option:selected').text(); // 선택된 text값을 가져옴
+	
+	tech_text.push(techTxt); // 배열에 push
+	tech_value.push(tech);	// 배열에 push
+	
+	let tech_text_str = tech_text.join(); // Join : 배열의 문자열을 합쳐주는 함수
+	let tech_value_value = tech_value.join();
+	
+	// select에 값을 표시해줄땐 해당하는 option이 존재 해야 값을 나타내줄수있으므로 option태그를 생성하여 append 해줘야함
+	$('#tech').append(`<option hidden value="`+tech_value_value+`">`+tech_text_str+`</option>`);
+	$('#tech').val(tech_value_value);
+	
+});
+
+// 협의가능 체크박스 클릭시 실행하는 함수
+nego.addEventListener("click", function() {
+	if (nego.checked) {
+	    // 체크박스가 체크된 상태일 때 
+	    salary.value = '협의가능';
+	    salary.style.textAlign = "center";
+	    salary.style.color = "blue";
+		salary.disabled = true;
+	  } else {
+	    // 체크박스가 체크되지 않은 상태일 때
+	    salary.value = '';
+	    salary.style.textAlign = "right";
+	    salary.style.color = "black";
+		salary.disabled = false;
+	  }
+});
+
+// 희망급여 입력시 3자리마다 콤마(,) 추가
+salary.addEventListener("input", function(event) {
+  let value = event.target.value.replace(/[^0-9]/g, ""); // 입력된 값에서 숫자만 추출
+  value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ","); // 3자리마다 콤마 추가
+  event.target.value = value; // 새로운 값으로 대체
+});
+
+// 포트폴리오 추가 버튼 클릭시
+$('#pofolBtn').on('click', function(){
+	$('#pofolTitle').val(''); 	// 초기화
+	$('#pofolImg').val(''); 	// 초기화
+	$('#pofolFile').val(''); 	// 초기화
+	$('#pofolModal').modal('show');
+})
+
+// 포트폴리오 등록버튼 클릭시
+$('#pofolRegBtn').on('click', function(){
+	
+	// 예외처리
+	// 포트폴리오 제목 비어있을때
+	if($('#pofolTitle').val() == '' ){ // 제목
+		Swal.fire({
+			  icon: 'warning',
+			  title: '제목을 입력해주세요'
+		});
+		//$('#title').focus();
+		return;
+	}
+	
+	// 포트폴리오 이미지가 업로드 되지않았을때
+	if($('#pofolImg').val() == '' ){ // 이미지
+		Swal.fire({
+			  icon: 'warning',
+			  title: '등록할 이미지를 업로드해주세요'
+		});
+		//$('#pofolImg').focus();
+		return;
+	}
+	
+	// 포트폴리오 파일이 업로드 되지않았을때
+	if($('#pofolFile').val() == '' ){ // 파일
+		Swal.fire({
+			  icon: 'warning',
+			  title: '등록할 파일을 업로드해주세요'
+		});
+		//$('#pofolFile').focus();
+		return;
+	}
+	
+	pofolReg(); // 포트폴리오 등록 ajax호출 함수
+	$('#pofolModal').modal('hide');
+	
+});
+
+// 포트폴리오 등록 ajax호출 함수
+function pofolReg(){
+	
+	let formData = new FormData($('#pofolRegForm')[0]); // 폼데이터
+	
+	$.ajax({
+		url: 'pofolAdd',
+		type: 'post',
+		data: formData,
+		async: true, //비동기 여부
+        enctype: "multipart/form-data", //form data 설정
+        processData: false, //프로세스 데이터 설정 : false 값을 해야 form data로 인식합니다
+        contentType: false, //헤더의 Content-Type을 설정 : false 값을 해야 form data로 인식합니다
+		success: function (result) {
+			
+			Swal.fire({
+				  icon: 'success',
+				  title: '포트폴리오 추가완료!'
+			})
+			
+			//console.log(result);
+			pofolRows.innerHTML = ''; // 초기화
+			
+			let pofolHtml = '';
+			for(let i = 0 ; i < result.length; i++){
+				pofolHtml += pofolListPrint(result[i]);
+			}		
+			
+			pofolRows.innerHTML= pofolHtml;			
+			
+		},
+ 		error: function (reject) {	   
+    		console.log(reject);
+		}
+	});
+}
+
+// 포트폴리오 목록 그리는 함수
+function pofolListPrint(result={}){
+	
+	let pofolHtml = `<div class="row align-items-center border-bottom mb-3">
+				        <div class="col-md-3">
+				      	<img class="img-fluid imgSize" src="/moamorePofol/`+result.pofolImg+`" alt="이미지없음">
+				      </div>
+				      <div class="col-md-7" style="color:black;">
+				      		<p class="mb-0">[제목] `+result.title+`</p>
+				        	<p class="mb-0">[파일명] <a style="color:blue; text-decoration:underline !important;" target="_blank" href="/moamorePofol/`+result.pofolUuidFile+`">`+result.pofolFile+`</a></p>
+				      </div>
+				      <div class="col-md-2" >
+					      <button id="`+result.fileNo+`" data-no="`+result.jobSearchNo+`" onclick="deletePofol(this)" type="button" style="margin-left : 20px; padding:15px;" class="btn-close" aria-label="Close"></button>
+					  </div>             
+					</div>`;
+	return pofolHtml;
+	
+}
+
+
+// 셀프구직 등록 버튼 클릭시
+$('#myProfileBtn').on('click', function(){
+	
+	// 예외처리
+	if($('#title').val() == '' ){ // 제목
+		
+		Swal.fire({
+			  icon: 'warning',
+			  title: '제목을 입력해주세요',
+			  confirmButtonText: '확인',
+			  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+		});
+	
+		//$('#title').focus();
+	
+		return;
+	
+	}
+	
+	if($('#city').val() == ''){  // 지역
+		
+		Swal.fire({
+			  icon: 'warning',
+			  title: '지역을 선택해주세요',
+			  confirmButtonText: '확인',
+			  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+		});
+		
+		//$('#city').focus();
+	
+		return;
+		
+	}
+	
+	if($('#carr').val() == ''){ // 경력
+		
+		Swal.fire({
+			  icon: 'warning',
+			  title: '경력을 선택해주세요',
+			  confirmButtonText: '확인',
+			  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+		});
+	
+		//$('#carr').focus();
+		
+		return;
+		
+	}
+	
+	if($('#job').val() == ''){  // 직무분야
+		
+		Swal.fire({
+			  icon: 'warning',
+			  title: '직무를 선택해주세요',
+			  confirmButtonText: '확인',
+			  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+		});
+	
+		//$('#job').focus();
+	
+		return;
+	
+	}
+	
+	if($('#tech').val() == ''){ // 기술스택
+		
+		Swal.fire({
+			  icon: 'warning',
+			  title: '기술스택을 선택해주세요',
+			  confirmButtonText: '확인',
+			  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+		});
+	
+		//$('#tech').focus();
+	
+		return;
+	
+	}
+	
+	if($('#auth').val() == ''){ // 보기권한
+		
+		Swal.fire({
+			  icon: 'warning',
+			  title: '보기권한을 선택해주세요',
+			  confirmButtonText: '확인',
+			  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+		});
+	
+		//$('#auth').focus();
+	
+		return;
+	
+	}
+	
+	if($('#intro').val() == ''){ // 자기소개서
+		
+		Swal.fire({
+			  icon: 'warning',
+			  title: '자기소개서를 입력해주세요',
+			  confirmButtonText: '확인',
+			  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+		});
+	
+		//$('#intro').focus();
+	
+		return;
+		
+	}
+	
+	if($('#resumeNo').val() == ''){ // 이력서번호
+			
+		Swal.fire({
+			  icon: 'warning',
+			  title: '불러온 이력서가 없습니다 \n이력서를 불러와주세요.',
+			  confirmButtonText: '확인',
+			  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+		});
+		
+		return;
+	}
+	
+	if($('#salary').val() == ''){ // 급여
+		
+		Swal.fire({
+			  icon: 'warning',
+			  title: '희망 급여를 입력해주세요',
+			  confirmButtonText: '확인',
+			  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+		});
+	
+		//$('#salary').focus();
+	
+		return;
+		
+	}
+	
+	if(!$('input[name="resident"]').is(':checked')){
+		Swal.fire({
+			  icon: 'warning',
+			  title: '상주가능 여부를 체크해주세요',
+			  confirmButtonText: '확인',
+			  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+		});
+		
+		//$('input[name="resident"]').focus();
+		
+		return;
+	}
+		
+	myImgReg(); // my프로필 이미지 등록함수
+	
+});
+
+// 셀프구직 이미지 등록함수
+function myImgReg(){
+	let formData = new FormData();
+	formData.append("profileImage", inputImg.files[0]);
+	formData.append("reqLoc", "self");
+	
+	$.ajax({
+		url: 'myProfileImg',
+		type: 'post',
+		data: formData,
+		async: true, //비동기 여부
+        enctype: "multipart/form-data", //form data 설정
+        processData: false, //프로세스 데이터 설정 : false 값을 해야 form data로 인식함
+        contentType: false, //헤더의 Content-Type을 설정 : false 값을 해야 form data로 인식함
+		success: function (result) {
+			let img = JSON.parse(result); // 파싱
+			let imgName = img.file; // 이미지 파일명
+			myProfileAdd(imgName); // my프로필 등록 함수
+		},
+ 		error: function (reject) {	   
+    		console.log(reject);
+		}
+	});
+
+}
+
+// 포트폴리오 리스트에서 닫기 버튼 클릭시 발생하는 함수
+function deletePofol(deleteItem){
+	
+	let jobSearchNo = deleteItem.dataset.no; // data - 속성 이용해서 값가져옴
+	//console.log(jobSearchNo);
+	
+	Swal.fire({
+		  icon: 'warning',
+		  title: '정말 제거하시겠습니까?',
+		  showCancelButton: true,
+		  confirmButtonColor: '#d33',
+		  cancelButtonColor: '#3085d6',
+		  confirmButtonText: '제거',
+		  cancelButtonText: '취소',
+		  buttonsStyling: true,
+		  reverseButtons: true
+		}).then((result) => {
+		  if (result.isConfirmed) {
+			$.ajax({
+				url: 'pofolDelete',
+				type: 'post',
+				data: {fileNo : deleteItem.id, jobSearchNo : jobSearchNo},
+				success: function (result) {
+					Swal.fire('제거완료!', '', 'success')
+					pofolRows.innerHTML = ''; // 초기화
+					
+					let pofolHtml = '';
+					if(result.length == 0){ // 포트폴리오 리스트 항목이 0개라면
+						pofolHtml = `<div style="background-color : pink; text-align:center;">포트폴리오 항목이 비어있습니다. 추가를 눌러 채워 주세요</div>`;
+						pofolRows.innerHTML= pofolHtml;
+					}else{
+						for(let i = 0 ; i < result.length; i++){
+							pofolHtml += pofolListPrint(result[i]); // 화면에 뿌려주는 태그들
+						}
+						
+						pofolRows.innerHTML= pofolHtml;			
+					}
+				},
+		 		error: function (reject) {	   
+		    		console.log(reject);
+				}
+			});	
+		  }
+		})
+}
+
+
+//셀프구직 등록 함수
+function myProfileAdd(imgName){
+	
+	let resumeNo = $('#resumeNo').val(); // 이력서번호
+	let title = $('#title').val(); // 제목
+	let city = $('#city').val();   // 지역
+	let carr = $('#carr').val();	// 경력
+	let job = $('#job').val();	   // 직무분야
+	let posit = $('#tech').val();  // 기술스택
+	let auth = $('#auth').val();   // 보기권한
+	let intro = $('#intro').val(); // 자기소개서
+	let salary = $('#salary').val(); // 급여
+	let resident =  $('input[name="resident"]:checked').val(); // 상주가능여부
+	let id = $('#logId').val(); // 로그인된 id
+	let myimg = imgName;		// 프로필 이미지 파일명
+	let jobSearchNo = $('#selfJobKey').val(); // 셀프구직 게시글 기본키
+
+	
+	let data = {
+			resumeNo : resumeNo,
+			id : id,
+			ttl : title,
+			hopeWksite : city,
+			career : carr,
+			dutyFld : job,
+			posit :  posit,
+			pubcRange : auth,
+			intro : intro,
+			hopeSal : salary,
+			residency : resident,
+			carrArr : carrArr,
+			schoolArr : schoolArr,
+			myimg : myimg,
+			jobSearchNo : jobSearchNo
+		}
+		
+		$.ajax({
+			url: 'myProfileAdd',
+			type: 'post',
+			data: JSON.stringify(data),
+			contentType : 'application/json',
+			success: function (result) {
+				let res = JSON.parse(result); // 파싱
+				if(res.result == 'Success'){
+					
+					Swal.fire({
+						  icon: 'success',
+						  title: 'My셀프구직 등록성공!',
+						  showCancelButton: false,
+						  confirmButtonText: '확인'
+						}).then((result) => {
+						  if (result.isConfirmed) {
+							location.href="/selfJobList";
+						  }
+						});
+					
+				}else{
+					Swal.fire({
+						  icon: 'error',
+						  title: 'My프로필 등록실패!'
+					});
+				}
+			},
+	 		error: function (reject) {	   
+	    		console.log(reject);
+			}
+		});
+}
+
+$('#cancleBtn').on('click', function(){
+	Swal.fire({
+		  icon: 'warning',
+		  html: '현재 작성중인 내용이 모두 사라집니다.<br>정말 나가시겠습니까?',
+		  showCancelButton: true,
+		  confirmButtonColor: '#d33',
+		  cancelButtonColor: '#3085d6',
+		  confirmButtonText: '나가기',
+		  cancelButtonText: '취소',
+		  buttonsStyling: true,
+		  reverseButtons: true
+		}).then((result) => {
+		  if (result.isConfirmed) {
+			  location.href='/selfJobList';
+		  }
+		})
+})
+
+</script>
+
+<!-- 닫는 태그가 무조건 있어야함 *필수* -->
+	</div>
+</body>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{template/layout}">
+<head>
+<meta charset="UTF-8">
+<title>모아모아/커뮤니티</title>
+
+<!-- communityWrite.CSS -->
+<link href="community/communityWrite.css" rel="stylesheet">
+
+<!-- Ckeditor -->
+<script src="https://cdn.ckeditor.com/ckeditor5/37.1.0/decoupled-document/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/37.1.0/decoupled-document/translations/ko.js"></script>
+
+</head>
+<body>
+	<div layout:fragment="content">
+		<!-- nav -->
+		<div class="row mb-4 p-2">
+			<div class="col-md-1"></div>
+			<div class="col-md-10" style="border-bottom : 1px solid #ddd;">
+				<div class="mb-4 d-flex justify-content-evenly">
+					 <nav>
+					    <ul class="nav-list">
+					      <li class="mx-6"><a href="/jobQnA">취업Q&A</a></li>
+					      <li class="mx-6"><a href="/jobInterview">면접후기</a></li>
+					      <li class="mx-6"><a href="/projectList" style="color:red">프로젝트모집</a></li>
+				      	  <li class="mx-6"><a href="/studyList">스터디모집</a></li>
+					    </ul>
+					  </nav>
+				</div>
+			</div>
+			<div class="col-md-1"></div>
+		</div>
+		
+		<div class="row">
+			<div class="col-md-2"></div>
+			<div class="col-md-8">			
+				<!-- 프로젝트 모집 form -->
+				<form id="projectForm">
+				
+					<!-- 현재 로그인된 유저 ID -->
+					<input id="logId" name="id" th:value="${logId}" type="hidden"> 
+					<!-- 수정할 프로젝트 기본키 -->
+					<input id="prjtNo" name="prjtNo" th:value="${projectInfo.prjtNo}" type="hidden">
+					
+					<div class="space-y-2 mb-5">
+						<h4 class="text-xl font-medium sm:text-3xl sm:leading-10">프로젝트 모집</h4>
+						<p class="text-sm text-gray-500 dark:text-gray-400">
+						<strong style="color:blue" th:text="${logId}">OO</strong>님 개발자 구인구직 플랫폼 MoaMore에서 최고의 개발자들과 함께 프로젝트를 진행해보세요.</p>
+					</div>
+					
+					<!-- 제목 -->
+					<div class="mb-5">
+						<label class="form-label fs-1">◈ 프로젝트 제목</label>
+						<input id="projectTitle" name="ttl" th:value="${projectInfo.ttl}" type="text" class="form-control" placeholder="제목을 입력하여 주세요">
+					</div>
+					
+					<table class="table mb-5 border">
+						<tbody>
+							<tr>
+								<th>모집직무</th>
+								<td>
+								  <select id="collPosi" name="collPosi" class="inputStyle">
+								  	<option value="" selected>직무선택</option>
+								    <option th:each="collPosi : ${commList.N}" th:text="${collPosi.desct}" th:value="${collPosi.prov}" th:selected="${collPosi.desct}==${projectInfo.collPosi}">직무</option>
+								  </select>
+								</td>
+								<th>모집인원</th>
+								<td><input id="collRcnt" name="collRcnt" th:value="${projectInfo.collRcnt}" class="inputStyle" type="text" placeholder="모집인원을 입력하세요"></td>
+							</tr>
+							<tr class="align-middle">
+								<th>진행방식</th>
+								<td>
+									<div class="d-flex justify-content-center">
+										<label th:each="progMthd : ${commList.j}" class="mx-3">
+											<input name="progMthd" type="radio"  th:text="${progMthd.desct}" th:value="${progMthd.prov}" th:checked="${progMthd.desct}==${projectInfo.progMthd}"> 
+										</label>
+									</div>
+								</td>
+								<th>요구기술</th>
+								<td><input id="skill" name="skill" th:value="${projectInfo.skill}" class="inputStyle" type="text" placeholder="요구기술을 입력하세요"></td>
+							</tr>
+							<tr>
+								<th>시작예정</th>
+								<td><input id="expcDt" name="expcDt" th:value="${projectInfo.expcDt}" class="inputStyle" type="date"></td>
+								<th>진행기간</th>
+								<td>
+								  <select id="progTerm"  name="progTerm" class="inputStyle">
+								  	<option value="" selected>진행기간 선택</option>
+								    <option th:each="progTerm : ${commList.g}" th:text="${progTerm.desct}" th:value="${progTerm.prov}" th:selected="${progTerm.desct}==${projectInfo.progTerm}">진행기간</option>
+								  </select>
+								</td>
+							</tr>
+							<tr>
+								<th>연락방법</th>
+								<td>
+								  <select id="coctMthd" name="coctMthd" class="inputStyle" onchange="updatePlaceholder()">
+								  	<option value="" selected>연락방법 선택</option>
+								    <option th:each="coctMthd : ${commList.i}" th:text="${coctMthd.desct}" th:value="${coctMthd.prov}" th:selected="${coctMthd.desct}==${projectInfo.coctMthd}">연락방법</option>
+								  </select>
+								</td>
+								<th>연락</th>
+								<td><input id="contact" name="contact" th:value="${projectInfo.contact}" class="inputStyle" placeholder="연락정보를 남겨주세요" type="text"></td>
+							</tr>
+							<tr>
+								<th>모집마감일</th>
+								<td><input id="clsDt" name="clsDt" th:value="${projectInfo.clsDt}" class="inputStyle" type="date"></td>
+								<th>모집상태</th>
+								<td>
+								  <select id="collSt" name="collSt" class="inputStyle">
+								  	<option value="" selected>모집상태 선택</option>
+								  	<option th:each="collSt : ${commList.h}" th:text="${collSt.desct}" th:value="${collSt.prov}" th:selected="${collSt.desct}==${projectInfo.collSt}">모집상태</option>
+								  </select>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					
+					<!-- 내용 - editor 입력칸 -->
+					<div class="mb-3">
+						<label for="formGroupExampleInput" class="form-label fs-1 mb-3">◈ 프로젝트 소개</label>
+						
+						<!-- editor -->
+						<div style="border : 1px solid #ddd;">
+							<!-- The toolbar will be rendered in this container. -->
+						    <div id="project_toolbar-container"></div>
+						    <!-- This container will become the editable. -->
+						    <div id="projectEditor" th:utext="${projectInfo.cntn}" style="min-height: 200px;"></div>
+						</div>
+					</div>
+				</form>	<!-- 프로젝트모집 form 닫기 -->
+				
+				<!-- 수정버튼 -->
+                <div class="text-end">
+                	<button id="cancleBtn" onclick="history.back()" type="button" class="btn btn-light radius mx-2">취소</button>
+                	<button id="modBtn" type="button" class="btn btn-dark radius">수정</button>
+                </div>
+			</div>
+			<div class="col-md-2"></div>
+		 </div>
+		 
+<script>
+
+// select(연락방법)가 변경될시 input(연락)의 placeholder 변경
+function updatePlaceholder() {
+	  let selectElement = document.getElementById("coctMthd");
+	  let selectedValue = selectElement.value;
+	  let inputElement = document.getElementById("contact");
+	
+	  if (selectedValue === "i1") {
+		inputElement.value="";
+	    inputElement.placeholder = "오픈 카톡방 링크";
+	  } else if (selectedValue === "i2") {
+		inputElement.value="";
+	    inputElement.placeholder = "이메일 주소";
+	  } else if (selectedValue === "i3") {
+		inputElement.value="";
+	    inputElement.placeholder = "구글 폼 주소";
+	  } else {
+		inputElement.value="";
+	    inputElement.placeholder = "연락방법을 선택하세요";
+	  }
+}
+	
+	
+    let projectNewEditor;
+    
+ 	// 프로젝트 모집 Editor
+    // Editor에 width주고 싶어서 css폴더에 따로 코드넣음
+    DecoupledEditor
+      .create( document.querySelector('#projectEditor') ,{
+      	language: "ko", // 한글버전으로 사용하기 위해 필요한 코드 위에 script 추가해야함
+          ckfinder: { 
+          	uploadUrl: 'jobQnAImg' // 내가 지정한 업로드 url (post로 요청감)
+      	}// ckupload 사용해야함 
+      })
+      .then(editor => {
+          const toolbarContainer = document.querySelector('#project_toolbar-container');
+          toolbarContainer.appendChild(editor.ui.view.toolbar.element);
+          projectNewEditor = editor;
+      })
+      .catch( error => {
+          console.error( error );
+      });   
+    
+ 	
+ 	// 프로젝트모집 수정
+ 	function projectMod(){
+ 		
+ 		if($("#projectTitle").val() == "") { // 제목이 비어있으면
+			Swal.fire({
+				  icon: 'error',
+				  title: '제목을 입력해주세요'
+			})
+			return;
+		 }
+	   	
+     	// 에디터에 들어있는 HTML태그를 포함한 내용
+		const editorData = projectNewEditor.getData(); 
+     	
+     	// 정규표현식을 사용하여 에디터에 들어있는 HTML 태그를 "제외한" 에디터 내용
+		const editorText = projectNewEditor.getData().replace(/(<([^>]+)>)/gi, "").replace(/&nbsp;/g, ""); 
+		
+	   	if(editorData == "") { // 내용이 비어있으면
+	   		Swal.fire({
+				  icon: 'error',
+				  title: '내용을 입력해주세요'
+			})
+	   		return;
+	   	}
+	   	
+ 		let formData = new FormData($('#projectForm')[0]); // 폼데이터
+ 		formData.append("cntn", editorData);
+ 	
+ 		$.ajax({
+ 			url: 'projectMod',
+ 			type: 'post',
+ 			data: formData,
+ 			async: true, //비동기 여부
+ 	        enctype: "multipart/form-data", //form data 설정
+ 	        processData: false, //프로세스 데이터 설정 : false 값을 해야 form data로 인식합니다
+ 	        contentType: false, //헤더의 Content-Type을 설정 : false 값을 해야 form data로 인식합니다
+ 			success: function (res) {
+ 
+				if(res.result == 'Success'){
+					Swal.fire({
+					  icon: 'success',
+					  title: '프로젝트 모집 게시글 수정성공!',
+					  showCancelButton: false,
+					  confirmButtonText: '확인'
+					}).then((result) => {
+					  if (result.isConfirmed) {
+						location.href="/projectList";
+					  }
+					});
+					
+				}else{
+					Swal.fire({
+						  icon: 'error',
+						  title: '프로젝트 모집 게시글 수정실패!'
+					});
+				}
+ 			},
+ 	 		error: function (reject) {	   
+ 	    		console.log(reject);
+ 			}
+ 		});	
+ 	}
+ 	
+ 	// 수정 버튼 클릭시 실행하는 함수
+    $('#modBtn').on('click', function(){
+    	projectMod();	// 프로젝트 모집 수정 ajax호출
+    });
+    
+</script>
+	</div>
+</body>
+</html>

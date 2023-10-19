@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{template/layout}">
+<head>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<link href="community/jobQnA.css" rel="stylesheet">
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="container" layout:fragment="content">
+		<div class="row">
+			<div class="col-lg-10">
+				<span class="fw-bold fs-3" style="color: #0a2640;">나의 구인공고 목록</span>
+			</div>
+			<div class="col-lg-2">
+				<button type="button" onclick="location.href='/hireInsert'"
+					class="btn btn-outline-dark" id="hireInsert">새글등록</button>
+			</div>
+		</div>
+		<hr>
+
+		<div class="row mt-7 gx-xl-7" id="hireList">
+			<div th:each="rec : ${recList}"
+				class="col-md-3 text-center text-md-start h-auto mb-5">
+				<div class="d-flex justify-content-between flex-column h-100">
+					<a th:href="@{/hireInfo(recruitNo=${rec.recruitNo}, skill=${rec.skill})}"
+						style="text-decoration: none;">
+						<div class="image">
+							<img class="w-75 w-md-100 rounded-2 "
+								th:src="@{'moamoreImg/' + ${rec.coImg}}" alt=""
+								style="width: 100px; height: 200px;">
+						</div>
+						<div class="d-flex align-items-center justify-content-center justify-content-md-start gap-2 mt-3">
+							<p class="fw-bold mb-0 text-black">[[${rec.skill}]]</p>
+							<p class="mb-0">[[${rec.exprDt}]]</p>
+						</div>
+						<h5 class="mt-1 mb-3 fs-0 fs-md-1">[[${rec.ttl}]]</h5>
+						<p class="mb-0">[[${rec.wksite}]]</p>
+						<div class="d-flex align-items-center justify-content-center justify-content-md-start gap-3">
+							<h4 class="mb-0 text-gray">[[${rec.coNm}]]</h4>
+						</div>
+					</a>
+				</div>
+				<a th:href="@{/hireInfo(recruitNo=${rec.recruitNo}, skill=${rec.skill})}"
+					style="text-decoration: none;"> </a>
+			</div>
+		</div>
+		<script>
+			
+		</script>
+	</div>
+</body>
+</html>

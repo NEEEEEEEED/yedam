@@ -1,0 +1,531 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.moa.mem.mapper.MemMapper">
+<!-- 	마이페이지 홈  -->
+	<select id="getImg" resultType="MemInfoVO">
+		select profile_img
+		from   member
+		where  id = #{id}
+	</select>
+	<select id="openSesame" resultType="MemVO">
+		  select 	r.ttl
+				  , r.ma_buss
+				  , get_common(r.wksite) wksite
+				  ,	r.expr_dt
+				  , r.recruit_no
+				  , m.email
+				  , LISTAGG(get_common(t.SKILL), ',') WITHIN GROUP (ORDER BY SKILL_NO) as skill
+    	 from 	following f join recruit_anun r
+    	 on  	f.id_co = r.id
+	    			join member m
+	    			on f.id_co = m.id
+					    join recruit_skill t
+					    on r.recruit_no = t.recruit_no
+    	 where f.id_mem = #{id} <![CDATA[and TO_DATE(sysdate, 'YYYY-MM-DD') < TO_DATE(r.EXPR_DT, 'YYYY-MM-DD')]]>
+     	 GROUP BY r.ttl,r.expr_dt,r.recruit_no,m.email, wksite,r.ma_buss
+	</select>
+<!-- 공고 검색 조건 갯수 뷰 -->
+	<select id="getCount" resultType="SearchVO">
+		SELECT 
+				(SELECT COUNT(aply_st) AS count_aply_st
+				FROM recruit_anum_st
+				WHERE aply_st ='b1' and id=#{id}) as count_aply_st
+				,
+				(SELECT COUNT(aply_st) AS
+				count_deny
+				FROM recruit_anum_st
+				WHERE aply_st ='b2' and id=#{id}) as count_deny
+				,
+				(SELECT
+				COUNT(st) AS count_st
+				FROM recruit_anum_st
+				WHERE st ='m2' and id=#{id}) as count_st
+		  FROM dual
+	</select>
+
+
+<!-- 공고 검색 -->
+	<select id="getSearch" resultType="MemVO">
+		select d.recruit_no,
+				d.aply_dt,
+				d.aply_st,
+				d.ttl,
+				d.expr_dt,
+				d.st,
+				e.expr_st,
+				d.ma_buss
+		from	(select 	s.recruit_no,
+							s.aply_dt,
+							get_common(s.aply_st) as aply_st,
+							r.ttl,
+							r.expr_dt,
+							s.st,
+							r.ma_buss
+					   from recruit_anum_st s 
+					   join recruit_anun r
+						  on s.recruit_no =	r.recruit_no
+						where s.id = #{id}
+						<if test="period == 7">
+							and s.aply_dt BETWEEN TO_CHAR(sysdate-7,'yyyy-MM-dd') and TO_CHAR(sysdate,'yyyy-MM-dd')
+						</if>
+						<if test="period == 1">
+							and s.aply_dt BETWEEN TO_CHAR(ADD_MONTHS(sysdate,-1),'yyyy-MM-dd')  and TO_CHAR(sysdate,'yyyy-MM-dd')
+						</if>
+						<if test="period == 2">
+							and s.aply_dt BETWEEN TO_CHAR(ADD_MONTHS(sysdate,-2),'yyyy-MM-dd')  and TO_CHAR(sysdate,'yyyy-MM-dd')
+						</if>
+						<if test="period == 3">
+							and s.aply_dt BETWEEN TO_CHAR(ADD_MONTHS(sysdate,-3),'yyyy-MM-dd')  and TO_CHAR(sysdate,'yyyy-MM-dd')
+						</if>
+						<if test='expir == "J2"'>
+							<![CDATA[and sysdate - to_date(r.expr_dt,'yyyy-MM-dd') > 0]]>
+						</if>
+						<if test='expir == "J1"'>
+							<![CDATA[and sysdate - to_date(r.expr_dt,'yyyy-MM-dd') <= 0]]>
+						</if>
+						<if test='startDt != null and endDt != null '>
+							and s.aply_dt BETWEEN #{startDt} and  #{endDt}
+						</if>
+						<if test='st != null '>
+							and s.st = #{st}
+						</if>
+						<if test='aplySt != null '>
+							and s.aply_st = TO_CHAR(#{aplySt},'yyyy-MM-dd')
+						</if>
+			) d 
+		join (select recruit_no, 
+		             (trunc(to_date(expr_dt,'yyyy-MM-dd')- sysdate)) as
+					 expr_st
+				from recruit_anun) e
+		on d.recruit_no = e.recruit_no
+	</select>
+	
+	<update id="delAnun" parameterType="SearchVO">
+	update recruit_anum_st  set  aply_st = 'b2'
+	 where recruit_no = #{recruitNo} and id = #{id}
+	</update>
+	
+	
+<!-- 	개인정보 조회 -->
+	<select id="getMemInfo" resultType="MemInfoVO">
+	select id,
+			name,
+			pw,
+			ph,
+			ph_cl,
+			email,
+			blog,
+			post,
+			authr,
+			clsf,
+			log_cnt,
+			ltst_tm,
+			get_common(gen) gen,
+			birth,
+			addr,
+			addr_dt,
+			join_dt,
+			age,
+			api,
+			profile_img,
+			nickname
+	  from member
+	 where id = #{id}
+	</select>
+	<select id="getCountRe" resultType="Integer">
+		SELECT  COUNT(resume_no)
+		FROM	resume
+		WHERE	id = #{id}
+	</select>
+<!-- 	최신 이력서 불러오기 -->
+<select id="lastRe" resultType ="ResumeVO">
+		select 	ttl,		
+				resume_no,
+				prtfl_no,
+				shcr_no,
+				carr_no, 
+				edu_no, 
+				licn_no, 
+				ard_no,
+				intro_no,
+				skill_no, 
+				img_no
+		  from 	resume
+		  where resume_no =(select max(resume_no) from resume where id=#{id}) and id=#{id}	
+</select>
+<select id="getArd" resultType = "ArdVO">
+	select 	ard_no,
+		    cntn,	
+	 		issu_yy,	
+	 		ard_nm,
+	 		breu
+	 from	resume_ard
+	 where	ard_no = #{ardNo}
+</select>
+<select id="getCarr" resultType = "CarrVO">
+	select 	 
+			 carr_no,
+			 wkdty,		
+			 depart,		
+			 duty,		
+			 join_yy,		
+			 reti_yy,		
+			 buss,		
+			 carr_st,		
+			 co,
+			 get_common(wkdty) wkdty_co,
+			 get_common(duty) duty_co,
+			 get_common(carr_st) carr_st_co
+	from	resume_carr
+	where carr_no = #{carrNo}	 		
+</select>
+<select id="getEdu" resultType = "EduVO">
+	select 	 edu_no,
+			 breu,	
+			 join_yy,	
+			 reti_yy,	
+			 cntn,	
+			 edu_nm	
+	from	resume_edu
+	where edu_no = #{eduNo}	 		
+</select>
+<select id="getIntro" resultType = "IntroVO">
+	select 	intro_no,
+			cntn, 
+	  		ttl 
+	from	resume_intro
+	where intro_no = #{introNo}	 		
+</select>
+<select id="getShcr" resultType = "ShcrVO">
+	select	 shcr_no,
+			 breu,		
+			 mj,			
+			 join_yy,		
+			 reti_yy,		
+			 pnt,			
+			 shcr_st,		
+			 tt_score,		
+			 fg,
+			 get_common(fg) as 	fg_co,
+			 get_common(shcr_st) as shcr_st_co,
+			 get_common(tt_score) as tt_co
+	from	 resume_shcr
+	where 	 shcr_no = #{shcrNo}	 		
+</select>
+<select id="getSkill" resultType = "SkillVO">
+	select	 skill_no,
+			 skill,
+			 get_common(skill) as skillNm	
+	from	 resume_skills
+	where 	 skill_no = #{skillNo}	 		
+</select>
+<select id="getUnSkill" resultType = "SkillVO">
+	select	 
+			 prov as skill,
+			 desct as skillNm
+	from	 cmmn_dt
+	where 	 comm_cd = 'Z' and prov NOT IN  <foreach collection="skill" item="arr" open="(" close=")" separator=",">
+										        	#{arr.skill}
+										        </foreach>
+		 		
+</select>
+<select id="getLicn" resultType = "LicnVO">
+	select	 licn_no,
+			 breu,		
+			 issu_mm,		
+			 licn_nm		
+	from	 resume_licn
+	where 	 licn_no = #{licnNo}	 		
+</select>
+
+<select id="getPrtfl" resultType = "PrtflVO">
+	select  PRTFL_NO,
+			PRTFL_FILE,
+			ID,
+			TTL,
+			PRTFL_IMG,
+			NO		
+	from	resume_prtfl
+	where 	PRTFL_NO = #{prtflNo}	 		
+</select>
+
+<!-- 최신이력서 불러오기 끝 -->
+<!-- 	스킬 번호 생성 -->
+	<select id="getSkillNo" resultType="String">
+		 SELECT 'SKILL'|| TO_CHAR(skill_seq.NEXTVAL)
+        FROM dual
+	</select>
+	
+<!-- 	자격증 번호 생성 -->
+	<select id="getLicnNo" resultType="String">
+		 SELECT 'LICN'|| TO_CHAR(Licn_seq.NEXTVAL)
+        FROM dual
+	</select>
+	
+<!-- 	수상 번호 생성 -->
+	<select id="getArdNo" resultType="String">
+		 SELECT 'ARD'|| TO_CHAR(Ard_seq.NEXTVAL)
+        FROM dual
+	</select>
+	
+<!-- 	학력번호 생성 -->
+	<select id="getSchNo" resultType="String">
+		 SELECT 'SCH'|| TO_CHAR(sch_seq.NEXTVAL)
+        FROM dual
+	</select>
+	
+<!-- 	경력번호생성 -->
+	<select id="getCarrNo" resultType="String">
+		 SELECT 'CARR'|| TO_CHAR(carr_seq.NEXTVAL)
+        FROM dual
+	</select>
+	
+<!-- 	교육번호 생성 -->
+	<select id="getEduNo" resultType="String">
+		 SELECT 'EDU'|| TO_CHAR(edu_seq.NEXTVAL)
+        FROM dual
+	</select>
+	
+<!-- 	자소서 번호 생성 -->
+	<select id="getIntroNo" resultType="String">
+		 SELECT 'INTRO'|| TO_CHAR(intro_seq.NEXTVAL)
+        FROM dual
+	</select>
+	<insert id="insertPrtfl" parameterType="PrtflVO" statementType="CALLABLE"  >
+     call insert_prtfl (
+       #{prtflNo, mode=INOUT, jdbcType=VARCHAR}, 
+       #{id}, 
+       #{ttl}, 
+       #{prtflFile},
+       #{prtflImg} 
+      )
+ 	 </insert>
+	
+	
+	
+	
+	
+<!-- 	이력서 번호 생성 -->
+	<select id="getResumeNo" resultType="String">
+	 SELECT 'RESUME'|| TO_CHAR(resume_seq.NEXTVAL)
+        FROM dual
+	</select>
+	
+<!-- 	스킬 입력 -->
+	 <insert id="insertSkill" parameterType="SkillVO" statementType="CALLABLE"  >
+     call insert_skill (
+        #{skillNo, mode=INOUT, jdbcType=VARCHAR },
+        #{skill}
+      )
+ 	 </insert>
+ 	 
+<!--  	 학력입력 -->
+ 	 <insert id="insertSchool" parameterType="ShcrVO" statementType="CALLABLE" >
+     call insert_shcr (
+        #{shcrNo, mode=INOUT, jdbcType=VARCHAR}, 
+        #{fg}, 
+        #{breu}, 
+        #{mj}, 
+        #{joinYy},
+        #{retiYy}, 
+        #{pnt}, 
+        #{shcrSt}, 
+        #{ttScore}
+      )
+ 	 </insert>
+ 	 
+<!--  	 수상입력 -->
+ 	 <insert id="insertAward" parameterType="ArdVO" statementType="CALLABLE"  >
+     call insert_ard (
+       #{ardNo, mode=INOUT, jdbcType=VARCHAR}, 
+       #{ardNm}, 
+       #{breu}, 
+       #{cntn}, 
+       #{issuYy}
+      )
+ 	 </insert>
+ 	 
+<!--  	 교육입력 -->
+ 	 <insert id="insertEducate" parameterType="EduVO" statementType="CALLABLE" >
+     call insert_edu (
+        #{eduNo, mode=INOUT, jdbcType=VARCHAR}, 
+        #{eduNm}, 
+        #{breu}, 
+        #{joinYy},
+        #{retiYy}, 
+        #{cntn}
+      )
+ 	 </insert>
+ 	 
+<!--  	 자소서 입력 -->
+ 	 <insert id="insertIntro" parameterType="IntroVO" statementType="CALLABLE" >
+     call insert_intro (
+        #{introNo, mode=INOUT, jdbcType=VARCHAR},
+        #{ttl},
+        #{cntn}
+      )
+ 	 </insert>
+ 	 
+<!--  	 자격증 입력 -->
+ 	 <insert id="insertLicence" parameterType="LicnVO" statementType="CALLABLE" >
+     {call insert_licn (
+        #{licnNo, mode=INOUT, jdbcType=VARCHAR}, 
+        #{licnNm}, 
+        #{breu}, 
+        #{issuMm}
+        
+      )}
+ 	 </insert>
+ 	 
+<!--  	 경력입력 -->
+ 	 <insert id="insertCarrer" parameterType="CarrVO" statementType="CALLABLE" >
+     call insert_carr (
+        #{carrNo, mode=INOUT, jdbcType=VARCHAR},
+        #{wkdty},
+        #{depart},
+        #{duty},
+        #{joinYy},
+        #{retiYy},
+        #{buss},
+        #{carrSt},
+        #{co}
+      )
+ 	 </insert>
+<!--  	 개인정보 입력(업데이트) -->
+		<update id="insertMem">   	
+		UPDATE member
+		SET <if test="email != null">email = #{email},</if>
+    		<if test="phCl != null">ph_cl = #{phCl},</if>
+    		<if test="addr != null">addr = #{addr},</if>
+    		<if test="addrDt != null">addr_dt = #{addrDt},</if>
+    		<if test="post != null">post = #{post}</if>
+		where id = #{id}
+		</update>
+		
+	<insert id="insertResume" parameterType="ResumeVO">
+		insert into resume (resume_no, 
+							id, 
+							ttl,
+							prtfl_no,
+							img_no, 
+							carr_no,
+							edu_no,
+							licn_no,
+							ard_no, 
+							intro_no,
+							shcr_no,
+							skill_no,
+							reg_dt)
+		values(#{resumeNo},
+			   #{id},
+			   #{ttl},
+			   #{prtflNo},
+			   #{imgNo},
+			   #{carrNo},
+			   #{eduNo},
+			   #{licnNo},
+			   #{ardNo},
+			   #{introNo},
+			   #{shcrNo},
+			   #{skillNo},
+			   to_char(sysdate,'yyyy-MM-dd'))
+	</insert>
+
+<!-- 회원탈퇴 -->
+	<delete id="withdraw" parameterType="String">
+		BEGIN
+			DELETE
+			  FROM member
+			 WHERE id = #{id};
+			 
+			DELETE
+			  FROM co
+			 WHERE id = #{id}; 
+		END;	 
+	</delete>	
+ 	 
+ 	<delete id="delPofol" parameterType="PrtflVO">
+		delete 
+		from resume_prtfl 
+		where prtfl_no = #{prtflNo}
+		<if test="no!=null">
+		and no = #{no}
+		</if> 
+		
+	</delete>	
+	
+	<select id="getRe" resultType="ResumeVO">
+		SELECT 	ID,
+				RESUME_NO,
+				TTL,
+				CARR_NO,
+				EDU_NO,
+				LICN_NO,
+				ARD_NO,
+				INTRO_NO,
+				PRTFL_NO,
+				SHCR_NO,
+				SKILL_NO,
+				IMG_NO
+		FROM	resume
+		WHERE 	id = #{id} 
+		AND		resume_no = #{resumeNo}
+	</select>
+<!-- 	이력서 삭제 -->
+	<delete id="delResume" parameterType="ResumeVO" statementType="CALLABLE">
+		call delResume(#{resumeNo})
+	</delete>
+<!-- 	아이디체크 -->
+	<select id="checkId" resultType="Integer">
+	select count(id)
+      from MEMBER 
+     where id=#{id}
+	</select>
+<!-- 	이력서 관리 페이지 페이징처리 -->
+	<select id="getPageCnt" resultType="int">
+		SELECT  COUNT(*)
+		FROM	RESUME
+		where 	id=#{id}
+	</select>
+	<select id="resumeList" resultType="ResumeVO">
+	<![CDATA[SELECT * 
+	FROM   (
+			SELECT a.* ,rownum rn from 
+					(SELECT * 
+					 FROM resume
+					 WHERE id = #{id}
+					 ORDER BY resume_no desc ) a 
+			 WHERE rownum <= #{page}*#{perPageNum})
+	WHERE   rn > #{pageStart}]]>
+
+	</select>
+	
+<!-- 	회원가입 -->
+	 <insert id="joinMoaMore">
+	 INSERT INTO member (id,
+	 					 pw,
+	 					 name, 
+	 					 ph_cl, 
+	 					 authr,
+	 					 join_dt,
+	 					 birth,
+	 					 gen)
+	 			VALUES( #{id},
+	 					#{pw},
+	 					#{name},
+	 					#{ph},
+	 					#{authr},
+	 					to_char(sysdate,'yyyy-MM-dd'),
+	 					#{birth},
+	 					#{gen})
+	 </insert>
+<!-- 	  INSERT INTO member (id, pw,name, ph) -->
+<!-- 	 VALUES(#{id},#{pw},#{name},#{ph}) -->
+	 <insert id="insertBiz">
+	 INSERT INTO CO (id, bizno)
+	 VALUES (#{id},#{bizno})
+	 </insert>
+	 
+</mapper>

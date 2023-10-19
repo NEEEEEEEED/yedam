@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- editor -->
+    <link
+      rel="stylesheet"
+      href="https://uicdn.toast.com/editor/latest/toastui-editor.css"
+    />
+    <!-- DatePicker -->
+    <link
+      rel="stylesheet"
+      href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css"
+    />
+    <script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.js"></script>
+    <!-- grid -->
+    <link
+      rel="stylesheet"
+      href="https://uicdn.toast.com/grid/latest/tui-grid.css"
+    />
+    <script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
+    <!-- SweetAlert -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+    <!-- 		icon-cdn for Bootstrap -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css"
+    />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+
+    <link href="/vendors/prism/prism.css" rel="stylesheet" />
+    <link href="/vendors/swiper/swiper-bundle.min.css" rel="stylesheet" />
+    <link href="/assets/css/theme.css" rel="stylesheet" />
+    <!--     <link href="/assets/css/user.css" rel="stylesheet" /> -->
+
+    <!-- ===============================================-->
+    <!--    JavaScripts-->
+    <!-- ===============================================-->
+
+    <script src="/vendors/popper/popper.min.js"></script>
+    <script src="/vendors/bootstrap/bootstrap.min.js"></script>
+    <script src="/vendors/anchorjs/anchor.min.js"></script>
+    <script src="/vendors/is/is.min.js"></script>
+    <script src="/vendors/fontawesome/all.min.js"></script>
+    <script src="/vendors/lodash/lodash.min.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
+    <script src="/vendors/prism/prism.js"></script>
+    <script src="/vendors/swiper/swiper-bundle.min.js"></script>
+    <script src="/assets/js/theme.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <style>
+      .btn-md {
+        font-size: 12px;
+        width: 90%;
+        height: 90%;
+        background-color: #65e4a3;
+      }
+      .card {
+        background-color: #ffff;
+      }
+      .bgcol {
+        background-color: #0a2640;
+      }
+      .inpCon {
+        width: 700px;
+        height: fit-content;
+      }
+      .hit {
+        height: 1500px;
+      }
+      .ali {
+        text-align: center;
+      }
+      #forUser {
+        cursor: pointer;
+      }
+      #forCo {
+        cursor: pointer;
+      }
+      .cor {
+        cursor: pointer;
+      }
+      .border {
+        --bs-border-opacity: 1;
+      }
+      #forCoDiv {
+        display: none;
+      }
+      .secio {
+        width: 90%;
+        height: 100%;
+        text-align: center;
+      }
+    </style>
+    <title>Sign Up</title>
+  </head>
+  <body>
+    <div class="bgcol">
+      <div class="container d-flex justify-content-center">
+        <!--  <main>-->
+        <div class="row g-5 inpCon justify-content-center p-3">
+          <div class="col-md-7 col-lg-8 mx-2 card">
+            <div class="ali my-3"><h3>회원가입</h3></div>
+            <div class="row justify-content-center">
+              <div
+                class="col-6 ali cor p-3 border border-bottom-0"
+                id="forUser"
+              >
+                일반회원
+              </div>
+              <div class="col-6 ali cor p-3 border-bottom" id="forCo">
+                기업회원
+              </div>
+              <form class="rounded-bottom">
+                <!-- -------------------일반시작------------------------------------- -->
+                <div class="row justify-content-center mb-4" id="bod">
+                  <div class="col-12" id="member">
+                    <label
+                      for="id"
+                      class="form-label mt-3"
+                      style="width: 100%; text-align: left"
+                      ><b>아이디</b></label
+                    >
+                    <input
+                      type="text"
+                      id="id"
+                      class="form-control p-2 input_id"
+                      placeholder="아이디를 입력해 주세요"
+                      name="id"
+                      required
+                    />
+                    <font id="checkId" size="2"></font>
+                  </div>
+
+                  <div class="col-12">
+                    <label
+                      for="pw"
+                      class="form-label mt-3"
+                      style="width: 100%; text-align: left; text-align: left"
+                      ><b>비밀번호</b></label
+                    >
+                    <input
+                      type="password"
+                      id="pw"
+                      class="form-control p-2"
+                      placeholder="영문 숫자 특수문자(!@#$%^*+=-)를 포함 작성"
+                      name="pw"
+                      required
+                    />
+                  </div>
+                  <div class="col-12">
+                    <label
+                      for="pscheck"
+                      class="form-label mt-3"
+                      style="width: 100%; text-align: left"
+                      ><b>비밀번호 확인</b>
+                    </label>
+                    <input
+                      type="password"
+                      id="pscheck"
+                      class="form-control p-2"
+                      name="pscheck"
+                      placeholder="비밀번호 확인"
+                      required
+                    />
+                    <font id="checkUps" size="2"></font>
+                  </div>
+
+                  <div class="col-12">
+                    <label
+                      for="name"
+                      class="form-label mt-3"
+                      style="width: 100%; text-align: left"
+                      ><b>이름</b></label
+                    >
+                    <input
+                      type="text"
+                      id="name"
+                      class="form-control p-2"
+                      name="name"
+                      placeholder="이름을 입력해 주세요"
+                      required
+                    />
+                  </div>
+
+                  <div class="col-12" id="forUserDiv" style="display: none">
+                    <label
+                      for="ph"
+                      class="form-label mt-3"
+                      style="width: 100%; text-align: left"
+                      >연락처</label
+                    >
+                    <div class="row">
+                      <div class="col-8 m-0">
+                        <input
+                          type="text"
+                          class="form-control p-2"
+                          id="ph"
+                          name="ph"
+                          placeholder="휴대전화번호를 입력해주세요"
+                          oninput="phTemp(this)"
+                          maxlength="13"
+                        />
+                        <input type="hidden" id="confirm" value="" />
+                      </div>
+                      <div class="col-3 mx-0">
+                        <button
+                          type="button"
+                          class="btn btn-md px-1 py-1"
+                          id="phCheck"
+                        >
+                          인증번호 발송
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="invalid-feedback">
+                    휴대전화번호를 입력 해 주세요
+                  </div>
+                  <div class="col-12" id="genBir" style="display: none">
+                    <label for="birth" class="form-label col-8 mt-3"
+                      >출생일</label
+                    >
+                    <label for="gen" class="form-label col-3 mt-3 ps-3"
+                      >성별</label
+                    >
+                    <div class="row">
+                      <div class="col-8 m-0">
+                        <input
+                          type="date"
+                          class="form-control p-2"
+                          id="birth"
+                          name="birth"
+                          placeholder="출생일을 선택해 주세요"
+                        />
+                      </div>
+
+                      <div class="col-3 mx-0">
+                        <select
+                          name="gen"
+                          id="gen"
+                          class="form-control py-2 px-3 secio"
+                        >
+                          <option selected disabled>성별</option>
+                          <option value="U1">남</option>
+                          <option value="U2">여</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12" id="forCoDiv">
+                    <label
+                      for="bizno"
+                      class="form-label mt-3"
+                      style="width: 100%; text-align: left"
+                      >사업자 번호</label
+                    >
+                    <div class="row">
+                      <div class="col-8">
+                        <input
+                          type="text"
+                          class="form-control p-2"
+                          id="bizno"
+                          name="bizno"
+                          oninput="bizTemp(this)"
+                          placeholder=""
+                          readonly
+                        />
+                        <div class="invalid-feedback">
+                          사업자 번호를 입력 해 주세요
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <button
+                          type="button"
+                          id="coCheck"
+                          class="btn btn-md py-1 px-2"
+                        >
+                          사업자 확인
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+              <div class="d-flex mt-2">
+                <button class="w-50 btn btn-lg p-1 mb-4" id="btnSign">
+                  회원가입
+                </button>
+                <button
+                  class="w-50 btn btn-lg p-1 mb-4"
+                  type="button"
+                  id="canCer"
+                >
+                  취소
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- </main>-->
+      </div>
+    </div>
+    <!-- ---------------휴대폰 인증 모달------------------------------- -->
+    <div
+      class="modal fade"
+      id="phoneModal"
+      tabindex="-1"
+      aria-labelledby="pofolModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content radius">
+          <div class="modal-header">
+            <h5 class="modal-title">실명확인</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <table class="table">
+              <tbody class="trColor">
+                <tr>
+                  <th>인증번호</th>
+                  <td>
+                    <input
+                      id="chKey"
+                      name="chKey"
+                      type="text"
+                      class="fullWidth"
+                    />
+                  </td>
+                  <td>
+                    <button
+                      id="chPh"
+                      type="button"
+                      class="btn btn-secondary radius p-2"
+                      style="background-color: gray; border: none"
+                    >
+                      확인
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary radius p-2"
+              style="background-color: gray; border: none"
+              data-bs-dismiss="modal"
+            >
+              닫기
+            </button>
+            <button id="reBtn" type="button" class="btn btn-dark radius p-2">
+              인증번호 재발급
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ---------------사업자 인증 모달-------------------- -->
+    <div
+      class="modal fade"
+      id="numberModal"
+      tabindex="-1"
+      aria-labelledby="pofolModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content radius">
+          <div class="modal-header">
+            <h5 class="modal-title">사업자 확인</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <table class="table">
+              <tbody class="trColor">
+                <tr>
+                  <th class="p-3">사업자 번호</th>
+                  <td class="p-3">
+                    <input
+                      id="chNum"
+                      name="chNum"
+                      type="text"
+                      class="fullWidth"
+                      style="border: 1px solid #ddd"
+                      maxlength="10"
+                      placeholder="-없이 숫자만 입력해주세요"
+                    />
+                  </td>
+                  <td>
+                    <button
+                      type="button"
+                      id="btnCo"
+                      name="btnCo"
+                      class="btn btn-secondary radius p-2"
+                      style="background-color: gray; border: none"
+                    >
+                      확인
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary radius p-2"
+              style="background-color: gray; border: none"
+              data-bs-dismiss="modal"
+            >
+              닫기
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      //전화번호 형식
+      const phTemp = (target) => {
+        target.value = target.value
+          .replace(/[^0-9]/g, "")
+          .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3")
+          .replace(/(\-{1,2})$/g, "");
+      };
+      
+      const bizTemp = (target) => {
+        target.value = target.value.replace(/[^0-9]/g, "");
+      };
+      
+      const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+      
+      //비밀번호 영문자+숫자+특수조합(8~25자리 입력) 정규식
+      const pwdCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/;
+      
+//       인증용 랜덤번호
+      let randomNumber = null;
+      
+      
+      $(document).ready(function () {
+        
+        $("#forUserDiv").show();
+        $("#genBir").show();
+        
+        // 일반회원 클릭시 표시
+        $("#forUser").on("click", function () {
+          $("#forCo").attr("class", "col-6 ali cor p-3 border-bottom");
+          $("#forUser").attr(
+            "class",
+            "col-6 ali cor p-3 border border-bottom-0"
+          );
+          $("#genBir").show();
+          $("#forCoDiv").attr("style", "display: none");
+          $("#bizno").val("");
+        });
+        //기업회원 클릭시 표시
+        $("#forCo").on("click", function () {
+          $("#forCo").attr("class", "col-6 ali cor p-3 border border-bottom-0");
+          $("#forUser").attr("class", "col-6 ali cor p-3 border-bottom");
+          $("#genBir").attr("style", "display: none");
+          $("#forCoDiv").show();
+        });
+        
+        //사업자 번호 모달
+        $("#coCheck").on("click", function () {
+          console.log("되네");
+          $("#bizno").val("");
+          $("#numberModal").modal("show");
+        });
+        $("#canCer").on("click", function () {
+          location.href = "/login";
+        });
+        //         아이디 중복검사
+        $("#id").focusout(function () {
+          let userId = $("#id").val().trim();
+          if (userId == "" || userId == null) {
+            $("#checkId").html("아이디를 입력하세요");
+            $("#checkId").attr("color", "red");
+            return;
+          }
+          // else if(emailRegex.test(userId)){
+          //   $("#checkId").html("이메일 형식으로 입력하세요");
+          //   $("#checkId").attr("color", "red");
+          //   return;
+          // }
+          console.log(userId);
+          $.ajax({
+            url: "/checkId",
+            type: "POST",
+            data: JSON.stringify({ id: userId }),
+            dataType: "text",
+            contentType: "application/json; charset=UTF-8",
+            success: function (result) {
+              console.log(result);
+              if (result >= 1) {
+                $("#checkId").html("사용할 수 없는 아이디 입니다.");
+                $("#checkId").attr("color", "red");
+              } else if (result == 0 && $(".input_id").val() == "") {
+                $("#checkId").html("아이디를 입력하세요");
+                $("#checkId").attr("color", "red");
+              } else {
+                $("#checkId").html("사용할 수 있는 아이디 입니다.");
+                $("#checkId").attr("color", "green");
+              }
+            },
+            error: function () {
+              alert("서버요청 실패");
+            },
+          });
+        });
+        //비밀번호 확인 검사
+        $("#pscheck").focusout(function () {
+          let pscheck = $("#pscheck").val().trim();
+          let ps = $("#pw").val().trim();
+          if (pscheck == null || pscheck == "") {
+            $("#checkUps").html("");
+          } else if (ps != pscheck) {
+            $("#checkUps").html("비밀번호가 일치하지 않습니다.");
+            $("#checkUps").attr("color", "red");
+          } else {
+            $("#checkUps").html("비밀번호가 일치합니다.");
+            $("#checkUps").attr("color", "green");
+          }
+        });
+        // 사용자 인증 모달
+        $("#phCheck").on("click", function () {
+          console.log($("#ph").val());
+          if ($("#ph").val() == "") {
+            salert("전화번호를 입력하지 않았습니다!!");
+          } else {
+            sendNum();
+            $("#phoneModal").modal("show");
+          }
+        });
+        $("#chPh").on("click", function () {
+          event.stopPropagation();
+          let vald = $("#chKey").val();
+          if (vald == randomNumber) {
+            $("#confirm").val("true");
+            $("#phoneModal").modal("hide");
+            $("#chKey").val("");
+          } else {
+            salert("인증번호가 일치하지 않습니다!");
+            $("#confirm").val("false");
+          }
+        });
+        $("#reBtn").on("click", sendNum);
+        //         사업자 번호 조회
+        $("#btnCo").on("click", function () {
+          let coNum = $("input[name=chNum]").val();
+          console.log(coNum);
+
+          let data = {
+            b_no: [coNum], // 사업자번호 "xxxxxxx" 로 조회 시,
+          };
+          
+//           사업자 번호 조회 ajax
+          $.ajax({
+            url: "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=fnNvgI%2F85j%2FrXVYeAtfnN1hGMK65xH8FI5d1cG2%2By9hoNLV17dHqrp2VmlXr%2BrKWCccdvk95IS5QYa82JbKilg%3D%3D",
+            type: "POST",
+            data: JSON.stringify(data), // json 을 string으로 변환하여 전송
+            dataType: "JSON",
+            contentType: "application/json",
+            accept: "application/json",
+            success: function (result) {
+              if (
+                result.data[0].b_stt_cd == "01" ||
+                result.data[0].b_stt_cd == "02"
+              ) {
+                $("#bizno").val(coNum);
+                $("#numberModal").modal("hide");
+              } else {
+                salert("폐업 사업자는 기업 가입이 불가 합니다.");
+              }
+            },
+            error: function (result) {
+              console.log(result.responseText); //responseText의 에러메세지 확인
+            },
+          });
+        });
+        $("#btnSign").on("click", joinform_check);
+        //joinform_check 함수로 유효성 검사
+        function joinform_check() {
+          //변수에 담아주기
+          let pwd = $("#pw").val();
+          let id = $("#id").val();
+          let pscheck = $("#pscheck").val();
+          let repwd = $("#checkUps").attr("color");
+          let reId = $("#checkId").attr("color");
+          let name = $("#name").val();
+          let mobile = $("#ph").val();
+          let bizno = $("#bizno").val();
+          let confirm = $("#confirm").val();
+          console.log(pwd);
+          console.log(id);
+          console.log(pscheck);
+          console.log(name);
+          console.log(mobile);
+          console.log(bizno);
+          console.log(repwd);
+
+          if (id == "" || id == null) {
+            //해당 입력값이 없을 경우 같은말: if(!uid.value)
+            salert("아이디를 입력하세요.");
+            $("#id").focus();
+            return false; //return: 반환하다 return false:  아무것도 반환하지 말아라 아래 코드부터 아무것도 진행하지 말것
+          }
+          if (reId == "red") {
+            salert("새로운 아이디를 입력해 주세요");
+            return false;
+          }
+
+          if (pwd == "" || pwd == null) {
+            salert("비밀번호를 입력하세요.");
+            $("#pw").focus();
+            return false;
+          }
+
+          if (!pwdCheck.test(pwd)) {
+            salert(
+              "비밀번호는 영문자+숫자+특수문자(!@#$%^*+=-) 조합으로 8~25자리 사용해야 합니다."
+            );
+            pw.focus();
+            return false;
+          }
+
+          if (repwd == "red") {
+            salert("비밀번호가 일치하지 않습니다.");
+            $("#pscheck").focus();
+            return false;
+          }
+
+          if (name == "" || name == null) {
+            salert("이름을 입력하세요.");
+            $("#name").focus();
+            return false;
+          }
+
+          if (ph == "" || ph == null) {
+            $("#ph").focus();
+            salert("휴대폰번호를 입력하세요");
+            return false;
+          }
+          if (confirm == "" || confirm == null) {
+            salert("본인인증을 진행해 주세요");
+            return false;
+          } else if (confirm == "false") {
+            salert("본인 인증에 실패했습니다. 본인인증을 다시 진행해 주세요");
+            return false;
+          }
+          if ($("#forUser").hasClass("border-bottom-0")) {
+            if ($("#gen").val()==null||$("#gen").val()=='') {
+              salert("성별을 선택하지 않았습니다.");
+              return false;
+            }
+            if ($("#birth").val() == null || $("#birth").val() == "") {
+              salert("출생일을 선택 하지 않았습니다!");
+              return false;
+            }
+          }
+
+          if ($("#forCo").hasClass("border-bottom-0")) {
+            if (bizno == "") {
+              $("#bizno").focus();
+              salert("사업자 번호를 확인하세요");
+              return false;
+            }
+          }
+          console.log($("#forUser").hasClass("border-bottom-0"));
+          console.log($("#forCo").hasClass("border-bottom-0"));
+          console.log($("#forCoDiv").attr("style"));
+          console.log($("#forUserDiv").attr("style"));
+          console.log($("#forCoDiv").attr("style"));
+
+          let formData = $("form").serialize();
+          console.log(formData);
+          $.ajax({
+            url: "/joinMoaMore",
+            type: "POST",
+            data: formData, // json 을 string으로 변환하여 전송
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+              console.log(result);
+              joinResult(result);
+            },
+            error: function (result) {
+              console.log(result.responseText); //responseText의 에러메세지 확인
+            },
+          });
+
+          //입력 값 전송
+        }
+
+        //      정규식 확인 알람
+        function salert(data) {
+          Swal.fire({
+            title: "!!!!",
+            text: data,
+            icon: "warning",
+            confirmButtonText: "확인!",
+          });
+          return;
+        }
+        function joinResult(data) {
+          let reMessage = null;
+          let user = $("#name").val();
+          let icon = null;
+
+          if (data == 1) {
+            reMessage = user + "님 일반 회원가입을 축하드립니다.";
+            icon = "success";
+          } else if (data == 2) {
+            reMessage = user + "님 기업 회원가입을 축하드립니다.";
+            icon = "success";
+          } else {
+            reMessage = "회원가입에 실패했습니다.";
+            icon = "error";
+          }
+          Swal.fire({
+            title: "회원가입",
+            text: reMessage,
+            icon: icon,
+            confirmButtonText: "확인",
+            reverseButtons: true,
+          }).then((result) => {
+            if (icon == "success") {
+              location.href = "/login";
+            }
+          });
+        }
+
+        function sendNum() {
+          
+          let phoneNum = $("#ph").val();
+          let convertNum = phoneNum.replace(/-/g, "");
+          randomNumber = String(Math.floor(100000 + Math.random() * 900000));
+          
+          let data = {
+            to: convertNum,
+            content: "[MoaMore 본인확인]인증번호["+randomNumber+"]를 입력해주세요.",
+          };
+
+          $.ajax({
+            url: "/sms/send",
+            type: "POST",
+            data: JSON.stringify(data), // json 을 string으로 변환하여 전송
+            dataType: "JSON",
+            contentType: "application/json",
+            accept: "application/json",
+            success: function (result) {
+              console.log(result);
+            },
+            error: function (result) {
+              console.log(result.responseText); //responseText의 에러메세지 확인
+            },
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

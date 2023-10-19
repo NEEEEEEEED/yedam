@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{template/layout}">
+<head>
+
+<style>
+#top {
+	background: #fff;
+}
+
+section {
+	background: #fff;
+}
+
+#body {
+	background: #fff;
+}
+
+.pointer {
+	cursor : pointer;
+}
+</style>
+<!-- Google Fonts -->
+<link href="https://fonts.gstatic.com" rel="preconnect">
+<link
+	href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+	rel="stylesheet">
+
+<!-- Vendor CSS Files -->
+<!-- <link href="adminAssets/vendor/bootstrap/css/bootstrap.min.css" -->
+<!-- 	rel="stylesheet"> -->
+<!-- <link href="adminAssets/vendor/bootstrap-icons/bootstrap-icons.css" -->
+<!-- 	rel="stylesheet"> -->
+<!-- <link href="adminAssets/vendor/boxicons/css/boxicons.min.css" -->
+<!-- 	rel="stylesheet"> -->
+<!-- <link href="adminAssets/vendor/quill/quill.snow.css" rel="stylesheet"> -->
+<!-- <link href="adminAssets/vendor/quill/quill.bubble.css" rel="stylesheet"> -->
+<!-- <link href="adminAssets/vendor/remixicon/remixicon.css" rel="stylesheet"> -->
+<!-- <link href="adminAssets/vendor/simple-datatables/style.css" -->
+<!-- 	rel="stylesheet"> -->
+<!-- 결제 -->
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+<!-- datePicker -->
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/gh/dubrox/Multiple-Dates-Picker-for-jQuery-UI@master/jquery-ui.multidatespicker.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="http://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+
+<!-- Template Main CSS File -->
+<!-- <link href="adminAssets/css/style.css" rel="stylesheet"> -->
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+</head>
+<body id="body">
+	<div class="container d-flex justify-content-center"
+		layout:fragment="content">
+		<div class="card col-lg-6">
+			<div class="card-body ">
+				<h4 class="card-title fw-bold" style="color:#0a2640;">프리미엄-광고 결제</h4>
+				<br>
+				<!-- Horizontal Form -->
+				<form>
+					<div class="row mb-3">
+						<p class="col-sm-4 text-end fs-3 fw-normal text-black">상품명</p>
+						<div class="col-sm-7 text-end">
+							<p class="fs-3 fw-normal text-black" th:text="'광고 '+${product.prdtNm}"></p>
+						</div>
+						
+					</div>
+					<div class="row mb-3">
+						<p class="col-sm-4 text-end fs-3 fw-normal text-black">상품가격</p>
+						<div class="col-sm-7 text-end">
+							<p class="fs-3 fw-normal text-black">[[${product.prdtPrc}]] 원</p>
+						</div>
+					</div> 
+					<div class="row mb-3">
+						<p class="col-sm-4 text-end fs-3 fw-normal text-black">할인가</p>
+						<div class="col-sm-7 text-end">
+								<p class="fs-3 fw-normal text-black">-[[${product.discount}]] 원</p>
+								<p class="fw-bold text-danger fs-2 text-danger">[[${product.discRate}]] 할인</p>
+						</div>
+					</div>
+					<hr>
+					<div class="row mb-3">
+						<p class="col-sm-4 text-end fs-3 fw-normal text-black">결제금액</p>
+						<div class="col-sm-7 text-end">
+								<p class="fs-4 fw-bold text-success ">[[${product.totalPrice}]] 원</p>
+							
+						</div>
+					</div>
+					<hr>
+					<div class="row mb-3">
+						<p class="col-sm-4 text-end fs-2 fw-normal text-black">- 적용공고</p>
+						<div class="col-sm-12 text-center">
+							<select id="gonggo" class="form-select pointer p-3 text-center" onchange="getDisabledDates(this)">
+								<option value='' selected>선택</option>
+								<option th:each=" item : ${RecList}" th:data-exprDt="${item.exprDt}" th:text="${item.ttl+ '('+item.exprDt+')'}"
+									th:value="${item.recruitNo}" th:if="${item.accpDt}"></option>
+							</select>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<p id="forToggle" class="col-sm-4 text-end fs-2 fw-normal text-black">- 날짜선택</p>
+						<div class="col-sm-12 text-end">
+						<input th:placeholder="${product.svcCnt}+'개의 날짜를 선택해 주세요'" style="background-color:white;display:none;"
+								class="form-control pointer text-center" id="datePick" autocomplete="off"></input>
+						</div>
+					</div>
+					<hr>
+
+					<div class="row mb-3 d-flex justify-content-center">
+						<div class="col-sm-10"
+							style="height: 200px; padding: 20px; background-color: #f7f7f7;">
+							<div style="overflow-y: scroll; height: 160px;">
+								<p>[이용안내]</p>
+								<p>- 멤버십 상품은 구매일로부터 이용 기간 내에 이용 가능한 상품입니다.</p>
+								<p>- 멤버십 상품은 결제가 완료되는 즉시 이용 가능합니다.</p>
+								<p>- 이용 기간 중 PC, 모바일웹, 스마트폰(앱)에서 이용가능합니다. (단, 일부서비스는 PC에서만
+									가능)</p>
+								<p>- 일부 콘텐츠는 기업 및 작성자의 요청에 따라 열람이 거부될 수 있습니다.</p>
+								<p>- 콘텐츠 특성상 실사용 도중 해지 및 이에 따른 환불이 불가능합니다.</p>
+								<p>단, 결제일로부터 7일 이내에 콘텐츠(텍스트, 영상 등 일체)를 시청하지 않은 경우에만 전액 환불이
+									가능합니다.(환불 수수료 없음)</p>
+								<p>- 아이디 공유가 적발 될 경우, 이용 자격이 박탈되며 환불이 불가능합니다.</p>
+								<p>- 기타 불법 공유 행위가 적발될 경우, 형사 고발 조치가 진행될 수 있습니다.</p>
+								<p>- 결제에 따른 개인 정보는 '개인정보처리방침'에 근거하여 관리됩니다.</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="row mb-12">
+						<div class="col-sm-12 offset-sm-12 d-flex justify-content-center">
+							<div class="form-check pointer" >
+								<input class="form-check-input" type="checkbox" >
+								<p class="form-check-p text-black" onclick="doCheck(this)">위의 결제정보를 확인하였으며 이에
+									동의합니다.</p>
+							</div>
+						</div>
+					</div>
+					<div class="text-center">
+						<a href="/products" class="btn btn-outline-dark">취소</a>
+						<button type="button" class="btn btn-outline-dark" onclick="requestPay()">결제</button>
+					</div>
+				</form>
+				<!-- End Horizontal Form -->
+			</div>
+		</div>
+		<script th:inline="javascript">
+		
+		
+		
+		// 공고가 바뀔때마다 실행되는 함수
+		var disabledDates = []; 
+		function getDisabledDates(t){ 
+			$('#datePick').val(''); // 선택 되어져 있던 날짜들 비우기
+			let optionVal = $('#gonggo').val(); // select의 value로 에서 선택된 option찾기
+			console.log(optionVal);
+			let selectedOpt = $('#gonggo option[value="'+optionVal+'"]'); // 선택된 option
+			let exprDt = selectedOpt.attr('data-exprDt') // 선택된공고 만료일 가져오기 '2023-05-05'
+		
+			if(t.value !== ''){ // 공고가 선택되면 날짜선택 input 보이게
+				$('#datePick').css('display','block');	
+			}else {
+				$('#datePick').css('display','none');	
+			}
+			
+			disabledDates = []; // 막을날짜 새로 비우고
+			// 결제화면 들어오자마자 model로 받는 이미 5번 공고 찬 날짜들
+			let dates = [[${disabledDates}]] 
+			
+			for(let i=0;i<dates.length;i++){
+				disabledDates.push(dates[i].reserDt); // 5번 꽉 날짜들 다시 넣기
+			}
+			
+			// 추가로 막을 날짜(이미해당공고의 결제내역이있는)를 가져오는 ajax 호출
+			let recuritNo = t.value;
+			let addDates = [];
+			$.ajax({
+				url : "/addDisabledDates",
+				method : "get",
+				data : {
+					recruitNo : recuritNo
+				},
+				dataType : "json",//받는타입
+				contentType : "application/json; charset=utf-8",//보내는타입
+				success : function(res) {
+					//기존 5꽉과 새로 가져온 날짜를 비교해서 중복이 안되면 막을 날짜에 추가
+					for(let i=0;i<res.length;i++){
+						let dup = 0;
+						for(let j=0;j<disabledDates.length;j++){
+							if(res[i].reserDt == disabledDates[j]){
+								dup += 1;
+							}
+							if(dup == 0){
+								addDates.push(res[i].reserDt);	
+							}
+						}
+					}
+					for(let k=0;k<addDates.length;k++){
+						disabledDates.push(addDates[k])
+					}
+					createDatePicker(exprDt) // 마감일을 가지고 가서 datepicker인스턴스 새로 만듦
+				},
+				error : function(reject) {
+					console.log(reject);
+				},
+			});  
+		}
+		
+		
+		// datePicker 
+		function createDatePicker(exprDt) {
+			$('#datePick').multiDatesPicker('destroy'); // datePicker 인스턴스 삭제
+			
+			$('#datePick').multiDatesPicker({
+				dateFormat: 'yy-mm-dd',
+				maxPicks : [[${product.svcCnt}]], // 선택 가능 갯수 
+				beforeShowDay: function(date) { 
+					// 달력 날짜 막기(disabledDates == 5번 꽉찬 날짜, 해당공고의 기존 결제내역이 있는 날짜)    
+			            if (disabledDates.includes($.datepicker.formatDate('yy-mm-dd', date))) {
+			                return [false];
+			            } else {
+			                return [true];
+			            }
+			        },
+					  onClose: function(dateText, inst) { // 달력이 닫혀 있을 땐 
+					    datepickerVisible = false;
+					  },  
+			    showAnim :'slideDown', // 슬라이드로 열리게
+			    minDate : 0, // 오늘포함 이전날짜 선택 못 하게
+			    showButtonPanel: true, // 아래 done버튼 생성
+			    maxDate: new Date(exprDt) // 선택된 구인공고의 만료일(exprDt) 이후 선택하게 못하게
+			});
+		};
+		
+		//createDatePicker();
+		
+			var datepickerVisible = false;
+
+			// input 클릭 시 datepicker 열기/닫기
+			document.getElementById("datePick").addEventListener("click", function() {
+				if (gonggo.value == '') {
+					  Swal.fire({
+					    icon: 'warning',
+					    title: '공고를 먼저 선택해주세요.',
+					  }).then(function() {
+					    $("#datePick").datepicker("hide");
+					  });
+				}else{
+				  if (datepickerVisible) {
+				    $("#datePick").datepicker("hide");
+				    datepickerVisible = false;
+				  } else {
+				    $("#datePick").datepicker("show");
+				    datepickerVisible = true;
+				  }
+				}
+			});
+			
+			
+		
+			// 주문번호 만들기용 현재 날짜 230508144425
+			function makeUid(){
+				const now = new Date();
+				const year = now.getFullYear().toString().slice(-2);
+				const month = (now.getMonth() + 1).toString().padStart(2, '0');
+				const day = now.getDate().toString().padStart(2, '0');
+				const hours = now.getHours().toString().padStart(2, '0');
+				const minutes = now.getMinutes().toString().padStart(2, '0');
+				const seconds = now.getSeconds().toString().padStart(2, '0');
+
+				const result = `${year}${month}${day}${hours}${minutes}${seconds}`;
+				return [[${id}]]+"-"+result
+			}
+			//결제확인체크
+			function agreeCheck(){
+				if(gonggo.value == ''){
+					Swal.fire({
+					    icon: 'warning',
+					    title: '공고를 선택해주세요.',
+					  })
+					return false;
+				} else if(datePick.value.split(',').length < [[${product.svcCnt}]] ){
+					Swal.fire({
+					    icon: 'warning',
+					    title: '날짜를 선택해주세요.',
+					  })
+					return false;
+				} else if(document.querySelector('input[type="checkbox"]').checked == false){
+					Swal.fire({
+					    icon: 'warning',
+					    title: '결제정보에 동의해 주세요.',
+					  })
+					return false;
+				}
+			}
+			//결제 창
+			var IMP = window.IMP; // 생략 가능
+			IMP.init("imp70354300"); // 예: imp00000000  
+			var name="광고 노출"+ [[${product.svcCnt}]]+"회 이용권"
+			var amount = [[${product.totalPrice}]];
+			function requestPay() {
+				var uid = makeUid();
+				if(agreeCheck() == false){
+					return;
+				}else{
+					IMP.request_pay({
+						pg : "TC0ONETIME",
+						pay_method : "card",
+						merchant_uid : uid, // 주문번호
+						name : name,
+						amount : amount, // 숫자 타입
+						buyer_postcode : "01181"
+					}, function(rsp) { // callback
+						if(rsp.success != false){ //결제 취소하면 안 들어가게
+							afterPay(uid);	
+						}
+					});	
+				}
+			}
+			//결제 성공 시
+			function afterPay(muid){
+				let recruitNo = gonggo.value;
+				let prdtCd = [[${product.prdtCd}]];
+				let id = [[${id}]];
+				let reserDts = datePick.value;
+				let data = {
+						orderNo : muid,
+						recruitNo : recruitNo,
+						prdtCd : prdtCd,
+						id : id,
+						reserDts : reserDts,
+				}
+					 $.ajax({
+						url : "/afterPay",
+						method : "POST",
+						data : JSON.stringify(data),
+						dataType : "json",//받는타입
+						contentType : "application/json; charset=utf-8",//보내는타입
+						success : function(res) {
+							Swal.fire({
+								icon : 'success',
+								title : '결제 성공!'
+							}).then(function(){
+								location.href="/coProducts";                   
+							})
+							
+						},
+						error : function(reject) {
+							console.log(reject);
+						},
+					});  
+				
+				 
+			}
+			
+			// 동의 글자클릭도 되게
+			function doCheck(t){
+				let box = t.closest('div').querySelector('input[type="checkbox"]');
+				box.checked = !box.checked;
+			}
+	
+			
+		</script>
+	</div>
+
+
+
+</body>
+</html>

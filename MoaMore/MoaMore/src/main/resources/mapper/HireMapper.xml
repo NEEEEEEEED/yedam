@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.moa.hire.mapper.HireMapper">
+	<!-- 전체조회 페이징 -->
+	<select id="serchHire" resultType="HireVO">
+        SELECT * FROM (SELECT a.*
+                     , rownum rn 
+        		  FROM (SELECT R.TTL
+				             , K.SKILL
+					         , C.CO_NM
+					         , get_common(WKSITE) AS WKSITE
+					         , R.EXPR_DT
+					         , I.CO_IMG
+					         , R.RECRUIT_NO
+					         , (SELECT S.RECRUIT_NO 
+					              FROM RECRUIT_SCRAP S 
+						         WHERE R.RECRUIT_NO = S.RECRUIT_NO 
+						           AND ID = #{id}) AS scrapYn
+					         , F.ID_CO AS followYn
+					         , R.ACCP_DT
+		                  FROM RECRUIT_ANUN R
+		                  JOIN CO C
+		                    ON R.ID = C.ID
+		                  JOIN (SELECT RECRUIT_NO
+		                             , LISTAGG(get_common(SKILL), ',') WITHIN GROUP (ORDER BY SKILL_NO) as SKILL
+                                  FROM RECRUIT_SKILL
+                                 GROUP BY recruit_no) K
+		                    ON R.RECRUIT_NO = K.RECRUIT_NO	
+		                  LEFT JOIN (SELECT ID_CO FROM FOLLOWING WHERE ID_MEM = #{id}) F
+                            ON R.ID = F.ID_CO
+		                  JOIN (SELECT DISTINCT RECRUIT_NO, CO_IMG FROM RECRUIT_IMAGES) I
+		                    ON R.RECRUIT_NO = I.RECRUIT_NO
+		                 WHERE 1=1
+		                 <!-- 스크랩 정렬용 -->
+			             <if test="scrapYn != null and scrapYn != ''">
+			             	AND EXISTS (SELECT S.RECRUIT_NO FROM RECRUIT_SCRAP S WHERE R.RECRUIT_NO = S.RECRUIT_NO AND ID = #{id})
+       		             </if>
+			             <if test="job != null and job != ''">
+			             	AND R.JOB = #{job}
+       		             </if>
+       		             <if test="wksite != null and wksite != ''">
+       		             	AND R.WKSITE = #{wksite}
+       		             </if>
+       		             <if test="carr != null and carr != ''">
+			             	AND R.CARR = #{carr}       		
+       		             </if>
+       		             <if test="skill != null and skill != ''">
+       		             	AND K.SKILL LIKE '%' || get_common(#{skill}) || '%'
+       		             </if>
+	                     <![CDATA[ AND TRUNC(sysdate) < TO_DATE(EXPR_DT, 'YYYY-MM-DD')
+	                        AND R.ACCP_DT IS NOT NULL
+                          ORDER BY RECRUIT_NO DESC
+    					) a  
+				) WHERE rn > (#{pageNum}-1) * 8 AND rn <= #{pageNum} * 8
+                        ]]>
+	  </select>
+	<select id="hireCount" resultType="int">
+		SELECT COUNT(*)
+                FROM RECRUIT_ANUN R
+                JOIN CO C
+                  ON R.ID = C.ID
+                JOIN (SELECT RECRUIT_NO
+                           , LISTAGG(get_common(SKILL), ',') WITHIN GROUP (ORDER BY SKILL_NO) as SKILL
+                              FROM RECRUIT_SKILL
+                             GROUP BY recruit_no) K
+                  ON R.RECRUIT_NO = K.RECRUIT_NO	
+                LEFT JOIN (SELECT ID_CO FROM FOLLOWING WHERE ID_MEM = #{id}) F
+                        ON R.ID = F.ID_CO
+                JOIN (SELECT DISTINCT RECRUIT_NO, CO_IMG FROM RECRUIT_IMAGES) I
+                  ON R.RECRUIT_NO = I.RECRUIT_NO
+               WHERE 1=1
+               <!-- 스크랩 정렬용 -->
+            <if test="scrapYn != null and scrapYn != ''">
+            	AND EXISTS (SELECT S.RECRUIT_NO FROM RECRUIT_SCRAP S WHERE R.RECRUIT_NO = S.RECRUIT_NO AND ID = #{id})
+   		             </if>
+            <if test="job != null and job != ''">
+            	AND R.JOB = #{job}
+   		             </if>
+   		             <if test="wksite != null and wksite != ''">
+   		             	AND R.WKSITE = #{wksite}
+   		             </if>
+   		             <if test="carr != null and carr != ''">
+            	AND R.CARR = #{carr}       		
+   		             </if>
+   		             <if test="skill != null and skill != ''">
+   		             	AND K.SKILL LIKE '%' || get_common(#{skill}) || '%'
+   		             </if>
+                  <![CDATA[ AND TRUNC(sysdate) < TO_DATE(EXPR_DT, 'YYYY-MM-DD')
+                     AND R.ACCP_DT IS NOT NULL
+                      ORDER BY RECRUIT_NO DESC]]>
+	</select>
+	<!-- 스크랩 조회 -->
+	<select id="scrapHire" resultType="HireVO">
+		SELECT R.TTL,
+		       K.SKILL,
+		       C.CO_NM,
+		       get_common(WKSITE) AS WKSITE,
+		       R.EXPR_DT,
+		       R.ACCP_DT,
+		       I.CO_IMG,
+		       S.RECRUIT_NO,
+		       <if test="id != null and id != ''">
+              	 (SELECT S.RECRUIT_NO 
+				    FROM RECRUIT_SCRAP S 
+				   WHERE R.RECRUIT_NO = S.RECRUIT_NO 
+				     AND ID = #{id}) AS scrapYn
+               </if>
+
+		FROM RECRUIT_ANUN R
+		JOIN CO C
+		  ON R.ID = C.ID
+		JOIN RECRUIT_SCRAP S
+		  ON R.RECRUIT_NO = S.RECRUIT_NO
+        JOIN MEMBER M
+          ON S.ID = M.ID
+        JOIN (SELECT recruit_no,
+                     LISTAGG(get_common(SKILL), ',') WITHIN GROUP (ORDER BY SKILL_NO) as SKILL
+                FROM RECRUIT_SKILL
+               GROUP BY recruit_no) K
+		  ON R.RECRUIT_NO = K.RECRUIT_NO
+		JOIN RECRUIT_IMAGES I
+		  ON R.RECRUIT_NO = I.RECRUIT_NO
+
+		WHERE S.RECRUIT_NO IS NOT NULL
+        AND M.ID = #{id}
+        <![CDATA[AND TRUNC(sysdate) < TO_DATE(EXPR_DT, 'YYYY-MM-DD')]]>
+	   	AND R.ACCP_DT IS NOT NULL
+        ORDER BY RECRUIT_NO DESC
+	</select>
+	<!-- 상세조회 -->
+	<select id="searchInfo" resultType="HireVO">
+		SELECT R.TTL,
+		       K.SKILL,
+		       C.CO_NM,
+		       get_common(WKSITE) AS WKSITE,
+		       R.EXPR_DT,
+		       I.RECRUIT_IMG,
+		       R.RECRUIT_NO,
+		       (SELECT S.RECRUIT_NO 
+			      FROM RECRUIT_SCRAP S 
+				 WHERE R.RECRUIT_NO = S.RECRUIT_NO 
+				   AND ID = #{id}) AS scrapYn,
+		       (SELECT F.ID_CO 
+			      FROM FOLLOWING F 
+				 WHERE R.ID = F.ID_CO 
+				   AND F.ID_MEM = #{id}) AS followYn,
+		       get_common(JOB) AS JOB,
+		       R.MA_BUSS,
+		       R.QUAL_COND,
+		       R.PREF_COND,
+		       R.WELF,
+		       get_common(CARR) AS CARR,
+		       get_common(SHCR) AS SHCR,
+		       R.CO_INTRO,
+		       R.RECRUIT_NO,
+		       C.ID AS ID_CO
+		FROM RECRUIT_ANUN R
+		JOIN CO C 
+		  ON R.ID = C.ID
+		JOIN (
+			  SELECT RECRUIT_NO, 
+			         LISTAGG(get_common(SKILL), ',') WITHIN GROUP (ORDER BY SKILL_NO) AS SKILL
+			    FROM RECRUIT_SKILL
+			   GROUP BY RECRUIT_NO
+			) K 
+		  ON R.RECRUIT_NO = K.RECRUIT_NO
+		JOIN (
+			  SELECT RECRUIT_NO, LISTAGG(RECRUIT_IMG, ',') WITHIN GROUP (ORDER BY RECRUIT_IMG_NO) AS RECRUIT_IMG 
+			    FROM RECRUIT_IMAGES 
+			   GROUP BY RECRUIT_NO
+			) I 
+		  ON R.RECRUIT_NO = I.RECRUIT_NO
+	   WHERE R.RECRUIT_NO = #{recruitNo}
+		<if test="scrapYn != null and scrapYn != ''">
+			AND EXISTS (SELECT S.RECRUIT_NO 
+						  FROM RECRUIT_SCRAP S 
+						 WHERE R.RECRUIT_NO = S.RECRUIT_NO 
+						   AND ID = #{id})
+       	</if>
+       	<if test="followYn != null and followYn != ''">
+			AND EXISTS (SELECT F.ID_CO 
+			              FROM FOLLOWING F 
+						 WHERE R.ID = F.ID_CO 
+						   AND F.ID_MEM = #{id})
+       	</if>
+	</select>
+	<!-- 구인공고 상세 이미지들 불러오기 -->
+	<select id="recImg" resultType="HireVO">
+		SELECT RECRUIT_NO, RECRUIT_IMG FROM RECRUIT_IMAGES WHERE RECRUIT_NO=#{recruitNo}
+	</select>
+	<!-- 공고 상세 추천공고(기술로 추천) 조회 -->
+	<select id="selectRecommend" resultType="HireVO">
+		SELECT K.RECRUIT_NO, 
+		       R.TTL, 
+		       get_common(CARR) AS CARR, 
+		       get_common(JOB) AS JOB,
+		       LISTAGG(get_common(SKILL), ',') WITHIN GROUP (ORDER BY SKILL_NO) as SKILL,
+		       R.ACCP_DT,
+		       C.CO_NM,
+		       I.CO_IMG
+		FROM RECRUIT_SKILL K
+		JOIN RECRUIT_ANUN R 
+		  ON K.RECRUIT_NO = R.RECRUIT_NO
+		JOIN CO C
+		  ON C.ID = R.ID
+		JOIN RECRUIT_IMAGES I
+		  ON R.RECRUIT_NO = I.RECRUIT_NO
+		JOIN (SELECT DISTINCT RECRUIT_NO, 
+		             CO_IMG 
+		        FROM RECRUIT_IMAGES) I
+		  ON R.RECRUIT_NO = I.RECRUIT_NO
+		WHERE 1=1
+		  AND get_common(SKILL) IN
+		<foreach collection="skillArray" item="skill" open="(" close=")" separator=",">
+		#{skill}
+		</foreach>
+		GROUP BY K.RECRUIT_NO, R.TTL, CARR, JOB, R.ACCP_DT, C.CO_NM, I.CO_IMG
+		ORDER BY K.RECRUIT_NO
+	</select>
+	<!-- 이력서 조회 -->
+	<select id="resumeList" resultType="HireVO">
+		SELECT RESUME_NO,
+		       ID,
+		       TTL,
+		       REG_DT
+		FROM RESUME
+		WHERE ID = #{id}
+		ORDER BY REG_DT DESC
+	</select>
+	<!-- 해당공고에 지원가능한지 확인 -->
+	<select id="checkResume" resultType="HireVO">
+		SELECT RECRUIT_NO,
+		       RESUME_NO,
+		       COUNT(ID) AS ID
+		FROM RECRUIT_ANUM_ST
+		WHERE ID = #{id}
+		AND RECRUIT_NO = #{recruitNo}
+		GROUP BY RECRUIT_NO, RESUME_NO
+	</select>
+	<!-- 구인공고 지원 -->
+	<insert id="resumeInsert" parameterType="HireVO">
+		INSERT INTO RECRUIT_ANUM_ST (RECRUIT_NO, RESUME_NO, ID, APLY_ST, APLY_DT, ST, WIN)
+       	VALUES (#{recruitNo}, #{resumeNo}, #{id}, 'b1',  TO_CHAR(sysdate,'yyyy-MM-dd'), 'm1', 'T2')
+	</insert>
+	<!-- 관심 기업 등록 -->
+	<insert id="followInsert" parameterType="HireVO">
+		INSERT INTO FOLLOWING(ID_MEM, ID_CO)
+		VALUES (#{id}, #{idCo})
+	</insert>
+	<!-- 관심 기업 취소 -->
+	<delete id="followDelete" parameterType="HireVO">
+		DELETE FROM FOLLOWING WHERE ID_CO = #{idCo} AND ID_MEM = #{id}
+	</delete>
+	<!-- 관심 기업 조회 -->
+	<select id="selectFollow" resultType="int">
+		SELECT COUNT(ID_CO) FROM FOLLOWING WHERE ID_CO = #{idCo} AND ID_MEM = #{id}
+	</select>
+	<!-- 공고 스크랩 등록 -->
+	<insert id="recruitScrapInsert" parameterType="HireVO">
+		INSERT INTO RECRUIT_SCRAP (RECRUIT_NO, ID)
+        VALUES(#{recruitNo}, #{id})
+	</insert>
+	
+	<!-- 공고 스크랩 삭제 -->
+	<delete id="recruitScrapDelete" parameterType="HireVO">
+		DELETE FROM RECRUIT_SCRAP 
+			  WHERE RECRUIT_NO = #{recruitNo} AND ID = #{id}
+	</delete>
+	
+	<!-- 공고 등록 키 -->
+	<select id="recruitNo" resultType="String">
+		SELECT 'REA' || RECRUIT_ANUN_SEQ.NEXTVAL AS RECRUIT_NO FROM DUAL 
+	</select>
+	
+	<!-- 공고등록 페이지 회사이름 조회 -->
+	<select id="recruitInsertSelect" resultType="HireVO">
+		SELECT CO_NM
+		FROM CO 
+		WHERE ID = #{id}
+	</select>
+	
+	<!-- 공고 등록 -->
+	<insert id="hireDataInsert" parameterType="HireVO">
+		INSERT INTO RECRUIT_ANUN(RECRUIT_NO, ID, TTL, SHCR, CARR, MA_BUSS, QUAL_COND, PREF_COND, WELF, EXPR_DT, WKSITE, REG_DT, JOB, CO_INTRO)
+						 VALUES (#{recruitNo}, #{id}, #{ttl}, #{shcr}, #{carr}, #{maBuss}, #{qualCond}, #{prefCond}, #{welf}, #{exprDt}, #{wksite}, TO_CHAR(SYSDATE,'yyyy-MM-dd HH24:MI:SS'), #{job}, #{coIntro})  
+	</insert>
+	
+	<!-- 공고 스킬 번호 -->
+	<select id="skillNo" resultType="String">
+		SELECT 'RSKL' || RECRUIT_SKILL_SEQ.NEXTVAL AS SKILL_NO FROM DUAL 
+	</select>
+	
+	<!-- 공고 스킬 등록 -->
+	<insert id="skillInsert" parameterType="HireVO">
+		INSERT INTO RECRUIT_SKILL(SKILL_NO, RECRUIT_NO, SKILL, ID)
+                   VALUES(#{skillNo}, #{recruitNo}, #{skill}, #{id})
+	</insert>
+	
+	<!-- 공고 상세 이미지 번호 -->
+	<select id="recruitImgNo" resultType="String">
+		SELECT 'RIMG' || RECRUIT_IMAGES_SEQ.NEXTVAL AS RECRUIT_IMG_NO FROM DUAL
+	</select>
+	<!-- 공고 상세 이미지들 등록 -->
+	<insert id="detailImges" parameterType="HireVO">
+		INSERT INTO RECRUIT_IMAGES(RECRUIT_IMG_NO, RECRUIT_NO, RECRUIT_IMG, CO_IMG)
+		VALUES (#{recruitImgNo}, #{recruitNo}, #{recruitImg}, #{coImg})
+	</insert>
+	
+	<!-- 공고 이미지들 조회 -->
+	<select id="detailImgesList" resultType="HireVO">
+		SELECT CO_IMG,
+		       RECRUIT_IMG
+		FROM RECRUIT_IMAGES  
+		WHERE RECRUIT_NO = #{recruitNo}
+	</select>
+	<!-- 공고 수정 기능 -->
+	<update id="hireModify" parameterType="HireVO">
+		UPDATE RECRUIT_ANUN 
+			<set>
+				<if test='id != null and !"".equals(id)'>
+					ID = #{id},
+				</if>
+				<if test='ttl != null and !"".equals(ttl)'>
+					TTL = #{ttl},
+				</if>
+				<if test='shcr != null and !"".equals(shcr)'>
+					SHCR = #{shcr},
+				</if>
+				<if test='carr != null and !"".equals(carr)'>
+					CARR = #{carr},
+				</if>
+				<if test='maBuss != null and !"".equals(maBuss)'>
+					MA_BUSS = #{maBuss},	
+				</if>
+				<if test='qualCond != null and !"".equals(qualCond)'>
+					QUAL_COND = #{qualCond},
+				</if>
+				<if test='prefCond != null and !"".equals(prefCond)'>
+					PREF_COND = #{prefCond},
+				</if>
+				<if test='welf != null and !"".equals(welf)'>
+					WELF = #{welf},
+				</if>
+				<if test='exprDt != null and !"".equals(exprDt)'>
+					EXPR_DT = #{exprDt},
+				</if>
+				<if test='wksite != null and !"".equals(wksite)'>
+					WKSITE = #{wksite},
+				</if>
+				<if test='job != null and !"".equals(job)'>
+					JOB = #{job},
+				</if>
+				<if test='coIntro!= null and !"".equals(coIntro)'>
+					CO_INTRO = #{coIntro}
+				</if>
+			  </set> 
+		WHERE RECRUIT_NO = #{recruitNo}
+	</update>
+	<!-- 공고 스킬 삭제 -->
+	<delete id="hireSkillDelete" parameterType="HireVO">
+		DELETE FROM RECRUIT_SKILL WHERE RECRUIT_NO = #{recruitNo}
+	</delete>
+	<!-- 공고 이미지 삭제 -->
+	<delete id="hireImgDelete" parameterType="HireVO">
+		DELETE FROM RECRUIT_IMAGES WHERE RECRUIT_NO = #{recruitNo}
+	</delete>
+	<!-- 공고 삭제 -->
+	<delete id="hireDelete" parameterType="String">
+		DELETE FROM RECRUIT_ANUN WHERE RECRUIT_NO = #{recruitNo}
+	</delete>
+	
+	
+	<!-- 메인 페이지 -->
+	<!-- 유료 공고 -->
+	<select id="prdtSelect" resultType="HireVO">
+		SELECT DISTINCT R.TTL,
+		       get_common(CARR) AS CARR,
+		       get_common(JOB) AS JOB,
+		       C.CO_NM,
+		       I.CO_IMG,
+		       R.RECRUIT_NO,
+		       K.SKILL
+		FROM RECRUIT_ANUN R
+		JOIN CO C
+		  ON R.ID = C.ID
+		JOIN RECRUIT_IMAGES I
+		  ON R.RECRUIT_NO = I.RECRUIT_NO
+		JOIN REC_RESER S
+		  ON R.RECRUIT_NO = S.RECRUIT_NO
+		JOIN (SELECT recruit_no , LISTAGG(SKILL,',') WITHIN GROUP (ORDER BY SKILL_NO) as SKILL
+                FROM RECRUIT_SKILL
+            GROUP BY recruit_no) k
+          ON R.RECRUIT_NO = K.RECRUIT_NO
+	   WHERE S.RESER_DT = TO_CHAR(SYSDATE, 'yyyy-MM-dd')
+	<![CDATA[AND TRUNC(sysdate) < TO_DATE(EXPR_DT, 'YYYY-MM-DD')]]>
+	   	 AND R.ACCP_DT IS NOT NULL
+	</select>
+	
+	<!-- 최신 공고 -->
+	<select id="newSelect" resultType="HireVO">
+	    SELECT DISTINCT R.TTL,
+		       C.CO_NM,
+               R.RECRUIT_NO,
+               S.SKILL,
+               I.CO_IMG,
+               get_common(WKSITE),
+               R.EXPR_DT,
+               R.ACCP_DT
+		FROM RECRUIT_ANUN R
+		JOIN CO C
+		  ON R.ID = C.ID
+		JOIN (SELECT recruit_no , LISTAGG(get_common(SKILL),',') WITHIN GROUP (ORDER BY SKILL_NO) as SKILL
+                FROM RECRUIT_SKILL
+            GROUP BY recruit_no) S
+		  ON S.RECRUIT_NO = R.RECRUIT_NO
+        JOIN RECRUIT_IMAGES I
+          ON R.RECRUIT_NO = I.RECRUIT_NO
+	   WHERE 1=1
+<![CDATA[AND ROWNUM < 5]]>
+<![CDATA[AND TRUNC(sysdate) < TO_DATE(EXPR_DT, 'YYYY-MM-DD')]]>
+	   	 AND R.ACCP_DT IS NOT NULL
+	ORDER BY R.ACCP_DT
+	</select>
+	<!-- 인기 공고 -->
+	<select id="popSelect" resultType="HireVO">
+		SELECT DISTINCT F.CNT, 
+		       F.RECRUIT_NO, 
+		       R.TTL,
+		       C.CO_NM,
+		       R.RECRUIT_NO,
+		       S.SKILL,
+		       get_common(WKSITE),
+               R.EXPR_DT,
+               I.CO_IMG
+		FROM (
+		    SELECT COUNT(RECRUIT_NO) AS CNT, 
+		           RECRUIT_NO
+		    FROM RECRUIT_SCRAP
+	    GROUP BY RECRUIT_NO
+		ORDER BY CNT DESC
+		)F
+		JOIN RECRUIT_ANUN R
+		  ON R.RECRUIT_NO = F.RECRUIT_NO
+		JOIN CO C
+		  ON C.ID = R.ID
+		JOIN (SELECT recruit_no , LISTAGG(get_common(SKILL),',') WITHIN GROUP (ORDER BY SKILL_NO) as SKILL
+                FROM RECRUIT_SKILL
+            GROUP BY recruit_no) S
+		  ON S.RECRUIT_NO = R.RECRUIT_NO
+		JOIN RECRUIT_IMAGES I
+          ON R.RECRUIT_NO = I.RECRUIT_NO
+	   WHERE 1=1
+<![CDATA[AND ROWNUM < 5]]>
+<![CDATA[AND TRUNC(sysdate) < TO_DATE(EXPR_DT, 'YYYY-MM-DD')]]>
+	     AND R.ACCP_DT IS NOT NULL
+	ORDER BY F.CNT
+	</select>
+	<!-- 셀프구직(관심순) -->
+	<select id="popSelf" resultType="SelfVO">
+		SELECT * 
+		  FROM (
+		SELECT TTL,
+		       ID,
+		       JOB_SEARCH_NO,
+               RESUME_NO
+		  FROM JOB_SEARCH_NOTIWR 
+		 ORDER BY INTEREST DESC)
+  <![CDATA[WHERE ROWNUM < 6]]>
+	  
+	</select>
+	<!-- 취업 Q&A 게시글  -->
+	<select id="jobQnaBest" resultType="CommunityVO">
+		<![CDATA[ SELECT *
+				    FROM (
+					  SELECT QA_NOTIWR_NO, 
+					  		 TTL, 
+					  		 ID, 
+					  		 CNTN, 
+					  		 HTML_CNTN, 
+					  		 INQ_CNT, 
+					  		 RPLY_CNT, 
+					  		 REG_DT, 
+					  		 RECO_CNT
+					    FROM EMPL_QST
+				    ORDER BY RECO_CNT DESC, RPLY_CNT DESC, INQ_CNT DESC
+				    )
+				   WHERE ROWNUM < 6 ]]>
+	</select>
+  <!-- 구인중인 기업들 조회 --> 	
+	<select id="hireingCo" resultType="HireVO">
+		SELECT DISTINCT RECRUIT_NO, CO_IMG FROM RECRUIT_IMAGES
+	</select>
+  <!-- 구인 공고삭제 : 관리자 -->
+	<delete id="recruitDelFn" statementType="CALLABLE" parameterType="String">
+   		{ 
+      		call recruit_Delete(#{recruitNo})
+   		}
+	</delete>
+
+</mapper>

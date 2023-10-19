@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{template/layout}">
+<head>
+<meta charset="UTF-8">
+<title>모아모아/커뮤니티</title>
+
+<!-- communityWrite.CSS -->
+<link href="community/communityWrite.css" rel="stylesheet">
+
+<!-- Ckeditor -->
+<script src="https://cdn.ckeditor.com/ckeditor5/37.1.0/decoupled-document/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/37.1.0/decoupled-document/translations/ko.js"></script>
+
+  <!-- jQuery 라이브러리 추가 -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  
+  <!-- jQuery UI 라이브러리 추가 -->
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  
+  <!-- jQuery UI CSS 추가 -->
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  
+</head>
+<body>
+	<div layout:fragment="content">
+		<!-- nav -->
+		<div class="row mb-4 p-2">
+			<div class="col-md-1"></div>
+			<div class="col-md-10" style="border-bottom : 1px solid #ddd;">
+				<div class="mb-4 d-flex justify-content-evenly">
+					 <nav>
+					    <ul class="nav-list">
+					      <li class="mx-6"><a href="/jobQnA">취업Q&A</a></li>
+					      <li class="mx-6"><a href="/jobInterview">면접후기</a></li>
+					      <li class="mx-6"><a href="/projectList">프로젝트모집</a></li>
+				      	  <li class="mx-6"><a href="/studyList">스터디모집</a></li>
+					    </ul>
+					  </nav>
+				</div>
+			</div>
+			<div class="col-md-1"></div>
+		</div>
+		
+		<div class="row mb-6">
+			<div class="col-md-2"></div>
+			<div class="col-md-8">
+				<!-- 현재 로그인된 유저 ID -->
+				<input id="logId" th:value="${logId}" type="hidden"> 
+				
+				<!-- 토픽 div 시작 -->
+				<div class="mb-5">
+					<label class="form-label fs-1">◈ 토픽</label>
+					<select id="topic" name="topic" class="form-control">
+						<option value="" selected>카테고리를 선택해 주세요</option>
+						<option th:each="topic : ${commList.f}" th:text="${topic.desct}" th:value="${topic.prov}">카테고리</option>
+					</select>
+				</div>
+			
+				
+				<!-- 취업 Q&A form 시작 -->
+				<form id="jobQnAForm" style="display:none;">
+					<div class="space-y-2 mb-5">
+						<h4 class="text-xl font-medium sm:text-3xl sm:leading-10">취업 궁금증 해결하기</h4>
+						<p class="text-sm text-gray-500 dark:text-gray-400">
+						<strong style="color:blue" th:text="${logId}">OO</strong>님 개발자 구인구직 플랫폼 MoaMore에서 최고의 개발자들과 함께 궁금증을 해결하세요.</p>
+					</div>
+
+					<!-- 제목 -->
+					<div class="mb-5">
+						<label class="form-label fs-1">◈ 제목</label>
+						<input id="title" name="ttl" type="text" class="form-control" placeholder="제목을 입력하여 주세요">
+					</div>
+	
+						
+					<!-- 내용 - editor 입력칸 -->
+					<div class="mb-3">
+						<label for="formGroupExampleInput" class="form-label fs-1 mb-3">◈ 내용</label>
+						
+						<!-- editor -->
+						<div style="border : 1px solid #ddd;">
+							<!-- The toolbar will be rendered in this container. -->
+						    <div id="toolbar-container"></div>
+						    <!-- This container will become the editable. -->
+						    <div id="editor"></div>
+						</div>
+					</div>		
+				</form><!-- 취업Q&A폼 닫기 -->
+				
+	
+				<!-- 면접후기 -->
+				<form id="jobReviewForm" style="display:none;">
+					<div class="space-y-2 mb-5">
+						<h4 class="text-xl font-medium sm:text-3xl sm:leading-10">면접 후기 등록</h4>
+						<p class="text-sm text-gray-500 dark:text-gray-400">
+						<strong style="color:blue" th:text="${logId}">OO</strong>님 개발자 구인구직 플랫폼 MoaMore에서 다른 사람들을 위한 후기를 작성해주세요.</p>
+					</div>
+					
+					<table class="table mb-4 border">
+						<tbody>
+							<tr>
+								<th>회사명</th>
+								<td><input id="coNm" name="coNm" class="inputStyle" type="text" placeholder="면접보신 회사명을 입력해주세요."></td>
+								<th>지원직무</th>
+								<td>
+								  <select id="duty" name="duty" class="inputStyle">
+								  	<option value="" selected>직무선택</option>
+								    <option th:each="duty : ${commList.N}" th:text="${duty.desct}" th:value="${duty.prov}">직무</option>
+								  </select>
+								</td>
+							</tr>
+							<tr class="align-middle">
+								<th>면접당시 경력</th>
+								<td>
+									<div class="d-flex justify-content-center">
+										<label th:each="carr : ${commList.O}" class="mx-3">
+											<input name="carr" type="radio"  th:text="${carr.desct}" th:value="${carr.prov}"> 
+										</label>
+									</div>
+								</td>
+								<th>전반적인평가</th>
+								<td>
+									<div class="d-flex justify-content-center">
+										<label class="mx-3" th:each="appr : ${commList.P}">
+											<input name="appr" type="radio" th:text="${appr.desct}" th:value="${appr.prov}"> 
+										</label>
+									</div>
+								</td>
+							</tr>
+							<tr class="align-middle">
+								<th>난이도</th>
+								<td>
+									<div class="d-flex justify-content-center">
+										<label class="mx-3" th:each="dif : ${commList.Q}">
+											<input name="dif" type="radio" th:text="${dif.desct}" th:value="${dif.prov}"> 
+										</label>
+									</div>
+								</td>
+								<th>합격여부</th>
+								<td>
+									<div class="d-flex justify-content-center">
+										<label class="mx-3" th:each="passYn : ${commList.T}">
+											<input name="passYn" type="radio" th:text="${passYn.desct}" th:value="${passYn.prov}"> 
+										</label>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th>면접유형</th>
+								<td>
+									<select id="intrvTyp" name="intrvTyp" class="inputStyle">
+										 <option value="" selected>면접유형 선택</option>
+									     <option th:each="intrvTyp : ${commList.R}" th:text="${intrvTyp.desct}" th:value="${intrvTyp.prov}">면접유형</option>
+									 </select>
+								</td>
+								<th>면접인원</th>
+								<td>
+									<select id="intrvRcnt" name="intrvRcnt" class="inputStyle">
+										 <option value="" selected>면접인원 선택</option>
+									     <option th:each="intrvRcnt : ${commList.S}" th:text="${intrvRcnt.desct}" th:value="${intrvRcnt.prov}">면접인원</option>
+									 </select>
+								</td>
+							</tr>
+							<tr>
+								<th>면접일자</th>
+								<td>
+									<input id="intrvDt" name="intrvDt" readonly class="inputStyle" placeholder="면접 본 날짜를 선택해주세요" type="text" >
+								</td>
+								<th>면접증빙서류</th>
+								<td>
+									<input id="upload" name="upload" type="file" >
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					
+					<div class="divStyle mb-4">
+					  <div class="form-floating border fullWidth">
+					  	<div class="row">
+					  		<div class="col-md-3">
+					  			<div style="padding : 16px;">
+					  				<label for="floatingTextarea">면접질문</label>
+					  			</div>
+					  		</div>
+					  		<div class="col-md-9">
+					  			<textarea id="qstCntn" name="qstCntn" class="form-control radius fullWidth" placeholder="면접당시 받은 질문을 작성해주세요" style="height: 200px; resize: none; border:none;"></textarea>
+					  		</div>
+					  	</div>
+					  </div>
+					</div>
+					
+					<div class="divStyle mb-4">
+					  <div class="form-floating border fullWidth">
+					  	<div class="row">
+					  		<div class="col-md-3">
+					  			<div style="padding : 16px;">
+					  				<label for="floatingTextarea">면접Tip 및 특이사항</label>
+					  			</div>
+					  		</div>
+					  		<div class="col-md-9">
+					  			<textarea id="spcCtnt" name="spcCtnt" class="form-control radius fullWidth" placeholder="사람들이 알면 좋은 면접Tip 및 특이사항 작성해주세요" style="height: 200px; resize: none; border:none;"></textarea>
+					  		</div>
+					  	</div>
+					  </div>
+					</div>
+				</form>	<!-- 면접후기 form 닫기 -->
+					
+					
+				<!-- 프로젝트 모집 form -->
+				<form id="projectForm" style="display:none;">
+					<div class="space-y-2 mb-5">
+						<h4 class="text-xl font-medium sm:text-3xl sm:leading-10">프로젝트 모집</h4>
+						<p class="text-sm text-gray-500 dark:text-gray-400">
+						<strong style="color:blue" th:text="${logId}">OO</strong>님 개발자 구인구직 플랫폼 MoaMore에서 최고의 개발자들과 함께 프로젝트를 진행해보세요.</p>
+					</div>
+					
+					<!-- 제목 -->
+					<div class="mb-5">
+						<label class="form-label fs-1">◈ 프로젝트 제목</label>
+						<input id="projectTitle" name="ttl" type="text" class="form-control" placeholder="제목을 입력하여 주세요">
+					</div>
+					
+					<table class="table mb-5 border">
+						<tbody>
+							<tr>
+								<th>모집직무</th>
+								<td>
+								  <select id="collPosi" name="collPosi" class="inputStyle">
+								  	<option value="" selected>직무선택</option>
+								    <option th:each="collPosi : ${commList.N}" th:text="${collPosi.desct}" th:value="${collPosi.prov}">직무</option>
+								  </select>
+								</td>
+								<th>모집인원</th>
+								<td><input id="collRcnt" name="collRcnt" class="inputStyle" type="text" placeholder="모집인원을 입력하세요"></td>
+							</tr>
+							<tr class="align-middle">
+								<th>진행방식</th>
+								<td>
+									<div class="d-flex justify-content-center">
+										<label th:each="progMthd : ${commList.j}" class="mx-3">
+											<input name="progMthd" type="radio"  th:text="${progMthd.desct}" th:value="${progMthd.prov}"> 
+										</label>
+									</div>
+								</td>
+								<th>요구기술</th>
+								<td><input id="skill" name="skill" class="inputStyle" type="text" placeholder="요구기술을 입력하세요"></td>
+							</tr>
+							<tr>
+								<th>시작예정</th>
+								<td><input id="expcDt" name="expcDt" class="inputStyle" readonly placeholder="프로젝트 시작예정 날짜를 선택해주세요" type="text"></td>
+								<th>진행기간</th>
+								<td>
+								  <select id="progTerm"  name="progTerm" class="inputStyle">
+								  	<option value="" selected>진행기간 선택</option>
+								    <option th:each="progTerm : ${commList.g}" th:text="${progTerm.desct}" th:value="${progTerm.prov}">진행기간</option>
+								  </select>
+								</td>
+							</tr>
+							<tr>
+								<th>연락방법</th>
+								<td>
+								  <select id="coctMthd" name="coctMthd" class="inputStyle" onchange="updatePlaceholder()">
+								  	<option value="" selected>연락방법 선택</option>
+								    <option th:each="coctMthd : ${commList.i}" th:text="${coctMthd.desct}" th:value="${coctMthd.prov}">연락방법</option>
+								  </select>
+								</td>
+								<th>연락</th>
+								<td><input id="contact" name="contact" class="inputStyle" placeholder="연락정보를 남겨주세요" type="text"></td>
+							</tr>
+							<tr>
+								<th>모집마감일</th>
+								<td><input id="clsDt" name="clsDt" class="inputStyle" readonly placeholder="프로젝트 모집마감 날짜를 선택해주세요" type="text"></td>
+								<th>모집상태</th>
+								<td>
+								  <select id="collSt" name="collSt" class="inputStyle">
+								  	<option value="h1" selected>모집중</option>
+								  </select>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					
+					<!-- 내용 - editor 입력칸 -->
+					<div class="mb-3">
+						<label for="formGroupExampleInput" class="form-label fs-1 mb-3">◈ 프로젝트 소개</label>
+						
+						<!-- editor -->
+						<div style="border : 1px solid #ddd;">
+							<!-- The toolbar will be rendered in this container. -->
+						    <div id="project_toolbar-container"></div>
+						    <!-- This container will become the editable. -->
+						    <div id="projectEditor" style="min-height: 200px;"></div>
+						</div>
+					</div>
+				</form>	<!-- 프로젝트모집 form 닫기 -->
+				
+				
+				<!-- 스터디 모집 form -->
+				<form id="studyForm" style="display:none;">
+					<div class="space-y-2 mb-5">
+						<h4 class="text-xl font-medium sm:text-3xl sm:leading-10">스터디 모집</h4>
+						<p class="text-sm text-gray-500 dark:text-gray-400">
+						<strong style="color:blue" th:text="${logId}">OO</strong>님 개발자 구인구직 플랫폼 MoaMore에서 최고의 개발자들과 함께 스터디를 진행해보세요.</p>
+					</div>
+					
+					<!-- 제목 -->
+					<div class="mb-5">
+						<label class="form-label fs-1">◈ 스터디 제목</label>
+						<input id="studyTitle" name="ttl" type="text" class="form-control" placeholder="제목을 입력하여 주세요">
+					</div>
+					
+					<table class="table mb-5 border">
+						<tbody>
+							<tr>
+								<th>스터디구분</th>
+								<td>
+									<select id="studyFg" name="studyFg" class="inputStyle">
+								  		<option value="" selected>스터디 선택</option>
+								    	<option th:each="studyFg : ${commList.k}" th:text="${studyFg.desct}" th:value="${studyFg.prov}">스터디구분</option>
+								  	</select>
+								</td>
+								<th>모집인원</th>
+								<td><input id="studyCollRcnt" name="collRcnt" class="inputStyle" type="text" placeholder="모집인원을 입력하세요"></td>
+							</tr>
+							<tr class="align-middle">
+								<th>진행방식</th>
+								<td>
+									<div class="d-flex justify-content-center">
+										<label th:each="progMthd : ${commList.j}" class="mx-3">
+											<input name="progMthd" type="radio"  th:text="${progMthd.desct}" th:value="${progMthd.prov}"> 
+										</label>
+									</div>
+								</td>
+								<th>스터디과목</th>
+								<td><input id="studySjt" name="studySjt" class="inputStyle" type="text" placeholder="스터디할 과목을 입력하세요"></td>
+							</tr>
+							<tr>
+								<th>시작예정</th>
+								<td><input id="studyExpcDt" name="expcDt" class="inputStyle" readonly placeholder="스터디 시작예정 날짜를 선택해주세요" type="text"></td>
+								<th>진행기간</th>
+								<td>
+								  <select id="studyProgTerm"  name="progTerm" class="inputStyle">
+								  	<option value="" selected>진행기간 선택</option>
+								    <option th:each="progTerm : ${commList.g}" th:text="${progTerm.desct}" th:value="${progTerm.prov}">진행기간</option>
+								  </select>
+								</td>
+							</tr>
+							<tr>
+								<th>연락방법</th>
+								<td>
+								  <select id="studyCoctMthd" name="coctMthd" class="inputStyle" onchange="studyUpdatePlaceholder()">
+								  	<option value="" selected>연락방법 선택</option>
+								    <option th:each="coctMthd : ${commList.i}" th:text="${coctMthd.desct}" th:value="${coctMthd.prov}">연락방법</option>
+								  </select>
+								</td>
+								<th>연락</th>
+								<td><input id="studyContact" name="contact" class="inputStyle" placeholder="연락정보를 남겨주세요" type="text"></td>
+							</tr>
+							<tr>
+								<th>모집마감일</th>
+								<td><input id="studyClsDt" name="clsDt" class="inputStyle" readonly placeholder="스터디 모집마감 날짜를 선택해주세요" type="text"></td>
+								<th>모집상태</th>
+								<td>
+								  <select id="studyCollSt" name="collSt" class="inputStyle">
+								  	<option value="h1" selected>모집중</option>
+								  </select>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					
+					<!-- 내용 - 스터디 editor 입력칸 -->
+					<div class="mb-3">
+						<label for="formGroupExampleInput" class="form-label fs-1 mb-3">◈ 스터디 소개</label>
+						
+						<!-- 스터디 editor -->
+						<div style="border : 1px solid #ddd;">
+							<!-- The toolbar will be rendered in this container. -->
+						    <div id="study_toolbar-container"></div>
+						    <!-- This container will become the editable. -->
+						    <div id="studyEditor" style="min-height: 200px;"></div>
+						</div>
+					</div>
+				</form>	<!-- 스터디 form 닫기 -->
+				
+				
+				<!-- 등록버튼 -->
+                <div class="text-end">
+                	<button id="cancleBtn" onclick="history.back()" type="button" class="btn btn-light radius mx-2">취소</button>
+                	<button id="regBtn" type="button" class="btn btn-dark radius">등록</button>
+                </div>
+			</div>
+			<div class="col-md-2"></div>
+		 </div>
+		 
+<script>
+
+$(function() {
+	
+	// 면접후기 날짜
+    $("#intrvDt").datepicker({
+      maxDate: '0', // 오늘이전만 선택 가능
+      dateFormat: 'yy-mm-dd', // MM/dd/yyyy 형식으로 표시
+      onSelect: function(dateText, inst) {
+          $("#intrvDt").val(dateText); // 선택한 날짜를 input에 표시
+        }
+    });
+    
+	// 프로젝트 시작예정 날짜
+    $("#expcDt").datepicker({
+    	minDate: '0', // 오늘이후만 선택 가능
+        dateFormat: 'yy-mm-dd', // MM/dd/yyyy 형식으로 표시
+        onSelect: function(dateText, inst) {
+            $("#expcDt").val(dateText); // 선택한 날짜를 input에 표시
+          }
+     });
+	
+ 	// 프로젝트 모집마감 날짜
+    $("#clsDt").datepicker({
+    	minDate: '0', // 오늘이후만 선택 가능
+        dateFormat: 'yy-mm-dd', // MM/dd/yyyy 형식으로 표시
+        onSelect: function(dateText, inst) {
+            $("#clsDt").val(dateText); // 선택한 날짜를 input에 표시
+          }
+     });
+ 	
+ 	// 스터디 시작예정 날짜
+    $("#studyExpcDt").datepicker({
+    	minDate: '0', // 오늘이후만 선택 가능
+        dateFormat: 'yy-mm-dd', // MM/dd/yyyy 형식으로 표시
+        onSelect: function(dateText, inst) {
+            $("#studyExpcDt").val(dateText); // 선택한 날짜를 input에 표시
+          }
+     });
+    
+	// 스터디 모집마감 날짜
+    $("#studyClsDt").datepicker({
+    	minDate: '0', // 오늘이후만 선택 가능
+        dateFormat: 'yy-mm-dd', // MM/dd/yyyy 형식으로 표시
+        onSelect: function(dateText, inst) {
+            $("#studyClsDt").val(dateText); // 선택한 날짜를 input에 표시
+          }
+     });
+    
+ });
+
+// 프로젝트 모집에서 사용
+// select(연락방법)가 변경될시 input(연락)의 placeholder 변경
+function updatePlaceholder() {
+	  let selectElement = document.getElementById("coctMthd");
+	  let selectedValue = selectElement.value;
+	  let inputElement = document.getElementById("contact");
+	
+	  if (selectedValue === "i1") {
+		inputElement.value="";
+	    inputElement.placeholder = "오픈 카톡방 링크";
+	  } else if (selectedValue === "i2") {
+		inputElement.value="";
+	    inputElement.placeholder = "이메일 주소";
+	  } else if (selectedValue === "i3") {
+		inputElement.value="";
+	    inputElement.placeholder = "구글 폼 주소";
+	  } else {
+		inputElement.value="";
+	    inputElement.placeholder = "연락방법을 선택하세요";
+	  }
+}
+
+//스터디 모집에서 사용
+//select(연락방법)가 변경될시 input(연락)의 placeholder 변경
+function studyUpdatePlaceholder() {
+	  let selectElement = document.getElementById("studyCoctMthd");
+	  let selectedValue = selectElement.value;
+	  let inputElement = document.getElementById("studyContact");
+	
+	  if (selectedValue === "i1") {
+		inputElement.value="";
+	    inputElement.placeholder = "오픈 카톡방 링크";
+	  } else if (selectedValue === "i2") {
+		inputElement.value="";
+	    inputElement.placeholder = "이메일 주소";
+	  } else if (selectedValue === "i3") {
+		inputElement.value="";
+	    inputElement.placeholder = "구글 폼 주소";
+	  } else {
+		inputElement.value="";
+	    inputElement.placeholder = "연락방법을 선택하세요";
+	  }
+}
+
+/////////////////////////////////////////////////////////////////////
+
+	//취업 Q&A Editor
+	let newEditor;
+	
+	// 취업 Q&A Editor
+    // Editor에 width주고 싶어서 css폴더에 따로 코드넣음
+    DecoupledEditor
+      .create( document.querySelector('#editor') ,{
+      	language: "ko", // 한글버전으로 사용하기 위해 필요한 코드 위에 script 추가해야함
+         ckfinder: { 
+          	uploadUrl: 'jobQnAImg' // 내가 지정한 업로드 url (post로 요청감)
+      	}// ckupload 사용해야함 
+      })
+      .then(editor => {
+          const toolbarContainer = document.querySelector('#toolbar-container');
+          toolbarContainer.appendChild(editor.ui.view.toolbar.element);
+          newEditor = editor;
+      })
+      .catch( error => {
+          console.error( error );
+      });
+
+/////////////////////////////////////////////////////////////////////
+
+ 	// 프로젝트 모집 Editor
+    let projectNewEditor;
+    
+ 	// 프로젝트 모집 Editor
+    // Editor에 width주고 싶어서 css폴더에 따로 코드넣음
+    DecoupledEditor
+      .create( document.querySelector('#projectEditor') ,{
+      	language: "ko", // 한글버전으로 사용하기 위해 필요한 코드 위에 script 추가해야함
+          ckfinder: { 
+          	uploadUrl: 'jobQnAImg' // 내가 지정한 업로드 url (post로 요청감)
+      	}// ckupload 사용해야함 
+      })
+      .then(editor => {
+          const toolbarContainer = document.querySelector('#project_toolbar-container');
+          toolbarContainer.appendChild(editor.ui.view.toolbar.element);
+          projectNewEditor = editor;
+      })
+      .catch( error => {
+          console.error( error );
+      });   
+ 	
+/////////////////////////////////////////////////////////////////////    
+ 	
+ 	// 스터디 모집 Editor
+    let studyNewEditor;
+    
+ 	// 스터디 모집 Editor
+ 	// Editor에 width주고 싶어서 css폴더에 따로 코드넣음
+    DecoupledEditor
+      .create( document.querySelector('#studyEditor') ,{
+      	language: "ko", // 한글버전으로 사용하기 위해 필요한 코드 위에 script 추가해야함
+          ckfinder: { 
+          	uploadUrl: 'jobQnAImg' // 내가 지정한 업로드 url (post로 요청감)
+      	}// ckupload 사용해야함 
+      })
+      .then(editor => {
+          const toolbarContainer = document.querySelector('#study_toolbar-container');
+          toolbarContainer.appendChild(editor.ui.view.toolbar.element);
+          studyNewEditor = editor;
+      })
+      .catch( error => {
+          console.error( error );
+      });   
+     
+	
+    // ==========================================================
+ 
+    // 취업 Q&A 화면에 보임
+    function jobQnADisplay(){
+		$('#jobQnAForm').show();
+		$('#jobReviewForm').hide();
+		$('#projectForm').hide();
+		$('#studyForm').hide();
+    }
+    
+ 	// 면접후기 화면에 보임
+    function jobReviewDisplay(){
+    	$('#jobReviewForm').show();
+    	$('#jobQnAForm').hide();
+    	$('#projectForm').hide();
+    	$('#studyForm').hide();
+    }
+ 	
+ 	// 프로젝트 모집 화면에 보임
+    function projectFormDisplay(){
+    	$('#projectForm').show();
+    	$('#jobQnAForm').hide();
+    	$('#jobReviewForm').hide();
+    	$('#studyForm').hide();
+    	
+    }
+ 	
+ 	// 스터디 모집 화면에 보임
+    function studyFormDisplay(){
+    	$('#studyForm').show();
+    	$('#jobQnAForm').hide();
+    	$('#jobReviewForm').hide();
+    	$('#projectForm').hide();
+    }
+ 	
+ 	// 아무것도 화면에 안보임
+    function nonFormDisplay(){
+    	$('#jobQnAForm').hide();
+    	$('#jobReviewForm').hide();
+    	$('#projectForm').hide();
+    	$('#studyForm').hide();
+    }
+ 	
+ 	// 토픽 선택시 나타나는 화면 출력
+    $('#topic').on('change', function(){
+    	
+    	let topic = $('#topic').val(); // 선택한 topic
+    	
+    	switch(topic){
+	        case "f1" :
+	        			jobQnADisplay();
+			           	//console.log("취업Q&A");
+			        	break;
+	        case "f2" :
+	        			jobReviewDisplay();
+			        	//console.log("면접후기");
+			        	break;
+			        	
+	        case "f3" :
+	        			projectFormDisplay();
+			        	//console.log("프로젝트모집");
+			        	break;
+	        case "f4" :
+	        			studyFormDisplay();
+			        	//console.log("스터디모집");
+			        	break;
+	        default:
+	        			nonFormDisplay();
+	            		//console.log('');
+	        			break;
+    	}
+    });
+ 	
+ 	
+ 	// 취업 Q&A 등록
+ 	function jobQnAInsert(){
+ 		
+ 		if($("#title").val() == "") { // 제목이 비어있으면
+			Swal.fire({
+				  icon: 'error',
+				  title: '제목을 입력해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		 }
+	   	
+     	// 에디터에 들어있는 HTML태그를 포함한 내용
+		const editorData = newEditor.getData(); 
+     	
+     	// 정규표현식을 사용하여 에디터에 들어있는 HTML 태그를 "제외한" 에디터 내용
+		const editorText = newEditor.getData().replace(/(<([^>]+)>)/gi, "").replace(/&nbsp;/g, ""); 
+		
+	   	if(editorData == "") { // 내용이 비어있으면
+	   		Swal.fire({
+				  icon: 'error',
+				  title: '내용을 입력해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+	   		return;
+	   	}
+	   	
+	   	//console.log($('#title').val());
+	   	//console.log(editorData);
+	   	//console.log(editorText);
+	   	
+	   	 let data = {
+	   		ttl : $('#title').val(),
+	   		cntn : editorText,
+	   		htmlCntn : editorData,
+	   		id : $('#logId').val()
+	   	}
+	  	
+		$.ajax({
+			url: 'jobQnaAdd',
+			type: 'post',
+			data : data,
+			success: function (result) {
+				let res = JSON.parse(result); // 파싱
+				if(res.result == 'Success'){
+					Swal.fire({
+					  icon: 'success',
+					  title: '취업Q&A 게시글 등록성공!',
+					  showCancelButton: false,
+					  confirmButtonText: '확인'
+					}).then((result) => {
+					  if (result.isConfirmed) {
+						location.href="/jobQnA";
+					  }
+					});
+					
+				}else{
+					Swal.fire({
+						  icon: 'error',
+						  title: '게시글 등록실패!'
+					});
+				}
+		
+			},
+	 		error: function (reject) {	   
+	    		console.log(reject);
+			}
+		});
+ 	}
+ 	
+ 	// 면접후기 등록
+ 	function jobReviewInsert(){
+ 		
+ 		// 회사명이 비어있으면
+ 		if($("#coNm").val() == "") { 
+			Swal.fire({
+				  icon: 'error',
+				  title: '회사명을 입력해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		 }
+ 		
+ 		// 지원직무가 비어있으면
+ 		if($("#duty").val() == "") { 
+			Swal.fire({
+				  icon: 'error',
+				  title: '지원직무를 선택해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		 }
+ 		
+ 		// 면접당시 경력이 비어있으면
+ 		if(!$('input[name="carr"]').is(':checked')) { 
+			Swal.fire({
+				  icon: 'error',
+				  title: '면접당시 경력을 선택해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		 }
+ 		
+ 		// 전반적인 평가가 비어있으면
+ 		if(!$('input[name="appr"]').is(':checked')) { 
+			Swal.fire({
+				  icon: 'error',
+				  title: '전반적인 평가를 선택해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		 }
+ 		
+ 		// 난이도가 비어있으면
+ 		if(!$('input[name="dif"]').is(':checked')) { 
+			Swal.fire({
+				  icon: 'error',
+				  title: '난이도를 선택해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		 }
+ 		
+ 		// 합격여부가 비어있으면
+ 		if(!$('input[name="passYn"]').is(':checked')) { 
+			Swal.fire({
+				  icon: 'error',
+				  title: '합격여부를 선택해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		 }
+ 		
+ 		// 면접유형이 비어있으면
+ 		if($("#intrvTyp").val() == "") { 
+			Swal.fire({
+				  icon: 'error',
+				  title: '면접유형을 선택해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		 }
+ 		
+ 		// 면접인원이 비어있으면
+ 		if($("#intrvRcnt").val() == "") { 
+			Swal.fire({
+				  icon: 'error',
+				  title: '면접인원을 선택해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		 }
+ 		
+ 		// 면접일자가 비어있으면
+ 		if($("#intrvDt").val() == "") { 
+			Swal.fire({
+				  icon: 'error',
+				  title: '면접일자를 선택해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		 }
+ 		
+ 		// 면접증빙서류가 비어있으면
+ 		if($("#upload").val() == "") { 
+			Swal.fire({
+				  icon: 'error',
+				  title: '면접증빙서류를 업로드해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		 }
+ 		
+ 		// 면접질문이 비어있으면
+ 		if($("#qstCntn").val() == "") { 
+			Swal.fire({
+				  icon: 'error',
+				  title: '면접질문을 작성해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		 }
+ 		
+ 		// 면접Tip 및 특이사항이 비어있으면
+ 		if($("#spcCtnt").val() == "") { 
+			Swal.fire({
+				  icon: 'error',
+				  title: '면접Tip 및 특이사항을 \n작성해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		 }
+ 		
+ 		
+ 		let formData = new FormData($('#jobReviewForm')[0]); // 폼데이터
+		formData.append("id", $('#logId').val());
+ 		
+ 		$.ajax({
+ 			url: 'jobInterviewAdd',
+ 			type: 'post',
+ 			data: formData,
+ 			async: true, //비동기 여부
+ 	        enctype: "multipart/form-data", //form data 설정
+ 	        processData: false, //프로세스 데이터 설정 : false 값을 해야 form data로 인식합니다
+ 	        contentType: false, //헤더의 Content-Type을 설정 : false 값을 해야 form data로 인식합니다
+ 			success: function (res) {
+ 
+				if(res.result == 'Success'){
+					Swal.fire({
+					  icon: 'success',
+					  title: '관리자 승인 후 \n등록 될 예정입니다.',
+					  showCancelButton: false,
+					  confirmButtonText: '확인'
+					}).then((result) => {
+					  if (result.isConfirmed) {
+						location.href="/jobInterview";
+					  }
+					});
+					
+				}else{
+					Swal.fire({
+						  icon: 'error',
+						  title: '게시글 등록실패!'
+					});
+				}
+ 			},
+ 	 		error: function (reject) {	   
+ 	    		console.log(reject);
+ 			}
+ 		});
+ 	}
+ 	
+ 	// 프로젝트모집 등록
+ 	function projectInsert(){
+ 		
+ 		if($("#projectTitle").val() == "") { // 제목이 비어있으면
+			Swal.fire({
+				  icon: 'error',
+				  title: '제목을 입력해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		 }
+ 		
+ 		if($("#collPosi").val() == "") { // 모집직무가 비어있으면
+			Swal.fire({
+				  icon: 'error',
+				  title: '모집직무를 선택해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		 }
+ 		
+ 		if($("#collRcnt").val() == "") { // 모집인원이 비어있으면
+			Swal.fire({
+				  icon: 'error',
+				  title: '모집인원을 작성해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		 }
+ 		
+ 		if(!$('input[name="progMthd"]').is(':checked')) { // 진행방식이 체크되어있지않다면
+			Swal.fire({
+				  icon: 'error',
+				  title: '진행방식을 선택해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		}
+ 		
+ 		if($("#skill").val() == "") { // 요구기술이 비어있다면
+			Swal.fire({
+				  icon: 'error',
+				  title: '요구기술을 작성해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		}
+ 		
+ 		if($("#expcDt").val() == "") { // 시작예정 비어있다면
+			Swal.fire({
+				  icon: 'error',
+				  title: '시작예정일을 선택해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		}
+ 		
+ 		if($("#progTerm").val() == "") { // 진행기간이 비어있다면
+			Swal.fire({
+				  icon: 'error',
+				  title: '진행기간을 선택해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		}
+ 		
+ 		if($("#coctMthd").val() == "") { // 연락방법이 비어있다면
+			Swal.fire({
+				  icon: 'error',
+				  title: '연락방법을 선택해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		}
+ 		
+ 		if($("#contact").val() == "") { // 연락이 비어있다면
+			Swal.fire({
+				  icon: 'error',
+				  title: '연락주소를 작성해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		}
+ 		
+ 		if($("#clsDt").val() == "") { // 모집마감일이 비어있다면
+			Swal.fire({
+				  icon: 'error',
+				  title: '모집마감일을 선택해주세요',
+				  confirmButtonText: '확인',
+				  confirmButtonColor: 'blue', // 확인 버튼 색상 변경
+			})
+			return;
+		}
+ 		
+ 		
+     	// 에디터에 들어있는 HTML태그를 포함한 내용
+		const editorData = projectNewEditor.getData(); 
+     	
+     	// 정규표현식을 사용하여 에디터에 들어있는 HTML 태그를 "제외한" 에디터 내용
+		const editorText = projectNewEditor.getData().replace(/(<([^>]+)>)/gi, "").replace(/&nbsp;/g, ""); 
+		
+	   	if(editorData == "") { // 내용이 비어있으면
+	   		Swal.fire({
+				  icon: 'error',
+				  title: '내용을 입력해주세요'
+			})
+	   		return;
+	   	}
+	   	
+ 		let formData = new FormData($('#projectForm')[0]); // 폼데이터
+		formData.append("id", $('#logId').val());
+ 		formData.append("cntn", editorData);
+ 	
+ 		
+ 		$.ajax({
+ 			url: 'projectInsert',
+ 			type: 'post',
+ 			data: formData,
+ 			async: true, //비동기 여부
+ 	        enctype: "multipart/form-data", //form data 설정
+ 	        processData: false, //프로세스 데이터 설정 : false 값을 해야 form data로 인식합니다
+ 	        contentType: false, //헤더의 Content-Type을 설정 : false 값을 해야 form data로 인식합니다
+ 			success: function (res) {
+ 
+				if(res.result == 'Success'){
+					Swal.fire({
+					  icon: 'success',
+					  title: '프로젝트 모집 게시글 등록성공!',
+					  showCancelButton: false,
+					  confirmButtonText: '확인'
+					}).then((result) => {
+					  if (result.isConfirmed) {
+						location.href="/projectList";
+					  }
+					});
+					
+				}else{
+					Swal.fire({
+						  icon: 'error',
+						  title: '게시글 등록실패!'
+					});
+				}
+ 			},
+ 	 		error: function (reject) {	   
+ 	    		console.log(reject);
+ 			}
+ 		});	
+ 	}
+ 	
+ 	// 스터디모집 등록
+ 	function studyInsert(){
+ 		
+ 		if($("#studyTitle").val() == "") { // 제목이 비어있으면
+			Swal.fire({
+				  icon: 'error',
+				  title: '제목을 입력해주세요'
+			})
+			return;
+		 }
+	   	
+     	// 에디터에 들어있는 HTML태그를 포함한 내용
+		const editorData = studyNewEditor.getData(); 
+     	
+     	// 정규표현식을 사용하여 에디터에 들어있는 HTML 태그를 "제외한" 에디터 내용
+		const editorText = studyNewEditor.getData().replace(/(<([^>]+)>)/gi, "").replace(/&nbsp;/g, ""); 
+		
+	   	if(editorData == "") { // 내용이 비어있으면
+	   		Swal.fire({
+				  icon: 'error',
+				  title: '내용을 입력해주세요'
+			})
+	   		return;
+	   	}
+	   	
+ 		let formData = new FormData($('#studyForm')[0]); // 폼데이터
+		formData.append("id", $('#logId').val());
+ 		formData.append("cntn", editorData);
+ 	
+ 		$.ajax({
+ 			url: 'studyInsert',
+ 			type: 'post',
+ 			data: formData,
+ 			async: true, //비동기 여부
+ 	        enctype: "multipart/form-data", //form data 설정
+ 	        processData: false, //프로세스 데이터 설정 : false 값을 해야 form data로 인식합니다
+ 	        contentType: false, //헤더의 Content-Type을 설정 : false 값을 해야 form data로 인식합니다
+ 			success: function (res) {
+ 
+				if(res.result == 'Success'){
+					Swal.fire({
+					  icon: 'success',
+					  title: '스터디 모집 게시글 등록성공!',
+					  showCancelButton: false,
+					  confirmButtonText: '확인'
+					}).then((result) => {
+					  if (result.isConfirmed) {
+						location.href="/studyList";
+					  }
+					});
+					
+				}else{
+					Swal.fire({
+						  icon: 'error',
+						  title: '게시글 등록실패!'
+					});
+				}
+ 			},
+ 	 		error: function (reject) {	   
+ 	    		console.log(reject);
+ 			}
+ 		});	
+ 	}
+ 	
+ 	
+ 	// 등록 버튼 클릭시 실행하는 함수
+    $('#regBtn').on('click', function(){
+    	
+    	let topic = $('#topic').val(); // 선택한 topic
+    	
+    	switch(topic){
+	        case "f1" :
+	        			jobQnAInsert();		// 취업 Q&A 등록
+			        	break;
+	        case "f2" :
+	        			jobReviewInsert();	// 면접후기 등록
+			        	break;
+			        	
+	        case "f3" :
+	        			projectInsert();	// 프로젝트 모집 등록
+			        	break;
+	        case "f4" :
+	        			studyInsert();		// 스터디 모집 등록
+			        	break;
+	        default:
+			        	Swal.fire({
+							  icon: 'error',
+							  title: '게시글을 등록할수없습니다. \n토픽을 선택해주세요.'
+						});
+	        			break;
+    	}
+	   	 
+    });
+    
+</script>
+	</div>
+</body>
+</html>

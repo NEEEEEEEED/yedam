@@ -1,0 +1,106 @@
+.selectStyle {
+	width : 180px;
+	height : 40px;
+	padding-left: .5em; 
+	border: 1px solid #999;
+	font-family: inherit;  
+	background: url('arrow.jpg') no-repeat 95% 50%; 
+	border-radius: 0px; 
+	-webkit-appearance: none; 
+	-moz-appearance: none;
+	appearance: none;
+	margin-bottom : 20px;
+	margin-right : 10px;
+}
+
+.search{
+	width : 200px;
+	height : 40px;
+	padding-left: .5em; 
+	margin-bottom : 20px;
+}
+.searchBtn{
+	width: 70px; 
+	height : 40px;
+	margin-bottom : 20px;
+}
+
+select::-ms-expand {
+    display: none;
+}
+
+#myProfile{
+	padding : 5px;
+}
+/* jobQnA */
+
+.hoverRow:hover {
+	background-color: rgb(233, 233, 233);
+}
+
+.listRow{
+	padding:20px; 
+	border-bottom : 1px solid #ddd;
+}
+
+.circleImg {
+  border-radius: 50%;
+  width : 30px;
+  height : 30px;
+}
+
+.listStyle{
+   list-style:none;
+   padding-left:0px;
+}
+
+.listStype li{
+	line-height: 32.13px;
+	color : black;
+}
+
+.listStyle li a:hover{
+	color: red;
+	letter-spacing: -0.88px;
+}
+
+.listBtn{
+	width: 100px; 
+	padding: .8em .5em;
+	margin-bottom : 10px;
+}
+
+
+.filled {
+	fill: red;
+}
+
+.imgSize{
+	width : 70%;
+	height : 70%;
+}
+
+.nav-list {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+.nav-list li {
+  margin-right: 10px;
+}
+
+.nav-button {
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.radius{
+	border-radius : 0px;
+}
+
+
+

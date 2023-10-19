@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{template/layout}"
+	xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<style>
+.hover-effect:hover {
+	outline: 1px solid rgb(68, 225, 144);
+	cursor: pointer;
+}
+</style>
+</head>
+<body>
+	<div class="container" layout:fragment="content">
+	
+	<!-- 현재로그인된 유저정보 -->
+		<input id="logId" name="id" type="hidden" th:value="${#authentication.principal.username}">
+		
+		<!-- 현재로그인된 유저가 가진 권한 -->
+		<div sec:authorize="hasRole('ROLE_MEM')" style="display:none;">
+			<input id="ROLE_MEM" value="ROLE_MEM"> 
+		</div>
+		<div sec:authorize="hasRole('ROLE_CO')" style="display:none;">
+			<input id="ROLE_CO" value="ROLE_CO"> 
+		</div>
+	
+	<div class="mb-3 fs-1"><p>"직장을 찾는 이들의 눈에 띄게 하세요! 상단 고정 구인공고로 빠르게 인재를 확보하세요!"</p></div>
+		<h1 style="color: #0a2640; font-weight: bold;">프리미엄 광고</h1>
+
+		<div class="row">
+			<div class="col-lg-9">
+				<div onclick="payPage(this.getAttribute('data-prdtCd'))" th:data-prdtCd="${products[0].prdtCd}"
+					class="card shadow p-3 mb-5 bg-body hover-effect"
+					style="background-color: rgba(101, 228, 163, 0.25)">
+					<div class="card-body">
+						<span class="fw-bold fs-3 text-dark me-6">[[${products[0].prdtNm}]]</span> <span
+							class="fw-bold fs-3 text-decoration-line-through me-6">[[${products[0].prdtPrc}]] 원</span>
+						<span class="fw-bold fs-3 text-dark me-6">  [[${products[0].totalPrice}]] 원</span>
+						<span class="fw-bold fs-3">GO!</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-9">
+				<div onclick="payPage(this.getAttribute('data-prdtCd'))" th:data-prdtCd="${products[1].prdtCd}"
+					class="card shadow p-3 mb-5 bg-body hover-effect"
+					style="background-color: rgba(101, 228, 163, 0.5)">
+					<div class="card-body">
+						<span class="fw-bold fs-3 text-dark me-6">[[${products[1].prdtNm}]]</span> <span
+							class="fw-bold fs-3 text-decoration-line-through me-6">[[${products[1].prdtPrc}]] 원</span>
+						<span class="fw-bold fs-3 text-dark me-6">[[${products[1].totalPrice}]] 원</span>
+						<span class="fw-bold fs-3">GO!</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-9">
+				<div onclick="payPage(this.getAttribute('data-prdtCd'))" th:data-prdtCd="${products[2].prdtCd}"
+					class="card shadow p-3 mb-5 bg-body hover-effect"
+					style="background-color: rgba(101, 228, 163, 0.75)">
+					<div class="card-body">
+						<span class="fw-bold fs-3 text-dark me-6">[[${products[2].prdtNm}]]</span> <span
+							class="fw-bold fs-3  text-decoration-line-through me-6">[[${products[2].prdtPrc}]] 원</span>
+						<span class="fw-bold fs-3 text-dark me-6">[[${products[2].totalPrice}]] 원</span>
+						<span class="fw-bold fs-3">GO!</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+
+
+<div class="col-lg-9 fs-1" style="background-color:#f7f7f7; padding:50px;"><span >우리의 구직사이트에서는 회원님이 올린 구인공고를 상단에 노출시킬 수 있는 유료 상품을 제공합니다.</span><br><div class="row mt-4 mb-4"><img src="products/ad.png"></div> 이 상품을 사용하시면 구직자들에게 쉽게 전달되고, 효과적으로 소중한 인력을 얻을 수 있습니다.<br> 지금 바로 이 기회를 놓치지 마세요!</div>
+		<script>
+			function payPage(cd) {
+				if($('#ROLE_CO').val()){
+					location.href = "/payCheck?prdtCd="+cd;
+				}else {
+					Swal.fire({
+						  icon: 'error',
+						  title: '기업회원 전용 상품입니다.'
+					});	
+				}
+			}
+		</script>
+	</div>
+
+</body>
+</html>

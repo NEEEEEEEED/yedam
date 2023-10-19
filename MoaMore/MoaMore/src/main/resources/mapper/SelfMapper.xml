@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.yedam.moa.self.mapper.SelfMapper">
+
+	<!-- 셀프구직 페이지 영역 -->
+	<select id="selfJobList" resultType="SelfVO">
+		select * from ( select rownum rn, a.* from(
+			SELECT DISTINCT jsn.job_search_no
+						, jsn.resume_no
+						, jsn.id
+						, jsn.posit
+						, get_common(jsn.pubc_range) as pubcRange
+						, jsn.ttl
+						, get_common(jsn.hope_wksite) as hopeWksite
+						, get_common(jsn.duty_fld) as dutyFld
+						, jsn.hope_sal
+						, jsn.myimg
+						, jsn.interest
+						, jsn.prop
+						, jsn.reg_dt
+						, LISTAGG(get_common(jss.skill), ',') WITHIN GROUP (ORDER BY jss.skill_no) AS skill
+			
+			FROM job_search_notiwr jsn 
+			JOIN job_search_skill jss
+			  ON jsn.job_search_no = jss.job_search_no
+			  
+			<where>
+			    <if test="auth != null and !auth.equals('') and auth.equals('user')">
+			         (jsn.id = #{id} OR jsn.pubc_range = 'c3')
+			    </if>
+			    <if test="auth != null and !auth.equals('') and auth.equals('co')">
+			        (jsn.pubc_range = 'c3' OR jsn.pubc_range = 'c2')
+			    </if>
+			    <if test="auth != null and !auth.equals('') and auth.equals('admin')">
+			    
+			    </if>
+			    <if test="dutyFld != null and !dutyFld.equals('')">
+			    	AND jsn.duty_fld = #{dutyFld}
+			    </if>
+			    <if test="career != null and !career.equals('')">
+			    	AND jsn.career = #{career}
+			    </if>
+			    <if test="hopeWksite != null and !hopeWksite.equals('')">
+			    	AND jsn.hope_wksite = #{hopeWksite}
+			    </if>
+			</where>
+			GROUP BY jsn.job_search_no, jsn.resume_no, jsn.id, jsn.posit, jsn.pubc_range, jsn.ttl, jsn.hope_wksite, jsn.duty_fld, jsn.hope_sal, jsn.myimg, jsn.interest, jsn.prop, jsn.reg_dt
+			<if test="skill != null and !skill.equals('')">
+				HAVING UPPER(LISTAGG(get_common(jss.skill), ',') WITHIN GROUP (ORDER BY jss.skill_no)) LIKE '%' || UPPER(#{skill}) || '%'
+			</if>
+			ORDER BY jsn.job_search_no DESC 
+			<![CDATA[ ) a where  rownum <= #{pageNum}*#{showPage}
+				) b where rn > (#{pageNum}-1)*#{showPage} ]]>
+	
+	</select>
+	
+	
+	<!-- 목록 리스트 총갯수 -->
+	<select id="totalListNum" resultType="int">
+		SELECT count(*) from(
+			SELECT DISTINCT jsn.job_search_no
+							, jsn.resume_no
+							, jsn.id
+							, jsn.posit
+							, get_common(jsn.pubc_range) as pubcRange
+							, jsn.ttl
+							, get_common(jsn.hope_wksite) as hopeWksite
+							, get_common(jsn.duty_fld) as dutyFld
+							, jsn.hope_sal
+							, jsn.myimg
+							, jsn.interest
+							, jsn.prop
+							, jsn.reg_dt
+							, LISTAGG(get_common(jss.skill), ',') WITHIN GROUP (ORDER BY jss.skill_no) AS skill
+				
+				FROM job_search_notiwr jsn 
+				JOIN job_search_skill jss
+				  ON jsn.job_search_no = jss.job_search_no
+				  
+				<where>
+				    <if test="auth != null and !auth.equals('') and auth.equals('user')">
+				         (jsn.id = #{id} OR jsn.pubc_range = 'c3')
+				    </if>
+				    <if test="auth != null and !auth.equals('') and auth.equals('co')">
+				        (jsn.pubc_range = 'c3' OR jsn.pubc_range = 'c2')
+				    </if>
+				    <if test="auth != null and !auth.equals('') and auth.equals('admin')">
+				    
+				    </if>
+				    <if test="dutyFld != null and !dutyFld.equals('')">
+				    	AND jsn.duty_fld = #{dutyFld}
+				    </if>
+				    <if test="career != null and !career.equals('')">
+				    	AND jsn.career = #{career}
+				    </if>
+				    <if test="hopeWksite != null and !hopeWksite.equals('')">
+				    	AND jsn.hope_wksite = #{hopeWksite}
+				    </if>
+				</where>
+				GROUP BY jsn.job_search_no, jsn.resume_no, jsn.id, jsn.posit, jsn.pubc_range, jsn.ttl, jsn.hope_wksite, jsn.duty_fld, jsn.hope_sal, jsn.myimg, jsn.interest, jsn.prop, jsn.reg_dt
+				<if test="skill != null and !skill.equals('')">
+					HAVING UPPER(LISTAGG(get_common(jss.skill), ',') WITHIN GROUP (ORDER BY jss.skill_no)) LIKE '%' || UPPER(#{skill}) || '%'
+				</if>
+				ORDER BY jsn.job_search_no DESC)
+	</select>
+	
+
+	<!-- 관심등록 리스트 -->
+	<select id="selfJobInterestList" resultType="SelfVO">
+		SELECT JOB_SEARCH_NO, id
+		  FROM inter_job_search
+		 WHERE id = #{id}
+	</select>
+	
+	<!-- 제안완료 리스트 -->
+	<select id="selfJobOfferedList" resultType="SelfVO">
+		SELECT job_search_no, id
+		  FROM job_search_st
+		 WHERE id = #{id}
+	</select>
+	
+	<!-- 불러올 이력서가 존재하는지 체크 -->
+	<select id="checkResume" resultType="int">
+		SELECT count(resume_no) 
+		FROM resume
+		WHERE id = #{id}
+	</select>
+	
+	<!-- 관심 추가 : 테이블에 INSERT -->
+	<insert id="selfJobInterestAdd" statementType="CALLABLE" parameterType="SelfVO">
+   		{ 
+      		call interestAdd_PRO(#{jobSearchNo}, #{id})
+   		}
+   </insert>
+	
+	<!-- 관심 삭제 : 테이블에 DELETE -->
+	<delete id="selfJobInterestDelete" statementType="CALLABLE" parameterType="SelfVO">
+   		{ 
+      		call interestDelete_PRO(#{jobSearchNo}, #{id})
+   		}
+	</delete>
+
+	<!-- 셀프구직 등록 페이지 영역 -->
+
+	<!-- 이력서 헤더 리스트 -->
+	<select id="resumeHeader" resultType="SelfVO">
+		SELECT RESUME_NO, TTL, CARR_NO, SHCR_NO, REG_DT
+		FROM RESUME
+		WHERE id=#{id}
+		ORDER BY REG_DT DESC
+	</select>
+	
+	<!-- 경럭 사항 리스트 -->
+	<select id="careerList" resultType="SelfVO">
+		SELECT carr_no, co, wkdty, depart, get_common(duty) as duty, join_yy, reti_yy, buss, get_common(carr_st) as carrSt, no
+		FROM resume_carr
+		WHERE carr_no = #{carrNo}
+		ORDER BY join_yy desc
+	</select>
+	
+	<!-- 학력 사항 리스트 -->
+	<select id="schoolList" resultType="SelfVO">
+		SELECT shcr_no, get_common(fg) as fg, breu, mj, join_yy, reti_yy, pnt, get_common(shcr_st) as shcrSt, get_common(tt_score) as ttScore , no 
+		FROM resume_shcr
+		WHERE shcr_no = #{shcrNo}
+		ORDER BY join_yy desc
+	</select>
+	
+	<!-- 셀프구직 게시글 기본키부여 -->
+	<select id="selfJobKey" resultType="String">
+		SELECT 'JSN'|| self_job_seq.NEXTVAL as jobSearchNo
+		FROM DUAL
+	</select>
+	
+	<!-- 셀프구직 상세페이지 : 기본정보 -->
+	<select id="selfJobDetailInfo" resultType="SelfVO">
+		SELECT  DISTINCT jsn.job_search_no, 
+		        jsn.resume_no, jsn.id, jsn.ttl, 
+                get_common(jsn.hope_wksite) as hopeWksite, 
+                jsn.posit,
+                get_common(jsn.duty_fld) as dutyFld, 
+                jsn.pubc_range, 
+                jsn.intro, jsn.hope_sal, jsn.residency, jsn.myimg, jsn.interest, 
+                jsn.prop, 
+                jsn.reg_dt, get_common(jsn.career) as career, 
+                m.name, m.email,
+                LISTAGG(get_common(jss.skill), ',') WITHIN GROUP(ORDER BY jss.skill_no) OVER(PARTITION BY jsn.job_search_no) AS skill
+		 
+		 FROM  job_search_notiwr jsn 
+		 JOIN  member m
+		   ON  jsn.id = m.id
+		 JOIN  job_search_skill jss
+		   ON  jsn.job_search_no = jss.job_search_no
+		   
+		WHERE jsn.job_search_no = #{jobSearchNo}
+	</select>
+	
+	<!-- 셀프구직 상세페이지 : 포트폴리오 리스트 -->
+	<select id="selfJobDetailPofol" resultType="SelfVO">
+		
+		select File_no, title, pofol_img, pofol_file, pofol_uuid_file
+		from job_search_pof 
+		where job_search_no = #{jobSearchNo}
+		ORDER BY file_no
+	</select>
+	
+	<!-- 셀프구직 상세페이지 : 스킬리스트 -->
+	<select id="selfJobDetailSkill" resultType="SelfVO">
+		select skill_no, get_common(skill) as skill
+		from job_search_skill
+		where job_search_no = #{jobSearchNo}
+		ORDER BY skill_no
+	</select>
+	
+	<!-- 셀프구직 상세페이지 : 불러올 이력서 정보 학력,경력 기본키값 가져옴 -->
+	<select id="resumeKeys" resultType="SelfVO">
+		select carr_no, shcr_no 
+		from resume
+		where resume_no = #{resumeNo}
+	</select>
+	
+	<!-- 셀프구직 등록 -->
+	<insert id="myProfileAdd" parameterType="SelfVO">
+		INSERT INTO job_search_notiwr( JOB_SEARCH_NO
+									   , RESUME_NO
+									   , ID
+									   , TTL
+									   , HOPE_WKSITE
+									   , CAREER
+									   , DUTY_FLD
+									   , POSIT
+									   , PUBC_RANGE
+									   , INTRO
+									   , HOPE_SAL
+									   , RESIDENCY
+									   , MYIMG
+									   , REG_DT )
+		VALUES (  #{jobSearchNo}
+				, #{resumeNo}
+				, #{id}
+				, #{ttl}
+				, #{hopeWksite}
+				, #{career}
+				, #{dutyFld}
+				, #{posit}
+				, #{pubcRange}
+				, #{intro}
+				, #{hopeSal}
+				, #{residency}
+				, #{myimg}
+				, TO_CHAR(sysdate, 'YYYY-MM-DD HH24:MI:SS'))
+	</insert>
+
+	<!-- 셀프구직 스킬 기본키부여 -->
+	<select id="skillKey" resultType="String">
+		SELECT 'JSKN'|| self_job_skill_seq.NEXTVAL as skillNo
+		FROM DUAL
+	</select>
+
+	<!-- 셀프구직 스킬 등록 -->
+	<insert id="skillAdd" parameterType="String">
+		INSERT INTO job_search_skill(   SKILL_NO
+									  , JOB_SEARCH_NO
+									  , SKILL
+									  , ID)
+		VALUES (  #{skillNo}
+				, #{jobSearchNo}
+				, #{skill}
+				, #{id} )
+	</insert>
+	
+	<!-- 포트폴리오 기본키 부여 -->
+	<select id="selfJobPofolKey" resultType="String">
+		select 'JSF' || self_job_pofol_seq.NEXTVAL as fileNo
+		FROM DUAL
+	</select>
+	
+	<!-- 포트폴리오 등록 -->
+	<insert id="selfJobPofolAdd" parameterType="SelfVO">
+		INSERT INTO job_search_pof(	  file_no
+									, job_search_no
+									, id, title
+									, pofol_img
+									, pofol_file
+									, pofol_uuid_file
+									, REG_DT)
+		VALUES (  #{fileNo}
+				, #{jobSearchNo}
+				, #{id}
+				, #{title}
+				, #{pofolImg}
+				, #{pofolFile}
+				, #{pofolUuidFile}
+				, TO_CHAR(sysdate, 'YYYY-MM-DD HH24:MI:SS'))
+	</insert>
+	
+	<!-- 포트폴리오 목록 리스트 -->
+	<select id="selfJobpofolList" resultType="SelfVO">
+		SELECT 	  file_no
+			 	, job_search_no
+			 	, id
+			 	, title
+			 	, pofol_img
+			 	, pofol_file
+			 	, pofol_uuid_file
+			 	, reg_dt
+		FROM job_search_pof
+		WHERE job_search_no = #{jobSearchNo}
+		ORDER BY file_no
+	</select>
+	
+	<!-- 포트폴리오 삭제 -->
+	<delete id="pofolDelete" parameterType="String">
+		DELETE
+		FROM job_search_pof
+		WHERE file_no = #{fileNo}
+	</delete>
+	
+	<!-- 셀프구직 상세페이지 수정 -->
+	<update id="myProfileMod" parameterType="SelfVO">
+		UPDATE job_search_notiwr
+		<set> 
+			<if test="resumeNo != null and !resumeNo.equals('')">
+		    	RESUME_NO = #{resumeNo},
+		    </if>
+		    <if test="ttl != null and !ttl.equals('')">
+		    	TTL = #{ttl},
+		    </if>
+		    <if test="hopeWksite != null and !hopeWksite.equals('')">
+		    	HOPE_WKSITE = #{hopeWksite},
+		    </if>
+		    <if test="career != null and !career.equals('')">
+		    	CAREER = #{career},
+		    </if>
+		    <if test="dutyFld != null and !dutyFld.equals('')">
+		    	DUTY_FLD = #{dutyFld},
+		    </if>
+		    <if test="posit != null and !posit.equals('')">
+		    	POSIT = #{posit},
+		    </if>
+		    <if test="pubcRange != null and !pubcRange.equals('')">
+		    	PUBC_RANGE = #{pubcRange},
+		    </if>
+		    <if test="intro != null and !intro.equals('')">
+		    	INTRO = #{intro},
+		    </if>
+		    <if test="hopeSal != null and !hopeSal.equals('')">
+		    	HOPE_SAL = #{hopeSal},
+		    </if>
+		    <if test="residency != null and !residency.equals('')">
+		    	RESIDENCY = #{residency},
+		    </if>
+		    <if test="myimg != null and !myimg.equals('')">
+		    	MYIMG = #{myimg}
+		    </if>
+		</set>
+		WHERE JOB_SEARCH_NO = #{jobSearchNo}
+	</update>
+	
+	<!-- 셀프구직 스킬 삭제 -->
+	<delete id="skillDelete" parameterType="String">
+		DELETE
+		FROM job_search_skill
+		WHERE job_search_no = #{jobSearchNo}
+	</delete>
+	
+	<!-- 셀프구직 삭제 : 관련있는 테이블 삭제 프로시저 -->
+	<delete id="myProfileDel" statementType="CALLABLE" parameterType="String">
+   		{ 
+      		call job_search_Delete_PRO(#{jobSearchNo})
+   		}
+	</delete>
+
+</mapper>

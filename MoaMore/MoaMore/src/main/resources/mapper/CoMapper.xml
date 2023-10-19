@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.yedam.moa.co.mapper.CoMapper">
+  	<!-- 받은 관심 수 -->
+  	<select id="selectFollowers" parameterType="CoVO" resultType="String">
+  		SELECT count(id_mem)
+		FROM following
+		WHERE id_co = #{id}
+  	</select>
+  	<!-- 기업정보 조회 -->
+	<select id="selectCo" resultType="CoVO">
+		SELECT c.id,
+			   c.rpstr,
+			   c.sale,
+			   c.co_fg,
+			   c.emp_ttl,
+			   c.fondt_dt,
+			   c.idst,
+			   c.addr,
+			   c.cptl,
+			   c.home_page,
+			   c.bizno,
+			   c.co_nm,
+			   m.profile_img
+		FROM co c JOIN member m
+		  ON c.id = m.id
+		WHERE c.id = #{id}
+	</select>
+	<!-- 기업정보 등록/수정 -->
+	<update id="saveCoInfo">
+		BEGIN
+  			UPDATE co 
+  			SET id = #{id},
+				rpstr = #{rpstr},
+				sale = #{sale},
+				co_fg = #{coFg},
+				emp_ttl = #{empTtl},
+				fondt_dt = #{fondtDt},
+				idst = #{idst},
+				addr = #{addr},
+				cptl = #{cptl},
+				home_page = #{homePage},
+				bizno = #{bizno},
+				co_nm = #{coNm}  
+			WHERE id = #{id};
+			
+  			IF SQL%ROWCOUNT = 0	THEN
+    			INSERT INTO co (
+    						id,
+			   				rpstr,
+			   				sale,
+			   				co_fg,
+			   				emp_ttl,
+			   				fondt_dt,
+			   				idst,
+			   				addr,
+			   				cptl,
+			   				home_page,
+			   				bizno,
+			   				co_nm 
+			   				) 
+			   		VALUES (
+							#{id},
+							#{rpstr},
+							#{sale},
+							#{coFg},
+							#{empTtl},
+							#{fondtDt},
+							#{idst},
+							#{addr},
+							#{cptl},
+							#{homePage},
+							#{bizno},
+							#{coNm}
+							);
+  			END IF;
+		END;
+	</update>
+	
+	<!-- 프로필이미지이름 저장 -->
+	<update id="uploadProfileImg" parameterType="CoVO">
+		UPDATE member
+		   SET profile_img = #{profileImg}
+		 WHERE id = #{id} 
+		
+	</update>
+		
+	<!-- 기업본인구인공고목록 -->
+	<select id="selectRec" parameterType="HireVO" resultType="HireVO">
+		SELECT  R.TTL,
+		        K.SKILL,
+		        C.CO_NM,
+		        get_common(WKSITE) AS WKSITE,
+                R.EXPR_DT,
+                R.ACCP_DT,
+                I.CO_IMG,
+                R.RECRUIT_NO         
+		 FROM RECRUIT_ANUN R
+		 JOIN CO C
+		   ON R.ID = C.ID
+		
+		 JOIN (SELECT recruit_no , LISTAGG(get_common(SKILL), ',') WITHIN GROUP (ORDER BY SKILL_NO) as SKILL
+                 FROM RECRUIT_SKILL
+             GROUP BY recruit_no) K
+		  ON R.RECRUIT_NO = K.RECRUIT_NO	
+		  
+		JOIN (SELECT DISTINCT RECRUIT_NO, CO_IMG FROM RECRUIT_IMAGES) I
+		  ON R.RECRUIT_NO = I.RECRUIT_NO	
+	   WHERE r.id = #{id}
+	   ORDER BY expr_dt DESC      	
+	</select>
+	
+	<!-- 관심 게시글 수 -->
+	<select id="selectTotalInter" parameterType="CoVO" resultType="SelfVO">	   
+		SELECT count(*) as totalInter 
+    	FROM job_search_notiwr
+    	WHERE job_search_no IN (
+            					SELECT job_search_no
+            					FROM inter_job_search
+            					WHERE id = #{id})
+	</select> 
+	
+	<!-- 관심 셀프구직공고 페이징 포함해서 2개씩 목록 -->
+	<select id="selectInterNoti" parameterType="SelfVO" resultType="SelfVO">
+    <![CDATA[
+        SELECT * FROM (SELECT a.*, rownum rn 
+        				 FROM (
+    							SELECT n.job_search_no,
+           							   n.resume_no,
+           							   n.id,
+           							   n.ttl,
+           							   get_common(n.hope_wksite) as hope_wksite,
+           							   get_common(duty_fld) as duty_fld,
+           							   n.posit,
+           							   n.pubc_range,
+           							   n.intro,
+           							   n.hope_sal,
+           							   n.residency,
+           							   n.myimg,
+          							   n.interest,
+           							   n.prop,
+           							   n.reg_dt,
+           							   NVL(s.offer_cd,'null') as offer_cd,
+           							   get_common(s.accept_status) as accept_status
+    							  FROM job_search_notiwr n    
+    						 LEFT JOIN job_search_st s 
+    						        ON n.job_search_no = s.job_search_no
+    							 WHERE n.job_search_no IN ( SELECT job_search_no
+                                    						  FROM inter_job_search
+                                    						 WHERE id = #{id}
+                                						   )   
+		ORDER BY job_search_no ) a  ) WHERE rn > (#{pageNum}-1) * 4 AND rn <= #{pageNum} * 4
+    ]]>
+</select>
+	<!-- 셀프구직게시글 관심해제 -->
+	<delete id="deleteInfer" statementType="CALLABLE" parameterType="SelfVO">
+   		{ 
+      		call interestDelete_PRO(#{jobSearchNo}, #{id})
+   		}
+	</delete>
+	
+	<!-- 제안완료 셀프구직공고 목록 -->
+	<select id="selectOfferNoti" parameterType="SelfVO" resultType="SelfVO">
+		SELECT  n.job_search_no,
+				n.resume_no,
+				n.id,
+				n.ttl,
+				n.hope_wksite,
+				n.duty_fld,
+				n.posit,
+				n.pubc_range,
+				n.intro,
+				n.hope_sal,
+				n.residency,
+				n.myimg,
+				n.interest,
+				n.prop,
+				n.reg_dt,
+                s.accept_status
+                
+		FROM job_search_notiwr n 
+		JOIN job_search_st s 
+		  ON n.job_search_no = s.job_search_no
+		
+	   WHERE n.job_search_no IN (
+  								SELECT job_search_no
+  								  FROM job_search_st
+ 								 WHERE id = #{id}
+								)
+	</select> 
+	
+	<!-- 제안내용 조회 -->
+	<select id="selectOffer" parameterType="CoVO" resultType="CoVO">
+		SELECT  offer_cd,
+				co_nm,
+				wksite,
+				
+				(select listagg(get_common(tech),',') within group (order by offer_cd) from 
+                offer_skill 
+                where offer_cd = (select offer_cd 
+		                     from job_search_st 
+		                    where id = #{id} 
+		                      and job_search_no = #{jobSearchNo})
+                group by offer_cd) as tech,
+                
+				ma_buss,
+				bnft,
+				saly,
+				buss_start_dt,
+				cls_dt,
+				project_nm,
+				ttl
+		  FROM offer 
+		 WHERE offer_cd = (select offer_cd 
+		                     from job_search_st 
+		                    where id = #{id} 
+		                      and job_search_no = #{jobSearchNo})
+	</select>
+	
+	<!-- 제안 등록 -->
+	<insert id="afterOffer" parameterType="CoVO">
+	<selectKey keyProperty="offerCd" resultType="String" order="BEFORE">
+		SELECT 'OFFER'||nvl((SUBSTR(MAX(offer_cd),6,5))+1,10001) FROM offer
+	</selectKey>
+	DECLARE
+  		v_offer_cd VARCHAR2(100) := #{offerCd};
+  		v_tech VARCHAR2(100) := #{tech};
+		BEGIN	
+			INSERT INTO offer 
+		           	   (offer_cd,
+						co_nm,
+						wksite,
+						tech,
+						ma_buss,
+						bnft,
+						saly,
+						buss_start_dt,
+						cls_dt,
+						project_nm,
+						ttL)
+			    VALUES (#{offerCd},
+	      				#{coNm},
+	      				#{wksite},
+	      				#{tech},
+	      				#{maBuss},
+	      				#{bnft},
+	      				#{saly},
+	      				#{bussStartDt},
+	      				#{clsDt},
+	      				#{projectNm},
+	      				#{ttl});
+      					
+      		INSERT INTO job_search_st (offer_cd,
+									id,
+									job_search_no,
+									accept_status
+      								)
+      						VALUES(#{offerCd},
+									#{id},
+									#{jobSearchNo},
+									'e1'
+									);	
+						
+			UPDATE job_search_notiwr
+		       SET prop = prop + 1
+		 	 WHERE job_search_no = #{jobSearchNo};	
+		 
+		 	FOR i IN (SELECT regexp_substr(v_tech, '[^,]+', 1, level) AS tech
+            		 	FROM dual
+               	  CONNECT BY regexp_substr(v_tech, '[^,]+', 1, level) IS NOT NULL) 
+        	LOOP
+    			INSERT INTO OFFER_SKILL (OFFER_CD, TECH) VALUES (v_offer_cd, i.tech);
+  			END LOOP;											
+	END;
+	</insert>
+	
+	<!-- 지원관리 -->
+	<!-- 합격유무가 대기중인(T2) 새로운 지원 조회 -->
+	<select id="selectNewApply" parameterType="String" resultType="CoVO">
+		SELECT  s.recruit_no,
+				s.resume_no,
+				s.id,
+				s.aply_st,
+				s.aply_dt,
+				get_common(s.st) as st,
+				get_common(s.win) as win,
+				a.ttl as attl, 
+				a.expr_dt, 
+				r.ttl as rttl 
+		 FROM recruit_anum_st s JOIN recruit_anun a 
+		   ON s.recruit_no = a.recruit_no
+		 JOIN resume r 
+		   ON r.resume_no = s.resume_no
+		WHERE s.win = 'T2' AND a.id = #{id}
+	</select>
+	
+	<!-- 미열람m1 -> 열람m2 -->
+	<update id="updateApplySt" parameterType="CoVO">
+		UPDATE recruit_anum_st
+        SET st = 'm2'
+        WHERE recruit_no = #{recruitNo} and resume_no = #{resumeNo}
+	</update>
+	
+	<!-- (T1합격, T3불합격, n1미삭제)된 처리된 지원 조회 -->
+	<select id="selectCompletedApply" parameterType="String" resultType="CoVO">
+		SELECT  s.recruit_no,
+				s.resume_no,
+				s.id,
+				s.aply_st,
+				s.aply_dt,
+				get_common(s.st) as st,
+				get_common(s.win) as win,
+				a.ttl as attl, 
+				a.expr_dt, 
+				r.ttl as rttl 
+		 FROM recruit_anum_st s JOIN recruit_anun a 
+		   ON s.recruit_no = a.recruit_no
+		 JOIN resume r 
+		   ON r.resume_no = s.resume_no
+		WHERE (s.win = 'T1' OR s.win = 'T3') AND a.id = #{id} and s.delyn = 'n1'
+	</select>
+	
+	<!-- 지원 합격/불합격 처리 -->
+	<update id="responseApply" parameterType="CoVO">
+		UPDATE recruit_anum_st
+		   SET win = #{win}
+		 WHERE resume_no = #{resumeNo} and recruit_no = #{recruitNo} 
+	</update>
+	
+	<!-- 처리된지원 삭제 n2로 변경-->
+	<update id="deleteApply" parameterType="CoVO">
+		UPDATE recruit_anum_st
+        SET delyn = 'n2'
+        WHERE recruit_no = #{recruitNo} and resume_no = #{resumeNo}
+	</update>
+	
+	<!-- 제안모달 필요한 기업정보 -->
+	<select id="selectCoInfo" parameterType="String" resultType="CoVO">
+		SELECT  m.addr,
+				c.co_nm
+		  FROM member m JOIN co c
+			ON m.id=c.id
+	     WHERE m.id = #{id}
+	</select>
+	
+	<!--  구인공고 상세에서 제안유무조회용 resultType="java.util.String" 값이 찐으로 없어도 null로 받아옴-->
+	<select id="selectOfferYN" parameterType="CoVO" resultType="CoVO">
+		SELECT accept_status 
+		  FROM job_search_st 
+		 WHERE id = #{id} AND job_search_no = #{jobSearchNo}
+	</select>
+	
+</mapper>

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<title>모아모아/셀프구직상세</title>
+<!-- selfJobDetail.CSS -->
+<link href="self/selfJobDetail.css" rel="stylesheet">
+<!-- JQuery -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<!-- editor -->
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.css" />
+	<!-- DatePicker -->
+	<link rel="stylesheet"
+		href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
+	<script
+		src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.js"></script>
+	<!-- grid -->
+	<link rel="stylesheet"
+		href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
+	<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
+	<!-- SweetAlert -->
+	<link rel="stylesheet"
+		href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+	<script
+		src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+<!-- 		icon-cdn for Bootstrap -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+    <!-- ===============================================-->
+    <!--    Document Title-->
+    <!-- ===============================================-->
+    <title>Blogs | Boldo Agency Template</title>
+
+
+    <!-- ===============================================-->
+    <!--    Favicons-->
+    <!-- ===============================================-->
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicons/favicon.ico">
+    <link rel="manifest" href="/assets/img/favicons/manifest.json">
+    <meta name="msapplication-TileImage" content="/assets/img/favicons/mstile-150x150.png">
+    <meta name="theme-color" content="#ffffff">
+
+
+    <!-- ===============================================-->
+    <!--    Stylesheets-->
+    <!-- ===============================================-->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700&amp;display=swap" rel="stylesheet">
+
+    <link href="/vendors/prism/prism.css" rel="stylesheet">
+    <link href="/vendors/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <link href="/assets/css/theme.css" rel="stylesheet" />
+<!--     <link href="/assets/css/user.css" rel="stylesheet" /> -->
+    
+    <!-- ===============================================-->
+    <!--    JavaScripts-->
+    <!-- ===============================================-->
+    <script src="/vendors/popper/popper.min.js"></script>
+    <script src="/vendors/bootstrap/bootstrap.min.js"></script>
+    <script src="/vendors/anchorjs/anchor.min.js"></script>
+    <script src="/vendors/is/is.min.js"></script>
+    <script src="/vendors/fontawesome/all.min.js"></script>
+    <script src="/vendors/lodash/lodash.min.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
+    <script src="/vendors/prism/prism.js"></script>
+    <script src="/vendors/swiper/swiper-bundle.min.js"></script>
+    <script src="/assets/js/theme.js"></script>
+    <script src="/t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+     
+</head>
+<body>
+		<div class="row" style="margin-top: 20px;">
+			<div class="col-md-2"></div>
+
+			<div id="selfDetail" class="col-md-8" style="border-bottom : 1px solid #ddd;"> 
+				<h3 class="text-center" th:text="${selfJobInfo.ttl}">셀프구직 제목</h3>
+				<hr>
+				<div class="mt-5 text-center">
+					<img th:src="@{/moamoreImg/} + ${selfJobInfo.myimg}" th:onerror="this.src='self/profile.JPG'" id="myImg" class="circleImg mb-4">
+					<p class="mb-1" th:text="${selfJobInfo.name}">이름</p>
+					<p class="mb-1" th:text="${selfJobInfo.email}">이메일</p>
+					<p class="mb-1" th:text="${selfJobInfo.dutyFld}">직무</p>
+					<p class="mb-1" th:text="${selfJobInfo.skill}">기술스택</p>
+				</div>
+
+				<div class="text-left mt-8 mb-8">
+					<span class="fs-2 subTitle">&nbsp&nbsp&nbsp저의 포트폴리오입니다&nbsp&nbsp&nbsp</span>
+					<div style="display:flex">
+						<p class="mt-4 mb-3" style="margin-left : 16px;" th:text="|◈ ${selfJobInfo.name}님의 포트폴리오 (|">◈ OOO님의 포트폴리오</p>
+						<span class="mt-4 mb-3"><span style="color:red; font-weight:bold;">*</span>파일명클릭시 다운로드가능)</span>
+					</div>
+					<div class="row" id = "pofolList">
+					<!-- 반복 -->
+						<div th:each="pofol : ${pofolList}" class="col-md-4 text-center text-md-start h-auto" >
+		    				<div class="d-flex justify-content-between flex-column h-100">
+                				<div class="image">
+									<img style="width:200px; height:200px;" class="rounded-2 mb-4" th:src="@{/moamorePofol/} + ${pofol.pofolImg}" alt="이미지 오류" />
+									<p class="fw-bold mb-0 text-black" th:text="|ㆍ제목 : ${pofol.title}|">ㆍ제목 : </p>
+						 			<a class="mb-0" th:href="@{/moamorePofol/} + ${pofol.pofolUuidFile}" target="_blank" style="color:blue;"  th:text="|ㆍ파일명: ${pofol.pofolFile}|">ㆍ파일명: </a>	
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+					
+				<div class="text-left mt-1 mb-4">
+					<span class="fs-2 subTitle">&nbsp&nbsp&nbsp저는 이런사람이에요&nbsp&nbsp&nbsp</span>
+					<p class="mt-4 mb-0" style="margin-left : 16px;" th:text="|◈ ${selfJobInfo.name}님의 희망 사항|">◈ OOO님의 희망 사항</p>
+					<div class="mt-4" style="margin-left : 16px;">
+						<ul>
+							<li class="mb-2" th:text="|희망 급여 : ${selfJobInfo.hopeSal}|">희망 급여 : </li>
+							<li class="mb-2" th:text="|희망 근무 지역 : ${selfJobInfo.hopeWksite}|">희망 근무 지역 : </li>
+							<li th:text="|상주가능여부 : ${selfJobInfo.residency}|">상주가능여부 : </li>
+						</ul>
+					</div>
+					<p class="mt-4 mb-0" style="margin-left : 16px;" th:text="|◈ ${selfJobInfo.name}님의 자기소개|">◈ OOO님의 자기소개</p>
+				  	<div class="row">
+				  		<div class="col-md-9">
+				  			<textarea id="intro" class="form-control radius" readonly style="background-color : white; height: 100px; resize: none; border:none;" th:text="${selfJobInfo.intro}">자기소개</textarea>
+				  		</div>
+				  		<div class="col-md-3"></div>
+				  	</div>
+				</div>
+				
+				<div class="text-left mb-8">
+					<span class="fs-2 subTitle">&nbsp&nbsp&nbsp이런 기술스택을 가지고있어요&nbsp&nbsp&nbsp</span>
+					<div class="row">
+						<p class="mt-4 mb-2" style="margin-left : 16px;" th:text="|◈ ${selfJobInfo.name}님의 보유기술|">◈ OOO님의 보유기술</p>
+						
+						<!-- 반복 -->
+						<div th:each="skillItem : ${skillList}" class="col-md-4 mt-4" style="margin-left : 16px;">
+							<span th:text="${skillItem.skill}" class="skillBorder">보유기술1</span>
+						</div>
+						
+						<div class="col-md-4"></div>
+					</div>
+				</div>
+				
+				<div class="text-left mt-1 mb-9">
+					<span class="fs-2 subTitle">&nbsp&nbsp&nbsp제 실무경험과 학력입니다&nbsp&nbsp&nbsp</span>
+						<p class="mt-4 mb-3" style="margin-left : 16px;">◈ 경력</p>
+							<div class="row">
+								<div id="carrRows" class="col-md-10" style="margin-left : 40px;">
+									<th:block th:if="${#lists.size(carrList)} == 0">
+										<div style="text-align:center;">경력사항이 없는 신입입니다.</div>
+									</th:block>
+									<th:block th:unless="${#lists.size(carrList)} == 0">
+										<!-- 반복 -->
+										<div th:each="carr : ${carrList}" class="listRow row">
+										 	<div class="col-md-10 text-center text-lg-start">
+									        	<div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
+									          		<p class="fw-bold mb-0 text-black" th:text="${carr.duty}">직무</p>
+									         		<p class="mb-0"th:text="|${carr.joinYy} ~ ${carr.retiYy} ${carr.carrSt}">입사일자 ~ 퇴사일자 재직여부</p>
+									        	</div>
+									        	<h6 class="fs-md-2 my-3" th:text="|${carr.co} ${carr.depart} 근무|">회사명 부서명</h6>
+										        <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-2">
+										            <p class="mb-0" th:text="${carr.buss}">업무</p>
+										        </div>
+										  	</div>
+										</div>
+									</th:block>
+								</div>
+							</div>
+
+						<p class="mt-5 mb-3" style="margin-left : 16px;">◈ 학력</p>
+						<div class="row mb-3">
+							<div class="col-md-2" style="text-align:center;">
+							</div>
+							<div id="schoolRows" class="col-md-10" style="margin-left : 40px;">
+							
+							<!-- 반복 - switch case -->
+							<th:block th:each="school : ${schoolList}" >
+								<th:block th:switch="${school.fg}">
+									<div th:case="고졸" class="listRow row">
+									 	<div class="col-md-10 text-center text-lg-start">
+									 		<span style="color:black;"><b>■ 고등학교</b></span> <hr>
+									 		<p class="mb-0" th:text="|${school.joinYy} ~ ${school.retiYy}">입학년도 ~ 졸업년도</p>
+							                <h6 class="fs-md-2 my-3" th:text="${school.breu}">학교명</h6>
+							                <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
+							                  <p class="mb-0" th:text="${school.shcrSt}">졸업상태</p>
+							                </div>
+						              	</div>
+									</div>
+								
+									<div th:case="대졸" class="listRow row">
+									 	<div class="col-md-10 text-center text-lg-start">
+									 		<span style="color:black;"><b>■ 대학교</b></span> <hr>
+									 		<p class="mb-0" th:text="|${school.joinYy} ~ ${school.retiYy}">입학년도 ~ 졸업년도</p>
+							                <h6 class="fs-md-2 my-3" th:text="${school.breu}">학교명</h6>
+							                <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
+							                  <p class="fw-bold mb-0 text-black" th:text="${school.mj}">전공</p>
+							                  <p class="mb-0" th:text="${school.shcrSt}">졸업상태</p>
+							                </div>
+						              	</div>
+									</div>
+									
+									<div th:case="대학원" class="listRow row">
+									 	<div class="col-md-10 text-center text-lg-start">
+									 		<span style="color:black;"><b>■ 대학원</b></span> <hr>
+									 		<p class="mb-0" th:text="|${school.joinYy} ~ ${school.retiYy}">입학년도 ~ 졸업년도</p>
+							                <h6 class="fs-md-3 my-3" th:text="${school.breu}">학교명</h6>
+							                <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
+							                  <p class="fw-bold mb-0 text-black" th:text="${school.mj}">전공</p>
+							                  <p class="mb-0" th:text="${school.shcrSt}">졸업상태</p>
+							                </div>
+						              	</div>
+									</div>
+								</th:block>
+							</th:block>
+						</div>
+					</div>
+<button type="button" style="float:right" class="btn btn-outline-dark mt-2" id="btnList"  onclick="window.close()">닫기</button>
+				</div>
+			</div>
+			<div class="col-md-2"></div>
+		</div>
+<script>
+	// 삭제버튼 클릭시 실행하는 함수
+	$('#selfJobDelBtn').on('click', function(){
+		Swal.fire({
+		  icon: 'warning',
+		  title: '해당 게시글을 \n정말 삭제하시겠습니까?',
+		  showCancelButton: true,
+		  confirmButtonColor: '#d33',
+		  cancelButtonColor: '#3085d6',
+		  confirmButtonText: '삭제',
+		  cancelButtonText: '취소',
+		  buttonsStyling: true,
+		  reverseButtons: true
+		}).then((result) => {
+			
+		  if (result.isConfirmed) {
+			  let jobSearchNo = $('#selfJobDelBtn').data('no');
+			  $.ajax({
+				url: 'selfJobDelete',
+				type: 'post',
+				data: {jobSearchNo : jobSearchNo},
+				success: function (result) {
+					
+					Swal.fire({
+					  icon: 'success',
+					  title: '삭제완료!',
+					  showCancelButton: false,
+					  confirmButtonText: '확인'
+					}).then((result) => {
+					  if (result.isConfirmed) {
+						location.href="/selfJobList";
+					  }
+					});
+					
+				},
+		 		error: function (reject) {	   
+		    		console.log(reject);
+				}
+			});
+		  } // if끝
+		  
+		});
+	});
+</script>
+	</div>
+</body>
+</html>

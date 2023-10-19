@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.moa.admin.mapper.AdminMapper">
+	<select id="selectUserInfo" resultType="MemVO">
+		SELECT 	ID
+				,NAME
+				,PW
+				,PH
+				,PH_CL
+				,EMAIL
+				,BLOG
+				,POST
+				,AUTHR
+				,CLSF
+				,LOG_CNT
+				,LTST_TM
+				,get_common(gen) as gen
+				,BIRTH
+				,ADDR
+				,JOIN_DT
+				,AGE
+				,API
+				,NICKNAME
+				,get_common(clsf) as "clsfname"
+       	FROM member
+       	WHERE clsf !='I4'
+       	ORDER BY join_dt DESC
+	</select>
+	
+	<select id="selectStudyPost" resultType="StudyVO">
+				SELECT
+		    reg_dt,
+		        ttl,
+		        inq_cnt,
+		        '스터디모집' as "postType",
+		        study_no as "no",
+		        id,
+		    rprtCnt_r as "rprtCnt",
+		    rprtCnt_a as "noneCnt"
+		FROM
+		    study s
+		    left join (
+		        select
+		            notiwr_no,
+		            COUNT(notiwr_no) as rprtCnt_r
+		        from
+		            rprt_list
+		        group by
+		            notiwr_no
+		    ) r on s.study_no = r.notiwr_no
+		    left join (
+		        select
+		            notiwr_no,
+		            COUNT(notiwr_no) as rprtCnt_a
+		        from
+		            rprt_list
+		        where
+		            rprt_st = 'G4'
+		        group by
+		            notiwr_no
+		    ) a on s.study_no = a.notiwr_no
+		ORDER BY
+		    reg_dt DESC
+	</select>
+	<select id="selectPRJTPost" resultType="PrjtVO">	    
+		SELECT
+		    reg_dt,
+		    ttl,
+		    inq_cnt,
+		    '프로젝트모집게시판' as "postType",
+		    prjt_no as "no",
+		    id,
+		    rprtCnt_r as "rprtCnt",
+		    rprtCnt_a as "noneCnt"
+		FROM
+		    prjt p
+		    left join (
+		        select
+		            notiwr_no,
+		            COUNT(notiwr_no) as rprtCnt_r
+		        from
+		            rprt_list
+		        group by
+		            notiwr_no
+		    ) r on p.prjt_no = r.notiwr_no
+		    left join (
+		        select
+		            notiwr_no,
+		            COUNT(notiwr_no) as rprtCnt_a
+		        from
+		            rprt_list
+		        where
+		            rprt_st = 'G4'
+		        group by
+		            notiwr_no
+		    ) a on p.prjt_no = a.notiwr_no
+		ORDER BY
+		    reg_dt DESC
+	</select>
+	
+	<select id="selectQSTPost" resultType="CommunityVO">
+				SELECT
+		    reg_dt,
+		        ttl,
+		        inq_cnt,
+		        qa_notiwr_no as "no",
+		        <![CDATA['취업Q&A게시판']]> as "postType",
+		        id,
+		    rprtCnt_r as "rprtCnt",
+		    rprtCnt_a as "noneCnt"
+		FROM
+		    empl_qst e
+		    left join (
+		        select
+		            notiwr_no,
+		            COUNT(notiwr_no) as rprtCnt_r
+		        from
+		            rprt_list
+		        group by
+		            notiwr_no
+		    ) r on e.qa_notiwr_no = r.notiwr_no
+		    left join (
+		        select
+		            notiwr_no,
+		            COUNT(notiwr_no) as rprtCnt_a
+		        from
+		            rprt_list
+		        where
+		            rprt_st = 'G4'
+		        group by
+		            notiwr_no
+		    ) a on e.qa_notiwr_no = a.notiwr_no
+		ORDER BY
+		    reg_dt DESC
+	</select>
+	<select id="selectSearchUser" resultType="MemVO">
+		SELECT 	ID
+				,NAME
+				,PW
+				,PH
+				,PH_CL
+				,EMAIL
+				,BLOG
+				,POST
+				,AUTHR
+				,CLSF
+				,LOG_CNT
+				,LTST_TM
+				,GEN
+				,BIRTH
+				,ADDR
+				,JOIN_DT
+				,AGE
+				,API
+				,NICKNAME
+				,get_common(clsf) as "clsfname"
+		FROM 	member
+		<where>
+			<if test="id!=null and !id.equals('')">
+				and id LIKE '%'||#{id}||'%'
+			</if>
+			<if test="name!=null and !name.equals('')">
+				and name LIKE '%'||#{name}||'%'
+			</if>
+			<if test="startDate!=null and !startDate.equals('')">
+				and <![CDATA[join_dt >= #{startDate}]]>
+			</if>
+			<if test="lastDate!=null and !lastDate.equals('')">
+				and <![CDATA[join_dt <= #{lastDate}]]>
+			</if>
+			<if test="server!=null and !server.equals('')">
+				and email LIKE '%'||'@'||#{server}||'%'
+			</if>
+			<if test="userName!=null and !userName.equals('')">
+				and email LIKE '%'||#{userName}||'%'
+			</if>
+			<if test="commds != null and commds.length > 0">
+			 	and clsf IN
+			 <foreach collection='commds' item='clsf' open='(' close=')' separator=','>
+			 	#{clsf}
+			 </foreach>	
+			</if>
+		</where> 	
+		ORDER BY join_dt DESC 
+	</select>
+		<update id="updateUser" parameterType="MemVO">
+		UPDATE member
+		   <set>
+		   	<if test="phCl!=null and !phCl.equals('')">
+				PH_CL = #{phCl},
+			</if>
+			<if test="email!=null and !email.equals('')">
+				EMAIL = #{email},
+			</if>
+			<if test="blog!=null and !blog.equals('')">
+				BLOG = #{blog},
+			</if>
+			<if test="clsf!=null and !clsf.equals('')">
+				CLSF = #{clsf},
+			</if>
+			<if test="ph!=null and !ph.equals('')">
+				PH = #{ph},
+			</if>
+			<if test="name!=null and !name.equals('')">
+				name = #{name}
+			</if>
+		   </set> 
+		WHERE id = #{id}
+	</update>
+
+	<delete id="deleteUser" parameterType="String">
+		DELETE FROM member
+		WHERE email=#{email}
+	</delete>
+	
+	<select id="selectReportData" resultType="ReportVO">
+		SELECT  RPRT_NO
+				,RPRTER
+				,get_common(RPRT_RESN) as "rprtResn"
+				,DISPO_CNTN
+				,DISPO_DT
+				,NOTIWR_NO
+				,RPRT_TM
+				,get_common(RPRT_ST) as "rprtSt"
+		FROM rprt_list
+		WHERE notiwr_no = #{notiwrNo}
+	</select>
+	
+	<select id="selectrprtSt" resultType="rprtStatusVO">
+		SELECT prov as "code", get_common(prov) as "name"
+		FROM cmmn_dt
+		where comm_cd = 'G'
+	</select>
+	
+	<update id="updateRprt" parameterType="ReportVO">
+		UPDATE 	rprt_list
+		SET 	rprt_st = #{rprtSt}
+		WHERE   rprt_no = #{rprtNo}
+	</update>
+	
+	<select id="selectRecruitList" resultType="HireVO">
+		SELECT 	RECRUIT_NO as "no"
+				,ID
+				,TTL
+				,SHCR
+				,CARR
+				,MA_BUSS
+				,QUAL_COND
+				,PREF_COND
+				,WELF
+				,EXPR_DT
+				,WKSITE
+				,ACCP_DT
+				,IMG_NO
+				,REG_DT
+				,JOB
+				,CO_INTRO
+		FROM recruit_anun
+	</select>
+	
+	<select id="selectSelfList" resultType="SelfVO">
+		SELECT 	JOB_SEARCH_NO as "no"
+				,RESUME_NO
+				,ID
+				,TTL
+				,HOPE_WKSITE
+				,DUTY_FLD
+				,POSIT
+				,PUBC_RANGE
+				,INTRO
+				,HOPE_SAL
+				,RESIDENCY
+				,MYIMG
+				,INTEREST
+				,PROP
+				,REG_DT
+				,CAREER
+				,ACCP_DT
+		FROM job_search_notiwr
+	</select>
+	
+	<select id="selectINTRVPost" resultType="IntrvVO">
+		SELECT	INTRV_NO as "no"
+				,CO_NM as "ttl"
+				,DUTY
+				,CARR
+				,APPR
+				,DIF
+				,INTRV_TYP
+				,INTRV_RCNT
+				,SPC_CTNT
+				,PASS_YN
+				,REG_DT
+				,ACCP_YN
+				,ID
+				,INTRV_IMG
+				,QST_CNTN
+				,INTRV_DT
+				,ACCP_DT
+		FROM	intrv_scrn i
+		ORDER BY reg_dt DESC
+	</select> 
+	
+	<update id="approveREA" parameterType="String">
+		UPDATE 	recruit_anun
+		SET 	ACCP_DT = to_char(sysdate,'yyyy-MM-dd hh:mm:ss')
+		WHERE   RECRUIT_NO = #{recruitNo}
+	</update>
+	<update id="approveJSN" parameterType="String">
+		UPDATE 	job_search_notiwr
+		SET 	ACCP_DT = to_char(sysdate,'yyyy-MM-dd hh:mm:ss')
+		WHERE   JOB_SEARCH_NO = #{jobSearchNo}
+	</update>
+	<update id="approveITV" parameterType="String">
+		UPDATE 	intrv_scrn
+		SET 	ACCP_DT = to_char(sysdate,'yyyy-MM-dd hh:mm:ss')
+		WHERE   INTRV_NO = #{intrvNo}
+	</update>
+	<update id="approveCancelREA" parameterType="String">
+		UPDATE 	recruit_anun
+		SET 	ACCP_DT = NULL
+		WHERE   RECRUIT_NO = #{recruitNo}
+	</update>
+	<update id="approveCancelJSN" parameterType="String">
+		UPDATE 	job_search_notiwr
+		SET 	ACCP_DT = NULL
+		WHERE   JOB_SEARCH_NO = #{jobSearchNo}
+	</update>
+	<update id="approveCancelITV" parameterType="String">
+		UPDATE 	intrv_scrn
+		SET 	ACCP_DT = NULL
+		WHERE   INTRV_NO = #{intrvNo}
+	</update>
+	
+	<!-- 신고조회 -->
+	<select id="getReport" resultType="int">
+		SELECT 	COUNT(rprt_no)
+		FROM 	rprt_list
+		WHERE	rprter = #{rprter}
+		  AND 	notiwr_no = #{notiwrNo}
+	</select>
+	
+	<!-- 신고등록 -->
+	<insert id="insertReport" parameterType="reportVO">
+		<selectKey keyProperty="rprtNo" resultType="String" order="BEFORE">
+		 	SELECT 'RPR'|| rprt_seq.NEXTVAL as rprtNo
+			FROM DUAL
+		</selectKey>
+		INSERT INTO rprt_list(	
+								RPRT_NO
+								,RPRTER
+								,RPRT_RESN
+								,NOTIWR_NO
+								,RPRT_TM
+								,RPRT_ST
+							  )
+				VALUES		 (#{rprtNo},#{rprter},#{rprtResn},#{notiwrNo},to_char(sysdate,'yyyy-MM-dd hh:mm:ss'),'G4')
+		
+	</insert>
+	
+	<!-- 결제내역 조회 -->
+	<select id="selectPayList" resultType="ProductVO">
+		SELECT  ORDER_NO
+		        ,RECRUIT_NO
+		        ,ID
+		        ,STTL_CD
+		        ,STTL_DT
+		        ,s.PRDT_CD
+		        ,RESER_DTS
+		        ,prdt_nm
+		        ,total_price
+		FROM    sttl s, prdt p
+		WHERE   s.PRDT_CD = p.PRDT_CD
+		ORDER BY sttl_dt DESC
+	</select>
+	
+	<!-- 예약내역 조회 -->
+	<select id="selectReservList" resultType="ReserveVO">
+		SELECT   rr.RECRUIT_NO as "no"
+				,ttl as "title"
+				,RESER_DT as "start"
+		FROM	rec_reser rr, recruit_anun ra
+		WHERE	rr.recruit_no = ra.recruit_no
+	</select>
+</mapper>

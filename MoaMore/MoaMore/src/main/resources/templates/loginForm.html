@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+<title>Spring Security Example</title>
+<!-- Favicons -->
+<link href="assets/img/favicon.png" rel="icon">
+<link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<!-- Google Fonts -->
+<link href="https://fonts.gstatic.com" rel="preconnect">
+<link
+	href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+	rel="stylesheet">
+
+<!-- Vendor CSS Files -->
+<link href="assets/vendor/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="assets/vendor/bootstrap-icons/bootstrap-icons.css"
+	rel="stylesheet">
+<link href="assets/vendor/boxicons/css/boxicons.min.css"
+	rel="stylesheet">
+<link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+<link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+<link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+<link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+<!-- Template Main CSS File -->
+<link href="assets/css/style.css" rel="stylesheet">
+<style>
+.vertical-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>
+</head>
+<body>
+	<main style="background-color: #0A2640">
+		<div class="row">
+<div class="col-md-6 vertical-center">
+  <img src="/assets/img/bigLogo.png" style="width:100%"/>
+</div>
+			<div class="col-md-6">
+				<div class="container" style="background-color: white;">
+					<section
+						class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+						<div class="container">
+							<div
+								class=" d-flex flex-column align-items-center justify-content-center">
+								<div class="card mb-3 w-50">
+									<div class="card-body">
+										<div sec:authorize="isAnonymous()">
+											<!-- Bordered Tabs Justified -->
+											<ul class="nav nav-tabs nav-tabs-bordered d-flex"
+												id="borderedTabJustified" role="tablist">
+												<li class="nav-item flex-fill" role="presentation">
+													<button class="nav-link w-100 active" id="home-tab"
+														data-bs-toggle="tab"
+														data-bs-target="#bordered-justified-home" type="button"
+														role="tab" aria-controls="home" aria-selected="true">일반회원</button>
+												</li>
+												<li class="nav-item flex-fill" role="presentation">
+													<button class="nav-link w-100" id="profile-tab"
+														data-bs-toggle="tab"
+														data-bs-target="#bordered-justified-profile" type="button"
+														role="tab" aria-controls="profile" aria-selected="false"
+														tabindex="-1">기업회원</button>
+												</li>
+											</ul>
+											<div class="tab-content pt-3"
+												id="borderedTabJustifiedContent">
+												<div class="tab-pane fade show active"
+													id="bordered-justified-home" role="tabpanel"
+													aria-labelledby="home-tab">
+													<div class="pt-4 pb-2">
+														<h3 class="card-title text-center pb-0 fs-4">Welcome MoaMore!</h3>
+														<p class="text-center small">Enter your ID &
+															password to login</p>
+													</div>
+													<div th:if="${param.error}"  style="color:red; text-align:center; font-size:1em">ID 또는 PW를 확인하세요.</div>
+
+													<form action="/login" method="post"
+														class="row g-3 needs-validation">
+														<input type="hidden" th:value="user" name="user_key" />
+														<div class="col-12">
+															<label for="yourUsername" class="form-label">ID</label>
+															<div class="input-group has-validation">
+																<input type="text" id="userId" name="userid" class="form-control"
+																	required>
+																<div class="invalid-feedback">Please enter your
+																	username.</div>
+															</div>
+														</div>
+
+														<div class="col-12">
+															<label for="yourPassword" class="form-label">Password</label>
+															<input type="password" name="password"
+																class="form-control" required>
+															<div class="invalid-feedback">Please enter your
+																password!</div>
+														</div>
+														<div class="col-12">
+															<button style="background-color:#0A2640; border:none" class="btn btn-primary w-100" type="submit">Login</button>
+														</div>
+														<div class="col-6 pt-2" style="margin-top: 0px">
+															<a sec:authorize="isAnonymous()"
+																href="/oauth2/authorization/naver" role="button"> <img
+																class="w-100" style="height:38px" src="images/네이버.png">
+															</a>
+														</div>
+														<div class="col-6 pt-2" style="margin-top: 0px">
+															<a sec:authorize="isAnonymous()"
+																href="/oauth2/authorization/kakao" role="button"><img
+																class="w-100" style="height:38px" src="images/카카오.png"></a>
+														</div>
+														<div class="col-6">
+															<span class="small mb-0"> <a
+																href="/signUp">회원가입</a>
+															</span>
+														</div>
+														<div class="col-6" style="text-align: right">
+															<span class="small mb-0"> <a class="pe-auto"
+																data-bs-toggle="modal" data-bs-target="#userModal">아이디
+																	/비밀번호 찾기</a>
+															</span>
+														</div>
+													</form>
+
+												</div>
+												<div class="tab-pane fade" id="bordered-justified-profile"
+													role="tabpanel" aria-labelledby="profile-tab">
+													<div class="pt-4 pb-2">
+														<h3 class="card-title text-center pb-0 fs-4">Welcome MoaMore!</h3>
+														<p class="text-center small">Enter your username &
+															password to login</p>
+													</div>
+													<div th:if="${param.error}">ID 또는 PW를 확인하세요.</div>
+													<form action="/login" method="post"
+														class="row g-3 needs-validation">
+														<input type="hidden" th:value="co" name="user_key" />
+														<div class="col-12">
+															<label for="yourUsername" class="form-label">ID</label>
+															<div class="input-group has-validation">
+																<input type="text" name="userid" class="form-control"
+																	id="coId" required>
+																<div class="invalid-feedback">Please enter your
+																	username.</div>
+															</div>
+														</div>
+
+														<div class="col-12">
+															<label for="yourPassword" class="form-label">Password</label>
+															<input type="password" name="password"
+																class="form-control" id="password" required>
+															<div class="invalid-feedback">Please enter your
+																password!</div>
+														</div>
+														<div class="col-12">
+															<button style="background-color:#0A2640;border:none;" class="btn btn-primary w-100" type="submit">Login</button>
+														</div>
+														<div class="row"></div>
+														<div class="col-6">
+															<span class="small mb-0"> <a
+																href="/signUp">회원가입</a>
+															</span>
+														</div>
+														<div class="col-6" style="text-align: right">
+															<span class="small mb-0"> <a class="pe-auto"
+																data-bs-toggle="modal" data-bs-target="#coModal">아이디
+																	/비밀번호 찾기</a>
+
+															</span>
+														</div>
+													</form>
+
+												</div>
+											</div>
+											<!-- End Bordered Tabs Justified -->
+										</div>
+										<div sec:authorize="isAuthenticated()" style="text-align:center" class="mt-3">
+											<button type="button" class="btn btn-outline-dark w-100 fs-4" style="height:50px"   onclick="location.href='/logout'">로그아웃</button>
+											<button type="button"  class="btn btn-outline-dark w-100 mt-2 fs-4"  style="height:50px"  onclick="location.href='/main'">메인으로</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+				</div>
+			</div>
+		</div>
+		<!-- 모달창 -->
+		<div class="modal" id="userModal" tabindex="-1"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg modal-dialog-centered">
+				<div class="modal-content">
+				<div class="modal-header">
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+					<div class="modal-body">
+						<div class="card-body" style="padding-bottom: 0px">
+							<!-- Bordered Tabs Justified -->
+							<ul class="nav nav-tabs nav-tabs-bordered d-flex"
+								id="borderedTabJustified" role="tablist">
+								<li class="nav-item flex-fill" role="presentation">
+									<button class="nav-link w-100 active" id="home-tab"
+										data-bs-toggle="tab" data-bs-target="#userFind" type="button"
+										role="tab" aria-controls="home" aria-selected="true">아이디
+										찾기</button>
+								</li>
+								<li class="nav-item flex-fill" role="presentation">
+									<button class="nav-link w-100" id="profile-tab"
+										data-bs-toggle="tab" data-bs-target="#coFind" type="button"
+										role="tab" aria-controls="profile" aria-selected="false"
+										tabindex="-1">비밀번호 찾기</button>
+								</li>
+							</ul>
+							<div class="tab-content pt-3" id="borderedTabJustifiedContent">
+								<div class="tab-pane fade show active" id="userFind"
+									role="tabpanel" aria-labelledby="home-tab">
+									<div class="row">
+										<div class="col-md-2"></div>
+										<div class="col-md-8" id="findIdDiv">
+											<form id="findId" name="findId" action="find/Id"
+												method="post" onsubmit="return false">
+												<div class="row mb-3">
+													<label for="inputEmail3" class="col-sm-3 col-form-label">이름</label>
+													<div class="col-sm-9">
+														<input type="text" class="form-control" name="name"
+															id="inputText">
+													</div>
+												</div>
+												<div class="row mb-3">
+													<label for="inputEmail3" class="col-sm-3 col-form-label">전화번호</label>
+													<div class="col-sm-9">
+														<input type="text" oninput="autoHyphen(this)"
+															maxlength="13" class="form-control" name="phCl"
+															id="inputEmail">
+													</div>
+												</div>
+												<div style="text-align:right">
+													<button type="submit" class="btn btn-primary">ID찾기</button>
+												</div>
+											</form>
+										</div>
+										<div class="col-md-2"></div>
+									</div>
+
+								</div>
+								<div class="tab-pane fade" id="coFind" role="tabpanel"
+									aria-labelledby="profile-tab">
+									<div class="row">
+										<div class="col-md-2"></div>
+										<div class="col-md-8" id="findPwDiv">
+											<form id="findPw" name="findPw" action="find/Pw"
+												method="post" onsubmit="return false">
+												<div class="row mb-3">
+													<label for="inputEmail3" class="col-sm-3 col-form-label">아이디</label>
+													<div class="col-sm-9">
+														<input type="text" class="form-control" name="id"
+															id="inputText">
+													</div>
+												</div>
+												<div class="row mb-3">
+													<label for="inputEmail3" class="col-sm-3 col-form-label">이메일</label>
+													<div class="col-sm-9">
+														<input type="email" class="form-control" name="email"
+															id="inputText">
+													</div>
+												</div>
+												<div class="row mb-3">
+													<label for="inputEmail3" class="col-sm-3 col-form-label">전화번호</label>
+													<div class="col-sm-9">
+														<input type="text" oninput="autoHyphen(this)" name="phCl"
+															maxlength="13" class="form-control" id="inputEmail">
+													</div>
+												</div>
+												<div style="text-align:right">
+													<button type="submit" class="btn btn-primary">비밀번호찾기</button>
+												</div>
+											</form>
+										</div>
+										<div class="col-md-2"></div>
+									</div>
+
+								</div>
+							</div>
+							<!-- End Bordered Tabs Justified -->
+						</div>
+					</div>
+					<hr>
+					<br>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 기업모달창 -->
+		<div class="modal" id="coModal" tabindex="-1"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg modal-dialog-centered">
+				<div class="modal-content">
+				<div class="modal-header">
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+					<div class="modal-body">
+						<div class="card-body" style="padding-bottom: 0px">
+							<!-- Bordered Tabs Justified -->
+							<ul class="nav nav-tabs nav-tabs-bordered d-flex"
+								id="borderedTabJustified" role="tablist">
+								<li class="nav-item flex-fill" role="presentation">
+									<button class="nav-link w-100 active" id="home-tab"
+										data-bs-toggle="tab" data-bs-target="#coIdFind" type="button"
+										role="tab" aria-controls="home" aria-selected="true">아이디
+										찾기</button>
+								</li>
+								<li class="nav-item flex-fill" role="presentation">
+									<button class="nav-link w-100" id="profile-tab"
+										data-bs-toggle="tab" data-bs-target="#coPwFind" type="button"
+										role="tab" aria-controls="profile" aria-selected="false"
+										tabindex="-1">비밀번호 찾기</button>
+								</li>
+							</ul>
+							<div class="tab-content pt-3" id="borderedTabJustifiedContent">
+								<div class="tab-pane fade show active" id="coIdFind"
+									role="tabpanel" aria-labelledby="home-tab">
+									<div class="row">
+										<div class="col-md-2"></div>
+										<div class="col-md-8" id="findIdDiv">
+											<form id="coFindId" name="coFindId" action="find/coId"
+												method="post" onsubmit="return false">
+												<div class="row mb-3">
+													<label for="bizno" class="col-sm-3 col-form-label">사업자번호</label>
+													<div class="col-sm-9">
+														<input type="text" class="form-control" name="bizno"
+															id="bizno">
+													</div>
+												</div>
+												<div class="row mb-3">
+													<label for="rpstr" class="col-sm-3 col-form-label">대표자이름</label>
+													<div class="col-sm-9">
+														<input type="text"  class="form-control" name="rpstr"
+															id="rpstr">
+													</div>
+												</div>
+												<div style="text-align:right">
+													<button type="submit" class="btn btn-primary">아이디찾기</button>
+												</div>
+											</form>
+										</div>
+										<div class="col-md-2"></div>
+									</div>
+
+								</div>
+								<div class="tab-pane fade" id="coPwFind" role="tabpanel"
+									aria-labelledby="profile-tab">
+									<div class="row">
+										<div class="col-md-2"></div>
+										<div class="col-md-8" id="findPwDiv">
+											<form id="coFindPw" name="coFindPw" action="find/coPw"
+												method="post" onsubmit="return false">
+												<div class="row mb-3">
+													<label for="inputEmail3" class="col-sm-3 col-form-label">사업자번호</label>
+													<div class="col-sm-9">
+														<input type="text" class="form-control" name="bizno"
+															id="inputText">
+													</div>
+												</div>
+												<div class="row mb-3">
+													<label for="inputEmail3" class="col-sm-3 col-form-label">대표자이름</label>
+													<div class="col-sm-9">
+														<input type="text" class="form-control" name="rpstr"
+															id="inputText">
+													</div>
+												</div>
+												<div class="row mb-3">
+													<label for="email2" class="col-sm-3 col-form-label">이메일</label>
+													<div class="col-sm-9">
+														<input type="email"  name="email"
+															class="form-control" id="email2">
+													</div>
+												</div>
+												<div style="text-align:right">
+													<button type="submit" class="btn btn-primary">비밀번호찾기</button>
+												</div>
+											</form>
+										</div>
+										<div class="col-md-2"></div>
+									</div>
+
+								</div>
+							</div>
+							<!-- End Bordered Tabs Justified -->
+						</div>
+					</div>
+					<hr>
+					<br>
+				</div>
+			</div>
+		</div>
+	</main>
+	<!-- End #main -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+		crossorigin="anonymous"></script>
+
+	<script>
+	const autoHyphen = (target) => {
+		 target.value = target.value
+		   .replace(/[^0-9]/g, '')
+		  .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
+		}
+	
+	 $("#findId").submit(function(event) {
+		    event.preventDefault(); 
+		    var formData = $(this).serialize();
+		    var name = $(this).find('[name="name"]').val().trim();
+		    var phCl = $(this).find('[name="phCl"]').val().trim();
+		    console.log(name);
+		    console.log(phCl);
+			if(name == ""){
+		        Swal.fire({
+		            icon: "warning",
+		            title: "이름을 입력하세요.",
+		        })
+		        $(this).find('[name="name"]').focus();
+		        return 
+			} else if(phCl == "") {
+		        Swal.fire({
+		            icon: "warning",
+		            title: "전화번호를 입력하세요.",
+		        })
+		        $(this).find('[name="phCl"]').focus();
+				return  
+			}
+		    
+		    $.ajax({
+		      url: "/find/Id",
+		      type: "post",
+		      data: formData,
+		      success: function(data) {
+		    	console.log(data);
+		    	if(data != "") {    		
+		    	 Swal.fire({
+		             title: "아이디 찾기 완료",
+		             text: data,
+		             icon: "success",
+		             confirmButtonText: "확인",
+		           }).then((result) => {
+		        	   $('#userId').val(data);
+		        	   $('#userModal').modal('hide');
+		           })
+		    	} else {
+			    	 Swal.fire({
+			             title: "아이디 찾기 실패",
+			             text: "정보를 찾을 수 없습니다.입력한 내용을 확인하세요.",
+			             icon: "warning",
+			           })
+		    	}
+		      },
+		      error: function(error) {
+		        console.log(error);
+		      }
+		    }); 
+		  });
+	 
+	 $("#findPw").submit(function(event) {
+		    event.preventDefault(); 
+		    var formData = $(this).serialize();
+		    var id = $(this).find('[name="id"]').val().trim();
+		    var email = $(this).find('[name="email"]').val().trim();
+		    var phCl = $(this).find('[name="phCl"]').val().trim();
+		    console.log(name);
+			if(id == ""){
+		        Swal.fire({
+		            icon: "warning",
+		            title: "이름을 입력하세요.",
+		        })
+		        $(this).find('[name="id"]').focus();
+		        return 
+			}
+			if(phCl == "") {
+		        Swal.fire({
+		            icon: "warning",
+		            title: "전화번호를 입력하세요.",
+		        })
+		        $(this).find('[name="phCl"]').focus();
+				return  
+			}
+			if(email == "") {
+		        Swal.fire({
+		            icon: "warning",
+		            title: "이메일을 입력하세요.",
+		        })
+		        $(this).find('[name="email"]').focus();
+				return
+			}
+		    
+		    $.ajax({
+		      url: "/find/pw",
+		      type: "post",
+		      data: formData,
+		      success: function(data) {
+		    	console.log(data);
+		    	if(data == "updateSuccess"){
+			        Swal.fire({
+			            icon: "success",
+			            title: "임시비밀번호를 확인해주세요.",
+			            confirmButtonText: "확인",
+			           }).then((result) => {
+			        	   $('#userModal').modal('hide');
+			           })
+		    	} else if (data == "updateFail"){
+			        Swal.fire({
+			            icon: "warning",
+			            title: "비밀번호 재설정에 실패했습니다.\n다시 시도해주세요.",
+			        })
+		    	} else {
+			        Swal.fire({
+			            icon: "warning",
+			            title: "정보를 찾을 수 없습니다.\n입력한 내용을 확인하세요.",
+			        })
+		    	}
+
+		      },
+		      error: function(error) {
+		        console.log(error);
+		      }
+		    }); 
+		  });
+	 $("#coFindId").submit(function(event) {
+		    event.preventDefault(); 
+		    var formData = $(this).serialize();
+		    var bizno = $(this).find('[name="bizno"]').val().trim();
+		    var rpstr = $(this).find('[name="rpstr"]').val().trim();
+		    console.log(bizno);
+		    console.log(rpstr);
+			if(bizno == ""){
+		        Swal.fire({
+		            icon: "warning",
+		            title: "이름을 입력하세요.",
+		        })
+		        $(this).find('[bizno="bizno"]').focus();
+		        return 
+			} else if(rpstr == "") {
+		        Swal.fire({
+		            icon: "warning",
+		            title: "전화번호를 입력하세요.",
+		        })
+		        $(this).find('[rpstr="rpstr"]').focus();
+				return  
+			}
+		    
+		    $.ajax({
+		      url: "/find/coId",
+		      type: "post",
+		      data: formData,
+		      success: function(data) {
+		    	console.log(data);
+		    	if(data != "") {    		
+			    	 Swal.fire({
+			             title: "아이디 찾기 완료",
+			             text: data,
+			             icon: "success",
+			             confirmButtonText: "확인",
+			           }).then((result) => {
+			        	   $('#coId').val(data);
+			        	   $('#coModal').modal('hide');
+			           })
+			    	} else {
+				    	 Swal.fire({
+				             title: "아이디 찾기 실패",
+				             text: "정보를 찾을 수 없습니다.입력한 내용을 확인하세요.",
+				             icon: "warning",
+				           })
+			    	}
+		      },
+		      error: function(error) {
+		        console.log(error);
+		      }
+		    }); 
+		  });
+	 
+	 $("#coFindPw").submit(function(event) {
+		    event.preventDefault(); 
+		    var formData = $(this).serialize();
+		    var bizno = $(this).find('[name="bizno"]').val().trim();
+		    var rpstr = $(this).find('[name="rpstr"]').val().trim();
+		    var email2 = $(this).find('[name="email2"]').val();
+			if(bizno == ""){
+		        Swal.fire({
+		            icon: "warning",
+		            title: "이름을 입력하세요.",
+		        })
+		        $(this).find('[name="bizno"]').focus();
+		        return 
+			}
+			if(rpstr == "") {
+		        Swal.fire({
+		            icon: "warning",
+		            title: "전화번호를 입력하세요.",
+		        })
+		        $(this).find('[name="rpstr"]').focus();
+				return  
+			}
+			if(email2 == "") {
+		        Swal.fire({
+		            icon: "warning",
+		            title: "이메일을 입력하세요.",
+		        })
+		        $(this).find('[name="email2"]').focus();
+				return
+			}
+		    
+		    $.ajax({
+		      url: "/find/coPw",
+		      type: "post",
+		      data: formData,
+		      success: function(data) {
+		    	console.log(data);
+		    	if(data == "updateSuccess"){
+			        Swal.fire({
+			            icon: "success",
+			            title: "입력한 이메일을 확인해주세요.",
+			            confirmButtonText: "확인",
+			           }).then((result) => {
+			        	   $('#coModal').modal('hide');
+			           })
+		    	} else if (data == "updateFail"){
+			        Swal.fire({
+			            icon: "warning",
+			            title: "비밀번호 재설정에 실패했습니다.다시 시도해주세요.",
+			        })
+		    	} else {
+			        Swal.fire({
+			            icon: "warning",
+			            title: "정보를 찾을 수 없습니다.입력한 내용을 확인하세요.",
+			        })
+		    	}
+		      },
+		      error: function(error) {
+		        console.log(error);
+		      }
+		    }); 
+		  });
+	</script>
+</body>
+</html>

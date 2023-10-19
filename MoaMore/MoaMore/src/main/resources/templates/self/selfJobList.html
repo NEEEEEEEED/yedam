@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{template/layout}">
+<head>
+<meta charset="UTF-8">
+<title>모아모아/셀프구직조회</title>
+<!-- selfJobList.CSS -->
+<link href="self/selfJobList.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+</head>
+<body>
+	<div layout:fragment="content">
+	
+		<!-- 현재로그인된 유저정보 -->
+		<input id="logId" name="id" type="hidden" th:value="${#authentication.principal.username}">
+		
+		<!-- 현재로그인된 유저가 가진 권한 -->
+		<div sec:authorize="hasRole('ROLE_MEM')" style="display:none;">
+			<input id="ROLE_MEM" value="ROLE_MEM"> 
+		</div>
+		<div sec:authorize="hasRole('ROLE_CO')" style="display:none;">
+			<input id="ROLE_CO" value="ROLE_CO"> 
+		</div>
+		
+		<!-- nav -->
+		<div class="row">
+			<div class="col-md-1"></div>
+			<div class="col-md-10" style="border-bottom : 1px solid #ddd;">
+				<div style="background-color: white;">
+					<div style="display:flex; justify-content: center;">
+					
+						<select id="job" class="selectStyle">
+							<option value="" selected>직무선택</option>
+							<option th:each="job : ${commList.N}" th:text="${job.desct}" th:attr="value=${job.prov}">직무</option>
+					  	</select>
+						<select id="carr" class="selectStyle">
+							<option value="" selected>경력선택</option>
+							<option th:each="carr : ${commList.Y}" th:text="${carr.desct}" th:attr="value=${carr.prov}">경력</option>
+					  	</select>
+						<select id="city" class="selectStyle">
+							<option value="" selected>지역선택</option>
+							<option th:each="city : ${commList.X}" th:text="${city.desct}" th:attr="value=${city.prov}">도시</option>
+					  	</select>
+					  	
+						<div style="display:flex;">
+							<input id="skill" type="text" class="search" placeholder="기술스택을 입력하세요" onkeydown="if(event.keyCode===13){document.getElementById('skillBtn').click();}">
+							<button id="skillBtn" type="button" class="btn btn-dark btn-sm searchBtn radius">
+								<i class="fas fa-search fa-lg"></i>
+							</button>
+						</div>
+			
+						<!-- 유저일때만 보이는곳 -->
+						<div sec:authorize="hasRole('ROLE_MEM')">
+							<div class="ms-5">
+								<button id="myProfile" type="button" class="btn btn-outline-danger btn-sm radius fs-1">
+									셀프구직 등록
+								</button>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+			<div class="col-md-1"></div>
+		</div>
+		
+		<div class="row" style="margin-top : 30px;">
+			<div class="col-md-1"></div>
+			<div class="col-md-2" style="margin : 10px;">
+			
+			<!-- 유저라면 보이는곳 -->
+			<div sec:authorize="hasRole('ROLE_MEM')">
+				<div style="padding:18px; text-align : center;">
+					<h4>셀프구직[일반]</h4>
+					<hr>
+					<ul class="listStyle">
+						<li class="fs-1"><a href="#">구직현황</a></li>
+					</ul>
+				</div>
+			</div>
+				
+			<!-- 기업이라면 보이는곳 -->
+				<div sec:authorize="hasRole('ROLE_CO')">
+					<div style="padding:18px; text-align : center;">
+						<h4>셀프구직[기업]</h4>
+						<hr>
+						<ul class="listStyle">
+							<li class="fs-1"><a href="/coMypage?interest=t">관심게시글</a></li>
+							<li class="fs-1"><a href="/coMypage?interest=t">보낸제안</a></li>
+						</ul>
+					</div>
+			</div>
+		</div>
+
+			<div id="selfList" class="col-md-7">
+			</div>
+				
+			<!-- <div class="row">
+				<div class="col-md-1"></div>
+				<div class="col-md-2"></div>
+				<div class="col-md-7">
+				  <nav aria-label="Page navigation example">
+					  <ul class="pagination  d-flx justify-content-center">
+					    <li class="page-item">
+					      <a class="page-link" href="#" aria-label="Previous">
+					        <span aria-hidden="true">&laquo;</span>
+					      </a>
+					    </li>
+					    <li class="page-item"><a class="page-link" href="#">1</a></li>
+					    <li class="page-item"><a class="page-link" href="#">2</a></li>
+					    <li class="page-item"><a class="page-link" href="#">3</a></li>
+					    <li class="page-item">
+					      <a class="page-link" href="#" aria-label="Next">
+					        <span aria-hidden="true">&raquo;</span>
+					      </a>
+					    </li>
+					  </ul>
+				 </nav>
+				</div>
+				<div class="col-md-1"></div>
+			</div> -->
+			
+			<div class="col-md-1"></div>
+		</div>
+		
+		<!-- html모달창 제안모달 -->
+		<div class="modal fade " id="offerModal" tabindex="-1"
+			aria-labelledby="exampleModalLgLabel" style="display: none;"
+			aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-4" id="exampleModalLgLabel">구직 제안</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div id="offerModalBody" class="modal-body d-flex justify-content-center">
+					<!-- 채용지원제안 클릭 했을 때 ajax로 기술스택과 구인공고 목록을 불러와서 모달에 넣고 그려줌 -->
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 모달 끝 -->
+<script>
+
+let job = ''; // 검색조건 : 직무
+let carr = ''; // 검색조건 : 경력
+let city = ''; // 검색조건 : 도시
+let auth = ''; // 현재 접속한 사람의 권한
+let id = '';
+let skill = ''; // 검색조건 : 기술스택
+let currentPage = 1; // 현재 페이지
+
+// 권한에 따른 셀프 구직 목록 리스트
+$(document).ready(function() {
+	
+	id = $('#logId').val(); // 로그인한 id
+	job = $('#job').val();  // 직무 선택
+	carr = $('#carr').val(); // 경력 선택
+	city = $('#city').val(); // 지역 선택
+	skill = $('#skill').val(); // 기술 스택
+	
+	
+	if($('#ROLE_MEM').val()){ // 유저일때
+		//console.log('유저입니다 - ROLE_MEM 일때 수정해야할 부분 -');
+		auth = 'user';
+		
+	}else if($('#ROLE_CO').val()){ // 기업일때
+		//console.log('기업입니다.');
+		auth = 'co';
+		
+	}else{ // 관리자일때
+		//console.log('관리자입니다.');
+		auth = 'admin';
+	}
+	
+	selfJobList(auth, id, job, carr, city, skill, currentPage); // 셀프 구직 목록 리스트
+});
+
+// 직무 조건 변경시 검색리스트
+$('#job').on('change', function(){
+	job = $('#job').val();
+	currentPage = 1;
+	selfJobList(auth, id, job, carr, city, skill, currentPage); // 셀프 구직 목록 리스트
+});
+
+//경력 조건 변경시 검색리스트
+$('#carr').on('change', function(){
+	carr = $('#carr').val();
+	currentPage = 1;
+	selfJobList(auth, id, job, carr, city, skill, currentPage); // 셀프 구직 목록 리스트
+});
+
+//지역 조건 변경시 검색리스트
+$('#city').on('change', function(){
+	city = $('#city').val();
+	currentPage = 1;
+	selfJobList(auth, id, job, carr, city, skill, currentPage); // 셀프 구직 목록 리스트
+});
+
+// 기술스택 검색 버튼 클릭시
+$('#skillBtn').on('click', function(){
+	skill = $('#skill').val();
+	currentPage = 1;
+	selfJobList(auth, id, job, carr, city, skill, currentPage); // 셀프 구직 목록 리스트
+});
+
+// 관심버튼을 눌렀을때
+function interest(interestBtn){
+	event.stopPropagation(); // 이벤트 전파 막음
+	let jobSearchNo = interestBtn.dataset.id; // data - 속성 이용해서 값가져옴
+	
+	if($('#ROLE_MEM').val()){ // 유저일때
+		//console.log('유저입니다 - ROLE_MEM 일때 수정해야할 부분 -');
+		Swal.fire({
+			  icon: 'error',
+			  title: '기업만 관심등록이 가능합니다.'
+		});
+		
+		return;
+		
+	}else if($('#ROLE_ADMIN').val()){ // 관리자일때
+		//console.log('관리자입니다.');
+
+		Swal.fire({
+			  icon: 'error',
+			  title: '기업만 관심등록이 가능합니다.'
+		});
+		
+		return;
+		
+	}else{ // 기업일때
+	
+		let i = $(interestBtn).parent().parent(); // 버튼 누른곳의 조상 태그	
+		let heartIcon = $(i).find('.heartIcon'); // 부모태그에서 클래스찾기 , 하트 아이콘
+		let interestNum = $(i).find('.interestNum').text(); // 제안수
+		
+		// 관심 등록 여부
+		if(heartIcon.hasClass("bi-suit-heart")){ // 관심이 등록이 안된 상태라면 관심등록
+			
+			heartIcon.removeClass("bi-suit-heart"); // 빈하트 클래스 지우고
+			heartIcon.addClass("bi-suit-heart-fill"); // 꽉찬 하트 클래스 추가
+			
+			$(interestBtn).removeClass('btn-outline-danger'); // 버튼 부분
+			$(interestBtn).addClass('btn-danger');
+			$(interestBtn).text('관심해제');
+			
+			interestNum = parseInt(interestNum) + 1; // 제안수
+			$(i).find('.interestNum').text(interestNum);
+
+			interestAdd(jobSearchNo); // 관심등록 ajax호출
+			
+		}else{ // 관심등록이 된상태라면 관심해제
+			
+			heartIcon.removeClass("bi-suit-heart-fill");
+			heartIcon.addClass("bi-suit-heart");
+			
+			$(interestBtn).removeClass('btn-danger');
+			$(interestBtn).addClass('btn-outline-danger');
+			$(interestBtn).text('관심');
+			
+			interestNum = parseInt(interestNum) - 1;
+			$(i).find('.interestNum').text(interestNum);
+			
+			interestDelete(jobSearchNo,auth); // 관심등록 해제 ajax호출
+			
+		}
+	}
+	
+}
+
+// 관심등록 ajax호출
+function interestAdd(jobSearchNo){
+
+	$.ajax({
+		  url: 'selfJobInterestAdd',
+		  type: 'post',
+		  data: {jobSearchNo : jobSearchNo, id : id},
+		  success: function (result) {
+
+			Swal.fire({
+				icon: 'success',
+				title: '관심목록에 추가되었습니다.'
+		   });
+		   //selfJobList(auth, id, job, carr, city, skill); // 리스트 화면 출력함수
+
+		  },
+		  error: function (reject) {	   
+	   	  	console.log(reject);
+		  }
+		});	
+}
+ 
+// 관심등록 해제
+function interestDelete(jobSearchNo){
+
+	$.ajax({
+		  url: 'selfJobInterestDelete',
+		  type: 'post',
+		  data: {jobSearchNo : jobSearchNo, id : id},
+		  success: function (result) {
+			//console.log(result);
+
+			Swal.fire({
+			 	icon: 'success',
+				title: '관심목록에 삭제되었습니다.'
+			})
+			//selfJobList(auth, id, job, carr, city, skill); // 리스트 화면 출력함수
+		  },
+		  error: function (reject) {	   
+	   	  	console.log(reject);
+		  }
+		});	
+	
+}
+
+// 제안클릭 모달창열기
+function offerModal(t){
+	event.stopPropagation();
+	
+	if($('#ROLE_MEM').val()){ // 유저일때
+		//console.log('유저입니다 - ROLE_MEM 일때 수정해야할 부분 -');
+		Swal.fire({
+			  icon: 'error',
+			  title: '기업만 제안이 가능합니다.'
+		});
+		
+		return;
+		
+	}else if($('#ROLE_ADMIN').val()){ // 관리자일때
+		//console.log('관리자입니다.');
+		Swal.fire({
+			  icon: 'error',
+			  title: '기업만 제안이 가능합니다.'
+		});
+		
+		return;
+		
+	} else{ // 기업일때
+		if(t.innerText == '제안'){ // 제안 전일 때만 모달창 열기
+			let jobSearchNo = t.getAttribute("data-id"); // 모달창 열릴 때 필요한 해당공고번호
+			
+			// 모달 안 필요한 구인공고목록, 기술스택 가져오기
+			$.ajax({
+				url: '/openOfferModal',
+				type: 'get',
+				success: function (res) {
+					//console.log(res.coInfo);
+					// 가져온 내용을 추가하고 모달바디에 붙이기
+					document.querySelector('#offerModalBody').innerHTML = ''; // 모달바디 초기화
+					let modalBodyHtml = `<form class="col-lg-11 " id="offerForm" action="/offerSubmit" method="POST">
+						<div class="mb-1 row ">
+						<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+							회사명</label>
+						<div class="col-sm-4 center-input">
+							<input type="text" name="coNm" value="`+res.coInfo.coNm+`" class="form-control form-control-sm " id="">
+						</div>
+						
+						<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+							복지</label>
+						<div class="col-sm-4 center-input">
+							<input type="text" name="bnft" class="form-control form-control-sm" id="">
+						</div>
+					</div>
+				</div>
+
+				<div class="mb-1 row ">
+					<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+						근무지 주소</label>
+					<div class="col-sm-4 center-input">
+						<input type="text" name="wksite" value="`+res.coInfo.addr+`" class="form-control form-control-sm " id="">
+					</div>
+					
+					<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+						급여</label>
+					<div class="col-sm-4 center-input">
+						<input type="text" name="saly" class="form-control form-control-sm" id="">
+					</div>
+				</div>
+
+				<div class="mb-1 row ">
+					<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+						프로젝트 명</label>
+					<div class="col-sm-4 center-input">
+						<input type="text" name="projectNm" class="form-control form-control-sm" id="">
+					</div>
+					
+					<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+						업무 시작일</label>
+					<div class="col-sm-4 center-input">
+						<input type="date" name="bussStartDt" class="form-control form-control-sm"
+							id="">
+					</div>
+				</div>
+
+				<div class="mb-1 row ">
+					<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+						기술 스택</label>
+					<div class="col-sm-4 center-input">
+						<select name="tech" class="form-select form-select-sm" style="padding-right:0;">
+							<option value="selectedOpt" id="selectedOpt" style="display:none;"></option>
+							<option value="" selected>기술선택(다중선택가능)</option>`
+							let tech = res.commList.Z
+							for(let i=0;i<tech.length;i++){
+		   modalBodyHtml += `<option value="`+tech[i].prov+`">`+tech[i].desct+`</option>`	
+							}
+		   modalBodyHtml += `</select>
+					</div>
+					
+					<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+						제안 마감일</label>
+					<div class="col-sm-4 center-input">
+						<input type="date" name="clsDt" class="form-control form-control-sm" id="">
+					</div>
+				</div>
+
+				<div class="mb-1 row ">
+					<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+						주요 업무</label>
+					<div class="col-sm-4 center-input">
+						<input type="text" name="maBuss" class="form-control form-control-sm" id="">
+					</div>
+					
+					<label for="inputPassword" class="col-sm-2 col-form-label  fs">
+						구인공고</label>
+					<div class="col-sm-4 center-input">
+						<select name="ttl" class="form-select form-select-sm" id="">
+							<option value='' selected>선택</option>`
+							let rec = res.recList
+							for(let i=0;i<rec.length;i++){
+		   modalBodyHtml += `<option value="`+rec[i].ttl+`">`+rec[i].ttl+`</option>`	
+							}
+		   modalBodyHtml += `</select>
+					</div>
+				</div>
+
+					<!-- 함께보낼데이타 -->
+					<input type="hidden" name="jobSearchNo" value="`+jobSearchNo+`">
+					<div class="row mb-4">
+						<div class="col-12 d-flex justify-content-center">
+							<button id="modalCloseBtn" type="button" class="btn btn-outline-dark me-1"
+								data-bs-dismiss="modal" onclick="closeModal()">취소</button>
+							<button id="offerBtn" type="button" class="btn btn-outline-dark ml-1"
+								onclick="submitOffer()">제안</button>
+						</div>
+					</div>
+				</form>`;
+				
+				document.querySelector('#offerModalBody').innerHTML += modalBodyHtml;
+		 		$('#offerModal').modal('show'); // 모달 창 열기
+				},
+		 		error: function (reject) {	   
+		    		console.log(reject);
+				}
+			});
+			
+		} 
+	}
+}
+
+// 모달취소클릭 모달창 닫으면 input 초기화
+function closeModal(){
+	$('[name="coNm"]').val('');	
+	$('[name="wksite"]').val('');	
+	$('[name="tech"]').val('');	
+	$('[name="maBuss"]').val('');	
+	$('[name="bnft"]').val('');	
+	$('[name="saly"]').val('');	
+	$('[name="bussStartDt"]').val('');	
+	$('[name="clsDt"]').val('');	
+	$('[name="projectNm"]').val('');	
+	$('[name="ttl"]').val('');	
+} 
+
+// 제안클릭 제안제출
+function submitOffer(){
+	let formData = $('#offerForm').serialize(); 
+	let jobSearchNo = $('input[name="jobSearchNo"]').val();
+	
+	  $.ajax({
+	   url: '/offerSubmit',
+	   type: 'post',
+	   data: formData,
+	   success: function(res){
+		   // 제안버튼 제안완료버튼으로 바꾸기
+		   let button = $('button[data-id="' + jobSearchNo + '"]').eq(1);; //0번 째 버튼은 관심버튼
+		   button.text('제안완료');
+		   button.removeClass("btn btn-outline-info btn-sm listBtn"); // 빈 버튼 클래스 지우고
+		   button.addClass("btn btn-info btn-sm listBtn"); // 꽉찬 버튼 클래스 추가
+		   button.removeAttr("data-bs-toggle");
+		   
+		   modalCloseBtn.click(); //모달창 닫기
+		   
+		   Swal.fire({
+				icon: 'success',
+				title: '제안이 완료되었습니다.'
+		   });
+	   },
+	   error: function (reject) {	   
+	   	  	console.log(reject);
+		  }
+	})  
+}
+
+// 셀프구직 리스트 호출하는 ajax
+function selfJobList(auth, id, job, carr, city, skill, currentPage){
+	
+	let data = {
+			auth : auth, 
+			id : id, 
+			dutyFld : job, 
+			career : carr, 
+			hopeWksite : city, 
+			skill : skill , 
+			currentPage : currentPage
+	}
+	
+	$.ajax({
+	  url: 'selfJobList',
+	  type: 'post',
+	  data: data,
+	  success: function (result) {
+		  
+		let selfJobList = result.selfJobList; // 셀프구직 목록 리스트
+		let selfJobInterest = result.selfJobInterest; // 접속한 ID의 셀프구직 관심 리스트
+		let selfJobOffered = result.selfJobOffered; // 접속한 ID의 제안완료 목록 리스트
+		let totalListNum = result.totalListNum; // 셀프구직 목록리스트 총갯수
+		selfList.innerHTML = ''; // 초기화
+		
+		if(selfJobList.length == 0){
+			selfList.innerHTML = `<div class="fs-2 mt-5" style="text-align : center;">검색조건을 만족하는게 없습니다.</div>`;
+			return;
+		}else{
+		
+			for(let j = 0; j < selfJobInterest.length ; j++){
+				for(let i = 0; i < selfJobList.length; i++){
+					if(selfJobInterest[j].jobSearchNo == selfJobList[i].jobSearchNo){
+					 	 selfJobList[i].interestYn = 'Y';	// 관심글에만 'Y'
+					}
+				}
+			}
+			
+			 for(let k = 0; k < selfJobOffered.length ; k++){
+				 for(let l = 0; l < selfJobList.length; l++){
+					 if(selfJobOffered[k].jobSearchNo == selfJobList[l].jobSearchNo){
+						selfJobList[l].offeredYn = 'Y';	// 제안완료에만 'Y'
+					}
+				}
+			} 
+			
+			let selfJobListHtml = '';
+			
+			// 화면 리스트 출력
+			for(let i = 0; i < selfJobList.length; i++){
+				selfJobListHtml += selfJobListPrint(selfJobList[i]);
+			}
+			
+			// 페이징 버튼 만들기
+			selfJobListHtml += pagingBtnPrint(totalListNum); 
+			
+			selfList.innerHTML = selfJobListHtml;
+	 	 }
+	  },
+	  error: function (reject) {	   
+   	  	console.log(reject);
+	  }
+	});	
+}
+
+//페이징 버튼만들기
+function pagingBtnPrint(totalListNum){
+	//console.log('페이지수 : ' + totalListNum );
+	let totalPageNum = Math.ceil(totalListNum/5); // 총페이지 = 총 게시글수 / 5 
+	
+	let pagingBtn = `<nav aria-label="Page navigation example">
+					  <ul class="pagination  d-flx justify-content-center mt-5 mb-4">
+					    <li class="page-item">
+					      <a class="page-link" href="#" aria-label="Previous">
+					        <span aria-hidden="true">&laquo;</span>
+					      </a>
+					    </li>`;
+						
+					    // 페이지 버튼수
+					    for(let i = 1; i <= totalPageNum; i++){
+					    	if(currentPage == i){ // 현재 페이지에 active
+		 						pagingBtn += `<li class="page-item active"><a class="page-link" href="#" onclick="clickPage(`+i+`)">`+i+`</a></li>`;	
+					    	}else{
+					    		pagingBtn += `<li class="page-item"><a class="page-link" href="#" onclick="clickPage(`+i+`)">`+i+`</a></li>`;
+					    	}
+						}			    
+		  
+		pagingBtn += `<li class="page-item">
+					      <a class="page-link" href="#" aria-label="Next">
+					        <span aria-hidden="true">&raquo;</span>
+					      </a>
+				      </li>
+				  	</ul>
+				  </nav>`;
+					
+	return pagingBtn;
+}
+
+// 페이지 버튼 클릭시 발생하는 이벤트
+function clickPage(clickPageNum){
+	//console.log('클릭한 페이지 : ' + clickPageNum);
+	currentPage = clickPageNum;
+	selfJobList(auth, id, job, carr, city, skill, currentPage);
+}
+
+//화면 리스트 출력
+function selfJobListPrint(result={}){
+	
+	let html = '';
+	//console.log(result.interestYn == 'Y');
+	// interestYn : 해당 게시글에 관심 등록이 되어있는지 여부
+	if(result.interestYn == 'Y'){ // 관심글이라면 
+		html = `<div class="row align-items-center border-bottom p-4 mb-3 hoverRow" style="cursor:pointer;" onclick="location.href='/selfJobDetail?jobSearchNo=`+result.jobSearchNo+`&resumeNo=`+result.resumeNo+`'">
+	        <div class="col-md-3 text-center">
+	      	<a href="#">
+	      		<img class="img-fluid imgSize" src="/moamoreImg/`+result.myimg+`" onerror=this.src="self/profile.JPG" alt="이미지폴더에없음">
+	      		<p class="mb-0">`+result.pubcRange+`</p>
+	      	</a>
+	      </div>
+	      <div class="col-md-7 text-center text-lg-start">
+	        <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
+	          <p class="fw-bold mb-0 text-black">`+result.dutyFld+`</p>
+	          <p class="mb-0">`+result.hopeWksite+`</p>
+	          <p class="mb-0">`+result.regDt+`</p>
+	          <i data-id="`+result.jobSearchNo+`" class="bi bi-suit-heart-fill text-danger fa-lg heartIcon"><span class="interestNum" style="color:#5B7075; font-style: normal;">`+result.interest+`</span></i>
+	        </div>
+	        	<p class="fs-2 my-3">`+result.ttl+`</p>
+	        <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-2">
+	        	<img class="img-fluid" style="display:none;" src="assets/img/blog/profile1.png" alt="">
+	            <span class="mb-0">작성자: `+result.id+`</span>/<span>기술스택: `+result.skill+`</span>
+	            
+	        </div>
+	      </div>
+	      <div class="col-md-2" style="display: flex; align-items: center; flex-direction : column;" >
+	      	
+		      <button  data-id="`+result.jobSearchNo+`" onclick="interest(this)" type="button" class="btn btn-danger btn-sm listBtn">관심해제</button>`;
+		    	
+		      if(result.offeredYn == 'Y'){ //제안완료 게시글이라면
+	      		html += `<button  data-id="`+result.jobSearchNo+`" onclick="offerModal(this)" type="button" class="btn btn-info btn-sm listBtn">제안완료</button>`;	
+	      	}else{
+	      		html += `<button  data-id="`+result.jobSearchNo+`" onclick="offerModal(this)" type="button" class="btn btn-outline-info btn-sm listBtn">제안</button>`;
+	      	}
+		html +=  `</div>
+	    	</div>`;
+	}else{
+		html = `<div class="row align-items-center border-bottom p-4 mb-3 hoverRow" style="cursor:pointer;" onclick="location.href='/selfJobDetail?jobSearchNo=`+result.jobSearchNo+`&resumeNo=`+result.resumeNo+`'">
+	        <div class="col-md-3 text-center">
+	      	<a href="#">
+	      		<img class="img-fluid imgSize" src="/moamoreImg/`+result.myimg+`" onerror=this.src="self/profile.JPG" alt="이미지폴더에없음">
+	      		<p class="mb-0">`+result.pubcRange+`</p>
+	      	</a>
+	      </div>
+	      <div class="col-md-7 text-center text-lg-start">
+	        <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
+	          <p class="fw-bold mb-0 text-black">`+result.dutyFld+`</p>
+	          <p class="mb-0">`+result.hopeWksite+`</p>
+	          <p class="mb-0">`+result.regDt+`</p>
+	          <i data-id="`+result.jobSearchNo+`" class="bi bi-suit-heart text-danger fa-lg heartIcon"><span class="interestNum" style="color:#5B7075; font-style: normal;">`+result.interest+`</span></i>
+	        </div>
+	        	<p class="fs-2 my-3">`+result.ttl+`</p>
+	        <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-2">
+	        	<img class="img-fluid" src="assets/img/blog/profile1.png" style="display:none;" alt=""> 
+	            <span class="mb-0">작성자: `+result.id+`</span>/<span>기술스택: `+result.skill+`</span>
+	        </div>
+	      </div>
+	      <div class="col-md-2" style="display: flex; align-items: center; flex-direction : column;" >
+	      	  <button  data-id="`+result.jobSearchNo+`" onclick="interest(this)" type="button" class="btn btn-outline-danger btn-sm listBtn">관심</button>`;
+	      	if(result.offeredYn == 'Y'){ //제안완료 게시글이라면
+	      		html += `<button  data-id="`+result.jobSearchNo+`" onclick="offerModal(this)" type="button" class="btn btn-info btn-sm listBtn">제안완료</button>`;	
+	      	}else{
+	      		html += `<button  data-id="`+result.jobSearchNo+`" onclick="offerModal(this)" type="button" class="btn btn-outline-info btn-sm listBtn">제안</button>`;
+	      	}
+		      
+		html += `</div>
+	    	</div>`;
+	}
+	
+	return html;
+			    
+}
+
+
+// 셀프구직 등록 버튼 클릭시 이력가 있는지 체크하는 함수
+$('#myProfile').on('click', function(){
+	
+	if($('#ROLE_MEM').val()){ // 유저일때
+		$.ajax({
+			  url: 'selfJobCheck',
+			  type: 'post',
+			  data: {id : id},
+			  success: function (result) {
+				if(result == 0){ // 작성한 이력서가 0 개일때
+					Swal.fire({
+						  icon: 'warning',
+						  html: '현재 저장된 이력서가 없습니다.<br>이력서 작성페이지로 이동하시겠습니까?',
+						  showCancelButton: true,
+						  confirmButtonColor: '#d33',
+						  cancelButtonColor: '#3085d6',
+						  confirmButtonText: '이동',
+						  cancelButtonText: '취소',
+						  buttonsStyling: true,
+						  reverseButtons: false
+						}).then((result) => {
+						  if (result.isConfirmed) { // 이동 클릭시
+							location.href="/mem/mkResumeTest"; // 이력서 작성페이지로 이동
+						  }
+						})
+				}else{ // 작성한 이력서가 있을때
+					location.href="/selfJobProfile";
+				}
+			  },
+			  error: function (reject) {	   
+		   	  	console.log(reject);
+			  }
+			});	
+	}else if($('#ROLE_CO').val()){ // 기업일때
+		
+		Swal.fire({
+			  icon: 'error',
+			  title: '기업은 셀프구직을 \n작성할 수 없습니다.'
+		});
+		
+	}else{ // 관리자일때
+		Swal.fire({
+			  icon: 'error',
+			  title: '관리자는 셀프구직을 \n작성할 수 없습니다.'
+		});
+	}
+});
+			
+</script>
+	</div>
+</body>
+</html>

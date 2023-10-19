@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{template/layout}"
+	xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+<style>
+#top {
+	background: #fff;
+}
+
+section {
+	background: #fff;
+}
+
+#body {
+	background: #fff;
+}
+</style>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+
+
+<!-- Google Fonts -->
+<link href="https://fonts.gstatic.com" rel="preconnect">
+<link
+	href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+	rel="stylesheet">
+
+
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+.gray {
+	color: #76979e;
+}
+
+.circleImg {
+	border-radius: 50%;
+	width: 120px;
+	height: 120px;
+	border : 1px solid gray;
+}
+
+.pointer {
+	cursor: pointer;
+}
+</style>
+</head>
+<body id="body">
+	<div class="container d-flex justify-content-center"
+		layout:fragment="content">
+		<!-- 현재로그인된 유저정보 -->
+		<input id="logId" name="id" type="hidden" th:value="${#authentication.principal.username}">
+		
+		<!-- 현재로그인된 유저가 가진 권한 -->
+		<div sec:authorize="hasRole('ROLE_MEM')" style="display:none;">
+			<input id="ROLE_MEM" value="ROLE_MEM"> 
+		</div>
+		<div sec:authorize="hasRole('ROLE_CO')" style="display:none;">
+			<input id="ROLE_CO" value="ROLE_CO"> 
+		</div>
+
+		<div class="col-lg-9 text-center">
+			<div class="">
+				<img sec:authorize="hasRole('ROLE_CO')"  
+					onclick="openImg()"
+					th:src="@{'moamoreImg/' + ${co?.profileImg}}"
+					onerror="this.src='self/profile.JPG'" id="myImg"
+					class="circleImg mb-4 pointer">
+					<img sec:authorize="hasRole('ROLE_MEM')"  
+					onclick="openImg()"
+					th:src="@{'moamoreImg/' + ${member?.profileImg}}"
+					onerror="this.src='self/profile.JPG'" id="myImg"
+					class="circleImg mb-4 pointer">
+				<h3 sec:authorize="hasRole('ROLE_CO')">[[${co?.coNm}]] 님, 환영합니다</h3>
+				<h3 sec:authorize="hasRole('ROLE_MEM')">[[${member?.name}]] 님, 환영합니다</h3>
+			</div>
+			<input type="file" id="imgFileUploader" onchange="readURL(this)"
+				style="display: none;">
+			<div class="card">
+				<div class="card-body text-center" style="padding: 30px">
+					<div class="">
+						<h3>계정관리</h3>
+						<h5 class="text-muted mb-5">서비스에서 사용하는 내 계정 정보를 관리할 수 있습니다.</h5>
+						<div></div>
+						<div class="row d-flex justify-content-center">
+							<div class="col-lg-4">아이디</div>
+
+							<div class="col-lg-4">[[${member.id}]]</div>
+							<div class="col-lg-2"></div>
+						</div>
+						<hr style="color: #e3e5e5">
+						<div class="row d-flex justify-content-center pointer"
+							data-bs-toggle="modal" data-bs-target="#updatePw">
+							<div class="col-lg-4">비밀번호</div>
+
+							<div class="col-lg-4 gray">*********</div>
+							<div class="col-lg-2">
+								<i class="bi bi-chevron-compact-right"></i>
+							</div>
+						</div>
+						<hr style="color: #e3e5e5">
+						<!-- <div class="row d-flex justify-content-center pointer"
+							data-bs-toggle="modal" data-bs-target="#updatePh">
+							<div class="col-lg-4">이메일</div>
+
+							<div class="col-lg-4 gray">[[${member.email}]]</div>
+							<div class="col-lg-2">
+								<i class="bi bi-chevron-compact-right"></i>
+							</div>
+						</div>
+						<hr style="color: #e3e5e5"> -->
+						<div class="row d-flex justify-content-center pointer"
+							data-bs-toggle="modal" data-bs-target="#updateAddr">
+							<div class="col-lg-4 ">주소</div>
+							<div class="col-lg-4 gray" id="oldAddr">([[${member.post}]])[[${member.addr}]]</div>
+							<div class="col-lg-2">
+								<i class="bi bi-chevron-compact-right"></i>
+							</div>
+						</div>
+						<hr style="color: #e3e5e5">
+						<div class="row d-flex justify-content-center mb-5 pointer"
+							onclick="location.href='/withdraw'">
+							<div class="col-lg-4 ">회원탈퇴</div>
+
+							<div class="col-lg-4 gray"></div>
+							<div class="col-lg-2">
+								<i class="bi bi-chevron-compact-right"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div sec:authorize="hasRole('ROLE_CO')" class="card  text-center">
+				<div class="card-body">
+					<!-- General Form Elements -->
+					<form name="submitForm" action="/saveCoInfo" method="post" class="">
+						<br>
+						<h3>기업정보</h3>
+						<br>
+						<div class="row mb-4 d-flex justify-content-center">
+							<label for="inputText" class="col col-form-label text-center">기업명</label>
+							<div class="col-sm-4">
+								<input type="text" name="coNm" th:value="${co?.coNm}"
+									class="form-control">
+
+							</div>
+
+							<label for="inputText" class="col col-form-label text-center">대표자</label>
+							<div class="col-sm-4">
+								<input type="text" name="rpstr" th:value="${co?.rpstr}" value=""
+									class="form-control">
+							</div>
+						</div>
+
+
+						<div class="row mb-4 d-flex justify-content-center">
+							<label class="col-sm col-form-label">구분</label>
+							<div class="col-sm-4">
+								<select class="form-select" name="coFg"
+									aria-label="Default select example">
+									<option value="" selected>선택</option>
+									<option value="M4" th:selected="${co?.coFg == 'M4'}">강소기업</option>
+									<option value="M3" th:selected="${co?.coFg == 'M3'}">중소기업</option>
+									<option value="M2" th:selected="${co?.coFg == 'M2'}">중견기업</option>
+									<option value="M1" th:selected="${co?.coFg == 'M1'}">대기업</option>
+								</select>
+							</div>
+
+							<label class="col-sm col-form-label">산업</label>
+							<div class="col-sm-4">
+								<select class="form-select" name="idst"
+									aria-label="Default select example">
+									<option value="" selected>선택</option>
+									<option value="W1" th:selected="${co?.idst == 'W1'}">소프트웨어
+										개발 및 공급업</option>
+									<option value="W2" th:selected="${co?.idst == 'W2'}">컴퓨터
+										프로그래밍, 시스템 통합 및 관리업</option>
+									<option value="W3" th:selected="${co?.idst == 'W3'}">자료처리,
+										호스팅, 포털 및 기타 인터넷 정보매개서비스업</option>
+									<option value="W4" th:selected="${co?.idst == 'W4'}">기타
+										정보 서비스업</option>
+								</select>
+							</div>
+						</div>
+
+
+
+						<div class="row mb-4 d-flex justify-content-center">
+							<label class="col-sm col-form-label">매출액</label>
+							<div class="col-sm-4">
+								<select class="form-select" name="sale"
+									aria-label="Default select example">
+									<option value="" selected>선택</option>
+									<option value="V1" th:selected="${co?.sale == 'V1'}">400억
+										이하</option>
+									<option value="V2" th:selected="${co?.sale == 'V2'}">600억
+										이하</option>
+									<option value="V3" th:selected="${co?.sale == 'V3'}">800억
+										이하</option>
+									<option value="V4" th:selected="${co?.sale == 'V4'}">1000억
+										이하</option>
+									<option value="V5" th:selected="${co?.sale == 'V5'}">1500억
+										이하</option>
+									<option value="V6" th:selected="${co?.sale == 'V6'}">1500억
+										초과</option>
+								</select>
+							</div>
+
+							<label class="col-sm col-form-label">자본금</label>
+							<div class="col-sm-4">
+								<select class="form-select" name="cptl"
+									aria-label="Default select example">
+									<option value="" selected>선택</option>
+									<option value="a1" th:selected="${co?.cptl == 'a1'}">5000만원
+										이하</option>
+									<option value="a2" th:selected="${co?.cptl == 'a2'}">1억
+										이하</option>
+									<option value="a3" th:selected="${co?.cptl == 'a3'}">5억
+										이하</option>
+									<option value="a4" th:selected="${co?.cptl == 'a4'}">10억
+										이하</option>
+									<option value="a5" th:selected="${co?.cptl == 'a5'}">50억
+										이하</option>
+									<option value="a6" th:selected="${co?.cptl == 'a6'}">50억
+										초과</option>
+								</select>
+							</div>
+						</div>
+
+
+
+						<div class="row mb-4 d-flex justify-content-center">
+							<label for="inputText" class="col-sm col-form-label">사원수</label>
+							<div class="col-sm-4">
+								<input type="text" name="empTtl" th:value="${co?.empTtl}"
+									value="" class="form-control">
+							</div>
+
+							<label for="inputDate" class="col-sm col-form-label">설립일</label>
+							<div class="col-sm-4">
+								<input type="date" name="fondtDt" th:value="${co?.fondtDt}"
+									value="" class="form-control">
+							</div>
+						</div>
+
+
+
+						<div class="row mb-4 d-flex justify-content-center">
+							<label for="inputText" class="col-sm col-form-label">사이트</label>
+							<div class="col-sm-4">
+								<input type="text" name="homePage" th:value="${co?.homePage}"
+									value="" class="form-control">
+							</div>
+						
+							<label for="inputText" class="col-sm col-form-label"></label>
+							<div class="col-sm-4">
+								<input type="hidden" name="addr" 
+									class="form-control" th:value="${co?.addr}">
+							</div>
+						</div>
+
+						<div class="row mb-4">
+							<div class="col-12 d-flex justify-content-center">
+								<a href="/coMypage" class="btn btn-outline-dark me-1">취 소</a>
+								<button  onclick="infoSubmit()" class="btn btn-outline-dark ml-1">저 장</button>
+							</div>
+						</div>
+
+					</form>
+					<!-- End General Form Elements -->
+
+				</div>
+			</div>
+		</div>
+
+
+		<!-- html모달창 -->
+		<!-- 비밀번호 변경  -->
+		<div class="modal fade" id="updatePw" tabindex="-1"
+			aria-labelledby="exampleModalCenterTitle" style="display: none;"
+			aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalCenterTitle">비밀번호 변경</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<div class="row d-flex justify-content-center">
+							<div class="row d-flex justify-content-center mb-2">
+								<label class="col-4">현재 비밀번호</label> <input type="password"
+									class="col-6" name="pw" placeholder="비밀번호 입력"
+									oninput="checkPw()">
+								<div class="row">
+									<span class="col-5"></span><small id="incPw"
+										class="col-5 text-danger pwWarn" style="display: none;">현재
+										비밀번호가 다릅니다.</small>
+								</div>
+							</div>
+							<div class="row d-flex justify-content-center mb-2">
+								<label class="col-4">새 비밀번호</label> <input type="password"
+									class="col-6" name="newPw" placeholder="새 비밀번호 입력"
+									oninput="checkNewPw()">
+							</div>
+							<div class="row d-flex justify-content-center">
+								<label class="col-4">비밀번호 확인</label> <input type="password"
+									class="col-6" name="newPwCheck" placeholder="새 비밀번호 다시 입력"
+									oninput="checkNewPw()">
+								<div class="row">
+									<span class="col-5"></span><small id="incNewPw"
+										class="col-6 text-danger pwWarn" style="display: none;">비밀번호가
+										일치하지 않습니다.</small>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<div class="modal-footer d-flex justify-content-center">
+						<button type="button" onclick="closePwModal()" id="closePwModal"
+							data-bs-dismiss="modal" aria-label="Close"
+							class="btn btn-outline-dark">취소</button>
+						<button type="button" onclick="updatePw()" class="btn btn-outline-dark">변경</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 전화번호 변경 -->
+		<div class="modal fade" id="updatePh" tabindex="-1"
+			aria-labelledby="exampleModalCenterTitle" style="display: none;"
+			aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalCenterTitle">Modal
+							title</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<p>Thitest.</p>
+					</div>
+					<div class="modal-footer text-center">
+						<button type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary">Save
+							changes</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 주소변경 모달 -->
+		<div class="modal fade" id="updateAddr" tabindex="-1"
+			aria-labelledby="exampleModalCenterTitle" style="display: none;"
+			aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalCenterTitle">주소변경</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<div class="row d-flex justify-content-center">
+							<div class="row d-flex justify-content-center mb-2">
+								<label class="col-3">우편번호</label> <input id="post" disabled
+									th:value="${member.post}" class="col-4">
+								<button class="col-3 btn-outline-dark" onclick="addrApi()">검색</button>	
+							</div>
+							<div class="row d-flex justify-content-center mb-2">
+								<label class="col-3">주소</label> <input id="addr" disabled
+									th:value="${member.addr}" class="col-7">
+							</div>
+							<div class="row d-flex justify-content-center mb-2">
+								<label class="col-3">상세주소</label> <input id="addrDt" 
+									th:value="${member.addrDt}"  class="col-7">
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer d-flex justify-content-center">
+						<button type="button" class="btn btn-outline-dark"
+							data-bs-dismiss="modal">취소</button>
+						<button type="button" class="btn btn-outline-dark" onclick="updateAddr()">저장</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			//비밀번호 변경
+			function updatePw() {
+				if (pwNullCheck()) {
+					let id = "[[${member.id}]]";
+					let pw = $('[name="newPw"]').val();
+					$.ajax({
+						url : "/updatePw",
+						method : "POST",
+						data : JSON.stringify({
+							id : id,
+							pw : pw
+						}),
+						contentType : "application/json",//보내는타입
+						success : function(res) {
+							$('#closePwModal').click();
+							Swal.fire({
+								icon : 'success',
+								title : '비밀번호가 변경되었습니다.'
+							});
+
+						},
+						error : function(res) {
+							console.log(res);
+						},
+					});
+				} else
+					Swal.fire({
+						icon : 'warning',
+						title : '비밀번호를 확인해주세요.'
+					});
+			}
+			//비밀번호 빈칸체크
+			function pwNullCheck() {
+				let inputs = document.querySelector('#updatePw')
+						.querySelectorAll('input')
+				let nullCheck = 0;
+				let warnCheck = document.querySelectorAll('.pwWarn')
+				for (let i = 0; i < inputs.length; i++) {
+					if (inputs[i].value == '') {
+						nullCheck += 1;
+					}
+				}
+				for (let j = 0; j < warnCheck.length; j++) {
+					if (warnCheck[j].style.display == 'block') {
+						nullCheck += 1;
+					}
+				}
+
+				if (nullCheck > 0) {
+					return false
+				} else
+					return true;
+			}
+
+			//현재비밀번호 일치확인
+			function alwaysNone() {
+				let pw = $('[name=pw]').val()
+				let newPw = $('input[name=newPw]').val();
+				let newCheckPw = $('input[name=newPwCheck]').val();
+				incPw.style.display = "none";
+				incNewPw.style.display = "none";
+			}
+
+			function checkPw() {
+				let pw = $('[name=pw]').val()
+				$.ajax({
+					url : "/checkPw",
+					method : "POST",
+					data : {
+						pw : pw
+					},
+					success : function(res) {
+						console.log(res)
+						if (res || pw == '') {
+							incPw.style.display = "none";
+						} else {
+							incPw.style.display = "block";
+						}
+					},
+					error : function(jqXHR, textStatus, errorThrown) {
+						console.error(textStatus, errorThrown);
+					},
+				});
+			}
+			//변경비밀번호 일치확인
+			function checkNewPw() {
+				let newPw = $('input[name=newPw]').val();
+				let newCheckPw = $('input[name=newPwCheck]').val();
+				if (newPw == newCheckPw || newPw == '') {
+					incNewPw.style.display = "none";
+				} else {
+					incNewPw.style.display = "block";
+				}
+			}
+
+			function closeModal() {
+				let modals = document.querySelectorAll('.modal')
+				for (let i = 0; i < modals.length; i++) {
+					let inputs = modals[i].querySelectorAll('input')
+					for (let j = 0; j < inputs.length; j++) {
+						inputs[j].value = '';
+					}
+				}
+			}
+
+			function closePwModal() {
+				closeModal();
+				alwaysNone();
+			}
+			
+			// 주소 수정클릭
+			function updateAddr(){
+				let updateAddr = document.querySelector('#updateAddr'); // 주소변경 모달창
+				let post = updateAddr.querySelector('#post').value // 새로바뀐 우편번호
+				let addr = updateAddr.querySelector('#addr').value // 새로바뀐 주소
+				let addrDt = updateAddr.querySelector('#addrDt').value // 새로바뀐 상세주소
+				// 주소 수정 ajax
+				 $.ajax({
+					url : '/updateInfo',
+					type : 'post',
+					data : {post : post,
+							addr : addr,
+							addrDt : addrDt},
+					success : function(result) {
+						oldAddr.innerText = '('+post+')'+addr+' '+addrDt;  // 기존주소 화면상에서도 바꾸기
+						Swal.fire({
+							icon : 'success',
+							title : '주소변경 완료!'
+						}).then(function(){
+							$('#updateAddr').modal('hide');
+						});
+
+					},
+					error : function(reject) {
+						console.log(reject);
+					}
+				}); 
+				
+			}
+
+			// 프로필 이미지 --------------------------------------------------------------------
+
+			//프로필 이미지클릭
+			function openImg() {
+				$('#imgFileUploader').click();
+			}
+
+			// 프로필변환 이미지 미리보기 , 이미지파일이 변경되면 실행 됨 // 출처: 박선아 selfJobProfile.html
+			function readURL(input) {
+				if (input.files && input.files[0]) {
+					var reader = new FileReader();
+					reader.onload = function(e) {
+						console.log(e);
+						document.getElementById('myImg').src = e.target.result;
+					};
+					reader.readAsDataURL(input.files[0]);
+				} else {
+					document.getElementById('myImg').src = "";
+				}
+
+				//이미지 바뀜과 동시에 이미지 저장
+				myImgReg();
+			}
+
+			// 프로필 이미지 등록함수 c:moaImg 에 저장
+			function myImgReg() {
+				let formData = new FormData();
+				formData.append("profileImage", imgFileUploader.files[0]);
+
+				$.ajax({
+					url : 'uploadProfileImg',
+					type : 'post',
+					data : formData,
+					async : true, //비동기 여부
+					enctype : "multipart/form-data", //form data 설정
+					processData : false, //프로세스 데이터 설정 : false 값을 해야 form data로 인식함
+					contentType : false, //헤더의 Content-Type을 설정 : false 값을 해야 form data로 인식함
+					success : function(result) {
+						console.log(result)
+						Swal.fire({
+							icon : 'success',
+							title : '대표이미지가 변경되었습니다.'
+						});
+
+					},
+					error : function(reject) {
+						console.log(reject);
+					}
+				});
+
+			}
+
+			// 주소 API
+			function addrApi() {
+				new daum.Postcode({
+					oncomplete : function(data) {
+						var addr = ""; // 주소 변수
+						var extraAddr = ""; // 참고항목 변수
+
+						//사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+						if (data.userSelectedType === "R") {
+							// 사용자가 도로명 주소를 선택했을 경우
+							addr = data.roadAddress;
+						} else {
+							// 사용자가 지번 주소를 선택했을 경우(J)
+							addr = data.jibunAddress;
+						}
+						$("#addr").val(addr);
+						$("#post").val(data.zonecode);
+						$("input[name=addr]").val(addr);
+					},
+					theme : {
+						searchBgColor : "#254364", //검색창 배경색
+						queryTextColor : "#FFFFFF", //검색창 글자색
+					},
+				}).open();
+			}
+			
+			// 기업정보등록
+			function infoSubmit(){
+				Swal.fire({
+					icon : 'success',
+					title : '저장완료!'
+				}).then(function(){
+					$('name="submitForm"').submit();
+				})
+			}
+		</script>
+	</div>
+</body>
+</html>

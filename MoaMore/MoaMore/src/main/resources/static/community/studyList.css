@@ -1,0 +1,45 @@
+.nav-list {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+.nav-list li {
+  margin-right: 10px;
+}
+
+.nav-button {
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.radius{
+	border-radius : 0px;
+}
+
+.circleImg {
+  border-radius: 50%;
+  width : 30px;
+  height : 30px;
+}
+
+.listStyle{
+   list-style:none;
+   padding-left:0px;
+}
+
+.cursor{
+	cursor:pointer;
+}
+
+
+.nav-pills .nav-link{
+	border-radius : 0px;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link{
+	background-color : #0A2640;
+}

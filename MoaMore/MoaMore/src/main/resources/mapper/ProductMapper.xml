@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.yedam.moa.products.mapper.ProductMapper">
+  	<!-- 이미 5번의 예약이 꽉 찬 날짜들 -->
+  	<select id="disabledDates" resultType="ProductVO">
+  		SELECT reser_dt
+		  FROM(
+				SELECT COUNT(recruit_no) AS count ,reser_dt
+				  FROM rec_reser GROUP BY reser_dt)
+		 WHERE count = 5	
+  	</select>
+  	
+  	<!-- 선택한 공고의 이전예약일자들 -->
+  	<select id="addDisabledDates" parameterType="ProductVO" resultType="ProductVO">
+  		SELECT reser_dt
+  		  FROM rec_reser 
+  		 WHERE recruit_no = #{recruitNo}
+  	</select>
+  	
+  	<select id="selectProducts" resultType="ProductVO">
+  		SELECT  prdt_cd,
+				prdt_nm,
+				svc_cnt,
+				SUBSTR(prdt_prc, 1, LENGTH(prdt_prc) - 3)||','||SUBSTR(prdt_prc,-3) prdt_prc,
+				SUBSTR(discount, 1, LENGTH(discount) - 3)||','||SUBSTR(discount,-3) discount,
+				SUBSTR(total_price, 1, LENGTH(total_price) - 3)||','||SUBSTR(total_price,-3) total_price
+		FROM prdt
+		ORDER BY svc_cnt		
+  	</select>
+  	
+  	<select id="getProduct" parameterType="String" resultType="ProductVO">
+  		SELECT  prdt_cd,
+				prdt_nm,
+				svc_cnt,
+				disc_rate,
+				SUBSTR(prdt_prc, 1, LENGTH(prdt_prc) - 3)||','||SUBSTR(prdt_prc,-3) prdt_prc,
+				SUBSTR(discount, 1, LENGTH(discount) - 3)||','||SUBSTR(discount,-3) discount,
+				SUBSTR(total_price, 1, LENGTH(total_price) - 3)||','||SUBSTR(total_price,-3) total_price
+		FROM prdt
+		WHERE prdt_cd =  #{prdtCd}
+  	</select>
+  	
+  	<insert id="afterPay" parameterType="ProductVO">
+  		 {CALL after_pay(
+                  #{orderNo},
+                  #{recruitNo, mode=IN, jdbcType=VARCHAR},
+                  #{id, mode=IN, jdbcType=VARCHAR},
+                  #{prdtCd, mode=IN, jdbcType=VARCHAR},
+                  #{reserDts}
+            )}
+  	</insert>
+  	<!-- 기업보유상품목록 -->
+  	<select id="selectCoProducts" resultType="ProductVO">
+  		SELECT  s.order_no,
+			    s.recruit_no,
+			    s.id,
+				s.sttl_cd,
+				s.sttl_dt,
+				s.prdt_cd,
+				s.reser_dts,
+                p.prdt_nm,
+                r.ttl,
+                SUBSTR(total_price, 1, LENGTH(total_price) - 3)||','||SUBSTR(total_price,-3) total_price,
+                p.svc_cnt
+  		  FROM  sttl s join prdt p 
+  		    ON  s.prdt_cd = p.prdt_cd   
+          JOIN  recruit_anun r 
+            ON  s.recruit_no = r.recruit_no
+  		 WHERE  s.id = #{id}
+  	</select>
+  
+  </mapper>
