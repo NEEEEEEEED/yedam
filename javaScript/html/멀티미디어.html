@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>멀티미디어</title>
+  <style>
+    #container{
+      width: 600px;
+      margin: 0 auto;
+      background-color: rgba(205, 126, 221, 0.699);
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+  <h1>이미지 삽입</h1>
+  <a href="https://www.naver.com" title="네이버로 이동" target="blank">
+  <img src="img/레드향.jpg" alt="레드향" width="10%" height="10%"></a>
+  <img src="레드향.jpg" alt="레드향" title="레드향인척하는 귤" width="600" height="600">
+  <img src="img/사과.jpg" alt="사과" width="20%" height="20%">
+  <figcaption>과일</figcaption>
+
+  <h1>pdf 파일 삽입</h1>
+  <object data="/img/1.HTML(구조텍스트목록표).pdf" width="500" height="500"></object>
+
+  <h1>오디오 파일 삽입</h1>
+  <audio src="/img/미소속에비친그대.mp3" controls></audio>
+  <video src="/img/사랑한다사랑해.mp4" controls autoplay muted width="500" height="400"></video>
+  
+  <h1>유튜브 영상 삽입</h1>
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/MTYorp25Aio" 
+  title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; 
+  encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</body>
+</html>

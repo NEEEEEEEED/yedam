@@ -1,0 +1,26 @@
+# vi /etc/named.conf
+G
+o(소문자)
+교재와 같이 입력
+단, john.com -> 보인 도메인명
+~
+zone "seokjdb.com" IN {
+  type master;
+  file "seokjdb.com.db";
+  allow-update { none; };
+};
+# named-checkconf
+# cd /var/named
+# vi seokjdb.com.db
+$TTL  3H
+@  SOA  @   root. ( 2  1D  1H  1W  1H )
+   IN   NS  @
+   IN   A   192.168.111.100
+
+www  IN  A  192.168.111.100
+ftp  IN  A  192.168.111.200
+
+# named-checkzone seokjdb.com seokjdb.com.db
+# systemctl restart named
+# firewall-cmd --permanent --add-service=dns
+# firewall-cmd --reload

@@ -1,0 +1,92 @@
+#container{
+  width: 960px;
+  margin: 0 auto;
+  padding: 20px
+}
+header{
+  background-color: rgb(50, 118, 206);
+  overflow: hidden;
+  padding: 10px;
+  padding-left: 30px;
+}
+header h1{
+  float: left;
+}
+nav {
+  width: 500px;
+  float: right;
+  
+}
+nav li {
+  display: inline-block;
+  margin: 10px;
+  font-size: large;
+}
+nav a {
+  color: white;
+  text-decoration: none;
+}
+section{
+  background-color: #eee;
+  padding: 20px;
+  margin-bottom: 5px;
+}
+section ul{
+  text-align: center;
+}
+section li {
+  display: inline-block;
+  margin-right: 60px;
+}
+section a {
+  text-decoration: none;
+  
+}
+article{
+  border: 1px solid #f0f;
+  padding: 15px;
+}
+section h3 {
+  margin: 10px;
+  margin-left: 40px;
+  font-size: x-large;
+}
+.A {
+  border-radius: 10px;
+}
+.B {
+  border-radius: 20px;
+  border-style: dotted;
+}
+.C {
+  border-top-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border-style: dashed;
+}
+figure{
+  text-align: center;
+}
+figure img{
+  width: 150px;
+  height: 100px;
+}
+.reset {
+  display: block;
+  text-align: right;
+  margin-bottom: 10px;
+}
+aside{
+  background-color: pink;
+  padding: 10px;
+  margin-bottom: 5px;
+}
+footer{
+  background-color: rgb(38, 89, 165);
+  text-align: center;
+  font-style: italic;
+  color: white;
+  height: 53px;
+}
+footer p {
+  display: inline-block;
+}

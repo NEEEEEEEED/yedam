@@ -1,0 +1,59 @@
+#container {
+  width: 900px;
+  margin: 0 auto;
+}
+header {
+  background-color: rgb(212, 71, 118);
+  padding: 10px;
+  overflow: hidden;
+}
+header img {
+  float: left;
+  width: 80px;
+  height: 80px;
+}
+nav {
+  width: 500px;
+  float: right;
+}
+nav a {
+  color: white;
+  text-decoration: none;
+}
+nav li {
+  display: inline-block;
+  margin: 10px;
+  font-size: large;
+}
+section {
+  width: 700px;
+  float: left;
+}
+article{
+  width: 310px;
+  height: 273px;
+  border: 1px solid black;
+  padding: 10px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  float: left;
+  text-align: justify;
+  text-indent: 16px;
+}
+aside {
+  width: 180px;
+  float: right;
+  margin-top: 72px;
+}
+aside img {
+  width: 180px;
+  height: 195px;
+}
+footer {
+  clear: both;
+  background-color: rgb(44, 67, 197);
+  padding: 10px;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+}

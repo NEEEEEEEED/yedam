@@ -1,0 +1,40 @@
+body {
+  background-image: url("../img/사각형\ 이미지.jpg");
+  background-color: rgba(0, 0, 0, 0.7);
+  background-blend-mode: overlay;
+}
+#login {
+  width: 30%;
+  height: 40%;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid black;
+  overflow: hidden;
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 99;
+  color: #f3ecb0;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  letter-spacing: 5px;
+}
+form {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+h1 {
+  margin-bottom: 50px;
+  padding-top: 8%;
+  font-size: 3em;
+}
+.btn {
+  float: right;
+  background-color: #344d67;
+  border: none;
+}
+.btn-primary {
+  --bs-btn-hover-bg: #ecb306;
+}

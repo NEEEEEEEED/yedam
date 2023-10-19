@@ -1,0 +1,32 @@
+페이징 처리 -> mysql select 조건에서 limit 사용
+현재 페이지 번호 -1 * 10 => 페이징 offset 계산
+
+
+pool.query(sql, data1, data2...,function (err, results, fields) {
+if (err) {
+console.log(err);
+}
+:sql의 ? 개수 만큼 data 들어가야함
+
+해야 할것
+수정 연결 - 완료
+
+삭제 연결 - 완료
+
+스코어 보드 연결 - 완료
+------------------------------------
+페이징 처리
+
+
+조회수
+클릭할때마다
+update로 count +1
+
+날짜 내림차순
+날짜로 getTime()로 바꿔서 숫자로 비교
+https://www.delftstack.com/ko/howto/javascript/how-to-compare-two-dates-with-javascript/
+
+게임 페이지 제작
+
+
+css 꾸미기

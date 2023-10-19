@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>class.html</title>
+  <style>
+    .hide{
+      display: none;  
+    }
+    </style>
+</head>
+<body>
+  <h3>class 속성 제어</h3>  
+  <!-- <button id="btn">hide</button> -->
+  <button id="btn">toggle hide</button>
+  <div id="result">  div영역  </div>
+  <script>
+    btn.onclick = function() {
+      let div = document.getElementsByTagName('div')[0];
+      //html 방식
+      // div.setAttribute('class','hide');
+      //dom 방식
+      // div.className='hide'
+
+      //toggle hide
+      //현재 클래스 속성 조회
+      let classvalue = div.getAttribute('class');
+      //클래스 속성이 'hide'라면 클래스 삭제
+      if(classvalue == 'hide'){
+        div.removeAttribute('class')   //hremoveAttribute
+        // div.setAttribute('class','')   //setAttribute
+        // div.className=''                  //dom방식
+        //아니면 클래스 추가
+      } else{
+        div.setAttribute("class","hide")
+      }
+      
+    }
+  </script>
+</body>
+</html>

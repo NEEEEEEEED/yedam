@@ -1,0 +1,56 @@
+#container {
+  width: 70%;
+  margin: 0 auto;
+}
+header {
+    background-color: #069;
+    overflow: hidden;
+}
+header h1 {
+  width: 40%;
+  float: left;
+  color: white;
+  margin-left: 10px;
+}
+nav {
+  width: 50%;
+  float: right;
+  margin-top: 13px;
+}
+nav li {
+  display: inline-block;
+  margin-right: 10px;
+  color: white;
+  font-size: large;
+}
+nav a {
+  color: white;
+  text-decoration: none;
+}
+section {
+  padding: 10px;
+  border: 5px solid rgb(123, 186, 216);
+}
+article ul {
+  line-height: 50px;
+  list-style-type: square;
+}
+article ol {
+  list-style-type: upper-roman;
+  line-height: 50px;
+}
+img {
+  float: right;
+  width: 300px;
+  height: 460px;
+  margin-top: 15px;
+}
+footer {
+  background-color: #069;
+  font-size: x-large;
+  text-align: center;
+  padding: 10px;
+  font-weight: bold;
+  color: white;
+  font-style: italic;
+}

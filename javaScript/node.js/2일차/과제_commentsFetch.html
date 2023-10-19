@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h3>comments관리</h3>
+    <button onclick="selectComments()">comments 조회</button>
+    <div id="commentsList"></div>
+    <form>
+      <input id="id" placeholder="id" />
+      <input id="body" placeholder="body" />
+      <button id="btnAdd" type="button">포스트등록</button>
+    </form>
+    <script>
+      selectComments();
+
+      btnAdd.addEventListener("click", insertComments);
+      commentsList.addEventListener("click", deleteComments);
+
+      //comments 삭제
+      function deleteComments(ev) {
+        let id = ev.target.getAttribute("data-id");
+        let url = "http://localhost:3000/comments/" + id;
+        fetch(url, { method: "delete" }).then((res) => selectComments());
+      }
+
+      //commets 등록
+      function insertComments() {
+        let url = "http://localhost:3000/comments";
+        let data = { id: id.value, body: body.value };
+        fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        })
+          .then((res) => res.json())
+          .then((res) => selectComments());
+      }
+
+      //comments 조회
+      function selectComments() {
+        let url = "http://localhost:3000/comments";
+        fetch(url)
+          .then((res) => res.json())
+          .then((comments) => {
+            commentsList.innerHTML = "";
+            for (let i = 0; i < comments.length; i++) {
+              commentsList.innerHTML += `<div>${comments[i].id} ${comments[i].body} <button data-id="${comments[i].id}" class=btnDel>삭제</button></div>`;
+            }
+          });
+      }
+    </script>
+  </body>
+</html>

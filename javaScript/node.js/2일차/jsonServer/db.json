@@ -1,0 +1,51 @@
+{
+  "posts": [
+    {
+      "id": "1",
+      "title": "2",
+      "author": "3"
+    },
+    {
+      "id": "2",
+      "title": "3",
+      "author": "4"
+    },
+    {
+      "id": "3",
+      "title": "4",
+      "author": "5"
+    },
+    {
+      "id": "4",
+      "title": "a",
+      "author": "a"
+    },
+    {
+      "id": "5",
+      "title": "b",
+      "author": "b"
+    },
+    {
+      "id": "6",
+      "title": "c",
+      "author": "c"
+    }
+  ],
+  "comments": [
+    {
+      "id": 2,
+      "body": "배"
+    },
+    {
+      "id": 3,
+      "body": "고"
+    },
+    {
+      "id": 4,
+      "body": "파"
+    }
+  ],
+  "profile": {
+    "name": "kim"
+  }
+}

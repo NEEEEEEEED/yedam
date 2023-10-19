@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>웹개발</title>
+    <style>
+      div{
+        color : blue;
+      }
+      span{
+        color : red;
+      }
+      thead {
+        background-color : yellow;
+      }
+      tfoot {
+        background-color : aquamarine;
+      }
+    </style>
+  </head>
+  <body>
+      <h1><span>웹</span>개발자</h1>
+      <h3> 프론트 <small>엔드</small></h3>
+      <div>
+      <p><strong><mark> Lorem ipsum</mark></strong> dolor, sit amet <b>consectetur</b> 
+      adipisicing elit.<br> 
+      Reprehenderit minus ullam maxime fugit perferendis quas 
+      <em>exercitationem?</em> <i>Optio eum distinctio</i> 
+      ratione earum?<br> 
+      <mark>similique facilis</mark> assumenda atque quae debitis 
+      quaerat dicta?</p>
+      <hr>
+      <p><u>Lorem ipsum dolor sit amet consectetur adipisicing elit.</u> 
+      <blockquote> Sit, natus, ducimus <mark><q>mollitia obcaecati enim delectus possimus, 
+      quasi ut incidunt</q></mark> dicta molestiae</blockquote> quia sapiente veritatis quaerat? 
+      <s>Animi</s> laboriosam <ins>quisquam commodi</ins> tempora!</p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+      <abbr title="akdfkjksld">Soluta unde necessitatibus</abbr>, voluptatem pariatur non sed ipsam quas numquam alias 
+      in consequatur, labore atque provident iure. Architecto accusamus molestias 
+      aliquid molestiae!
+  </div>
+
+  <h1><ruby>學習<rt>학습</rt></ruby></h1>
+  <h2>H<sub>2</sub>O<sup>2</sup></h2>
+  
+  <h1>목록만들기</h1>
+  <ol type="i" start="2">
+    <li>바나나</li>
+    <li>딸기</li>
+    <li>사과</li>
+  </ol>
+  <dl>
+    <dt>바나나</dt>
+    <dd>노란색 열대과일 입니다.</dd>
+    <dt>사과</dt>
+    <dd>빨간색 동그랗게 생긴 과일입니다.</dd>
+  </dl>
+  <h3>표만들기</h3>
+  <table border="1">
+  <caption>표제목</caption>
+    <thead>
+      <tr>
+        <th>1열</th>
+        <th>2열</th>
+        <th>3열</th>
+        <th>4열</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>2행 1열</td>
+        <td>2행 2열</td>
+        <td>2행 3열</td>
+        <td>2행 4열</td>
+      </tr>
+      <tr>
+        <td rowspan="2">3행 1열</td>
+        <td>3행 2열</td>
+        <td colspan="2">3행 3열</td>
+      </tr>
+      <tr>
+        <td>4행 2열</td>
+        <td>4행 3열</td>
+        <td>4행 4열</td>
+      </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+          <td colspan="4">5행 1열</td>
+        </tr>
+    </tfoot>
+  </table>
+  <h3>상품구성</h3>
+  <table border="1">
+    <caption>선물용과 가정용 상품 구성</caption>
+    <colgroup>
+      <col style="background-color: #eee;">
+      <col>
+      <col span="2" style="width: 150px;">
+    </colgroup>
+    <thead>
+      <tr>
+        <th>용도</th>
+        <th>중량</th>
+        <th>개수</th>
+        <th>가격</th>
+      </tr>
+    </thead>
+    <tbody>  
+      <tr>
+        <td rowspan="2">선물용</td>
+        <td>3kg</td>
+        <td>11~16과</td>
+        <td>35,000원</td>
+      </tr>
+      <tr>
+        <td>5kg</td>
+        <td>18~26과</td>
+        <td>52,000원</td>
+      </tr>
+      <tr>
+        <td rowspan="2">가정용</td>
+        <td>3kg</td>
+        <td>11~16과</td>
+        <td>30,000원</td>
+      </tr>
+      <tr>
+        <td>5kg</td>
+        <td>18~26과</td>
+        <td>47,000원</td>
+      </tr>
+    </tbody>  
+    
+  </table>
+
+
+
+</body>
+</html>

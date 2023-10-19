@@ -1,0 +1,78 @@
+#container {
+  width: 70%;
+  margin: 0 auto;
+}
+header {
+  background-color: rgb(250,90,120);
+  height: 100px;
+  padding: 10px;
+}
+header h1 {
+  float: left;
+  color: white;
+}
+nav {
+  width: 50%;
+  float: right;
+  margin: 13px;
+}
+nav ul li {
+  list-style-type: none;
+  display: inline-block;
+  padding: 10px;
+
+}
+nav a {
+  text-decoration: none;
+  color: white;
+}
+
+section {
+  border: 5px solid pink;
+  padding: 10px;
+  overflow: hidden;
+}
+article {
+  margin: 0 auto;
+}
+.A30 {
+  width: 30%;
+  float: left;
+  padding: 10px;
+  margin-bottom: 40px;
+}
+.A30 h1 {
+  font-size: xx-large;
+  font-weight: bold;
+}
+.A30 ul {
+  list-style-type: square;
+}
+.A30 ol {
+  list-style-type: lower-alpha;
+}
+#A65 {
+  width: 65%;
+  float: left;
+}
+#A65 h1 {
+  font-size: xx-large;
+  font-weight: bold;
+  margin-top: 0px;
+}
+.bold {
+  font-weight: bold;
+}
+img {
+  float: right;
+  margin-top: 60px;
+}
+footer {
+  background-color: #069;
+  clear: both;
+  padding: 10px;
+  text-align: center;
+  color: white;
+  font-size: large;
+  font-style: italic;
+}

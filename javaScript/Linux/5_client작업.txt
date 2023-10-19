@@ -1,0 +1,9 @@
+$ su -
+# vi /etc/resolv.conf
+~
+nameserver 192.168.111.100
+
+웹브라이저에 www.seokjdb.com 접속
+
+# dnf -y install ftp
+# ftp ftp.seokjdb.com

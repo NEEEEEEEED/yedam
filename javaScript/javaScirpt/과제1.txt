@@ -1,0 +1,17 @@
+hello 출력		https://www.acmicpc.net/problem/2557
+윤년			https://www.acmicpc.net/problem/2753
+나머지연산		https://www.acmicpc.net/problem/10430
+비교			https://www.acmicpc.net/problem/1330
+알람			https://www.acmicpc.net/problem/2884 
+요일			https://www.acmicpc.net/problem/1924  
+------------------------------------------------------------------------------------------------------
+N개 출력			https://www.acmicpc.net/problem/2742
+최소,최대			https://www.acmicpc.net/problem/10818
+오븐시계			https://www.acmicpc.net/problem/2525  
+================================================================
+큰수 			https://www.acmicpc.net/problem/10871
+
+구구단			https://www.acmicpc.net/problem/2739
+평균(이중for)		https://www.acmicpc.net/problem/4344
+별			https://www.acmicpc.net/problem/2439
+-----------------------------------------------------------------------------------------------------

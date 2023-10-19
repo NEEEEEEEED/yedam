@@ -1,0 +1,75 @@
+
+-----------------------------------------------
+1교시
+ajax (1.XHR 2.fetch(promis))
+  비동기통신
+  페이지 이동 없이(백그라운드로) 서버로부터 
+  data를 받아 페이지 일부분만 갱신하는 기술
+
+json(javascript에서 쓰이는 표현법)
+  객체표기법
+  [{id:1, name:'kim'}]
+
+sql(db와 통신할때)
+  insert into
+  update set  (where)
+  delete from (where)
+  select from (where)
+--------------------------------------------------
+2교시
+  mysql auto_increament값 가져오기
+
+
+-------------------------------------------------
+session은 로그인 때문에 필요함
+수정은 등록과 비슷하다
+---------------------------------------------
+4교시
+ex) 시험 도서 관리
+
+1. 테이블 설계, 생성
+no      도서번호    int         nn, pk, ai
+title   도서명      varchar(45)
+price   가격
+writer  저자
+desc    설명
+
+insert
+update
+delete
+select
+2. 서버프로그램 - 라우터 생성 
+REST스타일
+/books   : get
+/books   : post   : data
+/books/1 : get
+/books/1 : put    : data
+/books/1 : delete
+---------node.js------------
+3. 뷰 (html, ajax)
+
+프로젝트
+express 프로젝트명 (폴더)
+cd폴더
+모듈추가
+npm install mysql
+            nodemon
+--------------------------------
+프로젝트
+chichi@chol.com
+
+??????????????????????????????????????????????
+프로미스 왜쓰는지는 ok
+굴러가는거는 대충 ok
+코드 순서는 몰루
+코드 읽을줄 몰루
+
+----------------------------------------------
+프로젝트 필수 요소
+1. CURD 기능 탑재된 게시판
+나머지
+
+
+
+
+

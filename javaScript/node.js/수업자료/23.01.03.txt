@@ -1,0 +1,80 @@
+cookie
+읽기
+let cookies;
+    if (req.headers.cookie) {
+      cookies = cookie.parse(req.headers.cookie);
+    }
+설정
+res.writeHead(200, {
+      "Set-Cookie": [
+        "  이름=값(문자열만)",
+        `이름=값; Max-Age=${5 * 60}(시간조건); HttpOnly; Path=/user(경로조건)`,
+      ],
+    });
+ex) 쿠키의 스코프
+Domain=naver.com 처럼 도메인 설정시
+dict.naver.com
+www.naver.com 
+등의 여러 도메인에서 naver.com로 끝난다면
+쿠키를 다 사용가능
+===============================
+//express session 설치
+npm install express-session
+//app.js에 추가
+const session = require("express-session");
+
+app.use(
+  session({
+    secret: "secret key",
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      httpOnly: true,
+      //secure: true, https에서 사용
+      maxAge: 60000,  //밀리초
+    },
+    store: new FileStore(),
+  })
+);
+//로그인 처리
+app.post("/login",(req,res)=>{
+
+  select
+  //id와 pw가 일치하면 
+  req.session.이름 = 값
+  })
+//게시글 작성
+app.post("/board/write,)
+
+  //작성자
+  req.session.이름
+
+  insert
+
+
+
+=================================
+프로젝트
+  전체 조회          완료 // 날짜 변환 // 내림차순으로 최신글 상단으로
+
+  등록 연결          완료 // userid값 db에 입력 // 페이지 이동 //로그인 풀렸을시 로그인페이지로
+
+  스코어 보드 연결   완료 // 점수 내림차순 정렬
+
+  로그인 페이지      완료 // 입력값 확인 // 페이지 이동
+
+  로그아웃           완료 // 페이지 이동
+
+  조회수             완료 // null 0변환 //카운트
+--------------------------------------------------------------
+
+  수정 연결          완료 // 로그인한 사람만 수정 되도록 // 수정완료 버튼 // 페이지 이동
+
+  삭제 연결          완료 // 로그인한 사람만 삭제 되도록 // 페이지 이동
+
+ --------------------------------------------------------------------------
+  게임 페이지 제작    미완 // 점수db에 저장 // 스코어 보드 실시간 갱신
+
+  페이징 처리        성공?
+ 
+  css 꾸미기

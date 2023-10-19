@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+    />
+    <title>부트스트랩 연습</title>
+    <style>
+      * {
+        margin: 0 auto;
+      }
+      #header {
+        margin-top: 5%;
+        margin-bottom: 3%;
+      }
+      .nav {
+        background-color: black;
+        --bs-nav-link-hover-color: red;
+      }
+      .nav-link {
+        color: white;
+        font-size: x-large;
+        padding: 10px;
+        font-weight: bold;
+      }
+      h1 {
+        text-align: left;
+        margin-bottom: 15px;
+        margin-top: 20px;
+        margin-left: 20px;
+      }
+      #pagination {
+        display: inline-block;
+        text-align: center;
+      }
+      .page-link {
+        color: black;
+      }
+      .btn {
+        float: right;
+        background-color: black;
+        border: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container text-center">
+      <div id="center" class="col">
+        <header>
+          <div>
+            <h3 id="header">헤더</h3>
+            <nav>
+              <ul class="nav">
+                <li class="nav-item">
+                  <a class="nav-link" href="/game.html">게임시작</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/page.html?pageNum=1">공략게시판</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/scoreboard.html">점수판</a>
+                </li>
+                <form action="/board/logout" method="post">
+                  <button
+                    id="logout"
+                    type="submit"
+                    style="background-color: black"
+                  >
+                    <a class="nav-link">로그아웃</a>
+                  </button>
+                </form>
+              </ul>
+            </nav>
+          </div>
+        </header>
+        <section>
+          <div id="board">
+            <h1 class="title">공략 게시판</h1>
+            <table class="table table-hover">
+              <thead class="table-dark">
+                <tr>
+                  <th class="col col-1" scope="col">no</th>
+                  <th class="col col-4" scope="col">제목</th>
+                  <th class="col col-2" scope="col">작성자</th>
+                  <th class="col col-2" scope="col">날짜</th>
+                  <th class="col col-1" scope="col">조회수</th>
+                </tr>
+              </thead>
+              <tbody id="list"></tbody>
+            </table>
+            <nav id="pagination" aria-label="Page navigation example">
+              <ul class="pagination">
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+              </ul>
+            </nav>
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="location.href='/write.html'"
+            >
+              글쓰기
+            </button>
+          </div>
+        </section>
+      </div>
+    </div>
+    <script src="./javascript/board.js"></script>
+  </body>
+</html>

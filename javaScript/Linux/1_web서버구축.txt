@@ -1,0 +1,8 @@
+# dnf -y install httpd
+# systemctl restart httpd
+# firewall-cmd --permanent --add-service=http
+# firewall-cmd --permanent --add-service=https
+# firewall-cmd --reload
+# cd /var/www/html
+# vi index.html
+<h1> 한글 본인 이름 </h1>

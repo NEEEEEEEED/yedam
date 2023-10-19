@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>arraySort.html</title>
+  </head>
+  <body>
+    <script>
+      let arr = [
+        { no: 1, name: "kim", age: 20 },
+        { no: 2, name: "park", age: 42 },
+        { no: 3, name: "lee", age: 34 },
+        { no: 4, name: "choi", age: 19 },
+      ];
+      //정렬하기
+      arr.sort(function (a, b) {
+        if (a.name > b.name) return 1; //a>b
+        else if (a.name < b.name) return -1; //a<b
+        else a.age - b.age; //a=b
+      });
+      //필터링
+      // let arr2 = [];
+      /* for (
+        let i = 0;
+        i < arr.length;
+        i++ //나이가 20이상이면 arr2.push
+      )
+        if (arr[i].age > 20) {
+          arr2.push(arr[i].age);
+        } */
+      // arr.filter((emp) => emp.age > 20);
+      let arr2 = arr.filter((emp) => emp.name == "kim");
+      console.table(arr);
+      console.table(arr2);
+    </script>
+  </body>
+</html>
