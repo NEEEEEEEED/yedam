@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.spring.masterData.mapper.VendMapper">
+	<!-- 전체조회 -->
+	<select id="selectVendAllList" resultType="VendVO">
+		SELECT	vend_cd,
+				vend_nm,
+				br_num,
+				vend_tel,
+				vend_mag,
+				remk,
+				vend_typ,
+				vend_addr,
+				SUBSTR(vend_cd, 4)
+		FROM	vend
+		ORDER BY 9
+	</select>
+	
+	<!-- 매입처 코드 조회 -->
+	<select id="getVendInCd" resultType="VendVO">
+		SELECT 	NVL(MAX(SUBSTR(vend_cd, 4)),0) + 1 as vendCd
+		FROM 	vend
+		WHERE	vend_cd LIKE 'VEI%'
+	</select>
+	
+	<!-- 매출처 코드 조회 -->
+	<select id="getVendOutCd" resultType="VendVO">
+		SELECT 	NVL(MAX(SUBSTR(vend_cd, 4)),0) + 1 as vendCd
+		FROM 	vend
+		WHERE	vend_cd LIKE 'VEO%'
+	</select>
+	
+	<!-- 등록 -->
+	<insert id="insertVendInfo" parameterType="VendVO">
+		<selectKey keyProperty="vendCd" resultType="String" order="BEFORE">
+			<if test="vendTyp.equals('매입처')">
+				SELECT 	'VEI' || TO_CHAR(NVL(MAX(SUBSTR(vend_cd, 4)),999) + 1)
+				FROM 	vend
+				WHERE	vend_cd LIKE 'VEI%'
+			</if>
+			<if test="vendTyp.equals('매출처')">
+				SELECT 	'VEO' || TO_CHAR(NVL(MAX(SUBSTR(vend_cd, 4)),999) + 1)
+				FROM 	vend
+				WHERE	vend_cd LIKE 'VEO%'
+			</if>
+		</selectKey>	
+
+		INSERT INTO vend (vend_cd,
+						  vend_nm, 
+						  br_num, 
+						  vend_tel, 
+						  vend_mag, 
+						  remk,
+						  vend_typ,
+						  vend_addr)
+				  VALUES (#{vendCd},
+				  		  #{vendNm},
+				  		  #{brNum},
+				  		  #{vendTel},
+				  		  #{vendMag},
+				  		  #{remk},
+				  		  #{vendTyp},
+				  		  #{vendAddr})
+	</insert>
+	
+	<!-- 삭제 -->
+	<delete id="deleteVend" parameterType="String">
+		DELETE FROM vend
+		WHERE vend_cd = #{vendCd}
+	</delete>
+	
+	<!-- 검색 조회 -->
+	<select id="selectSerarchVend" resultType="VendVO">
+		SELECT	vend_cd,
+				vend_nm,
+				br_num,
+				vend_tel,
+				vend_mag,
+				remk,
+				vend_typ,
+				vend_addr,
+				SUBSTR(vend_cd, 4)
+		FROM	vend
+		<where>
+			<if test="vendTyp != null and !vendTyp.equals('')">
+				AND vend_typ LIKE '%' || #{vendTyp} || '%'
+			</if>
+			<if test="vendNm != null and !vendNm.equals('')">
+				AND vend_nm LIKE '%' || #{vendNm} || '%'
+			</if>
+			<if test="vendMag != null and !vendMag.equals('')">
+				AND vend_mag LIKE '%' || #{vendMag} || '%'
+			</if>
+		</where>
+		ORDER BY 8 
+	</select>
+	
+	<!-- 수정 -->
+	<update id="updateVend">
+		UPDATE vend
+		<set>
+			<if test="vendCd != null and !vendCd.equals('')">
+				vend_cd = #{vendCd},
+			</if>
+			<if test="vendNm != null and !vendNm.equals('')">
+				vend_nm = #{vendNm},
+			</if>		
+			<if test="brNum != null and !brNum.equals('')">
+				br_num = #{brNum},
+			</if>
+			<if test="vendTel != null and !vendTel.equals('')">
+				vend_tel = #{vendTel},
+			</if>
+			<if test="vendMag != null and !vendMag.equals('')">
+				vend_mag = #{vendMag},
+			</if>
+			<if test="vendTyp != null and !vendTyp.equals('')">
+				vend_typ = #{vendTyp},
+			</if>
+			<if test="vendAddr != null and !vendAddr.equals('')">
+				vend_addr = #{vendAddr},
+			</if>
+			<if test="remk != null and !remk.equals('')">
+				remk = #{remk}
+			</if>
+		</set>
+		WHERE vend_cd = #{vendCd}
+	</update>
+	
+	<!-- 거래처 디테일 -->
+	<select id="getVendDetail" resultType="VendVO">
+		SELECT  vend_cd,
+				vend_nm,
+				br_num,
+				vend_tel,
+				vend_mag,
+				remk,
+				vend_typ,
+				vend_addr
+		FROM	vend
+		WHERE	vend_cd = #{vendCd}
+	
+	</select>
+</mapper>
